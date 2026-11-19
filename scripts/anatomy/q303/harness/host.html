@@ -1,0 +1,47 @@
+<!doctype html><html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Q303 harness</title>
+<!-- Q303 Phase 1: a FAKE host with fake providers, so every shared module of this round is proved in a real browser
+     BEFORE either template is touched -- the method Q300 used ("that harness is what first proved the round"). It loads
+     the REAL modules from viewer/, so it cannot drift from what ships; the server is rooted at the repository.
+       python3 scripts/anatomy/q303/harness/run.py            (needs scripts/anatomy/q303/patch_q301_hooks_q303.py applied) -->
+<style>
+  html,body{margin:0;height:100%;font:14px system-ui,sans-serif;background:#f3f4f6;color:#111}
+  #cv{position:fixed;left:0;top:0;right:0;bottom:0;background:#dfe3e8}
+  #side{position:fixed;right:0;top:0;width:220px;max-height:60vh;overflow:auto;background:#fff;z-index:5;padding:4px}
+  .row{padding:2px 4px;cursor:pointer;font-size:12px}
+  #q{width:95%}
+</style>
+<link rel="stylesheet" href="/viewer/q294/q294.css">
+<link rel="stylesheet" href="/viewer/q300/q300.css">
+<link rel="stylesheet" href="/viewer/q301/q301.css">
+<link rel="stylesheet" href="/viewer/q303/q303.css">
+</head><body>
+<script type="application/json" id="nmsk-calibre">{"v": 1, "c": {"sciatic_n_r": ["n", 7.8, 1, 1], "tibial_n_r": ["n", 2.0, 2, 0], "sural_n_r": ["n", 0.5, 4, 0], "median_n_r": ["n", 2.8, 1, 1], "accessory_n_r": ["n", 1.4, 3, 0], "spinal_cord": ["n", 14.0, 1, 1], "iliac_a_r": ["a", 8.0, 1, 0]}}</script>
+<div id="cv"></div>
+<div id="side">
+  <input id="q" type="search" placeholder="search">
+  <div id="list"></div>
+  <button id="t-reset" type="button">reset view</button>
+  <button id="t-mode" type="button">mode</button>
+  <button id="hist-bar" type="button" hidden></button>
+</div>
+<script src="/viewer/q294/history.js"></script>
+<script src="/viewer/q294/tips.js"></script>
+<script src="/viewer/q300/showall.js"></script>
+<script src="/viewer/q300/modelreset.js"></script>
+<script src="/viewer/q301/combos.js"></script>
+<script src="/viewer/q301/info.js"></script>
+<script src="/viewer/q301/groups.js"></script>
+<script src="/viewer/q303/pca.js"></script>
+<script src="/viewer/q303/step.js"></script>
+<script src="/viewer/q303/px.js"></script>
+<script src="/viewer/q303/nervepass.js"></script>
+<script src="/viewer/q303/target.js"></script>
+<script src="/viewer/q303/autofocus.js"></script>
+<script src="/viewer/q303/fourup.js"></script>
+<script src="/viewer/q303/views.js"></script>
+<script src="/viewer/q303/nerves.js"></script>
+<script src="/viewer/q303/q303.js"></script>
+<script src="/scripts/anatomy/q303/harness/fake.js"></script>
+</body></html>

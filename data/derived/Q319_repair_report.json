@@ -1,0 +1,7041 @@
+{
+ "schema": "nmsk.q319.repair.v1",
+ "round": "Q319",
+ "generated": "2026-11-11",
+ "what": "repairs made with tooling the project already has, measured before and after with scripts/anatomy/q319/audit_reconstructed_muscles_q319.py; nothing deleted, nothing published",
+ "not_done": "the page HTML was not re-emitted: scripts/zanatomy/q205_pages.save_page renders from viewer/zan_atlas.template.html, so a republish needs the whole round pipeline and the owner's approval",
+ "pages": {
+  "base_m": {
+   "page": "base_m",
+   "label": "Base M",
+   "source": "build/q309/viewer_zan_atlas",
+   "meshes_before": 3262,
+   "meshes_after": 3264,
+   "structures_added": [
+    "opponens_digiti_minimi_foot_r",
+    "opponens_digiti_minimi_foot_l"
+   ],
+   "structures_deleted": [],
+   "split": {
+    "opponens_digiti_minimi_r": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 790.7,
+     "new_structure": "opponens_digiti_minimi_foot_r"
+    },
+    "opponens_digiti_minimi_l": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 790.8,
+     "new_structure": "opponens_digiti_minimi_foot_l"
+    }
+   },
+   "in_bone": {
+    "repaired": {
+     "abductor_digiti_minimi_foot_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.3,
+      "deep_before_pct": 4.4,
+      "deep_after_pct": 2.5,
+      "inside_before_belly_pct": 10.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 11.7,
+      "mean_move_mm": 0.58,
+      "max_move_mm": 1.89,
+      "volume_ratio": 0.915,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.2,
+      "end_dist_mm": [
+       [
+        1.2,
+        2.1
+       ],
+       [
+        1.2,
+        1.9
+       ]
+      ],
+      "overlap_before_pct": 11.2,
+      "overlap_after_pct": 15.3,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.3
+     },
+     "abductor_digiti_minimi_foot_r": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.3,
+      "deep_before_pct": 4.4,
+      "deep_after_pct": 2.5,
+      "inside_before_belly_pct": 10.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 11.7,
+      "mean_move_mm": 0.61,
+      "max_move_mm": 1.89,
+      "volume_ratio": 0.917,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.2,
+      "end_dist_mm": [
+       [
+        2.1,
+        1.2
+       ],
+       [
+        1.9,
+        1.2
+       ]
+      ],
+      "overlap_before_pct": 11.4,
+      "overlap_after_pct": 15.8,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.3
+     },
+     "anconeus_l": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 25.4,
+      "deep_before_pct": 3.3,
+      "deep_after_pct": 1.1,
+      "inside_before_belly_pct": 18.8,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.8,
+      "mean_move_mm": 0.87,
+      "max_move_mm": 2.95,
+      "volume_ratio": 0.888,
+      "flipped_pct": 0.14,
+      "stretched_before": 0.0,
+      "stretched_after": 0.4,
+      "end_dist_mm": [
+       [
+        2.6,
+        5.4
+       ],
+       [
+        2.6,
+        5.4
+       ]
+      ],
+      "overlap_before_pct": 26.4,
+      "overlap_after_pct": 25.2,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 25.4
+     },
+     "anconeus_r": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 25.4,
+      "deep_before_pct": 3.5,
+      "deep_after_pct": 0.8,
+      "inside_before_belly_pct": 18.8,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.8,
+      "mean_move_mm": 0.86,
+      "max_move_mm": 2.94,
+      "volume_ratio": 0.887,
+      "flipped_pct": 0.14,
+      "stretched_before": 0.0,
+      "stretched_after": 0.5,
+      "end_dist_mm": [
+       [
+        5.4,
+        2.6
+       ],
+       [
+        5.4,
+        2.5
+       ]
+      ],
+      "overlap_before_pct": 26.4,
+      "overlap_after_pct": 25.4,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 25.4
+     },
+     "extensor_carpi_ulnaris_l": {
+      "lam": [
+       40.0,
+       10.0,
+       3.0
+      ],
+      "inside_before_pct": 22.8,
+      "deep_before_pct": 10.8,
+      "deep_after_pct": 0.7,
+      "inside_before_belly_pct": 24.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 4.4,
+      "mean_move_mm": 2.73,
+      "max_move_mm": 8.65,
+      "volume_ratio": 1.012,
+      "flipped_pct": 0.14,
+      "stretched_before": 0.0,
+      "stretched_after": 0.1,
+      "end_dist_mm": [
+       [
+        1.9,
+        9.0
+       ],
+       [
+        2.3,
+        9.0
+       ]
+      ],
+      "overlap_before_pct": 18.2,
+      "overlap_after_pct": 34.9,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.8
+     },
+     "extensor_carpi_ulnaris_r": {
+      "lam": [
+       40.0,
+       10.0,
+       3.0
+      ],
+      "inside_before_pct": 22.8,
+      "deep_before_pct": 10.5,
+      "deep_after_pct": 0.7,
+      "inside_before_belly_pct": 24.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 4.4,
+      "mean_move_mm": 2.74,
+      "max_move_mm": 8.66,
+      "volume_ratio": 1.011,
+      "flipped_pct": 0.14,
+      "stretched_before": 0.0,
+      "stretched_after": 0.1,
+      "end_dist_mm": [
+       [
+        9.0,
+        1.9
+       ],
+       [
+        9.0,
+        2.3
+       ]
+      ],
+      "overlap_before_pct": 18.6,
+      "overlap_after_pct": 36.0,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.8
+     },
+     "extensor_hallucis_brevis_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.9,
+      "deep_before_pct": 10.2,
+      "deep_after_pct": 9.4,
+      "inside_before_belly_pct": 12.5,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.7,
+      "mean_move_mm": 0.72,
+      "max_move_mm": 3.72,
+      "volume_ratio": 0.956,
+      "flipped_pct": 0.09,
+      "stretched_before": 0.0,
+      "stretched_after": 1.3,
+      "end_dist_mm": [
+       [
+        4.4,
+        0.9
+       ],
+       [
+        4.5,
+        0.9
+       ]
+      ],
+      "overlap_before_pct": 17.3,
+      "overlap_after_pct": 22.6,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.9
+     },
+     "extensor_hallucis_brevis_r": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.9,
+      "deep_before_pct": 10.2,
+      "deep_after_pct": 9.4,
+      "inside_before_belly_pct": 12.5,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.7,
+      "mean_move_mm": 0.71,
+      "max_move_mm": 3.72,
+      "volume_ratio": 0.958,
+      "flipped_pct": 0.09,
+      "stretched_before": 0.0,
+      "stretched_after": 1.2,
+      "end_dist_mm": [
+       [
+        0.9,
+        4.4
+       ],
+       [
+        0.9,
+        4.5
+       ]
+      ],
+      "overlap_before_pct": 16.9,
+      "overlap_after_pct": 21.6,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.9
+     },
+     "medial_pterygoid_l": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 22.1,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 13.2,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 5.6,
+      "mean_move_mm": 0.39,
+      "max_move_mm": 2.26,
+      "volume_ratio": 0.978,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.4,
+      "end_dist_mm": [
+       [
+        1.3,
+        2.5
+       ],
+       [
+        1.3,
+        2.5
+       ]
+      ],
+      "overlap_before_pct": 10.0,
+      "overlap_after_pct": 10.4,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.1
+     },
+     "medial_pterygoid_r": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 28.1,
+      "deep_before_pct": 10.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 18.0,
+      "inside_after_belly_pct": 4.8,
+      "inside_after_pct": 16.1,
+      "mean_move_mm": 1.71,
+      "max_move_mm": 3.37,
+      "volume_ratio": 0.894,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.2,
+      "end_dist_mm": [
+       [
+        1.4,
+        2.7
+       ],
+       [
+        1.2,
+        2.8
+       ]
+      ],
+      "overlap_before_pct": 10.0,
+      "overlap_after_pct": 10.8,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 28.1
+     },
+     "plantar_interossei_l": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 23.0,
+      "deep_before_pct": 4.1,
+      "deep_after_pct": 2.2,
+      "inside_before_belly_pct": 17.1,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 8.5,
+      "mean_move_mm": 1.09,
+      "max_move_mm": 4.64,
+      "volume_ratio": 0.943,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.8,
+      "end_dist_mm": [
+       [
+        1.1,
+        1.2
+       ],
+       [
+        1.1,
+        1.2
+       ]
+      ],
+      "overlap_before_pct": 0.8,
+      "overlap_after_pct": 4.8,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 23.0
+     },
+     "plantar_interossei_r": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 23.0,
+      "deep_before_pct": 4.6,
+      "deep_after_pct": 2.4,
+      "inside_before_belly_pct": 17.1,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 8.5,
+      "mean_move_mm": 0.98,
+      "max_move_mm": 4.24,
+      "volume_ratio": 0.952,
+      "flipped_pct": 0.16,
+      "stretched_before": 0.0,
+      "stretched_after": 0.7,
+      "end_dist_mm": [
+       [
+        1.2,
+        1.1
+       ],
+       [
+        1.2,
+        1.1
+       ]
+      ],
+      "overlap_before_pct": 0.6,
+      "overlap_after_pct": 3.5,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 23.0
+     },
+     "zan_adductor_minimus_l": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 53.4,
+      "deep_before_pct": 20.6,
+      "deep_after_pct": 3.8,
+      "inside_before_belly_pct": 53.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 12.8,
+      "mean_move_mm": 1.95,
+      "max_move_mm": 4.16,
+      "volume_ratio": 0.982,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.1,
+      "end_dist_mm": [
+       [
+        3.7,
+        4.0
+       ],
+       [
+        3.6,
+        4.0
+       ]
+      ],
+      "overlap_before_pct": 10.1,
+      "overlap_after_pct": 26.9,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 53.4
+     },
+     "zan_adductor_minimus_r": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 53.4,
+      "deep_before_pct": 19.3,
+      "deep_after_pct": 4.2,
+      "inside_before_belly_pct": 53.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 13.0,
+      "mean_move_mm": 2.02,
+      "max_move_mm": 4.13,
+      "volume_ratio": 0.978,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.2,
+      "end_dist_mm": [
+       [
+        4.0,
+        3.7
+       ],
+       [
+        4.0,
+        3.6
+       ]
+      ],
+      "overlap_before_pct": 11.1,
+      "overlap_after_pct": 28.4,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 53.4
+     },
+     "zan_medial_head_of_triceps_brachii_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 23.7,
+      "deep_before_pct": 6.3,
+      "deep_after_pct": 6.2,
+      "inside_before_belly_pct": 17.7,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.3,
+      "mean_move_mm": 0.63,
+      "max_move_mm": 1.87,
+      "volume_ratio": 0.97,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "end_dist_mm": [
+       [
+        3.8,
+        6.9
+       ],
+       [
+        3.8,
+        6.9
+       ]
+      ],
+      "overlap_before_pct": 13.8,
+      "overlap_after_pct": 27.0,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 23.7
+     },
+     "zan_medial_head_of_triceps_brachii_r": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 23.7,
+      "deep_before_pct": 6.5,
+      "deep_after_pct": 6.3,
+      "inside_before_belly_pct": 17.7,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.3,
+      "mean_move_mm": 0.64,
+      "max_move_mm": 1.89,
+      "volume_ratio": 0.97,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "end_dist_mm": [
+       [
+        6.9,
+        3.8
+       ],
+       [
+        6.9,
+        3.8
+       ]
+      ],
+      "overlap_before_pct": 13.9,
+      "overlap_after_pct": 27.0,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 23.7
+     }
+    },
+    "held": {
+     "rectus_femoris_reflected_head_l": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 0.0,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 0.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 0.0,
+      "mean_move_mm": 0.0,
+      "max_move_mm": 0.0,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "overlap_before_pct": 77.2,
+      "overlap_after_pct": 77.2,
+      "accepted": false,
+      "why_not": [
+       "no gain"
+      ],
+      "inside_before_vertex_pct": 0.0
+     },
+     "rectus_femoris_reflected_head_r": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 0.0,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 0.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 0.0,
+      "mean_move_mm": 0.0,
+      "max_move_mm": 0.0,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "overlap_before_pct": 78.5,
+      "overlap_after_pct": 78.5,
+      "accepted": false,
+      "why_not": [
+       "no gain"
+      ],
+      "inside_before_vertex_pct": 0.0
+     },
+     "zan_lateral_crico_arytenoid_muscle_l": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 7.5,
+      "deep_before_pct": 0.1,
+      "deep_after_pct": 0.1,
+      "inside_before_belly_pct": 0.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 7.5,
+      "mean_move_mm": 0.0,
+      "max_move_mm": 0.0,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "overlap_before_pct": 69.8,
+      "overlap_after_pct": 69.8,
+      "accepted": false,
+      "why_not": [
+       "no gain"
+      ],
+      "inside_before_vertex_pct": 7.5
+     },
+     "zan_lateral_crico_arytenoid_muscle_r": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 7.5,
+      "deep_before_pct": 0.1,
+      "deep_after_pct": 0.1,
+      "inside_before_belly_pct": 0.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 7.5,
+      "mean_move_mm": 0.0,
+      "max_move_mm": 0.0,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "overlap_before_pct": 69.7,
+      "overlap_after_pct": 69.7,
+      "accepted": false,
+      "why_not": [
+       "no gain"
+      ],
+      "inside_before_vertex_pct": 7.5
+     }
+    }
+   },
+   "in_bone_gate_pct": 20.0,
+   "in_bone_full_pass_would_be": [
+    "abductor_digiti_minimi_foot_l",
+    "abductor_digiti_minimi_foot_r",
+    "adductor_hallucis_l",
+    "adductor_hallucis_r",
+    "anconeus_l",
+    "anconeus_r",
+    "coccygeus_l",
+    "coccygeus_r",
+    "extensor_carpi_ulnaris_l",
+    "extensor_carpi_ulnaris_r",
+    "extensor_hallucis_brevis_l",
+    "extensor_hallucis_brevis_r",
+    "fibularis_brevis_l",
+    "fibularis_brevis_r",
+    "flexor_carpi_ulnaris_l",
+    "flexor_carpi_ulnaris_r",
+    "flexor_digiti_minimi_brevis_foot_l",
+    "flexor_digiti_minimi_brevis_foot_r",
+    "flexor_hallucis_brevis_l",
+    "flexor_hallucis_brevis_r",
+    "flexor_hallucis_longus_l",
+    "flexor_hallucis_longus_r",
+    "gluteus_minimus_l",
+    "gluteus_minimus_r",
+    "inferior_pharyngeal_constrictor_l",
+    "inferior_pharyngeal_constrictor_r",
+    "lateral_pterygoid_l",
+    "lateral_pterygoid_r",
+    "lateral_rectus_l",
+    "lateral_rectus_r",
+    "masseter_l",
+    "masseter_r",
+    "medial_pterygoid_l",
+    "medial_pterygoid_r",
+    "mylohyoid_l",
+    "mylohyoid_r",
+    "nasalis_l",
+    "nasalis_r",
+    "obturator_externus_l",
+    "obturator_externus_r",
+    "opponens_digiti_minimi_l",
+    "opponens_digiti_minimi_r",
+    "opponens_pollicis_l",
+    "opponens_pollicis_r",
+    "palatopharyngeus_l",
+    "plantar_interossei_l",
+    "plantar_interossei_r",
+    "plantaris_l",
+    "plantaris_r",
+    "popliteus_l",
+    "popliteus_r",
+    "psoas_minor_l",
+    "psoas_minor_r",
+    "quadratus_femoris_l",
+    "quadratus_femoris_r",
+    "rectus_capitis_lateralis_l",
+    "rectus_capitis_lateralis_r",
+    "rectus_capitis_posterior_minor_l",
+    "subscapularis_l",
+    "subscapularis_r",
+    "supraspinatus_l",
+    "supraspinatus_r",
+    "teres_major_l",
+    "teres_major_r",
+    "tibialis_anterior_l",
+    "tibialis_anterior_r",
+    "transversus_thoracis_l",
+    "transversus_thoracis_r",
+    "zan_adductor_minimus_l",
+    "zan_adductor_minimus_r",
+    "zan_bucinator_l",
+    "zan_bucinator_r",
+    "zan_clavicular_part_of_deltoid_muscle_l",
+    "zan_clavicular_part_of_deltoid_muscle_r",
+    "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_l",
+    "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_r",
+    "zan_extensor_pollicis_longus_l",
+    "zan_extensor_pollicis_longus_r",
+    "zan_external_intercostal_muscles_l",
+    "zan_external_intercostal_muscles_r",
+    "zan_iliacus_muscle_l",
+    "zan_iliacus_muscle_r",
+    "zan_innermost_intercostal_muscles_l",
+    "zan_innermost_intercostal_muscles_r",
+    "zan_internal_intercostal_muscles_l",
+    "zan_internal_intercostal_muscles_r",
+    "zan_medial_head_of_triceps_brachii_l",
+    "zan_medial_head_of_triceps_brachii_r",
+    "zan_spinalis_colli_muscle_l",
+    "zan_spinalis_colli_muscle_r",
+    "zan_tibialis_posterior_muscle_l",
+    "zan_tibialis_posterior_muscle_r",
+    "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_l",
+    "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_r"
+   ],
+   "geometry_changed": [
+    "abductor_digiti_minimi_foot_l",
+    "abductor_digiti_minimi_foot_r",
+    "anconeus_l",
+    "anconeus_r",
+    "extensor_carpi_ulnaris_l",
+    "extensor_carpi_ulnaris_r",
+    "extensor_hallucis_brevis_l",
+    "extensor_hallucis_brevis_r",
+    "medial_pterygoid_l",
+    "medial_pterygoid_r",
+    "opponens_digiti_minimi_l",
+    "opponens_digiti_minimi_r",
+    "plantar_interossei_l",
+    "plantar_interossei_r",
+    "zan_adductor_minimus_l",
+    "zan_adductor_minimus_r",
+    "zan_medial_head_of_triceps_brachii_l",
+    "zan_medial_head_of_triceps_brachii_r"
+   ],
+   "bucket_counts_before": {
+    "defensible": 234,
+    "repairable": 192,
+    "not_defensible": 4
+   },
+   "bucket_counts_after": {
+    "defensible": 246,
+    "repairable": 182,
+    "not_defensible": 4
+   },
+   "pose_rig": {
+    "rig_file": "data/anatomy/pose_rig_base_m.json",
+    "count_before": 3262,
+    "count_after": 3264,
+    "page_meshes_after": 3264,
+    "committed_rig_matches_page_before": true,
+    "skinning_weights_touched": false,
+    "existing_indices_shifted": 0,
+    "why": "the new structures are APPENDED, so every existing index keeps its value and the weight blob is untouched; each new one is a rigid entry of its foot segment, which is how Combined . Female already carries opponens_digiti_minimi_foot_l/r (indices 2940 / 2939, rigid in segments foot_l / foot_r, 120 vertices each)",
+    "entries": [
+     {
+      "structure": "opponens_digiti_minimi_foot_r",
+      "new_index": 3262,
+      "n_vertices": 120,
+      "rig_entry": "rigid",
+      "segment_index": 51,
+      "segment": "foot_r"
+     },
+     {
+      "structure": "opponens_digiti_minimi_foot_l",
+      "new_index": 3263,
+      "n_vertices": 120,
+      "rig_entry": "rigid",
+      "segment_index": 91,
+      "segment": "foot_l"
+     }
+    ],
+    "then": "python3 scripts/anatomy/q241/make_pose_rig.py --inject <page dir>  -- which re-checks the structure and per-structure vertex counts against the page before writing"
+   },
+   "seconds": 433.1
+  },
+  "base_f": {
+   "page": "base_f",
+   "label": "Base F",
+   "source": "build/q309/viewer_base_female",
+   "meshes_before": 3298,
+   "meshes_after": 3300,
+   "structures_added": [
+    "opponens_digiti_minimi_foot_r",
+    "opponens_digiti_minimi_foot_l"
+   ],
+   "structures_deleted": [],
+   "split": {
+    "opponens_digiti_minimi_r": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 826.6,
+     "new_structure": "opponens_digiti_minimi_foot_r"
+    },
+    "opponens_digiti_minimi_l": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 826.7,
+     "new_structure": "opponens_digiti_minimi_foot_l"
+    }
+   },
+   "in_bone": {
+    "repaired": {
+     "abductor_digiti_minimi_foot_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.2,
+      "deep_before_pct": 4.4,
+      "deep_after_pct": 2.5,
+      "inside_before_belly_pct": 10.1,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 11.7,
+      "mean_move_mm": 0.58,
+      "max_move_mm": 1.89,
+      "volume_ratio": 0.913,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.2,
+      "end_dist_mm": [
+       [
+        1.2,
+        2.1
+       ],
+       [
+        1.2,
+        1.8
+       ]
+      ],
+      "overlap_before_pct": 10.9,
+      "overlap_after_pct": 15.0,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.2
+     },
+     "abductor_digiti_minimi_foot_r": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.2,
+      "deep_before_pct": 4.4,
+      "deep_after_pct": 2.5,
+      "inside_before_belly_pct": 10.1,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 11.7,
+      "mean_move_mm": 0.6,
+      "max_move_mm": 1.89,
+      "volume_ratio": 0.914,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.2,
+      "end_dist_mm": [
+       [
+        2.1,
+        1.2
+       ],
+       [
+        1.8,
+        1.2
+       ]
+      ],
+      "overlap_before_pct": 11.2,
+      "overlap_after_pct": 15.5,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.2
+     },
+     "anconeus_l": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 25.4,
+      "deep_before_pct": 3.2,
+      "deep_after_pct": 1.1,
+      "inside_before_belly_pct": 18.8,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.8,
+      "mean_move_mm": 0.85,
+      "max_move_mm": 2.91,
+      "volume_ratio": 0.892,
+      "flipped_pct": 0.14,
+      "stretched_before": 0.0,
+      "stretched_after": 0.6,
+      "end_dist_mm": [
+       [
+        2.5,
+        5.1
+       ],
+       [
+        2.5,
+        5.1
+       ]
+      ],
+      "overlap_before_pct": 26.7,
+      "overlap_after_pct": 25.7,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 25.4
+     },
+     "anconeus_r": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 25.4,
+      "deep_before_pct": 3.2,
+      "deep_after_pct": 0.8,
+      "inside_before_belly_pct": 18.8,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.8,
+      "mean_move_mm": 0.84,
+      "max_move_mm": 2.88,
+      "volume_ratio": 0.894,
+      "flipped_pct": 0.07,
+      "stretched_before": 0.0,
+      "stretched_after": 0.5,
+      "end_dist_mm": [
+       [
+        5.1,
+        2.4
+       ],
+       [
+        5.1,
+        2.4
+       ]
+      ],
+      "overlap_before_pct": 26.7,
+      "overlap_after_pct": 25.6,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 25.4
+     },
+     "extensor_carpi_ulnaris_l": {
+      "lam": [
+       40.0,
+       10.0,
+       3.0
+      ],
+      "inside_before_pct": 22.8,
+      "deep_before_pct": 10.8,
+      "deep_after_pct": 0.7,
+      "inside_before_belly_pct": 24.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 4.4,
+      "mean_move_mm": 2.57,
+      "max_move_mm": 8.13,
+      "volume_ratio": 1.013,
+      "flipped_pct": 0.14,
+      "stretched_before": 0.0,
+      "stretched_after": 0.1,
+      "end_dist_mm": [
+       [
+        1.9,
+        8.5
+       ],
+       [
+        2.2,
+        8.5
+       ]
+      ],
+      "overlap_before_pct": 18.1,
+      "overlap_after_pct": 35.0,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.8
+     },
+     "extensor_carpi_ulnaris_r": {
+      "lam": [
+       40.0,
+       10.0,
+       3.0
+      ],
+      "inside_before_pct": 22.8,
+      "deep_before_pct": 10.4,
+      "deep_after_pct": 0.7,
+      "inside_before_belly_pct": 24.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 4.4,
+      "mean_move_mm": 2.58,
+      "max_move_mm": 8.14,
+      "volume_ratio": 1.013,
+      "flipped_pct": 0.21,
+      "stretched_before": 0.0,
+      "stretched_after": 0.2,
+      "end_dist_mm": [
+       [
+        8.5,
+        1.9
+       ],
+       [
+        8.5,
+        2.2
+       ]
+      ],
+      "overlap_before_pct": 18.3,
+      "overlap_after_pct": 36.3,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.8
+     },
+     "extensor_hallucis_brevis_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.5,
+      "deep_before_pct": 10.2,
+      "deep_after_pct": 9.4,
+      "inside_before_belly_pct": 12.5,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.7,
+      "mean_move_mm": 0.73,
+      "max_move_mm": 3.67,
+      "volume_ratio": 0.953,
+      "flipped_pct": 0.27,
+      "stretched_before": 0.0,
+      "stretched_after": 1.3,
+      "end_dist_mm": [
+       [
+        4.4,
+        0.9
+       ],
+       [
+        4.5,
+        0.9
+       ]
+      ],
+      "overlap_before_pct": 17.1,
+      "overlap_after_pct": 22.5,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.5
+     },
+     "extensor_hallucis_brevis_r": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.5,
+      "deep_before_pct": 10.2,
+      "deep_after_pct": 9.4,
+      "inside_before_belly_pct": 12.5,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.7,
+      "mean_move_mm": 0.71,
+      "max_move_mm": 3.67,
+      "volume_ratio": 0.958,
+      "flipped_pct": 0.27,
+      "stretched_before": 0.0,
+      "stretched_after": 1.2,
+      "end_dist_mm": [
+       [
+        0.9,
+        4.4
+       ],
+       [
+        0.9,
+        4.5
+       ]
+      ],
+      "overlap_before_pct": 16.9,
+      "overlap_after_pct": 21.7,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.5
+     },
+     "medial_pterygoid_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 22.1,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 12.2,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 8.8,
+      "mean_move_mm": 0.24,
+      "max_move_mm": 0.75,
+      "volume_ratio": 0.997,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "end_dist_mm": [
+       [
+        1.3,
+        2.8
+       ],
+       [
+        1.3,
+        2.7
+       ]
+      ],
+      "overlap_before_pct": 10.4,
+      "overlap_after_pct": 11.6,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.1
+     },
+     "medial_pterygoid_r": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 27.7,
+      "deep_before_pct": 10.0,
+      "deep_after_pct": 0.8,
+      "inside_before_belly_pct": 16.9,
+      "inside_after_belly_pct": 4.8,
+      "inside_after_pct": 16.9,
+      "mean_move_mm": 1.74,
+      "max_move_mm": 3.44,
+      "volume_ratio": 0.897,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.4,
+      "end_dist_mm": [
+       [
+        1.4,
+        2.9
+       ],
+       [
+        1.3,
+        2.9
+       ]
+      ],
+      "overlap_before_pct": 10.4,
+      "overlap_after_pct": 15.3,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 27.7
+     },
+     "plantar_interossei_l": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 22.6,
+      "deep_before_pct": 4.1,
+      "deep_after_pct": 2.2,
+      "inside_before_belly_pct": 16.4,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 8.6,
+      "mean_move_mm": 1.06,
+      "max_move_mm": 4.4,
+      "volume_ratio": 0.936,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.8,
+      "end_dist_mm": [
+       [
+        1.0,
+        1.2
+       ],
+       [
+        1.0,
+        1.2
+       ]
+      ],
+      "overlap_before_pct": 0.8,
+      "overlap_after_pct": 5.3,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.6
+     },
+     "plantar_interossei_r": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 22.6,
+      "deep_before_pct": 4.5,
+      "deep_after_pct": 2.4,
+      "inside_before_belly_pct": 16.4,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 8.5,
+      "mean_move_mm": 0.94,
+      "max_move_mm": 4.15,
+      "volume_ratio": 0.952,
+      "flipped_pct": 0.08,
+      "stretched_before": 0.0,
+      "stretched_after": 0.7,
+      "end_dist_mm": [
+       [
+        1.2,
+        1.0
+       ],
+       [
+        1.2,
+        1.0
+       ]
+      ],
+      "overlap_before_pct": 0.6,
+      "overlap_after_pct": 3.5,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 22.6
+     },
+     "rectus_femoris_reflected_head_l": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 0.3,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 0.4,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 0.0,
+      "mean_move_mm": 0.01,
+      "max_move_mm": 0.03,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "end_dist_mm": [
+       [
+        4.1,
+        7.7
+       ],
+       [
+        4.0,
+        7.7
+       ]
+      ],
+      "overlap_before_pct": 65.7,
+      "overlap_after_pct": 65.9,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 0.3
+     },
+     "stylohyoid_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.6,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 14.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 9.2,
+      "mean_move_mm": 0.35,
+      "max_move_mm": 1.15,
+      "volume_ratio": 1.016,
+      "flipped_pct": 0.15,
+      "stretched_before": 0.0,
+      "stretched_after": 0.4,
+      "end_dist_mm": [
+       [
+        3.0,
+        0.9
+       ],
+       [
+        3.0,
+        0.8
+       ]
+      ],
+      "overlap_before_pct": 21.8,
+      "overlap_after_pct": 24.1,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.6
+     },
+     "stylohyoid_r": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 20.6,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 14.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 9.2,
+      "mean_move_mm": 0.35,
+      "max_move_mm": 1.16,
+      "volume_ratio": 1.013,
+      "flipped_pct": 0.15,
+      "stretched_before": 0.0,
+      "stretched_after": 0.6,
+      "end_dist_mm": [
+       [
+        0.9,
+        2.9
+       ],
+       [
+        0.8,
+        2.9
+       ]
+      ],
+      "overlap_before_pct": 19.8,
+      "overlap_after_pct": 23.2,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 20.6
+     },
+     "zan_adductor_minimus_l": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 53.6,
+      "deep_before_pct": 20.4,
+      "deep_after_pct": 4.0,
+      "inside_before_belly_pct": 53.1,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 13.0,
+      "mean_move_mm": 1.92,
+      "max_move_mm": 4.03,
+      "volume_ratio": 0.996,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.4,
+      "end_dist_mm": [
+       [
+        3.6,
+        4.8
+       ],
+       [
+        3.4,
+        4.7
+       ]
+      ],
+      "overlap_before_pct": 12.2,
+      "overlap_after_pct": 24.6,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 53.6
+     },
+     "zan_adductor_minimus_r": {
+      "lam": [
+       3.0,
+       1.0,
+       0.3
+      ],
+      "inside_before_pct": 53.6,
+      "deep_before_pct": 18.9,
+      "deep_after_pct": 4.2,
+      "inside_before_belly_pct": 53.1,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 13.2,
+      "mean_move_mm": 1.97,
+      "max_move_mm": 4.02,
+      "volume_ratio": 0.994,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.4,
+      "end_dist_mm": [
+       [
+        4.8,
+        3.6
+       ],
+       [
+        4.7,
+        3.5
+       ]
+      ],
+      "overlap_before_pct": 12.6,
+      "overlap_after_pct": 26.9,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 53.6
+     },
+     "zan_medial_head_of_triceps_brachii_l": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 23.4,
+      "deep_before_pct": 5.9,
+      "deep_after_pct": 5.9,
+      "inside_before_belly_pct": 17.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.2,
+      "mean_move_mm": 0.62,
+      "max_move_mm": 1.87,
+      "volume_ratio": 0.948,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "end_dist_mm": [
+       [
+        3.6,
+        5.7
+       ],
+       [
+        3.7,
+        5.7
+       ]
+      ],
+      "overlap_before_pct": 14.6,
+      "overlap_after_pct": 28.6,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 23.4
+     },
+     "zan_medial_head_of_triceps_brachii_r": {
+      "lam": [
+       10.0,
+       3.0,
+       1.0
+      ],
+      "inside_before_pct": 23.4,
+      "deep_before_pct": 6.1,
+      "deep_after_pct": 6.0,
+      "inside_before_belly_pct": 17.3,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 10.2,
+      "mean_move_mm": 0.62,
+      "max_move_mm": 1.87,
+      "volume_ratio": 0.948,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "end_dist_mm": [
+       [
+        5.6,
+        3.6
+       ],
+       [
+        5.6,
+        3.7
+       ]
+      ],
+      "overlap_before_pct": 14.5,
+      "overlap_after_pct": 28.6,
+      "accepted": true,
+      "why_not": [],
+      "inside_before_vertex_pct": 23.4
+     }
+    },
+    "held": {
+     "rectus_femoris_reflected_head_r": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 0.0,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 0.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 0.0,
+      "mean_move_mm": 0.0,
+      "max_move_mm": 0.0,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "overlap_before_pct": 66.8,
+      "overlap_after_pct": 66.8,
+      "accepted": false,
+      "why_not": [
+       "no gain"
+      ],
+      "inside_before_vertex_pct": 0.0
+     },
+     "zan_lateral_crico_arytenoid_muscle_l": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 7.4,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 0.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 7.4,
+      "mean_move_mm": 0.0,
+      "max_move_mm": 0.0,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "overlap_before_pct": 70.6,
+      "overlap_after_pct": 70.6,
+      "accepted": false,
+      "why_not": [
+       "no gain"
+      ],
+      "inside_before_vertex_pct": 7.4
+     },
+     "zan_lateral_crico_arytenoid_muscle_r": {
+      "lam": [
+       160.0,
+       40.0,
+       10.0
+      ],
+      "inside_before_pct": 7.4,
+      "deep_before_pct": 0.0,
+      "deep_after_pct": 0.0,
+      "inside_before_belly_pct": 0.0,
+      "inside_after_belly_pct": 0.0,
+      "inside_after_pct": 7.4,
+      "mean_move_mm": 0.0,
+      "max_move_mm": 0.0,
+      "volume_ratio": 1.0,
+      "flipped_pct": 0.0,
+      "stretched_before": 0.0,
+      "stretched_after": 0.0,
+      "overlap_before_pct": 69.2,
+      "overlap_after_pct": 69.2,
+      "accepted": false,
+      "why_not": [
+       "no gain"
+      ],
+      "inside_before_vertex_pct": 7.4
+     }
+    }
+   },
+   "in_bone_gate_pct": 20.0,
+   "in_bone_full_pass_would_be": [
+    "abductor_digiti_minimi_foot_l",
+    "abductor_digiti_minimi_foot_r",
+    "adductor_hallucis_l",
+    "adductor_hallucis_r",
+    "anconeus_l",
+    "anconeus_r",
+    "extensor_carpi_ulnaris_l",
+    "extensor_carpi_ulnaris_r",
+    "extensor_hallucis_brevis_l",
+    "extensor_hallucis_brevis_r",
+    "external_oblique_r",
+    "fibularis_brevis_l",
+    "fibularis_brevis_r",
+    "flexor_carpi_ulnaris_l",
+    "flexor_carpi_ulnaris_r",
+    "flexor_digiti_minimi_brevis_foot_l",
+    "flexor_hallucis_brevis_l",
+    "flexor_hallucis_brevis_r",
+    "flexor_hallucis_longus_l",
+    "flexor_hallucis_longus_r",
+    "gluteus_minimus_l",
+    "gluteus_minimus_r",
+    "inferior_pharyngeal_constrictor_r",
+    "lateral_pterygoid_l",
+    "lateral_pterygoid_r",
+    "lateral_rectus_l",
+    "lateral_rectus_r",
+    "masseter_l",
+    "masseter_r",
+    "medial_pterygoid_l",
+    "medial_pterygoid_r",
+    "mylohyoid_l",
+    "mylohyoid_r",
+    "nasalis_l",
+    "nasalis_r",
+    "obturator_externus_l",
+    "obturator_externus_r",
+    "opponens_digiti_minimi_l",
+    "opponens_digiti_minimi_r",
+    "opponens_pollicis_l",
+    "opponens_pollicis_r",
+    "plantar_interossei_l",
+    "plantar_interossei_r",
+    "plantaris_l",
+    "plantaris_r",
+    "popliteus_l",
+    "popliteus_r",
+    "quadratus_femoris_l",
+    "quadratus_femoris_r",
+    "rectus_capitis_lateralis_l",
+    "rectus_capitis_lateralis_r",
+    "rectus_capitis_posterior_minor_l",
+    "sternohyoid_r",
+    "stylohyoid_l",
+    "stylohyoid_r",
+    "supraspinatus_l",
+    "supraspinatus_r",
+    "tibialis_anterior_l",
+    "tibialis_anterior_r",
+    "transversus_thoracis_l",
+    "transversus_thoracis_r",
+    "zan_adductor_minimus_l",
+    "zan_adductor_minimus_r",
+    "zan_bucinator_l",
+    "zan_bucinator_r",
+    "zan_clavicular_part_of_deltoid_muscle_l",
+    "zan_clavicular_part_of_deltoid_muscle_r",
+    "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_l",
+    "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_r",
+    "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_r",
+    "zan_extensor_pollicis_longus_l",
+    "zan_extensor_pollicis_longus_r",
+    "zan_external_intercostal_muscles_l",
+    "zan_external_intercostal_muscles_r",
+    "zan_iliacus_muscle_l",
+    "zan_iliacus_muscle_r",
+    "zan_innermost_intercostal_muscles_l",
+    "zan_innermost_intercostal_muscles_r",
+    "zan_internal_intercostal_muscles_l",
+    "zan_internal_intercostal_muscles_r",
+    "zan_medial_head_of_triceps_brachii_l",
+    "zan_medial_head_of_triceps_brachii_r",
+    "zan_tibialis_posterior_muscle_l",
+    "zan_tibialis_posterior_muscle_r",
+    "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_l",
+    "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_r"
+   ],
+   "geometry_changed": [
+    "abductor_digiti_minimi_foot_l",
+    "abductor_digiti_minimi_foot_r",
+    "anconeus_l",
+    "anconeus_r",
+    "extensor_carpi_ulnaris_l",
+    "extensor_carpi_ulnaris_r",
+    "extensor_hallucis_brevis_l",
+    "extensor_hallucis_brevis_r",
+    "medial_pterygoid_l",
+    "medial_pterygoid_r",
+    "opponens_digiti_minimi_l",
+    "opponens_digiti_minimi_r",
+    "plantar_interossei_l",
+    "plantar_interossei_r",
+    "rectus_femoris_reflected_head_l",
+    "stylohyoid_l",
+    "stylohyoid_r",
+    "zan_adductor_minimus_l",
+    "zan_adductor_minimus_r",
+    "zan_medial_head_of_triceps_brachii_l",
+    "zan_medial_head_of_triceps_brachii_r"
+   ],
+   "bucket_counts_before": {
+    "defensible": 219,
+    "repairable": 217,
+    "not_defensible": 4
+   },
+   "bucket_counts_after": {
+    "defensible": 229,
+    "repairable": 209,
+    "not_defensible": 4
+   },
+   "pose_rig": {
+    "rig_file": "data/anatomy/pose_rig_base_f.json",
+    "count_before": 3298,
+    "count_after": 3300,
+    "page_meshes_after": 3300,
+    "committed_rig_matches_page_before": true,
+    "skinning_weights_touched": false,
+    "existing_indices_shifted": 0,
+    "why": "the new structures are APPENDED, so every existing index keeps its value and the weight blob is untouched; each new one is a rigid entry of its foot segment, which is how Combined . Female already carries opponens_digiti_minimi_foot_l/r (indices 2940 / 2939, rigid in segments foot_l / foot_r, 120 vertices each)",
+    "entries": [
+     {
+      "structure": "opponens_digiti_minimi_foot_r",
+      "new_index": 3298,
+      "n_vertices": 120,
+      "rig_entry": "rigid",
+      "segment_index": 51,
+      "segment": "foot_r"
+     },
+     {
+      "structure": "opponens_digiti_minimi_foot_l",
+      "new_index": 3299,
+      "n_vertices": 120,
+      "rig_entry": "rigid",
+      "segment_index": 91,
+      "segment": "foot_l"
+     }
+    ],
+    "then": "python3 scripts/anatomy/q241/make_pose_rig.py --inject <page dir>  -- which re-checks the structure and per-structure vertex counts against the page before writing"
+   },
+   "seconds": 490.0
+  }
+ },
+ "per_structure": {
+  "base_m": {
+   "abductor_digiti_minimi_foot_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.243,
+     "length_mm": 137.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 31.7,
+     "in_bone_pct": 14.02,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 38.0,
+     "acsa_ratio_lit": 0.254,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.795,
+     "length_mm": 137.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 33.2,
+     "in_bone_pct": 10.76,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 34.8,
+     "acsa_ratio_lit": 0.232,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "abductor_digiti_minimi_foot_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.369,
+     "length_mm": 137.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 32.6,
+     "in_bone_pct": 14.85,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 38.9,
+     "acsa_ratio_lit": 0.26,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.922,
+     "length_mm": 137.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.7,
+     "in_bone_pct": 10.88,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 35.7,
+     "acsa_ratio_lit": 0.238,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "abductor_hallucis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 11.601,
+     "length_mm": 145.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 67.6,
+     "spread_over_diag": 0.45,
+     "overlap_muscle_pct": 23.4,
+     "in_bone_pct": 3.42,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 79.8,
+     "acsa_ratio_lit": 0.319,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 11.601,
+     "length_mm": 145.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 67.6,
+     "spread_over_diag": 0.45,
+     "overlap_muscle_pct": 23.5,
+     "in_bone_pct": 3.42,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 79.8,
+     "acsa_ratio_lit": 0.319,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "abductor_pollicis_longus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 19.791,
+     "length_mm": 206.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.8,
+     "in_bone_pct": 17.33,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 95.8,
+     "acsa_ratio_lit": 0.695,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 19.791,
+     "length_mm": 206.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.1,
+     "in_bone_pct": 17.33,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 95.8,
+     "acsa_ratio_lit": 0.695,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "abductor_pollicis_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 19.876,
+     "length_mm": 206.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.1,
+     "in_bone_pct": 18.2,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 96.1,
+     "acsa_ratio_lit": 0.697,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 19.876,
+     "length_mm": 206.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.3,
+     "in_bone_pct": 18.2,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 96.1,
+     "acsa_ratio_lit": 0.697,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 58.508,
+     "length_mm": 192.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 44.0,
+     "in_bone_pct": 6.57,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 304.1,
+     "acsa_ratio_lit": 0.888,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 58.508,
+     "length_mm": 192.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.8,
+     "in_bone_pct": 6.57,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 304.1,
+     "acsa_ratio_lit": 0.888,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 58.819,
+     "length_mm": 192.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 44.5,
+     "in_bone_pct": 6.45,
+     "bone_deepest_mm": 6.93,
+     "acsa_mm2": 304.9,
+     "acsa_ratio_lit": 0.89,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 58.819,
+     "length_mm": 192.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 43.2,
+     "in_bone_pct": 6.45,
+     "bone_deepest_mm": 6.93,
+     "acsa_mm2": 304.9,
+     "acsa_ratio_lit": 0.89,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_hallucis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.925,
+     "length_mm": 73.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 39.4,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 15.3,
+     "in_bone_pct": 13.16,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 135.1,
+     "acsa_ratio_lit": 0.352,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 9.925,
+     "length_mm": 73.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 39.4,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 16.6,
+     "in_bone_pct": 13.16,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 135.1,
+     "acsa_ratio_lit": 0.352,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_hallucis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.564,
+     "length_mm": 73.5,
+     "n_components": 2,
+     "component_centroid_spread_mm": 39.4,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 14.7,
+     "in_bone_pct": 13.4,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 130.2,
+     "acsa_ratio_lit": 0.339,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 9.564,
+     "length_mm": 73.5,
+     "n_components": 2,
+     "component_centroid_spread_mm": 39.4,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 15.8,
+     "in_bone_pct": 13.4,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 130.2,
+     "acsa_ratio_lit": 0.339,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_magnus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 511.373,
+     "length_mm": 358.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 11.9,
+     "in_bone_pct": 4.67,
+     "bone_deepest_mm": 10.39,
+     "acsa_mm2": 1428.2,
+     "acsa_ratio_lit": 0.829,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 511.373,
+     "length_mm": 358.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 12.4,
+     "in_bone_pct": 4.67,
+     "bone_deepest_mm": 10.39,
+     "acsa_mm2": 1428.2,
+     "acsa_ratio_lit": 0.829,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_magnus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 513.06,
+     "length_mm": 358.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 12.1,
+     "in_bone_pct": 4.63,
+     "bone_deepest_mm": 10.39,
+     "acsa_mm2": 1433.2,
+     "acsa_ratio_lit": 0.832,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 513.06,
+     "length_mm": 358.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 12.6,
+     "in_bone_pct": 4.63,
+     "bone_deepest_mm": 10.39,
+     "acsa_mm2": 1433.2,
+     "acsa_ratio_lit": 0.832,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "anconeus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.725,
+     "length_mm": 106.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.4,
+     "in_bone_pct": 25.79,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 91.6,
+     "acsa_ratio_lit": 0.458,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 8.631,
+     "length_mm": 106.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.7,
+     "in_bone_pct": 16.69,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 81.3,
+     "acsa_ratio_lit": 0.407,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "anconeus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.798,
+     "length_mm": 106.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.0,
+     "in_bone_pct": 25.73,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 92.3,
+     "acsa_ratio_lit": 0.461,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 8.69,
+     "length_mm": 106.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 25.4,
+     "in_bone_pct": 15.95,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 81.9,
+     "acsa_ratio_lit": 0.409,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "brachialis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 87.272,
+     "length_mm": 233.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 20.7,
+     "in_bone_pct": 7.92,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 373.1,
+     "acsa_ratio_lit": 0.535,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 87.272,
+     "length_mm": 233.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 19.8,
+     "in_bone_pct": 7.92,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 373.1,
+     "acsa_ratio_lit": 0.535,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "brachialis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 87.465,
+     "length_mm": 234.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 20.5,
+     "in_bone_pct": 7.82,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 373.7,
+     "acsa_ratio_lit": 0.536,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 87.465,
+     "length_mm": 234.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 19.7,
+     "in_bone_pct": 7.82,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 373.7,
+     "acsa_ratio_lit": 0.536,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "coracobrachialis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 26.519,
+     "length_mm": 170.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.9,
+     "in_bone_pct": 3.99,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 155.9,
+     "acsa_ratio_lit": 2.598,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 26.519,
+     "length_mm": 170.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.5,
+     "in_bone_pct": 3.99,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 155.9,
+     "acsa_ratio_lit": 2.598,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "coracobrachialis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 26.882,
+     "length_mm": 170.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.6,
+     "in_bone_pct": 3.8,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 158.0,
+     "acsa_ratio_lit": 2.634,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 26.882,
+     "length_mm": 170.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.2,
+     "in_bone_pct": 3.8,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 158.0,
+     "acsa_ratio_lit": 2.634,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "dorsal_interossei_foot_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.216,
+     "length_mm": 77.8,
+     "n_components": 4,
+     "component_centroid_spread_mm": 42.2,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 27.0,
+     "in_bone_pct": 36.77,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 67.0,
+     "acsa_ratio_lit": 0.462,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 5.216,
+     "length_mm": 77.8,
+     "n_components": 4,
+     "component_centroid_spread_mm": 42.2,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 25.2,
+     "in_bone_pct": 36.77,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 67.0,
+     "acsa_ratio_lit": 0.462,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "dorsal_interossei_foot_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.33,
+     "length_mm": 77.8,
+     "n_components": 4,
+     "component_centroid_spread_mm": 42.2,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 23.8,
+     "in_bone_pct": 35.65,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 68.5,
+     "acsa_ratio_lit": 0.473,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 5.33,
+     "length_mm": 77.8,
+     "n_components": 4,
+     "component_centroid_spread_mm": 42.2,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 21.7,
+     "in_bone_pct": 35.65,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 68.5,
+     "acsa_ratio_lit": 0.473,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_carpi_ulnaris_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 22.619,
+     "length_mm": 310.8,
+     "n_components": 2,
+     "component_centroid_spread_mm": 30.5,
+     "spread_over_diag": 0.1,
+     "overlap_muscle_pct": 35.1,
+     "in_bone_pct": 27.67,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 72.8,
+     "acsa_ratio_lit": 0.369,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 22.886,
+     "length_mm": 310.9,
+     "n_components": 2,
+     "component_centroid_spread_mm": 33.8,
+     "spread_over_diag": 0.11,
+     "overlap_muscle_pct": 48.3,
+     "in_bone_pct": 6.12,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 73.6,
+     "acsa_ratio_lit": 0.374,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_carpi_ulnaris_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 23.326,
+     "length_mm": 310.8,
+     "n_components": 2,
+     "component_centroid_spread_mm": 30.5,
+     "spread_over_diag": 0.1,
+     "overlap_muscle_pct": 34.9,
+     "in_bone_pct": 27.0,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 75.1,
+     "acsa_ratio_lit": 0.381,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 23.585,
+     "length_mm": 310.9,
+     "n_components": 2,
+     "component_centroid_spread_mm": 33.8,
+     "spread_over_diag": 0.11,
+     "overlap_muscle_pct": 47.8,
+     "in_bone_pct": 5.97,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 75.9,
+     "acsa_ratio_lit": 0.385,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digiti_minimi_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.996,
+     "length_mm": 347.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 41.3,
+     "in_bone_pct": 6.58,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 28.7,
+     "acsa_ratio_lit": 1.437,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 9.996,
+     "length_mm": 347.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 41.0,
+     "in_bone_pct": 6.58,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 28.7,
+     "acsa_ratio_lit": 1.437,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 10.678,
+     "length_mm": 154.7,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.9,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 44.3,
+     "in_bone_pct": 21.71,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 69.0,
+     "acsa_ratio_lit": 0.46,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 10.678,
+     "length_mm": 154.7,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.9,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 44.8,
+     "in_bone_pct": 21.71,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 69.0,
+     "acsa_ratio_lit": 0.46,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 10.761,
+     "length_mm": 155.2,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.9,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 42.0,
+     "in_bone_pct": 20.9,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 69.3,
+     "acsa_ratio_lit": 0.462,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 10.761,
+     "length_mm": 155.2,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.9,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 43.0,
+     "in_bone_pct": 20.9,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 69.3,
+     "acsa_ratio_lit": 0.462,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 34.495,
+     "length_mm": 412.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 25.0,
+     "in_bone_pct": 7.49,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 83.7,
+     "acsa_ratio_lit": 0.224,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 34.495,
+     "length_mm": 412.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 25.1,
+     "in_bone_pct": 7.49,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 83.7,
+     "acsa_ratio_lit": 0.224,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_longus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 36.986,
+     "length_mm": 426.3,
+     "n_components": 5,
+     "component_centroid_spread_mm": 239.2,
+     "spread_over_diag": 0.72,
+     "overlap_muscle_pct": 30.1,
+     "in_bone_pct": 11.06,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 86.8,
+     "acsa_ratio_lit": 0.294,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 36.986,
+     "length_mm": 426.3,
+     "n_components": 5,
+     "component_centroid_spread_mm": 239.2,
+     "spread_over_diag": 0.72,
+     "overlap_muscle_pct": 30.4,
+     "in_bone_pct": 11.06,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 86.8,
+     "acsa_ratio_lit": 0.294,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 28.842,
+     "length_mm": 426.3,
+     "n_components": 5,
+     "component_centroid_spread_mm": 238.9,
+     "spread_over_diag": 0.72,
+     "overlap_muscle_pct": 32.2,
+     "in_bone_pct": 9.94,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 67.7,
+     "acsa_ratio_lit": 0.229,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 28.842,
+     "length_mm": 426.3,
+     "n_components": 5,
+     "component_centroid_spread_mm": 238.9,
+     "spread_over_diag": 0.72,
+     "overlap_muscle_pct": 32.4,
+     "in_bone_pct": 9.94,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 67.7,
+     "acsa_ratio_lit": 0.229,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_hallucis_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.951,
+     "length_mm": 125.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.8,
+     "in_bone_pct": 30.05,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 39.4,
+     "acsa_ratio_lit": 0.788,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.734,
+     "length_mm": 125.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.5,
+     "in_bone_pct": 20.65,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 37.7,
+     "acsa_ratio_lit": 0.754,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_hallucis_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.04,
+     "length_mm": 125.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.6,
+     "in_bone_pct": 29.34,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 40.1,
+     "acsa_ratio_lit": 0.802,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.826,
+     "length_mm": 125.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 31.7,
+     "in_bone_pct": 20.51,
+     "bone_deepest_mm": 8.0,
+     "acsa_mm2": 38.4,
+     "acsa_ratio_lit": 0.768,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_hallucis_longus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 8.981,
+     "length_mm": 312.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 32.7,
+     "in_bone_pct": 15.65,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 28.7,
+     "acsa_ratio_lit": 0.265,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 8.981,
+     "length_mm": 312.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 33.0,
+     "in_bone_pct": 15.65,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 28.7,
+     "acsa_ratio_lit": 0.265,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_indicis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.948,
+     "length_mm": 234.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.2,
+     "in_bone_pct": 28.52,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 16.8,
+     "acsa_ratio_lit": 0.567,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 3.948,
+     "length_mm": 234.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.1,
+     "in_bone_pct": 28.52,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 16.8,
+     "acsa_ratio_lit": 0.567,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_indicis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.045,
+     "length_mm": 234.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.2,
+     "in_bone_pct": 28.49,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 17.2,
+     "acsa_ratio_lit": 0.581,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 4.045,
+     "length_mm": 234.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 33.8,
+     "in_bone_pct": 28.49,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 17.2,
+     "acsa_ratio_lit": 0.581,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "fibularis_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 18.017,
+     "length_mm": 270.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.5,
+     "in_bone_pct": 21.0,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 66.7,
+     "acsa_ratio_lit": 0.194,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 18.017,
+     "length_mm": 270.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.4,
+     "in_bone_pct": 21.0,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 66.7,
+     "acsa_ratio_lit": 0.194,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_carpi_ulnaris_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 62.24,
+     "length_mm": 290.5,
+     "n_components": 2,
+     "component_centroid_spread_mm": 34.1,
+     "spread_over_diag": 0.12,
+     "overlap_muscle_pct": 13.0,
+     "in_bone_pct": 9.7,
+     "bone_deepest_mm": 8.49,
+     "acsa_mm2": 214.2,
+     "acsa_ratio_lit": 0.664,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 62.24,
+     "length_mm": 290.5,
+     "n_components": 2,
+     "component_centroid_spread_mm": 34.1,
+     "spread_over_diag": 0.12,
+     "overlap_muscle_pct": 13.9,
+     "in_bone_pct": 9.7,
+     "bone_deepest_mm": 8.49,
+     "acsa_mm2": 214.2,
+     "acsa_ratio_lit": 0.664,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_carpi_ulnaris_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 63.328,
+     "length_mm": 290.2,
+     "n_components": 2,
+     "component_centroid_spread_mm": 34.3,
+     "spread_over_diag": 0.12,
+     "overlap_muscle_pct": 12.9,
+     "in_bone_pct": 9.6,
+     "bone_deepest_mm": 8.49,
+     "acsa_mm2": 218.2,
+     "acsa_ratio_lit": 0.676,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 63.328,
+     "length_mm": 290.2,
+     "n_components": 2,
+     "component_centroid_spread_mm": 34.3,
+     "spread_over_diag": 0.12,
+     "overlap_muscle_pct": 14.0,
+     "in_bone_pct": 9.6,
+     "bone_deepest_mm": 8.49,
+     "acsa_mm2": 218.2,
+     "acsa_ratio_lit": 0.676,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digiti_minimi_brevis_foot_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.8,
+     "length_mm": 81.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 39.5,
+     "in_bone_pct": 29.94,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 22.1,
+     "acsa_ratio_lit": 0.442,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.8,
+     "length_mm": 81.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.7,
+     "in_bone_pct": 29.94,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 22.1,
+     "acsa_ratio_lit": 0.442,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digiti_minimi_brevis_foot_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.904,
+     "length_mm": 80.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 37.8,
+     "in_bone_pct": 27.48,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 23.6,
+     "acsa_ratio_lit": 0.473,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.904,
+     "length_mm": 80.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 39.1,
+     "in_bone_pct": 27.48,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 23.6,
+     "acsa_ratio_lit": 0.473,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digiti_minimi_brevis_hand_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 0.866,
+     "length_mm": 66.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 69.3,
+     "in_bone_pct": 7.0,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 13.0,
+     "acsa_ratio_lit": 0.648,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 0.866,
+     "length_mm": 66.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 70.7,
+     "in_bone_pct": 7.0,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 13.0,
+     "acsa_ratio_lit": 0.648,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [
+     "overlap 70.7 %"
+    ],
+    "before_severity_3": [
+     "overlap 69.3 %"
+    ]
+   },
+   "flexor_digiti_minimi_brevis_hand_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 0.95,
+     "length_mm": 66.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 71.5,
+     "in_bone_pct": 6.65,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 14.4,
+     "acsa_ratio_lit": 0.718,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 0.95,
+     "length_mm": 66.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 71.2,
+     "in_bone_pct": 6.65,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 14.4,
+     "acsa_ratio_lit": 0.718,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [
+     "overlap 71.2 %"
+    ],
+    "before_severity_3": [
+     "overlap 71.5 %"
+    ]
+   },
+   "flexor_digitorum_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 18.354,
+     "length_mm": 187.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 21.0,
+     "in_bone_pct": 5.3,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 97.8,
+     "acsa_ratio_lit": 0.506,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 18.354,
+     "length_mm": 187.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.1,
+     "in_bone_pct": 5.3,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 97.8,
+     "acsa_ratio_lit": 0.506,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digitorum_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 19.18,
+     "length_mm": 187.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 21.2,
+     "in_bone_pct": 4.59,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 102.5,
+     "acsa_ratio_lit": 0.531,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 19.18,
+     "length_mm": 187.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.4,
+     "in_bone_pct": 4.59,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 102.5,
+     "acsa_ratio_lit": 0.531,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digitorum_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 50.573,
+     "length_mm": 379.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.2,
+     "in_bone_pct": 8.01,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 133.3,
+     "acsa_ratio_lit": 0.541,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 50.573,
+     "length_mm": 379.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.3,
+     "in_bone_pct": 8.01,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 133.3,
+     "acsa_ratio_lit": 0.541,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digitorum_profundus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 64.881,
+     "length_mm": 387.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 153.8,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 35.9,
+     "in_bone_pct": 8.76,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 167.3,
+     "acsa_ratio_lit": 0.285,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 64.881,
+     "length_mm": 387.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 153.8,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 40.9,
+     "in_bone_pct": 8.76,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 167.3,
+     "acsa_ratio_lit": 0.285,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digitorum_profundus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 64.957,
+     "length_mm": 387.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 154.8,
+     "spread_over_diag": 0.39,
+     "overlap_muscle_pct": 36.0,
+     "in_bone_pct": 8.6,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 167.5,
+     "acsa_ratio_lit": 0.285,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 64.957,
+     "length_mm": 387.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 154.8,
+     "spread_over_diag": 0.39,
+     "overlap_muscle_pct": 41.0,
+     "in_bone_pct": 8.6,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 167.5,
+     "acsa_ratio_lit": 0.285,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "lateral_pterygoid_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.381,
+     "length_mm": 33.1,
+     "n_components": 2,
+     "component_centroid_spread_mm": 9.1,
+     "spread_over_diag": 0.25,
+     "overlap_muscle_pct": 5.3,
+     "in_bone_pct": 32.57,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 41.7,
+     "acsa_ratio_lit": 0.265,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.381,
+     "length_mm": 33.1,
+     "n_components": 2,
+     "component_centroid_spread_mm": 9.1,
+     "spread_over_diag": 0.25,
+     "overlap_muscle_pct": 4.8,
+     "in_bone_pct": 32.57,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 41.7,
+     "acsa_ratio_lit": 0.265,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "lateral_pterygoid_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.382,
+     "length_mm": 33.1,
+     "n_components": 2,
+     "component_centroid_spread_mm": 9.1,
+     "spread_over_diag": 0.25,
+     "overlap_muscle_pct": 4.1,
+     "in_bone_pct": 32.04,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 41.7,
+     "acsa_ratio_lit": 0.265,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.382,
+     "length_mm": 33.1,
+     "n_components": 2,
+     "component_centroid_spread_mm": 9.1,
+     "spread_over_diag": 0.25,
+     "overlap_muscle_pct": 1.6,
+     "in_bone_pct": 32.04,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 41.7,
+     "acsa_ratio_lit": 0.265,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "masseter_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 11.35,
+     "length_mm": 74.1,
+     "n_components": 2,
+     "component_centroid_spread_mm": 12.9,
+     "spread_over_diag": 0.16,
+     "overlap_muscle_pct": 19.9,
+     "in_bone_pct": 23.19,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 153.2,
+     "acsa_ratio_lit": 0.242,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 11.35,
+     "length_mm": 74.1,
+     "n_components": 2,
+     "component_centroid_spread_mm": 12.9,
+     "spread_over_diag": 0.16,
+     "overlap_muscle_pct": 19.4,
+     "in_bone_pct": 23.19,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 153.2,
+     "acsa_ratio_lit": 0.242,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "medial_pterygoid_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.474,
+     "length_mm": 51.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.0,
+     "in_bone_pct": 30.43,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 67.4,
+     "acsa_ratio_lit": 0.283,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 3.396,
+     "length_mm": 51.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.8,
+     "in_bone_pct": 29.45,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 65.6,
+     "acsa_ratio_lit": 0.276,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "medial_pterygoid_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.737,
+     "length_mm": 50.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.6,
+     "in_bone_pct": 31.81,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 73.4,
+     "acsa_ratio_lit": 0.309,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 3.341,
+     "length_mm": 50.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.1,
+     "in_bone_pct": 21.36,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 65.8,
+     "acsa_ratio_lit": 0.277,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "opponens_digiti_minimi_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.949,
+     "length_mm": 834.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 800.5,
+     "spread_over_diag": 14.71,
+     "overlap_muscle_pct": 49.4,
+     "in_bone_pct": 32.05,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 2.3,
+     "acsa_ratio_lit": 0.058,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 1.421,
+     "length_mm": 51.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 41.8,
+     "in_bone_pct": 20.29,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 27.7,
+     "acsa_ratio_lit": 0.691,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "a piece 800.5 mm away (14.71x its own diagonal)"
+    ]
+   },
+   "opponens_digiti_minimi_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 2.392,
+     "length_mm": 834.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 800.5,
+     "spread_over_diag": 14.43,
+     "overlap_muscle_pct": 44.2,
+     "in_bone_pct": 29.31,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 2.9,
+     "acsa_ratio_lit": 0.072,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 1.834,
+     "length_mm": 52.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 37.1,
+     "in_bone_pct": 18.43,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 34.9,
+     "acsa_ratio_lit": 0.872,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "a piece 800.5 mm away (14.43x its own diagonal)"
+    ]
+   },
+   "palmar_interossei_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 0.473,
+     "length_mm": 42.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.8,
+     "in_bone_pct": 47.06,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 11.2,
+     "acsa_ratio_lit": 0.228,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 0.473,
+     "length_mm": 42.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.9,
+     "in_bone_pct": 47.06,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 11.2,
+     "acsa_ratio_lit": 0.228,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pectineus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 63.478,
+     "length_mm": 150.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.5,
+     "in_bone_pct": 2.86,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 422.5,
+     "acsa_ratio_lit": 1.69,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 63.478,
+     "length_mm": 150.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.2,
+     "in_bone_pct": 2.86,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 422.5,
+     "acsa_ratio_lit": 1.69,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pectineus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 63.187,
+     "length_mm": 150.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.7,
+     "in_bone_pct": 2.91,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 420.6,
+     "acsa_ratio_lit": 1.682,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 63.187,
+     "length_mm": 150.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.4,
+     "in_bone_pct": 2.91,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 420.6,
+     "acsa_ratio_lit": 1.682,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "plantar_interossei_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.671,
+     "length_mm": 71.5,
+     "n_components": 3,
+     "component_centroid_spread_mm": 26.5,
+     "spread_over_diag": 0.4,
+     "overlap_muscle_pct": 14.2,
+     "in_bone_pct": 34.31,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 65.4,
+     "acsa_ratio_lit": 0.829,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.403,
+     "length_mm": 71.8,
+     "n_components": 3,
+     "component_centroid_spread_mm": 25.7,
+     "spread_over_diag": 0.39,
+     "overlap_muscle_pct": 15.4,
+     "in_bone_pct": 24.43,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 61.3,
+     "acsa_ratio_lit": 0.778,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "plantar_interossei_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.047,
+     "length_mm": 71.3,
+     "n_components": 3,
+     "component_centroid_spread_mm": 26.3,
+     "spread_over_diag": 0.4,
+     "overlap_muscle_pct": 11.4,
+     "in_bone_pct": 34.0,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 70.8,
+     "acsa_ratio_lit": 0.898,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.805,
+     "length_mm": 71.5,
+     "n_components": 3,
+     "component_centroid_spread_mm": 25.1,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 12.0,
+     "in_bone_pct": 24.52,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 67.2,
+     "acsa_ratio_lit": 0.853,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pronator_quadratus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 8.0,
+     "length_mm": 66.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.9,
+     "in_bone_pct": 23.64,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 120.2,
+     "acsa_ratio_lit": 1.335,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 8.0,
+     "length_mm": 66.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.7,
+     "in_bone_pct": 23.64,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 120.2,
+     "acsa_ratio_lit": 1.335,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pronator_quadratus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 8.116,
+     "length_mm": 66.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.6,
+     "in_bone_pct": 23.75,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 121.9,
+     "acsa_ratio_lit": 1.355,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 8.116,
+     "length_mm": 66.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.3,
+     "in_bone_pct": 23.75,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 121.9,
+     "acsa_ratio_lit": 1.355,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pronator_teres_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 23.258,
+     "length_mm": 167.0,
+     "n_components": 2,
+     "component_centroid_spread_mm": 12.2,
+     "spread_over_diag": 0.07,
+     "overlap_muscle_pct": 29.2,
+     "in_bone_pct": 4.84,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 139.3,
+     "acsa_ratio_lit": 0.329,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 23.258,
+     "length_mm": 167.0,
+     "n_components": 2,
+     "component_centroid_spread_mm": 12.2,
+     "spread_over_diag": 0.07,
+     "overlap_muscle_pct": 29.1,
+     "in_bone_pct": 4.84,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 139.3,
+     "acsa_ratio_lit": 0.329,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pronator_teres_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 23.373,
+     "length_mm": 167.6,
+     "n_components": 2,
+     "component_centroid_spread_mm": 12.3,
+     "spread_over_diag": 0.07,
+     "overlap_muscle_pct": 28.4,
+     "in_bone_pct": 4.46,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 139.4,
+     "acsa_ratio_lit": 0.329,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 23.373,
+     "length_mm": 167.6,
+     "n_components": 2,
+     "component_centroid_spread_mm": 12.3,
+     "spread_over_diag": 0.07,
+     "overlap_muscle_pct": 28.3,
+     "in_bone_pct": 4.46,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 139.4,
+     "acsa_ratio_lit": 0.329,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "quadratus_plantae_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.036,
+     "length_mm": 78.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 44.3,
+     "in_bone_pct": 5.72,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 64.2,
+     "acsa_ratio_lit": 0.321,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 5.036,
+     "length_mm": 78.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.6,
+     "in_bone_pct": 5.72,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 64.2,
+     "acsa_ratio_lit": 0.321,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "quadratus_plantae_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.092,
+     "length_mm": 78.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 44.1,
+     "in_bone_pct": 5.78,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 64.8,
+     "acsa_ratio_lit": 0.324,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 5.092,
+     "length_mm": 78.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.6,
+     "in_bone_pct": 5.78,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 64.8,
+     "acsa_ratio_lit": 0.324,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylohyoid_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.43,
+     "length_mm": 80.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.2,
+     "in_bone_pct": 6.11,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 17.8,
+     "acsa_ratio_lit": 0.396,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.43,
+     "length_mm": 80.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.4,
+     "in_bone_pct": 6.11,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 17.8,
+     "acsa_ratio_lit": 0.396,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylohyoid_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.539,
+     "length_mm": 81.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 37.1,
+     "in_bone_pct": 6.75,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 19.0,
+     "acsa_ratio_lit": 0.422,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.539,
+     "length_mm": 81.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.3,
+     "in_bone_pct": 6.75,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 19.0,
+     "acsa_ratio_lit": 0.422,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylopharyngeus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.858,
+     "length_mm": 72.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.0,
+     "in_bone_pct": 3.13,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 25.8,
+     "acsa_ratio_lit": 0.644,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.858,
+     "length_mm": 72.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.2,
+     "in_bone_pct": 3.13,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 25.8,
+     "acsa_ratio_lit": 0.644,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylopharyngeus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.852,
+     "length_mm": 72.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 37.1,
+     "in_bone_pct": 3.71,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 25.7,
+     "acsa_ratio_lit": 0.641,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.852,
+     "length_mm": 72.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.8,
+     "in_bone_pct": 3.71,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 25.7,
+     "acsa_ratio_lit": 0.641,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "superior_pharyngeal_constrictor_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.026,
+     "length_mm": 54.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.0,
+     "in_bone_pct": 3.86,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 91.5,
+     "acsa_ratio_lit": 0.457,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 5.026,
+     "length_mm": 54.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.3,
+     "in_bone_pct": 3.86,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 91.5,
+     "acsa_ratio_lit": 0.457,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "superior_pharyngeal_constrictor_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 5.046,
+     "length_mm": 54.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.3,
+     "in_bone_pct": 4.01,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 92.8,
+     "acsa_ratio_lit": 0.464,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 5.046,
+     "length_mm": 54.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.1,
+     "in_bone_pct": 4.01,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 92.8,
+     "acsa_ratio_lit": 0.464,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_adductor_minimus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 19.47,
+     "length_mm": 134.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 33.4,
+     "in_bone_pct": 9.98,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 144.8,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 19.112,
+     "length_mm": 134.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.8,
+     "in_bone_pct": 4.46,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 142.0,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "in bone 53.36 % of its vertices, deepest 6.32 mm (2 mm voxel solid share 9.98 %)"
+    ]
+   },
+   "zan_adductor_minimus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 19.468,
+     "length_mm": 134.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 33.7,
+     "in_bone_pct": 9.88,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 144.8,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 19.049,
+     "length_mm": 134.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 39.5,
+     "in_bone_pct": 4.18,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 141.5,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "in bone 53.36 % of its vertices, deepest 6.0 mm (2 mm voxel solid share 9.88 %)"
+    ]
+   },
+   "zan_bucinator_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 2.25,
+     "length_mm": 43.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.4,
+     "in_bone_pct": 18.54,
+     "bone_deepest_mm": 6.63,
+     "acsa_mm2": 51.8,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 2.25,
+     "length_mm": 43.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.2,
+     "in_bone_pct": 18.54,
+     "bone_deepest_mm": 6.63,
+     "acsa_mm2": 51.8,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_bucinator_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 2.244,
+     "length_mm": 43.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.7,
+     "in_bone_pct": 19.69,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 51.4,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 2.244,
+     "length_mm": 43.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.5,
+     "in_bone_pct": 19.69,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 51.4,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_extensor_pollicis_longus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 7.297,
+     "length_mm": 246.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 37.1,
+     "in_bone_pct": 25.44,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 29.6,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 7.297,
+     "length_mm": 246.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 30.2,
+     "in_bone_pct": 25.44,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 29.6,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_extensor_pollicis_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 7.494,
+     "length_mm": 246.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.7,
+     "in_bone_pct": 25.18,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 30.4,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 7.494,
+     "length_mm": 246.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 30.1,
+     "in_bone_pct": 25.18,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 30.4,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 60.553,
+     "length_mm": 415.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.8,
+     "in_bone_pct": 2.01,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 145.8,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 60.553,
+     "length_mm": 415.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 39.1,
+     "in_bone_pct": 2.01,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 145.8,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 61.046,
+     "length_mm": 415.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.5,
+     "in_bone_pct": 1.91,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 147.0,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 61.046,
+     "length_mm": 415.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.9,
+     "in_bone_pct": 1.91,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 147.0,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_lateral_head_of_triceps_brachii_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 153.857,
+     "length_mm": 269.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 18.3,
+     "in_bone_pct": 5.34,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 571.5,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 153.857,
+     "length_mm": 269.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 19.2,
+     "in_bone_pct": 5.34,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 571.5,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_lateral_head_of_triceps_brachii_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 154.913,
+     "length_mm": 269.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 18.5,
+     "in_bone_pct": 5.43,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 575.2,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 154.913,
+     "length_mm": 269.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 19.3,
+     "in_bone_pct": 5.43,
+     "bone_deepest_mm": 6.32,
+     "acsa_mm2": 575.2,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_long_head_of_triceps_brachii_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 165.607,
+     "length_mm": 280.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 14.8,
+     "in_bone_pct": 1.65,
+     "bone_deepest_mm": 8.25,
+     "acsa_mm2": 591.0,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 165.607,
+     "length_mm": 280.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 16.2,
+     "in_bone_pct": 1.65,
+     "bone_deepest_mm": 8.25,
+     "acsa_mm2": 591.0,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_long_head_of_triceps_brachii_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 166.09,
+     "length_mm": 280.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 14.7,
+     "in_bone_pct": 1.68,
+     "bone_deepest_mm": 8.25,
+     "acsa_mm2": 592.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 166.09,
+     "length_mm": 280.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 16.0,
+     "in_bone_pct": 1.68,
+     "bone_deepest_mm": 8.25,
+     "acsa_mm2": 592.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_medial_head_of_triceps_brachii_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 77.38,
+     "length_mm": 238.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 17.2,
+     "in_bone_pct": 17.18,
+     "bone_deepest_mm": 9.8,
+     "acsa_mm2": 324.7,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 75.092,
+     "length_mm": 238.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 20.6,
+     "in_bone_pct": 12.31,
+     "bone_deepest_mm": 9.8,
+     "acsa_mm2": 315.1,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_medial_head_of_triceps_brachii_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 77.668,
+     "length_mm": 238.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 16.8,
+     "in_bone_pct": 17.18,
+     "bone_deepest_mm": 9.17,
+     "acsa_mm2": 325.6,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 75.358,
+     "length_mm": 238.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 20.3,
+     "in_bone_pct": 12.17,
+     "bone_deepest_mm": 9.17,
+     "acsa_mm2": 315.8,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "opponens_digiti_minimi_foot_r": {
+    "status": "NEW structure",
+    "after": {
+     "volume_cm3": 0.558,
+     "length_mm": 48.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 61.2,
+     "in_bone_pct": 52.51,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 11.6,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    }
+   },
+   "opponens_digiti_minimi_foot_l": {
+    "status": "NEW structure",
+    "after": {
+     "volume_cm3": 0.529,
+     "length_mm": 47.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 61.7,
+     "in_bone_pct": 54.21,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 11.0,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    }
+   }
+  },
+  "base_f": {
+   "abductor_digiti_minimi_foot_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.79,
+     "length_mm": 133.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 32.5,
+     "in_bone_pct": 14.9,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 35.8,
+     "acsa_ratio_lit": 0.239,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.372,
+     "length_mm": 133.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 32.9,
+     "in_bone_pct": 11.23,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 32.7,
+     "acsa_ratio_lit": 0.218,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "abductor_digiti_minimi_foot_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.885,
+     "length_mm": 133.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 33.3,
+     "in_bone_pct": 15.48,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 36.5,
+     "acsa_ratio_lit": 0.244,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.468,
+     "length_mm": 133.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.7,
+     "in_bone_pct": 11.68,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 33.4,
+     "acsa_ratio_lit": 0.223,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "abductor_pollicis_longus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 17.264,
+     "length_mm": 193.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.5,
+     "in_bone_pct": 17.44,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 89.2,
+     "acsa_ratio_lit": 0.647,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 17.264,
+     "length_mm": 193.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.8,
+     "in_bone_pct": 17.44,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 89.2,
+     "acsa_ratio_lit": 0.647,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "abductor_pollicis_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 17.35,
+     "length_mm": 193.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.6,
+     "in_bone_pct": 16.78,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 89.5,
+     "acsa_ratio_lit": 0.649,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 17.35,
+     "length_mm": 193.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.7,
+     "in_bone_pct": 16.78,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 89.5,
+     "acsa_ratio_lit": 0.649,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 48.685,
+     "length_mm": 177.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 48.9,
+     "in_bone_pct": 6.29,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 274.6,
+     "acsa_ratio_lit": 0.802,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 48.685,
+     "length_mm": 177.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 47.7,
+     "in_bone_pct": 6.29,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 274.6,
+     "acsa_ratio_lit": 0.802,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 48.907,
+     "length_mm": 177.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 49.4,
+     "in_bone_pct": 6.26,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 275.0,
+     "acsa_ratio_lit": 0.803,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 48.907,
+     "length_mm": 177.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 48.0,
+     "in_bone_pct": 6.26,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 275.0,
+     "acsa_ratio_lit": 0.803,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_hallucis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.021,
+     "length_mm": 71.3,
+     "n_components": 2,
+     "component_centroid_spread_mm": 38.1,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 16.9,
+     "in_bone_pct": 13.9,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 126.6,
+     "acsa_ratio_lit": 0.33,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 9.021,
+     "length_mm": 71.3,
+     "n_components": 2,
+     "component_centroid_spread_mm": 38.1,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 18.2,
+     "in_bone_pct": 13.9,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 126.6,
+     "acsa_ratio_lit": 0.33,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_hallucis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 8.695,
+     "length_mm": 71.3,
+     "n_components": 2,
+     "component_centroid_spread_mm": 38.2,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 15.3,
+     "in_bone_pct": 14.43,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 122.0,
+     "acsa_ratio_lit": 0.318,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 8.695,
+     "length_mm": 71.3,
+     "n_components": 2,
+     "component_centroid_spread_mm": 38.2,
+     "spread_over_diag": 0.5,
+     "overlap_muscle_pct": 16.4,
+     "in_bone_pct": 14.43,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 122.0,
+     "acsa_ratio_lit": 0.318,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_magnus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 460.828,
+     "length_mm": 324.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 12.5,
+     "in_bone_pct": 4.54,
+     "bone_deepest_mm": 10.2,
+     "acsa_mm2": 1420.9,
+     "acsa_ratio_lit": 0.825,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 460.828,
+     "length_mm": 324.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 12.9,
+     "in_bone_pct": 4.54,
+     "bone_deepest_mm": 10.2,
+     "acsa_mm2": 1420.9,
+     "acsa_ratio_lit": 0.825,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "adductor_magnus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 462.733,
+     "length_mm": 324.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 12.7,
+     "in_bone_pct": 4.54,
+     "bone_deepest_mm": 10.2,
+     "acsa_mm2": 1427.3,
+     "acsa_ratio_lit": 0.829,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 462.733,
+     "length_mm": 324.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 13.2,
+     "in_bone_pct": 4.54,
+     "bone_deepest_mm": 10.2,
+     "acsa_mm2": 1427.3,
+     "acsa_ratio_lit": 0.829,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "anconeus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 8.392,
+     "length_mm": 98.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 29.5,
+     "in_bone_pct": 25.67,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 85.1,
+     "acsa_ratio_lit": 0.425,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 7.487,
+     "length_mm": 98.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.7,
+     "in_bone_pct": 15.95,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 75.9,
+     "acsa_ratio_lit": 0.379,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "anconeus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 8.443,
+     "length_mm": 98.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 29.0,
+     "in_bone_pct": 25.59,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 85.6,
+     "acsa_ratio_lit": 0.428,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 7.548,
+     "length_mm": 98.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 25.1,
+     "in_bone_pct": 15.81,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 76.5,
+     "acsa_ratio_lit": 0.383,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "brachialis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 66.425,
+     "length_mm": 214.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.0,
+     "in_bone_pct": 8.49,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 310.0,
+     "acsa_ratio_lit": 0.445,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 66.425,
+     "length_mm": 214.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.3,
+     "in_bone_pct": 8.49,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 310.0,
+     "acsa_ratio_lit": 0.445,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "brachialis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 66.462,
+     "length_mm": 214.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.2,
+     "in_bone_pct": 8.62,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 310.0,
+     "acsa_ratio_lit": 0.445,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 66.462,
+     "length_mm": 214.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.4,
+     "in_bone_pct": 8.62,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 310.0,
+     "acsa_ratio_lit": 0.445,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "coracobrachialis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 20.835,
+     "length_mm": 147.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.6,
+     "in_bone_pct": 4.04,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 141.6,
+     "acsa_ratio_lit": 2.359,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 20.835,
+     "length_mm": 147.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.3,
+     "in_bone_pct": 4.04,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 141.6,
+     "acsa_ratio_lit": 2.359,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "coracobrachialis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 21.188,
+     "length_mm": 147.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.2,
+     "in_bone_pct": 3.84,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 144.0,
+     "acsa_ratio_lit": 2.4,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 21.188,
+     "length_mm": 147.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.9,
+     "in_bone_pct": 3.84,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 144.0,
+     "acsa_ratio_lit": 2.4,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "digastric_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.381,
+     "length_mm": 125.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 75.4,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 45.6,
+     "in_bone_pct": 9.51,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 34.9,
+     "acsa_ratio_lit": 0.318,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.381,
+     "length_mm": 125.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 75.4,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 46.4,
+     "in_bone_pct": 9.51,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 34.9,
+     "acsa_ratio_lit": 0.318,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "digastric_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.51,
+     "length_mm": 125.8,
+     "n_components": 2,
+     "component_centroid_spread_mm": 75.4,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 46.6,
+     "in_bone_pct": 9.47,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 35.9,
+     "acsa_ratio_lit": 0.326,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.51,
+     "length_mm": 125.8,
+     "n_components": 2,
+     "component_centroid_spread_mm": 75.4,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 47.8,
+     "in_bone_pct": 9.47,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 35.9,
+     "acsa_ratio_lit": 0.326,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "dorsal_interossei_foot_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.789,
+     "length_mm": 75.5,
+     "n_components": 4,
+     "component_centroid_spread_mm": 40.9,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 29.7,
+     "in_bone_pct": 39.26,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 63.4,
+     "acsa_ratio_lit": 0.438,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 4.789,
+     "length_mm": 75.5,
+     "n_components": 4,
+     "component_centroid_spread_mm": 40.9,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 27.2,
+     "in_bone_pct": 39.26,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 63.4,
+     "acsa_ratio_lit": 0.438,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "dorsal_interossei_foot_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.892,
+     "length_mm": 75.4,
+     "n_components": 4,
+     "component_centroid_spread_mm": 41.0,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 24.5,
+     "in_bone_pct": 36.54,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 64.8,
+     "acsa_ratio_lit": 0.448,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 4.892,
+     "length_mm": 75.4,
+     "n_components": 4,
+     "component_centroid_spread_mm": 41.0,
+     "spread_over_diag": 0.63,
+     "overlap_muscle_pct": 22.2,
+     "in_bone_pct": 36.54,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 64.8,
+     "acsa_ratio_lit": 0.448,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_carpi_ulnaris_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 18.374,
+     "length_mm": 290.3,
+     "n_components": 2,
+     "component_centroid_spread_mm": 29.3,
+     "spread_over_diag": 0.1,
+     "overlap_muscle_pct": 36.7,
+     "in_bone_pct": 27.99,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 63.3,
+     "acsa_ratio_lit": 0.321,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 18.61,
+     "length_mm": 290.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 32.3,
+     "spread_over_diag": 0.12,
+     "overlap_muscle_pct": 49.4,
+     "in_bone_pct": 6.08,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 64.1,
+     "acsa_ratio_lit": 0.325,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_carpi_ulnaris_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 18.864,
+     "length_mm": 290.3,
+     "n_components": 2,
+     "component_centroid_spread_mm": 29.3,
+     "spread_over_diag": 0.1,
+     "overlap_muscle_pct": 36.5,
+     "in_bone_pct": 27.68,
+     "bone_deepest_mm": 6.63,
+     "acsa_mm2": 65.0,
+     "acsa_ratio_lit": 0.33,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 19.1,
+     "length_mm": 290.4,
+     "n_components": 2,
+     "component_centroid_spread_mm": 32.4,
+     "spread_over_diag": 0.12,
+     "overlap_muscle_pct": 48.4,
+     "in_bone_pct": 6.48,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 65.8,
+     "acsa_ratio_lit": 0.334,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digiti_minimi_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 7.814,
+     "length_mm": 327.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 43.8,
+     "in_bone_pct": 6.71,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 23.9,
+     "acsa_ratio_lit": 1.194,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 7.814,
+     "length_mm": 327.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 43.6,
+     "in_bone_pct": 6.71,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 23.9,
+     "acsa_ratio_lit": 1.194,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digiti_minimi_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 8.146,
+     "length_mm": 327.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.8,
+     "in_bone_pct": 7.39,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 24.9,
+     "acsa_ratio_lit": 1.245,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 8.146,
+     "length_mm": 327.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.5,
+     "in_bone_pct": 7.39,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 24.9,
+     "acsa_ratio_lit": 1.245,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.764,
+     "length_mm": 150.0,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.2,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 45.9,
+     "in_bone_pct": 22.08,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 65.1,
+     "acsa_ratio_lit": 0.434,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 9.764,
+     "length_mm": 150.0,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.2,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 46.5,
+     "in_bone_pct": 22.08,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 65.1,
+     "acsa_ratio_lit": 0.434,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 9.776,
+     "length_mm": 150.5,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.2,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 42.3,
+     "in_bone_pct": 22.28,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 65.0,
+     "acsa_ratio_lit": 0.433,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 9.776,
+     "length_mm": 150.5,
+     "n_components": 3,
+     "component_centroid_spread_mm": 21.2,
+     "spread_over_diag": 0.14,
+     "overlap_muscle_pct": 43.2,
+     "in_bone_pct": 22.28,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 65.0,
+     "acsa_ratio_lit": 0.433,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 28.617,
+     "length_mm": 388.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 25.9,
+     "in_bone_pct": 8.79,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 73.6,
+     "acsa_ratio_lit": 0.197,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 28.617,
+     "length_mm": 388.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.0,
+     "in_bone_pct": 8.79,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 73.6,
+     "acsa_ratio_lit": 0.197,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_longus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 31.855,
+     "length_mm": 403.2,
+     "n_components": 5,
+     "component_centroid_spread_mm": 226.0,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 31.0,
+     "in_bone_pct": 11.02,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 79.0,
+     "acsa_ratio_lit": 0.267,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 31.855,
+     "length_mm": 403.2,
+     "n_components": 5,
+     "component_centroid_spread_mm": 226.0,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 31.3,
+     "in_bone_pct": 11.02,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 79.0,
+     "acsa_ratio_lit": 0.267,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 24.648,
+     "length_mm": 403.2,
+     "n_components": 5,
+     "component_centroid_spread_mm": 226.0,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 32.8,
+     "in_bone_pct": 9.66,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 61.1,
+     "acsa_ratio_lit": 0.207,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 24.648,
+     "length_mm": 403.2,
+     "n_components": 5,
+     "component_centroid_spread_mm": 226.0,
+     "spread_over_diag": 0.73,
+     "overlap_muscle_pct": 33.1,
+     "in_bone_pct": 9.66,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 61.1,
+     "acsa_ratio_lit": 0.207,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_digitorum_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 29.408,
+     "length_mm": 389.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 25.9,
+     "in_bone_pct": 8.23,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 75.4,
+     "acsa_ratio_lit": 0.202,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 29.408,
+     "length_mm": 389.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.0,
+     "in_bone_pct": 8.23,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 75.4,
+     "acsa_ratio_lit": 0.202,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_hallucis_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.54,
+     "length_mm": 121.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 30.6,
+     "in_bone_pct": 29.63,
+     "bone_deepest_mm": 7.48,
+     "acsa_mm2": 37.2,
+     "acsa_ratio_lit": 0.745,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.326,
+     "length_mm": 121.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.3,
+     "in_bone_pct": 21.74,
+     "bone_deepest_mm": 7.48,
+     "acsa_mm2": 35.5,
+     "acsa_ratio_lit": 0.71,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_hallucis_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.618,
+     "length_mm": 121.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.0,
+     "in_bone_pct": 29.29,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 37.9,
+     "acsa_ratio_lit": 0.758,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.427,
+     "length_mm": 121.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 32.5,
+     "in_bone_pct": 22.02,
+     "bone_deepest_mm": 8.25,
+     "acsa_mm2": 36.3,
+     "acsa_ratio_lit": 0.727,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_hallucis_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 7.873,
+     "length_mm": 296.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 31.1,
+     "in_bone_pct": 15.25,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 26.5,
+     "acsa_ratio_lit": 0.245,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 7.873,
+     "length_mm": 296.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 30.9,
+     "in_bone_pct": 15.25,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 26.5,
+     "acsa_ratio_lit": 0.245,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_indicis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.482,
+     "length_mm": 224.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.1,
+     "in_bone_pct": 27.58,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 15.5,
+     "acsa_ratio_lit": 0.523,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 3.482,
+     "length_mm": 224.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.8,
+     "in_bone_pct": 27.58,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 15.5,
+     "acsa_ratio_lit": 0.523,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "extensor_indicis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.58,
+     "length_mm": 224.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.8,
+     "in_bone_pct": 27.2,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 16.0,
+     "acsa_ratio_lit": 0.538,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 3.58,
+     "length_mm": 224.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 34.4,
+     "in_bone_pct": 27.2,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 16.0,
+     "acsa_ratio_lit": 0.538,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "fibularis_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 16.911,
+     "length_mm": 254.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.7,
+     "in_bone_pct": 20.88,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 66.4,
+     "acsa_ratio_lit": 0.193,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 16.911,
+     "length_mm": 254.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 35.6,
+     "in_bone_pct": 20.88,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 66.4,
+     "acsa_ratio_lit": 0.193,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_carpi_ulnaris_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 46.949,
+     "length_mm": 271.6,
+     "n_components": 2,
+     "component_centroid_spread_mm": 34.9,
+     "spread_over_diag": 0.13,
+     "overlap_muscle_pct": 15.7,
+     "in_bone_pct": 10.82,
+     "bone_deepest_mm": 8.49,
+     "acsa_mm2": 172.9,
+     "acsa_ratio_lit": 0.536,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 46.949,
+     "length_mm": 271.6,
+     "n_components": 2,
+     "component_centroid_spread_mm": 34.9,
+     "spread_over_diag": 0.13,
+     "overlap_muscle_pct": 16.5,
+     "in_bone_pct": 10.82,
+     "bone_deepest_mm": 8.49,
+     "acsa_mm2": 172.9,
+     "acsa_ratio_lit": 0.536,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_carpi_ulnaris_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 47.684,
+     "length_mm": 271.2,
+     "n_components": 2,
+     "component_centroid_spread_mm": 35.1,
+     "spread_over_diag": 0.13,
+     "overlap_muscle_pct": 15.7,
+     "in_bone_pct": 10.86,
+     "bone_deepest_mm": 8.72,
+     "acsa_mm2": 175.8,
+     "acsa_ratio_lit": 0.545,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 47.684,
+     "length_mm": 271.2,
+     "n_components": 2,
+     "component_centroid_spread_mm": 35.1,
+     "spread_over_diag": 0.13,
+     "overlap_muscle_pct": 16.5,
+     "in_bone_pct": 10.86,
+     "bone_deepest_mm": 8.72,
+     "acsa_mm2": 175.8,
+     "acsa_ratio_lit": 0.545,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digiti_minimi_brevis_foot_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.671,
+     "length_mm": 79.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.7,
+     "in_bone_pct": 30.58,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 21.1,
+     "acsa_ratio_lit": 0.423,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 1.671,
+     "length_mm": 79.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.1,
+     "in_bone_pct": 30.58,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 21.1,
+     "acsa_ratio_lit": 0.423,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digiti_minimi_brevis_foot_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.77,
+     "length_mm": 78.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.5,
+     "in_bone_pct": 26.01,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 22.7,
+     "acsa_ratio_lit": 0.453,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.77,
+     "length_mm": 78.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.5,
+     "in_bone_pct": 26.01,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 22.7,
+     "acsa_ratio_lit": 0.453,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digiti_minimi_brevis_hand_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 0.757,
+     "length_mm": 64.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 73.1,
+     "in_bone_pct": 7.31,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 11.7,
+     "acsa_ratio_lit": 0.587,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 0.757,
+     "length_mm": 64.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 76.2,
+     "in_bone_pct": 7.31,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 11.7,
+     "acsa_ratio_lit": 0.587,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [
+     "overlap 76.2 %"
+    ],
+    "before_severity_3": [
+     "overlap 73.1 %"
+    ]
+   },
+   "flexor_digiti_minimi_brevis_hand_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 0.83,
+     "length_mm": 63.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 74.1,
+     "in_bone_pct": 7.09,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 13.0,
+     "acsa_ratio_lit": 0.65,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 0.83,
+     "length_mm": 63.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 75.2,
+     "in_bone_pct": 7.09,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 13.0,
+     "acsa_ratio_lit": 0.65,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [
+     "overlap 75.2 %"
+    ],
+    "before_severity_3": [
+     "overlap 74.1 %"
+    ]
+   },
+   "flexor_digitorum_brevis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 16.91,
+     "length_mm": 182.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.1,
+     "in_bone_pct": 5.27,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 92.9,
+     "acsa_ratio_lit": 0.481,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 16.91,
+     "length_mm": 182.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.9,
+     "in_bone_pct": 5.27,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 92.9,
+     "acsa_ratio_lit": 0.481,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digitorum_brevis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 17.663,
+     "length_mm": 182.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.2,
+     "in_bone_pct": 4.75,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 97.1,
+     "acsa_ratio_lit": 0.502,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 17.663,
+     "length_mm": 182.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 23.5,
+     "in_bone_pct": 4.75,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 97.1,
+     "acsa_ratio_lit": 0.502,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digitorum_profundus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 52.737,
+     "length_mm": 366.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 144.1,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 38.1,
+     "in_bone_pct": 9.54,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 143.8,
+     "acsa_ratio_lit": 0.245,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 52.737,
+     "length_mm": 366.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 144.1,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 42.7,
+     "in_bone_pct": 9.54,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 143.8,
+     "acsa_ratio_lit": 0.245,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "flexor_digitorum_profundus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 52.857,
+     "length_mm": 366.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 145.0,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 38.4,
+     "in_bone_pct": 9.54,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 144.1,
+     "acsa_ratio_lit": 0.245,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 52.857,
+     "length_mm": 366.7,
+     "n_components": 4,
+     "component_centroid_spread_mm": 145.0,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 42.9,
+     "in_bone_pct": 9.54,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 144.1,
+     "acsa_ratio_lit": 0.245,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "lateral_pterygoid_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.507,
+     "length_mm": 36.0,
+     "n_components": 2,
+     "component_centroid_spread_mm": 8.8,
+     "spread_over_diag": 0.22,
+     "overlap_muscle_pct": 3.8,
+     "in_bone_pct": 30.12,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 41.9,
+     "acsa_ratio_lit": 0.266,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.507,
+     "length_mm": 36.0,
+     "n_components": 2,
+     "component_centroid_spread_mm": 8.8,
+     "spread_over_diag": 0.22,
+     "overlap_muscle_pct": 4.0,
+     "in_bone_pct": 30.12,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 41.9,
+     "acsa_ratio_lit": 0.266,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "lateral_pterygoid_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.488,
+     "length_mm": 36.0,
+     "n_components": 2,
+     "component_centroid_spread_mm": 8.7,
+     "spread_over_diag": 0.21,
+     "overlap_muscle_pct": 4.3,
+     "in_bone_pct": 29.12,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 41.3,
+     "acsa_ratio_lit": 0.262,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.488,
+     "length_mm": 36.0,
+     "n_components": 2,
+     "component_centroid_spread_mm": 8.7,
+     "spread_over_diag": 0.21,
+     "overlap_muscle_pct": 1.2,
+     "in_bone_pct": 29.12,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 41.3,
+     "acsa_ratio_lit": 0.262,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "masseter_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 12.609,
+     "length_mm": 73.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.0,
+     "in_bone_pct": 24.56,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 171.2,
+     "acsa_ratio_lit": 0.271,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 12.609,
+     "length_mm": 73.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.1,
+     "in_bone_pct": 24.56,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 171.2,
+     "acsa_ratio_lit": 0.271,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "masseter_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 12.665,
+     "length_mm": 73.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 22.2,
+     "in_bone_pct": 24.63,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 171.8,
+     "acsa_ratio_lit": 0.272,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 12.665,
+     "length_mm": 73.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 21.7,
+     "in_bone_pct": 24.63,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 171.8,
+     "acsa_ratio_lit": 0.272,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "medial_pterygoid_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.856,
+     "length_mm": 55.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.7,
+     "in_bone_pct": 26.44,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 69.6,
+     "acsa_ratio_lit": 0.293,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 3.844,
+     "length_mm": 55.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 29.6,
+     "in_bone_pct": 26.19,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 69.4,
+     "acsa_ratio_lit": 0.292,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "medial_pterygoid_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.136,
+     "length_mm": 54.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.6,
+     "in_bone_pct": 28.67,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 76.0,
+     "acsa_ratio_lit": 0.32,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 3.712,
+     "length_mm": 54.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 31.0,
+     "in_bone_pct": 18.49,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 68.5,
+     "acsa_ratio_lit": 0.288,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "middle_pharyngeal_constrictor_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 2.56,
+     "length_mm": 56.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 69.8,
+     "in_bone_pct": 6.85,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 45.1,
+     "acsa_ratio_lit": 0.41,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 2.56,
+     "length_mm": 56.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 70.1,
+     "in_bone_pct": 6.85,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 45.1,
+     "acsa_ratio_lit": 0.41,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [
+     "overlap 70.1 %"
+    ],
+    "before_severity_3": [
+     "overlap 69.8 %"
+    ]
+   },
+   "opponens_digiti_minimi_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.768,
+     "length_mm": 865.8,
+     "n_components": 2,
+     "component_centroid_spread_mm": 831.9,
+     "spread_over_diag": 15.84,
+     "overlap_muscle_pct": 49.6,
+     "in_bone_pct": 33.69,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 2.0,
+     "acsa_ratio_lit": 0.051,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 1.269,
+     "length_mm": 49.6,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.9,
+     "in_bone_pct": 22.08,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 25.6,
+     "acsa_ratio_lit": 0.64,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "a piece 831.9 mm away (15.84x its own diagonal)"
+    ]
+   },
+   "opponens_digiti_minimi_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 2.173,
+     "length_mm": 865.8,
+     "n_components": 2,
+     "component_centroid_spread_mm": 831.9,
+     "spread_over_diag": 15.56,
+     "overlap_muscle_pct": 45.0,
+     "in_bone_pct": 29.94,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 2.5,
+     "acsa_ratio_lit": 0.063,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 1.647,
+     "length_mm": 50.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.8,
+     "in_bone_pct": 20.7,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 32.5,
+     "acsa_ratio_lit": 0.811,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "a piece 831.9 mm away (15.56x its own diagonal)"
+    ]
+   },
+   "palmar_interossei_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 0.491,
+     "length_mm": 40.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.9,
+     "in_bone_pct": 46.24,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 12.0,
+     "acsa_ratio_lit": 0.244,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 0.491,
+     "length_mm": 40.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 41.4,
+     "in_bone_pct": 46.24,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 12.0,
+     "acsa_ratio_lit": 0.244,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pectineus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 49.629,
+     "length_mm": 141.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.5,
+     "in_bone_pct": 3.25,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 350.3,
+     "acsa_ratio_lit": 1.401,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 49.629,
+     "length_mm": 141.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.0,
+     "in_bone_pct": 3.25,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 350.3,
+     "acsa_ratio_lit": 1.401,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pectineus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 49.374,
+     "length_mm": 141.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.8,
+     "in_bone_pct": 3.24,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 348.5,
+     "acsa_ratio_lit": 1.394,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 49.374,
+     "length_mm": 141.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.2,
+     "in_bone_pct": 3.24,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 348.5,
+     "acsa_ratio_lit": 1.394,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "plantar_interossei_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.265,
+     "length_mm": 69.3,
+     "n_components": 3,
+     "component_centroid_spread_mm": 25.7,
+     "spread_over_diag": 0.4,
+     "overlap_muscle_pct": 16.1,
+     "in_bone_pct": 36.38,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 61.6,
+     "acsa_ratio_lit": 0.782,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 3.992,
+     "length_mm": 69.5,
+     "n_components": 3,
+     "component_centroid_spread_mm": 24.9,
+     "spread_over_diag": 0.39,
+     "overlap_muscle_pct": 16.6,
+     "in_bone_pct": 25.91,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 57.4,
+     "acsa_ratio_lit": 0.729,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "plantar_interossei_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.613,
+     "length_mm": 69.1,
+     "n_components": 3,
+     "component_centroid_spread_mm": 25.5,
+     "spread_over_diag": 0.4,
+     "overlap_muscle_pct": 13.6,
+     "in_bone_pct": 35.38,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 66.8,
+     "acsa_ratio_lit": 0.847,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.39,
+     "length_mm": 69.3,
+     "n_components": 3,
+     "component_centroid_spread_mm": 24.3,
+     "spread_over_diag": 0.38,
+     "overlap_muscle_pct": 13.4,
+     "in_bone_pct": 26.95,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 63.4,
+     "acsa_ratio_lit": 0.804,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pronator_quadratus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 6.683,
+     "length_mm": 62.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.3,
+     "in_bone_pct": 24.26,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 107.8,
+     "acsa_ratio_lit": 1.197,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 6.683,
+     "length_mm": 62.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.1,
+     "in_bone_pct": 24.26,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 107.8,
+     "acsa_ratio_lit": 1.197,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "pronator_quadratus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 6.778,
+     "length_mm": 62.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.7,
+     "in_bone_pct": 24.23,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 109.3,
+     "acsa_ratio_lit": 1.215,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 6.778,
+     "length_mm": 62.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.6,
+     "in_bone_pct": 24.23,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 109.3,
+     "acsa_ratio_lit": 1.215,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "quadratus_plantae_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.627,
+     "length_mm": 76.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 44.9,
+     "in_bone_pct": 6.02,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 60.9,
+     "acsa_ratio_lit": 0.304,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.627,
+     "length_mm": 76.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 41.4,
+     "in_bone_pct": 6.02,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 60.9,
+     "acsa_ratio_lit": 0.304,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "quadratus_plantae_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.675,
+     "length_mm": 76.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 46.1,
+     "in_bone_pct": 5.86,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 61.4,
+     "acsa_ratio_lit": 0.307,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 4.675,
+     "length_mm": 76.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.2,
+     "in_bone_pct": 5.86,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 61.4,
+     "acsa_ratio_lit": 0.307,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylohyoid_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.204,
+     "length_mm": 84.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 43.8,
+     "in_bone_pct": 11.88,
+     "bone_deepest_mm": 4.0,
+     "acsa_mm2": 14.2,
+     "acsa_ratio_lit": 0.317,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 1.223,
+     "length_mm": 84.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 46.2,
+     "in_bone_pct": 9.98,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 14.5,
+     "acsa_ratio_lit": 0.322,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylohyoid_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.318,
+     "length_mm": 85.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 44.0,
+     "in_bone_pct": 11.25,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 15.5,
+     "acsa_ratio_lit": 0.345,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 1.336,
+     "length_mm": 84.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 46.6,
+     "in_bone_pct": 10.06,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 15.7,
+     "acsa_ratio_lit": 0.35,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylopharyngeus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.546,
+     "length_mm": 77.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 39.6,
+     "in_bone_pct": 8.08,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 20.0,
+     "acsa_ratio_lit": 0.5,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.546,
+     "length_mm": 77.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 40.2,
+     "in_bone_pct": 8.08,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 20.0,
+     "acsa_ratio_lit": 0.5,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "stylopharyngeus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.564,
+     "length_mm": 77.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 36.8,
+     "in_bone_pct": 8.28,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 20.2,
+     "acsa_ratio_lit": 0.505,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 1.564,
+     "length_mm": 77.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.2,
+     "in_bone_pct": 8.28,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 20.2,
+     "acsa_ratio_lit": 0.505,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "superior_pharyngeal_constrictor_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 4.934,
+     "length_mm": 58.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 37.7,
+     "in_bone_pct": 4.06,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 85.0,
+     "acsa_ratio_lit": 0.425,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 4.934,
+     "length_mm": 58.0,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 37.9,
+     "in_bone_pct": 4.06,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 85.0,
+     "acsa_ratio_lit": 0.425,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_adductor_minimus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 17.702,
+     "length_mm": 134.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.0,
+     "in_bone_pct": 9.26,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 131.2,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 17.638,
+     "length_mm": 134.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 41.7,
+     "in_bone_pct": 4.41,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 130.7,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "in bone 53.57 % of its vertices, deepest 6.0 mm (2 mm voxel solid share 9.26 %)"
+    ]
+   },
+   "zan_adductor_minimus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 17.705,
+     "length_mm": 135.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.3,
+     "in_bone_pct": 9.18,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 130.4,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 17.602,
+     "length_mm": 135.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.3,
+     "in_bone_pct": 4.32,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 129.6,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": [
+     "in bone 53.57 % of its vertices, deepest 6.0 mm (2 mm voxel solid share 9.18 %)"
+    ]
+   },
+   "zan_bucinator_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.129,
+     "length_mm": 47.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.4,
+     "in_bone_pct": 16.32,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 66.2,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 3.129,
+     "length_mm": 47.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.2,
+     "in_bone_pct": 16.32,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 66.2,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_bucinator_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 3.12,
+     "length_mm": 47.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 27.1,
+     "in_bone_pct": 16.01,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 66.2,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 3.12,
+     "length_mm": 47.2,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 26.9,
+     "in_bone_pct": 16.01,
+     "bone_deepest_mm": 7.21,
+     "acsa_mm2": 66.2,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_extensor_pollicis_longus_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 6.23,
+     "length_mm": 233.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.4,
+     "in_bone_pct": 25.1,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 26.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 6.23,
+     "length_mm": 233.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 31.5,
+     "in_bone_pct": 25.1,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 26.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_extensor_pollicis_longus_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 6.383,
+     "length_mm": 233.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 38.5,
+     "in_bone_pct": 25.05,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 27.4,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 6.383,
+     "length_mm": 233.1,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 31.4,
+     "in_bone_pct": 25.05,
+     "bone_deepest_mm": 5.66,
+     "acsa_mm2": 27.4,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 48.871,
+     "length_mm": 391.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.1,
+     "in_bone_pct": 2.14,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 124.8,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 48.871,
+     "length_mm": 391.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.7,
+     "in_bone_pct": 2.14,
+     "bone_deepest_mm": 4.9,
+     "acsa_mm2": 124.8,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 49.385,
+     "length_mm": 391.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 41.9,
+     "in_bone_pct": 2.28,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 126.0,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 49.385,
+     "length_mm": 391.8,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 42.6,
+     "in_bone_pct": 2.28,
+     "bone_deepest_mm": 4.47,
+     "acsa_mm2": 126.0,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_lateral_head_of_triceps_brachii_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 110.079,
+     "length_mm": 245.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 21.2,
+     "in_bone_pct": 5.94,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 448.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 110.079,
+     "length_mm": 245.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 21.6,
+     "in_bone_pct": 5.94,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 448.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_lateral_head_of_triceps_brachii_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 111.108,
+     "length_mm": 245.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 21.4,
+     "in_bone_pct": 5.86,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 452.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 111.108,
+     "length_mm": 245.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 21.8,
+     "in_bone_pct": 5.86,
+     "bone_deepest_mm": 6.0,
+     "acsa_mm2": 452.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_long_head_of_triceps_brachii_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 111.576,
+     "length_mm": 249.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 18.2,
+     "in_bone_pct": 2.09,
+     "bone_deepest_mm": 7.48,
+     "acsa_mm2": 446.6,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 111.576,
+     "length_mm": 249.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 19.2,
+     "in_bone_pct": 2.09,
+     "bone_deepest_mm": 7.48,
+     "acsa_mm2": 446.6,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_long_head_of_triceps_brachii_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 111.666,
+     "length_mm": 249.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 18.5,
+     "in_bone_pct": 2.02,
+     "bone_deepest_mm": 8.0,
+     "acsa_mm2": 446.9,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 111.666,
+     "length_mm": 249.9,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 19.5,
+     "in_bone_pct": 2.02,
+     "bone_deepest_mm": 8.0,
+     "acsa_mm2": 446.9,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_medial_head_of_triceps_brachii_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 42.01,
+     "length_mm": 220.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.9,
+     "in_bone_pct": 24.03,
+     "bone_deepest_mm": 8.94,
+     "acsa_mm2": 190.5,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 39.814,
+     "length_mm": 220.5,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.6,
+     "in_bone_pct": 17.17,
+     "bone_deepest_mm": 8.94,
+     "acsa_mm2": 180.5,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_medial_head_of_triceps_brachii_r": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 42.201,
+     "length_mm": 220.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.3,
+     "in_bone_pct": 24.12,
+     "bone_deepest_mm": 8.94,
+     "acsa_mm2": 191.2,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    },
+    "after": {
+     "volume_cm3": 39.999,
+     "length_mm": 220.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 28.2,
+     "in_bone_pct": 17.5,
+     "bone_deepest_mm": 8.94,
+     "acsa_mm2": 181.2,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "zan_palmaris_longus_muscle_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 17.751,
+     "length_mm": 330.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.6,
+     "in_bone_pct": 0.07,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 53.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after": {
+     "volume_cm3": 17.751,
+     "length_mm": 330.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 24.5,
+     "in_bone_pct": 0.07,
+     "bone_deepest_mm": 2.0,
+     "acsa_mm2": 53.7,
+     "acsa_ratio_lit": null,
+     "bucket": "defensible"
+    },
+    "after_severity_3": [],
+    "before_severity_3": []
+   },
+   "rectus_femoris_reflected_head_l": {
+    "status": "changed",
+    "before": {
+     "volume_cm3": 1.967,
+     "length_mm": 48.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 85.4,
+     "in_bone_pct": 34.73,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 40.7,
+     "acsa_ratio_lit": null,
+     "bucket": "not_defensible"
+    },
+    "after": {
+     "volume_cm3": 1.967,
+     "length_mm": 48.3,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 85.4,
+     "in_bone_pct": 34.62,
+     "bone_deepest_mm": 2.83,
+     "acsa_mm2": 40.8,
+     "acsa_ratio_lit": null,
+     "bucket": "not_defensible"
+    },
+    "after_severity_3": [
+     "overlap 85.4 %"
+    ],
+    "before_severity_3": [
+     "overlap 85.4 %"
+    ]
+   },
+   "opponens_digiti_minimi_foot_r": {
+    "status": "NEW structure",
+    "after": {
+     "volume_cm3": 0.526,
+     "length_mm": 46.7,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 62.0,
+     "in_bone_pct": 51.71,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 11.3,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    }
+   },
+   "opponens_digiti_minimi_foot_l": {
+    "status": "NEW structure",
+    "after": {
+     "volume_cm3": 0.499,
+     "length_mm": 46.4,
+     "n_components": 1,
+     "component_centroid_spread_mm": 0.0,
+     "spread_over_diag": 0.0,
+     "overlap_muscle_pct": 63.0,
+     "in_bone_pct": 55.5,
+     "bone_deepest_mm": 3.46,
+     "acsa_mm2": 10.7,
+     "acsa_ratio_lit": null,
+     "bucket": "repairable"
+    }
+   }
+  }
+ }
+}

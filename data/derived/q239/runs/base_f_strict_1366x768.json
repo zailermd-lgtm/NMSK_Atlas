@@ -1,0 +1,213 @@
+{
+ "page": "atlas_viewer_base_female.html",
+ "cond": "strict",
+ "vp": "1366x768",
+ "checks": {
+  "btn_ct_mri_visible": true,
+  "btn_ultrasound_visible": true,
+  "tooltip_imaging_ready": true,
+  "tooltip_ultrasound_ready": true,
+  "code_inline": true,
+  "table_inline": true,
+  "imaging_diag_ready": true,
+  "imaging_panel_visible": true,
+  "imaging_cut_exists": true,
+  "imaging_hint_shown": true,
+  "img_ct_soft_mpr": true,
+  "img_ct_bone": true,
+  "img_mri_t1": true,
+  "img_mri_t2": true,
+  "img_ct_mip": true,
+  "img_ct_single": true,
+  "no_horizontal_scroll": true,
+  "imaging_closed_3d_back": true,
+  "ultrasound_diag_ready": true,
+  "ultrasound_panel_visible": true,
+  "us_star_perp_tilt": true,
+  "us_sweep3": true,
+  "us_sweep9": true,
+  "us_nine_frames": true,
+  "no_page_errors": true,
+  "completed": true
+ },
+ "errors": [],
+ "shots": {
+  "ct_soft_mpr": {
+   "std": 50.0,
+   "ink": 0.516,
+   "w": 683,
+   "h": 768
+  },
+  "ct_bone": {
+   "std": 37.8,
+   "ink": 0.521,
+   "w": 683,
+   "h": 768
+  },
+  "mri_t1": {
+   "std": 53.4,
+   "ink": 0.571,
+   "w": 683,
+   "h": 768
+  },
+  "mri_t2": {
+   "std": 46.5,
+   "ink": 0.567,
+   "w": 683,
+   "h": 768
+  },
+  "ct_mip": {
+   "std": 48.5,
+   "ink": 0.55,
+   "w": 683,
+   "h": 768
+  },
+  "ct_single": {
+   "std": 48.4,
+   "ink": 0.517,
+   "w": 683,
+   "h": 768
+  },
+  "star_perp_tilt": {
+   "std": 52.9,
+   "ink": 0.664,
+   "w": 683,
+   "h": 768
+  },
+  "sweep3": {
+   "std": 51.7,
+   "ink": 0.616,
+   "w": 683,
+   "h": 768
+  },
+  "sweep9": {
+   "std": 46.2,
+   "ink": 0.662,
+   "w": 683,
+   "h": 768
+  }
+ },
+ "code": {
+  "imaging": {
+   "ok": true,
+   "text": "Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+   "version": "q226.2",
+   "tissues": 33,
+   "code": "inline",
+   "table": "inline"
+  },
+  "ultrasound": {
+   "ok": true,
+   "text": "Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)",
+   "version": "q228.2",
+   "tissues": 33,
+   "code": "inline",
+   "table": "inline"
+  }
+ },
+ "buttons": {
+  "i": {
+   "text": "ct / mri",
+   "tip": "CT / MRI: simulated CT and MRI of the cut plane (not a scan) | Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+   "x": 708,
+   "y": 11,
+   "w": 76,
+   "h": 28,
+   "inside": true
+  },
+  "u": {
+   "text": "ultrasound",
+   "tip": "Ultrasound: simulated B-mode from the meshes (not a scan) | Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)",
+   "x": 790,
+   "y": 11,
+   "w": 90,
+   "h": 28,
+   "inside": true
+  },
+  "W": 1366,
+  "H": 768
+ },
+ "tooltips": [
+  "CT / MRI: simulated CT and MRI of the cut plane (not a scan) | Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+  "Ultrasound: simulated B-mode from the meshes (not a scan) | Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)"
+ ],
+ "imaging_diag": "Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+ "imaging_hint": "No cut was set, so an axial cut through the upper abdomen was created for you. Click or drag in any image to move it, or use the Cut panel of the 3D view. OK",
+ "canvas_std": {
+  "ct_soft_mpr": [
+   59.7,
+   59.7,
+   69.7,
+   61.9
+  ],
+  "ct_bone": [
+   37.9,
+   37.6,
+   41.7,
+   39.8
+  ],
+  "mri_t1": [
+   83,
+   82.7,
+   75.2,
+   56.5
+  ],
+  "mri_t2": [
+   66.6,
+   66.9,
+   61.9,
+   49.9
+  ],
+  "ct_mip": [
+   51.5,
+   51.8,
+   69.5,
+   61.8
+  ],
+  "ct_single": [
+   59.6
+  ],
+  "star_perp_tilt": [
+   71,
+   89.7,
+   77,
+   68.9,
+   79,
+   90.9,
+   76.2,
+   63,
+   78.9
+  ],
+  "sweep3": [
+   72.2,
+   61.8,
+   56.7
+  ],
+  "sweep9": [
+   71.7,
+   65.9,
+   59.9,
+   61.1,
+   62.2,
+   63.1,
+   63.9,
+   63.5,
+   63.9
+  ]
+ },
+ "layout": {
+  "cls": "nmsk-img img-z img-side",
+  "scrollW": 1366,
+  "innerW": 1366,
+  "panel": [
+   683,
+   0,
+   683,
+   768
+  ]
+ },
+ "ultrasound_diag": "Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)",
+ "us_frames": 9,
+ "ok": true,
+ "seconds": 53
+}

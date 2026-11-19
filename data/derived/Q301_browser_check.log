@@ -1,0 +1,253 @@
+
+=== build/q301/viewer_m_hr ===
+  OK   own_m_1400: F fat is OFF when the page loads ({'on': True, 'shown': False, 'count': 51, 'touched': False})
+  OK   own_m_1400: F and none of its 51 fat structures is drawn at load (0)
+  OK   own_m_1400: F the depth peel starts at the whole body ({'on': True, 'step': 0, 'max': 6, 'hidden': [], 'label': 'Whole body'})
+  OK   own_m_1400: F the model starts in colour (colour)
+  OK   own_m_1400: A the control bar is on the screen (760 px wide)
+  OK   own_m_1400: A it carries undo / redo / module reset / model reset
+  OK   own_m_1400: A each of the four is NAMED, not an icon alone (['Undo', 'Redo', 'Module', 'Model'])
+  OK   own_m_1400: A the bar sits in the bottom third (thumb zone)
+  OK   own_m_1400: A the circled i is on the screen
+  OK   own_m_1400: A a state really changed before undo (0 -> 1)
+  OK   own_m_1400: A the bar's Undo put it back
+  OK   own_m_1400: A the bar's Redo brought it forward
+  OK   own_m_1400: B the bar offers labelled groups (['View', 'Layers', 'Imaging', 'Cut', 'Mark', 'Learn', 'Measure'])
+  OK   own_m_1400: B every group opens with members in it ([('view', 1), ('layers', 3), ('imaging', 4), ('cut', 3), ('mark', 4), ('learn', 1), ('measure', 1)])
+  OK   own_m_1400: B every group closes again on a second tap
+  OK   own_m_1400: B no adopted button was destroyed by opening the other groups (['btn-xray', 'sides', 'foot'])
+  OK   own_m_1400: C one tap selects colour (mode now colour)
+  OK   own_m_1400: C one tap selects xray (mode now xray)
+  OK   own_m_1400: C one tap selects ct (mode now ct)
+  OK   own_m_1400: C one tap selects mri (mode now mri)
+  OK   own_m_1400: C xray really changed the picture (dsat 28.1, dlum 5.8, dhist 0.804)
+  OK   own_m_1400: C xray is greyscale (grey fraction 1.000 vs colour 0.006)
+  OK   own_m_1400: C ct really changed the picture (dsat 28.1, dlum 48.6, dhist 1.394)
+  OK   own_m_1400: C ct is greyscale (grey fraction 1.000 vs colour 0.006)
+  OK   own_m_1400: C mri really changed the picture (dsat 28.1, dlum 66.8, dhist 1.430)
+  OK   own_m_1400: C mri is greyscale (grey fraction 1.000 vs colour 0.006)
+  OK   own_m_1400: C xray and ct are different pictures (dlum 54.4, dhist 1.449)
+  OK   own_m_1400: C ct and mri are different pictures (dlum 115.4, dhist 1.962)
+  OK   own_m_1400: C xray and mri are different pictures (dlum 61.0, dhist 0.907)
+  OK   own_m_1400: C one tap on Colour returns (mode colour, dsat 0.0, dlum 0.0)
+  OK   own_m_1400: C the X-ray strength steps change the picture (dlum 94.1, dhist 1.337)
+  OK   own_m_1400: C 'Show everything' knows about the style (['fat', 'imaging'])
+  OK   own_m_1400: C 'Show everything' brings the colour back
+  OK   own_m_1400: D the Cut group really holds the cut button
+  OK   own_m_1400: D cut and imaging are BOTH active at once (['boneread', 'cut', 'fat', 'imaging'])
+  OK   own_m_1400: D each is shown as combinable with the other (['Cut', 'Fat shown', 'Bone through soft tissue'])
+  OK   own_m_1400: D the sheet says on the screen that they combine (["+ A radiographic style sets the bone's brightness fr", "⇣ A radiographic style sets the bone's brightness fr"])
+  OK   own_m_1400: E the page knows incompatible pairs ([('imaging', 'srccolour'), ('imaging', 'highlight'), ('peel', 'preset'), ('peel', 'solo'), ('marktap', 'cutplace')])
+  OK   own_m_1400: E with imaging on, its incompatible partners are refused ([('imaging', 'srccolour'), ('imaging', 'highlight')])
+  OK   own_m_1400: E and the reason is on the screen, not only in a tooltip (['⊘ A radiographic style replaces the colour, so colour-by-source ha', '⊘ A highlight colour does not exist in a greyscale picture — use F'])
+  OK   own_m_1400: E the refused control is really disabled ([{'id': 'src-colour', 'disabled': True, 'aria': 'true'}, {'id': 'sel-p-hlsel', 'disabled': True, 'aria': 'true'}])
+  OK   own_m_1400: F the model reset puts fat back to its load default ({'on': True, 'shown': False, 'count': 51, 'touched': True})
+  OK   own_m_1400: F and none of its 51 fat structures is drawn (0)
+  OK   own_m_1400: F one tap shows them (51 of 51)
+  OK   own_m_1400: F the cut face is filled with fat BOTH ways (off {'total': 51, 'filled': 51, 'shown': False, 'capA': 0.9}, on {'total': 51, 'filled': 51, 'shown': True, 'capA': 0.9})
+  OK   own_m_1400: G the peel order starts at the skin and ends at the organs (['Fat / superficial fascia', 'Deep fascia', 'Muscle', 'Ligament', 'Vessels & nerves', 'Organs'])
+  OK   own_m_1400: G each tap takes the next layer off, in order ([1, 2, 3, 4, 5, 6])
+  OK   own_m_1400: G and fewer structures are drawn at each step ([881, 875, 500, 401, 158, 128])
+  OK   own_m_1400: G each step's hidden set contains the one before it
+  OK   own_m_1400: G the skin comes off first (['fat'])
+  OK   own_m_1400: G 'Whole body' puts every layer back
+  OK   own_m_1400: H two layers came off in one go
+  OK   own_m_1400: H a peel of two layers is ONE undo step
+  OK   own_m_1400: H Q300's 'Show everything' knows every new path (['fat', 'peel', 'imaging'])
+  OK   own_m_1400: H the model reset knows every new state (['fat', 'peel', 'renderstyle'])
+  OK   own_m_1400: H and the model reset really puts them all back (peel 0, style colour, fat False)
+  OK   own_m_1400: the circled i opens and holds the prose (['what', 'styles', 'combine', 'layers', 'resets', 'fat', 'srcpanel'], 7867 chars)
+  OK   own_m_1400: the i names what is our convention rather than measured
+  OK   own_m_1400: the i closes again
+  OK   own_m_1400: I 0 page errors ([])
+  OK   own_m_1400: I every control this script tapped was really on top ([])
+  OK   own_m_390: F fat is OFF when the page loads ({'on': True, 'shown': False, 'count': 51, 'touched': False})
+  OK   own_m_390: F and none of its 51 fat structures is drawn at load (0)
+  OK   own_m_390: F the depth peel starts at the whole body ({'on': True, 'step': 0, 'max': 6, 'hidden': [], 'label': 'Whole body'})
+  OK   own_m_390: F the model starts in colour (colour)
+  OK   own_m_390: A the control bar is on the screen (374 px wide)
+  OK   own_m_390: A it carries undo / redo / module reset / model reset
+  OK   own_m_390: A each of the four is NAMED, not an icon alone (['Undo', 'Redo', 'Module', 'Model'])
+  OK   own_m_390: A the bar sits in the bottom third (thumb zone)
+  OK   own_m_390: A the circled i is on the screen
+  OK   own_m_390: A the bar fits 390 px with no horizontal page scroll
+  OK   own_m_390: A a state really changed before undo (0 -> 1)
+  OK   own_m_390: A the bar's Undo put it back
+  OK   own_m_390: A the bar's Redo brought it forward
+  OK   own_m_390: B the bar offers labelled groups (['View', 'Layers', 'Imaging', 'Cut', 'Mark', 'Learn', 'Measure'])
+  OK   own_m_390: B every group opens with members in it ([('view', 1), ('layers', 3), ('imaging', 4), ('cut', 3), ('mark', 4), ('learn', 1), ('measure', 1)])
+  OK   own_m_390: B every group closes again on a second tap
+  OK   own_m_390: B no adopted button was destroyed by opening the other groups (['btn-xray', 'sides', 'foot'])
+  OK   own_m_390: C one tap selects colour (mode now colour)
+  OK   own_m_390: C one tap selects xray (mode now xray)
+  OK   own_m_390: C one tap selects ct (mode now ct)
+  OK   own_m_390: C one tap selects mri (mode now mri)
+  OK   own_m_390: C xray really changed the picture (dsat 28.1, dlum 5.8, dhist 0.795)
+  OK   own_m_390: C xray is greyscale (grey fraction 1.000 vs colour 0.007)
+  OK   own_m_390: C ct really changed the picture (dsat 28.1, dlum 48.5, dhist 1.386)
+  OK   own_m_390: C ct is greyscale (grey fraction 1.000 vs colour 0.007)
+  OK   own_m_390: C mri really changed the picture (dsat 28.1, dlum 66.7, dhist 1.427)
+  OK   own_m_390: C mri is greyscale (grey fraction 1.000 vs colour 0.007)
+  OK   own_m_390: C xray and ct are different pictures (dlum 54.3, dhist 1.451)
+  OK   own_m_390: C ct and mri are different pictures (dlum 115.2, dhist 1.959)
+  OK   own_m_390: C xray and mri are different pictures (dlum 60.9, dhist 0.907)
+  OK   own_m_390: C one tap on Colour returns (mode colour, dsat 0.0, dlum 0.0)
+  OK   own_m_390: C the X-ray strength steps change the picture (dlum 94.0, dhist 1.340)
+  OK   own_m_390: C 'Show everything' knows about the style (['fat', 'imaging'])
+  OK   own_m_390: C 'Show everything' brings the colour back
+  OK   own_m_390: D the Cut group really holds the cut button
+  OK   own_m_390: D cut and imaging are BOTH active at once (['boneread', 'cut', 'fat', 'imaging'])
+  OK   own_m_390: D each is shown as combinable with the other (['Cut', 'Fat shown', 'Bone through soft tissue'])
+  OK   own_m_390: D the sheet says on the screen that they combine (["+ A radiographic style sets the bone's brightness fr", "⇣ A radiographic style sets the bone's brightness fr"])
+  OK   own_m_390: E the page knows incompatible pairs ([('imaging', 'srccolour'), ('imaging', 'highlight'), ('peel', 'preset'), ('peel', 'solo'), ('marktap', 'cutplace')])
+  OK   own_m_390: E with imaging on, its incompatible partners are refused ([('imaging', 'srccolour'), ('imaging', 'highlight')])
+  OK   own_m_390: E and the reason is on the screen, not only in a tooltip (['⊘ A radiographic style replaces the colour, so colour-by-source ha', '⊘ A highlight colour does not exist in a greyscale picture — use F'])
+  OK   own_m_390: E the refused control is really disabled ([{'id': 'src-colour', 'disabled': True, 'aria': 'true'}, {'id': 'sel-p-hlsel', 'disabled': True, 'aria': 'true'}])
+  OK   own_m_390: F the model reset puts fat back to its load default ({'on': True, 'shown': False, 'count': 51, 'touched': True})
+  OK   own_m_390: F and none of its 51 fat structures is drawn (0)
+  OK   own_m_390: F one tap shows them (51 of 51)
+  OK   own_m_390: F the cut face is filled with fat BOTH ways (off {'total': 51, 'filled': 51, 'shown': False, 'capA': 0.9}, on {'total': 51, 'filled': 51, 'shown': True, 'capA': 0.9})
+  OK   own_m_390: G the peel order starts at the skin and ends at the organs (['Fat / superficial fascia', 'Deep fascia', 'Muscle', 'Ligament', 'Vessels & nerves', 'Organs'])
+  OK   own_m_390: G each tap takes the next layer off, in order ([1, 2, 3, 4, 5, 6])
+  OK   own_m_390: G and fewer structures are drawn at each step ([881, 875, 500, 401, 158, 128])
+  OK   own_m_390: G each step's hidden set contains the one before it
+  OK   own_m_390: G the skin comes off first (['fat'])
+  OK   own_m_390: G 'Whole body' puts every layer back
+  OK   own_m_390: H two layers came off in one go
+  OK   own_m_390: H a peel of two layers is ONE undo step
+  OK   own_m_390: H Q300's 'Show everything' knows every new path (['fat', 'peel', 'imaging'])
+  OK   own_m_390: H the model reset knows every new state (['fat', 'peel', 'renderstyle'])
+  OK   own_m_390: H and the model reset really puts them all back (peel 0, style colour, fat False)
+  OK   own_m_390: the circled i opens and holds the prose (['what', 'styles', 'combine', 'layers', 'resets', 'fat', 'srcpanel'], 7867 chars)
+  OK   own_m_390: the i names what is our convention rather than measured
+  OK   own_m_390: the i closes again
+  OK   own_m_390: I 0 page errors ([])
+  OK   own_m_390: I every control this script tapped was really on top ([])
+
+=== build/q301/viewer_zan_atlas ===
+  OK   base_m_1400: F fat is OFF when the page loads ({'on': True, 'shown': False, 'count': 51, 'touched': False})
+  OK   base_m_1400: F and none of its 51 fat structures is drawn at load (0)
+  OK   base_m_1400: F the depth peel starts at the whole body ({'on': True, 'step': 0, 'max': 7, 'hidden': [], 'label': 'Whole body'})
+  OK   base_m_1400: F the model starts in colour (colour)
+  OK   base_m_1400: A the control bar is on the screen (760 px wide)
+  OK   base_m_1400: A it carries undo / redo / module reset / model reset
+  OK   base_m_1400: A each of the four is NAMED, not an icon alone (['Undo', 'Redo', 'Module', 'Model'])
+  OK   base_m_1400: A the bar sits in the bottom third (thumb zone)
+  OK   base_m_1400: A the circled i is on the screen
+  OK   base_m_1400: A a state really changed before undo (0 -> 1)
+  OK   base_m_1400: A the bar's Undo put it back
+  OK   base_m_1400: A the bar's Redo brought it forward
+  OK   base_m_1400: B the bar offers labelled groups (['View', 'Layers', 'Imaging', 'Cut', 'Mark', 'Learn', 'Measure'])
+  OK   base_m_1400: B every group opens with members in it ([('view', 3), ('layers', 5), ('imaging', 4), ('cut', 3), ('mark', 5), ('learn', 1), ('measure', 1)])
+  OK   base_m_1400: B every group closes again on a second tap
+  OK   base_m_1400: B no adopted button was destroyed by opening the other groups (['t-reset'])
+  OK   base_m_1400: C one tap selects colour (mode now colour)
+  OK   base_m_1400: C one tap selects xray (mode now xray)
+  OK   base_m_1400: C one tap selects ct (mode now ct)
+  OK   base_m_1400: C one tap selects mri (mode now mri)
+  OK   base_m_1400: C xray really changed the picture (dsat 55.1, dlum 55.7, dhist 1.049)
+  OK   base_m_1400: C xray is greyscale (grey fraction 1.000 vs colour 0.004)
+  OK   base_m_1400: C ct really changed the picture (dsat 57.0, dlum 38.0, dhist 1.068)
+  OK   base_m_1400: C ct is greyscale (grey fraction 1.000 vs colour 0.004)
+  OK   base_m_1400: C mri really changed the picture (dsat 57.0, dlum 18.5, dhist 0.673)
+  OK   base_m_1400: C mri is greyscale (grey fraction 1.000 vs colour 0.004)
+  OK   base_m_1400: C xray and ct are different pictures (dlum 93.7, dhist 1.641)
+  OK   base_m_1400: C ct and mri are different pictures (dlum 56.5, dhist 1.702)
+  OK   base_m_1400: C xray and mri are different pictures (dlum 37.2, dhist 1.180)
+  OK   base_m_1400: C one tap on Colour returns (mode colour, dsat 0.0, dlum 0.0)
+  OK   base_m_1400: C the X-ray strength steps change the picture (dlum 72.2, dhist 1.308)
+  OK   base_m_1400: C 'Show everything' knows about the style (['fat', 'imaging'])
+  OK   base_m_1400: C 'Show everything' brings the colour back
+  OK   base_m_1400: D the Cut group really holds the cut button
+  OK   base_m_1400: D cut and imaging are BOTH active at once (['cut', 'fat', 'imaging'])
+  OK   base_m_1400: D each is shown as combinable with the other (['Cut', 'Fat shown'])
+  OK   base_m_1400: D the sheet says on the screen that they combine (['+ Active together with Cut, Fat shown.', "⇣ A radiographic style sets the bone's brightness fr"])
+  OK   base_m_1400: E the page knows incompatible pairs ([('imaging', 'srccolour'), ('imaging', 'highlight'), ('peel', 'preset'), ('peel', 'solo'), ('spin', 'measure'), ('spin', 'cutplace'), ('marktap', 'cutplace')])
+  OK   base_m_1400: E with imaging on, its incompatible partners are refused ([('imaging', 'srccolour'), ('imaging', 'highlight')])
+  OK   base_m_1400: E and the reason is on the screen, not only in a tooltip (['⊘ A highlight colour does not exist in a greyscale picture — use F'])
+  OK   base_m_1400: E the refused control is really disabled ([{'id': 'sel-p-hlsel', 'disabled': True, 'aria': 'true'}])
+  OK   base_m_1400: F the model reset puts fat back to its load default ({'on': True, 'shown': False, 'count': 51, 'touched': True})
+  OK   base_m_1400: F and none of its 51 fat structures is drawn (0)
+  OK   base_m_1400: F one tap shows them (51 of 51)
+  OK   base_m_1400: F the cut face is filled with fat BOTH ways (off {'total': 51, 'filled': 51, 'shown': False, 'capA': 0.9}, on {'total': 51, 'filled': 51, 'shown': True, 'capA': 0.9})
+  OK   base_m_1400: G the peel order starts at the skin and ends at the organs (['Skin', 'Fat / superficial fascia', 'Deep fascia', 'Muscle', 'Ligament', 'Vessels & nerves', 'Organs'])
+  OK   base_m_1400: G each tap takes the next layer off, in order ([1, 2, 3, 4, 5, 6, 7])
+  OK   base_m_1400: G and fewer structures are drawn at each step ([2951, 2951, 2776, 2344, 2011, 636, 309])
+  OK   base_m_1400: G each step's hidden set contains the one before it
+  OK   base_m_1400: G the skin comes off first (['skin'])
+  OK   base_m_1400: G 'Whole body' puts every layer back
+  OK   base_m_1400: H two layers came off in one go
+  OK   base_m_1400: H a peel of two layers is ONE undo step
+  OK   base_m_1400: H Q300's 'Show everything' knows every new path (['fat', 'peel', 'imaging'])
+  OK   base_m_1400: H the model reset knows every new state (['fat', 'peel', 'renderstyle'])
+  OK   base_m_1400: H and the model reset really puts them all back (peel 0, style colour, fat False)
+  OK   base_m_1400: the circled i opens and holds the prose (['what', 'styles', 'combine', 'layers', 'resets', 'fat', 'sources'], 7673 chars)
+  OK   base_m_1400: the i names what is our convention rather than measured
+  OK   base_m_1400: the i closes again
+  OK   base_m_1400: I 0 page errors ([])
+  OK   base_m_1400: I every control this script tapped was really on top ([])
+  OK   base_m_390: F fat is OFF when the page loads ({'on': True, 'shown': False, 'count': 51, 'touched': False})
+  OK   base_m_390: F and none of its 51 fat structures is drawn at load (0)
+  OK   base_m_390: F the depth peel starts at the whole body ({'on': True, 'step': 0, 'max': 7, 'hidden': [], 'label': 'Whole body'})
+  OK   base_m_390: F the model starts in colour (colour)
+  OK   base_m_390: A the control bar is on the screen (374 px wide)
+  OK   base_m_390: A it carries undo / redo / module reset / model reset
+  OK   base_m_390: A each of the four is NAMED, not an icon alone (['Undo', 'Redo', 'Module', 'Model'])
+  OK   base_m_390: A the bar sits in the bottom third (thumb zone)
+  OK   base_m_390: A the circled i is on the screen
+  OK   base_m_390: A the bar fits 390 px with no horizontal page scroll
+  OK   base_m_390: A a state really changed before undo (0 -> 1)
+  OK   base_m_390: A the bar's Undo put it back
+  OK   base_m_390: A the bar's Redo brought it forward
+  OK   base_m_390: B the bar offers labelled groups (['View', 'Layers', 'Imaging', 'Cut', 'Mark', 'Learn', 'Measure'])
+  OK   base_m_390: B every group opens with members in it ([('view', 3), ('layers', 5), ('imaging', 4), ('cut', 3), ('mark', 5), ('learn', 1), ('measure', 1)])
+  OK   base_m_390: B every group closes again on a second tap
+  OK   base_m_390: B no adopted button was destroyed by opening the other groups (['t-reset'])
+  OK   base_m_390: C one tap selects colour (mode now colour)
+  OK   base_m_390: C one tap selects xray (mode now xray)
+  OK   base_m_390: C one tap selects ct (mode now ct)
+  OK   base_m_390: C one tap selects mri (mode now mri)
+  OK   base_m_390: C xray really changed the picture (dsat 55.1, dlum 55.7, dhist 1.051)
+  OK   base_m_390: C xray is greyscale (grey fraction 1.000 vs colour 0.004)
+  OK   base_m_390: C ct really changed the picture (dsat 57.0, dlum 37.9, dhist 1.064)
+  OK   base_m_390: C ct is greyscale (grey fraction 1.000 vs colour 0.004)
+  OK   base_m_390: C mri really changed the picture (dsat 57.0, dlum 18.3, dhist 0.681)
+  OK   base_m_390: C mri is greyscale (grey fraction 1.000 vs colour 0.004)
+  OK   base_m_390: C xray and ct are different pictures (dlum 93.6, dhist 1.639)
+  OK   base_m_390: C ct and mri are different pictures (dlum 56.3, dhist 1.698)
+  OK   base_m_390: C xray and mri are different pictures (dlum 37.3, dhist 1.180)
+  OK   base_m_390: C one tap on Colour returns (mode colour, dsat 0.0, dlum 0.0)
+  OK   base_m_390: C the X-ray strength steps change the picture (dlum 72.1, dhist 1.305)
+  OK   base_m_390: C 'Show everything' knows about the style (['fat', 'imaging'])
+  OK   base_m_390: C 'Show everything' brings the colour back
+  OK   base_m_390: D the Cut group really holds the cut button
+  OK   base_m_390: D cut and imaging are BOTH active at once (['cut', 'fat', 'imaging'])
+  OK   base_m_390: D each is shown as combinable with the other (['Cut', 'Fat shown'])
+  OK   base_m_390: D the sheet says on the screen that they combine (['+ Active together with Cut, Fat shown.', "⇣ A radiographic style sets the bone's brightness fr"])
+  OK   base_m_390: E the page knows incompatible pairs ([('imaging', 'srccolour'), ('imaging', 'highlight'), ('peel', 'preset'), ('peel', 'solo'), ('spin', 'measure'), ('spin', 'cutplace'), ('marktap', 'cutplace')])
+  OK   base_m_390: E with imaging on, its incompatible partners are refused ([('imaging', 'srccolour'), ('imaging', 'highlight')])
+  OK   base_m_390: E and the reason is on the screen, not only in a tooltip (['⊘ A highlight colour does not exist in a greyscale picture — use F'])
+  OK   base_m_390: E the refused control is really disabled ([{'id': 'sel-p-hlsel', 'disabled': True, 'aria': 'true'}])
+  OK   base_m_390: F the model reset puts fat back to its load default ({'on': True, 'shown': False, 'count': 51, 'touched': True})
+  OK   base_m_390: F and none of its 51 fat structures is drawn (0)
+  OK   base_m_390: F one tap shows them (51 of 51)
+  OK   base_m_390: F the cut face is filled with fat BOTH ways (off {'total': 51, 'filled': 51, 'shown': False, 'capA': 0.9}, on {'total': 51, 'filled': 51, 'shown': True, 'capA': 0.9})
+  OK   base_m_390: G the peel order starts at the skin and ends at the organs (['Skin', 'Fat / superficial fascia', 'Deep fascia', 'Muscle', 'Ligament', 'Vessels & nerves', 'Organs'])
+  OK   base_m_390: G each tap takes the next layer off, in order ([1, 2, 3, 4, 5, 6, 7])
+  OK   base_m_390: G and fewer structures are drawn at each step ([2951, 2951, 2776, 2344, 2011, 636, 309])
+  OK   base_m_390: G each step's hidden set contains the one before it
+  OK   base_m_390: G the skin comes off first (['skin'])
+  OK   base_m_390: G 'Whole body' puts every layer back
+  OK   base_m_390: H two layers came off in one go
+  OK   base_m_390: H a peel of two layers is ONE undo step
+  OK   base_m_390: H Q300's 'Show everything' knows every new path (['fat', 'peel', 'imaging'])
+  OK   base_m_390: H the model reset knows every new state (['fat', 'peel', 'renderstyle'])
+  OK   base_m_390: H and the model reset really puts them all back (peel 0, style colour, fat False)
+  OK   base_m_390: the circled i opens and holds the prose (['what', 'styles', 'combine', 'layers', 'resets', 'fat', 'sources'], 7673 chars)
+  OK   base_m_390: the i names what is our convention rather than measured
+  OK   base_m_390: the i closes again
+  OK   base_m_390: I 0 page errors ([])
+  OK   base_m_390: I every control this script tapped was really on top ([])
+
+Q301 verify: 0 FAIL
+wrote data/derived/Q301_browser_report.json

@@ -1,0 +1,129 @@
+{
+ "source": "Q192 right-hand validation: scripts/zanatomy/q192_left_hand.py fit --only-right (the same code as the left hand, on her right-hand photographs, started 25 deg away from the answer, compared with her CT right hand bones moved by the photograph-vs-CT offset of her right arm (-1,-2,13 mm))",
+ "validation_right_hand": {
+  "rigid": {
+   "J": 3.02,
+   "rot_deg_from_forearm_pose": 25.2,
+   "shift_mm": [
+    0.8,
+    -0.5,
+    -3.1
+   ],
+   "scale": 1.0209,
+   "starts_in_best_basin": 12,
+   "n_starts": 15,
+   "next_distinct_optimum_J_and_shift_mm": [
+    3.160597855221458,
+    7.248223037652062
+   ],
+   "scale_bound": [
+    0.96,
+    1.04
+   ]
+  },
+  "chains": {
+   "fifth": {
+    "J": 1.914,
+    "flexion_sign": 1,
+    "angles_deg": {
+     "mcp_flex": 9.6,
+     "mcp_abd": 2.0,
+     "pip": -5.6,
+     "dip": -5.7
+    },
+    "next_distinct_optimum_J_and_shift_mm": [
+     3.975,
+     20.2
+    ],
+    "evidence_voxels_in_reach": 14779
+   },
+   "fourth": {
+    "J": 1.999,
+    "flexion_sign": -1,
+    "angles_deg": {
+     "mcp_flex": 2.3,
+     "mcp_abd": 1.7,
+     "pip": -5.4,
+     "dip": 6.1
+    },
+    "next_distinct_optimum_J_and_shift_mm": [
+     3.852,
+     27.5
+    ],
+    "evidence_voxels_in_reach": 17023
+   },
+   "third": {
+    "J": 1.859,
+    "flexion_sign": -1,
+    "angles_deg": {
+     "mcp_flex": -2.6,
+     "mcp_abd": 0.5,
+     "pip": -4.5,
+     "dip": 8.4
+    },
+    "next_distinct_optimum_J_and_shift_mm": [
+     2.479,
+     3.8
+    ],
+    "evidence_voxels_in_reach": 15761
+   },
+   "second": {
+    "J": 2.558,
+    "flexion_sign": 1,
+    "angles_deg": {
+     "mcp_flex": 2.8,
+     "mcp_abd": -0.0,
+     "pip": -3.4,
+     "dip": -3.7
+    },
+    "next_distinct_optimum_J_and_shift_mm": [
+     3.18,
+     10.5
+    ],
+    "evidence_voxels_in_reach": 15778
+   },
+   "first": {
+    "J": 2.474,
+    "joint_rotation_deg": [
+     27.3,
+     37.2,
+     51.2
+    ],
+    "next_distinct_optimum_J_and_shift_mm": [
+     2.602,
+     15.6
+    ]
+   }
+  },
+  "vs_her_CT_bones": {
+   "carpals": {
+    "two_way_median_mm_fitted_from_photographs": 3.18,
+    "Q168_pose_shifted_by_the_arm_offset_mm": 3.24
+   },
+   "phalanges": {
+    "two_way_median_mm_fitted_from_photographs": 3.69,
+    "Q168_pose_shifted_by_the_arm_offset_mm": 1.99
+   },
+   "mc1": {
+    "two_way_median_mm_fitted_from_photographs": 4.27,
+    "Q168_pose_shifted_by_the_arm_offset_mm": 1.49
+   },
+   "mc2": {
+    "two_way_median_mm_fitted_from_photographs": 1.55,
+    "Q168_pose_shifted_by_the_arm_offset_mm": 1.31
+   },
+   "mc3": {
+    "two_way_median_mm_fitted_from_photographs": 1.49,
+    "Q168_pose_shifted_by_the_arm_offset_mm": 1.16
+   },
+   "mc4": {
+    "two_way_median_mm_fitted_from_photographs": 1.79,
+    "Q168_pose_shifted_by_the_arm_offset_mm": 1.18
+   },
+   "mc5": {
+    "two_way_median_mm_fitted_from_photographs": 1.99,
+    "Q168_pose_shifted_by_the_arm_offset_mm": 1.35
+   }
+  }
+ }
+}

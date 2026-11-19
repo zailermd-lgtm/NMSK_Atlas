@@ -1,0 +1,232 @@
+{
+ "schema": "nmsk.moment_arm_literature/1",
+ "round": "Q284",
+ "doc": "Published moment-arm statements the computed moment arms (scripts/anatomy/q284/build_moments.py) are compared with. Every quote is verbatim from the PubMed abstract of the cited article (retrieved through PubMed, PMID + DOI given). 'test' is how the statement is compared with this body's numbers; a disagreement is shown, never adjusted.",
+ "method": {
+  "text": "Moment arm r = -dL/dq computed on this body: the muscle's line of action is the centre line of its own mesh (the locus of its cross-sectional centroids), fixed to the bones it touches or lies on, free where it passes over a joint, held off the joint by a wrap whose radius is where this muscle sits over that joint at rest (obstacle-set method); joint centres and axes are those of the page's pose rig. A computation on one body's geometry, not a measurement and not a textbook statement.",
+  "refs": [
+   {
+    "cite": "Garner BA, Pandy MG. The Obstacle-Set Method for Representing Muscle Paths in Musculoskeletal Models. Comput Methods Biomech Biomed Engin 2000;3(1):1-30",
+    "pmid": "11264836",
+    "doi": "10.1080/10255840008915251",
+    "quote": "The method is based on the premise that the resultant muscle force acts along the locus of the transverse cross-sectional centroids of the muscle."
+   },
+   {
+    "cite": "An KN, Takahashi K, Harrigan TP, Chao EY. Determination of muscle orientations and moment arms. J Biomech Eng 1984;106(3):280-282",
+    "pmid": "6492774",
+    "doi": "10.1115/1.3138494",
+    "quote": "For the determination of these parameters, several experimental techniques, including geometric measurement, tendon-joint displacement measurement and direct load measurement, are available."
+   }
+  ]
+ },
+ "entries": [
+  {
+   "id": "blemker2005_psoas",
+   "muscles": [
+    "iliopsoas"
+   ],
+   "parts": [
+    "psoas_major",
+    null
+   ],
+   "structure_re": [
+    "psoas_major"
+   ],
+   "joint": "hip",
+   "dof": "flex",
+   "test": "peak_range",
+   "sign": 1,
+   "range_mm": [
+    20,
+    30
+   ],
+   "cite": "Blemker SS, Delp SL. Three-dimensional representation of complex muscle architectures and geometries. Ann Biomed Eng 2005;33(5):661-673",
+   "pmid": "15981866",
+   "doi": "10.1007/s10439-005-1433-7",
+   "quote": "for the psoas the peak fiber hip flexion moment arms varied from 2 to 3 cm",
+   "note": "fibre moment arms of a 3-D model built from one subject's MRI; on the merged iliopsoas mesh of the own pages the comparison includes iliacus"
+  },
+  {
+   "id": "blemker2005_gmax",
+   "muscles": [
+    "gluteus_maximus"
+   ],
+   "joint": "hip",
+   "dof": "flex",
+   "test": "peak_range",
+   "sign": -1,
+   "range_mm": [
+    10,
+    70
+   ],
+   "cite": "Blemker SS, Delp SL. Three-dimensional representation of complex muscle architectures and geometries. Ann Biomed Eng 2005;33(5):661-673",
+   "pmid": "15981866",
+   "doi": "10.1007/s10439-005-1433-7",
+   "quote": "for the gluteus maximus the peak fiber hip extension moment arms varied from 1 to 7 cm",
+   "note": "the range spans the individual fibres; one centre line gives one value inside or outside it"
+  },
+  {
+   "id": "skyrme1999_rot0",
+   "muscles": [
+    "iliopsoas"
+   ],
+   "parts": [
+    "psoas_major",
+    null
+   ],
+   "structure_re": [
+    "psoas_major"
+   ],
+   "joint": "hip",
+   "dof": "rot",
+   "test": "near_zero_at",
+   "angle": 0.0,
+   "cite": "Skyrme AD, Cahill DJ, Marsh HP, Ellis H. Psoas major and its controversial rotational action. Clin Anat 1999;12(4):264-265",
+   "pmid": "10398385",
+   "doi": "10.1002/(SICI)1098-2353(1999)12:4<264::AID-CA4>3.0.CO;2-L",
+   "quote": "In the anatomical position, applied traction along the long axis of the muscle produced hip flexion with no rotational component.",
+   "note": "cadaveric traction test (six specimens), visual estimate; 'near zero' here = under 20 % of the largest component at 0 deg"
+  },
+  {
+   "id": "skyrme1999_abd0",
+   "muscles": [
+    "iliopsoas"
+   ],
+   "parts": [
+    "psoas_major",
+    null
+   ],
+   "structure_re": [
+    "psoas_major"
+   ],
+   "joint": "hip",
+   "dof": "abd",
+   "test": "near_zero_at",
+   "angle": 0.0,
+   "cite": "Skyrme AD, Cahill DJ, Marsh HP, Ellis H. Psoas major and its controversial rotational action. Clin Anat 1999;12(4):264-265",
+   "pmid": "10398385",
+   "doi": "10.1002/(SICI)1098-2353(1999)12:4<264::AID-CA4>3.0.CO;2-L",
+   "quote": "In the anatomical position, applied traction along the long axis of the muscle produced hip flexion with no rotational component.",
+   "note": "the test reports flexion in the anatomical position and names adduction only for the abducted hip and for maximal flexion; compared as 'adduction near zero at 0 deg'"
+  },
+  {
+   "id": "skyrme1999_abd_flexed",
+   "muscles": [
+    "iliopsoas"
+   ],
+   "parts": [
+    "psoas_major",
+    null
+   ],
+   "structure_re": [
+    "psoas_major"
+   ],
+   "joint": "hip",
+   "dof": "abd",
+   "test": "sign_at",
+   "angle": 90.0,
+   "sign": -1,
+   "cite": "Skyrme AD, Cahill DJ, Marsh HP, Ellis H. Psoas major and its controversial rotational action. Clin Anat 1999;12(4):264-265",
+   "pmid": "10398385",
+   "doi": "10.1002/(SICI)1098-2353(1999)12:4<264::AID-CA4>3.0.CO;2-L",
+   "quote": "In maximal flexion, traction also produced adduction.",
+   "note": "'maximal flexion' compared at 90 deg, the largest angle sampled here (adduction = a negative abduction moment arm)"
+  },
+  {
+   "id": "yoshio2002_liftoff",
+   "muscles": [
+    "iliopsoas"
+   ],
+   "parts": [
+    "psoas_major",
+    null
+   ],
+   "structure_re": [
+    "psoas_major"
+   ],
+   "joint": "hip",
+   "dof": "flex",
+   "test": "liftoff",
+   "cite": "Yoshio M, Murakami G, Sato T, Sato S, Noriyasu S. The function of the psoas major muscle: passive kinetics and morphological studies using donated cadavers. J Orthop Sci 2002;7(2):199-207",
+   "pmid": "11956980",
+   "doi": "10.1007/s007760200034",
+   "quote": "The PMM tendon lost contact with the femoral head at angled positions of 14 degrees (average) hip flexion, and lost contact with the iliopectineal eminence at positions of 54 degrees (average).",
+   "note": "compared: the hip flexion angle at which this body's path stops touching its single hip wrap, against the two contact-loss angles the study reports (averages; the abstract gives no spread)",
+   "targets_deg": {
+    "femoral head": 14,
+    "iliopectineal eminence": 54
+   }
+  },
+  {
+   "id": "delp1999_trend",
+   "muscles": [
+    "gluteus_medius",
+    "gluteus_minimus",
+    "piriformis",
+    "iliopsoas",
+    "quadratus_femoris",
+    "obturator_internus",
+    "obturator_externus",
+    "gluteus_maximus"
+   ],
+   "joint": "hip",
+   "dof": "rot",
+   "test": "increases_with_sweep",
+   "cite": "Delp SL, Hess WE, Hungerford DS, Jones LC. Variation of rotation moment arms with hip flexion. J Biomech 1999;32(5):493-501",
+   "pmid": "10327003",
+   "doi": "10.1016/s0021-9290(99)00032-9",
+   "quote": "This trend toward internal rotation with hip flexion was apparent in 15 of the 18 muscle compartments we examined, suggesting that excessive hip flexion may exacerbate internal rotation of the hip.",
+   "note": "15 of 18 compartments, not all: a muscle that does not follow the trend can be right; compared as 'internal-rotation moment arm larger at 90 deg than at 0 deg'"
+  },
+  {
+   "id": "delp1999_gmax",
+   "muscles": [
+    "gluteus_maximus"
+   ],
+   "joint": "hip",
+   "dof": "rot",
+   "test": "sign_at",
+   "angle": 0.0,
+   "sign": -1,
+   "cite": "Delp SL, Hess WE, Hungerford DS, Jones LC. Variation of rotation moment arms with hip flexion. J Biomech 1999;32(5):493-501",
+   "pmid": "10327003",
+   "doi": "10.1016/s0021-9290(99)00032-9",
+   "quote": "The gluteus maximus was found to have a large capacity for external rotation.",
+   "note": "compared at 0 deg (external rotation = a negative rotation moment arm)"
+  },
+  {
+   "id": "maganaris1998_achilles",
+   "muscles": [
+    "gastrocnemius",
+    "soleus"
+   ],
+   "joint": "ankle",
+   "dof": "dp",
+   "test": "abs_range_at",
+   "angle": 0.0,
+   "range_mm": [
+    37,
+    68
+   ],
+   "cite": "Maganaris CN, Baltzopoulos V, Sargeant AJ. Changes in Achilles tendon moment arm from rest to maximum isometric plantarflexion: in vivo observations in man. J Physiol 1998;510(Pt 3):977-985",
+   "pmid": "9660906",
+   "doi": "10.1111/j.1469-7793.1998.977bj.x",
+   "quote": "At any given ankle angle, Achilles tendon moment arm length during MVC increased by 1-1.5 cm (22-27 %, P < 0.01) compared with rest.",
+   "note": "the resting value is implied by the abstract's own two numbers (1-1.5 cm = 22-27 % of rest -> about 3.7-6.8 cm); in vivo MRI, six men, knee at 90 deg"
+  },
+  {
+   "id": "murray1995_biceps_sup",
+   "muscles": [
+    "biceps_brachii"
+   ],
+   "joint": "forearm",
+   "dof": "sup",
+   "test": "elbow90_gt_elbow0",
+   "cite": "Murray WM, Delp SL, Buchanan TS. Variation of muscle moment arms with elbow and forearm position. J Biomech 1995;28(5):513-525",
+   "pmid": "7775488",
+   "doi": "10.1016/0021-9290(94)00114-j",
+   "quote": "Also, the peak biceps supination moment arm decreases as the elbow is extended.",
+   "note": "the study compares peak values over forearm rotation in two specimens; compared here at neutral forearm rotation with the elbow at 0 and 90 deg"
+  }
+ ]
+}

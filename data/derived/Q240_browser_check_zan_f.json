@@ -1,0 +1,406 @@
+{
+ "page": "zan_f",
+ "kind": "zan",
+ "viewports": {
+  "desktop": {
+   "checks": {
+    "no_hscroll": true,
+    "A_default_mode_near": true,
+    "A_parts_button": true,
+    "A_depth_image_taken": true,
+    "A_near_culls_something": true,
+    "A_near_shown_are_visible_and_near": true,
+    "A_depth_values_sane": true,
+    "A_all_ge_near_ge_selected_only": true,
+    "A_band_monotonic": true,
+    "A_band_changes_the_set": true,
+    "A_some_marker_is_hidden_behind_tissue": true,
+    "A_selected_markers_shown": true,
+    "A_selected_hidden_marker_is_see_through": true,
+    "A_panel_opens": true,
+    "A_panel_inside_viewport": true,
+    "A_panel_controls": true,
+    "A_panel_hint_counts": true,
+    "A_box_off_culls_selected_hidden": true,
+    "A_off_hides_all_but_nothing_selected_forced": true,
+    "A_selected_only_shows_only_selected": true,
+    "A_hover_shows_its_markers": true,
+    "A_recompute_on_settle_throttled": true,
+    "A_cut_hides_removed_side": true,
+    "B_calibre_table_loaded": true,
+    "B_defaults": true,
+    "B_vessels_and_nerves_labelled_by_default": true,
+    "B_level_main_respected": true,
+    "B_level_main_no_overlap_off_body_in_frame": true,
+    "B_level_secondary_respected": true,
+    "B_level_secondary_no_overlap_off_body_in_frame": true,
+    "B_level_all_respected": true,
+    "B_level_all_no_overlap_off_body_in_frame": true,
+    "B_veins_group_adds_veins": true,
+    "B_levels_monotonic": true,
+    "B_min_diameter_cuts": true,
+    "B_main_trunks_first_under_budget": true,
+    "B_long_structures_use_run_anchor": true,
+    "B_hide_switch_removes_all": true,
+    "B_panel_controls": true,
+    "B_legend_rows_carry_calibre": true,
+    "B_no_page_errors": true,
+    "no_page_errors": true
+   },
+   "info": {
+    "A_cull": {
+     "n": 2,
+     "ms": 1154.6,
+     "avgMs": 1619.7,
+     "near": 2084,
+     "far": 2400,
+     "img": "560x315",
+     "cnt": {
+      "shown": 20,
+      "occ": 85,
+      "far": 23,
+      "behind": 0
+     }
+    },
+    "A_dm_minus_z_median_mm": 22,
+    "A_counts": {
+     "all": 128,
+     "near_band55": 20,
+     "selected_only_nothing_selected": 0,
+     "placed": 128
+    },
+    "A_band_counts": {
+     "25": 9,
+     "55": 20,
+     "100": 43
+    },
+    "A_occluded_markers": 85,
+    "A_selected_mesh": "zan_scapular_spinal_part_of_deltoid_muscle_l",
+    "A_selected_behind": 4,
+    "A_recompute_during_orbit_and_settle": 2,
+    "A_cut_reasons": {
+     "cut": 63,
+     "": 16,
+     "occ": 40,
+     "far": 9
+    },
+    "A_cull_ms": {
+     "last": 679.2,
+     "avg": 1312.1,
+     "image": "560x315"
+    },
+    "B_vn_visible_default": {
+     "vnVisible": 339,
+     "vnShown": 24,
+     "labelled": 58
+    },
+    "B_levels": {
+     "main": {
+      "n_selected": 24,
+      "n": 19,
+      "levels": [
+       1
+      ],
+      "kinds": [
+       "a",
+       "n"
+      ],
+      "self": {
+       "n": 81,
+       "inline": 0,
+       "callout": 81,
+       "overlaps": 0,
+       "bodyHits": 0,
+       "outsideFrame": 0,
+       "obstacleHits": 0,
+       "leaderCrossings": 43,
+       "meanLeader": 87,
+       "maxLeader": 219,
+       "forced": 0
+      },
+      "labelled": 81
+     },
+     "secondary": {
+      "n_selected": 36,
+      "n": 28,
+      "levels": [
+       1,
+       2
+      ],
+      "kinds": [
+       "a",
+       "n"
+      ],
+      "self": {
+       "n": 81,
+       "inline": 0,
+       "callout": 81,
+       "overlaps": 0,
+       "bodyHits": 0,
+       "outsideFrame": 0,
+       "obstacleHits": 0,
+       "leaderCrossings": 47,
+       "meanLeader": 95,
+       "maxLeader": 259,
+       "forced": 0
+      },
+      "labelled": 81
+     },
+     "all": {
+      "n_selected": 48,
+      "n": 34,
+      "levels": [
+       1,
+       2
+      ],
+      "kinds": [
+       "a",
+       "n",
+       "v"
+      ],
+      "self": {
+       "n": 83,
+       "inline": 0,
+       "callout": 83,
+       "overlaps": 0,
+       "bodyHits": 0,
+       "outsideFrame": 0,
+       "obstacleHits": 0,
+       "leaderCrossings": 30,
+       "meanLeader": 87,
+       "maxLeader": 258,
+       "forced": 0
+      },
+      "labelled": 83
+     }
+    },
+    "B_min_diameter": {
+     "all_levels": 39,
+     "da5_dn3": 8
+    },
+    "B_budget6": {
+     "vn": 3,
+     "levels": [
+      1,
+      1,
+      1
+     ]
+    },
+    "B_long_anchors": 17
+   },
+   "errors": [],
+   "shots": [
+    "build/q240/_verify/shots/zan_f_desktop_A1_near_nothing_selected.png",
+    "build/q240/_verify/shots/zan_f_desktop_A2_all.png",
+    "build/q240/_verify/shots/zan_f_desktop_A3_near_band25.png",
+    "build/q240/_verify/shots/zan_f_desktop_A4_near_band_all.png",
+    "build/q240/_verify/shots/zan_f_desktop_A5_selected_behind_tissue.png",
+    "build/q240/_verify/shots/zan_f_desktop_A6_panel.png",
+    "build/q240/_verify/shots/zan_f_desktop_A7_hidden_of_selected_off.png",
+    "build/q240/_verify/shots/zan_f_desktop_A8_after_orbit.png",
+    "build/q240/_verify/shots/zan_f_desktop_A9_cut.png",
+    "build/q240/_verify/shots/zan_f_desktop_B_main.png",
+    "build/q240/_verify/shots/zan_f_desktop_B_secondary.png",
+    "build/q240/_verify/shots/zan_f_desktop_B_all.png",
+    "build/q240/_verify/shots/zan_f_desktop_B_hidden.png",
+    "build/q240/_verify/shots/zan_f_desktop_B_panel.png"
+   ]
+  },
+  "phone": {
+   "checks": {
+    "no_hscroll": true,
+    "A_default_mode_near": true,
+    "A_parts_button": true,
+    "A_depth_image_taken": true,
+    "A_near_culls_something": true,
+    "A_near_shown_are_visible_and_near": true,
+    "A_depth_values_sane": true,
+    "A_all_ge_near_ge_selected_only": true,
+    "A_band_monotonic": true,
+    "A_band_changes_the_set": true,
+    "A_some_marker_is_hidden_behind_tissue": true,
+    "A_selected_markers_shown": true,
+    "A_selected_hidden_marker_is_see_through": true,
+    "A_panel_opens": true,
+    "A_panel_inside_viewport": true,
+    "A_panel_controls": true,
+    "A_panel_hint_counts": true,
+    "A_box_off_culls_selected_hidden": true,
+    "A_off_hides_all_but_nothing_selected_forced": true,
+    "A_selected_only_shows_only_selected": true,
+    "A_hover_shows_its_markers": true,
+    "A_recompute_on_settle_throttled": true,
+    "B_calibre_table_loaded": true,
+    "B_defaults": true,
+    "B_vessels_and_nerves_labelled_by_default": true,
+    "B_level_main_respected": true,
+    "B_level_main_no_overlap_off_body_in_frame": true,
+    "B_level_secondary_respected": true,
+    "B_level_secondary_no_overlap_off_body_in_frame": true,
+    "B_level_all_respected": true,
+    "B_level_all_no_overlap_off_body_in_frame": true,
+    "B_veins_group_adds_veins": true,
+    "B_levels_monotonic": true,
+    "B_min_diameter_cuts": true,
+    "B_main_trunks_first_under_budget": true,
+    "B_long_structures_use_run_anchor": true,
+    "B_hide_switch_removes_all": true,
+    "B_panel_controls": true,
+    "B_legend_rows_carry_calibre": true,
+    "B_no_page_errors": true,
+    "no_page_errors": true
+   },
+   "info": {
+    "A_cull": {
+     "n": 2,
+     "ms": 1248.6,
+     "avgMs": 1736.4,
+     "near": 2082,
+     "far": 2399,
+     "img": "240x480",
+     "cnt": {
+      "shown": 19,
+      "occ": 83,
+      "far": 26,
+      "behind": 0
+     }
+    },
+    "A_dm_minus_z_median_mm": 19,
+    "A_counts": {
+     "all": 128,
+     "near_band55": 19,
+     "selected_only_nothing_selected": 0,
+     "placed": 128
+    },
+    "A_band_counts": {
+     "25": 9,
+     "55": 19,
+     "100": 45
+    },
+    "A_occluded_markers": 83,
+    "A_selected_mesh": "zan_scapular_spinal_part_of_deltoid_muscle_l",
+    "A_selected_behind": 4,
+    "A_recompute_during_orbit_and_settle": 1,
+    "A_cull_ms": {
+     "last": 2011,
+     "avg": 1408.3,
+     "image": "240x480"
+    },
+    "B_vn_visible_default": {
+     "vnVisible": 438,
+     "vnShown": 17,
+     "labelled": 43
+    },
+    "B_levels": {
+     "main": {
+      "n_selected": 32,
+      "n": 20,
+      "levels": [
+       1
+      ],
+      "kinds": [
+       "a",
+       "n"
+      ],
+      "self": {
+       "n": 53,
+       "inline": 0,
+       "callout": 53,
+       "overlaps": 0,
+       "bodyHits": 0,
+       "outsideFrame": 0,
+       "obstacleHits": 0,
+       "leaderCrossings": 32,
+       "meanLeader": 88,
+       "maxLeader": 217,
+       "forced": 5
+      },
+      "labelled": 53
+     },
+     "secondary": {
+      "n_selected": 48,
+      "n": 26,
+      "levels": [
+       1,
+       2
+      ],
+      "kinds": [
+       "a",
+       "n"
+      ],
+      "self": {
+       "n": 50,
+       "inline": 0,
+       "callout": 50,
+       "overlaps": 0,
+       "bodyHits": 0,
+       "outsideFrame": 0,
+       "obstacleHits": 0,
+       "leaderCrossings": 39,
+       "meanLeader": 92,
+       "maxLeader": 250,
+       "forced": 6
+      },
+      "labelled": 50
+     },
+     "all": {
+      "n_selected": 48,
+      "n": 23,
+      "levels": [
+       1,
+       2
+      ],
+      "kinds": [
+       "a",
+       "n",
+       "v"
+      ],
+      "self": {
+       "n": 52,
+       "inline": 0,
+       "callout": 52,
+       "overlaps": 0,
+       "bodyHits": 0,
+       "outsideFrame": 0,
+       "obstacleHits": 0,
+       "leaderCrossings": 48,
+       "meanLeader": 94,
+       "maxLeader": 269,
+       "forced": 3
+      },
+      "labelled": 52
+     }
+    },
+    "B_min_diameter": {
+     "all_levels": 26,
+     "da5_dn3": 6
+    },
+    "B_budget6": {
+     "vn": 3,
+     "levels": [
+      1,
+      1,
+      1
+     ]
+    },
+    "B_long_anchors": 24
+   },
+   "errors": [],
+   "shots": [
+    "build/q240/_verify/shots/zan_f_phone_A1_near_nothing_selected.png",
+    "build/q240/_verify/shots/zan_f_phone_A2_all.png",
+    "build/q240/_verify/shots/zan_f_phone_A3_near_band25.png",
+    "build/q240/_verify/shots/zan_f_phone_A4_near_band_all.png",
+    "build/q240/_verify/shots/zan_f_phone_A5_selected_behind_tissue.png",
+    "build/q240/_verify/shots/zan_f_phone_A6_panel.png",
+    "build/q240/_verify/shots/zan_f_phone_A7_hidden_of_selected_off.png",
+    "build/q240/_verify/shots/zan_f_phone_A8_after_orbit.png",
+    "build/q240/_verify/shots/zan_f_phone_B_main.png",
+    "build/q240/_verify/shots/zan_f_phone_B_secondary.png",
+    "build/q240/_verify/shots/zan_f_phone_B_all.png",
+    "build/q240/_verify/shots/zan_f_phone_B_hidden.png",
+    "build/q240/_verify/shots/zan_f_phone_B_panel.png"
+   ]
+  }
+ }
+}

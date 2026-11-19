@@ -1,0 +1,43 @@
+{
+ "_README": [
+  "Q288: structures asked for and NOT shipped, with the measured reason. Same photographs, same registration and the same random walker as the shipped uterus (scripts/cryo/vhf_pelvic_organs_from_cryo.py; seeds in data/derived/Q288_seeds.json). Evidence montage: data/derived/Q288_vagina_urethra_attempt.png (magenta vagina, cyan urethra, orange/yellow her CT rectum/bladder seeds)."
+ ],
+ "vagina": {
+  "attempt": {
+   "walker_cm3": 12.57,
+   "levels": [
+    -1887,
+    -1840
+   ],
+   "levels_in_2plus_pieces": 44,
+   "levels_total": 48,
+   "pieces_3d": 5
+  },
+  "reason": "seen on her photographs (a transverse band between rectum and bladder from the vault at cryo z -1846; a V-shape on a coronal reslice), but below about -1864 the walker splits it into lateral pieces (44 of 48 levels in two or more pieces, 5 pieces in 3-D): the vaginal wall, the levator ani beside it and the rectal wall share one colour range at 1 mm (sampled rgb value 77-134, g/r 0.42-0.69 for all of them), so there is no edge to follow. Not a tube -> not shipped."
+ },
+ "urethra": {
+  "attempt": {
+   "walker_cm3": 1.95,
+   "levels": [
+    -1887,
+    -1862
+   ],
+   "levels_in_2plus_pieces": 3,
+   "levels_total": 24,
+   "pieces_3d": 2
+  },
+  "reason": "a target-like ring 13-17 mm across behind the symphysis is traced from the bladder neck (-1862) to -1887 (2 pieces in 3-D), but not to the external meatus (the ring fades into the vestibule's brown tissue below -1888) and its outer boundary against the anterior vaginal wall has no colour edge. Incomplete -> not shipped."
+ },
+ "ovaries": {
+  "reason": "searched on both lateral pelvic walls at cryo z -1778..-1834 (every 2-6 mm): the only ovoid candidates (right, -1778..-1792) have a muscular wall, mucosa and blue embedding gel in a lumen, i.e. bowel loops. Her postmenopausal ovaries (median 1.2-1.3 cm3, Sladkevicius 1995 doi:10.1046/j.1469-0705.1995.06020081.x) were not identified with confidence. Not shipped; the HRA ovaries stay as they were (Q287: mismatched to her CT)."
+ },
+ "uterine_tubes": {
+  "reason": "a thin band runs from the right uterine horn towards the right pelvic wall at cryo z -1822..-1828 (broad ligament with tube / round ligament), not separable from the ligament at 1 mm; no ovary to end it at. Not shipped."
+ },
+ "labia_minora_vestibule": {
+  "reason": "at cryo z -1890..-1916 the vestibule is a narrow midline cleft of brown tissue with small vessels, between her labia majora (already her own CT contour, Q287); the labia minora are folds under 2-3 mm thick against it, with no colour edge. Not shipped."
+ },
+ "clitoris_vestibular_bulbs": {
+  "reason": "the erectile tissue photographs as dark as muscle (Q62 already put bulb and crus into ct_vhf_pfloor's perineal_other); no colour edge separates crus from ischiocavernosus or bulb from bulbospongiosus at 1 mm, and the glans region shows only a cluster of vessel lumina under the prepuce. Not shipped; the CVH structures (another woman, Q235) stay as they were."
+ }
+}

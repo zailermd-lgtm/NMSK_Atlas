@@ -1,0 +1,170 @@
+{
+ "1440x900": {
+  "geometry_s": 114.56,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "mpr",
+   "active": "cut",
+   "P": [
+    -0.625,
+    292.75,
+    7.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "side"
+  },
+  "geo_timing": {
+   "t0": 1791794143098,
+   "read": 1,
+   "pack": 439,
+   "worker": 34687
+  },
+  "perf": {
+   "n": 630,
+   "nv": 1854198,
+   "nt": 3719207,
+   "axial512_ms": [
+    14,
+    20,
+    21
+   ],
+   "axial512_25sub_ms": 1026,
+   "coronal512_ms": 64,
+   "sagittal512_ms": 101
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 196,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 87,
+    "parityBad": 0
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-side",
+   "scrollW": 1440,
+   "innerW": 1440,
+   "scrollH": 900,
+   "innerH": 900,
+   "panel": [
+    720,
+    0,
+    720,
+    900
+   ],
+   "canvas": [
+    0,
+    135,
+    720,
+    766
+   ],
+   "smallButtons": 0,
+   "buttons": 32,
+   "ctlScrollW": 719,
+   "ctlClientW": 719
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "390x844": {
+  "geometry_s": 110.61,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "single",
+   "active": "cut",
+   "P": [
+    -0.625,
+    292.75,
+    7.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "tab"
+  },
+  "geo_timing": {
+   "t0": 1791794266634,
+   "read": 1,
+   "pack": 197,
+   "worker": 34132
+  },
+  "perf": {
+   "n": 630,
+   "nv": 1854198,
+   "nt": 3719207,
+   "axial512_ms": [
+    31,
+    39,
+    47
+   ],
+   "axial512_25sub_ms": 959,
+   "coronal512_ms": 208,
+   "sagittal512_ms": 128
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 181,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 87,
+    "parityBad": 0
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-tab",
+   "scrollW": 390,
+   "innerW": 390,
+   "scrollH": 844,
+   "innerH": 844,
+   "panel": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "canvas": [
+    0,
+    38,
+    390,
+    754
+   ],
+   "smallButtons": 0,
+   "buttons": 12,
+   "ctlScrollW": 390,
+   "ctlClientW": 390
+  },
+  "errors": [],
+  "bad_responses": []
+ }
+}

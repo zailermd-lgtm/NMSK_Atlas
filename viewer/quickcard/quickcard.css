@@ -1,0 +1,117 @@
+/* Q321: the quick card. Opens on every successful click on a structure: its name, then Hide / Fade / Show only / Select
+   (+ Zoom to, More). Sized to its own content (max-content, capped, wrapping only when the viewport forces it).
+   Q335: docked in the top-left of the view by default, moved by the grip in its head, set up from its ⋮ menu; More opens
+   the details inside it; the groups / adjacent / related row sits under the buttons. */
+.qc{position:fixed;z-index:64;left:0;top:0;box-sizing:border-box;width:max-content;max-width:min(560px,calc(100vw - 16px));
+  display:flex;flex-direction:column;gap:5px;padding:6px 7px 7px;border-radius:11px;color:#E6EDF3;
+  background:rgba(14,18,22,.94);box-shadow:0 2px 16px rgba(0,0,0,.5);backdrop-filter:blur(5px);
+  font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qc[hidden],.qc-lead[hidden]{display:none !important}
+.qc-head{display:flex;align-items:flex-start;gap:6px}
+.qc-t{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 auto}
+.qc-name{font-size:13px;font-weight:650;line-height:1.2;overflow-wrap:anywhere}
+.qc-sub{font:500 10px/1.1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.qc-tools{display:flex;gap:3px;flex:0 0 auto;align-items:center}
+.qc-tools:empty{display:none}
+.qc .qc-tools .nm-grip.nm-inline{position:static;width:24px;height:24px;border-radius:6px}
+.qc .qc-tools .nm-grip.nm-inline::before{inset:0}
+.qc .qc-tools .nm-dots.nm-inline{width:18px;height:24px;border-radius:6px}
+.qc .qc-x{flex:0 0 auto;min-width:24px;min-height:24px;padding:0;border:0;border-radius:6px;background:rgba(255,255,255,.09);color:inherit;font-size:16px;line-height:1;cursor:pointer}
+.qc-row{display:flex;flex-wrap:wrap;gap:4px}
+.qc .qc-b{flex:0 0 auto;width:auto;min-width:0;min-height:34px;padding:4px 9px;border:1px solid rgba(255,255,255,.18);border-radius:8px;
+  background:rgba(255,255,255,.06);color:#E6EDF3;font:inherit;line-height:1.1;cursor:pointer;white-space:nowrap}
+.qc .qc-b[hidden]{display:none}
+.qc .qc-b:hover{background:rgba(255,255,255,.14)}
+.qc .qc-b[aria-pressed="true"]{background:#D9A227;border-color:#D9A227;color:#1b1b1b}
+.qc .qc-more,.qc .qc-zoom{background:transparent;border-style:dashed}
+.qc.qc-compact .qc-sub{display:none}
+.qc.qc-compact .qc-b{min-height:26px;padding:2px 7px;font-size:11px}
+/* the groups / adjacent / related row, under the buttons: as wide as its own buttons; its menu and status line wrap inside */
+.qc-chips{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.qc-chips:empty{display:none}
+.qc-chips .q8-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.qc-chips .q8-row[hidden],.qc-chips .q8-menu[hidden]{display:none}
+.qc-chips #q8-selname{display:none}
+.qc-chips .q8-b{flex:0 0 auto;min-height:28px;padding:3px 8px;border:1px solid rgba(255,255,255,.16);border-radius:7px;background:rgba(255,255,255,.03);
+  color:#E6EDF3;font:inherit;font-size:11.5px;line-height:1.1;cursor:pointer;white-space:nowrap}
+.qc-chips .q8-b:hover{background:rgba(255,255,255,.12)}
+.qc-chips .q8-b:disabled{color:#a3adba;border-style:dashed;cursor:default}
+/* Q335: on the card the three chips are behind ONE button, "Related structures"; the row itself stays hidden here and
+   only its menu (kinds / groups) and its one-line status show, under the buttons */
+.qc-chips #q8-exp{display:none !important}
+.qc-chips .q8-i{background:rgba(255,255,255,.12)}
+.qc-chips .q8-menu,.qc-chips .q8-status{width:0;min-width:100%;box-sizing:border-box}
+.qc-chips .q8-menu{display:flex;flex-wrap:wrap;gap:4px;padding:4px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.04)}
+.qc-chips .q8-status{margin:0;font-size:11px;line-height:1.35;opacity:.8}
+.qc-chips .q8-status:empty{display:none}
+@media (pointer:coarse){.qc-chips .q8-b{min-height:36px}}
+/* the details (More): the engine's full card, taken into this window; it never widens the window and scrolls inside it */
+.qc-det{display:none;width:0;min-width:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.qc.qc-open .qc-det{display:block}
+.qc-det #info{position:static !important;inset:auto !important;width:auto !important;max-width:none !important;max-height:none !important;
+  overflow:visible !important;translate:none !important;transform:none !important;margin:0 !important;box-shadow:none !important;
+  backdrop-filter:none !important;border-radius:8px !important;z-index:auto !important}
+.qc-det #info .info-drag,.qc-det #info .info-close,.qc-det #info > h2,.qc-det #info > .kind,.qc-det #info > .nm-grip,.qc-det #info > .nm-dots{display:none !important}
+.qc-lead{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:63;pointer-events:none;overflow:visible}
+.qc-lead line{stroke:rgba(230,237,243,.9);stroke-width:1.6;stroke-linecap:round}
+.qc-lead circle{fill:#D9A227;stroke:#14181c;stroke-width:1.5}
+@media (pointer:coarse){.qc .qc-b{min-height:40px}.qc .qc-x{min-width:32px;min-height:32px}}
+/* the full card is part of this window: shown only inside it, after More */
+body.qc-on:not(.qc-more) #info:not(.hidden){display:none !important}
+body.qc-on.qc-more #info:not(.hidden){display:block !important}
+/* the "Related structures" menu: as wide as its longest item */
+.qc .qc-relb{border-style:solid}
+.qc-relmenu{position:fixed;z-index:2147482790;display:flex;flex-direction:column;box-sizing:border-box;width:max-content;
+  max-width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:4px;border-radius:9px;
+  background:rgba(14,18,22,.97);color:#E6EDF3;border:1px solid rgba(255,255,255,.14);box-shadow:0 4px 20px rgba(0,0,0,.5);
+  font:500 12.5px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qc-relmenu .qc-rmi{display:block;text-align:start;min-height:32px;padding:6px 12px;border:0;border-radius:6px;background:transparent;
+  color:#E6EDF3;font:inherit;cursor:pointer;white-space:nowrap}
+.qc-relmenu .qc-rmi:hover,.qc-relmenu .qc-rmi:focus-visible{background:rgba(255,255,255,.13);outline:none}
+.qc-relmenu .qc-rmi.qc-off{color:#a3adba;cursor:default}
+.qc-relmenu .qc-rsub{display:flex;flex-direction:column;padding-left:12px}
+@media (pointer:coarse){.qc-relmenu .qc-rmi{min-height:40px}}
+/* Q343: a family's sub-menu is a sheet stacked in the same menu: a back row, headings, greyed items that say why on a tap */
+.qc-relmenu .qc-rback{font-weight:650;border-bottom:1px solid rgba(255,255,255,.14);border-radius:6px 6px 0 0;margin-bottom:2px}
+.qc-relmenu .qc-rhead{padding:6px 12px 2px;font-size:10.5px;font-weight:650;letter-spacing:.05em;text-transform:uppercase;color:#b9c3cf}
+.qc-relmenu .qc-rsi.qc-here{box-shadow:inset 3px 0 0 #D9A227}
+.qc-relmenu .qc-rbadge{display:inline-block;margin-left:4px;padding:1px 6px;border-radius:9px;font-size:10.5px;font-weight:600;
+  background:rgba(255,255,255,.12);color:#E6EDF3;vertical-align:1px}
+.qc-relmenu .qc-rwhy{margin:0 8px 4px 12px;max-width:280px;white-space:normal;font-size:11.5px;line-height:1.35;color:#d3dae2}
+/* add-ons (the Parts chooser) sit between the buttons and the related-structures line */
+.qc-add{display:flex;flex-direction:column;gap:4px;width:0;min-width:100%}
+.qc-add:empty{display:none}
+/* Q354: a bursa / tendon sheath names the muscle it belongs with as a link (it carries no record of its own) */
+.qc-relto{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:11.5px;color:#d3dae2}
+.qc .qc-rellink{min-height:28px;padding:3px 8px;border:1px solid rgba(255,255,255,.18);border-radius:7px;background:rgba(255,255,255,.06);
+  color:#E6EDF3;font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.qc .qc-rellink:hover{background:rgba(255,255,255,.14)}
+@media (pointer:coarse){.qc .qc-rellink{min-height:36px}}
+/* Q368: the swatch (the colour it is drawn in now; press to change it) and ADD, on the name row beside the name. Each is a
+   32 px touch target laid out in 28 px (a -2 px margin top and bottom: the head is 28 px with a mouse, 32 px on a touch
+   screen where the close button is 32 px), so the card does not grow; the menus they open are the card's own menu (.qc-relmenu), never wider than the screen. */
+.qc-head .qc-t{flex:0 1 auto}
+.qc-acts{display:flex;align-items:center;gap:4px;flex:0 0 auto;margin-right:auto}
+.qc .qc-sw{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;min-width:32px;margin:-2px 0;padding:0;border:0;border-radius:8px;
+  background:transparent;cursor:pointer}
+.qc .qc-sw[hidden]{display:none}
+.qc .qc-sw:hover,.qc .qc-sw:focus-visible{background:rgba(255,255,255,.12);outline:none}
+.qc .qc-swc{display:block;width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(0,0,0,.6)}
+.qc .qc-addb{min-height:32px;min-width:32px;margin:-2px 0;padding:0 7px;border:1px solid rgba(255,255,255,.22);border-radius:8px;background:rgba(255,255,255,.08);
+  color:#E6EDF3;font:inherit;font-size:11.5px;font-weight:700;letter-spacing:.04em;line-height:1;cursor:pointer;white-space:nowrap}
+.qc .qc-addb:hover,.qc .qc-addb[aria-expanded="true"]{background:rgba(255,255,255,.16)}
+.qc .qc-addb.qc-flash{background:#D9A227;border-color:#D9A227;color:#1b1b1b;letter-spacing:0}
+.qc .qc-addb:disabled{opacity:.5;cursor:default}
+.qc-addmenu .qc-rmi{white-space:normal;max-width:100%}
+.qc-addmenu .qc-rbadge.qc-new{background:#D9A227;color:#1b1b1b}
+.qc-palmenu{padding:6px}
+.qc-palmenu .qc-pgrid{display:grid;grid-template-columns:repeat(5,32px);gap:6px;padding:2px 4px 6px}
+.qc-palmenu .qc-rmi.qc-pc{width:32px;height:32px;min-height:32px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.35)}
+.qc-palmenu .qc-rmi.qc-pc[aria-pressed="true"]{border-color:#fff;box-shadow:0 0 0 2px #D9A227}
+.qc-palmenu .qc-rmi.qc-pc:hover,.qc-palmenu .qc-rmi.qc-pc:focus-visible{border-color:#fff}
+.qc-palmenu .qc-prow{display:flex;gap:4px;align-items:center;justify-content:space-between}
+.qc-palmenu .qc-pcust{display:inline-flex;align-items:center;gap:4px;padding:4px 8px}
+.qc-palmenu .qc-pin{width:28px;height:24px;padding:0;border:0;background:transparent;cursor:pointer}
+.qc-palmenu .qc-pown{padding:6px 10px}
+.qc.qc-compact .qc-sw,.qc.qc-compact .qc-addb{margin:-4px 0}
+@media (max-width:500px){.qc-acts{gap:2px}.qc .qc-addb{padding:0 5px;font-size:11px}}

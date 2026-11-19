@@ -1,0 +1,5506 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): his colour cryosections at full resolution (0.33 mm, NCI Imaging Data Commons) re-streamed by scripts/cryo/vhm_stream_leg_crops.py; his thigh muscles from build/vh/vhm_both = the DU lower-extremity release (Andreassen TE et al., Sci Data 10:34 (2023), doi:10.1038/s41597-022-01905-2, CC BY 4.0) as recovered from his published viewer v25, biceps femoris / adductor magnus as already snapped in Q173 (data/ct_sources/task_outputs/vhm_thigh_snap_q173.npz); his sciatic nerve (Q57 + Q173 registration + Q176 clip, build/vh/ct_vhm_sciatic) and femoral veins (Q174 + Q176 clip, build/vh/ct_vhm_femoral); photograph-to-atlas registration from Q173.",
+ "task": "Q177",
+ "subject": "ct_vhm_thigh_snap",
+ "method": "ENTERED FACES. Where his tracked sciatic nerve (Q57/Q173/Q176) and femoral veins (Q174/Q176) still lie inside a\n   muscle mesh, the entry direction is MEASURED (mean axial outward normal of the muscle faces closest to the tracked\n   vertices > 0.5 mm inside) and only faces within 60 deg of it (n . dir > 0.5), at the tracked structure's levels (+-2 mm),\n   are snapped with the same bounded inward rule and the Q175 muscle rule (strict + red >= 55). Biceps femoris long head and\n   adductor magnus are snapped AGAIN on top of their shipped Q173 mesh, midpoint-subdivided once more (~1.9 mm edges, so the\n   surface can follow the groove an ~8 mm nerve makes; moves along its own normals); pectineus and vastus medialis come from\n   vhm_both subdivided once (as Q175). Levels: where the tracked structure lies inside the muscle or within 2 mm of it, +-2 mm.\n   Photograph levels whose muscle class matches neither level 4 mm away (IoU < 0.5: his dark / colour-cast slices,\n   y -136..-141) are read as unknown, +-1 level; a profile may reach them only beyond the end of the run it moves to. Stop per\n   muscle if its volume changes > 5 %. (Attempt 1 -- the Q173 mesh as is, all samples known, the whole tracked span: the\n   median filter on ~3.8 mm edges erased the nerve groove, BF_r 737 -> 595 full-res vertices, and pectineus_r -6.8 % = stop.)\n   Moves in task_outputs/vhm_thigh_snap_q177.npz; `apply` rebuilds them (BF/AM in place, pectineus / vastus medialis appended\n   after adductor longus).",
+ "registration": {
+  "used_px": {
+   "right": [
+    7.23,
+    0.03
+   ],
+   "left": [
+    7.01,
+    -7.17
+   ]
+  },
+  "from": "data/ct_sources/task_outputs/vhm_thigh_snap_q173.npz",
+  "recheck_on_these_crops": {
+   "regcheck_sci": {
+    "right": {
+     "femur": {
+      "n": 10,
+      "median_rows_cols": [
+       0.0,
+       1.0
+      ],
+      "iqr_rows": [
+       0.0,
+       1.0
+      ],
+      "iqr_cols": [
+       0.0,
+       1.0
+      ],
+      "score_zero_fit": [
+       0.881,
+       0.883
+      ],
+      "per_level": [
+       [
+        -140,
+        4.0,
+        0.0,
+        0.88,
+        0.852
+       ],
+       [
+        -150,
+        3.0,
+        0.0,
+        0.881,
+        0.873
+       ],
+       [
+        -160,
+        1.0,
+        0.0,
+        0.904,
+        0.902
+       ],
+       [
+        -170,
+        0.0,
+        0.0,
+        0.884,
+        0.884
+       ],
+       [
+        -180,
+        0.0,
+        2.0,
+        0.882,
+        0.879
+       ],
+       [
+        -190,
+        0.0,
+        1.0,
+        0.871,
+        0.869
+       ],
+       [
+        -200,
+        0.0,
+        1.0,
+        0.901,
+        0.9
+       ],
+       [
+        -210,
+        0.0,
+        1.0,
+        0.886,
+        0.886
+       ],
+       [
+        -220,
+        0.0,
+        1.0,
+        0.849,
+        0.845
+       ],
+       [
+        -230,
+        1.0,
+        1.0,
+        0.909,
+        0.907
+       ]
+      ]
+     },
+     "biceps_femoris": {
+      "n": 16,
+      "median_rows_cols": [
+       7.5,
+       2.5
+      ],
+      "iqr_rows": [
+       6.0,
+       8.2
+      ],
+      "iqr_cols": [
+       0.2,
+       3.2
+      ],
+      "score_zero_fit": [
+       0.316,
+       0.534
+      ],
+      "per_level": [
+       [
+        -80,
+        5.0,
+        2.0,
+        0.493,
+        0.23
+       ],
+       [
+        -90,
+        9.0,
+        2.0,
+        0.551,
+        0.049
+       ],
+       [
+        -100,
+        10.0,
+        1.0,
+        0.617,
+        0.013
+       ],
+       [
+        -110,
+        8.0,
+        3.0,
+        0.558,
+        0.149
+       ],
+       [
+        -120,
+        6.0,
+        4.0,
+        0.521,
+        0.166
+       ],
+       [
+        -130,
+        8.0,
+        3.0,
+        0.519,
+        0.204
+       ],
+       [
+        -140,
+        8.0,
+        -2.0,
+        0.417,
+        0.24
+       ],
+       [
+        -150,
+        9.0,
+        -2.0,
+        0.727,
+        0.458
+       ],
+       [
+        -160,
+        11.0,
+        -2.0,
+        0.678,
+        0.388
+       ],
+       [
+        -170,
+        8.0,
+        -2.0,
+        0.548,
+        0.317
+       ],
+       [
+        -180,
+        7.0,
+        1.0,
+        0.607,
+        0.393
+       ],
+       [
+        -190,
+        6.0,
+        3.0,
+        0.556,
+        0.408
+       ],
+       [
+        -200,
+        6.0,
+        3.0,
+        0.51,
+        0.371
+       ],
+       [
+        -210,
+        6.0,
+        4.0,
+        0.455,
+        0.316
+       ],
+       [
+        -220,
+        7.0,
+        4.0,
+        0.476,
+        0.328
+       ],
+       [
+        -230,
+        7.0,
+        4.0,
+        0.469,
+        0.315
+       ]
+      ]
+     },
+     "adductor_magnus": {
+      "n": 16,
+      "median_rows_cols": [
+       7.5,
+       0.0
+      ],
+      "iqr_rows": [
+       6.0,
+       10.2
+      ],
+      "iqr_cols": [
+       -2.2,
+       2.0
+      ],
+      "score_zero_fit": [
+       0.349,
+       0.489
+      ],
+      "per_level": [
+       [
+        -80,
+        6.0,
+        0.0,
+        0.646,
+        0.521
+       ],
+       [
+        -90,
+        6.0,
+        1.0,
+        0.65,
+        0.449
+       ],
+       [
+        -100,
+        7.0,
+        2.0,
+        0.587,
+        0.39
+       ],
+       [
+        -110,
+        11.0,
+        -1.0,
+        0.543,
+        0.351
+       ],
+       [
+        -120,
+        12.0,
+        -5.0,
+        0.577,
+        0.358
+       ],
+       [
+        -130,
+        12.0,
+        -4.0,
+        0.531,
+        0.345
+       ],
+       [
+        -140,
+        12.0,
+        -4.0,
+        0.532,
+        0.371
+       ],
+       [
+        -150,
+        10.0,
+        0.0,
+        0.488,
+        0.359
+       ],
+       [
+        -160,
+        9.0,
+        1.0,
+        0.454,
+        0.373
+       ],
+       [
+        -170,
+        8.0,
+        3.0,
+        0.457,
+        0.348
+       ],
+       [
+        -180,
+        7.0,
+        4.0,
+        0.489,
+        0.308
+       ],
+       [
+        -190,
+        7.0,
+        2.0,
+        0.471,
+        0.301
+       ],
+       [
+        -200,
+        8.0,
+        3.0,
+        0.452,
+        0.269
+       ],
+       [
+        -210,
+        5.0,
+        -2.0,
+        0.439,
+        0.293
+       ],
+       [
+        -220,
+        6.0,
+        -2.0,
+        0.429,
+        0.269
+       ],
+       [
+        -230,
+        5.0,
+        -3.0,
+        0.414,
+        0.275
+       ]
+      ]
+     }
+    },
+    "left": {
+     "femur": {
+      "n": 8,
+      "median_rows_cols": [
+       7.0,
+       -8.0
+      ],
+      "iqr_rows": [
+       6.0,
+       7.0
+      ],
+      "iqr_cols": [
+       -8.0,
+       -8.0
+      ],
+      "score_zero_fit": [
+       0.718,
+       0.922
+      ],
+      "per_level": [
+       [
+        -150,
+        5.0,
+        -8.0,
+        0.89,
+        0.723
+       ],
+       [
+        -160,
+        6.0,
+        -8.0,
+        0.903,
+        0.714
+       ],
+       [
+        -180,
+        7.0,
+        -8.0,
+        0.925,
+        0.715
+       ],
+       [
+        -190,
+        7.0,
+        -8.0,
+        0.905,
+        0.703
+       ],
+       [
+        -200,
+        7.0,
+        -8.0,
+        0.942,
+        0.722
+       ],
+       [
+        -210,
+        7.0,
+        -8.0,
+        0.926,
+        0.72
+       ],
+       [
+        -220,
+        6.0,
+        -9.0,
+        0.94,
+        0.733
+       ],
+       [
+        -230,
+        7.0,
+        -8.0,
+        0.919,
+        0.716
+       ]
+      ]
+     },
+     "biceps_femoris": {
+      "n": 16,
+      "median_rows_cols": [
+       8.0,
+       -9.5
+      ],
+      "iqr_rows": [
+       7.0,
+       9.0
+      ],
+      "iqr_cols": [
+       -10.5,
+       -8.8
+      ],
+      "score_zero_fit": [
+       0.254,
+       0.522
+      ],
+      "per_level": [
+       [
+        -80,
+        5.0,
+        -12.0,
+        0.585,
+        -0.279
+       ],
+       [
+        -90,
+        6.0,
+        -12.0,
+        0.549,
+        0.015
+       ],
+       [
+        -100,
+        7.0,
+        -12.0,
+        0.525,
+        -0.018
+       ],
+       [
+        -110,
+        6.0,
+        -12.0,
+        0.446,
+        -0.113
+       ],
+       [
+        -120,
+        9.0,
+        -9.0,
+        0.518,
+        0.038
+       ],
+       [
+        -130,
+        8.0,
+        -4.0,
+        0.516,
+        0.283
+       ],
+       [
+        -140,
+        8.0,
+        -4.0,
+        0.513,
+        0.093
+       ],
+       [
+        -150,
+        9.0,
+        -9.0,
+        0.576,
+        0.244
+       ],
+       [
+        -160,
+        9.0,
+        -6.0,
+        0.652,
+        0.307
+       ],
+       [
+        -170,
+        8.0,
+        -9.0,
+        0.656,
+        0.317
+       ],
+       [
+        -180,
+        8.0,
+        -9.0,
+        0.665,
+        0.318
+       ],
+       [
+        -190,
+        9.0,
+        -10.0,
+        0.634,
+        0.298
+       ],
+       [
+        -200,
+        9.0,
+        -10.0,
+        0.427,
+        0.265
+       ],
+       [
+        -210,
+        8.0,
+        -10.0,
+        0.397,
+        0.216
+       ],
+       [
+        -220,
+        7.0,
+        -10.0,
+        0.451,
+        0.278
+       ],
+       [
+        -230,
+        7.0,
+        -8.0,
+        0.453,
+        0.265
+       ]
+      ]
+     },
+     "adductor_magnus": {
+      "n": 16,
+      "median_rows_cols": [
+       6.5,
+       -4.5
+      ],
+      "iqr_rows": [
+       6.0,
+       9.0
+      ],
+      "iqr_cols": [
+       -6.2,
+       -4.0
+      ],
+      "score_zero_fit": [
+       0.318,
+       0.518
+      ],
+      "per_level": [
+       [
+        -80,
+        6.0,
+        -7.0,
+        0.608,
+        0.453
+       ],
+       [
+        -90,
+        7.0,
+        -7.0,
+        0.606,
+        0.454
+       ],
+       [
+        -100,
+        6.0,
+        -6.0,
+        0.647,
+        0.405
+       ],
+       [
+        -110,
+        6.0,
+        -9.0,
+        0.599,
+        0.393
+       ],
+       [
+        -120,
+        6.0,
+        -9.0,
+        0.604,
+        0.444
+       ],
+       [
+        -130,
+        10.0,
+        -3.0,
+        0.565,
+        0.391
+       ],
+       [
+        -140,
+        9.0,
+        -3.0,
+        0.59,
+        0.357
+       ],
+       [
+        -150,
+        9.0,
+        -4.0,
+        0.538,
+        0.318
+       ],
+       [
+        -160,
+        6.0,
+        -4.0,
+        0.489,
+        0.317
+       ],
+       [
+        -170,
+        7.0,
+        -4.0,
+        0.497,
+        0.272
+       ],
+       [
+        -180,
+        8.0,
+        -4.0,
+        0.478,
+        0.263
+       ],
+       [
+        -190,
+        5.0,
+        -5.0,
+        0.475,
+        0.276
+       ],
+       [
+        -200,
+        9.0,
+        -3.0,
+        0.48,
+        0.279
+       ],
+       [
+        -210,
+        9.0,
+        -4.0,
+        0.425,
+        0.249
+       ],
+       [
+        -220,
+        4.0,
+        -5.0,
+        0.351,
+        0.23
+       ],
+       [
+        -230,
+        3.0,
+        -5.0,
+        0.451,
+        0.261
+       ]
+      ]
+     }
+    },
+    "q173_used_px": {
+     "right": [
+      7.23,
+      0.03
+     ],
+     "left": [
+      7.01,
+      -7.17
+     ]
+    }
+   },
+   "regcheck_fem": {
+    "right": {
+     "femur": {
+      "n": 24,
+      "median_rows_cols": [
+       6.0,
+       0.0
+      ],
+      "iqr_rows": [
+       4.8,
+       7.0
+      ],
+      "iqr_cols": [
+       0.0,
+       0.0
+      ],
+      "score_zero_fit": [
+       0.807,
+       0.865
+      ],
+      "per_level": [
+       [
+        -10,
+        -12.0,
+        3.0,
+        0.255,
+        0.255
+       ],
+       [
+        -30,
+        8.0,
+        1.0,
+        0.258,
+        0.252
+       ],
+       [
+        -40,
+        3.0,
+        0.0,
+        0.415,
+        0.415
+       ],
+       [
+        -50,
+        0.0,
+        3.0,
+        0.57,
+        0.569
+       ],
+       [
+        -60,
+        0.0,
+        0.0,
+        0.778,
+        0.778
+       ],
+       [
+        -70,
+        3.0,
+        0.0,
+        0.789,
+        0.786
+       ],
+       [
+        -80,
+        4.0,
+        0.0,
+        0.721,
+        0.717
+       ],
+       [
+        -90,
+        5.0,
+        0.0,
+        0.745,
+        0.734
+       ],
+       [
+        -100,
+        6.0,
+        0.0,
+        0.745,
+        0.729
+       ],
+       [
+        -110,
+        6.0,
+        0.0,
+        0.846,
+        0.809
+       ],
+       [
+        -120,
+        6.0,
+        0.0,
+        0.864,
+        0.798
+       ],
+       [
+        -130,
+        6.0,
+        0.0,
+        0.844,
+        0.812
+       ],
+       [
+        -140,
+        6.0,
+        0.0,
+        0.878,
+        0.834
+       ],
+       [
+        -150,
+        6.0,
+        0.0,
+        0.89,
+        0.836
+       ],
+       [
+        -160,
+        6.0,
+        0.0,
+        0.907,
+        0.855
+       ],
+       [
+        -170,
+        6.0,
+        0.0,
+        0.872,
+        0.831
+       ],
+       [
+        -180,
+        7.0,
+        0.0,
+        0.883,
+        0.82
+       ],
+       [
+        -190,
+        7.0,
+        0.0,
+        0.867,
+        0.812
+       ],
+       [
+        -200,
+        7.0,
+        0.0,
+        0.91,
+        0.833
+       ],
+       [
+        -210,
+        6.0,
+        0.0,
+        0.887,
+        0.827
+       ],
+       [
+        -220,
+        7.0,
+        0.0,
+        0.875,
+        0.795
+       ],
+       [
+        -230,
+        7.0,
+        0.0,
+        0.932,
+        0.843
+       ],
+       [
+        -240,
+        7.0,
+        0.0,
+        0.874,
+        0.804
+       ],
+       [
+        -250,
+        7.0,
+        0.0,
+        0.906,
+        0.827
+       ]
+      ]
+     },
+     "pectineus": {
+      "n": 12,
+      "median_rows_cols": [
+       6.0,
+       2.0
+      ],
+      "iqr_rows": [
+       4.8,
+       9.5
+      ],
+      "iqr_cols": [
+       0.0,
+       3.2
+      ],
+      "score_zero_fit": [
+       0.318,
+       0.481
+      ],
+      "per_level": [
+       [
+        10,
+        3.0,
+        -2.0,
+        0.58,
+        0.556
+       ],
+       [
+        0,
+        4.0,
+        0.0,
+        0.62,
+        0.508
+       ],
+       [
+        -10,
+        3.0,
+        0.0,
+        0.623,
+        0.552
+       ],
+       [
+        -20,
+        5.0,
+        0.0,
+        0.664,
+        0.492
+       ],
+       [
+        -30,
+        5.0,
+        3.0,
+        0.379,
+        0.271
+       ],
+       [
+        -40,
+        7.0,
+        2.0,
+        0.751,
+        0.512
+       ],
+       [
+        -50,
+        9.0,
+        2.0,
+        0.645,
+        0.364
+       ],
+       [
+        -60,
+        6.0,
+        0.0,
+        0.359,
+        0.242
+       ],
+       [
+        -70,
+        6.0,
+        2.0,
+        0.381,
+        0.265
+       ],
+       [
+        -80,
+        11.0,
+        4.0,
+        0.32,
+        0.208
+       ],
+       [
+        -90,
+        12.0,
+        4.0,
+        0.377,
+        0.071
+       ],
+       [
+        -100,
+        12.0,
+        6.0,
+        0.276,
+        0.135
+       ]
+      ]
+     },
+     "vastus_medialis": {
+      "n": 16,
+      "median_rows_cols": [
+       6.0,
+       -4.0
+      ],
+      "iqr_rows": [
+       5.0,
+       6.0
+      ],
+      "iqr_cols": [
+       -4.0,
+       -3.0
+      ],
+      "score_zero_fit": [
+       0.215,
+       0.407
+      ],
+      "per_level": [
+       [
+        -100,
+        1.0,
+        -5.0,
+        0.495,
+        0.243
+       ],
+       [
+        -110,
+        6.0,
+        -4.0,
+        0.394,
+        0.194
+       ],
+       [
+        -120,
+        5.0,
+        -3.0,
+        0.432,
+        0.155
+       ],
+       [
+        -130,
+        10.0,
+        -2.0,
+        0.445,
+        0.226
+       ],
+       [
+        -140,
+        6.0,
+        -4.0,
+        0.474,
+        0.182
+       ],
+       [
+        -150,
+        5.0,
+        -4.0,
+        0.459,
+        0.2
+       ],
+       [
+        -160,
+        4.0,
+        -4.0,
+        0.409,
+        0.182
+       ],
+       [
+        -170,
+        5.0,
+        -5.0,
+        0.389,
+        0.164
+       ],
+       [
+        -180,
+        6.0,
+        -4.0,
+        0.384,
+        0.175
+       ],
+       [
+        -190,
+        6.0,
+        -4.0,
+        0.401,
+        0.206
+       ],
+       [
+        -200,
+        6.0,
+        -4.0,
+        0.383,
+        0.224
+       ],
+       [
+        -210,
+        6.0,
+        -3.0,
+        0.394,
+        0.299
+       ],
+       [
+        -220,
+        6.0,
+        -3.0,
+        0.405,
+        0.308
+       ],
+       [
+        -230,
+        7.0,
+        -3.0,
+        0.402,
+        0.267
+       ],
+       [
+        -240,
+        11.0,
+        2.0,
+        0.451,
+        0.388
+       ],
+       [
+        -250,
+        6.0,
+        -5.0,
+        0.446,
+        0.392
+       ]
+      ]
+     }
+    },
+    "left": {
+     "femur": {
+      "n": 21,
+      "median_rows_cols": [
+       6.0,
+       -8.0
+      ],
+      "iqr_rows": [
+       4.0,
+       6.0
+      ],
+      "iqr_cols": [
+       -9.0,
+       -8.0
+      ],
+      "score_zero_fit": [
+       0.715,
+       0.892
+      ],
+      "per_level": [
+       [
+        -50,
+        0.0,
+        -12.0,
+        0.49,
+        0.49
+       ],
+       [
+        -60,
+        0.0,
+        -11.0,
+        0.695,
+        0.694
+       ],
+       [
+        -70,
+        1.0,
+        -8.0,
+        0.736,
+        0.722
+       ],
+       [
+        -80,
+        4.0,
+        -9.0,
+        0.749,
+        0.686
+       ],
+       [
+        -90,
+        3.0,
+        -9.0,
+        0.809,
+        0.711
+       ],
+       [
+        -100,
+        4.0,
+        -9.0,
+        0.873,
+        0.739
+       ],
+       [
+        -110,
+        5.0,
+        -8.0,
+        0.899,
+        0.753
+       ],
+       [
+        -120,
+        5.0,
+        -8.0,
+        0.782,
+        0.667
+       ],
+       [
+        -130,
+        6.0,
+        -8.0,
+        0.834,
+        0.684
+       ],
+       [
+        -140,
+        6.0,
+        -7.0,
+        0.873,
+        0.73
+       ],
+       [
+        -150,
+        5.0,
+        -8.0,
+        0.899,
+        0.742
+       ],
+       [
+        -160,
+        6.0,
+        -8.0,
+        0.902,
+        0.715
+       ],
+       [
+        -170,
+        6.0,
+        -9.0,
+        0.892,
+        0.692
+       ],
+       [
+        -180,
+        7.0,
+        -8.0,
+        0.925,
+        0.715
+       ],
+       [
+        -190,
+        7.0,
+        -8.0,
+        0.916,
+        0.71
+       ],
+       [
+        -200,
+        7.0,
+        -8.0,
+        0.942,
+        0.722
+       ],
+       [
+        -210,
+        7.0,
+        -8.0,
+        0.926,
+        0.72
+       ],
+       [
+        -220,
+        6.0,
+        -9.0,
+        0.94,
+        0.733
+       ],
+       [
+        -230,
+        7.0,
+        -8.0,
+        0.919,
+        0.716
+       ],
+       [
+        -240,
+        6.0,
+        -8.0,
+        0.828,
+        0.692
+       ],
+       [
+        -250,
+        6.0,
+        -8.0,
+        0.932,
+        0.733
+       ]
+      ]
+     },
+     "pectineus": {
+      "n": 13,
+      "median_rows_cols": [
+       7.0,
+       -8.0
+      ],
+      "iqr_rows": [
+       5.0,
+       10.0
+      ],
+      "iqr_cols": [
+       -9.0,
+       -7.0
+      ],
+      "score_zero_fit": [
+       0.316,
+       0.551
+      ],
+      "per_level": [
+       [
+        10,
+        2.0,
+        -4.0,
+        0.551,
+        0.339
+       ],
+       [
+        0,
+        3.0,
+        -5.0,
+        0.81,
+        0.587
+       ],
+       [
+        -10,
+        4.0,
+        -6.0,
+        0.832,
+        0.56
+       ],
+       [
+        -20,
+        5.0,
+        -7.0,
+        0.835,
+        0.621
+       ],
+       [
+        -30,
+        7.0,
+        -7.0,
+        0.715,
+        0.458
+       ],
+       [
+        -40,
+        7.0,
+        -8.0,
+        0.801,
+        0.57
+       ],
+       [
+        -50,
+        8.0,
+        -8.0,
+        0.591,
+        0.311
+       ],
+       [
+        -60,
+        7.0,
+        -8.0,
+        0.42,
+        0.316
+       ],
+       [
+        -70,
+        8.0,
+        -8.0,
+        0.541,
+        0.243
+       ],
+       [
+        -80,
+        10.0,
+        -9.0,
+        0.523,
+        0.176
+       ],
+       [
+        -90,
+        11.0,
+        -11.0,
+        0.399,
+        0.269
+       ],
+       [
+        -100,
+        12.0,
+        -9.0,
+        0.452,
+        0.263
+       ],
+       [
+        -110,
+        12.0,
+        -12.0,
+        0.489,
+        0.214
+       ]
+      ]
+     },
+     "vastus_medialis": {
+      "n": 17,
+      "median_rows_cols": [
+       6.0,
+       -4.0
+      ],
+      "iqr_rows": [
+       5.0,
+       7.0
+      ],
+      "iqr_cols": [
+       -4.0,
+       -3.0
+      ],
+      "score_zero_fit": [
+       0.325,
+       0.463
+      ],
+      "per_level": [
+       [
+        -90,
+        3.0,
+        -2.0,
+        0.386,
+        0.363
+       ],
+       [
+        -100,
+        4.0,
+        -2.0,
+        0.449,
+        0.435
+       ],
+       [
+        -110,
+        6.0,
+        -4.0,
+        0.377,
+        0.326
+       ],
+       [
+        -120,
+        2.0,
+        -6.0,
+        0.555,
+        0.403
+       ],
+       [
+        -130,
+        9.0,
+        -5.0,
+        0.524,
+        0.347
+       ],
+       [
+        -140,
+        0.0,
+        0.0,
+        0.274,
+        0.274
+       ],
+       [
+        -150,
+        7.0,
+        -4.0,
+        0.454,
+        0.363
+       ],
+       [
+        -160,
+        6.0,
+        -4.0,
+        0.401,
+        0.294
+       ],
+       [
+        -170,
+        6.0,
+        -4.0,
+        0.442,
+        0.323
+       ],
+       [
+        -180,
+        5.0,
+        -3.0,
+        0.463,
+        0.343
+       ],
+       [
+        -190,
+        6.0,
+        -3.0,
+        0.478,
+        0.348
+       ],
+       [
+        -200,
+        6.0,
+        -3.0,
+        0.458,
+        0.293
+       ],
+       [
+        -210,
+        6.0,
+        -4.0,
+        0.484,
+        0.325
+       ],
+       [
+        -220,
+        7.0,
+        -5.0,
+        0.483,
+        0.324
+       ],
+       [
+        -230,
+        8.0,
+        -5.0,
+        0.513,
+        0.306
+       ],
+       [
+        -240,
+        7.0,
+        -4.0,
+        0.605,
+        0.314
+       ],
+       [
+        -250,
+        7.0,
+        -4.0,
+        0.532,
+        0.271
+       ]
+      ]
+     }
+    },
+    "q173_used_px": {
+     "right": [
+      7.23,
+      0.03
+     ],
+     "left": [
+      7.01,
+      -7.17
+     ]
+    }
+   }
+  }
+ },
+ "params": {
+  "facing": "n . (measured entry direction) > 0.5 (within 60 deg)",
+  "entry_depth_mm": 0.5,
+  "min_red": 55.0,
+  "max_move_mm": 8.0,
+  "muscle_run_mm": 1.6500000000000001,
+  "fat_run_mm": 0.66,
+  "cross_window_mm": 2.5,
+  "thickness_cap": 0.45,
+  "smoothing": "1-ring median + 3 Laplacian passes (others fixed at 0) + fold guard",
+  "unusable_level_rule": "muscle-class IoU with the level 4 mm above and below both < 0.5, +-1 level; samples there = unknown",
+  "unusable_levels": {
+   "sciatic|right": [
+    -141,
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "sciatic|left": [
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "femoral|right": [
+    -141,
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "femoral|left": [
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ]
+  },
+  "y_range": {
+   "biceps_femoris_r": [
+    -219.0,
+    -89.0
+   ],
+   "biceps_femoris_l": [
+    -225.0,
+    -93.0
+   ],
+   "adductor_magnus_r": [
+    -219.0,
+    -88.0
+   ],
+   "adductor_magnus_l": [
+    -225.0,
+    -86.0
+   ],
+   "pectineus_r": [
+    -38.0,
+    9.0
+   ],
+   "pectineus_l": [
+    -98.0,
+    2.0
+   ],
+   "vastus_medialis_r": [
+    -228.0,
+    -112.0
+   ],
+   "vastus_medialis_l": [
+    -283.0,
+    -107.0
+   ]
+  },
+  "y_range_rule": "levels where the tracked structure lies inside the muscle or within 2 mm of it, +-2 mm",
+  "subdivision": "midpoint x1 on the shipped mesh (BF/AM: the Q173 mesh -> ~1.9 mm edges; pectineus/VM: vhm_both -> ~3.8 mm)",
+  "unknown_samples": "a profile may reach a skipped level only beyond the end of the run it moves to",
+  "entry": {
+   "biceps_femoris_r": {
+    "facing_atlas_xyz": [
+     -0.387,
+     0.0,
+     0.9221
+    ],
+    "angle_deg_from_lateral_toward_anterior": 112.8,
+    "direction": "anteromedial",
+    "spread_mean_resultant": 0.923,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 1121,
+    "y_mm": [
+     -168.5,
+     -92.5
+    ]
+   },
+   "biceps_femoris_l": {
+    "facing_atlas_xyz": [
+     0.476,
+     0.0,
+     0.8795
+    ],
+    "angle_deg_from_lateral_toward_anterior": 118.4,
+    "direction": "anteromedial",
+    "spread_mean_resultant": 0.968,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 476,
+    "y_mm": [
+     -214.5,
+     -117.5
+    ]
+   },
+   "adductor_magnus_r": {
+    "facing_atlas_xyz": [
+     0.2473,
+     0.0,
+     -0.9689
+    ],
+    "angle_deg_from_lateral_toward_anterior": 284.3,
+    "direction": "posterior",
+    "spread_mean_resultant": 0.994,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 895,
+    "y_mm": [
+     -216.5,
+     -90.5
+    ]
+   },
+   "adductor_magnus_l": {
+    "facing_atlas_xyz": [
+     -0.1616,
+     0.0,
+     -0.9869
+    ],
+    "angle_deg_from_lateral_toward_anterior": 279.3,
+    "direction": "posterior",
+    "spread_mean_resultant": 0.973,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 379,
+    "y_mm": [
+     -213.0,
+     -88.5
+    ]
+   },
+   "pectineus_r": {
+    "facing_atlas_xyz": [
+     0.5267,
+     0.0,
+     0.8501
+    ],
+    "angle_deg_from_lateral_toward_anterior": 58.2,
+    "direction": "anterolateral",
+    "spread_mean_resultant": 0.996,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 43,
+    "y_mm": [
+     -34.1,
+     -25.4
+    ]
+   },
+   "pectineus_l": {
+    "facing_atlas_xyz": [
+     -0.5775,
+     0.0,
+     0.8164
+    ],
+    "angle_deg_from_lateral_toward_anterior": 54.7,
+    "direction": "anterolateral",
+    "spread_mean_resultant": 0.999,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 848,
+    "y_mm": [
+     -74.0,
+     -24.0
+    ]
+   },
+   "vastus_medialis_r": {
+    "facing_atlas_xyz": [
+     -0.7942,
+     0.0,
+     -0.6077
+    ],
+    "angle_deg_from_lateral_toward_anterior": 217.4,
+    "direction": "posteromedial",
+    "spread_mean_resultant": 0.999,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 116,
+    "y_mm": [
+     -214.0,
+     -175.0
+    ]
+   },
+   "vastus_medialis_l": {
+    "facing_atlas_xyz": [
+     0.9235,
+     0.0,
+     -0.3835
+    ],
+    "angle_deg_from_lateral_toward_anterior": 202.6,
+    "direction": "posteromedial",
+    "spread_mean_resultant": 0.993,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 133,
+    "y_mm": [
+     -244.0,
+     -147.0
+    ]
+   }
+  }
+ },
+ "structures": {
+  "biceps_femoris_r": {
+   "tracked": "sciatic_n",
+   "base": "q173",
+   "entry": {
+    "facing_atlas_xyz": [
+     -0.387,
+     0.0,
+     0.9221
+    ],
+    "angle_deg_from_lateral_toward_anterior": 112.8,
+    "direction": "anteromedial",
+    "spread_mean_resultant": 0.923,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 1121,
+    "y_mm": [
+     -168.5,
+     -92.5
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 3348,
+    "on_non_muscle_moved_in": 992,
+    "on_non_muscle_no_muscle_within_cap": 10,
+    "crossed_into_neighbour": 25,
+    "over_cap_left": 3,
+    "fold_guard_updates": 28
+   },
+   "y_range": [
+    -219.0,
+    -89.0
+   ],
+   "unusable_levels": [
+    -141,
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 1474,
+    "surface_vertices": 3348,
+    "median_mm": 0.25,
+    "p95_mm": 1.11,
+    "max_mm": 4.79
+   },
+   "volume_cm3": [
+    489.7,
+    488.9
+   ],
+   "volume_change_pct": -0.16,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.8349,
+    "on_photographed_muscle_frac_after": 0.8376,
+    "non_muscle_inside_cm3_before": 20.82,
+    "non_muscle_inside_cm3_after": 20.36,
+    "photographed_muscle_cut_away_cm3": 0.35,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 2041,
+     "of": 18143,
+     "beyond_1mm": 737,
+     "median_depth_mm": 0.62,
+     "max_depth_mm": 5.04
+    },
+    "vs_after": {
+     "vertices_inside": 1461,
+     "of": 18143,
+     "beyond_1mm": 492,
+     "median_depth_mm": 0.54,
+     "max_depth_mm": 4.73
+    },
+    "after_beyond_1mm_on_unusable_levels": 263
+   },
+   "status": "ok"
+  },
+  "biceps_femoris_l": {
+   "tracked": "sciatic_n",
+   "base": "q173",
+   "entry": {
+    "facing_atlas_xyz": [
+     0.476,
+     0.0,
+     0.8795
+    ],
+    "angle_deg_from_lateral_toward_anterior": 118.4,
+    "direction": "anteromedial",
+    "spread_mean_resultant": 0.968,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 476,
+    "y_mm": [
+     -214.5,
+     -117.5
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 4475,
+    "on_non_muscle_moved_in": 1106,
+    "on_non_muscle_no_muscle_within_cap": 28,
+    "crossed_into_neighbour": 72,
+    "over_cap_left": 2,
+    "fold_guard_updates": 33
+   },
+   "y_range": [
+    -225.0,
+    -93.0
+   ],
+   "unusable_levels": [
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 1757,
+    "surface_vertices": 4475,
+    "median_mm": 0.2,
+    "p95_mm": 0.98,
+    "max_mm": 2.59
+   },
+   "volume_cm3": [
+    443.9,
+    443.2
+   ],
+   "volume_change_pct": -0.16,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.841,
+    "on_photographed_muscle_frac_after": 0.8433,
+    "non_muscle_inside_cm3_before": 18.72,
+    "non_muscle_inside_cm3_after": 18.31,
+    "photographed_muscle_cut_away_cm3": 0.54,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 914,
+     "of": 14350,
+     "beyond_1mm": 316,
+     "median_depth_mm": 0.55,
+     "max_depth_mm": 3.05
+    },
+    "vs_after": {
+     "vertices_inside": 656,
+     "of": 14350,
+     "beyond_1mm": 200,
+     "median_depth_mm": 0.57,
+     "max_depth_mm": 2.92
+    },
+    "after_beyond_1mm_on_unusable_levels": 1
+   },
+   "status": "ok"
+  },
+  "adductor_magnus_r": {
+   "tracked": "sciatic_n",
+   "base": "q173",
+   "entry": {
+    "facing_atlas_xyz": [
+     0.2473,
+     0.0,
+     -0.9689
+    ],
+    "angle_deg_from_lateral_toward_anterior": 284.3,
+    "direction": "posterior",
+    "spread_mean_resultant": 0.994,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 895,
+    "y_mm": [
+     -216.5,
+     -90.5
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 5607,
+    "on_non_muscle_moved_in": 1692,
+    "on_non_muscle_no_muscle_within_cap": 57,
+    "crossed_into_neighbour": 21,
+    "over_cap_left": 13,
+    "fold_guard_updates": 19
+   },
+   "y_range": [
+    -219.0,
+    -88.0
+   ],
+   "unusable_levels": [
+    -141,
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 2482,
+    "surface_vertices": 5607,
+    "median_mm": 0.21,
+    "p95_mm": 1.11,
+    "max_mm": 3.42
+   },
+   "volume_cm3": [
+    1104.9,
+    1102.4
+   ],
+   "volume_change_pct": -0.22,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.9372,
+    "on_photographed_muscle_frac_after": 0.9395,
+    "non_muscle_inside_cm3_before": 46.71,
+    "non_muscle_inside_cm3_after": 44.85,
+    "photographed_muscle_cut_away_cm3": 0.52,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 2351,
+     "of": 18143,
+     "beyond_1mm": 363,
+     "median_depth_mm": 0.36,
+     "max_depth_mm": 2.86
+    },
+    "vs_after": {
+     "vertices_inside": 1741,
+     "of": 18143,
+     "beyond_1mm": 316,
+     "median_depth_mm": 0.38,
+     "max_depth_mm": 2.84
+    },
+    "after_beyond_1mm_on_unusable_levels": 236
+   },
+   "status": "ok"
+  },
+  "adductor_magnus_l": {
+   "tracked": "sciatic_n",
+   "base": "q173",
+   "entry": {
+    "facing_atlas_xyz": [
+     -0.1616,
+     0.0,
+     -0.9869
+    ],
+    "angle_deg_from_lateral_toward_anterior": 279.3,
+    "direction": "posterior",
+    "spread_mean_resultant": 0.973,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 379,
+    "y_mm": [
+     -213.0,
+     -88.5
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 5717,
+    "on_non_muscle_moved_in": 1839,
+    "on_non_muscle_no_muscle_within_cap": 18,
+    "crossed_into_neighbour": 43,
+    "over_cap_left": 1,
+    "fold_guard_updates": 27
+   },
+   "y_range": [
+    -225.0,
+    -86.0
+   ],
+   "unusable_levels": [
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 2693,
+    "surface_vertices": 5717,
+    "median_mm": 0.22,
+    "p95_mm": 1.0,
+    "max_mm": 2.83
+   },
+   "volume_cm3": [
+    1021.9,
+    1019.3
+   ],
+   "volume_change_pct": -0.25,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.9372,
+    "on_photographed_muscle_frac_after": 0.9396,
+    "non_muscle_inside_cm3_before": 45.22,
+    "non_muscle_inside_cm3_after": 43.28,
+    "photographed_muscle_cut_away_cm3": 1.58,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 1105,
+     "of": 14350,
+     "beyond_1mm": 110,
+     "median_depth_mm": 0.3,
+     "max_depth_mm": 2.02
+    },
+    "vs_after": {
+     "vertices_inside": 740,
+     "of": 14350,
+     "beyond_1mm": 47,
+     "median_depth_mm": 0.33,
+     "max_depth_mm": 1.6
+    },
+    "after_beyond_1mm_on_unusable_levels": 1
+   },
+   "status": "ok"
+  },
+  "pectineus_r": {
+   "tracked": "femoral_v_r",
+   "base": "both",
+   "entry": {
+    "facing_atlas_xyz": [
+     0.5267,
+     0.0,
+     0.8501
+    ],
+    "angle_deg_from_lateral_toward_anterior": 58.2,
+    "direction": "anterolateral",
+    "spread_mean_resultant": 0.996,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 43,
+    "y_mm": [
+     -34.1,
+     -25.4
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 962,
+    "on_non_muscle_moved_in": 831,
+    "on_non_muscle_no_muscle_within_cap": 28,
+    "crossed_into_neighbour": 14,
+    "over_cap_left": 7,
+    "fold_guard_updates": 8
+   },
+   "y_range": [
+    -38.0,
+    9.0
+   ],
+   "unusable_levels": [
+    -141,
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 950,
+    "surface_vertices": 962,
+    "median_mm": 1.65,
+    "p95_mm": 2.8,
+    "max_mm": 4.91
+   },
+   "volume_cm3": [
+    98.4,
+    95.3
+   ],
+   "volume_change_pct": -3.22,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.7209,
+    "on_photographed_muscle_frac_after": 0.7699,
+    "non_muscle_inside_cm3_before": 9.82,
+    "non_muscle_inside_cm3_after": 7.36,
+    "photographed_muscle_cut_away_cm3": 0.72,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 370,
+     "of": 22042,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.3,
+     "max_depth_mm": 0.68
+    },
+    "vs_after": {
+     "vertices_inside": 0,
+     "of": 22042,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.0,
+     "max_depth_mm": 0.0
+    },
+    "after_beyond_1mm_on_unusable_levels": 0
+   },
+   "status": "ok"
+  },
+  "pectineus_l": {
+   "tracked": "femoral_v_l",
+   "base": "both",
+   "entry": {
+    "facing_atlas_xyz": [
+     -0.5775,
+     0.0,
+     0.8164
+    ],
+    "angle_deg_from_lateral_toward_anterior": 54.7,
+    "direction": "anterolateral",
+    "spread_mean_resultant": 0.999,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 848,
+    "y_mm": [
+     -74.0,
+     -24.0
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 2397,
+    "on_non_muscle_moved_in": 1979,
+    "on_non_muscle_no_muscle_within_cap": 3,
+    "crossed_into_neighbour": 7,
+    "over_cap_left": 0,
+    "fold_guard_updates": 0
+   },
+   "y_range": [
+    -98.0,
+    2.0
+   ],
+   "unusable_levels": [
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 2213,
+    "surface_vertices": 2397,
+    "median_mm": 0.78,
+    "p95_mm": 1.55,
+    "max_mm": 2.39
+   },
+   "volume_cm3": [
+    104.5,
+    100.7
+   ],
+   "volume_change_pct": -3.64,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.9159,
+    "on_photographed_muscle_frac_after": 0.9369,
+    "non_muscle_inside_cm3_before": 8.62,
+    "non_muscle_inside_cm3_after": 6.22,
+    "photographed_muscle_cut_away_cm3": 1.39,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 1356,
+     "of": 32236,
+     "beyond_1mm": 156,
+     "median_depth_mm": 0.62,
+     "max_depth_mm": 1.83
+    },
+    "vs_after": {
+     "vertices_inside": 0,
+     "of": 32236,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.0,
+     "max_depth_mm": 0.0
+    },
+    "after_beyond_1mm_on_unusable_levels": 0
+   },
+   "status": "ok"
+  },
+  "vastus_medialis_r": {
+   "tracked": "femoral_v_r",
+   "base": "both",
+   "entry": {
+    "facing_atlas_xyz": [
+     -0.7942,
+     0.0,
+     -0.6077
+    ],
+    "angle_deg_from_lateral_toward_anterior": 217.4,
+    "direction": "posteromedial",
+    "spread_mean_resultant": 0.999,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 116,
+    "y_mm": [
+     -214.0,
+     -175.0
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 987,
+    "on_non_muscle_moved_in": 653,
+    "on_non_muscle_no_muscle_within_cap": 3,
+    "crossed_into_neighbour": 75,
+    "over_cap_left": 0,
+    "fold_guard_updates": 15
+   },
+   "y_range": [
+    -228.0,
+    -112.0
+   ],
+   "unusable_levels": [
+    -141,
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 907,
+    "surface_vertices": 987,
+    "median_mm": 0.64,
+    "p95_mm": 1.46,
+    "max_mm": 2.0
+   },
+   "volume_cm3": [
+    725.8,
+    720.2
+   ],
+   "volume_change_pct": -0.77,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.931,
+    "on_photographed_muscle_frac_after": 0.9518,
+    "non_muscle_inside_cm3_before": 13.45,
+    "non_muscle_inside_cm3_after": 9.14,
+    "photographed_muscle_cut_away_cm3": 1.2,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 1236,
+     "of": 22042,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.26,
+     "max_depth_mm": 0.68
+    },
+    "vs_after": {
+     "vertices_inside": 9,
+     "of": 22042,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.05,
+     "max_depth_mm": 0.06
+    },
+    "after_beyond_1mm_on_unusable_levels": 0
+   },
+   "status": "ok"
+  },
+  "vastus_medialis_l": {
+   "tracked": "femoral_v_l",
+   "base": "both",
+   "entry": {
+    "facing_atlas_xyz": [
+     0.9235,
+     0.0,
+     -0.3835
+    ],
+    "angle_deg_from_lateral_toward_anterior": 202.6,
+    "direction": "posteromedial",
+    "spread_mean_resultant": 0.993,
+    "pieces": [
+     0
+    ],
+    "vertices_deeper_than_mm": 0.5,
+    "n_vertices": 133,
+    "y_mm": [
+     -244.0,
+     -147.0
+    ]
+   },
+   "piece0_snap": {
+    "surface_vertices": 1462,
+    "on_non_muscle_moved_in": 1006,
+    "on_non_muscle_no_muscle_within_cap": 9,
+    "crossed_into_neighbour": 8,
+    "over_cap_left": 0,
+    "fold_guard_updates": 24
+   },
+   "y_range": [
+    -283.0,
+    -107.0
+   ],
+   "unusable_levels": [
+    -140,
+    -139,
+    -138,
+    -137,
+    -136
+   ],
+   "move": {
+    "moved_vertices": 1194,
+    "surface_vertices": 1462,
+    "median_mm": 0.62,
+    "p95_mm": 1.07,
+    "max_mm": 1.9
+   },
+   "volume_cm3": [
+    740.4,
+    733.5
+   ],
+   "volume_change_pct": -0.93,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.9305,
+    "on_photographed_muscle_frac_after": 0.9529,
+    "non_muscle_inside_cm3_before": 17.44,
+    "non_muscle_inside_cm3_after": 11.56,
+    "photographed_muscle_cut_away_cm3": 1.63,
+    "levels_every_mm": 2
+   },
+   "tracked_fullres": {
+    "vs_before": {
+     "vertices_inside": 1119,
+     "of": 32236,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.26,
+     "max_depth_mm": 0.91
+    },
+    "vs_after": {
+     "vertices_inside": 1,
+     "of": 32236,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.0,
+     "max_depth_mm": 0.0
+    },
+    "after_beyond_1mm_on_unusable_levels": 0
+   },
+   "status": "ok"
+  }
+ },
+ "stopped": [],
+ "badges": {
+  "pectineus_r": "Anterolateral surface (the face the femoral vein runs against, y 9..-38) moved onto the fat plane photographed in his own 0.33 mm cryosections (Q177): inward only, median 1.6 mm, max 4.9 mm (cap 8 mm), 99% of that surface's vertices moved; volume 98 -> 95 cm3 (-3.2%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through the Q173 per-side registration (re-checked on his femur); the femoral vein's clot is not counted as muscle.",
+  "pectineus_l": "Anterolateral surface (the face the femoral vein runs against, y 2..-98) moved onto the fat plane photographed in his own 0.33 mm cryosections (Q177): inward only, median 0.8 mm, max 2.4 mm (cap 8 mm), 92% of that surface's vertices moved; volume 104 -> 101 cm3 (-3.6%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through the Q173 per-side registration (re-checked on his femur); the femoral vein's clot is not counted as muscle.",
+  "vastus_medialis_r": "Posteromedial surface (the face the femoral vein runs against, y -112..-228) moved onto the fat plane photographed in his own 0.33 mm cryosections (Q177): inward only, median 0.6 mm, max 2.0 mm (cap 8 mm), 92% of that surface's vertices moved; volume 726 -> 720 cm3 (-0.8%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through the Q173 per-side registration (re-checked on his femur); the femoral vein's clot is not counted as muscle.",
+  "vastus_medialis_l": "Posteromedial surface (the face the femoral vein runs against, y -107..-283) moved onto the fat plane photographed in his own 0.33 mm cryosections (Q177): inward only, median 0.6 mm, max 1.9 mm (cap 8 mm), 82% of that surface's vertices moved; volume 740 -> 734 cm3 (-0.9%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through the Q173 per-side registration (re-checked on his femur); the femoral vein's clot is not counted as muscle."
+ },
+ "badges_append": {
+  "biceps_femoris_r": " Q177: its anteromedial face, where the sciatic nerve runs against it (y -89..-219), snapped again the same way (faces within 60 deg of the measured entry direction, muscle read with the Q175 rule): median 0.2 mm, max 4.8 mm; volume 490 -> 489 cm3 (-0.2%).",
+  "biceps_femoris_l": " Q177: its anteromedial face, where the sciatic nerve runs against it (y -93..-225), snapped again the same way (faces within 60 deg of the measured entry direction, muscle read with the Q175 rule): median 0.2 mm, max 2.6 mm; volume 444 -> 443 cm3 (-0.2%).",
+  "adductor_magnus_r": " Q177: its posterior face, where the sciatic nerve runs against it (y -88..-219), snapped again the same way (faces within 60 deg of the measured entry direction, muscle read with the Q175 rule): median 0.2 mm, max 3.4 mm; volume 1105 -> 1102 cm3 (-0.2%).",
+  "adductor_magnus_l": " Q177: its posterior face, where the sciatic nerve runs against it (y -86..-225), snapped again the same way (faces within 60 deg of the measured entry direction, muscle read with the Q175 rule): median 0.2 mm, max 2.8 mm; volume 1022 -> 1019 cm3 (-0.2%)."
+ },
+ "stored_moves": "data/ct_sources/task_outputs/vhm_thigh_snap_q177.npz",
+ "verify": {
+  "bundle": {
+   "structures_before_after": [
+    402,
+    402
+   ],
+   "ids_added": [],
+   "ids_removed": [],
+   "geometry_changed": [
+    "adductor_magnus_l",
+    "adductor_magnus_r",
+    "biceps_femoris_l",
+    "biceps_femoris_r",
+    "pectineus_l",
+    "pectineus_r",
+    "vastus_medialis_l",
+    "vastus_medialis_r"
+   ]
+  },
+  "per_structure": {
+   "biceps_femoris_r": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 999,
+     "of": 8523,
+     "beyond_1mm": 370,
+     "median_depth_mm": 0.63,
+     "max_depth_mm": 4.98
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 734,
+     "of": 8523,
+     "beyond_1mm": 252,
+     "median_depth_mm": 0.54,
+     "max_depth_mm": 4.6
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       1,
+       1
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.06,
+       0.06
+      ]
+     },
+     "adductor_magnus_r": {
+      "surface_inside_frac_old_new": [
+       0.0015,
+       0.0014
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.23,
+       0.22
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_longus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_brevis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "semimembranosus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "semitendinosus_r": {
+      "surface_inside_frac_old_new": [
+       0.0063,
+       0.0063
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.3,
+       0.34
+      ],
+      "its_vertices_inside_old_new": [
+       54,
+       53
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.37,
+       0.25
+      ]
+     },
+     "sartorius_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_lateralis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       1,
+       1
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_medialis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_intermedius_r": {
+      "surface_inside_frac_old_new": [
+       0.0066,
+       0.0056
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.18,
+       0.25
+      ],
+      "its_vertices_inside_old_new": [
+       7,
+       8
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.1,
+       0.1
+      ]
+     },
+     "gluteus_maximus_r": {
+      "surface_inside_frac_old_new": [
+       0.0002,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.07,
+       0.07
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "pectineus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "iliopsoas_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "popliteal_v_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "sciatic_n": {
+      "surface_inside_frac_old_new": [
+       0.0046,
+       0.0031
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       1.8,
+       1.72
+      ],
+      "its_vertices_inside_old_new": [
+       998,
+       734
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       370,
+       252
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       4.98,
+       4.6
+      ]
+     }
+    },
+    "new_overlap": []
+   },
+   "biceps_femoris_l": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 404,
+     "of": 6442,
+     "beyond_1mm": 156,
+     "median_depth_mm": 0.62,
+     "max_depth_mm": 2.97
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 295,
+     "of": 6442,
+     "beyond_1mm": 92,
+     "median_depth_mm": 0.65,
+     "max_depth_mm": 2.92
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_magnus_l": {
+      "surface_inside_frac_old_new": [
+       0.0043,
+       0.0037
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.17,
+       0.26
+      ],
+      "its_vertices_inside_old_new": [
+       2,
+       3
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.09,
+       0.25
+      ]
+     },
+     "adductor_brevis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "semimembranosus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "semitendinosus_l": {
+      "surface_inside_frac_old_new": [
+       0.005,
+       0.0059
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.14,
+       0.22
+      ],
+      "its_vertices_inside_old_new": [
+       58,
+       51
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.2,
+       0.25
+      ]
+     },
+     "sartorius_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_lateralis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_medialis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_intermedius_l": {
+      "surface_inside_frac_old_new": [
+       0.001,
+       0.0003
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.04,
+       0.08
+      ],
+      "its_vertices_inside_old_new": [
+       6,
+       6
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.03,
+       0.03
+      ]
+     },
+     "gluteus_maximus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "iliopsoas_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "popliteal_v_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "sciatic_n": {
+      "surface_inside_frac_old_new": [
+       0.0021,
+       0.0016
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.73,
+       0.71
+      ],
+      "its_vertices_inside_old_new": [
+       404,
+       294
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       156,
+       92
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       2.97,
+       2.92
+      ]
+     },
+     "tibial_n": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "new_overlap": []
+   },
+   "adductor_magnus_r": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 1239,
+     "of": 8523,
+     "beyond_1mm": 194,
+     "median_depth_mm": 0.38,
+     "max_depth_mm": 2.92
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 1001,
+     "of": 8523,
+     "beyond_1mm": 161,
+     "median_depth_mm": 0.36,
+     "max_depth_mm": 2.87
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_longus_r": {
+      "surface_inside_frac_old_new": [
+       0.0095,
+       0.0098
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.38,
+       0.34
+      ],
+      "its_vertices_inside_old_new": [
+       91,
+       85
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.52,
+       0.52
+      ]
+     },
+     "adductor_brevis_r": {
+      "surface_inside_frac_old_new": [
+       0.0282,
+       0.0308
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.77,
+       0.83
+      ],
+      "its_vertices_inside_old_new": [
+       193,
+       193
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.84,
+       0.84
+      ]
+     },
+     "biceps_femoris_r": {
+      "surface_inside_frac_old_new": [
+       0.001,
+       0.0008
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.21,
+       0.23
+      ],
+      "its_vertices_inside_old_new": [
+       10,
+       10
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.22,
+       0.22
+      ]
+     },
+     "semimembranosus_r": {
+      "surface_inside_frac_old_new": [
+       0.0006,
+       0.0006
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.14,
+       0.07
+      ],
+      "its_vertices_inside_old_new": [
+       8,
+       8
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.17,
+       0.15
+      ]
+     },
+     "semitendinosus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gracilis_r": {
+      "surface_inside_frac_old_new": [
+       0.0037,
+       0.0034
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.15,
+       0.16
+      ],
+      "its_vertices_inside_old_new": [
+       18,
+       18
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.18,
+       0.18
+      ]
+     },
+     "sartorius_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_lateralis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_medialis_r": {
+      "surface_inside_frac_old_new": [
+       0.001,
+       0.0014
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.17,
+       0.15
+      ],
+      "its_vertices_inside_old_new": [
+       7,
+       15
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.19,
+       0.19
+      ]
+     },
+     "vastus_intermedius_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gluteus_maximus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "tensor_fasciae_latae_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "pectineus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "iliopsoas_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_v_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "sciatic_n": {
+      "surface_inside_frac_old_new": [
+       0.0097,
+       0.0059
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       1.48,
+       1.4
+      ],
+      "its_vertices_inside_old_new": [
+       1240,
+       1001
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       194,
+       161
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       2.92,
+       2.87
+      ]
+     }
+    },
+    "new_overlap": []
+   },
+   "adductor_magnus_l": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 733,
+     "of": 6442,
+     "beyond_1mm": 89,
+     "median_depth_mm": 0.34,
+     "max_depth_mm": 2.0
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 512,
+     "of": 6442,
+     "beyond_1mm": 62,
+     "median_depth_mm": 0.39,
+     "max_depth_mm": 1.73
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_longus_l": {
+      "surface_inside_frac_old_new": [
+       0.0111,
+       0.0109
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.34,
+       0.4
+      ],
+      "its_vertices_inside_old_new": [
+       102,
+       103
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.41,
+       0.41
+      ]
+     },
+     "adductor_brevis_l": {
+      "surface_inside_frac_old_new": [
+       0.0175,
+       0.0193
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.54,
+       0.6
+      ],
+      "its_vertices_inside_old_new": [
+       122,
+       120
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.55,
+       0.53
+      ]
+     },
+     "biceps_femoris_l": {
+      "surface_inside_frac_old_new": [
+       0.0042,
+       0.0021
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.19,
+       0.23
+      ],
+      "its_vertices_inside_old_new": [
+       29,
+       28
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.25,
+       0.25
+      ]
+     },
+     "semimembranosus_l": {
+      "surface_inside_frac_old_new": [
+       0.0001,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.01,
+       0.05
+      ],
+      "its_vertices_inside_old_new": [
+       2,
+       4
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.15,
+       0.1
+      ]
+     },
+     "semitendinosus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gracilis_l": {
+      "surface_inside_frac_old_new": [
+       0.0006,
+       0.0008
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.06,
+       0.06
+      ],
+      "its_vertices_inside_old_new": [
+       6,
+       6
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.07,
+       0.11
+      ]
+     },
+     "sartorius_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_lateralis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_medialis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.03
+      ],
+      "its_vertices_inside_old_new": [
+       1,
+       1
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.06,
+       0.06
+      ]
+     },
+     "vastus_intermedius_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gluteus_maximus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "tensor_fasciae_latae_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "pectineus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "iliopsoas_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_v_l": {
+      "surface_inside_frac_old_new": [
+       0.0008,
+       0.0008
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.95,
+       0.83
+      ],
+      "its_vertices_inside_old_new": [
+       22,
+       22
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       1,
+       1
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       1.03,
+       1.03
+      ]
+     },
+     "sciatic_n": {
+      "surface_inside_frac_old_new": [
+       0.0039,
+       0.0029
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.97,
+       0.87
+      ],
+      "its_vertices_inside_old_new": [
+       733,
+       512
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       89,
+       62
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       2.0,
+       1.73
+      ]
+     }
+    },
+    "new_overlap": []
+   },
+   "pectineus_r": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 35,
+     "of": 1879,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.3,
+     "max_depth_mm": 0.75
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 1,
+     "of": 1879,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.04,
+     "max_depth_mm": 0.04
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_magnus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_longus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_brevis_r": {
+      "surface_inside_frac_old_new": [
+       0.0126,
+       0.014
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.19,
+       0.21
+      ],
+      "its_vertices_inside_old_new": [
+       14,
+       17
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.18,
+       0.18
+      ]
+     },
+     "biceps_femoris_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gracilis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "sartorius_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_medialis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_intermedius_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "rectus_femoris_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gluteus_maximus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "iliopsoas_r": {
+      "surface_inside_frac_old_new": [
+       0.0014,
+       0.0016
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.24,
+       0.26
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_a_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_v_r": {
+      "surface_inside_frac_old_new": [
+       0.007,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.64,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       35,
+       1
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.75,
+       0.04
+      ]
+     }
+    },
+    "new_overlap": []
+   },
+   "pectineus_l": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 67,
+     "of": 1881,
+     "beyond_1mm": 13,
+     "median_depth_mm": 0.59,
+     "max_depth_mm": 1.93
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 1,
+     "of": 1881,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.0,
+     "max_depth_mm": 0.0
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_magnus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_longus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_brevis_l": {
+      "surface_inside_frac_old_new": [
+       0.0077,
+       0.0104
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.25,
+       0.29
+      ],
+      "its_vertices_inside_old_new": [
+       10,
+       10
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.09,
+       0.08
+      ]
+     },
+     "gracilis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "sartorius_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_medialis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_intermedius_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "rectus_femoris_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "iliopsoas_l": {
+      "surface_inside_frac_old_new": [
+       0.0018,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.26,
+       0.01
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_a_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_v_l": {
+      "surface_inside_frac_old_new": [
+       0.0278,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       1.5,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       67,
+       1
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       13,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       1.93,
+       0.0
+      ]
+     }
+    },
+    "new_overlap": []
+   },
+   "vastus_medialis_r": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 78,
+     "of": 1879,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.32,
+     "max_depth_mm": 0.77
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 1,
+     "of": 1879,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.05,
+     "max_depth_mm": 0.05
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_r": {
+      "surface_inside_frac_old_new": [
+       0.0242,
+       0.0259
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.69,
+       0.71
+      ],
+      "its_vertices_inside_old_new": [
+       91,
+       91
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.85,
+       0.85
+      ]
+     },
+     "adductor_magnus_r": {
+      "surface_inside_frac_old_new": [
+       0.0014,
+       0.0019
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.15,
+       0.18
+      ],
+      "its_vertices_inside_old_new": [
+       2,
+       3
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.07,
+       0.08
+      ]
+     },
+     "adductor_longus_r": {
+      "surface_inside_frac_old_new": [
+       0.0009,
+       0.0009
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.14,
+       0.2
+      ],
+      "its_vertices_inside_old_new": [
+       25,
+       20
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.18,
+       0.24
+      ]
+     },
+     "adductor_brevis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "biceps_femoris_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "semimembranosus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gracilis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "sartorius_r": {
+      "surface_inside_frac_old_new": [
+       0.0015,
+       0.0004
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.16,
+       0.09
+      ],
+      "its_vertices_inside_old_new": [
+       4,
+       2
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.07,
+       0.1
+      ]
+     },
+     "vastus_lateralis_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_intermedius_r": {
+      "surface_inside_frac_old_new": [
+       0.0086,
+       0.0107
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.32,
+       0.34
+      ],
+      "its_vertices_inside_old_new": [
+       26,
+       32
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.41,
+       0.41
+      ]
+     },
+     "rectus_femoris_r": {
+      "surface_inside_frac_old_new": [
+       0.0001,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.03,
+       0.04
+      ],
+      "its_vertices_inside_old_new": [
+       3,
+       3
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.08,
+       0.08
+      ]
+     },
+     "gluteus_maximus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "pectineus_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_v_r": {
+      "surface_inside_frac_old_new": [
+       0.0055,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.7,
+       0.01
+      ],
+      "its_vertices_inside_old_new": [
+       78,
+       1
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.77,
+       0.05
+      ]
+     },
+     "popliteal_v_r": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "new_overlap": []
+   },
+   "vastus_medialis_l": {
+    "tracked_bundle_vs_old_bundle_mesh": {
+     "vertices_inside": 60,
+     "of": 1881,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.3,
+     "max_depth_mm": 0.85
+    },
+    "tracked_bundle_vs_new_bundle_mesh": {
+     "vertices_inside": 3,
+     "of": 1881,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.04,
+     "max_depth_mm": 0.09
+    },
+    "neighbours_old_vs_new_bundle": {
+     "femur_l": {
+      "surface_inside_frac_old_new": [
+       0.0192,
+       0.0213
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.69,
+       0.67
+      ],
+      "its_vertices_inside_old_new": [
+       87,
+       86
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.94,
+       0.94
+      ]
+     },
+     "adductor_magnus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.04
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "adductor_longus_l": {
+      "surface_inside_frac_old_new": [
+       0.0001,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.03,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       1,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.03,
+       0.0
+      ]
+     },
+     "adductor_brevis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "biceps_femoris_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "semimembranosus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "gracilis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "sartorius_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       1,
+       1
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.02,
+       0.05
+      ]
+     },
+     "vastus_lateralis_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "vastus_intermedius_l": {
+      "surface_inside_frac_old_new": [
+       0.0124,
+       0.0113
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.39,
+       0.41
+      ],
+      "its_vertices_inside_old_new": [
+       41,
+       41
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.51,
+       0.51
+      ]
+     },
+     "rectus_femoris_l": {
+      "surface_inside_frac_old_new": [
+       0.0007,
+       0.0008
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.06,
+       0.11
+      ],
+      "its_vertices_inside_old_new": [
+       7,
+       7
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.07,
+       0.14
+      ]
+     },
+     "tensor_fasciae_latae_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "pectineus_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "iliopsoas_l": {
+      "surface_inside_frac_old_new": [
+       0.0,
+       0.0
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ],
+      "its_vertices_inside_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.0,
+       0.0
+      ]
+     },
+     "femoral_v_l": {
+      "surface_inside_frac_old_new": [
+       0.0044,
+       0.0001
+      ],
+      "surface_inside_max_depth_old_new_mm": [
+       0.64,
+       0.02
+      ],
+      "its_vertices_inside_old_new": [
+       60,
+       3
+      ],
+      "its_vertices_inside_beyond_1mm_old_new": [
+       0,
+       0
+      ],
+      "its_vertices_inside_max_depth_old_new_mm": [
+       0.85,
+       0.09
+      ]
+     }
+    },
+    "new_overlap": []
+   }
+  },
+  "tracked_totals": {
+   "sciatic_n": {
+    "old_bundle": {
+     "vertices": 14965,
+     "beyond_1mm_any": 820,
+     "max_depth_mm": 4.98,
+     "per_mesh": {
+      "adductor_magnus_r": {
+       "inside": 1240,
+       "beyond_1mm": 194,
+       "max_depth_mm": 2.92
+      },
+      "adductor_magnus_l": {
+       "inside": 733,
+       "beyond_1mm": 89,
+       "max_depth_mm": 2.0
+      },
+      "biceps_femoris_r": {
+       "inside": 999,
+       "beyond_1mm": 370,
+       "max_depth_mm": 4.98
+      },
+      "biceps_femoris_l": {
+       "inside": 403,
+       "beyond_1mm": 156,
+       "max_depth_mm": 2.97
+      },
+      "semitendinosus_r": {
+       "inside": 43,
+       "beyond_1mm": 11,
+       "max_depth_mm": 1.68
+      },
+      "semitendinosus_l": {
+       "inside": 5,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.57
+      }
+     }
+    },
+    "new_bundle": {
+     "vertices": 14965,
+     "beyond_1mm_any": 578,
+     "max_depth_mm": 4.6,
+     "per_mesh": {
+      "adductor_magnus_r": {
+       "inside": 1000,
+       "beyond_1mm": 161,
+       "max_depth_mm": 2.87
+      },
+      "adductor_magnus_l": {
+       "inside": 512,
+       "beyond_1mm": 62,
+       "max_depth_mm": 1.73
+      },
+      "biceps_femoris_r": {
+       "inside": 735,
+       "beyond_1mm": 252,
+       "max_depth_mm": 4.6
+      },
+      "biceps_femoris_l": {
+       "inside": 297,
+       "beyond_1mm": 92,
+       "max_depth_mm": 2.92
+      },
+      "semitendinosus_r": {
+       "inside": 43,
+       "beyond_1mm": 11,
+       "max_depth_mm": 1.68
+      },
+      "semitendinosus_l": {
+       "inside": 5,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.57
+      }
+     }
+    },
+    "new_beyond_1mm_on_unusable_photograph_levels": 278,
+    "unusable_levels": [
+     -141,
+     -140,
+     -139,
+     -138,
+     -137,
+     -136
+    ]
+   },
+   "femoral_v_r": {
+    "old_bundle": {
+     "vertices": 1879,
+     "beyond_1mm_any": 2,
+     "max_depth_mm": 1.02,
+     "per_mesh": {
+      "adductor_longus_r": {
+       "inside": 64,
+       "beyond_1mm": 2,
+       "max_depth_mm": 1.02
+      },
+      "iliopsoas_r": {
+       "inside": 24,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.65
+      },
+      "pectineus_r": {
+       "inside": 35,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.75
+      },
+      "vastus_medialis_r": {
+       "inside": 78,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.77
+      }
+     }
+    },
+    "new_bundle": {
+     "vertices": 1879,
+     "beyond_1mm_any": 2,
+     "max_depth_mm": 1.02,
+     "per_mesh": {
+      "adductor_longus_r": {
+       "inside": 65,
+       "beyond_1mm": 2,
+       "max_depth_mm": 1.02
+      },
+      "pectineus_r": {
+       "inside": 1,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.04
+      },
+      "vastus_medialis_r": {
+       "inside": 1,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.05
+      },
+      "iliopsoas_r": {
+       "inside": 24,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.65
+      }
+     }
+    },
+    "new_beyond_1mm_on_unusable_photograph_levels": 2,
+    "unusable_levels": [
+     -141,
+     -140,
+     -139,
+     -138,
+     -137,
+     -136
+    ]
+   },
+   "femoral_v_l": {
+    "old_bundle": {
+     "vertices": 1881,
+     "beyond_1mm_any": 19,
+     "max_depth_mm": 1.93,
+     "per_mesh": {
+      "adductor_magnus_l": {
+       "inside": 22,
+       "beyond_1mm": 1,
+       "max_depth_mm": 1.03
+      },
+      "adductor_longus_l": {
+       "inside": 43,
+       "beyond_1mm": 5,
+       "max_depth_mm": 1.92
+      },
+      "pectineus_l": {
+       "inside": 67,
+       "beyond_1mm": 13,
+       "max_depth_mm": 1.93
+      },
+      "vastus_medialis_l": {
+       "inside": 60,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.85
+      }
+     }
+    },
+    "new_bundle": {
+     "vertices": 1881,
+     "beyond_1mm_any": 6,
+     "max_depth_mm": 1.92,
+     "per_mesh": {
+      "adductor_magnus_l": {
+       "inside": 22,
+       "beyond_1mm": 1,
+       "max_depth_mm": 1.03
+      },
+      "adductor_longus_l": {
+       "inside": 43,
+       "beyond_1mm": 5,
+       "max_depth_mm": 1.92
+      },
+      "pectineus_l": {
+       "inside": 1,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.0
+      },
+      "vastus_medialis_l": {
+       "inside": 3,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.09
+      }
+     }
+    },
+    "new_beyond_1mm_on_unusable_photograph_levels": 5,
+    "unusable_levels": [
+     -140,
+     -139,
+     -138,
+     -137,
+     -136
+    ]
+   }
+  },
+  "inside_test": "trimesh contains; depth = distance to the containing mesh's surface"
+ },
+ "tracked_badges": {
+  "sciatic_n": "Traced in his own 0.33 mm cryosections (Q57), placed with the per-side photograph-to-atlas registration measured on his femur and thigh muscles (Q173: 2.4 mm posterior, left also 2.5 mm lateral). Covers about a third of its course: right 126 / left 84 verified levels (right y -91..-216, left four runs y -89..-222); the gluteal and distal thirds are missing. Q176: outline clipped to his photographed non-muscle (the traced edge had run up to ~2 mm into the neighbouring muscle): photographed-muscle voxels within 2 mm of the edge peeled off, core never touched, 205 of 210 levels changed; volume -25%, median section diameter 8.2 -> 7.2 mm, section on photographed muscle 27% -> 3%. Surface vertices more than 1 mm inside a muscle mesh: 2357 -> 820 of 14965 (max 5.0 mm). Q177: after the muscle faces it runs against were snapped to the photographed fat plane (adductor magnus posterior, biceps femoris anteromedial), 578 of 14965 surface vertices lie more than 1 mm inside a muscle mesh (max 4.6 mm); 278 of them at y -136..-141, where his photographs are too dark to classify and the traced outline could not be clipped.",
+  "femoral_v_l": "Rule-based tracking on his own 0.33 mm cryosection photographs (Q174): the clotted lumen of the femoral vein, seeded as the medial member of the vessel pair under the inguinal ligament plus a second seed in the adductor canal (largest clotted lumen beside sartorius at mid-thigh). Covers y 35..-280 (316 levels, 282 detected, 34 short gaps bridged). Lumen median 7.8 mm (collapsed cadaveric vein). Placed with the Q173 photograph-to-atlas registration. Q176: outline clipped to his photographed non-muscle (the traced edge had run up to ~2 mm into the neighbouring muscle): photographed-muscle voxels within 2 mm of the edge peeled off, core never touched, 283 of 316 levels changed; volume -12%, median section diameter 8.2 -> 7.5 mm, section on photographed muscle 12% -> 1%. Surface vertices more than 1 mm inside a muscle mesh: 84 -> 19 of 1881 (max 1.9 mm). Q177: after the muscle faces it runs against were snapped to the photographed fat plane (pectineus anterolateral, vastus medialis posteromedial), 6 of 1881 surface vertices lie more than 1 mm inside a muscle mesh (max 1.9 mm); 5 of them at y -136..-140, where his photographs are too dark to classify and the traced outline could not be clipped.",
+  "femoral_v_r": "Rule-based tracking on his own 0.33 mm cryosection photographs (Q174): the clotted lumen of the femoral vein, seeded as the medial member of the vessel pair under the inguinal ligament plus a second seed in the adductor canal (largest clotted lumen beside sartorius at mid-thigh). Covers y 35..-35 and -98..-225 (199 levels, 193 detected, 6 short gaps bridged). Lumen median 9.2 mm (collapsed cadaveric vein). Placed with the Q173 photograph-to-atlas registration. Q176: outline clipped to his photographed non-muscle (the traced edge had run up to ~2 mm into the neighbouring muscle): photographed-muscle voxels within 2 mm of the edge peeled off, core never touched, 192 of 199 levels changed; volume -20%, median section diameter 9.4 -> 8.1 mm, section on photographed muscle 20% -> 0%. Surface vertices more than 1 mm inside a muscle mesh: 132 -> 2 of 1879 (max 1.0 mm). Q177: after the muscle faces it runs against were snapped to the photographed fat plane (pectineus anterolateral, vastus medialis posteromedial), 2 of 1879 surface vertices lie more than 1 mm inside a muscle mesh (max 1.0 mm); 2 of them at y -136..-141, where his photographs are too dark to classify and the traced outline could not be clipped."
+ }
+}

@@ -1,0 +1,31 @@
+{
+ "_README": [
+  "Label id -> structure for the Visible Human MALE right forearm muscle volume v3 (vhm_forearm_muscles_v3.py). A KEY, not data. rule-based."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): male cryosection photographs at full resolution (0.33 mm, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, instances 1575-1819) and his CT radius/ulna labels (data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz) for registration. Derived data (scripts/cryo/vhm_forearm_muscles_v3.py): rule-based segmentation (colour tissue classes, position-rule markers, 3-D marker watershed on the pale fascial septa inside the muscle class), not traced by an anatomist. Expectations: repository architecture volumes (Holzbaur, Murray & Delp 2005 Ann Biomed Eng 33:829) scaled by his own upper-arm muscle volumes.",
+ "task": "vhm_forearm_muscles_v3",
+ "version": "2026-09-29",
+ "badge": "rule-based",
+ "labels": {
+  "1": "pronator_teres",
+  "2": "flexor_carpi_radialis",
+  "3": "palmaris_longus",
+  "4": "flexor_carpi_ulnaris",
+  "5": "flexor_digitorum_superficialis",
+  "6": "flexor_digitorum_profundus",
+  "7": "flexor_pollicis_longus",
+  "8": "pronator_quadratus",
+  "9": "brachioradialis",
+  "10": "extensor_carpi_radialis_longus",
+  "11": "extensor_carpi_radialis_brevis",
+  "12": "extensor_digitorum",
+  "13": "extensor_digiti_minimi",
+  "14": "extensor_carpi_ulnaris",
+  "15": "anconeus",
+  "16": "supinator",
+  "17": "abductor_pollicis_longus",
+  "18": "extensor_pollicis_brevis",
+  "19": "extensor_pollicis_longus",
+  "20": "extensor_indicis"
+ }
+}

@@ -1,0 +1,6611 @@
+{
+ "meta": {
+  "note": "SCHEMATIC SOLID PREVIEW, not a scan-derived mesh. Two separate accuracy levels are mixed here on purpose, and it matters which is which. ACCURATE (cited data, see docs/SOURCES.md): bone lengths, the position of every landmark and muscle attachment along its bone, which muscle attaches where, PCSA/compartment/innervation figures. ILLUSTRATIVE (modelling constants chosen for legibility, NOT measurements): every RADIUS and THICKNESS on screen -- the atlas stores no bone diameters or muscle belly widths, so bone radii come from a hand-set table and muscle belly radii are a cube-root-compressed function of PCSA (a physiological force cross-section, not an anatomical width) used only as a relative size cue. Also illustrative: the overall pose (identity rotation is assumed between adjacent bone frames -- no per-bone orientation data exists yet) and the shoulder/pelvis root placements. Ligament, cartilage and tendon blobs mark their governing joint or bone REGION only, never a real attachment footprint. Only the limb chains are drawn: the trunk, spine and skull have no numeric coordinates in the atlas yet (~34.5% of all attachment endpoints are numerically resolved -- see docs/VERIFICATION.md). Real surface geometry is docs/ROADMAP.md Stage 5.",
+  "approximated_joints": [
+   "ankle_l",
+   "ankle_r",
+   "first_carpometacarpal_l",
+   "first_carpometacarpal_r",
+   "proximal_tibiofibular_l",
+   "proximal_tibiofibular_r",
+   "tarsals_l->metatarsals_l (synthetic, no joints.json entry)",
+   "tarsals_r->metatarsals_r (synthetic, no joints.json entry)"
+  ],
+  "resolved_bone_count": 32
+ },
+ "bone_solids": [
+  {
+   "id": "carpals_l",
+   "name": "Carpal bones (8, proximal+distal row)",
+   "shape": "ellipsoid",
+   "center": [
+    -179.9,
+    -119.8,
+    42.8
+   ],
+   "radii": [
+    26,
+    15,
+    14
+   ]
+  },
+  {
+   "id": "carpals_r",
+   "name": "Carpal bones (8, proximal+distal row)",
+   "shape": "ellipsoid",
+   "center": [
+    179.9,
+    -119.8,
+    42.8
+   ],
+   "radii": [
+    26,
+    15,
+    14
+   ]
+  },
+  {
+   "id": "clavicle_l",
+   "name": "Clavicle",
+   "shape": "capsule",
+   "a": [
+    -30.0,
+    480.0,
+    20.0
+   ],
+   "b": [
+    -180.0,
+    470.0,
+    12.0
+   ],
+   "ra": 8,
+   "rb": 7.04
+  },
+  {
+   "id": "clavicle_r",
+   "name": "Clavicle",
+   "shape": "capsule",
+   "a": [
+    30.0,
+    480.0,
+    20.0
+   ],
+   "b": [
+    180.0,
+    470.0,
+    12.0
+   ],
+   "ra": 8,
+   "rb": 7.04
+  },
+  {
+   "id": "femur_l",
+   "name": "Femur",
+   "shape": "capsule",
+   "a": [
+    -138.7,
+    0.5,
+    -19.8
+   ],
+   "b": [
+    -45.7,
+    -445.0,
+    1.3
+   ],
+   "ra": 20,
+   "rb": 17.6
+  },
+  {
+   "id": "femur_r",
+   "name": "Femur",
+   "shape": "capsule",
+   "a": [
+    139.3,
+    -4.8,
+    -23.1
+   ],
+   "b": [
+    44.9,
+    -445.0,
+    3.4
+   ],
+   "ra": 20,
+   "rb": 17.6
+  },
+  {
+   "id": "fibula_l",
+   "name": "Fibula",
+   "shape": "capsule",
+   "a": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "b": [
+    -91.0,
+    -847.5,
+    6.0
+   ],
+   "ra": 7,
+   "rb": 6.16
+  },
+  {
+   "id": "fibula_r",
+   "name": "Fibula",
+   "shape": "capsule",
+   "a": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "b": [
+    91.0,
+    -847.5,
+    6.0
+   ],
+   "ra": 7,
+   "rb": 6.16
+  },
+  {
+   "id": "hip_bone_l",
+   "name": "Hip bone",
+   "shape": "ellipsoid",
+   "center": [
+    -78.4,
+    22.2,
+    -15.1
+   ],
+   "radii": [
+    34,
+    74,
+    46
+   ]
+  },
+  {
+   "id": "hip_bone_r",
+   "name": "Hip bone",
+   "shape": "ellipsoid",
+   "center": [
+    78.4,
+    22.2,
+    -15.1
+   ],
+   "radii": [
+    34,
+    74,
+    46
+   ]
+  },
+  {
+   "id": "humerus_l",
+   "name": "Humerus",
+   "shape": "capsule",
+   "a": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "b": [
+    -165.0,
+    138.0,
+    23.0
+   ],
+   "ra": 15,
+   "rb": 13.2
+  },
+  {
+   "id": "humerus_r",
+   "name": "Humerus",
+   "shape": "capsule",
+   "a": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "b": [
+    165.0,
+    138.0,
+    23.0
+   ],
+   "ra": 15,
+   "rb": 13.2
+  },
+  {
+   "id": "metacarpals_l",
+   "name": "Metacarpals (5)",
+   "shape": "capsule",
+   "a": [
+    -205.0,
+    -122.0,
+    43.0
+   ],
+   "b": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 5,
+   "rb": 4.4
+  },
+  {
+   "id": "metacarpals_r",
+   "name": "Metacarpals (5)",
+   "shape": "capsule",
+   "a": [
+    205.0,
+    -122.0,
+    43.0
+   ],
+   "b": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 5,
+   "rb": 4.4
+  },
+  {
+   "id": "metatarsals_l",
+   "name": "Metatarsals (5)",
+   "shape": "capsule",
+   "a": [
+    -79.3,
+    -896.9,
+    39.5
+   ],
+   "b": [
+    -73.3,
+    -975.4,
+    68.9
+   ],
+   "ra": 5,
+   "rb": 4.4
+  },
+  {
+   "id": "metatarsals_r",
+   "name": "Metatarsals (5)",
+   "shape": "capsule",
+   "a": [
+    77.3,
+    -898.8,
+    32.4
+   ],
+   "b": [
+    68.0,
+    -977.2,
+    62.1
+   ],
+   "ra": 5,
+   "rb": 4.4
+  },
+  {
+   "id": "patella_l",
+   "name": "Patella (kneecap, sesamoid)",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -440.0,
+    30.0
+   ],
+   "radii": [
+    20,
+    20,
+    9
+   ]
+  },
+  {
+   "id": "patella_r",
+   "name": "Patella (kneecap, sesamoid)",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -440.0,
+    30.0
+   ],
+   "radii": [
+    20,
+    20,
+    9
+   ]
+  },
+  {
+   "id": "phalanges_foot_l",
+   "name": "Toe phalanges (14)",
+   "shape": "capsule",
+   "a": [
+    -72.6,
+    -974.1,
+    71.4
+   ],
+   "b": [
+    -64.5,
+    -1063.6,
+    76.0
+   ],
+   "ra": 4,
+   "rb": 3.52
+  },
+  {
+   "id": "phalanges_foot_r",
+   "name": "Toe phalanges (14)",
+   "shape": "capsule",
+   "a": [
+    66.7,
+    -974.1,
+    62.9
+   ],
+   "b": [
+    62.7,
+    -1058.8,
+    68.1
+   ],
+   "ra": 4,
+   "rb": 3.52
+  },
+  {
+   "id": "phalanges_hand_l",
+   "name": "Finger/thumb phalanges (14: thumb x2, fingers x3 each)",
+   "shape": "capsule",
+   "a": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "b": [
+    -180.0,
+    -222.0,
+    33.0
+   ],
+   "ra": 4,
+   "rb": 3.52
+  },
+  {
+   "id": "phalanges_hand_r",
+   "name": "Finger/thumb phalanges (14: thumb x2, fingers x3 each)",
+   "shape": "capsule",
+   "a": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "b": [
+    180.0,
+    -222.0,
+    33.0
+   ],
+   "ra": 4,
+   "rb": 3.52
+  },
+  {
+   "id": "radius_l",
+   "name": "Radius",
+   "shape": "capsule",
+   "a": [
+    -180.0,
+    133.0,
+    28.0
+   ],
+   "b": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "ra": 9,
+   "rb": 7.92
+  },
+  {
+   "id": "radius_r",
+   "name": "Radius",
+   "shape": "capsule",
+   "a": [
+    180.0,
+    133.0,
+    28.0
+   ],
+   "b": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "ra": 9,
+   "rb": 7.92
+  },
+  {
+   "id": "scapula_l",
+   "name": "Scapula (shoulder blade)",
+   "shape": "ellipsoid",
+   "center": [
+    -141.4,
+    486.4,
+    1.4
+   ],
+   "radii": [
+    52,
+    78,
+    14
+   ]
+  },
+  {
+   "id": "scapula_r",
+   "name": "Scapula (shoulder blade)",
+   "shape": "ellipsoid",
+   "center": [
+    141.4,
+    486.4,
+    1.4
+   ],
+   "radii": [
+    52,
+    78,
+    14
+   ]
+  },
+  {
+   "id": "tarsals_l",
+   "name": "Tarsal bones (7)",
+   "shape": "ellipsoid",
+   "center": [
+    -64.0,
+    -889.9,
+    25.1
+   ],
+   "radii": [
+    28,
+    24,
+    34
+   ]
+  },
+  {
+   "id": "tarsals_r",
+   "name": "Tarsal bones (7)",
+   "shape": "ellipsoid",
+   "center": [
+    63.8,
+    -889.8,
+    22.7
+   ],
+   "radii": [
+    28,
+    24,
+    34
+   ]
+  },
+  {
+   "id": "tibia_l",
+   "name": "Tibia (shin bone)",
+   "shape": "capsule",
+   "a": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "b": [
+    -71.5,
+    -853.5,
+    22.0
+   ],
+   "ra": 15,
+   "rb": 13.2
+  },
+  {
+   "id": "tibia_r",
+   "name": "Tibia (shin bone)",
+   "shape": "capsule",
+   "a": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "b": [
+    71.5,
+    -853.5,
+    22.0
+   ],
+   "ra": 15,
+   "rb": 13.2
+  },
+  {
+   "id": "ulna_l",
+   "name": "Ulna",
+   "shape": "capsule",
+   "a": [
+    -165.0,
+    153.0,
+    8.0
+   ],
+   "b": [
+    -160.0,
+    -137.0,
+    18.0
+   ],
+   "ra": 9,
+   "rb": 7.92
+  },
+  {
+   "id": "ulna_r",
+   "name": "Ulna",
+   "shape": "capsule",
+   "a": [
+    165.0,
+    153.0,
+    8.0
+   ],
+   "b": [
+    160.0,
+    -137.0,
+    18.0
+   ],
+   "ra": 9,
+   "rb": 7.92
+  }
+ ],
+ "bone_points": [
+  {
+   "bone": "carpals_l",
+   "name": "scaphoid",
+   "kind": "joint_surface",
+   "xyz": [
+    -195.0,
+    -107.0,
+    43.0
+   ]
+  },
+  {
+   "bone": "carpals_l",
+   "name": "lunate",
+   "kind": "joint_surface",
+   "xyz": [
+    -180.0,
+    -107.0,
+    41.0
+   ]
+  },
+  {
+   "bone": "carpals_l",
+   "name": "triquetrum (TFCC)",
+   "kind": "joint_surface",
+   "xyz": [
+    -165.0,
+    -109.0,
+    38.0
+   ]
+  },
+  {
+   "bone": "carpals_l",
+   "name": "pisiform (FCU insertion, flexor retinaculum)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -162.0,
+    -122.0,
+    48.0
+   ]
+  },
+  {
+   "bone": "carpals_l",
+   "name": "trapezium tubercle (flexor retinaculum, thenar origins)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -200.0,
+    -132.0,
+    48.0
+   ]
+  },
+  {
+   "bone": "carpals_l",
+   "name": "trapezoid",
+   "kind": "joint_surface",
+   "xyz": [
+    -192.0,
+    -132.0,
+    43.0
+   ]
+  },
+  {
+   "bone": "carpals_l",
+   "name": "capitate",
+   "kind": "joint_surface",
+   "xyz": [
+    -180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "carpals_l",
+   "name": "hamate, hook of hamate (flexor retinaculum, hypothenar origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -165.0,
+    -132.0,
+    48.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "scaphoid (radiocarpal joint, scaphoid tubercle - flexor retinaculum)",
+   "kind": "joint_surface",
+   "xyz": [
+    195.0,
+    -107.0,
+    43.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "lunate (radiocarpal joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    180.0,
+    -107.0,
+    41.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "triquetrum (TFCC)",
+   "kind": "joint_surface",
+   "xyz": [
+    165.0,
+    -109.0,
+    38.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "pisiform (FCU insertion, flexor retinaculum, abductor digiti minimi origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    162.0,
+    -122.0,
+    48.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "trapezium tubercle (flexor retinaculum, APL insertion, thenar muscle origins)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    200.0,
+    -132.0,
+    48.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "trapezoid",
+   "kind": "joint_surface",
+   "xyz": [
+    192.0,
+    -132.0,
+    43.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "capitate (center of carpal arch)",
+   "kind": "joint_surface",
+   "xyz": [
+    180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "carpals_r",
+   "name": "hamate, hook of hamate (flexor retinaculum, hypothenar origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    165.0,
+    -132.0,
+    48.0
+   ]
+  },
+  {
+   "bone": "clavicle_l",
+   "name": "sternal (medial) end",
+   "kind": "joint_surface",
+   "xyz": [
+    -30.0,
+    480.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "clavicle_l",
+   "name": "acromial (lateral) end",
+   "kind": "joint_surface",
+   "xyz": [
+    -180.0,
+    470.0,
+    12.0
+   ]
+  },
+  {
+   "bone": "clavicle_l",
+   "name": "conoid tubercle (coracoclavicular lig.)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -155.0,
+    472.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "clavicle_l",
+   "name": "deltoid tubercle / anterior border, lateral third (deltoid origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -140.0,
+    485.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "clavicle_l",
+   "name": "subclavian groove (subclavius insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -105.0,
+    475.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "clavicle_r",
+   "name": "sternal (medial) end",
+   "kind": "joint_surface",
+   "xyz": [
+    30.0,
+    480.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "clavicle_r",
+   "name": "acromial (lateral) end",
+   "kind": "joint_surface",
+   "xyz": [
+    180.0,
+    470.0,
+    12.0
+   ]
+  },
+  {
+   "bone": "clavicle_r",
+   "name": "conoid tubercle (coracoclavicular lig.)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    155.0,
+    472.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "clavicle_r",
+   "name": "deltoid tubercle / anterior border, lateral third (deltoid origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    140.0,
+    485.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "clavicle_r",
+   "name": "subclavian groove (subclavius insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    105.0,
+    475.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter lateral facet (gluteus medius insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -157.8,
+    -35.1,
+    -12.9
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter anterior facet (gluteus minimus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -138.3,
+    -18.8,
+    8.7
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter superior border (piriformis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -138.7,
+    0.5,
+    -19.8
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter medial surface and trochanteric fossa (obturator internus, gemelli, obturator externus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -136.3,
+    -27.6,
+    -34.3
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "femoral head",
+   "kind": "joint_surface",
+   "xyz": [
+    -90.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -155.0,
+    -20.0,
+    -13.6
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "lesser trochanter (iliopsoas insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -100.0,
+    -45.0,
+    -15.0
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "linea aspera",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -109.3,
+    -200.0,
+    -5.5
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "pectineal line",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -100.0,
+    -60.0,
+    -10.0
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "adductor tubercle",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -75.0,
+    -440.0,
+    -5.0
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "medial epicondyle",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -45.7,
+    -445.0,
+    1.3
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "lateral epicondyle (LCL, popliteus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -128.5,
+    -445.0,
+    -4.1
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "medial/lateral condyles (tibiofemoral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "patellar (trochlear) groove",
+   "kind": "joint_surface",
+   "xyz": [
+    -90.0,
+    -440.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter lateral facet (gluteus medius insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    157.3,
+    -36.4,
+    -18.4
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter anterior facet (gluteus minimus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    138.1,
+    -21.1,
+    5.8
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter superior border (piriformis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    139.3,
+    -4.8,
+    -23.1
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter medial surface and trochanteric fossa (obturator internus, gemelli, obturator externus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    136.4,
+    -27.5,
+    -39.1
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "femoral head",
+   "kind": "joint_surface",
+   "xyz": [
+    90.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter (gluteus medius/minimus, piriformis, obturator internus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    153.7,
+    -20.0,
+    -18.1
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "lesser trochanter (iliopsoas insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    100.0,
+    -45.0,
+    -15.0
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "gluteal tuberosity/linea aspera (gluteus maximus, adductors, vastus medialis/lateralis, short head biceps femoris)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    109.1,
+    -200.0,
+    -7.4
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "pectineal line (pectineus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    100.0,
+    -60.0,
+    -10.0
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "adductor tubercle (adductor magnus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    75.0,
+    -440.0,
+    -5.0
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "medial epicondyle",
+   "kind": "muscle_attachment",
+   "xyz": [
+    44.9,
+    -445.0,
+    3.4
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "lateral epicondyle (LCL origin, popliteus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    128.2,
+    -445.0,
+    -1.7
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "medial/lateral condyles (tibiofemoral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "patellar (trochlear) groove (patellofemoral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    90.0,
+    -440.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "retromalleolar groove, lateral (fibularis longus and brevis tendons under the peroneal retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    -87.7,
+    -832.9,
+    0.5
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "fibular head (biceps femoris insertion, LCL)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "fibular shaft (peroneus longus/brevis, EDL, FHL origins)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -95.0,
+    -640.0,
+    0.0
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "lateral malleolus (lateral ankle ligaments; peroneal retinaculum)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -91.0,
+    -847.5,
+    6.0
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "fibular shaft, proximal lateral surface (fibularis longus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -92.7,
+    -544.5,
+    9.5
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "fibular shaft, distal lateral surface (fibularis brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -91.6,
+    -687.0,
+    11.8
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "retromalleolar groove, lateral (fibularis longus and brevis tendons under the peroneal retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    87.9,
+    -832.0,
+    0.4
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "fibular head (biceps femoris insertion, LCL, common fibular n. passage)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "fibular shaft (peroneus longus/brevis, EDL, FHL origins)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    95.0,
+    -640.0,
+    0.0
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "lateral malleolus (ATFL, CFL, PTFL; peroneal retinaculum)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    91.0,
+    -847.5,
+    6.0
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "fibular shaft, proximal lateral surface (fibularis longus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    92.7,
+    -544.5,
+    9.5
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "fibular shaft, distal lateral surface (fibularis brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    91.6,
+    -687.0,
+    11.8
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "acetabulum (hip joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -90.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "anterior superior iliac spine (sartorius origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -123.5,
+    73.0,
+    55.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "anterior inferior iliac spine (rectus femoris origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -102.0,
+    42.5,
+    41.5
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial spine",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -75.0,
+    -30.0,
+    -30.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "pubic tubercle / pubic crest",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -30.0,
+    -20.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "obturator foramen",
+   "kind": "foramen_or_canal",
+   "xyz": [
+    -70.0,
+    -40.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "greater sciatic notch (sciatic nerve, piriformis passage)",
+   "kind": "foramen_or_canal",
+   "xyz": [
+    -70.0,
+    30.0,
+    -50.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "iliac crest, anterior part, outer lip (tensor fasciae latae, external oblique)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -137.0,
+    109.0,
+    31.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "iliac crest, middle part, intermediate line (internal oblique, transversus abdominis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -106.0,
+    148.0,
+    -21.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "iliac crest, posterior part, inner lip (quadratus lumborum, iliolumbar ligament; erector spinae: iliocostalis, longissimus)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -46.0,
+    126.0,
+    -69.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, superolateral facet of the upper area (semimembranosus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -59.0,
+    -46.5,
+    -60.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, inferomedial facet of the upper area (semitendinosus and biceps femoris long head, conjoint tendon)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -48.0,
+    -47.0,
+    -48.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, lower area, lateral part (adductor magnus, hamstring part)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -59.5,
+    -55.5,
+    -56.5
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, lateral border (quadratus femoris, gemellus inferior)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -74.0,
+    -48.0,
+    -45.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, medial (perineal) surface, continuing onto the ischial ramus (ischiocavernosus, superficial transverse perineal)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -29.5,
+    -57.0,
+    -18.5
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "external (gluteal) surface of the ilium between the anterior and posterior gluteal lines (gluteus medius origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -111.0,
+    90.5,
+    -6.5
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "posterior (gluteal) surface of the ilium behind the posterior gluteal line (gluteus maximus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -71.5,
+    74.0,
+    -52.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "external (gluteal) surface of the ilium between the anterior and inferior gluteal lines (gluteus minimus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -109.5,
+    50.5,
+    17.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "acetabulum (hip joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    90.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "anterior superior iliac spine (sartorius, inguinal lig. origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    123.5,
+    73.0,
+    55.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "anterior inferior iliac spine (rectus femoris straight head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    102.0,
+    42.5,
+    41.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial spine (sacrospinous ligament)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    75.0,
+    -30.0,
+    -30.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "pubic tubercle / pubic crest (rectus abdominis, adductor longus origin, inguinal lig.)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    30.0,
+    -20.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "obturator foramen (obturator internus/externus origin; obturator n./a./v.)",
+   "kind": "foramen_or_canal",
+   "xyz": [
+    70.0,
+    -40.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "greater sciatic notch (sciatic nerve, piriformis passage)",
+   "kind": "foramen_or_canal",
+   "xyz": [
+    70.0,
+    30.0,
+    -50.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "iliac crest, anterior part, outer lip (tensor fasciae latae, external oblique)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    137.0,
+    109.0,
+    31.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "iliac crest, middle part, intermediate line (internal oblique, transversus abdominis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    106.0,
+    148.0,
+    -21.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "iliac crest, posterior part, inner lip (quadratus lumborum, iliolumbar ligament; erector spinae: iliocostalis, longissimus)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    46.0,
+    126.0,
+    -69.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, superolateral facet of the upper area (semimembranosus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    59.0,
+    -46.5,
+    -60.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, inferomedial facet of the upper area (semitendinosus and biceps femoris long head, conjoint tendon)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    48.0,
+    -47.0,
+    -48.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, lower area, lateral part (adductor magnus, hamstring part)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    59.5,
+    -55.5,
+    -56.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, lateral border (quadratus femoris, gemellus inferior)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    74.0,
+    -48.0,
+    -45.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, medial (perineal) surface, continuing onto the ischial ramus (ischiocavernosus, superficial transverse perineal)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    29.5,
+    -57.0,
+    -18.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "external (gluteal) surface of the ilium between the anterior and posterior gluteal lines (gluteus medius origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    111.0,
+    90.5,
+    -6.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "posterior (gluteal) surface of the ilium behind the posterior gluteal line (gluteus maximus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    71.5,
+    74.0,
+    -52.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "external (gluteal) surface of the ilium between the anterior and inferior gluteal lines (gluteus minimus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    109.5,
+    50.5,
+    17.5
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "humeral head (glenohumeral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -170.0,
+    470.0,
+    15.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "greater tubercle (supraspinatus, infraspinatus, teres minor insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -190.0,
+    455.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "lesser tubercle (subscapularis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -175.0,
+    450.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "intertubercular (bicipital) groove",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -180.0,
+    430.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "deltoid tuberosity (deltoid insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -185.0,
+    325.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "spiral (radial) groove (radial nerve passage)",
+   "kind": "foramen_or_canal",
+   "xyz": [
+    -180.0,
+    290.0,
+    5.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "lateral epicondyle (common extensor origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -190.0,
+    140.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "medial epicondyle (common flexor origin; ulnar nerve groove)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -150.0,
+    145.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "capitulum (radiohumeral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -185.0,
+    140.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "trochlea (humeroulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -165.0,
+    138.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "humerus_l",
+   "name": "coronoid fossa / olecranon fossa",
+   "kind": "joint_surface",
+   "xyz": [
+    -170.0,
+    145.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "humeral head (glenohumeral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    170.0,
+    470.0,
+    15.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "greater tubercle (supraspinatus, infraspinatus, teres minor insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    190.0,
+    455.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "lesser tubercle (subscapularis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    175.0,
+    450.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "intertubercular (bicipital) groove (biceps long head tendon; pec major/lat dorsi/teres major insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    180.0,
+    430.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "deltoid tuberosity (deltoid insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    185.0,
+    325.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "spiral (radial) groove (radial nerve passage)",
+   "kind": "foramen_or_canal",
+   "xyz": [
+    180.0,
+    290.0,
+    5.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "lateral epicondyle (common extensor origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    190.0,
+    140.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "medial epicondyle (common flexor origin; ulnar nerve groove posterior to it)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    150.0,
+    145.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "capitulum (radiohumeral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    185.0,
+    140.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "trochlea (humeroulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    165.0,
+    138.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "humerus_r",
+   "name": "coronoid fossa / olecranon fossa",
+   "kind": "joint_surface",
+   "xyz": [
+    170.0,
+    145.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "metacarpals_l",
+   "name": "metacarpal bases (CMC joints)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "metacarpals_l",
+   "name": "1st metacarpal (thenar muscle attachments)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -205.0,
+    -122.0,
+    43.0
+   ]
+  },
+  {
+   "bone": "metacarpals_l",
+   "name": "metacarpal heads (MCP joints)",
+   "kind": "joint_surface",
+   "xyz": [
+    -180.0,
+    -182.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "metacarpals_r",
+   "name": "metacarpal bases (CMC joints, ECRL/ECRB/FCR/FCU/ECU insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "metacarpals_r",
+   "name": "1st metacarpal (opponens pollicis, APB, FPB attachments)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    205.0,
+    -122.0,
+    43.0
+   ]
+  },
+  {
+   "bone": "metacarpals_r",
+   "name": "metacarpal heads (MCP joints; interossei/lumbrical insertion via extensor hood)",
+   "kind": "joint_surface",
+   "xyz": [
+    180.0,
+    -182.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "metatarsals 3 to 5, medial surfaces of the shafts (plantar interossei origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -78.8,
+    -933.4,
+    59.6
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "metatarsal shafts (dorsal interossei origin, bipennate from adjacent shafts)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -73.4,
+    -936.9,
+    70.6
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "bases of the 2nd to 4th metatarsals (adductor hallucis oblique head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -77.4,
+    -909.4,
+    73.1
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "5th metatarsal base (fibularis tertius insertion, flexor digiti minimi brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -79.3,
+    -896.9,
+    39.5
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "5th metatarsal tuberosity (peroneus brevis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -89.2,
+    -908.2,
+    47.4
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "1st metatarsal base (peroneus longus, tibialis anterior insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -55.0,
+    -917.9,
+    85.6
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "metatarsal heads (MTP joints)",
+   "kind": "joint_surface",
+   "xyz": [
+    -73.3,
+    -975.4,
+    68.9
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "metatarsals 3 to 5, medial surfaces of the shafts (plantar interossei origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    74.3,
+    -933.6,
+    54.8
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "metatarsal shafts (dorsal interossei origin, bipennate from adjacent shafts)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    68.5,
+    -937.6,
+    64.8
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "bases of the 2nd to 4th metatarsals (adductor hallucis oblique head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    71.6,
+    -912.4,
+    67.5
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "5th metatarsal base (fibularis tertius insertion, flexor digiti minimi brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    77.3,
+    -898.8,
+    32.4
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "5th metatarsal tuberosity (peroneus brevis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    85.2,
+    -905.1,
+    34.0
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "1st metatarsal base (peroneus longus, tibialis anterior insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    48.0,
+    -921.6,
+    75.6
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "metatarsal heads (MTP joints)",
+   "kind": "joint_surface",
+   "xyz": [
+    68.0,
+    -977.2,
+    62.1
+   ]
+  },
+  {
+   "bone": "patella_l",
+   "name": "base (quadriceps tendon)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -90.0,
+    -425.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "patella_l",
+   "name": "apex (patellar ligament)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -90.0,
+    -455.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "patella_r",
+   "name": "base (quadriceps tendon)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    90.0,
+    -425.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "patella_r",
+   "name": "apex (patellar ligament to tibial tuberosity)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    90.0,
+    -455.0,
+    30.0
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the little toe (abductor and flexor digiti minimi brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -72.6,
+    -974.1,
+    71.4
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe (hallux MTP joint; abductor hallucis, adductor hallucis, flexor and extensor hallucis brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -42.6,
+    -1041.6,
+    89.8
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx base (MTP joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -73.3,
+    -975.4,
+    68.9
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "distal phalanx, great toe (FHL/EHL insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -64.5,
+    -1063.6,
+    76.0
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe, base, medial side (abductor hallucis and the medial head of flexor hallucis brevis, via the medial sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -34.7,
+    -1042.5,
+    88.6
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe, base, lateral side (adductor hallucis and the lateral head of flexor hallucis brevis, via the lateral sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -53.6,
+    -1042.4,
+    84.9
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe, base, dorsal surface (extensor hallucis brevis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -46.1,
+    -1040.9,
+    94.7
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanges of the second to fourth toes, bases (dorsal interossei, via the extensor expansions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -66.9,
+    -1010.2,
+    71.6
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the little toe (abductor and flexor digiti minimi brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    66.7,
+    -974.1,
+    62.9
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe (hallux MTP joint; abductor hallucis, adductor hallucis, flexor and extensor hallucis brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    39.8,
+    -1040.3,
+    85.1
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx base (MTP joint, extensor/flexor tendon insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    68.0,
+    -977.2,
+    62.1
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "distal phalanx, great toe (FHL/EHL insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    62.7,
+    -1058.8,
+    68.1
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe, base, medial side (abductor hallucis and the medial head of flexor hallucis brevis, via the medial sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    29.4,
+    -1044.3,
+    81.8
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe, base, lateral side (adductor hallucis and the lateral head of flexor hallucis brevis, via the lateral sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    48.3,
+    -1044.2,
+    78.1
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe, base, dorsal surface (extensor hallucis brevis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    40.8,
+    -1042.7,
+    87.9
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanges of the second to fourth toes, bases (dorsal interossei, via the extensor expansions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    61.6,
+    -1012.0,
+    64.8
+   ]
+  },
+  {
+   "bone": "phalanges_hand_l",
+   "name": "proximal phalanx base (MCP joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -180.0,
+    -182.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "phalanges_hand_l",
+   "name": "middle phalanx (FDS insertion, PIP joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -180.0,
+    -207.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "phalanges_hand_l",
+   "name": "distal phalanx (FDP/EPL/FPL insertion, DIP/IP joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -180.0,
+    -222.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "phalanges_hand_r",
+   "name": "proximal phalanx base (MCP joint, extensor hood, interossei insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    180.0,
+    -182.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "phalanges_hand_r",
+   "name": "middle phalanx (FDS insertion, PIP joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    180.0,
+    -207.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "phalanges_hand_r",
+   "name": "distal phalanx (FDP/EPL/FPL insertion, DIP/IP joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    180.0,
+    -222.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "radial head",
+   "kind": "joint_surface",
+   "xyz": [
+    -180.0,
+    133.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "radial tuberosity (biceps brachii insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -170.0,
+    108.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "pronator teres insertion",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -185.0,
+    13.0,
+    38.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "interosseous border",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -172.0,
+    -17.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "styloid process (brachioradialis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -190.0,
+    -112.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "dorsal (Lister's) tubercle (EPL groove)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -180.0,
+    -115.0,
+    18.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "ulnar notch (distal radioulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -172.0,
+    -115.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "radius_l",
+   "name": "carpal articular surface (radiocarpal joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "radial head",
+   "kind": "joint_surface",
+   "xyz": [
+    180.0,
+    133.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "radial tuberosity (biceps brachii insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    170.0,
+    108.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "pronator teres insertion (mid-shaft lateral surface)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    185.0,
+    13.0,
+    38.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "interosseous border",
+   "kind": "ligament_attachment",
+   "xyz": [
+    172.0,
+    -17.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "styloid process (brachioradialis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    190.0,
+    -112.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "dorsal (Lister's) tubercle (EPL groove)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    180.0,
+    -115.0,
+    18.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "ulnar notch (distal radioulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    172.0,
+    -115.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "radius_r",
+   "name": "carpal articular surface (radiocarpal joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "glenoid cavity (glenohumeral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -170.0,
+    470.0,
+    15.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "acromion (deltoid origin, AC joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -175.0,
+    515.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "coracoid process (pec. minor insertion; biceps short head, coracobrachialis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -195.0,
+    500.0,
+    35.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "supraspinous fossa (supraspinatus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -160.0,
+    560.0,
+    -15.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "infraspinous fossa (infraspinatus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -140.0,
+    490.0,
+    -45.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "subscapular fossa (subscapularis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -150.0,
+    500.0,
+    55.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "infraglenoid tubercle (triceps long head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -165.0,
+    440.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "supraglenoid tubercle (biceps long head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -170.0,
+    485.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "medial (vertebral) border (rhomboids, serratus anterior insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -30.0,
+    510.0,
+    -25.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "inferior angle (teres major/minor, latissimus contact)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -70.0,
+    330.0,
+    -25.0
+   ]
+  },
+  {
+   "bone": "scapula_l",
+   "name": "spine of scapula (trapezius insertion, deltoid origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -130.0,
+    550.0,
+    -25.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "glenoid cavity (glenohumeral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    170.0,
+    470.0,
+    15.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "acromion (deltoid origin, AC joint)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    175.0,
+    515.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "coracoid process (pec. minor insertion; biceps short head, coracobrachialis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    195.0,
+    500.0,
+    35.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "supraspinous fossa (supraspinatus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    160.0,
+    560.0,
+    -15.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "infraspinous fossa (infraspinatus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    140.0,
+    490.0,
+    -45.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "subscapular fossa (subscapularis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    150.0,
+    500.0,
+    55.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "infraglenoid tubercle (triceps long head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    165.0,
+    440.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "supraglenoid tubercle (biceps long head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    170.0,
+    485.0,
+    25.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "medial (vertebral) border (rhomboids, serratus anterior insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    30.0,
+    510.0,
+    -25.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "inferior angle (teres major/minor, latissimus contact)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    70.0,
+    330.0,
+    -25.0
+   ]
+  },
+  {
+   "bone": "scapula_r",
+   "name": "spine of scapula (trapezius insertion, deltoid origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    130.0,
+    550.0,
+    -25.0
+   ]
+  },
+  {
+   "bone": "tarsals_l",
+   "name": "talus trochlea (talocrural/ankle joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -71.5,
+    -853.5,
+    22.0
+   ]
+  },
+  {
+   "bone": "tarsals_l",
+   "name": "talus, subtalar facets (subtalar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -71.5,
+    -868.5,
+    12.0
+   ]
+  },
+  {
+   "bone": "tarsals_l",
+   "name": "calcaneus (Achilles tendon insertion, plantar fascia origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -51.4,
+    -893.4,
+    -36.0
+   ]
+  },
+  {
+   "bone": "tarsals_l",
+   "name": "sustentaculum tali (spring lig.)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -47.5,
+    -884.7,
+    9.5
+   ]
+  },
+  {
+   "bone": "tarsals_l",
+   "name": "navicular tuberosity (tibialis posterior insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -47.9,
+    -887.3,
+    55.8
+   ]
+  },
+  {
+   "bone": "tarsals_l",
+   "name": "cuneiforms",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -73.3,
+    -908.6,
+    68.9
+   ]
+  },
+  {
+   "bone": "tarsals_l",
+   "name": "cuboid (peroneus longus tendon groove)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -85.0,
+    -933.5,
+    43.6
+   ]
+  },
+  {
+   "bone": "tarsals_r",
+   "name": "talus trochlea (talocrural/ankle joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    71.5,
+    -853.5,
+    22.0
+   ]
+  },
+  {
+   "bone": "tarsals_r",
+   "name": "talus, subtalar facets (subtalar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    71.5,
+    -868.5,
+    12.0
+   ]
+  },
+  {
+   "bone": "tarsals_r",
+   "name": "calcaneus (Achilles tendon insertion, plantar fascia origin, flexor retinaculum)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    58.4,
+    -890.1,
+    -43.8
+   ]
+  },
+  {
+   "bone": "tarsals_r",
+   "name": "sustentaculum tali (spring lig., FHL tunnel)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    48.7,
+    -880.9,
+    20.6
+   ]
+  },
+  {
+   "bone": "tarsals_r",
+   "name": "navicular tuberosity (tibialis posterior insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    45.4,
+    -890.0,
+    49.2
+   ]
+  },
+  {
+   "bone": "tarsals_r",
+   "name": "cuneiforms (tibialis anterior/posterior partial insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    68.0,
+    -911.5,
+    62.1
+   ]
+  },
+  {
+   "bone": "tarsals_r",
+   "name": "cuboid (peroneus longus tendon groove)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    83.2,
+    -933.8,
+    37.0
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "retromalleolar groove, medial (tibialis posterior, flexor digitorum longus and flexor hallucis longus tendons under the flexor retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    -88.0,
+    -835.3,
+    -13.4
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "medial/lateral condyles (tibiofemoral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "tibial tuberosity (patellar ligament insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -101.5,
+    -490.0,
+    54.3
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "pes anserinus insertion",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -65.0,
+    -500.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "soleal line",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -90.7,
+    -510.0,
+    4.2
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "interosseous border",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -105.0,
+    -650.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "medial malleolus (deltoid ligament, flexor retinaculum)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -71.5,
+    -853.5,
+    22.0
+   ]
+  },
+  {
+   "bone": "tibia_r",
+   "name": "retromalleolar groove, medial (tibialis posterior, flexor digitorum longus and flexor hallucis longus tendons under the flexor retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    88.6,
+    -837.3,
+    -13.0
+   ]
+  },
+  {
+   "bone": "tibia_r",
+   "name": "medial/lateral condyles (tibiofemoral joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "tibia_r",
+   "name": "tibial tuberosity (patellar ligament insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    100.1,
+    -490.0,
+    53.9
+   ]
+  },
+  {
+   "bone": "tibia_r",
+   "name": "pes anserinus insertion (sartorius, gracilis, semitendinosus)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    65.0,
+    -500.0,
+    20.0
+   ]
+  },
+  {
+   "bone": "tibia_r",
+   "name": "soleal line (soleus, popliteus, tibialis posterior origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    83.9,
+    -510.0,
+    5.4
+   ]
+  },
+  {
+   "bone": "tibia_r",
+   "name": "interosseous border",
+   "kind": "ligament_attachment",
+   "xyz": [
+    105.0,
+    -650.0,
+    10.0
+   ]
+  },
+  {
+   "bone": "tibia_r",
+   "name": "medial malleolus (deltoid ligament, flexor retinaculum)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    71.5,
+    -853.5,
+    22.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "olecranon (triceps insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -165.0,
+    153.0,
+    8.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "coronoid process (brachialis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -170.0,
+    128.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "radial notch (proximal radioulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -180.0,
+    133.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "supinator crest (supinator origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -180.0,
+    98.0,
+    18.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "ulnar tuberosity (brachialis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -170.0,
+    118.0,
+    31.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "interosseous border (interosseous membrane)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -175.0,
+    -12.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "head of ulna (distal radioulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    -165.0,
+    -132.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "ulna_l",
+   "name": "styloid process (TFCC attachment)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    -160.0,
+    -137.0,
+    18.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "olecranon (triceps insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    165.0,
+    153.0,
+    8.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "coronoid process (brachialis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    170.0,
+    128.0,
+    33.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "radial notch (proximal radioulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    180.0,
+    133.0,
+    28.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "supinator crest (supinator origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    180.0,
+    98.0,
+    18.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "ulnar tuberosity (brachialis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    170.0,
+    118.0,
+    31.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "interosseous border (interosseous membrane)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    175.0,
+    -12.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "head of ulna (distal radioulnar joint)",
+   "kind": "joint_surface",
+   "xyz": [
+    165.0,
+    -132.0,
+    23.0
+   ]
+  },
+  {
+   "bone": "ulna_r",
+   "name": "styloid process (TFCC attachment)",
+   "kind": "ligament_attachment",
+   "xyz": [
+    160.0,
+    -137.0,
+    18.0
+   ]
+  }
+ ],
+ "skeleton_edges": [
+  {
+   "joint": "glenohumeral_r",
+   "from_xyz": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "to_xyz": [
+    170.0,
+    470.0,
+    15.0
+   ]
+  },
+  {
+   "joint": "elbow_r",
+   "from_xyz": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "to_xyz": [
+    165.0,
+    138.0,
+    23.0
+   ]
+  },
+  {
+   "joint": "radioulnar_r",
+   "from_xyz": [
+    165.0,
+    138.0,
+    23.0
+   ],
+   "to_xyz": [
+    180.0,
+    133.0,
+    28.0
+   ]
+  },
+  {
+   "joint": "wrist_r",
+   "from_xyz": [
+    180.0,
+    133.0,
+    28.0
+   ],
+   "to_xyz": [
+    180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "joint": "first_carpometacarpal_r",
+   "from_xyz": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "to_xyz": [
+    180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "joint": "metacarpophalangeal_r",
+   "from_xyz": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "to_xyz": [
+    180.0,
+    -182.0,
+    33.0
+   ]
+  },
+  {
+   "joint": "glenohumeral_l",
+   "from_xyz": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "to_xyz": [
+    -170.0,
+    470.0,
+    15.0
+   ]
+  },
+  {
+   "joint": "elbow_l",
+   "from_xyz": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "to_xyz": [
+    -165.0,
+    138.0,
+    23.0
+   ]
+  },
+  {
+   "joint": "radioulnar_l",
+   "from_xyz": [
+    -165.0,
+    138.0,
+    23.0
+   ],
+   "to_xyz": [
+    -180.0,
+    133.0,
+    28.0
+   ]
+  },
+  {
+   "joint": "wrist_l",
+   "from_xyz": [
+    -180.0,
+    133.0,
+    28.0
+   ],
+   "to_xyz": [
+    -180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "joint": "first_carpometacarpal_l",
+   "from_xyz": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "to_xyz": [
+    -180.0,
+    -117.0,
+    33.0
+   ]
+  },
+  {
+   "joint": "metacarpophalangeal_l",
+   "from_xyz": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "to_xyz": [
+    -180.0,
+    -182.0,
+    33.0
+   ]
+  },
+  {
+   "joint": "hip_r",
+   "from_xyz": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "to_xyz": [
+    90.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "joint": "knee_r",
+   "from_xyz": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "to_xyz": [
+    90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "joint": "patellofemoral_r",
+   "from_xyz": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "to_xyz": [
+    90.0,
+    -440.0,
+    25.0
+   ]
+  },
+  {
+   "joint": "proximal_tibiofibular_r",
+   "from_xyz": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "to_xyz": [
+    90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "joint": "ankle_r",
+   "from_xyz": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "to_xyz": [
+    71.5,
+    -853.5,
+    22.0
+   ]
+  },
+  {
+   "joint": "metatarsophalangeal_r",
+   "from_xyz": [
+    68.0,
+    -911.5,
+    62.1
+   ],
+   "to_xyz": [
+    68.0,
+    -977.2,
+    62.1
+   ]
+  },
+  {
+   "joint": "hip_l",
+   "from_xyz": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "to_xyz": [
+    -90.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "joint": "knee_l",
+   "from_xyz": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "to_xyz": [
+    -90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "joint": "patellofemoral_l",
+   "from_xyz": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "to_xyz": [
+    -90.0,
+    -440.0,
+    25.0
+   ]
+  },
+  {
+   "joint": "proximal_tibiofibular_l",
+   "from_xyz": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "to_xyz": [
+    -90.0,
+    -450.0,
+    10.0
+   ]
+  },
+  {
+   "joint": "ankle_l",
+   "from_xyz": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "to_xyz": [
+    -71.5,
+    -853.5,
+    22.0
+   ]
+  },
+  {
+   "joint": "metatarsophalangeal_l",
+   "from_xyz": [
+    -73.3,
+    -908.6,
+    68.9
+   ],
+   "to_xyz": [
+    -73.3,
+    -975.4,
+    68.9
+   ]
+  }
+ ],
+ "muscle_solids": [
+  {
+   "id": "supraspinatus_l",
+   "name": "Supraspinatus",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -160.0,
+    560.0,
+    -15.0
+   ],
+   "b": [
+    -190.0,
+    455.0,
+    20.0
+   ],
+   "ra": 18.7,
+   "rb": 10.3,
+   "pcsa": 550.0,
+   "compartments": 2,
+   "nerve": "suprascapular_n",
+   "roots": "C5-C6",
+   "actions": [
+    "initiates/assists glenohumeral abduction (first ~15deg, then throughout with deltoid)",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple)"
+   ]
+  },
+  {
+   "id": "dorsal_interossei_hand_l",
+   "name": "Dorsal interossei (hand)",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "b": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 13.2,
+   "rb": 7.3,
+   "pcsa": 100.0,
+   "compartments": 1,
+   "nerve": "ulnar_n_deep_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "abduct fingers away from the axial line (digit 3); assist MCP flexion/IP extension"
+   ]
+  },
+  {
+   "id": "flexor_pollicis_brevis_l",
+   "name": "Flexor pollicis brevis",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "b": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 11.9,
+   "rb": 6.5,
+   "pcsa": 55.0,
+   "compartments": 2,
+   "nerve": "median_n_recurrent_thenar_branch, ulnar_n_deep_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "flexes thumb MCP joint (thenar muscle)"
+   ]
+  },
+  {
+   "id": "dorsal_interossei_hand_r",
+   "name": "Dorsal interossei (hand)",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "b": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 13.2,
+   "rb": 7.3,
+   "pcsa": 100.0,
+   "compartments": 1,
+   "nerve": "ulnar_n_deep_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "abduct fingers away from the axial line (digit 3); assist MCP flexion/IP extension"
+   ]
+  },
+  {
+   "id": "adductor_pollicis_r",
+   "name": "Adductor pollicis",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "b": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 16.7,
+   "rb": 9.2,
+   "pcsa": 330.0,
+   "compartments": 2,
+   "nerve": "ulnar_n_deep_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "adducts thumb CMC/MCP toward the palm (key/lateral pinch prime mover)"
+   ]
+  },
+  {
+   "id": "abductor_pollicis_brevis_l",
+   "name": "Abductor pollicis brevis",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -195.0,
+    -107.0,
+    43.0
+   ],
+   "b": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 11.7,
+   "rb": 6.4,
+   "pcsa": 50.0,
+   "compartments": 1,
+   "nerve": "median_n_recurrent_thenar_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "abducts thumb (thenar muscle)"
+   ]
+  },
+  {
+   "id": "infraspinatus_l",
+   "name": "Infraspinatus",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -140.0,
+    490.0,
+    -45.0
+   ],
+   "b": [
+    -190.0,
+    455.0,
+    20.0
+   ],
+   "ra": 23.7,
+   "rb": 13.1,
+   "pcsa": 1500.0,
+   "compartments": 2,
+   "nerve": "suprascapular_n",
+   "roots": "C5-C6",
+   "actions": [
+    "externally rotates humerus",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple)",
+    "assists horizontal abduction"
+   ]
+  },
+  {
+   "id": "flexor_digiti_minimi_brevis_hand_l",
+   "name": "Flexor digiti minimi brevis (hand)",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -165.0,
+    -132.0,
+    48.0
+   ],
+   "b": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 10.2,
+   "rb": 5.6,
+   "pcsa": 20.0,
+   "compartments": 1,
+   "nerve": "ulnar_n_deep_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "flexes little finger MCP joint (hypothenar muscle)"
+   ]
+  },
+  {
+   "id": "subscapularis_r",
+   "name": "Subscapularis",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    150.0,
+    500.0,
+    55.0
+   ],
+   "b": [
+    175.0,
+    450.0,
+    30.0
+   ],
+   "ra": 26.9,
+   "rb": 14.8,
+   "pcsa": 2450.0,
+   "compartments": 2,
+   "nerve": "upper_subscapular_n, lower_subscapular_n",
+   "roots": "C5-C6",
+   "actions": [
+    "internally rotates humerus",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple, main anterior stabilizer)"
+   ]
+  },
+  {
+   "id": "biceps_brachii_l",
+   "name": "Biceps brachii",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -195.0,
+    500.0,
+    35.0
+   ],
+   "b": [
+    -170.0,
+    108.0,
+    33.0
+   ],
+   "ra": 20.0,
+   "rb": 11.0,
+   "pcsa": 740.0,
+   "compartments": 2,
+   "nerve": "musculocutaneous_n",
+   "roots": "C5-C6",
+   "actions": [
+    "flexes elbow (strongest supinated)",
+    "supinates forearm (strongest at 90deg elbow flexion)",
+    "weak shoulder flexion (long head)"
+   ]
+  },
+  {
+   "id": "infraspinatus_r",
+   "name": "Infraspinatus",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    140.0,
+    490.0,
+    -45.0
+   ],
+   "b": [
+    190.0,
+    455.0,
+    20.0
+   ],
+   "ra": 23.7,
+   "rb": 13.1,
+   "pcsa": 1500.0,
+   "compartments": 2,
+   "nerve": "suprascapular_n",
+   "roots": "C5-C6",
+   "actions": [
+    "externally rotates humerus",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple)",
+    "assists horizontal abduction"
+   ]
+  },
+  {
+   "id": "biceps_brachii_r",
+   "name": "Biceps brachii",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    195.0,
+    500.0,
+    35.0
+   ],
+   "b": [
+    170.0,
+    108.0,
+    33.0
+   ],
+   "ra": 20.0,
+   "rb": 11.0,
+   "pcsa": 740.0,
+   "compartments": 2,
+   "nerve": "musculocutaneous_n",
+   "roots": "C5-C6",
+   "actions": [
+    "flexes elbow (strongest supinated)",
+    "supinates forearm (strongest at 90deg elbow flexion)",
+    "weak shoulder flexion (long head)"
+   ]
+  },
+  {
+   "id": "deltoid_l",
+   "name": "Deltoid",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -180.0,
+    470.0,
+    12.0
+   ],
+   "b": [
+    -185.0,
+    325.0,
+    25.0
+   ],
+   "ra": 28.3,
+   "rb": 15.6,
+   "pcsa": 2970.0,
+   "compartments": 7,
+   "nerve": "axillary_n",
+   "roots": "C5-C6",
+   "actions": [
+    "abducts humerus (all parts, prime mover past ~15deg)",
+    "flexes and internally rotates humerus (anterior/clavicular part)",
+    "extends and externally rotates humerus (posterior/spinal part)"
+   ]
+  },
+  {
+   "id": "flexor_digiti_minimi_brevis_hand_r",
+   "name": "Flexor digiti minimi brevis (hand)",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    165.0,
+    -132.0,
+    48.0
+   ],
+   "b": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 10.2,
+   "rb": 5.6,
+   "pcsa": 20.0,
+   "compartments": 1,
+   "nerve": "ulnar_n_deep_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "flexes little finger MCP joint (hypothenar muscle)"
+   ]
+  },
+  {
+   "id": "deltoid_r",
+   "name": "Deltoid",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    180.0,
+    470.0,
+    12.0
+   ],
+   "b": [
+    185.0,
+    325.0,
+    25.0
+   ],
+   "ra": 28.3,
+   "rb": 15.6,
+   "pcsa": 2970.0,
+   "compartments": 7,
+   "nerve": "axillary_n",
+   "roots": "C5-C6",
+   "actions": [
+    "abducts humerus (all parts, prime mover past ~15deg)",
+    "flexes and internally rotates humerus (anterior/clavicular part)",
+    "extends and externally rotates humerus (posterior/spinal part)"
+   ]
+  },
+  {
+   "id": "supraspinatus_r",
+   "name": "Supraspinatus",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    160.0,
+    560.0,
+    -15.0
+   ],
+   "b": [
+    190.0,
+    455.0,
+    20.0
+   ],
+   "ra": 18.7,
+   "rb": 10.3,
+   "pcsa": 550.0,
+   "compartments": 2,
+   "nerve": "suprascapular_n",
+   "roots": "C5-C6",
+   "actions": [
+    "initiates/assists glenohumeral abduction (first ~15deg, then throughout with deltoid)",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple)"
+   ]
+  },
+  {
+   "id": "adductor_pollicis_l",
+   "name": "Adductor pollicis",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "b": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "ra": 16.7,
+   "rb": 9.2,
+   "pcsa": 330.0,
+   "compartments": 2,
+   "nerve": "ulnar_n_deep_branch",
+   "roots": "C8-T1",
+   "actions": [
+    "adducts thumb CMC/MCP toward the palm (key/lateral pinch prime mover)"
+   ]
+  },
+  {
+   "id": "subscapularis_l",
+   "name": "Subscapularis",
+   "region": "upper_limb",
+   "shape": "capsule",
+   "a": [
+    -150.0,
+    500.0,
+    55.0
+   ],
+   "b": [
+    -175.0,
+    450.0,
+    30.0
+   ],
+   "ra": 26.9,
+   "rb": 14.8,
+   "pcsa": 2450.0,
+   "compartments": 2,
+   "nerve": "upper_subscapular_n, lower_subscapular_n",
+   "roots": "C5-C6",
+   "actions": [
+    "internally rotates humerus",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple, main anterior stabilizer)"
+   ]
+  },
+  {
+   "id": "gemellus_inferior_l",
+   "name": "Inferior gemellus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -74.0,
+    -48.0,
+    -45.0
+   ],
+   "b": [
+    -136.3,
+    -27.6,
+    -34.3
+   ],
+   "ra": 13.2,
+   "rb": 7.3,
+   "pcsa": 100.0,
+   "compartments": 1,
+   "nerve": "nerve_to_quadratus_femoris",
+   "roots": "L4-S1",
+   "actions": [
+    "externally rotates hip"
+   ]
+  },
+  {
+   "id": "dorsal_interossei_foot_r",
+   "name": "Dorsal interossei (foot)",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    68.5,
+    -937.6,
+    64.8
+   ],
+   "b": [
+    68.0,
+    -977.2,
+    62.1
+   ],
+   "ra": 14.2,
+   "rb": 7.8,
+   "pcsa": 150.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "abduct toes away from the axial line (digit 2, the foot's reference axis, unlike the hand's digit 3)"
+   ]
+  },
+  {
+   "id": "adductor_magnus_r",
+   "name": "Adductor magnus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    59.5,
+    -55.5,
+    -56.5
+   ],
+   "b": [
+    75.0,
+    -440.0,
+    -5.0
+   ],
+   "ra": 24.9,
+   "rb": 13.7,
+   "pcsa": 1800.0,
+   "compartments": 2,
+   "nerve": "obturator_n, obturator_n_branch_to_adductor_magnus_adductor_part, sciatic_n, sciatic_n_branch_to_adductor_magnus_hamstring_part",
+   "roots": "L2-L4 (adductor part), L4 (hamstring part)",
+   "actions": [
+    "adducts hip (adductor part)",
+    "extends hip (hamstring/ischiocondylar part)"
+   ]
+  },
+  {
+   "id": "fibularis_brevis_r",
+   "name": "Fibularis (peroneus) brevis",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    91.6,
+    -687.0,
+    11.8
+   ],
+   "b": [
+    85.2,
+    -905.1,
+    34.0
+   ],
+   "ra": 16.9,
+   "rb": 9.3,
+   "pcsa": 350.0,
+   "compartments": 1,
+   "nerve": "superficial_fibular_n",
+   "roots": "L5-S1",
+   "actions": [
+    "everts the ankle, assists plantarflexion"
+   ]
+  },
+  {
+   "id": "fibularis_longus_l",
+   "name": "Fibularis (peroneus) longus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -92.7,
+    -544.5,
+    9.5
+   ],
+   "b": [
+    -55.0,
+    -917.9,
+    85.6
+   ],
+   "ra": 18.3,
+   "rb": 10.1,
+   "pcsa": 500.0,
+   "compartments": 1,
+   "nerve": "superficial_fibular_n",
+   "roots": "L5-S1",
+   "actions": [
+    "everts the ankle, assists plantarflexion, supports the transverse (metatarsal) arch"
+   ]
+  },
+  {
+   "id": "gluteus_medius_l",
+   "name": "Gluteus medius",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -111.0,
+    90.5,
+    -6.5
+   ],
+   "b": [
+    -157.8,
+    -35.1,
+    -12.9
+   ],
+   "ra": 25.7,
+   "rb": 14.1,
+   "pcsa": 2050.0,
+   "compartments": 3,
+   "nerve": "superior_gluteal_n",
+   "roots": "L4-S1",
+   "actions": [
+    "abducts hip (prime mover)",
+    "stabilizes pelvis in single-leg stance (prevents contralateral pelvic drop -- Trendelenburg mechanism)",
+    "anterior fibers internally rotate, posterior fibers externally rotate hip"
+   ]
+  },
+  {
+   "id": "adductor_hallucis_l",
+   "name": "Adductor hallucis",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -77.4,
+    -909.4,
+    73.1
+   ],
+   "b": [
+    -53.6,
+    -1042.4,
+    84.9
+   ],
+   "ra": 17.4,
+   "rb": 9.6,
+   "pcsa": 400.0,
+   "compartments": 2,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "adducts the great toe; the transverse head helps maintain the transverse (metatarsal) arch"
+   ]
+  },
+  {
+   "id": "gluteus_medius_r",
+   "name": "Gluteus medius",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    111.0,
+    90.5,
+    -6.5
+   ],
+   "b": [
+    157.3,
+    -36.4,
+    -18.4
+   ],
+   "ra": 25.7,
+   "rb": 14.1,
+   "pcsa": 2050.0,
+   "compartments": 3,
+   "nerve": "superior_gluteal_n",
+   "roots": "L4-S1",
+   "actions": [
+    "abducts hip (prime mover)",
+    "stabilizes pelvis in single-leg stance (prevents contralateral pelvic drop -- Trendelenburg mechanism)",
+    "anterior fibers internally rotate, posterior fibers externally rotate hip"
+   ]
+  },
+  {
+   "id": "vastus_lateralis_l",
+   "name": "Vastus lateralis",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -157.8,
+    -35.1,
+    -12.9
+   ],
+   "b": [
+    -90.0,
+    -425.0,
+    30.0
+   ],
+   "ra": 26.8,
+   "rb": 14.7,
+   "pcsa": 2400.0,
+   "compartments": 1,
+   "nerve": "femoral_n",
+   "roots": "L2-L4",
+   "actions": [
+    "extends knee (largest quadriceps head by PCSA)"
+   ]
+  },
+  {
+   "id": "plantar_interossei_l",
+   "name": "Plantar interossei",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -78.8,
+    -933.4,
+    59.6
+   ],
+   "b": [
+    -66.9,
+    -1010.2,
+    71.6
+   ],
+   "ra": 12.7,
+   "rb": 7.0,
+   "pcsa": 80.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "adduct toes 3-5 toward the axial line (digit 2)"
+   ]
+  },
+  {
+   "id": "gluteus_minimus_l",
+   "name": "Gluteus minimus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -109.5,
+    50.5,
+    17.5
+   ],
+   "b": [
+    -138.3,
+    -18.8,
+    8.7
+   ],
+   "ra": 22.0,
+   "rb": 12.1,
+   "pcsa": 1100.0,
+   "compartments": 1,
+   "nerve": "superior_gluteal_n",
+   "roots": "L4-S1",
+   "actions": [
+    "abducts and internally rotates hip"
+   ]
+  },
+  {
+   "id": "gemellus_inferior_r",
+   "name": "Inferior gemellus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    74.0,
+    -48.0,
+    -45.0
+   ],
+   "b": [
+    136.4,
+    -27.5,
+    -39.1
+   ],
+   "ra": 13.2,
+   "rb": 7.3,
+   "pcsa": 100.0,
+   "compartments": 1,
+   "nerve": "nerve_to_quadratus_femoris",
+   "roots": "L4-S1",
+   "actions": [
+    "externally rotates hip"
+   ]
+  },
+  {
+   "id": "biceps_femoris_r",
+   "name": "Biceps femoris",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    48.0,
+    -47.0,
+    -48.0
+   ],
+   "b": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "ra": 22.2,
+   "rb": 12.2,
+   "pcsa": 1150.0,
+   "compartments": 2,
+   "nerve": "sciatic_n, sciatic_n_branch_to_biceps_femoris_long_head, sciatic_n_branch_to_biceps_femoris_short_head",
+   "roots": "L5-S2",
+   "actions": [
+    "extends hip (long head only)",
+    "flexes and externally rotates knee"
+   ]
+  },
+  {
+   "id": "gastrocnemius_l",
+   "name": "Gastrocnemius",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "b": [
+    -51.4,
+    -893.4,
+    -36.0
+   ],
+   "ra": 24.5,
+   "rb": 13.5,
+   "pcsa": 1700.0,
+   "compartments": 2,
+   "nerve": "tibial_n",
+   "roots": "S1-S2",
+   "actions": [
+    "plantarflexes ankle",
+    "flexes knee (crosses both joints, unlike soleus)"
+   ]
+  },
+  {
+   "id": "flexor_digiti_minimi_brevis_foot_r",
+   "name": "Flexor digiti minimi brevis (foot)",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    77.3,
+    -898.8,
+    32.4
+   ],
+   "b": [
+    66.7,
+    -974.1,
+    62.9
+   ],
+   "ra": 11.7,
+   "rb": 6.4,
+   "pcsa": 50.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n",
+   "roots": "S1-S3",
+   "actions": [
+    "flexes the little toe's MTP joint"
+   ]
+  },
+  {
+   "id": "gemellus_superior_l",
+   "name": "Superior gemellus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -75.0,
+    -30.0,
+    -30.0
+   ],
+   "b": [
+    -136.3,
+    -27.6,
+    -34.3
+   ],
+   "ra": 11.7,
+   "rb": 6.4,
+   "pcsa": 50.0,
+   "compartments": 1,
+   "nerve": "nerve_to_obturator_internus",
+   "roots": "L5-S2",
+   "actions": [
+    "externally rotates hip"
+   ]
+  },
+  {
+   "id": "vastus_medialis_l",
+   "name": "Vastus medialis",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -109.3,
+    -200.0,
+    -5.5
+   ],
+   "b": [
+    -90.0,
+    -425.0,
+    30.0
+   ],
+   "ra": 24.1,
+   "rb": 13.3,
+   "pcsa": 1600.0,
+   "compartments": 2,
+   "nerve": "femoral_n",
+   "roots": "L2-L4",
+   "actions": [
+    "extends knee",
+    "distal oblique fibers (VMO) stabilize patellar tracking, resisting lateral subluxation"
+   ]
+  },
+  {
+   "id": "soleus_r",
+   "name": "Soleus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    83.9,
+    -510.0,
+    5.4
+   ],
+   "b": [
+    58.4,
+    -890.1,
+    -43.8
+   ],
+   "ra": 30.0,
+   "rb": 16.5,
+   "pcsa": 5100.0,
+   "compartments": 1,
+   "nerve": "tibial_n",
+   "roots": "S1-S2",
+   "actions": [
+    "plantarflexes ankle (primary postural/gait plantarflexor -- crosses only the ankle, unlike gastrocnemius, so remains effective regardless of knee position)"
+   ]
+  },
+  {
+   "id": "gluteus_minimus_r",
+   "name": "Gluteus minimus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    109.5,
+    50.5,
+    17.5
+   ],
+   "b": [
+    138.1,
+    -21.1,
+    5.8
+   ],
+   "ra": 22.0,
+   "rb": 12.1,
+   "pcsa": 1100.0,
+   "compartments": 1,
+   "nerve": "superior_gluteal_n",
+   "roots": "L4-S1",
+   "actions": [
+    "abducts and internally rotates hip"
+   ]
+  },
+  {
+   "id": "plantar_interossei_r",
+   "name": "Plantar interossei",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    74.3,
+    -933.6,
+    54.8
+   ],
+   "b": [
+    61.6,
+    -1012.0,
+    64.8
+   ],
+   "ra": 12.7,
+   "rb": 7.0,
+   "pcsa": 80.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "adduct toes 3-5 toward the axial line (digit 2)"
+   ]
+  },
+  {
+   "id": "adductor_hallucis_r",
+   "name": "Adductor hallucis",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    71.6,
+    -912.4,
+    67.5
+   ],
+   "b": [
+    48.3,
+    -1044.2,
+    78.1
+   ],
+   "ra": 17.4,
+   "rb": 9.6,
+   "pcsa": 400.0,
+   "compartments": 2,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "adducts the great toe; the transverse head helps maintain the transverse (metatarsal) arch"
+   ]
+  },
+  {
+   "id": "fibularis_longus_r",
+   "name": "Fibularis (peroneus) longus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    92.7,
+    -544.5,
+    9.5
+   ],
+   "b": [
+    48.0,
+    -921.6,
+    75.6
+   ],
+   "ra": 18.3,
+   "rb": 10.1,
+   "pcsa": 500.0,
+   "compartments": 1,
+   "nerve": "superficial_fibular_n",
+   "roots": "L5-S1",
+   "actions": [
+    "everts the ankle, assists plantarflexion, supports the transverse (metatarsal) arch"
+   ]
+  },
+  {
+   "id": "soleus_l",
+   "name": "Soleus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -90.7,
+    -510.0,
+    4.2
+   ],
+   "b": [
+    -51.4,
+    -893.4,
+    -36.0
+   ],
+   "ra": 30.0,
+   "rb": 16.5,
+   "pcsa": 5100.0,
+   "compartments": 1,
+   "nerve": "tibial_n",
+   "roots": "S1-S2",
+   "actions": [
+    "plantarflexes ankle (primary postural/gait plantarflexor -- crosses only the ankle, unlike gastrocnemius, so remains effective regardless of knee position)"
+   ]
+  },
+  {
+   "id": "dorsal_interossei_foot_l",
+   "name": "Dorsal interossei (foot)",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -73.4,
+    -936.9,
+    70.6
+   ],
+   "b": [
+    -73.3,
+    -975.4,
+    68.9
+   ],
+   "ra": 14.2,
+   "rb": 7.8,
+   "pcsa": 150.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "abduct toes away from the axial line (digit 2, the foot's reference axis, unlike the hand's digit 3)"
+   ]
+  },
+  {
+   "id": "gastrocnemius_r",
+   "name": "Gastrocnemius",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "b": [
+    58.4,
+    -890.1,
+    -43.8
+   ],
+   "ra": 24.5,
+   "rb": 13.5,
+   "pcsa": 1700.0,
+   "compartments": 2,
+   "nerve": "tibial_n",
+   "roots": "S1-S2",
+   "actions": [
+    "plantarflexes ankle",
+    "flexes knee (crosses both joints, unlike soleus)"
+   ]
+  },
+  {
+   "id": "biceps_femoris_l",
+   "name": "Biceps femoris",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -48.0,
+    -47.0,
+    -48.0
+   ],
+   "b": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "ra": 22.2,
+   "rb": 12.2,
+   "pcsa": 1150.0,
+   "compartments": 2,
+   "nerve": "sciatic_n, sciatic_n_branch_to_biceps_femoris_long_head, sciatic_n_branch_to_biceps_femoris_short_head",
+   "roots": "L5-S2",
+   "actions": [
+    "extends hip (long head only)",
+    "flexes and externally rotates knee"
+   ]
+  },
+  {
+   "id": "fibularis_brevis_l",
+   "name": "Fibularis (peroneus) brevis",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -91.6,
+    -687.0,
+    11.8
+   ],
+   "b": [
+    -89.2,
+    -908.2,
+    47.4
+   ],
+   "ra": 16.9,
+   "rb": 9.3,
+   "pcsa": 350.0,
+   "compartments": 1,
+   "nerve": "superficial_fibular_n",
+   "roots": "L5-S1",
+   "actions": [
+    "everts the ankle, assists plantarflexion"
+   ]
+  },
+  {
+   "id": "gemellus_superior_r",
+   "name": "Superior gemellus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    75.0,
+    -30.0,
+    -30.0
+   ],
+   "b": [
+    136.4,
+    -27.5,
+    -39.1
+   ],
+   "ra": 11.7,
+   "rb": 6.4,
+   "pcsa": 50.0,
+   "compartments": 1,
+   "nerve": "nerve_to_obturator_internus",
+   "roots": "L5-S2",
+   "actions": [
+    "externally rotates hip"
+   ]
+  },
+  {
+   "id": "flexor_digiti_minimi_brevis_foot_l",
+   "name": "Flexor digiti minimi brevis (foot)",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -79.3,
+    -896.9,
+    39.5
+   ],
+   "b": [
+    -72.6,
+    -974.1,
+    71.4
+   ],
+   "ra": 11.7,
+   "rb": 6.4,
+   "pcsa": 50.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n",
+   "roots": "S1-S3",
+   "actions": [
+    "flexes the little toe's MTP joint"
+   ]
+  },
+  {
+   "id": "gluteus_maximus_r",
+   "name": "Gluteus maximus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    71.5,
+    74.0,
+    -52.0
+   ],
+   "b": [
+    109.1,
+    -200.0,
+    -7.4
+   ],
+   "ra": 27.3,
+   "rb": 15.0,
+   "pcsa": 2600.0,
+   "compartments": 2,
+   "nerve": "inferior_gluteal_n",
+   "roots": "L5-S2",
+   "actions": [
+    "extends hip (main climbing/rising-from-sit/sprinting muscle)",
+    "externally rotates hip",
+    "upper fibers assist abduction, lower fibers assist adduction"
+   ]
+  },
+  {
+   "id": "vastus_lateralis_r",
+   "name": "Vastus lateralis",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    157.3,
+    -36.4,
+    -18.4
+   ],
+   "b": [
+    90.0,
+    -425.0,
+    30.0
+   ],
+   "ra": 26.8,
+   "rb": 14.7,
+   "pcsa": 2400.0,
+   "compartments": 1,
+   "nerve": "femoral_n",
+   "roots": "L2-L4",
+   "actions": [
+    "extends knee (largest quadriceps head by PCSA)"
+   ]
+  }
+ ],
+ "soft_solids": [
+  {
+   "kind": "ligament",
+   "id": "lateral_ligament_complex_ankle_r",
+   "name": "Lateral ligament complex of the ankle",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "3 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "deltoid_ligament_r",
+   "name": "Deltoid (medial) ligament of the ankle",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "4 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "lateral_ligament_complex_ankle_l",
+   "name": "Lateral ligament complex of the ankle",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    -71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "3 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "deltoid_ligament_l",
+   "name": "Deltoid (medial) ligament of the ankle",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    -71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "4 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "ulnar_collateral_ligament_elbow_r",
+   "name": "Ulnar (medial) collateral ligament of elbow",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "3 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "radial_collateral_ligament_complex_elbow_r",
+   "name": "Radial (lateral) collateral ligament complex of elbow",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "annular_ligament_r",
+   "name": "Annular ligament of radius",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    133.0,
+    28.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "ulnar_collateral_ligament_elbow_l",
+   "name": "Ulnar (medial) collateral ligament of elbow",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "3 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "radial_collateral_ligament_complex_elbow_l",
+   "name": "Radial (lateral) collateral ligament complex of elbow",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "annular_ligament_l",
+   "name": "Annular ligament of radius",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    133.0,
+    28.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "plantar_ligament_complex_r",
+   "name": "plantar_ligament_complex_r",
+   "region": "ankle_foot",
+   "shape": "ellipsoid",
+   "center": [
+    71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "plantar_ligament_complex_l",
+   "name": "plantar_ligament_complex_l",
+   "region": "ankle_foot",
+   "shape": "ellipsoid",
+   "center": [
+    -71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "hip_ligament_complex_r",
+   "name": "Hip capsular ligament complex",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "hip_ligament_complex_l",
+   "name": "Hip capsular ligament complex",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "anterior_cruciate_ligament_r",
+   "name": "Anterior cruciate ligament (ACL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "posterior_cruciate_ligament_r",
+   "name": "Posterior cruciate ligament (PCL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "tibial_collateral_ligament_r",
+   "name": "Tibial (medial) collateral ligament (MCL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "fibular_collateral_ligament_r",
+   "name": "Fibular (lateral) collateral ligament (LCL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "patellar_ligament_r",
+   "name": "Patellar ligament (patellar tendon)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "anterior_cruciate_ligament_l",
+   "name": "Anterior cruciate ligament (ACL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "posterior_cruciate_ligament_l",
+   "name": "Posterior cruciate ligament (PCL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "tibial_collateral_ligament_l",
+   "name": "Tibial (medial) collateral ligament (MCL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "fibular_collateral_ligament_l",
+   "name": "Fibular (lateral) collateral ligament (LCL)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "patellar_ligament_l",
+   "name": "Patellar ligament (patellar tendon)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "anterior_sacroiliac_ligament_r",
+   "name": "Anterior sacroiliac ligament",
+   "region": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "posterior_sacroiliac_ligament_r",
+   "name": "Posterior (incl. interosseous) sacroiliac ligament",
+   "region": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "anterior_sacroiliac_ligament_l",
+   "name": "Anterior sacroiliac ligament",
+   "region": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "posterior_sacroiliac_ligament_l",
+   "name": "Posterior (incl. interosseous) sacroiliac ligament",
+   "region": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "superior_pubic_ligament",
+   "name": "Superior pubic ligament",
+   "region": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "arcuate_pubic_ligament",
+   "name": "Arcuate (inferior) pubic ligament",
+   "region": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "glenohumeral_ligament_complex_r",
+   "name": "Glenohumeral ligaments",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "4 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "coracohumeral_ligament_r",
+   "name": "Coracohumeral ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "coracoacromial_ligament_r",
+   "name": "Coracoacromial ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "coracoclavicular_ligament_r",
+   "name": "Coracoclavicular ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "acromioclavicular_ligament_r",
+   "name": "Acromioclavicular ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "sternoclavicular_ligament_r",
+   "name": "Sternoclavicular ligaments",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    30.0,
+    480.0,
+    20.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "glenohumeral_ligament_complex_l",
+   "name": "Glenohumeral ligaments",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "4 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "coracohumeral_ligament_l",
+   "name": "Coracohumeral ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "coracoacromial_ligament_l",
+   "name": "Coracoacromial ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "coracoclavicular_ligament_l",
+   "name": "Coracoclavicular ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "acromioclavicular_ligament_l",
+   "name": "Acromioclavicular ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "sternoclavicular_ligament_l",
+   "name": "Sternoclavicular ligaments",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -30.0,
+    480.0,
+    20.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "2 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "interclavicular_ligament",
+   "name": "Interclavicular ligament",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    30.0,
+    480.0,
+    20.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "wrist_ligament_complex_r",
+   "name": "Wrist (carpal) ligament complex",
+   "region": "wrist",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "wrist_ligament_complex_l",
+   "name": "Wrist (carpal) ligament complex",
+   "region": "wrist",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "glenohumeral_articular_cartilage_r",
+   "name": "Glenohumeral articular cartilage",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "glenohumeral_articular_cartilage_l",
+   "name": "Glenohumeral articular cartilage",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "elbow_articular_cartilage_r",
+   "name": "Elbow articular cartilage",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "elbow_articular_cartilage_l",
+   "name": "Elbow articular cartilage",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "wrist_articular_cartilage_r",
+   "name": "Wrist articular cartilage",
+   "region": "wrist",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "wrist_articular_cartilage_l",
+   "name": "Wrist articular cartilage",
+   "region": "wrist",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "hip_articular_cartilage_r",
+   "name": "Hip articular cartilage",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "hip_articular_cartilage_l",
+   "name": "Hip articular cartilage",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "knee_articular_cartilage_r",
+   "name": "Knee articular cartilage",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "knee_articular_cartilage_l",
+   "name": "Knee articular cartilage",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "patellofemoral_articular_cartilage_r",
+   "name": "Patellofemoral articular cartilage",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -440.0,
+    25.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "patellofemoral_articular_cartilage_l",
+   "name": "Patellofemoral articular cartilage",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -440.0,
+    25.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "ankle_articular_cartilage_r",
+   "name": "Ankle articular cartilage",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "ankle_articular_cartilage_l",
+   "name": "Ankle articular cartilage",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    -71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "glenoid_labrum_r",
+   "name": "Glenoid labrum",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "acetabular_labrum_r",
+   "name": "Acetabular labrum",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "glenoid_labrum_l",
+   "name": "Glenoid labrum",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "acetabular_labrum_l",
+   "name": "Acetabular labrum",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "medial_meniscus_r",
+   "name": "Medial meniscus",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "lateral_meniscus_r",
+   "name": "Lateral meniscus",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "medial_meniscus_l",
+   "name": "Medial meniscus",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "lateral_meniscus_l",
+   "name": "Lateral meniscus",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "pubic_symphysis_disc",
+   "name": "Interpubic fibrocartilaginous disc",
+   "region": "pelvis",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "tfcc_disc_r",
+   "name": "Triangular fibrocartilage complex (TFCC) articular disc",
+   "region": "wrist",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "cartilage",
+   "id": "tfcc_disc_l",
+   "name": "Triangular fibrocartilage complex (TFCC) articular disc",
+   "region": "wrist",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    15,
+    8,
+    15
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "achilles_tendon_r",
+   "name": "Achilles (calcaneal) tendon",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "quadriceps_tendon_r",
+   "name": "Quadriceps femoris tendon",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -440.0,
+    25.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "pes_anserinus_r",
+   "name": "Pes anserinus (conjoined tendon)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "proximal_hamstring_tendon_r",
+   "name": "Proximal hamstring (conjoint) tendon",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "semimembranosus_distal_tendon_r",
+   "name": "Semimembranosus distal tendon",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "4 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "iliopsoas_tendon_r",
+   "name": "Iliopsoas tendon",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "adductor_magnus_distal_tendon_r",
+   "name": "Adductor magnus distal tendon",
+   "region": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "achilles_tendon_l",
+   "name": "Achilles (calcaneal) tendon",
+   "region": "ankle",
+   "shape": "ellipsoid",
+   "center": [
+    -71.5,
+    -853.5,
+    22.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "quadriceps_tendon_l",
+   "name": "Quadriceps femoris tendon",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -440.0,
+    25.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "pes_anserinus_l",
+   "name": "Pes anserinus (conjoined tendon)",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "proximal_hamstring_tendon_l",
+   "name": "Proximal hamstring (conjoint) tendon",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "semimembranosus_distal_tendon_l",
+   "name": "Semimembranosus distal tendon",
+   "region": "knee",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "4 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "iliopsoas_tendon_l",
+   "name": "Iliopsoas tendon",
+   "region": "hip",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "adductor_magnus_distal_tendon_l",
+   "name": "Adductor magnus distal tendon",
+   "region": "thigh",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "conjoint_tendon_r",
+   "name": "Conjoint tendon (inguinal falx)",
+   "region": "trunk",
+   "shape": "ellipsoid",
+   "center": [
+    90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "conjoint_tendon_l",
+   "name": "Conjoint tendon (inguinal falx)",
+   "region": "trunk",
+   "shape": "ellipsoid",
+   "center": [
+    -90.0,
+    0.0,
+    0.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "rotator_cuff_tendon_complex_r",
+   "name": "Rotator cuff tendon complex",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "4 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "biceps_brachii_tendon_complex_r",
+   "name": "Biceps brachii tendon complex",
+   "region": "shoulder_elbow",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    133.0,
+    28.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "triceps_brachii_tendon_r",
+   "name": "Triceps brachii tendon",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "common_flexor_tendon_r",
+   "name": "Common flexor tendon",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "common_extensor_tendon_r",
+   "name": "Common extensor tendon",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "flexor_tendon_pulley_system_hand_r",
+   "name": "Finger flexor tendon sheath and pulley system",
+   "region": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "extensor_hood_r",
+   "name": "Extensor hood (dorsal digital expansion)",
+   "region": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "palmaris_longus_tendon_r",
+   "name": "Palmaris longus tendon",
+   "region": "wrist_hand",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "extensor_pollicis_longus_tendon_r",
+   "name": "Extensor pollicis longus tendon",
+   "region": "wrist_hand",
+   "shape": "ellipsoid",
+   "center": [
+    180.0,
+    -182.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "rotator_cuff_tendon_complex_l",
+   "name": "Rotator cuff tendon complex",
+   "region": "shoulder",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "4 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "biceps_brachii_tendon_complex_l",
+   "name": "Biceps brachii tendon complex",
+   "region": "shoulder_elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    133.0,
+    28.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "3 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "triceps_brachii_tendon_l",
+   "name": "Triceps brachii tendon",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -165.0,
+    138.0,
+    23.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "common_flexor_tendon_l",
+   "name": "Common flexor tendon",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "common_extensor_tendon_l",
+   "name": "Common extensor tendon",
+   "region": "elbow",
+   "shape": "ellipsoid",
+   "center": [
+    -170.0,
+    470.0,
+    15.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "flexor_tendon_pulley_system_hand_l",
+   "name": "Finger flexor tendon sheath and pulley system",
+   "region": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "2 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "extensor_hood_l",
+   "name": "Extensor hood (dorsal digital expansion)",
+   "region": "hand",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "palmaris_longus_tendon_l",
+   "name": "Palmaris longus tendon",
+   "region": "wrist_hand",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    -117.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  },
+  {
+   "kind": "tendon",
+   "id": "extensor_pollicis_longus_tendon_l",
+   "name": "Extensor pollicis longus tendon",
+   "region": "wrist_hand",
+   "shape": "ellipsoid",
+   "center": [
+    -180.0,
+    -182.0,
+    33.0
+   ],
+   "radii": [
+    8,
+    14,
+    8
+   ],
+   "approximate": true,
+   "note": "1 documented part(s)"
+  }
+ ]
+}

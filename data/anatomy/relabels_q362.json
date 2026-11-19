@@ -1,0 +1,34 @@
+{
+ "schema": "nmsk.relabels.v1",
+ "round": "Q362",
+ "doc": "Display-name corrections of Z-Anatomy meshes whose source label names a different gut segment than the one the mesh occupies on this body. Applied to the Base pages' embedded manifest at regen by scripts/zanatomy/patch_manifest_relabel_q362.py (after the Q354 card rules). The mesh id and geometry are unchanged; the source label stays visible on the card. Measurements: Q362 (scratch renders; numbers per page below). The Z-Anatomy source has an object 'Sigmoid colon' and NO 'Rectum' or 'Anal canal' object (data/derived/zanatomy_inventory.json).",
+ "citations": {
+  "M17": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017"
+ },
+ "entries": [
+  {
+   "id": "zan_sigmoid_colon",
+   "name": "Rectum and anal canal",
+   "latin": "Rectum et canalis analis",
+   "source_label": "Sigmoid colon",
+   "source": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, pp. 385, 563",
+   "facts": "The rectum begins at the third sacral vertebra, where the pelvic (sigmoid) colon ends, runs down in the concavity of the sacrum and, about 3 cm in front of the coccyx, bends backwards to become the anal canal, 3.8 cm long below the pelvic diaphragm (Mannan 14th ed., p. 385; levels, p. 563).",
+   "reason": {
+    "base_m": "Z-Anatomy source label: Sigmoid colon. Shown as the rectum and anal canal because on this body the mesh lies wholly below the rectosigmoid junction: its upper end is at 0.43 of the sacral height below the promontory (the third sacral vertebra), and it runs down the sacral hollow to 26 mm below the coccyx tip, ending inside the external anal sphincter.",
+    "base_f": "Z-Anatomy source label: Sigmoid colon. Shown as the rectum and anal canal because on this body the mesh lies wholly below the rectosigmoid junction: its upper end is at 0.50 of the sacral height below the promontory (the third sacral vertebra), and it runs down the sacral hollow to 46 mm below the coccyx tip, ending inside the external anal sphincter."
+   }
+  },
+  {
+   "id": "zan_descending_colon",
+   "name": "Descending colon",
+   "latin": "Colon descendens (with the sigmoid loop)",
+   "source_label": "Descending colon",
+   "source": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, pp. 385, 563",
+   "facts": "The sigmoid (pelvic) colon extends to the third sacral vertebra, where it becomes the rectum (Mannan 14th ed., pp. 385, 563).",
+   "reason": {
+    "base_m": "Z-Anatomy source label: Descending colon. This one mesh also holds the sigmoid loop: it dips into the pelvis to the level of the sacral apex (0.96 of the sacral height below the promontory) and ends at the third sacral vertebra, where the rectum begins (the mesh is not split).",
+    "base_f": "Z-Anatomy source label: Descending colon. This one mesh also holds the sigmoid loop: it dips into the pelvis below the sacral apex (1.15 of the sacral height below the promontory) and ends at the third sacral vertebra, where the rectum begins (the mesh is not split)."
+   }
+  }
+ ]
+}

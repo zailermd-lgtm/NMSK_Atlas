@@ -1,0 +1,200 @@
+{
+ "page": "atlas_viewer_male.html",
+ "cond": "plain",
+ "vp": "1366x768",
+ "checks": {
+  "btn_ct_mri_visible": true,
+  "btn_ultrasound_visible": true,
+  "tooltip_imaging_ready": true,
+  "tooltip_ultrasound_ready": true,
+  "code_inline": true,
+  "table_inline": true,
+  "imaging_diag_ready": true,
+  "imaging_panel_visible": true,
+  "imaging_cut_exists": true,
+  "imaging_hint_shown": true,
+  "img_ct_soft_mpr": true,
+  "img_ct_bone": true,
+  "img_mri_t1": true,
+  "img_mri_t2": true,
+  "img_ct_single": true,
+  "no_horizontal_scroll": true,
+  "imaging_closed_3d_back": true,
+  "ultrasound_diag_ready": true,
+  "ultrasound_panel_visible": true,
+  "us_star_perp_tilt": true,
+  "us_sweep3": true,
+  "us_sweep9": true,
+  "us_nine_frames": true,
+  "no_page_errors": true,
+  "completed": true
+ },
+ "errors": [],
+ "shots": {
+  "ct_soft_mpr": {
+   "std": 47.3,
+   "ink": 0.583,
+   "w": 683,
+   "h": 768
+  },
+  "ct_bone": {
+   "std": 37.6,
+   "ink": 0.584,
+   "w": 683,
+   "h": 768
+  },
+  "mri_t1": {
+   "std": 72.5,
+   "ink": 0.617,
+   "w": 683,
+   "h": 768
+  },
+  "mri_t2": {
+   "std": 59.7,
+   "ink": 0.615,
+   "w": 683,
+   "h": 768
+  },
+  "ct_single": {
+   "std": 45.0,
+   "ink": 0.571,
+   "w": 683,
+   "h": 768
+  },
+  "star_perp_tilt": {
+   "std": 45.6,
+   "ink": 0.603,
+   "w": 683,
+   "h": 768
+  },
+  "sweep3": {
+   "std": 46.3,
+   "ink": 0.599,
+   "w": 683,
+   "h": 768
+  },
+  "sweep9": {
+   "std": 44.5,
+   "ink": 0.601,
+   "w": 683,
+   "h": 768
+  }
+ },
+ "code": {
+  "imaging": {
+   "ok": true,
+   "text": "Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+   "version": "q226.2",
+   "tissues": 33,
+   "code": "inline",
+   "table": "inline"
+  },
+  "ultrasound": {
+   "ok": true,
+   "text": "Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)",
+   "version": "q228.2",
+   "tissues": 33,
+   "code": "inline",
+   "table": "inline"
+  }
+ },
+ "buttons": {
+  "i": {
+   "text": "CT / MRI",
+   "tip": "CT / MRI: simulated CT and MRI of the cut plane (not a scan) | Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+   "x": 577,
+   "y": 129,
+   "w": 69,
+   "h": 29,
+   "inside": true
+  },
+  "u": {
+   "text": "Ultrasound",
+   "tip": "Ultrasound: simulated B-mode from the meshes (not a scan) | Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)",
+   "x": 653,
+   "y": 129,
+   "w": 83,
+   "h": 29,
+   "inside": true
+  },
+  "W": 1366,
+  "H": 768
+ },
+ "tooltips": [
+  "CT / MRI: simulated CT and MRI of the cut plane (not a scan) | Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+  "Ultrasound: simulated B-mode from the meshes (not a scan) | Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)"
+ ],
+ "imaging_diag": "Imaging tool: ready (vq226.2, tissues 33, code inline, table inline)",
+ "imaging_hint": "No cut was set, so an axial cut through the upper abdomen was created for you. Click or drag in any image to move it, or use the Cut panel of the 3D view. OK",
+ "canvas_std": {
+  "ct_soft_mpr": [
+   52.3,
+   53.1,
+   60.5,
+   63.6
+  ],
+  "ct_bone": [
+   34.7,
+   35.1,
+   37.2,
+   42.6
+  ],
+  "mri_t1": [
+   106.1,
+   105.8,
+   104.9,
+   99.8
+  ],
+  "mri_t2": [
+   84.1,
+   83.9,
+   81.8,
+   79.5
+  ],
+  "ct_single": [
+   52.5
+  ],
+  "star_perp_tilt": [
+   43.8,
+   49.2,
+   48.9,
+   47.9,
+   47.9,
+   48.9,
+   48.6,
+   49,
+   49.2
+  ],
+  "sweep3": [
+   44.3,
+   44.4,
+   43.9
+  ],
+  "sweep9": [
+   47.2,
+   47.4,
+   46.9,
+   46.5,
+   47,
+   47,
+   47.4,
+   48.2,
+   48.4
+  ]
+ },
+ "layout": {
+  "cls": "nmsk-img img-side",
+  "scrollW": 1366,
+  "innerW": 1366,
+  "panel": [
+   683,
+   0,
+   683,
+   768
+  ]
+ },
+ "ultrasound_diag": "Ultrasound tool: ready (vq228.2, tissues 33, code inline, table inline)",
+ "us_frames": 9,
+ "ok": true,
+ "seconds": 133
+}

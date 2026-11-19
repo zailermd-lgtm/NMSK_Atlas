@@ -1,0 +1,318 @@
+{
+ "loop": {
+  "n": 36,
+  "perimeter_mm": 378.9,
+  "rail_gap_mm": {
+   "median": 2.45,
+   "p90": 4.05,
+   "max": 4.56
+  }
+ },
+ "bone_registration": {
+  "method": "rigid + uniform scale, bidirectional trimmed closest point (Q235 sym_icp), CVH pelvic bone + sacrum/coccyx -> hip bones, sacrum, coccyx; sx = -1",
+  "scale": 1.133,
+  "residual_mm": {
+   "median": 4.11,
+   "p90": 7.78,
+   "max": 19.93
+  }
+ },
+ "cvh_skin": {
+  "vertices": 8985,
+  "triangles": 17976,
+  "crop_cap_triangles_dropped": 1921
+ },
+ "surface_fit": {
+  "method": "similarity (rotation + translation + uniform scale), trimmed closest point (80 %), 40 rounds, CVH skin within 70 mm of the rim (opening dilated 15 mm excluded) onto the outer sheets of this page's Z skin patches",
+  "target_patches": [
+   "zan_skin_anal_region_l",
+   "zan_skin_anal_region_r",
+   "zan_skin_anterior_region_of_thigh_l",
+   "zan_skin_anterior_region_of_thigh_r",
+   "zan_skin_femoral_triangle_l",
+   "zan_skin_femoral_triangle_r",
+   "zan_skin_gluteal_fold_l",
+   "zan_skin_gluteal_fold_r",
+   "zan_skin_gluteal_region_l",
+   "zan_skin_gluteal_region_r",
+   "zan_skin_hypogastric_region_l",
+   "zan_skin_hypogastric_region_r",
+   "zan_skin_inguinal_region_l",
+   "zan_skin_inguinal_region_r",
+   "zan_skin_posterior_region_of_thigh_l",
+   "zan_skin_posterior_region_of_thigh_r"
+  ],
+  "band_points": 1273,
+  "scale_after_bones": 0.8352,
+  "total_scale_cvh_to_page": 0.9463,
+  "rotation_deg_after_bones": 8.05,
+  "translation_mm_after_bones": 8.9,
+  "band_distance_to_page_skin_mm": {
+   "median": 5.02,
+   "p90": 14.65,
+   "max": 31.15
+  }
+ },
+ "piece": {
+  "triangles": 2696,
+  "vertices": 1488,
+  "hole_faces_added_from_source": 1,
+  "flap_faces_removed": 941,
+  "boundary_loops": [
+   236,
+   27,
+   20,
+   14,
+   5,
+   3,
+   3,
+   3,
+   2
+  ],
+  "outer_area_mm2": 8395.6,
+  "border_depth_under_neighbour_skin_mm": {
+   "median": -1.2,
+   "p90": 10.88,
+   "max": 16.45
+  },
+  "border_vertices_inside_opening": 111,
+  "border_vertices": 236,
+  "rim_to_piece_mm": {
+   "median": 8.27,
+   "p90": 30.83,
+   "max": 34.92
+  }
+ },
+ "see_through": {
+  "before": {
+   "rays": 5124,
+   "open": 3989,
+   "open_share": 0.7785,
+   "reach_mm": 15.0,
+   "no_skin_within_120mm": 3786,
+   "no_skin_share": 0.7389
+  },
+  "after": {
+   "rays": 5124,
+   "open": 1326,
+   "open_share": 0.2588,
+   "reach_mm": 15.0,
+   "no_skin_within_120mm": 856,
+   "no_skin_share": 0.1671
+  },
+  "after_source_openings_capped": {
+   "rays": 5124,
+   "open": 1074,
+   "open_share": 0.2096,
+   "reach_mm": 15.0,
+   "no_skin_within_120mm": 611,
+   "no_skin_share": 0.1192
+  },
+  "source_interior_openings": [
+   27,
+   20,
+   14,
+   5,
+   3,
+   3,
+   3,
+   2
+  ]
+ },
+ "slab": {
+  "thickness_mm": 3.0,
+  "vertices": 2976,
+  "triangles": 6020,
+  "watertight": false,
+  "winding_consistent": true,
+  "volume_cm3": 24.148,
+  "outer_area_mm2": 8395.6
+ },
+ "symmetry": {
+  "outer_sheet_mirror_nn_mm": {
+   "median": 2.6,
+   "p90": 8.04,
+   "max": 27.45
+  },
+  "neighbour_z_skin_mirror_nn_mm": {
+   "median": 0.01,
+   "p90": 0.02,
+   "max": 0.05
+  },
+  "centroid_x_mm": 1.35,
+  "note": "the CVH woman's own vulva is not mirror-exact; the Z neighbours are exact mirrors by construction"
+ },
+ "shift_vs_bone_only_mm": {
+  "median": 9.51,
+  "p90": 14.98,
+  "max": 24.28
+ },
+ "organs_vs_new_skin": {
+  "clitoris_cavernous_body": {
+   "nearest_mm": 0.8,
+   "nearest_if_bone_only_mm": 4.7
+  },
+  "vestibular_bulb_l": {
+   "nearest_mm": 14.2,
+   "nearest_if_bone_only_mm": 17.0
+  },
+  "vestibular_bulb_r": {
+   "nearest_mm": 12.9,
+   "nearest_if_bone_only_mm": 14.9
+  },
+  "bartholin_gland_l": {
+   "nearest_mm": 19.8,
+   "nearest_if_bone_only_mm": 16.3
+  },
+  "bartholin_gland_r": {
+   "nearest_mm": 11.9,
+   "nearest_if_bone_only_mm": 12.0
+  },
+  "vagina": {
+   "nearest_mm": 5.2,
+   "nearest_if_bone_only_mm": 6.0
+  },
+  "urethra_female_submucous_layer": {
+   "nearest_mm": 7.9,
+   "nearest_if_bone_only_mm": 10.5
+  },
+  "urethra_female_lumen": {
+   "nearest_mm": 9.4,
+   "nearest_if_bone_only_mm": 12.2
+  },
+  "perineal_body": {
+   "nearest_mm": 0.5,
+   "nearest_if_bone_only_mm": 0.0
+  },
+  "bulbospongiosus_cvh": {
+   "nearest_mm": 7.6,
+   "nearest_if_bone_only_mm": 7.1
+  },
+  "ischiocavernosus_cvh_l": {
+   "nearest_mm": 25.6,
+   "nearest_if_bone_only_mm": 25.5
+  },
+  "ischiocavernosus_cvh_r": {
+   "nearest_mm": 21.0,
+   "nearest_if_bone_only_mm": 21.3
+  },
+  "urethrovaginal_sphincter_cvh": {
+   "nearest_mm": 7.7,
+   "nearest_if_bone_only_mm": 2.9
+  },
+  "urethral_compressor_cvh": {
+   "nearest_mm": 6.6,
+   "nearest_if_bone_only_mm": 9.2
+  },
+  "superficial_transverse_perineal_cvh": {
+   "nearest_mm": 6.2,
+   "nearest_if_bone_only_mm": 5.0
+  },
+  "deep_perineal_muscle_cvh": {
+   "nearest_mm": 0.9,
+   "nearest_if_bone_only_mm": 3.6
+  },
+  "external_anal_sphincter_ct_vhf": {
+   "nearest_mm": 6.7,
+   "nearest_if_bone_only_mm": 4.6
+  },
+  "zan_external_pudendal_veins_l": {
+   "nearest_mm": 0.1,
+   "nearest_if_bone_only_mm": 0.1
+  },
+  "zan_external_pudendal_veins_r": {
+   "nearest_mm": 0.3,
+   "nearest_if_bone_only_mm": 0.0
+  },
+  "zan_superficial_external_pudendal_artery_l": {
+   "nearest_mm": 0.0,
+   "nearest_if_bone_only_mm": 0.0
+  },
+  "zan_superficial_external_pudendal_artery_r": {
+   "nearest_mm": 0.0,
+   "nearest_if_bone_only_mm": 0.4
+  },
+  "round_ligament_uterus_l": {
+   "nearest_mm": 17.2,
+   "nearest_if_bone_only_mm": 26.6
+  },
+  "round_ligament_uterus_r": {
+   "nearest_mm": 13.4,
+   "nearest_if_bone_only_mm": 22.9
+  },
+  "adductor_longus_l": {
+   "nearest_mm": 0.1,
+   "nearest_if_bone_only_mm": 0.0
+  },
+  "adductor_longus_r": {
+   "nearest_mm": 0.1,
+   "nearest_if_bone_only_mm": 0.8
+  },
+  "gracilis_l": {
+   "nearest_mm": 0.0,
+   "nearest_if_bone_only_mm": 0.1
+  },
+  "gracilis_r": {
+   "nearest_mm": 0.0,
+   "nearest_if_bone_only_mm": 0.2
+  },
+  "pubic_symphysis_disc": {
+   "nearest_mm": 17.0,
+   "nearest_if_bone_only_mm": 26.5
+  },
+  "hip_bone_l": {
+   "nearest_mm": 16.0,
+   "nearest_if_bone_only_mm": 16.6
+  },
+  "hip_bone_r": {
+   "nearest_mm": 14.6,
+   "nearest_if_bone_only_mm": 16.8
+  }
+ },
+ "page_dir": "build/q309/viewer_base_female",
+ "new_id": "skin_vulva_cvh",
+ "neighbour_cards_updated": [
+  "bartholin_gland_l",
+  "bartholin_gland_r",
+  "bulbospongiosus_cvh",
+  "clitoris_cavernous_body",
+  "deep_perineal_muscle_cvh",
+  "ischiocavernosus_cvh_l",
+  "ischiocavernosus_cvh_r",
+  "perineal_body",
+  "superficial_transverse_perineal_cvh",
+  "urethra_female_lumen",
+  "urethra_female_submucous_layer",
+  "urethral_compressor_cvh",
+  "urethral_sphincter_cvh",
+  "urethral_sphincter_raphe_cvh",
+  "urethrovaginal_sphincter_cvh",
+  "vestibular_bulb_l",
+  "vestibular_bulb_r",
+  "zan_skin_anal_region_l",
+  "zan_skin_anal_region_r",
+  "zan_skin_femoral_triangle_l",
+  "zan_skin_femoral_triangle_r",
+  "zan_skin_gluteal_fold_l",
+  "zan_skin_gluteal_fold_r",
+  "zan_skin_hypogastric_region_l",
+  "zan_skin_hypogastric_region_r",
+  "zan_skin_inguinal_region_l",
+  "zan_skin_inguinal_region_r"
+ ],
+ "meshes_before": 3300,
+ "meshes_after": 3301,
+ "seconds": 79.0,
+ "files_written": [
+  "atlas_viewer_base_female_geo_03.txt",
+  "atlas_viewer_base_female.html",
+  "index.html"
+ ],
+ "rig": {
+  "rig": "/home/user/NMSK_Atlas/data/anatomy/pose_rig_base_f.json",
+  "count_before": 3300,
+  "count_after": 3301,
+  "change": "appended, rigid in the pelvis segment",
+  "written": true
+ }
+}

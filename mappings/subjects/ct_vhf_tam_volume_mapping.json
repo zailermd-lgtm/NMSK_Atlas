@@ -1,0 +1,32 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhf_tam",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_transversus_q185f2.nii.gz",
+ "label_map": "vhf_transversus",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "transversus_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "transversus_abdominis_r",
+   "relationship": "exact",
+   "note": "47.2 cm3; rule-based (see _README of the label key)",
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "transversus_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "transversus_abdominis_l",
+   "relationship": "exact",
+   "note": "45.0 cm3; rule-based (see _README of the label key)",
+   "candidates": []
+  }
+ ]
+}

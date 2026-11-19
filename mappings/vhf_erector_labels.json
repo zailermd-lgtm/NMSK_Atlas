@@ -1,0 +1,49 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE erector spinae column volume (scripts/cryo/vhf_erector_columns.py: her model erector-spinae / autochthon labels split by distance from the vertebral midline, 20 / 50 mm; spinalis above L2 only), plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based: the textbook columns by a distance rule, not fascial planes; badge it."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 labels.",
+ "task": "vhf_erector",
+ "version": "2026-09-12",
+ "labels": {
+  "1": "spinalis_right",
+  "2": "longissimus_right",
+  "3": "iliocostalis_right",
+  "4": "spinalis_left",
+  "5": "longissimus_left",
+  "6": "iliocostalis_left"
+ },
+ "atlas": {
+  "spinalis_right": {
+   "atlas_id": "spinalis_r",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "longissimus_right": {
+   "atlas_id": "longissimus_r",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "iliocostalis_right": {
+   "atlas_id": "iliocostalis_r",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "spinalis_left": {
+   "atlas_id": "spinalis_l",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "longissimus_left": {
+   "atlas_id": "longissimus_l",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "iliocostalis_left": {
+   "atlas_id": "iliocostalis_l",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  }
+ }
+}

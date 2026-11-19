@@ -1,0 +1,1290 @@
+{
+ "ok": 176,
+ "fail": [],
+ "report": {
+  "base_m": {
+   "desktop": {
+    "state": {
+     "ready": true,
+     "marked": 0,
+     "markMode": false,
+     "structures": 3252,
+     "aliasForms": 1953,
+     "groups": 132,
+     "adjacency": true,
+     "relations": true,
+     "threshold_mm": 3.46,
+     "adjacentPairs": 52736,
+     "relationLinks": 7234,
+     "lastQuery": "",
+     "lastCount": 3252,
+     "lastGroups": 0,
+     "lastNotes": 0,
+     "lastStats": {
+      "exact": 0,
+      "alias": 0,
+      "wordstart": 0,
+      "substr": 0,
+      "fuzzy": 0
+     },
+     "expand": {
+      "adjReady": true,
+      "relReady": true,
+      "selected": null,
+      "counts": null,
+      "adjThresholdMm": 3.46
+     },
+     "multi": {
+      "rangeArmed": false,
+      "anchor": null,
+      "rows": 260
+     }
+    },
+    "q306": {
+     "on": true,
+     "concepts": 38,
+     "groups": 132,
+     "shown": 0
+    },
+    "psoas_minor": {
+     "q": "psoas minor",
+     "n": 2,
+     "approx": 1,
+     "note_first": 1,
+     "notes": [
+      "Psoas minor"
+     ],
+     "groups": [],
+     "concepts": [],
+     "top": [
+      "zan_psoas_major_l",
+      "zan_psoas_major_r"
+     ],
+     "topNames": [
+      "zan_psoas_major_l",
+      "zan_psoas_major_r"
+     ],
+     "line": "That name is not a structure on this page — the explanation below is the answer. The rows under it are the closest names, not what you asked for.",
+     "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+    },
+    "tilt": {
+     "pelvic tilt": {
+      "q": "pelvic tilt",
+      "n": 4,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "anterior pelvic tilt": {
+      "q": "anterior pelvic tilt",
+      "n": 22,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "anterior_pelvic_tilt"
+      ],
+      "top": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "line": "Anterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 22 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femoris",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "posterior pelvic tilt": {
+      "q": "posterior pelvic tilt",
+      "n": 20,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "posterior_pelvic_tilt"
+      ],
+      "top": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "line": "Posterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 20 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "lateral pelvic tilt": {
+      "q": "lateral pelvic tilt",
+      "n": 13,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "line": "Lateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 13 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "הטיית אגן": {
+      "q": "הטיית אגן",
+      "n": 47,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt",
+       "anterior_pelvic_tilt",
+       "posterior_pelvic_tilt",
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spineAnterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 22 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femorisPosterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 20 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spineLateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 13 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     }
+    },
+    "tilt_card": {
+     "cards": 1,
+     "sources": 3,
+     "buttons": 5
+    },
+    "overlays_closed_for_the_press": [],
+    "press_spot": {
+     "x": 97,
+     "y": 732,
+     "w": 142,
+     "h": 24,
+     "onIt": true,
+     "hit": "BUTTON.q6-btn",
+     "label": "Mark the 22 structures"
+    },
+    "tilt_mark": {
+     "before": 0,
+     "after": 22,
+     "undo": [
+      1,
+      2
+     ]
+    },
+    "groups": {
+     "hip flexors": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     },
+     "knee extensors": {
+      "groups": [
+       "act_knee_flex_n"
+      ],
+      "n": 0
+     },
+     "hip abductors": {
+      "groups": [
+       "act_hip_abd_p"
+      ],
+      "n": 0
+     },
+     "wrist extensors": {
+      "groups": [
+       "act_wrist_flex_n"
+      ],
+      "n": 0
+     },
+     "pelvic floor muscles": {
+      "groups": [
+       "pelvic_floor"
+      ],
+      "n": 0
+     },
+     "muscles of mastication": {
+      "groups": [
+       "mastication"
+      ],
+      "n": 0
+     },
+     "intrinsic foot muscles": {
+      "groups": [
+       "intrinsic_foot"
+      ],
+      "n": 0
+     },
+     "pes anserinus": {
+      "groups": [
+       "pes_anserinus"
+      ],
+      "n": 0
+     },
+     "שרירי כופפי הירך": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     }
+    },
+    "group_labels": 132,
+    "lacn": {
+     "names": 10,
+     "misses": []
+    },
+    "sample": {
+     "n": 34,
+     "answered": 34,
+     "silent_and_on_this_page": []
+    },
+    "has_itb": true,
+    "approx": {
+     "gastrocnemus": {
+      "n": 8,
+      "approx": 1
+     },
+     "iliotibal band": {
+      "n": 2,
+      "approx": 1
+     },
+     "hamstrings": {
+      "n": 6,
+      "approx": 0
+     },
+     "semitendinosus": {
+      "n": 4,
+      "approx": 0
+     },
+     "hip flexors": {
+      "n": 0,
+      "approx": 0
+     }
+    },
+    "desktop_padding": {
+     "rail": "0px",
+     "aside": null
+    },
+    "page_errors": []
+   },
+   "phone": {
+    "state": {
+     "ready": true,
+     "marked": 0,
+     "markMode": false,
+     "structures": 3252,
+     "aliasForms": 1953,
+     "groups": 132,
+     "adjacency": true,
+     "relations": true,
+     "threshold_mm": 3.46,
+     "adjacentPairs": 52736,
+     "relationLinks": 7234,
+     "lastQuery": "",
+     "lastCount": 3252,
+     "lastGroups": 0,
+     "lastNotes": 0,
+     "lastStats": {
+      "exact": 0,
+      "alias": 0,
+      "wordstart": 0,
+      "substr": 0,
+      "fuzzy": 0
+     },
+     "expand": {
+      "adjReady": true,
+      "relReady": true,
+      "selected": null,
+      "counts": null,
+      "adjThresholdMm": 3.46
+     },
+     "multi": {
+      "rangeArmed": false,
+      "anchor": null,
+      "rows": 260
+     }
+    },
+    "q306": {
+     "on": true,
+     "concepts": 38,
+     "groups": 132,
+     "shown": 0
+    },
+    "psoas_minor": {
+     "q": "psoas minor",
+     "n": 2,
+     "approx": 1,
+     "note_first": 1,
+     "notes": [
+      "Psoas minor"
+     ],
+     "groups": [],
+     "concepts": [],
+     "top": [
+      "zan_psoas_major_l",
+      "zan_psoas_major_r"
+     ],
+     "topNames": [
+      "zan_psoas_major_l",
+      "zan_psoas_major_r"
+     ],
+     "line": "That name is not a structure on this page — the explanation below is the answer. The rows under it are the closest names, not what you asked for.",
+     "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+    },
+    "tilt": {
+     "pelvic tilt": {
+      "q": "pelvic tilt",
+      "n": 4,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "anterior pelvic tilt": {
+      "q": "anterior pelvic tilt",
+      "n": 22,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "anterior_pelvic_tilt"
+      ],
+      "top": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "line": "Anterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 22 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femoris",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "posterior pelvic tilt": {
+      "q": "posterior pelvic tilt",
+      "n": 20,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "posterior_pelvic_tilt"
+      ],
+      "top": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "line": "Posterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 20 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "lateral pelvic tilt": {
+      "q": "lateral pelvic tilt",
+      "n": 13,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "line": "Lateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 13 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     },
+     "הטיית אגן": {
+      "q": "הטיית אגן",
+      "n": 47,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt",
+       "anterior_pelvic_tilt",
+       "posterior_pelvic_tilt",
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spineAnterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 22 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femorisPosterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 20 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spineLateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 13 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 10 structures this page does carry."
+     }
+    },
+    "tilt_card": {
+     "cards": 1,
+     "sources": 3,
+     "buttons": 5
+    },
+    "overlays_closed_for_the_press": [],
+    "press_spot": {
+     "x": 104,
+     "y": 581,
+     "w": 156,
+     "h": 38,
+     "onIt": true,
+     "hit": "BUTTON.q6-btn",
+     "label": "Mark the 22 structures"
+    },
+    "tilt_mark": {
+     "before": 0,
+     "after": 22,
+     "undo": [
+      1,
+      2
+     ]
+    },
+    "groups": {
+     "hip flexors": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     },
+     "knee extensors": {
+      "groups": [
+       "act_knee_flex_n"
+      ],
+      "n": 0
+     },
+     "hip abductors": {
+      "groups": [
+       "act_hip_abd_p"
+      ],
+      "n": 0
+     },
+     "wrist extensors": {
+      "groups": [
+       "act_wrist_flex_n"
+      ],
+      "n": 0
+     },
+     "pelvic floor muscles": {
+      "groups": [
+       "pelvic_floor"
+      ],
+      "n": 0
+     },
+     "muscles of mastication": {
+      "groups": [
+       "mastication"
+      ],
+      "n": 0
+     },
+     "intrinsic foot muscles": {
+      "groups": [
+       "intrinsic_foot"
+      ],
+      "n": 0
+     },
+     "pes anserinus": {
+      "groups": [
+       "pes_anserinus"
+      ],
+      "n": 0
+     },
+     "שרירי כופפי הירך": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     }
+    },
+    "group_labels": 132,
+    "lacn": {
+     "names": 10,
+     "misses": []
+    },
+    "sample": {
+     "n": 34,
+     "answered": 34,
+     "silent_and_on_this_page": []
+    },
+    "has_itb": true,
+    "approx": {
+     "gastrocnemus": {
+      "n": 8,
+      "approx": 1
+     },
+     "iliotibal band": {
+      "n": 2,
+      "approx": 1
+     },
+     "hamstrings": {
+      "n": 6,
+      "approx": 0
+     },
+     "semitendinosus": {
+      "n": 4,
+      "approx": 0
+     },
+     "hip flexors": {
+      "n": 0,
+      "approx": 0
+     }
+    },
+    "overlays_closed_for_the_probe": [],
+    "lastrow": {
+     "rows": 2,
+     "scroller": "DIV.rail-body",
+     "padBottom": "276.4px",
+     "barVar": "135px",
+     "hit": "SPAN",
+     "hitIsRow": true,
+     "reserved": 2138
+    },
+    "collisions": {
+     "q301-undo": "clear",
+     "q301-redo": "clear",
+     "sa-bar": "absent",
+     "q301-bar": "absent"
+    },
+    "page_errors": []
+   }
+  },
+  "own_m": {
+   "desktop": {
+    "state": {
+     "ready": true,
+     "marked": 0,
+     "markMode": false,
+     "structures": 1044,
+     "aliasForms": 1565,
+     "groups": 129,
+     "adjacency": true,
+     "relations": true,
+     "threshold_mm": 3.46,
+     "adjacentPairs": 11975,
+     "relationLinks": 12084,
+     "lastQuery": "",
+     "lastCount": 1044,
+     "lastGroups": 0,
+     "lastNotes": 0,
+     "lastStats": {
+      "exact": 0,
+      "alias": 0,
+      "wordstart": 0,
+      "substr": 0,
+      "fuzzy": 0
+     },
+     "expand": {
+      "adjReady": true,
+      "relReady": true,
+      "selected": "biceps_femoris_r",
+      "counts": {
+       "adj": 13,
+       "rel": 54,
+       "grp": 3
+      },
+      "adjThresholdMm": 3.46
+     },
+     "multi": {
+      "rangeArmed": false,
+      "anchor": null,
+      "rows": 400
+     }
+    },
+    "q306": {
+     "on": true,
+     "concepts": 38,
+     "groups": 129,
+     "shown": 0
+    },
+    "psoas_minor": {
+     "q": "psoas minor",
+     "n": 0,
+     "approx": 0,
+     "note_first": 1,
+     "notes": [
+      "Psoas minor"
+     ],
+     "groups": [],
+     "concepts": [],
+     "top": [],
+     "topNames": [],
+     "line": "That name is not a structure on this page — the explanation below is the answer. The rows under it are the closest names, not what you asked for.",
+     "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+    },
+    "tilt": {
+     "pelvic tilt": {
+      "q": "pelvic tilt",
+      "n": 4,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "anterior pelvic tilt": {
+      "q": "anterior pelvic tilt",
+      "n": 23,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "anterior_pelvic_tilt"
+      ],
+      "top": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "line": "Anterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 23 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femoris",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "posterior pelvic tilt": {
+      "q": "posterior pelvic tilt",
+      "n": 25,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "posterior_pelvic_tilt"
+      ],
+      "top": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "line": "Posterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 25 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "lateral pelvic tilt": {
+      "q": "lateral pelvic tilt",
+      "n": 12,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "line": "Lateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 12 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "הטיית אגן": {
+      "q": "הטיית אגן",
+      "n": 52,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt",
+       "anterior_pelvic_tilt",
+       "posterior_pelvic_tilt",
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spineAnterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 23 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femorisPosterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 25 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spineLateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 12 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     }
+    },
+    "tilt_card": {
+     "cards": 1,
+     "sources": 3,
+     "buttons": 5
+    },
+    "overlays_closed_for_the_press": [
+     "cut-panel"
+    ],
+    "press_spot": {
+     "x": 97,
+     "y": 730,
+     "w": 142,
+     "h": 27,
+     "onIt": true,
+     "hit": "BUTTON.q6-btn",
+     "label": "Mark the 23 structures"
+    },
+    "tilt_mark": {
+     "before": 0,
+     "after": 23,
+     "undo": [
+      1,
+      2
+     ]
+    },
+    "groups": {
+     "hip flexors": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     },
+     "knee extensors": {
+      "groups": [
+       "act_knee_flex_n"
+      ],
+      "n": 0
+     },
+     "hip abductors": {
+      "groups": [
+       "act_hip_abd_p"
+      ],
+      "n": 0
+     },
+     "wrist extensors": {
+      "groups": [
+       "act_wrist_flex_n"
+      ],
+      "n": 0
+     },
+     "pelvic floor muscles": {
+      "groups": [
+       "pelvic_floor"
+      ],
+      "n": 0
+     },
+     "muscles of mastication": {
+      "groups": [
+       "mastication"
+      ],
+      "n": 0
+     },
+     "intrinsic foot muscles": {
+      "groups": [
+       "intrinsic_foot"
+      ],
+      "n": 0
+     },
+     "pes anserinus": {
+      "groups": [
+       "pes_anserinus"
+      ],
+      "n": 0
+     },
+     "שרירי כופפי הירך": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     }
+    },
+    "group_labels": 129,
+    "lacn": {
+     "names": 10,
+     "misses": []
+    },
+    "sample": {
+     "n": 34,
+     "answered": 29,
+     "silent_and_on_this_page": []
+    },
+    "has_itb": false,
+    "approx": {
+     "gastrocnemus": {
+      "n": 4,
+      "approx": 1
+     },
+     "iliotibal band": {
+      "n": 0,
+      "approx": 0
+     },
+     "hamstrings": {
+      "n": 7,
+      "approx": 0
+     },
+     "semitendinosus": {
+      "n": 5,
+      "approx": 0
+     },
+     "hip flexors": {
+      "n": 0,
+      "approx": 0
+     }
+    },
+    "dpn": {
+     "q": "deep peroneal nerve",
+     "n": 4,
+     "approx": 0,
+     "note_first": 0,
+     "notes": [],
+     "groups": [],
+     "concepts": [],
+     "top": [
+      "deep_fibular_n_l",
+      "deep_fibular_n_r",
+      "zan_muscular_branches_of_deep_fibular_nerve_l"
+     ],
+     "topNames": [
+      "deep_fibular_n_l",
+      "deep_fibular_n_r",
+      "zan_muscular_branches_of_deep_fibular_nerve_l"
+     ],
+     "line": "",
+     "noteTxt": "Retrocalcaneal bursa — no mesh on this page. Verified absent on all six pages, although the pages do ship many other bursae (the bursa data is in data/bursae/). Recorded as a gap, not filled. This project's name for it: Retrocalcaneal bursa (bursa tendinis calcanei). It offers 6 structures this page does carry."
+    },
+    "dpn_exp": {
+     "adjacency": true,
+     "relations": true
+    },
+    "desktop_padding": {
+     "rail": null,
+     "aside": "0px"
+    },
+    "page_errors": []
+   },
+   "phone": {
+    "state": {
+     "ready": true,
+     "marked": 0,
+     "markMode": false,
+     "structures": 1044,
+     "aliasForms": 1565,
+     "groups": 129,
+     "adjacency": true,
+     "relations": true,
+     "threshold_mm": 3.46,
+     "adjacentPairs": 11975,
+     "relationLinks": 12084,
+     "lastQuery": "",
+     "lastCount": 1044,
+     "lastGroups": 0,
+     "lastNotes": 0,
+     "lastStats": {
+      "exact": 0,
+      "alias": 0,
+      "wordstart": 0,
+      "substr": 0,
+      "fuzzy": 0
+     },
+     "expand": {
+      "adjReady": true,
+      "relReady": true,
+      "selected": "biceps_femoris_r",
+      "counts": {
+       "adj": 13,
+       "rel": 54,
+       "grp": 3
+      },
+      "adjThresholdMm": 3.46
+     },
+     "multi": {
+      "rangeArmed": false,
+      "anchor": null,
+      "rows": 400
+     }
+    },
+    "q306": {
+     "on": true,
+     "concepts": 38,
+     "groups": 129,
+     "shown": 0
+    },
+    "psoas_minor": {
+     "q": "psoas minor",
+     "n": 0,
+     "approx": 0,
+     "note_first": 1,
+     "notes": [
+      "Psoas minor"
+     ],
+     "groups": [],
+     "concepts": [],
+     "top": [],
+     "topNames": [],
+     "line": "That name is not a structure on this page — the explanation below is the answer. The rows under it are the closest names, not what you asked for.",
+     "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+    },
+    "tilt": {
+     "pelvic tilt": {
+      "q": "pelvic tilt",
+      "n": 4,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "anterior pelvic tilt": {
+      "q": "anterior pelvic tilt",
+      "n": 23,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "anterior_pelvic_tilt"
+      ],
+      "top": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "adductor_longus_l",
+       "adductor_longus_r",
+       "coccyx"
+      ],
+      "line": "Anterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 23 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femoris",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "posterior pelvic tilt": {
+      "q": "posterior pelvic tilt",
+      "n": 25,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "posterior_pelvic_tilt"
+      ],
+      "top": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "topNames": [
+       "biceps_femoris_l",
+       "biceps_femoris_r",
+       "coccyx"
+      ],
+      "line": "Posterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 25 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spine",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "lateral pelvic tilt": {
+      "q": "lateral pelvic tilt",
+      "n": 12,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "gluteus_medius_l",
+       "gluteus_medius_r"
+      ],
+      "line": "Lateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 12 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     },
+     "הטיית אגן": {
+      "q": "הטיית אגן",
+      "n": 52,
+      "approx": 0,
+      "note_first": 0,
+      "notes": [],
+      "groups": [],
+      "concepts": [
+       "pelvic_tilt",
+       "anterior_pelvic_tilt",
+       "posterior_pelvic_tilt",
+       "lateral_pelvic_tilt"
+      ],
+      "top": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "topNames": [
+       "coccyx",
+       "hip_bone_l",
+       "hip_bone_r"
+      ],
+      "line": "Pelvic tilt הטיית אגן a concept, not a structurePelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.The three tilts are the standard clinical description; each has its own entry with its own sources.Mark the 4 structuresAnterolateral abdominal wallErector spinaeGluteal group (superficial)HamstringsFlexion at the hip jointExtension at the hip jointAbduction at the hip jointFlexion at the lumbar spineLateral flexion (side bending) at the lumbar spineAnterior pelvic tilt הטיית אגן קדמית a concept, not a structureThe pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.3 cited sourcesStretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001). Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus. This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json).Mark the 23 structuresFlexion at the hip jointErector spinaeExtension at the lumbar spineQuadriceps femorisPosterior pelvic tilt הטיית אגן אחורית a concept, not a structureThe pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.3 cited sourcesGluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\". Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\" Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 25 structuresGluteal group (superficial)HamstringsAnterolateral abdominal wallExtension at the hip jointFlexion at the lumbar spineLateral pelvic tilt (pelvic obliquity) הטיית אגן צידית a concept, not a structureOne side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.3 cited sourcesWeaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\". Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\". Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\". Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)Mark the 12 structuresAbduction at the hip jointLateral flexion (side bending) at the lumbar spineGluteal group (superficial)",
+      "noteTxt": "Psoas minor — no mesh on this page. NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence. This project's name for it: Psoas minor (musculus psoas minor). It offers 7 structures this page does carry."
+     }
+    },
+    "tilt_card": {
+     "cards": 1,
+     "sources": 3,
+     "buttons": 5
+    },
+    "overlays_closed_for_the_press": [],
+    "press_spot": {
+     "x": 104,
+     "y": 541,
+     "w": 157,
+     "h": 38,
+     "onIt": true,
+     "hit": "BUTTON.q6-btn",
+     "label": "Mark the 23 structures"
+    },
+    "tilt_mark": {
+     "before": 0,
+     "after": 23,
+     "undo": [
+      1,
+      2
+     ]
+    },
+    "groups": {
+     "hip flexors": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     },
+     "knee extensors": {
+      "groups": [
+       "act_knee_flex_n"
+      ],
+      "n": 0
+     },
+     "hip abductors": {
+      "groups": [
+       "act_hip_abd_p"
+      ],
+      "n": 0
+     },
+     "wrist extensors": {
+      "groups": [
+       "act_wrist_flex_n"
+      ],
+      "n": 0
+     },
+     "pelvic floor muscles": {
+      "groups": [
+       "pelvic_floor"
+      ],
+      "n": 0
+     },
+     "muscles of mastication": {
+      "groups": [
+       "mastication"
+      ],
+      "n": 0
+     },
+     "intrinsic foot muscles": {
+      "groups": [
+       "intrinsic_foot"
+      ],
+      "n": 0
+     },
+     "pes anserinus": {
+      "groups": [
+       "pes_anserinus"
+      ],
+      "n": 0
+     },
+     "שרירי כופפי הירך": {
+      "groups": [
+       "act_hip_flex_p"
+      ],
+      "n": 0
+     }
+    },
+    "group_labels": 129,
+    "lacn": {
+     "names": 10,
+     "misses": []
+    },
+    "sample": {
+     "n": 34,
+     "answered": 29,
+     "silent_and_on_this_page": []
+    },
+    "has_itb": false,
+    "approx": {
+     "gastrocnemus": {
+      "n": 4,
+      "approx": 1
+     },
+     "iliotibal band": {
+      "n": 0,
+      "approx": 0
+     },
+     "hamstrings": {
+      "n": 7,
+      "approx": 0
+     },
+     "semitendinosus": {
+      "n": 5,
+      "approx": 0
+     },
+     "hip flexors": {
+      "n": 0,
+      "approx": 0
+     }
+    },
+    "dpn": {
+     "q": "deep peroneal nerve",
+     "n": 4,
+     "approx": 0,
+     "note_first": 0,
+     "notes": [],
+     "groups": [],
+     "concepts": [],
+     "top": [
+      "deep_fibular_n_l",
+      "deep_fibular_n_r",
+      "zan_muscular_branches_of_deep_fibular_nerve_l"
+     ],
+     "topNames": [
+      "deep_fibular_n_l",
+      "deep_fibular_n_r",
+      "zan_muscular_branches_of_deep_fibular_nerve_l"
+     ],
+     "line": "",
+     "noteTxt": "Retrocalcaneal bursa — no mesh on this page. Verified absent on all six pages, although the pages do ship many other bursae (the bursa data is in data/bursae/). Recorded as a gap, not filled. This project's name for it: Retrocalcaneal bursa (bursa tendinis calcanei). It offers 6 structures this page does carry."
+    },
+    "dpn_exp": {
+     "adjacency": true,
+     "relations": true
+    },
+    "overlays_closed_for_the_probe": [],
+    "lastrow": {
+     "rows": 1,
+     "scroller": "ASIDE.open",
+     "padBottom": "302px",
+     "barVar": "135px",
+     "hit": "BUTTON",
+     "hitIsRow": true,
+     "reserved": 1787
+    },
+    "collisions": {
+     "q301-undo": "clear",
+     "q301-redo": "clear",
+     "sa-bar": "absent",
+     "q301-bar": "absent"
+    },
+    "page_errors": []
+   }
+  }
+ }
+}

@@ -1,0 +1,63 @@
+/* Q344: the last readability and screen-area defects of the public viewer (owner: "unintelligible text in certain boxes, and
+   screen-area problems -- they cover the figures"). Loaded after every other block, so a rule here wins on equal weight. */
+
+/* 1. the Navigate sheet's buttons were the page's light pill on the sheet's dark ground: blank. They take the sheet's own button look. */
+.qg-sbody .pill,.qg-sheet .pill{min-height:36px;padding:5px 9px;border:1px solid rgba(255,255,255,.17);border-radius:8px;background:rgba(255,255,255,.075);
+  color:#E6EDF3;font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:0;backdrop-filter:none;cursor:pointer}
+.qg-sbody .pill:hover,.qg-sheet .pill:hover{background:rgba(255,255,255,.15);color:#fff;border-color:#2E89AC}
+.qg-sbody .pill.on,.qg-sbody .pill[aria-pressed="true"]{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-sbody .rs-b,.qg-sbody .pl-b,.qg-sbody .ft-b,.qg-sbody .sy-b{color:#E6EDF3}
+
+/* 2. the info card's "mark" button: a word, not a check glyph that is transparent until pressed */
+#info .act .act-mark{font:11px/1.2 var(--f-mono,monospace);color:var(--ink,#111);min-height:0;padding:.4rem .2rem}
+#info .act .act-mark[aria-pressed="true"]{color:var(--ground,#fff)}
+#info .act button{font-size:11px}
+
+/* 5. controls parked by the control bar are not painted in the page body (they live in the Systems sheet) */
+body.q301-on>.ft-box,body.q301-on>.pl-box,body.q301-on>.rs-row,body.q301-on>.rs-box{display:none !important}
+
+/* 10. developer statistics are not page chrome: they are in the Sources box */
+#stat-line{display:none !important}
+.q344-stats{margin:.4rem 0 .8rem;font:11px/1.4 var(--f-mono,monospace);color:var(--ink-dim,#555)}
+
+/* 6. the info circle in the top-right corner is clear of the pills */
+body.q301-on #topright{right:calc(2.9rem + var(--safe-r,0px))}
+
+/* 7. search rows: two lines instead of an ellipsis nobody can read, a side mark, readable tags, Hebrew glosses in their own direction */
+.item .t{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.25}
+.item .side-lr{display:inline-block;margin-left:.3em;padding:0 .35em;border-radius:3px;font:700 10px/1.5 var(--f-mono,monospace);background:color-mix(in srgb,var(--accent,#0a6e8e) 22%,transparent);color:inherit;vertical-align:baseline}
+.badge-x{font-size:10px;line-height:1.4;padding:.05rem .3rem;color:var(--ink,#111)}
+.q8-why{unicode-bidi:isolate}
+
+/* 8. type floors in the info card and the reference lines */
+#info .kind{font-size:11px;color:var(--ink,#111) !important}
+.inj-lab{font-size:10.5px}
+#stat-line,.pz-status,.qg-t{font-size:10.5px}
+
+/* 4. phone panels start compact (header and the first controls, the rest scrolls inside) and open further on tap */
+.q344-tg{font:600 11px/1 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:26px;padding:3px 9px;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;cursor:pointer;flex:0 0 auto;opacity:.9}
+#rail>.q344-tg{position:absolute;top:6px;right:10px;z-index:3;background:var(--panel,#fff)}
+@media (max-width:700px){
+  #pose-panel[data-q344="c"],#lab-panel[data-q344="c"],#rail[data-q344="c"]{max-height:34vh !important;overflow-y:auto}
+  #pose-panel[data-q344="c"] .pz-body{min-height:0}
+  #rail[data-q344="c"]{padding-bottom:calc(3.3rem + env(safe-area-inset-bottom,0px))}
+}
+
+/* the sheets are dark; the page's light list rows, side buttons and tags are re-inked for them */
+.qg-sbody .item,.qg-sbody .item .t{color:#E6EDF3}
+.qg-sbody .item:hover,.qg-sbody .item:focus-visible,.qg-sbody .item.sel{background:rgba(255,255,255,.13);color:#fff}
+.qg-sbody .badge-x{color:#E6EDF3;background:rgba(255,255,255,.14)}
+.qg-sbody #sides button,.qg-sbody #presets button{color:#E6EDF3;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.17);border-radius:6px;padding:5px 10px;font:600 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qg-sbody #sides button.on,.qg-sbody #sides button[aria-pressed="true"],.qg-sbody #sides button.active,.qg-sbody #presets button.on,.qg-sbody #presets button.active{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-sbody #sides::before{content:"Side";font:11px/1 system-ui,sans-serif;color:#C9D5DE;align-self:center;margin-right:6px}
+.qg-sbody #sides{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.qg-sbody .none,.qg-sbody .lb-dim{color:#C9D5DE}
+
+/* the labels' status reads in two lines instead of an ellipsis */
+#lab-panel .lb-head .lb-dim{white-space:normal;overflow:visible;text-overflow:clip;font-size:11px;line-height:1.25}
+
+/* the toggle keeps its own look inside the panels' heads */
+#pose-panel .pz-head .q344-tg,#lab-panel .lb-head .q344-tg{font-size:11px;min-height:26px;min-width:0;padding:3px 9px;border:1px solid currentColor;border-radius:999px;background:transparent;line-height:1}
+
+/* a phone panel open at the bottom lifts the chips that sat on it */
+body.q344-lift #sa-bar{bottom:calc(var(--q344-lift,0px) + 8px) !important}

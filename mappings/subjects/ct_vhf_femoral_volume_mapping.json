@@ -1,0 +1,43 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only.",
+  "Only the RIGHT side was tracked; the left was not run (see the report's limits)."
+ ],
+ "subject": "ct_vhf_femoral",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_femoral_bundle_cryo.nii.gz",
+ "label_map": "vhf_femoral_bundle",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "femoral_a_r",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "femoral_a_r",
+   "relationship": "part_of",
+   "note": "Right femoral artery LUMEN, tracked through her full-resolution cryosections (0.33 mm) by scripts/cryo/vhf_femoral_track.py from a landmark-rule seed (lateral member of the lumen pair under the inguinal ligament). Covers y +14 to -46 mm only: the femoral triangle and the entrance of the adductor canal, i.e. the common femoral artery and the first ~4 cm of the superficial femoral. Measured diameter median 5.7 mm (p10 5.2, p90 6.7), within the textbook 5-9 mm. Not the vessel wall, and NOT the adductor canal or the adductor hiatus: below y = -46 the walk could not be verified on the montage.",
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "femoral_n",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "femoral_n",
+   "relationship": "part_of",
+   "note": "Right femoral nerve TRUNK, same run; seed = the fascicle-texture blob lateral to the artery under the inguinal ligament. Covers y +13 to -12 mm, i.e. from 19 mm to 45 mm below the inguinal-ligament midpoint (y = +32.5); the walk ends where the trunk divides into its anterior and posterior divisions, which is the textbook 4-5 cm below the ligament. Only 9 of 26 levels carry a detected fascicle blob; the rest are filled from the neighbouring section, so treat the surface as indicative. The atlas nerve id is side-agnostic, so this right-side geometry carries the unsided id.",
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "femoral_v_r",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "femoral_v_r",
+   "relationship": "part_of",
+   "note": "Right femoral vein LUMEN, same run and seed rule (medial member of the pair). Covers y +14 to -34 mm: the common femoral vein at and just below the saphenofemoral junction and the top of the femoral vein. Measured diameter median 7.8 mm (p10 6.9, p90 9.2) against a textbook 9-13 mm: a collapsed cadaveric vein, under the expected size but within a factor of two. Below y = -34 the walk was not verifiable, so the canal segment is not shipped.",
+   "candidates": []
+  }
+ ]
+}

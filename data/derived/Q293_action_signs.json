@@ -1,0 +1,1589 @@
+{
+ "_README": [
+  "Q293: cited movement signs (data/anatomy/muscle_actions_q283.json) vs the Q284 moment arms computed on each page; agrees / disagrees / agrees at some angles"
+ ],
+ "rows": {
+  "biceps_brachii||elbow|flex|+1|flexes elbow (strongest supinated)": {
+   "agrees": 12,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "own_m:biceps_brachii_l_zfill203s"
+   ]
+  },
+  "deltoid||shoulder|abd|+1|abducts humerus (all parts": {
+   "agrees": 11,
+   "disagrees": 4,
+   "agrees at some angles": 12,
+   "where": [
+    "own_m:deltoid_r",
+    "own_m:deltoid_l",
+    "own_m:deltoid_r_zfill203",
+    "base_m:zan_clavicular_part_of_deltoid_muscle_l",
+    "base_m:zan_clavicular_part_of_deltoid_muscle_r",
+    "base_m:zan_scapular_spinal_part_of_deltoid_muscle_l",
+    "base_f:zan_clavicular_part_of_deltoid_muscle_r",
+    "base_f:zan_scapular_spinal_part_of_deltoid_muscle_l",
+    "base_f:zan_scapular_spinal_part_of_deltoid_muscle_r",
+    "comb_m:zan_acromial_part_of_deltoid_muscle_l",
+    "comb_m:zan_acromial_part_of_deltoid_muscle_r",
+    "comb_m:zan_clavicular_part_of_deltoid_muscle_l",
+    "comb_f:zan_acromial_part_of_deltoid_muscle_r",
+    "comb_f:zan_clavicular_part_of_deltoid_muscle_l",
+    "comb_f:zan_scapular_spinal_part_of_deltoid_muscle_l",
+    "comb_f:zan_scapular_spinal_part_of_deltoid_muscle_r"
+   ]
+  },
+  "semispinalis_capitis||cervical|flex|-1|extends the head": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "semispinalis_capitis||cervical|rot|-1|assists contralateral rotation": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "semispinalis_cervicis||cervical|flex|-1|extends the neck": {
+   "agrees": 5,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "semispinalis_cervicis||cervical|rot|-1|rotates the neck to the opposite side": {
+   "agrees": 4,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "own_f:semispinalis_cervicis_l"
+   ]
+  },
+  "obliquus_capitis_inferior||cervical|rot|+1|rotates the atlas, and with it the head, to the same side": {
+   "agrees": 4,
+   "disagrees": 8,
+   "agrees at some angles": 0,
+   "where": [
+    "own_m:obliquus_capitis_inferior_r",
+    "own_f:obliquus_capitis_inferior_r",
+    "base_f:obliquus_capitis_inferior_l",
+    "base_f:obliquus_capitis_inferior_r",
+    "comb_m:obliquus_capitis_inferior_l",
+    "comb_m:obliquus_capitis_inferior_r",
+    "comb_f:obliquus_capitis_inferior_l",
+    "comb_f:obliquus_capitis_inferior_r"
+   ]
+  },
+  "external_oblique||lumbar|flex|+1|flexes trunk (bilateral)": {
+   "agrees": 7,
+   "disagrees": 2,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_m:external_oblique_l",
+    "comb_f:external_oblique_l"
+   ]
+  },
+  "external_oblique||thoracic|flex|+1|flexes trunk (bilateral)": {
+   "agrees": 10,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "own_f:external_oblique_l"
+   ]
+  },
+  "external_oblique||lumbar|lat|+1|laterally flexes and contralaterally rotates trunk (unilateral)": {
+   "agrees": 8,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:external_oblique_l"
+   ]
+  },
+  "external_oblique||thoracic|lat|+1|laterally flexes and contralaterally rotates trunk (unilateral)": {
+   "agrees": 8,
+   "disagrees": 3,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_m:external_oblique_r",
+    "comb_f:external_oblique_l",
+    "comb_f:external_oblique_r"
+   ]
+  },
+  "external_oblique||thoracic|rot|-1|laterally flexes and contralaterally rotates trunk (unilateral)": {
+   "agrees": 1,
+   "disagrees": 10,
+   "agrees at some angles": 0,
+   "where": [
+    "own_m:external_oblique_r",
+    "own_f:external_oblique_r",
+    "base_m:external_oblique_l",
+    "base_m:external_oblique_r",
+    "base_f:external_oblique_l",
+    "base_f:external_oblique_r",
+    "comb_m:external_oblique_l",
+    "comb_m:external_oblique_r",
+    "comb_f:external_oblique_l",
+    "comb_f:external_oblique_r"
+   ]
+  },
+  "semitendinosus||hip|flex|-1|extends hip": {
+   "agrees": 10,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "adductor_longus||hip|abd|-1|adducts and flexes hip": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "adductor_longus||hip|flex|+1|adducts and flexes hip": {
+   "agrees": 0,
+   "disagrees": 0,
+   "agrees at some angles": 12,
+   "where": [
+    "own_m:adductor_longus_r",
+    "own_m:adductor_longus_l",
+    "own_f:adductor_longus_l",
+    "own_f:adductor_longus_r",
+    "base_m:adductor_longus_l",
+    "base_m:adductor_longus_r",
+    "base_f:adductor_longus_l",
+    "base_f:adductor_longus_r",
+    "comb_m:adductor_longus_l",
+    "comb_m:adductor_longus_r",
+    "comb_f:adductor_longus_l",
+    "comb_f:adductor_longus_r"
+   ]
+  },
+  "pectineus||hip|flex|+1|flexes and adducts hip": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "pectineus||hip|abd|-1|flexes and adducts hip": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 11,
+   "where": [
+    "own_m:pectineus_r",
+    "own_m:pectineus_l",
+    "own_f:pectineus_l",
+    "own_f:pectineus_r",
+    "base_m:pectineus_l",
+    "base_m:pectineus_r",
+    "base_f:pectineus_l",
+    "base_f:pectineus_r",
+    "comb_m:pectineus_r",
+    "comb_f:pectineus_l",
+    "comb_f:pectineus_r"
+   ]
+  },
+  "adductor_brevis||hip|abd|-1|adducts hip": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 8,
+   "where": [
+    "own_m:adductor_brevis_l",
+    "own_m:adductor_brevis_r",
+    "own_f:adductor_brevis_l",
+    "own_f:adductor_brevis_r",
+    "base_m:adductor_brevis_l",
+    "base_m:adductor_brevis_r",
+    "comb_m:adductor_brevis_l",
+    "comb_m:adductor_brevis_r"
+   ]
+  },
+  "gastrocnemius||knee|flex|+1|flexes knee (crosses both joints, unlike soleus)": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "gluteus_maximus||hip|flex|-1|extends hip": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "gluteus_maximus||hip|rot|-1|externally rotates hip": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "gluteus_medius||hip|abd|+1|abducts hip (prime mover)": {
+   "agrees": 7,
+   "disagrees": 0,
+   "agrees at some angles": 5,
+   "where": [
+    "own_f:gluteus_medius_l",
+    "own_f:gluteus_medius_r",
+    "comb_m:gluteus_medius_r",
+    "comb_f:gluteus_medius_l",
+    "comb_f:gluteus_medius_r"
+   ]
+  },
+  "gracilis||hip|abd|-1|adducts hip, flexes knee": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliopsoas||hip|flex|+1|flexes hip (primary/strongest hip flexor)": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "gemellus_inferior||hip|rot|-1|externally rotates hip": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "plantaris||knee|flex|+1|weak knee flexion/ankle plantarflexion": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "sartorius||hip|flex|+1|flexes, abducts, externally rotates hip; flexes knee": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "sartorius||hip|abd|+1|flexes, abducts, externally rotates hip; flexes knee": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "sartorius||hip|rot|-1|flexes, abducts, externally rotates hip; flexes knee": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "tensor_fasciae_latae||hip|flex|+1|flexes, abducts, internally rotates hip": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "own_m:tensor_fasciae_latae_l"
+   ]
+  },
+  "tensor_fasciae_latae||hip|abd|+1|flexes, abducts, internally rotates hip": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 3,
+   "where": [
+    "own_m:tensor_fasciae_latae_l",
+    "base_f:tensor_fasciae_latae_l",
+    "comb_f:tensor_fasciae_latae_l"
+   ]
+  },
+  "tensor_fasciae_latae||hip|rot|+1|flexes, abducts, internally rotates hip": {
+   "agrees": 2,
+   "disagrees": 0,
+   "agrees at some angles": 10,
+   "where": [
+    "own_m:tensor_fasciae_latae_l",
+    "own_m:tensor_fasciae_latae_r",
+    "own_f:tensor_fasciae_latae_r",
+    "base_m:tensor_fasciae_latae_l",
+    "base_m:tensor_fasciae_latae_r",
+    "base_f:tensor_fasciae_latae_l",
+    "base_f:tensor_fasciae_latae_r",
+    "comb_m:tensor_fasciae_latae_l",
+    "comb_m:tensor_fasciae_latae_r",
+    "comb_f:tensor_fasciae_latae_r"
+   ]
+  },
+  "vastus_lateralis||knee|flex|-1|extends knee": {
+   "agrees": 10,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "gluteus_minimus||hip|abd|+1|abducts and internally rotates hip": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "comb_m:gluteus_minimus_l"
+   ]
+  },
+  "gluteus_minimus||hip|rot|+1|abducts and internally rotates hip": {
+   "agrees": 2,
+   "disagrees": 0,
+   "agrees at some angles": 7,
+   "where": [
+    "own_m:gluteus_minimus_r",
+    "own_f:gluteus_minimus_r_zfill203s",
+    "base_m:gluteus_minimus_l",
+    "base_f:gluteus_minimus_l",
+    "base_f:gluteus_minimus_r",
+    "comb_m:gluteus_minimus_r",
+    "comb_f:gluteus_minimus_r"
+   ]
+  },
+  "spinalis||thoracic|flex|-1|extends vertebral column": {
+   "agrees": 30,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "longissimus||lumbar|flex|-1|extends vertebral column and head (bilateral)": {
+   "agrees": 14,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "longissimus||thoracic|flex|-1|extends vertebral column and head (bilateral)": {
+   "agrees": 30,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "longissimus||lumbar|lat|+1|laterally flexes trunk/head": {
+   "agrees": 14,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "longissimus||thoracic|lat|+1|laterally flexes trunk/head": {
+   "agrees": 30,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliocostalis||lumbar|flex|-1|extends vertebral column (bilateral)": {
+   "agrees": 13,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliocostalis||thoracic|flex|-1|extends vertebral column (bilateral)": {
+   "agrees": 21,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliocostalis||lumbar|lat|+1|laterally flexes trunk (unilateral)": {
+   "agrees": 13,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliocostalis||thoracic|lat|+1|laterally flexes trunk (unilateral)": {
+   "agrees": 21,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "sternocleidomastoid||cervical|lat|+1|laterally flexes neck to the same side + rotates face to the opposite side": {
+   "agrees": 13,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "sternocleidomastoid||cervical|rot|-1|laterally flexes neck to the same side + rotates face to the opposite side": {
+   "agrees": 13,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "sternocleidomastoid||cervical|flex|+1|flexes neck / protracts head": {
+   "agrees": 13,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "scalenus_anterior||cervical|flex|+1|flexes/laterally flexes the neck": {
+   "agrees": 14,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "scalenus_anterior||cervical|lat|+1|flexes/laterally flexes the neck": {
+   "agrees": 14,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "scalenus_medius||cervical|lat|+1|laterally flexes the neck": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "scalenus_posterior||cervical|lat|+1|laterally flexes the neck": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "rectus_capitis_posterior_minor||cervical|flex|-1|extends the head": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "rectus_capitis_posterior_major||cervical|flex|-1|extends the head": {
+   "agrees": 12,
+   "disagrees": 2,
+   "agrees at some angles": 1,
+   "where": [
+    "own_f:rectus_capitis_posterior_major_r_zfill203",
+    "base_m:rectus_capitis_posterior_major_l",
+    "base_f:rectus_capitis_posterior_major_r"
+   ]
+  },
+  "rectus_capitis_posterior_major||cervical|rot|+1|rotates the head to the same side": {
+   "agrees": 13,
+   "disagrees": 1,
+   "agrees at some angles": 1,
+   "where": [
+    "own_m:rectus_capitis_posterior_major_l_zfill203s",
+    "own_f:rectus_capitis_posterior_major_l"
+   ]
+  },
+  "longus_colli||cervical|flex|+1|flexes and slightly rotates the neck": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "longus_capitis||cervical|flex|+1|flexes the head on the neck": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "internal_oblique||lumbar|flex|+1|flexes trunk (bilateral)": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "internal_oblique||thoracic|flex|+1|flexes trunk (bilateral)": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "internal_oblique||lumbar|lat|+1|laterally flexes and ipsilaterally rotates trunk (unilateral)": {
+   "agrees": 8,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_m:internal_oblique_r"
+   ]
+  },
+  "internal_oblique||thoracic|lat|+1|laterally flexes and ipsilaterally rotates trunk (unilateral)": {
+   "agrees": 8,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_m:internal_oblique_r"
+   ]
+  },
+  "internal_oblique||thoracic|rot|+1|laterally flexes and ipsilaterally rotates trunk (unilateral)": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "quadratus_lumborum||lumbar|lat|+1|laterally flexes trunk (unilateral)": {
+   "agrees": 13,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "pronator_quadratus||forearm|sup|-1|pronates forearm": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 2,
+   "where": [
+    "own_f:pronator_quadratus_r",
+    "comb_f:pronator_quadratus_l"
+   ]
+  },
+  "pronator_teres||forearm|sup|-1|pronates forearm, assists elbow flexion": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 6,
+   "where": [
+    "own_m:pronator_teres_r",
+    "own_m:pronator_teres_l",
+    "base_m:pronator_teres_l",
+    "base_m:pronator_teres_r",
+    "base_f:pronator_teres_l",
+    "base_f:pronator_teres_r"
+   ]
+  },
+  "brachioradialis||elbow|flex|+1|flexes elbow (strongest in mid-pronation)": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "own_m:brachioradialis_l"
+   ]
+  },
+  "extensor_carpi_radialis_brevis||wrist|flex|-1|extends and radially deviates wrist": {
+   "agrees": 6,
+   "disagrees": 1,
+   "agrees at some angles": 4,
+   "where": [
+    "own_m:extensor_carpi_radialis_brevis_l",
+    "own_m:extensor_carpi_radialis_brevis_r",
+    "own_f:extensor_carpi_radialis_brevis_l",
+    "comb_m:extensor_carpi_radialis_brevis_l",
+    "comb_f:extensor_carpi_radialis_brevis_r"
+   ]
+  },
+  "extensor_carpi_radialis_brevis||wrist|dev|+1|extends and radially deviates wrist": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 2,
+   "where": [
+    "own_m:extensor_carpi_radialis_brevis_l",
+    "comb_m:extensor_carpi_radialis_brevis_r"
+   ]
+  },
+  "extensor_carpi_radialis_longus||wrist|flex|-1|extends and radially deviates wrist": {
+   "agrees": 1,
+   "disagrees": 1,
+   "agrees at some angles": 8,
+   "where": [
+    "own_m:extensor_carpi_radialis_longus_l",
+    "own_f:extensor_carpi_radialis_longus_l",
+    "base_m:extensor_carpi_radialis_longus_l",
+    "base_m:extensor_carpi_radialis_longus_r",
+    "base_f:extensor_carpi_radialis_longus_l",
+    "base_f:extensor_carpi_radialis_longus_r",
+    "comb_m:extensor_carpi_radialis_longus_l",
+    "comb_f:extensor_carpi_radialis_longus_l",
+    "comb_f:extensor_carpi_radialis_longus_r"
+   ]
+  },
+  "extensor_carpi_radialis_longus||wrist|dev|+1|extends and radially deviates wrist": {
+   "agrees": 10,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "extensor_carpi_ulnaris||wrist|flex|-1|extends and ulnarly deviates wrist": {
+   "agrees": 6,
+   "disagrees": 2,
+   "agrees at some angles": 1,
+   "where": [
+    "own_f:extensor_carpi_ulnaris_l",
+    "comb_f:extensor_carpi_ulnaris_l",
+    "comb_f:extensor_carpi_ulnaris_r"
+   ]
+  },
+  "extensor_carpi_ulnaris||wrist|dev|-1|extends and ulnarly deviates wrist": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "own_f:extensor_carpi_ulnaris_l"
+   ]
+  },
+  "extensor_digitorum||wrist|flex|-1|assists wrist extension": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "own_m:extensor_digitorum_r"
+   ]
+  },
+  "flexor_carpi_radialis||wrist|flex|+1|flexes and radially deviates wrist": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 9,
+   "where": [
+    "own_m:flexor_carpi_radialis_l",
+    "own_f:flexor_carpi_radialis_l",
+    "base_m:flexor_carpi_radialis_l",
+    "base_m:flexor_carpi_radialis_r",
+    "base_f:flexor_carpi_radialis_l",
+    "base_f:flexor_carpi_radialis_r",
+    "comb_m:flexor_carpi_radialis_l",
+    "comb_f:flexor_carpi_radialis_l",
+    "comb_f:flexor_carpi_radialis_r"
+   ]
+  },
+  "flexor_carpi_radialis||wrist|dev|+1|flexes and radially deviates wrist": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "comb_m:flexor_carpi_radialis_r"
+   ]
+  },
+  "flexor_carpi_ulnaris||wrist|flex|+1|flexes and ulnarly deviates wrist": {
+   "agrees": 7,
+   "disagrees": 1,
+   "agrees at some angles": 3,
+   "where": [
+    "own_m:flexor_carpi_ulnaris_l",
+    "own_f:flexor_carpi_ulnaris_l",
+    "own_f:flexor_carpi_ulnaris_r_zfill",
+    "comb_m:flexor_carpi_ulnaris_r"
+   ]
+  },
+  "flexor_carpi_ulnaris||wrist|dev|-1|flexes and ulnarly deviates wrist": {
+   "agrees": 7,
+   "disagrees": 0,
+   "agrees at some angles": 4,
+   "where": [
+    "base_m:flexor_carpi_ulnaris_l",
+    "base_m:flexor_carpi_ulnaris_r",
+    "base_f:flexor_carpi_ulnaris_l",
+    "base_f:flexor_carpi_ulnaris_r"
+   ]
+  },
+  "pronator_teres||elbow|flex|+1|pronates forearm, assists elbow flexion": {
+   "agrees": 10,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "own_f:pronator_teres_l"
+   ]
+  },
+  "supinator||forearm|sup|+1|supinates forearm": {
+   "agrees": 0,
+   "disagrees": 2,
+   "agrees at some angles": 3,
+   "where": [
+    "own_m:supinator_l",
+    "own_m:supinator_r_zfill",
+    "own_m:supinator_r_zfill203s",
+    "comb_m:supinator_l",
+    "comb_m:supinator_r"
+   ]
+  },
+  "rectus_capitis_anterior||cervical|flex|+1|flexes the head at the atlanto-occipital joint": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "rectus_capitis_lateralis||cervical|lat|+1|bends the head laterally to the same side": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "brachialis||elbow|flex|+1|flexes elbow": {
+   "agrees": 10,
+   "disagrees": 2,
+   "agrees at some angles": 1,
+   "where": [
+    "own_m:brachialis_r_zfill",
+    "own_m:brachialis_l_zfill203s",
+    "own_f:brachialis_r_zfill"
+   ]
+  },
+  "flexor_digitorum_profundus||wrist|flex|+1|assists PIP/MCP/wrist flexion": {
+   "agrees": 8,
+   "disagrees": 2,
+   "agrees at some angles": 2,
+   "where": [
+    "own_m:flexor_digitorum_profundus_r_zfill",
+    "own_f:flexor_digitorum_profundus_l",
+    "comb_m:flexor_digitorum_profundus_r",
+    "comb_f:flexor_digitorum_profundus_l"
+   ]
+  },
+  "coracobrachialis||shoulder|flex|+1|flexes and adducts humerus": {
+   "agrees": 2,
+   "disagrees": 0,
+   "agrees at some angles": 7,
+   "where": [
+    "base_m:coracobrachialis_l",
+    "base_m:coracobrachialis_r",
+    "base_f:coracobrachialis_l",
+    "base_f:coracobrachialis_r",
+    "comb_m:coracobrachialis_l",
+    "comb_f:coracobrachialis_l",
+    "comb_f:coracobrachialis_r"
+   ]
+  },
+  "coracobrachialis||shoulder|abd|-1|flexes and adducts humerus": {
+   "agrees": 7,
+   "disagrees": 0,
+   "agrees at some angles": 2,
+   "where": [
+    "own_m:coracobrachialis_l_zfill203",
+    "comb_m:coracobrachialis_r"
+   ]
+  },
+  "flexor_digitorum_superficialis||wrist|flex|+1|assists MCP and wrist flexion": {
+   "agrees": 7,
+   "disagrees": 2,
+   "agrees at some angles": 1,
+   "where": [
+    "own_m:zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+    "own_f:zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+    "comb_m:zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+   ]
+  },
+  "rectus_abdominis||lumbar|flex|+1|flexes trunk (lumbar spine flexion)": {
+   "agrees": 9,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "own_f:rectus_abdominis_r_zfill203s"
+   ]
+  },
+  "semitendinosus||knee|flex|+1|flexes and internally rotates knee": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "teres_minor||shoulder|rot|-1|externally rotates humerus": {
+   "agrees": 11,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "own_f:teres_minor_l_zfill203"
+   ]
+  },
+  "teres_minor||shoulder|abd|-1|weakly adducts humerus": {
+   "agrees": 0,
+   "disagrees": 0,
+   "agrees at some angles": 12,
+   "where": [
+    "own_m:teres_minor_r_zfill203",
+    "own_m:teres_minor_l_zfill203",
+    "own_f:teres_minor_l_zfill203",
+    "own_f:teres_minor_r_zfill203",
+    "base_m:teres_minor_l",
+    "base_m:teres_minor_r",
+    "base_f:teres_minor_l",
+    "base_f:teres_minor_r",
+    "comb_m:teres_minor_l",
+    "comb_m:teres_minor_r",
+    "comb_f:teres_minor_l",
+    "comb_f:teres_minor_r"
+   ]
+  },
+  "latissimus_dorsi||shoulder|flex|-1|extends, adducts, internally rotates the humerus": {
+   "agrees": 5,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "latissimus_dorsi||shoulder|abd|-1|extends, adducts, internally rotates the humerus": {
+   "agrees": 2,
+   "disagrees": 0,
+   "agrees at some angles": 3,
+   "where": [
+    "own_m:latissimus_dorsi_l_zfill203",
+    "comb_m:latissimus_dorsi_r",
+    "comb_f:latissimus_dorsi_l"
+   ]
+  },
+  "latissimus_dorsi||shoulder|rot|+1|extends, adducts, internally rotates the humerus": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "comb_f:latissimus_dorsi_l"
+   ]
+  },
+  "splenius_capitis||cervical|flex|-1|extends the head and neck bilaterally": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "splenius_capitis||cervical|rot|+1|rotates and laterally flexes the head to the same side": {
+   "agrees": 8,
+   "disagrees": 4,
+   "agrees at some angles": 0,
+   "where": [
+    "base_m:splenius_capitis_l",
+    "base_m:splenius_capitis_r",
+    "base_f:splenius_capitis_r",
+    "comb_m:splenius_capitis_l"
+   ]
+  },
+  "splenius_capitis||cervical|lat|+1|rotates and laterally flexes the head to the same side": {
+   "agrees": 12,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "anconeus||elbow|flex|-1|assists elbow extension": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "palmaris_longus||wrist|flex|+1|weak wrist flexion": {
+   "agrees": 8,
+   "disagrees": 1,
+   "agrees at some angles": 2,
+   "where": [
+    "own_m:zan_palmaris_longus_muscle_l",
+    "own_f:zan_palmaris_longus_muscle_l",
+    "comb_m:zan_palmaris_longus_muscle_l"
+   ]
+  },
+  "rectus_femoris|reflected_head|hip|flex|+1|flexes hip (only quadriceps head crossing the hip joint)": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "comb_f:rectus_femoris_reflected_head_r"
+   ]
+  },
+  "biceps_brachii||forearm|sup|+1|supinates forearm (strongest at 90deg elbow flexion)": {
+   "agrees": 5,
+   "disagrees": 2,
+   "agrees at some angles": 2,
+   "where": [
+    "own_f:biceps_brachii_l",
+    "own_f:biceps_brachii_r_zfill",
+    "own_f:biceps_brachii_l_zfill",
+    "comb_f:biceps_brachii_r"
+   ]
+  },
+  "spinalis||lumbar|flex|-1|extends vertebral column": {
+   "agrees": 10,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "quadratus_femoris||hip|rot|-1|externally rotates hip": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "supraspinatus||shoulder|abd|+1|initiates/assists glenohumeral abduction": {
+   "agrees": 5,
+   "disagrees": 0,
+   "agrees at some angles": 3,
+   "where": [
+    "comb_m:supraspinatus_r",
+    "comb_f:supraspinatus_l",
+    "comb_f:supraspinatus_r"
+   ]
+  },
+  "obliquus_capitis_superior||cervical|flex|-1|extends the head": {
+   "agrees": 9,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "obliquus_capitis_superior||cervical|lat|+1|bends the head laterally to the same side": {
+   "agrees": 8,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:obliquus_capitis_superior_r"
+   ]
+  },
+  "splenius_cervicis||cervical|flex|-1|extends the neck": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "splenius_cervicis||cervical|rot|+1|rotates and laterally flexes the neck to the same side": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "splenius_cervicis||cervical|lat|+1|rotates and laterally flexes the neck to the same side": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "rectus_femoris|reflected_head|knee|flex|-1|extends knee": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "abductor_digiti_minimi_foot||t5_mtp|flex|+1|abducts and flexes the little toe": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "abductor_pollicis_brevis||thumb_cmc|abd|+1|abducts thumb": {
+   "agrees": 7,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "abductor_pollicis_longus||thumb_cmc|abd|+1|abducts and extends thumb CMC joint": {
+   "agrees": 0,
+   "disagrees": 7,
+   "agrees at some angles": 0,
+   "where": [
+    "base_m:abductor_pollicis_longus_l",
+    "base_m:abductor_pollicis_longus_r",
+    "base_f:abductor_pollicis_longus_l",
+    "base_f:abductor_pollicis_longus_r",
+    "comb_m:abductor_pollicis_longus_r",
+    "comb_f:abductor_pollicis_longus_l",
+    "comb_f:abductor_pollicis_longus_r"
+   ]
+  },
+  "abductor_pollicis_longus||thumb_cmc|flex|-1|abducts and extends thumb CMC joint": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "comb_m:abductor_pollicis_longus_r"
+   ]
+  },
+  "adductor_pollicis||thumb_cmc|abd|-1|adducts thumb CMC/MCP toward the palm": {
+   "agrees": 1,
+   "disagrees": 6,
+   "agrees at some angles": 0,
+   "where": [
+    "base_m:adductor_pollicis_l",
+    "base_m:adductor_pollicis_r",
+    "base_f:adductor_pollicis_l",
+    "base_f:adductor_pollicis_r",
+    "comb_m:adductor_pollicis_l",
+    "comb_f:adductor_pollicis_r"
+   ]
+  },
+  "adductor_pollicis||thumb_cmc|flex|+1|flexes thumb CMC and MCP joints": {
+   "agrees": 0,
+   "disagrees": 6,
+   "agrees at some angles": 1,
+   "where": [
+    "base_m:adductor_pollicis_l",
+    "base_m:adductor_pollicis_r",
+    "base_f:adductor_pollicis_l",
+    "base_f:adductor_pollicis_r",
+    "comb_m:adductor_pollicis_l",
+    "comb_m:adductor_pollicis_r",
+    "comb_f:adductor_pollicis_r"
+   ]
+  },
+  "biceps_femoris||knee|flex|+1|flexes and externally rotates knee": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 2,
+   "where": [
+    "comb_m:biceps_femoris_l",
+    "comb_m:biceps_femoris_r"
+   ]
+  },
+  "extensor_digiti_minimi||f5_mcp|flex|-1|extends little finger": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "comb_m:extensor_digiti_minimi_l"
+   ]
+  },
+  "extensor_digitorum_longus||ankle|dp|+1|extends toes 2-5, dorsiflexes ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "extensor_hallucis_brevis||t1_mtp|flex|-1|extends the great toe": {
+   "agrees": 3,
+   "disagrees": 0,
+   "agrees at some angles": 5,
+   "where": [
+    "base_m:extensor_hallucis_brevis_l",
+    "base_m:extensor_hallucis_brevis_r",
+    "base_f:extensor_hallucis_brevis_l",
+    "base_f:extensor_hallucis_brevis_r",
+    "comb_f:extensor_hallucis_brevis_l"
+   ]
+  },
+  "extensor_hallucis_longus||t1_mtp|flex|-1|extends the great toe, dorsiflexes ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "extensor_hallucis_longus||ankle|dp|+1|extends the great toe, dorsiflexes ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "extensor_indicis||f2_mcp|flex|-1|extends index finger independently": {
+   "agrees": 7,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "fibularis_brevis||subtalar|inv|-1|everts the ankle, assists plantarflexion": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "fibularis_brevis||ankle|dp|-1|everts the ankle, assists plantarflexion": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "fibularis_longus||subtalar|inv|-1|everts the ankle, assists plantarflexion": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "fibularis_longus||ankle|dp|-1|everts the ankle, assists plantarflexion": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "fibularis_tertius||ankle|dp|+1|dorsiflexes and everts the ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "fibularis_tertius||subtalar|inv|-1|dorsiflexes and everts the ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_digiti_minimi_brevis_foot||t5_mtp|flex|+1|flexes the little toe's MTP joint": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_digiti_minimi_brevis_hand||f5_mcp|flex|+1|flexes little finger MCP joint": {
+   "agrees": 6,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:flexor_digiti_minimi_brevis_hand_r"
+   ]
+  },
+  "flexor_digitorum_longus||ankle|dp|-1|flexes toes 2-5, assists ankle plantarflexion": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_hallucis_brevis||t1_mtp|flex|+1|flexes the great toe's MTP joint": {
+   "agrees": 2,
+   "disagrees": 0,
+   "agrees at some angles": 6,
+   "where": [
+    "base_m:flexor_hallucis_brevis_l",
+    "base_m:flexor_hallucis_brevis_r",
+    "base_f:flexor_hallucis_brevis_l",
+    "base_f:flexor_hallucis_brevis_r",
+    "comb_f:flexor_hallucis_brevis_l",
+    "comb_f:flexor_hallucis_brevis_r"
+   ]
+  },
+  "flexor_hallucis_longus||t1_ip|flex|+1|flexes the great toe, assists ankle plantarflexion": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_hallucis_longus||ankle|dp|-1|flexes the great toe, assists ankle plantarflexion": {
+   "agrees": 7,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_pollicis_brevis||thumb_cmc|flex|+1|flexes thumb CMC joint": {
+   "agrees": 0,
+   "disagrees": 5,
+   "agrees at some angles": 0,
+   "where": [
+    "base_m:flexor_pollicis_brevis_l",
+    "base_m:flexor_pollicis_brevis_r",
+    "base_f:flexor_pollicis_brevis_l",
+    "base_f:flexor_pollicis_brevis_r",
+    "comb_f:flexor_pollicis_brevis_r"
+   ]
+  },
+  "flexor_pollicis_brevis||thumb_cmc|abd|-1|flexor pollicis brevis was an adductor as well as a flexor": {
+   "agrees": 0,
+   "disagrees": 5,
+   "agrees at some angles": 0,
+   "where": [
+    "base_m:flexor_pollicis_brevis_l",
+    "base_m:flexor_pollicis_brevis_r",
+    "base_f:flexor_pollicis_brevis_l",
+    "base_f:flexor_pollicis_brevis_r",
+    "comb_f:flexor_pollicis_brevis_r"
+   ]
+  },
+  "flexor_pollicis_longus||thumb_ip|flex|+1|flexes thumb IP joint": {
+   "agrees": 7,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:flexor_pollicis_longus_l"
+   ]
+  },
+  "flexor_pollicis_longus||thumb_mcp|flex|+1|flexes thumb MCP and CMC joints": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_pollicis_longus||thumb_cmc|flex|+1|flexes thumb MCP and CMC joints": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "gastrocnemius||ankle|dp|-1|plantarflexes ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "gemellus_superior||hip|rot|-1|externally rotates hip": {
+   "agrees": 2,
+   "disagrees": 0,
+   "agrees at some angles": 6,
+   "where": [
+    "base_m:gemellus_superior_l",
+    "base_m:gemellus_superior_r",
+    "comb_m:gemellus_superior_l",
+    "comb_m:gemellus_superior_r",
+    "comb_f:gemellus_superior_l",
+    "comb_f:gemellus_superior_r"
+   ]
+  },
+  "gracilis||knee|flex|+1|adducts hip, flexes knee": {
+   "agrees": 6,
+   "disagrees": 1,
+   "agrees at some angles": 1,
+   "where": [
+    "base_m:gracilis_l",
+    "base_m:gracilis_r"
+   ]
+  },
+  "infraspinatus||shoulder|rot|-1|externally rotates humerus": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 2,
+   "where": [
+    "comb_m:infraspinatus_l",
+    "comb_m:infraspinatus_r"
+   ]
+  },
+  "obturator_externus||hip|rot|-1|externally rotates hip": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "obturator_internus||hip|rot|-1|externally rotates hip (extended)": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "obturator_internus||hip|abd|+1|abducts hip (flexed)": {
+   "agrees": 0,
+   "disagrees": 0,
+   "agrees at some angles": 8,
+   "where": [
+    "base_m:obturator_internus_l",
+    "base_m:obturator_internus_r",
+    "base_f:obturator_internus_l",
+    "base_f:obturator_internus_r",
+    "comb_m:obturator_internus_l",
+    "comb_m:obturator_internus_r",
+    "comb_f:obturator_internus_l",
+    "comb_f:obturator_internus_r"
+   ]
+  },
+  "piriformis||hip|rot|-1|externally rotates hip (in extension)": {
+   "agrees": 0,
+   "disagrees": 0,
+   "agrees at some angles": 8,
+   "where": [
+    "base_m:piriformis_l",
+    "base_m:piriformis_r",
+    "base_f:piriformis_l",
+    "base_f:piriformis_r",
+    "comb_m:piriformis_l",
+    "comb_m:piriformis_r",
+    "comb_f:piriformis_l",
+    "comb_f:piriformis_r"
+   ]
+  },
+  "piriformis||hip|abd|+1|abducts hip (in flexion": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "plantaris||ankle|dp|-1|weak knee flexion/ankle plantarflexion": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "rectus_femoris||knee|flex|-1|extends knee": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "rectus_femoris||hip|flex|+1|flexes hip (only quadriceps head crossing the hip joint)": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "semimembranosus||hip|flex|-1|extends hip": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "semimembranosus||knee|flex|+1|flexes and internally rotates knee": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "semispinalis_thoracis||thoracic|flex|-1|extends the thoracic spine": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "semispinalis_thoracis||thoracic|rot|-1|rotates the trunk to the opposite side": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "soleus||ankle|dp|-1|plantarflexes ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "subscapularis||shoulder|rot|+1|internally rotates humerus": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 2,
+   "where": [
+    "comb_m:subscapularis_l",
+    "comb_m:subscapularis_r"
+   ]
+  },
+  "teres_major||shoulder|abd|-1|adducts, extends, internally rotates humerus": {
+   "agrees": 3,
+   "disagrees": 0,
+   "agrees at some angles": 5,
+   "where": [
+    "base_m:teres_major_l",
+    "base_m:teres_major_r",
+    "comb_m:teres_major_l",
+    "comb_m:teres_major_r",
+    "comb_f:teres_major_r"
+   ]
+  },
+  "teres_major||shoulder|flex|-1|adducts, extends, internally rotates humerus": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "teres_major||shoulder|rot|+1|adducts, extends, internally rotates humerus": {
+   "agrees": 7,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:teres_major_l"
+   ]
+  },
+  "tibialis_anterior||ankle|dp|+1|dorsiflexes ankle (prime mover)": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "tibialis_anterior||subtalar|inv|+1|inverts ankle": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 4,
+   "where": [
+    "base_m:tibialis_anterior_l",
+    "base_m:tibialis_anterior_r",
+    "base_f:tibialis_anterior_l",
+    "base_f:tibialis_anterior_r"
+   ]
+  },
+  "vastus_intermedius||knee|flex|-1|extends knee": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "vastus_medialis||knee|flex|-1|extends knee": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "pectoralis_major||shoulder|abd|-1|adducts and internally rotates humerus": {
+   "agrees": 14,
+   "disagrees": 0,
+   "agrees at some angles": 8,
+   "where": [
+    "base_m:zan_abdominal_part_of_pectoralis_major_muscle_l",
+    "base_m:zan_abdominal_part_of_pectoralis_major_muscle_r",
+    "base_m:zan_sternocostal_head_of_pectoralis_major_muscle_l",
+    "base_m:zan_sternocostal_head_of_pectoralis_major_muscle_r",
+    "base_f:zan_sternocostal_head_of_pectoralis_major_muscle_l",
+    "comb_m:zan_abdominal_part_of_pectoralis_major_muscle_r",
+    "comb_f:zan_abdominal_part_of_pectoralis_major_muscle_r",
+    "comb_f:zan_sternocostal_head_of_pectoralis_major_muscle_r"
+   ]
+  },
+  "pectoralis_major||shoulder|rot|+1|adducts and internally rotates humerus": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 14,
+   "where": [
+    "base_m:zan_abdominal_part_of_pectoralis_major_muscle_l",
+    "base_m:zan_abdominal_part_of_pectoralis_major_muscle_r",
+    "base_m:zan_sternocostal_head_of_pectoralis_major_muscle_l",
+    "base_m:zan_sternocostal_head_of_pectoralis_major_muscle_r",
+    "base_f:zan_abdominal_part_of_pectoralis_major_muscle_l",
+    "base_f:zan_abdominal_part_of_pectoralis_major_muscle_r",
+    "base_f:zan_sternocostal_head_of_pectoralis_major_muscle_l",
+    "comb_m:zan_abdominal_part_of_pectoralis_major_muscle_r",
+    "comb_m:zan_clavicular_head_of_pectoralis_major_muscle_l",
+    "comb_m:zan_clavicular_head_of_pectoralis_major_muscle_r",
+    "comb_f:zan_abdominal_part_of_pectoralis_major_muscle_l",
+    "comb_f:zan_abdominal_part_of_pectoralis_major_muscle_r",
+    "comb_f:zan_clavicular_head_of_pectoralis_major_muscle_l",
+    "comb_f:zan_sternocostal_head_of_pectoralis_major_muscle_r"
+   ]
+  },
+  "extensor_pollicis_longus||thumb_ip|flex|-1|extends thumb IP joint": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "extensor_pollicis_longus||thumb_mcp|flex|-1|extends thumb MCP and CMC joints": {
+   "agrees": 7,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:zan_extensor_pollicis_longus_l"
+   ]
+  },
+  "extensor_pollicis_longus||thumb_cmc|flex|-1|extends thumb MCP and CMC joints": {
+   "agrees": 0,
+   "disagrees": 8,
+   "agrees at some angles": 0,
+   "where": [
+    "base_m:zan_extensor_pollicis_longus_l",
+    "base_m:zan_extensor_pollicis_longus_r",
+    "base_f:zan_extensor_pollicis_longus_l",
+    "base_f:zan_extensor_pollicis_longus_r",
+    "comb_m:zan_extensor_pollicis_longus_l",
+    "comb_m:zan_extensor_pollicis_longus_r",
+    "comb_f:zan_extensor_pollicis_longus_l",
+    "comb_f:zan_extensor_pollicis_longus_r"
+   ]
+  },
+  "extensor_pollicis_longus||thumb_cmc|abd|-1|the extensor pollicis longus was an extensor and an adductor": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliopsoas|iliacus|hip|flex|+1|flexes hip (primary/strongest hip flexor)": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliopsoas|iliacus|hip|flex|+1|The iliopsoas (psoas major and iliacus), rectus femoris, sartorius, and adductor longus are known as the hip flexor musc": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "triceps_brachii|lateral_head|elbow|flex|-1|extends elbow (all heads)": {
+   "agrees": 6,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "triceps_brachii|long_head|elbow|flex|-1|extends elbow (all heads)": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "triceps_brachii|long_head|shoulder|flex|-1|extends and adducts shoulder (long head only)": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "triceps_brachii|long_head|shoulder|abd|-1|extends and adducts shoulder (long head only)": {
+   "agrees": 4,
+   "disagrees": 0,
+   "agrees at some angles": 4,
+   "where": [
+    "base_f:zan_long_head_of_triceps_brachii_l",
+    "base_f:zan_long_head_of_triceps_brachii_r",
+    "comb_f:zan_long_head_of_triceps_brachii_l",
+    "comb_f:zan_long_head_of_triceps_brachii_r"
+   ]
+  },
+  "triceps_brachii||elbow|flex|-1|extends elbow (all heads)": {
+   "agrees": 5,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliopsoas|psoas_major|hip|flex|+1|flexes hip (primary/strongest hip flexor)": {
+   "agrees": 5,
+   "disagrees": 0,
+   "agrees at some angles": 3,
+   "where": [
+    "base_f:zan_psoas_major_l",
+    "base_f:zan_psoas_major_r",
+    "comb_f:zan_psoas_major_l"
+   ]
+  },
+  "iliopsoas|psoas_major|lumbar|lat|+1|psoas major also laterally flexes/stabilizes the lumbar spine": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "iliopsoas|psoas_major|hip|flex|+1|The iliopsoas (psoas major and iliacus), rectus femoris, sartorius, and adductor longus are known as the hip flexor musc": {
+   "agrees": 5,
+   "disagrees": 0,
+   "agrees at some angles": 3,
+   "where": [
+    "base_f:zan_psoas_major_l",
+    "base_f:zan_psoas_major_r",
+    "comb_f:zan_psoas_major_l"
+   ]
+  },
+  "tibialis_posterior||ankle|dp|-1|plantarflexes and inverts the ankle": {
+   "agrees": 0,
+   "disagrees": 8,
+   "agrees at some angles": 0,
+   "where": [
+    "base_m:zan_tibialis_posterior_muscle_l",
+    "base_m:zan_tibialis_posterior_muscle_r",
+    "base_f:zan_tibialis_posterior_muscle_l",
+    "base_f:zan_tibialis_posterior_muscle_r",
+    "comb_m:zan_tibialis_posterior_muscle_l",
+    "comb_m:zan_tibialis_posterior_muscle_r",
+    "comb_f:zan_tibialis_posterior_muscle_l",
+    "comb_f:zan_tibialis_posterior_muscle_r"
+   ]
+  },
+  "tibialis_posterior||subtalar|inv|+1|plantarflexes and inverts the ankle": {
+   "agrees": 8,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "longissimus||cervical|flex|-1|extends vertebral column and head (bilateral)": {
+   "agrees": 17,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:zan_longissimus_colli_muscle_r"
+   ]
+  },
+  "longissimus||cervical|lat|+1|laterally flexes trunk/head": {
+   "agrees": 18,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "adductor_pollicis||thumb_mcp|flex|+1|flexes thumb CMC and MCP joints": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "extensor_digitorum_longus||t3_mtp|flex|-1|extends toes 2-5, dorsiflexes ankle": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "extensor_pollicis_brevis||thumb_cmc|flex|-1|extends thumb CMC joint": {
+   "agrees": 0,
+   "disagrees": 1,
+   "agrees at some angles": 3,
+   "where": [
+    "comb_m:extensor_pollicis_brevis_l",
+    "comb_m:extensor_pollicis_brevis_r",
+    "comb_f:extensor_pollicis_brevis_l",
+    "comb_f:extensor_pollicis_brevis_r"
+   ]
+  },
+  "extensor_pollicis_brevis||thumb_mcp|flex|-1|extends thumb MCP joint": {
+   "agrees": 1,
+   "disagrees": 1,
+   "agrees at some angles": 0,
+   "where": [
+    "comb_f:extensor_pollicis_brevis_l"
+   ]
+  },
+  "sartorius||knee|flex|+1|flexes, abducts, externally rotates hip; flexes knee": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_digitorum_profundus||f5_pip|flex|+1|assists PIP/MCP/wrist flexion": {
+   "agrees": 1,
+   "disagrees": 0,
+   "agrees at some angles": 0,
+   "where": []
+  },
+  "flexor_digitorum_profundus||f5_mcp|flex|+1|assists PIP/MCP/wrist flexion": {
+   "agrees": 0,
+   "disagrees": 0,
+   "agrees at some angles": 1,
+   "where": [
+    "comb_f:flexor_digitorum_profundus_r"
+   ]
+  }
+ }
+}

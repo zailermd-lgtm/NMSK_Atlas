@@ -1,0 +1,213 @@
+{
+ "page": "index.html",
+ "cond": "strict",
+ "vp": "1366x768",
+ "checks": {
+  "btn_ct_mri_visible": true,
+  "btn_ultrasound_visible": true,
+  "tooltip_imaging_ready": true,
+  "tooltip_ultrasound_ready": true,
+  "code_inline": true,
+  "table_inline": true,
+  "imaging_diag_ready": true,
+  "imaging_panel_visible": true,
+  "imaging_cut_exists": true,
+  "imaging_hint_shown": true,
+  "img_ct_soft_mpr": true,
+  "img_ct_bone": true,
+  "img_mri_t1": true,
+  "img_mri_t2": true,
+  "img_ct_mip": true,
+  "img_ct_single": true,
+  "no_horizontal_scroll": true,
+  "imaging_closed_3d_back": true,
+  "ultrasound_diag_ready": true,
+  "ultrasound_panel_visible": true,
+  "us_star_perp_tilt": true,
+  "us_sweep3": true,
+  "us_sweep9": true,
+  "us_nine_frames": true,
+  "no_page_errors": true,
+  "completed": true
+ },
+ "errors": [],
+ "shots": {
+  "ct_soft_mpr": {
+   "std": 45.3,
+   "ink": 0.517,
+   "w": 683,
+   "h": 768
+  },
+  "ct_bone": {
+   "std": 36.0,
+   "ink": 0.513,
+   "w": 683,
+   "h": 768
+  },
+  "mri_t1": {
+   "std": 54.3,
+   "ink": 0.582,
+   "w": 683,
+   "h": 768
+  },
+  "mri_t2": {
+   "std": 47.8,
+   "ink": 0.58,
+   "w": 683,
+   "h": 768
+  },
+  "ct_mip": {
+   "std": 43.2,
+   "ink": 0.558,
+   "w": 683,
+   "h": 768
+  },
+  "ct_single": {
+   "std": 44.0,
+   "ink": 0.535,
+   "w": 683,
+   "h": 768
+  },
+  "star_perp_tilt": {
+   "std": 45.3,
+   "ink": 0.634,
+   "w": 683,
+   "h": 768
+  },
+  "sweep3": {
+   "std": 45.8,
+   "ink": 0.634,
+   "w": 683,
+   "h": 768
+  },
+  "sweep9": {
+   "std": 44.4,
+   "ink": 0.635,
+   "w": 683,
+   "h": 768
+  }
+ },
+ "code": {
+  "imaging": {
+   "ok": true,
+   "text": "Imaging tool: ready (vq226.3, tissues 33, code inline, table inline)",
+   "version": "q226.3",
+   "tissues": 33,
+   "code": "inline",
+   "table": "inline"
+  },
+  "ultrasound": {
+   "ok": true,
+   "text": "Ultrasound tool: ready (vq228.3, tissues 33, code inline, table inline)",
+   "version": "q228.3",
+   "tissues": 33,
+   "code": "inline",
+   "table": "inline"
+  }
+ },
+ "buttons": {
+  "i": {
+   "text": "ct / mri",
+   "tip": "CT / MRI: simulated CT and MRI of the cut plane (not a scan) | Imaging tool: ready (vq226.3, tissues 33, code inline, table inline)",
+   "x": 654,
+   "y": 11,
+   "w": 76,
+   "h": 28,
+   "inside": true
+  },
+  "u": {
+   "text": "ultrasound",
+   "tip": "Ultrasound: simulated B-mode from the meshes (not a scan) | Ultrasound tool: ready (vq228.3, tissues 33, code inline, table inline)",
+   "x": 735,
+   "y": 11,
+   "w": 90,
+   "h": 28,
+   "inside": true
+  },
+  "W": 1366,
+  "H": 768
+ },
+ "tooltips": [
+  "CT / MRI: simulated CT and MRI of the cut plane (not a scan) | Imaging tool: ready (vq226.3, tissues 33, code inline, table inline)",
+  "Ultrasound: simulated B-mode from the meshes (not a scan) | Ultrasound tool: ready (vq228.3, tissues 33, code inline, table inline)"
+ ],
+ "imaging_diag": "Imaging tool: ready (vq226.3, tissues 33, code inline, table inline)",
+ "imaging_hint": "No cut was set, so an axial cut through the upper abdomen was created for you. Click or drag in any image to move it, or use the Cut panel of the 3D view, or the View \u2192 Oblique dial below for a tilted plane without orbiting the camera. OK",
+ "canvas_std": {
+  "ct_soft_mpr": [
+   52,
+   52.3,
+   59.4,
+   54.5
+  ],
+  "ct_bone": [
+   34.3,
+   34.4,
+   34.6,
+   31.3
+  ],
+  "mri_t1": [
+   92.2,
+   91.3,
+   63.9,
+   58.5
+  ],
+  "mri_t2": [
+   73.9,
+   73.5,
+   55.5,
+   51.8
+  ],
+  "ct_mip": [
+   48.3,
+   48.5,
+   61,
+   39.7
+  ],
+  "ct_single": [
+   52.3
+  ],
+  "star_perp_tilt": [
+   38.7,
+   44.2,
+   43.2,
+   41.9,
+   44.9,
+   46.7,
+   49.8,
+   46.6,
+   47.3
+  ],
+  "sweep3": [
+   39,
+   44.3,
+   43.9
+  ],
+  "sweep9": [
+   41.4,
+   42.9,
+   46.8,
+   47.7,
+   47.2,
+   48.6,
+   47.6,
+   47.2,
+   47.5
+  ]
+ },
+ "layout": {
+  "cls": "nmsk-img img-z img-side",
+  "scrollW": 1366,
+  "innerW": 1366,
+  "panel": [
+   683,
+   0,
+   683,
+   768
+  ]
+ },
+ "ultrasound_diag": "Ultrasound tool: ready (vq228.3, tissues 33, code inline, table inline)",
+ "us_frames": 9,
+ "ok": true,
+ "seconds": 133
+}

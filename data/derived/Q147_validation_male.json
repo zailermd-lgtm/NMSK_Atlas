@@ -1,0 +1,56 @@
+{
+ "source": "Q147 validation: scripts/transfer/limb_per_bone_transfer.py --validate. Diagnostics only.",
+ "direction": "zan2m",
+ "n": 3,
+ "skipped": {},
+ "rows": [
+  {
+   "id": "flexor_digitorum_superficialis_r",
+   "real_subject": "ct_vhm_forearm",
+   "driving_bones": {
+    "radius_r": 0.602,
+    "ulna_r": 0.352,
+    "carpals_r": 0.046
+   },
+   "bone_penetration_vertices_before_pushoff": 266,
+   "centroid_dist_mm": 25.4,
+   "real_vol_cm3": 46.9,
+   "zan_vol_cm3": 11.0,
+   "vol_ratio_zan_over_real": 0.234,
+   "dice": 0.103,
+   "iou": 0.054,
+   "real_extent_mm": 163.6
+  },
+  {
+   "id": "flexor_digitorum_profundus_r",
+   "real_subject": "ct_vhm_forearm",
+   "driving_bones": {
+    "ulna_r": 0.623,
+    "carpals_r": 0.377
+   },
+   "bone_penetration_vertices_before_pushoff": 335,
+   "centroid_dist_mm": 75.3,
+   "real_vol_cm3": 41.4,
+   "zan_vol_cm3": 100.1,
+   "vol_ratio_zan_over_real": 2.415,
+   "dice": 0.117,
+   "iou": 0.062,
+   "real_extent_mm": 178.4
+  },
+  {
+   "id": "abductor_pollicis_longus_r",
+   "real_subject": "ct_vhm_forearm",
+   "driving_bones": {
+    "radius_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 33,
+   "centroid_dist_mm": 18.7,
+   "real_vol_cm3": 9.0,
+   "zan_vol_cm3": 11.4,
+   "vol_ratio_zan_over_real": 1.264,
+   "dice": 0.356,
+   "iou": 0.216,
+   "real_extent_mm": 125.8
+  }
+ ]
+}

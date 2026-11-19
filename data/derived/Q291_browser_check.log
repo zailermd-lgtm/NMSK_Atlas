@@ -1,0 +1,50 @@
+=== viewer_f_hr@1400 ===
+  OK   viewer_f_hr@1400 A: the panel's stepper shows the linear default (10 MHz, probe linear, no note: True)
+  OK   viewer_f_hr@1400 A: − and + are on top and at least 36 px tall ([(40, 36), (40, 36)])
+  OK   viewer_f_hr@1400 A: stepped 34 times 10->1->18->10; label / state / re-simulated image / no NaN / end-stops / out-of-band note correct at every step ([])
+  OK   viewer_f_hr@1400 A: out-of-band note at 1 MHz '1 MHz is outside the typical linear band (4–18 MHz) — still simulated', none in band (4 MHz '', 18 MHz '')
+     per-step kernel time of the selected frame: min 31 / max 98 ms; at 1 MHz 62, 18 MHz 32
+  OK   viewer_f_hr@1400 B: convex default 4 MHz in band (no note), 7 MHz out of band: '7 MHz is outside the typical convex band (1–6 MHz) — still simulated'
+  OK   viewer_f_hr@1400 B: sector default 3 MHz in band (no note), 6 MHz out of band: '6 MHz is outside the typical sector band (1–5 MHz) — still simulated'
+  OK   viewer_f_hr@1400 B: back to linear -> 10 MHz
+  OK   viewer_f_hr@1400 C: kernel on the selected frame's body raster (246x319, ds 0.143 mm): 1 MHz 42.0 ms, 7.5 MHz 35.0 ms, 12 MHz 39.7 ms, 18 MHz 35.3 ms (18 / 7.5 = 1.01); no NaN / Inf; mean dB -14.5 -> -17.8 (darker far field)
+  OK   viewer_f_hr@1400 F: 0 page errors ([])
+=== viewer_f_hr@390 ===
+  OK   viewer_f_hr@390: 'US אבחנתי' mode entered by a tap on its tile
+  OK   viewer_f_hr@390 D: card − / + tap targets [(40, 36), (40, 36)] on top, inside 390 px; page scroll width 390 <= 390
+  OK   viewer_f_hr@390 D: the card shows 10 MHz (slider 10)
+  OK   viewer_f_hr@390 D: stepped 34 times 10->1->18->10; label / state / re-simulated image / no NaN / end-stops / out-of-band note correct at every step ([])
+  OK   viewer_f_hr@390 D: out-of-band note at 1 MHz 'מחוץ לטווח האופייני למתמר (⁦4–18 MHz⁩) – עדיין מדומה', none in band (4 MHz '', 18 MHz '')
+     per-step kernel time of the selected frame: min 31 / max 59 ms; at 1 MHz 42, 18 MHz 37
+  OK   viewer_f_hr@390 E: the full-screen ⋯ sheet holds the stepper (10 MHz)
+  OK   viewer_f_hr@390 E: with CINE playing, the sheet's + / − change the frequency and the running CINE re-simulates at it ([('11 MHz', '11', True), ('12 MHz', '12', True), ('11 MHz', '11', True)])
+  OK   viewer_f_hr@390 F: 0 page errors ([])
+=== viewer_zan_atlas@1400 ===
+  OK   viewer_zan_atlas@1400 A: the panel's stepper shows the linear default (10 MHz, probe linear, no note: True)
+  OK   viewer_zan_atlas@1400 A: − and + are on top and at least 36 px tall ([(40, 36), (40, 36)])
+  OK   viewer_zan_atlas@1400 A: stepped 34 times 10->1->18->10; label / state / re-simulated image / no NaN / end-stops / out-of-band note correct at every step ([])
+  OK   viewer_zan_atlas@1400 A: out-of-band note at 1 MHz '1 MHz is outside the typical linear band (4–18 MHz) — still simulated', none in band (4 MHz '', 18 MHz '')
+     per-step kernel time of the selected frame: min 33 / max 65 ms; at 1 MHz 44, 18 MHz 45
+  OK   viewer_zan_atlas@1400 B: convex default 4 MHz in band (no note), 7 MHz out of band: '7 MHz is outside the typical convex band (1–6 MHz) — still simulated'
+  OK   viewer_zan_atlas@1400 B: sector default 3 MHz in band (no note), 6 MHz out of band: '6 MHz is outside the typical sector band (1–5 MHz) — still simulated'
+  OK   viewer_zan_atlas@1400 B: back to linear -> 10 MHz
+  OK   viewer_zan_atlas@1400 C: kernel on the selected frame's body raster (246x319, ds 0.143 mm): 1 MHz 40.4 ms, 7.5 MHz 33.2 ms, 12 MHz 33.6 ms, 18 MHz 33.4 ms (18 / 7.5 = 1.01); no NaN / Inf; mean dB -14.0 -> -20.7 (darker far field)
+  OK   viewer_zan_atlas@1400 F: 0 page errors ([])
+=== viewer_zan_atlas@390 ===
+  OK   viewer_zan_atlas@390: 'US אבחנתי' mode entered by a tap on its tile
+  OK   viewer_zan_atlas@390 D: card − / + tap targets [(40, 36), (40, 36)] on top, inside 390 px; page scroll width 390 <= 390
+  OK   viewer_zan_atlas@390 D: the card shows 10 MHz (slider 10)
+  OK   viewer_zan_atlas@390 D: stepped 34 times 10->1->18->10; label / state / re-simulated image / no NaN / end-stops / out-of-band note correct at every step ([])
+  OK   viewer_zan_atlas@390 D: out-of-band note at 1 MHz 'מחוץ לטווח האופייני למתמר (⁦4–18 MHz⁩) – עדיין מדומה', none in band (4 MHz '', 18 MHz '')
+     per-step kernel time of the selected frame: min 32 / max 65 ms; at 1 MHz 43, 18 MHz 32
+  OK   viewer_zan_atlas@390 E: the full-screen ⋯ sheet holds the stepper (10 MHz)
+  OK   viewer_zan_atlas@390 E: with CINE playing, the sheet's + / − change the frequency and the running CINE re-simulates at it ([('11 MHz', '11', True), ('12 MHz', '12', True), ('11 MHz', '11', True)])
+  OK   viewer_zan_atlas@390 F: 0 page errors ([])
+  viewer_f_hr@1400 panel: [(9, 98), (8, 52), (7, 35), (6, 41), (5, 35), (4, 37), (3, 60), (2, 36), (1, 62), (2, 48), (3, 36), (4, 38), (5, 37), (6, 36), (7, 35), (8, 33), (9, 36), (10, 57), (11, 52), (12, 38), (13, 49), (14, 31), (15, 36), (16, 33), (17, 39), (18, 32), (17, 48), (16, 37), (15, 35), (14, 33), (13, 49), (12, 57), (11, 33), (10, 35)]
+  viewer_f_hr@1400 kernel: {18: (35.3, 0, -17.8), 7.5: (35, 0, -14.5), 1: (42, 0, -11.4), 12: (39.7, 0, -16.0)}
+  viewer_f_hr@390 card: [(9, 36), (8, 58), (7, 37), (6, 39), (5, 35), (4, 38), (3, 37), (2, 56), (1, 42), (2, 45), (3, 41), (4, 39), (5, 34), (6, 43), (7, 55), (8, 35), (9, 31), (10, 54), (11, 33), (12, 35), (13, 45), (14, 36), (15, 36), (16, 32), (17, 40), (18, 37), (17, 45), (16, 39), (15, 35), (14, 59), (13, 37), (12, 38), (11, 46), (10, 55)]
+  viewer_zan_atlas@1400 panel: [(9, 65), (8, 41), (7, 35), (6, 60), (5, 34), (4, 48), (3, 37), (2, 40), (1, 44), (2, 38), (3, 54), (4, 59), (5, 37), (6, 43), (7, 39), (8, 39), (9, 35), (10, 36), (11, 36), (12, 36), (13, 39), (14, 39), (15, 34), (16, 39), (17, 34), (18, 45), (17, 33), (16, 36), (15, 34), (14, 33), (13, 33), (12, 61), (11, 38), (10, 39)]
+  viewer_zan_atlas@1400 kernel: {18: (33.4, 0, -20.7), 7.5: (33.2, 0, -14.0), 1: (40.4, 0, -3.3), 12: (33.6, 0, -16.8)}
+  viewer_zan_atlas@390 card: [(9, 65), (8, 36), (7, 63), (6, 52), (5, 36), (4, 38), (3, 58), (2, 38), (1, 43), (2, 37), (3, 37), (4, 65), (5, 36), (6, 44), (7, 38), (8, 47), (9, 36), (10, 34), (11, 38), (12, 37), (13, 33), (14, 39), (15, 33), (16, 40), (17, 35), (18, 32), (17, 33), (16, 35), (15, 32), (14, 34), (13, 48), (12, 35), (11, 34), (10, 33)]
+
+ALL OK

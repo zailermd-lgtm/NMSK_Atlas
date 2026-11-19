@@ -1,0 +1,379 @@
+{
+ "femur_long": {
+  "contact": true,
+  "ysk": -0.14192580244204933,
+  "ms": 133,
+  "kms": 58,
+  "simMs": 73,
+  "beam": [
+   [
+    0,
+    "skin|skin_rim"
+   ],
+   [
+    2,
+    "fat|-"
+   ],
+   [
+    13,
+    "muscle|rectus_femoris_r"
+   ],
+   [
+    40,
+    "muscle|vastus_intermedius_r"
+   ],
+   [
+    80,
+    "bone_cortical|femur_r"
+   ],
+   [
+    87,
+    "marrow_yellow|femur_r"
+   ],
+   [
+    103,
+    "bone_cortical|femur_r"
+   ],
+   [
+    110,
+    "fat|-"
+   ],
+   [
+    111,
+    "muscle|vastus_intermedius_r"
+   ],
+   [
+    122,
+    "fat|-"
+   ],
+   [
+    124,
+    "muscle|adductor_magnus_r"
+   ]
+  ],
+  "central_mean_db": -14.1,
+  "byClass": {
+   "air": {
+    "n": 4,
+    "mean": 18,
+    "max": 18.2
+   },
+   "skin": {
+    "n": 56,
+    "mean": 14.7,
+    "max": 19.6
+   },
+   "fat": {
+    "n": 420,
+    "mean": -22.4,
+    "max": 20
+   },
+   "muscle": {
+    "n": 2273,
+    "mean": -18.4,
+    "max": 13.6
+   },
+   "bone_cortical": {
+    "n": 462,
+    "mean": -84.8,
+    "max": 8.3
+   },
+   "marrow_yellow": {
+    "n": 534,
+    "mean": -100.5,
+    "max": -57.8
+   }
+  },
+  "img": {
+   "mean": -41.3,
+   "min": -150,
+   "max": 21,
+   "valid_frac": 0.527
+  },
+  "place": {
+   "id": "femur_r",
+   "centre": [
+    117.625,
+    -216.875,
+    -5.5
+   ],
+   "hit": {
+    "P": [
+     117.625,
+     -216.875,
+     100.14666666666665
+    ],
+    "N": [
+     -0.11974120261781346,
+     -0.18069223190910594,
+     0.9762235203698719
+    ],
+    "struct": 343
+   }
+  }
+ },
+ "forearm_trans": {
+  "contact": true,
+  "ysk": -0.05624999999999858,
+  "ms": 69,
+  "kms": 12,
+  "simMs": 55,
+  "beam": [
+   [
+    0,
+    "skin|skin_rim"
+   ],
+   [
+    2,
+    "fat|-"
+   ],
+   [
+    14,
+    "muscle|brachioradialis_r"
+   ],
+   [
+    18,
+    "fat|-"
+   ],
+   [
+    19,
+    "bone_cortical|radius_r"
+   ],
+   [
+    23,
+    "marrow_yellow|radius_r"
+   ],
+   [
+    29,
+    "bone_cortical|radius_r"
+   ]
+  ],
+  "central_mean_db": -32,
+  "byClass": {
+   "skin": {
+    "n": 552,
+    "mean": 3.3,
+    "max": 18.5
+   },
+   "fat": {
+    "n": 4341,
+    "mean": -11.6,
+    "max": 20.8
+   },
+   "muscle": {
+    "n": 1113,
+    "mean": -5.6,
+    "max": 13.8
+   },
+   "bone_cortical": {
+    "n": 2042,
+    "mean": -31.4,
+    "max": 20.8
+   },
+   "marrow_yellow": {
+    "n": 1541,
+    "mean": -87.4,
+    "max": -46.2
+   }
+  },
+  "img": {
+   "mean": -15.9,
+   "min": -150,
+   "max": 23,
+   "valid_frac": 0.786
+  },
+  "place": {
+   "id": "radius_r",
+   "centre": [
+    194.25,
+    182.875,
+    47.875
+   ],
+   "hit": {
+    "P": [
+     194.25,
+     182.875,
+     83.81518665158364
+    ],
+    "N": [
+     0.19732280459789533,
+     0.4415244247511409,
+     0.8752827503920062
+    ],
+    "struct": 343
+   }
+  }
+ },
+ "carotid_trans": {
+  "contact": true,
+  "ysk": 0.10000000000000142,
+  "ms": 45,
+  "kms": 9,
+  "simMs": 36,
+  "beam": [
+   [
+    0,
+    "skin|skin_rim"
+   ],
+   [
+    2,
+    "fat|-"
+   ],
+   [
+    5,
+    "muscle|sternocleidomastoid_r_zfill203"
+   ],
+   [
+    7,
+    "muscle|sternocleidomastoid_r"
+   ],
+   [
+    19,
+    "fat|-"
+   ],
+   [
+    42,
+    "blood_artery|common_carotid_a_r"
+   ],
+   [
+    50,
+    "fat|-"
+   ]
+  ],
+  "central_mean_db": -22,
+  "byClass": {
+   "skin": {
+    "n": 203,
+    "mean": 10.1,
+    "max": 17.3
+   },
+   "air": {
+    "n": 23,
+    "mean": 8.7,
+    "max": 11.3
+   },
+   "fat": {
+    "n": 5581,
+    "mean": -20.8,
+    "max": 18
+   },
+   "muscle": {
+    "n": 2105,
+    "mean": -11.1,
+    "max": 11.3
+   },
+   "blood_artery": {
+    "n": 1058,
+    "mean": -29.6,
+    "max": 4.2
+   }
+  },
+  "img": {
+   "mean": -15.5,
+   "min": -150,
+   "max": 37,
+   "valid_frac": 0.873
+  },
+  "place": {
+   "id": "common_carotid_a_r",
+   "centre": [
+    30.826318593500165,
+    583.3255194459236,
+    26.440063931806016
+   ],
+   "hit": {
+    "P": [
+     30.826318593500165,
+     583.3255194459236,
+     71.40702463082982
+    ],
+    "N": [
+     -0.03789713863965047,
+     -0.02860822565052842,
+     0.9988720520207058
+    ],
+    "struct": 343
+   }
+  }
+ },
+ "abdomen_liver": {
+  "contact": true,
+  "ysk": -0.09173927036541585,
+  "ms": 67,
+  "kms": 18,
+  "simMs": 49,
+  "beam": [
+   [
+    0,
+    "skin|skin_rim"
+   ],
+   [
+    2,
+    "fat|-"
+   ],
+   [
+    43,
+    "liver|liver"
+   ],
+   [
+    140,
+    "fat|-"
+   ]
+  ],
+  "central_mean_db": -8.3,
+  "byClass": {
+   "skin": {
+    "n": 39,
+    "mean": 11.4,
+    "max": 17
+   },
+   "fat": {
+    "n": 1175,
+    "mean": -12.3,
+    "max": 26.6
+   },
+   "bone_cortical": {
+    "n": 45,
+    "mean": 1.3,
+    "max": 25.6
+   },
+   "bone_cancellous": {
+    "n": 10,
+    "mean": -3.8,
+    "max": 13.4
+   },
+   "liver": {
+    "n": 2878,
+    "mean": -1.3,
+    "max": 24.3
+   }
+  },
+  "img": {
+   "mean": -13.4,
+   "min": -79,
+   "max": 29,
+   "valid_frac": 0.612
+  },
+  "place": {
+   "id": "liver",
+   "centre": [
+    3.924999999999997,
+    377.77,
+    8.75
+   ],
+   "hit": {
+    "P": [
+     3.924999999999997,
+     377.77,
+     133.83784883720944
+    ],
+    "N": [
+     -0.022924145983348174,
+     0.25439770326958744,
+     0.9668279537239772
+    ],
+    "struct": 343
+   }
+  }
+ }
+}

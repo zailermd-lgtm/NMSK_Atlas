@@ -1,0 +1,91 @@
+{
+  "id": "piriformis_r",
+  "name_ta": "Piriformis",
+  "name_common": "Piriformis",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "sacrum",
+    "origin_landmark": "anterior sacrum (S2-S4 segments)",
+    "insertion_bone": "femur_r",
+    "insertion_landmark": "greater trochanter (superior border)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "nerve_to_piriformis",
+    "root_levels": "S1-S2"
+  },
+  "actions": [
+    "externally rotates hip (in extension); abducts hip (in flexion, due to its line of pull crossing above the hip center)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "piriformis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 350,
+        "max_isometric_force_N": 78.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          30,
+          -40
+        ],
+        [
+          35,
+          -15,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Passes through the greater sciatic foramen, dividing it into supra- and infra-piriform spaces -- the sciatic nerve's relationship to this muscle (usually passing below it, but a documented anatomical variant splits or passes through it) is the anatomical basis of piriformis syndrome.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            60,
+            80
+          ],
+          "reference_line_from": "greater trochanter",
+          "reference_line_to": "sacrum",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Given in the source as between three-fifths and four-fifths of the distance along the muscle. The sciatic nerve lies close to this target, which is the stated reason ultrasound guidance is used here.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+        }
+      ],
+      "innervation_branch_ids": [
+        "nerve_to_piriformis"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the posterior surface of the hip joint, angled about 20 degrees laterally toward the sacrum, roughly 8 cm lateral to the sacrum and 10 cm proximal to the ischial tuberosity.",
+    "depth_layer": "Deep to gluteus maximus, lying on the acetabular cortex.",
+    "identification_cues": "From deep to superficial the sequence is acetabular cortex, piriformis, then gluteus maximus.",
+    "structures_at_risk": [
+      "sciatic nerve"
+    ],
+    "notes": "Injected both for spasm and for the pain of piriformis syndrome, where the muscle compresses the sciatic nerve -- so the structure at risk is also the reason for treating.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Muscle belly deep in the buttock, running from the anterior sacrum to the greater trochanter, crossed superficially by the sciatic nerve as it exits the greater sciatic notch",
+      "referred_pain_pattern": "Pain projecting to the sacroiliac region, buttock, and hip joint posteriorly, sometimes extending over the proximal two-thirds of the posterior thigh",
+      "activation_perpetuating_factors": "Prolonged sitting (especially on a wallet or hard surface), direct trauma to the buttock, overuse in hip external rotation/abduction, and sacroiliac joint dysfunction",
+      "notes": "Piriformis syndrome describes overlapping mechanisms -- myofascial trigger-point referral, direct sciatic nerve entrapment/irritation at the greater sciatic notch, and sacroiliac dysfunction -- which is why the 'pseudo-sciatica' referral pattern must be distinguished from true nerve entrapment on exam",
+      "source": "Simons, Travell & Simons Trigger Point Manual (Travell JG, Simons DG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 2: The Lower Extremities, 1st ed., Williams & Wilkins, 1992; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019) -- as cited in MedLink Neurology, 'Myofascial pain patterns of the piriformis muscle' (https://www.medlink.com/media/mpssi15) and triggerpoints.net, 'Piriformis' (http://www.triggerpoints.net/muscle/piriformis); anatomic basis for safe trigger-point needle placement near the sciatic nerve confirmed by: Kearns G, Gilbert KK, Allen B, Sizer PS, Brismee JM, Pendergrass T, Lierly M, York D (2017) 'Accuracy and safety of dry needle placement in the piriformis muscle in cadavers.' J Man Manip Ther 26(2):89-96, doi:10.1080/10669817.2017.1346745 (https://doi.org/10.1080/10669817.2017.1346745) -- retrieved via PubMed"
+    }
+  ]
+}

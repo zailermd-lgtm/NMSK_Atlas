@@ -1,0 +1,287 @@
+{
+ "own_m": {
+  "page": "own_m",
+  "n_substituted": 58,
+  "n_new_ids": 57,
+  "checks": {
+   "lateral_antebrachial_cutaneous": {
+    "l": {
+     "present": true,
+     "id": "zan_lateral_antebrachial_cutaneous_nerve_l",
+     "source": "xfer_zan2vhm_nerves_q307",
+     "t_along_forearm": [
+      -0.124,
+      0.695
+     ],
+     "radial_coord_p50_mm": 15.0,
+     "ulna_radial_coord_p50_mm": -27.4,
+     "d_musculocutaneous_mm": 21.68,
+     "d_brachioradialis_p50_mm": 1.89,
+     "dihedral_mean_deg": 19.0
+    },
+    "r": {
+     "present": true,
+     "id": "zan_lateral_antebrachial_cutaneous_nerve_r",
+     "source": "xfer_zan2vhm_nerves_q307",
+     "t_along_forearm": [
+      -0.03,
+      0.738
+     ],
+     "radial_coord_p50_mm": 11.5,
+     "ulna_radial_coord_p50_mm": -26.4,
+     "d_musculocutaneous_mm": 0.56,
+     "d_brachioradialis_p50_mm": 4.31,
+     "dihedral_mean_deg": 19.4
+    }
+   },
+   "continuity_mm": {
+    "lateral_plantar_n_l -> tibial_n_l": 0.0,
+    "lateral_plantar_n_r -> tibial_n_r": 0.08,
+    "medial_plantar_n_l -> tibial_n_l": 0.35,
+    "medial_plantar_n_r -> tibial_n_r": 0.08,
+    "saphenous_n_l -> femoral_n_l": 0.1,
+    "saphenous_n_r -> femoral_n_r": 0.12,
+    "femoral_n_anterior_cutaneous_branches_l -> femoral_n_l": 0.26,
+    "femoral_n_anterior_cutaneous_branches_r -> femoral_n_r": 0.15
+   },
+   "body_mask_validates": true,
+   "leaves_the_body": {},
+   "in_bone_frac_over_5pct": {
+    "posterior_interosseous_n_l": 0.0925,
+    "radial_n_superficial_branch_l": 0.1238,
+    "radial_n_superficial_branch_r": 0.1408,
+    "recurrent_branch_of_median_n_r": 0.1983,
+    "suprascapular_n_l": 0.1192,
+    "suprascapular_n_r": 0.1847,
+    "ulnar_n_deep_branch_l": 0.2511,
+    "ulnar_n_deep_branch_r": 0.0702,
+    "zan_common_palmar_digital_branches_of_median_nerve_l": 0.0698,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve_l": 0.1485,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve_r": 0.1517,
+    "zan_lateral_antebrachial_cutaneous_nerve_r": 0.0973,
+    "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": 0.0924,
+    "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": 0.1354,
+    "zan_roots_of_brachial_plexus_l": 0.1005,
+    "zan_roots_of_brachial_plexus_r": 0.0766
+   },
+   "dihedral": {
+    "cvh_references_deg": [
+     31.7,
+     27.6,
+     29.5
+    ],
+    "min": 11.7,
+    "max": 50.6,
+    "median": 18.8,
+    "per_structure": {
+     "axillary_n_l": 14.5,
+     "axillary_n_r": 14.1,
+     "dorsal_scapular_n_l": 17.7,
+     "dorsal_scapular_n_r": 16.7,
+     "lateral_pectoral_n_l": 30.1,
+     "lateral_pectoral_n_r": 29.5,
+     "long_thoracic_n_l": 25.3,
+     "long_thoracic_n_r": 23.9,
+     "medial_pectoral_n_l": 15.4,
+     "medial_pectoral_n_r": 15.2,
+     "musculocutaneous_n_r": 16.3,
+     "posterior_interosseous_n_l": 27.4,
+     "radial_n_superficial_branch_l": 49.8,
+     "radial_n_superficial_branch_r": 32.9,
+     "recurrent_branch_of_median_n_r": 20.8,
+     "suprascapular_n_l": 26.7,
+     "suprascapular_n_r": 26.5,
+     "thoracodorsal_n_l": 23.3,
+     "thoracodorsal_n_r": 23.4,
+     "tibial_n_r": 20.5,
+     "ulnar_n_deep_branch_l": 19.5,
+     "ulnar_n_deep_branch_r": 17.2,
+     "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_l": 16.2,
+     "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_r": 13.7,
+     "zan_common_palmar_digital_branches_of_median_nerve_l": 35.9,
+     "zan_common_palmar_digital_branches_of_median_nerve_r": 36.8,
+     "zan_common_palmar_digital_branches_of_ulnar_nerve_l": 15.6,
+     "zan_common_palmar_digital_branches_of_ulnar_nerve_r": 26.6,
+     "zan_dorsal_digital_branches_of_ulnar_nerve_l": 22.3,
+     "zan_dorsal_digital_branches_of_ulnar_nerve_r": 25.0,
+     "zan_inferior_lateral_brachial_cutaneous_nerve_l": 18.2,
+     "zan_inferior_lateral_brachial_cutaneous_nerve_r": 14.7,
+     "zan_inferior_subscapular_nerve_l": 16.6,
+     "zan_inferior_subscapular_nerve_r": 15.2,
+     "zan_lateral_antebrachial_cutaneous_nerve_l": 19.0,
+     "zan_lateral_antebrachial_cutaneous_nerve_r": 19.4,
+     "zan_medial_antebrachial_cutaneous_nerve_l": 14.7,
+     "zan_medial_antebrachial_cutaneous_nerve_r": 13.8,
+     "zan_medial_brachial_cutaneous_nerve_l": 13.7,
+     "zan_medial_brachial_cutaneous_nerve_r": 14.0,
+     "zan_muscular_branches_of_median_nerve_l": 13.5,
+     "zan_muscular_branches_of_median_nerve_r": 15.4,
+     "zan_muscular_branches_of_ulnar_nerve_l": 43.1,
+     "zan_muscular_branches_of_ulnar_nerve_r": 11.7,
+     "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": 50.6,
+     "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r": 20.9,
+     "zan_posterior_interosseous_nerve_of_forearm_l": 19.5,
+     "zan_posterior_interosseous_nerve_of_forearm_r": 18.6,
+     "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": 33.1,
+     "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": 47.3,
+     "zan_roots_of_brachial_plexus_l": 23.3,
+     "zan_roots_of_brachial_plexus_r": 22.6,
+     "zan_subclavian_nerve_l": 15.7,
+     "zan_subclavian_nerve_r": 12.8,
+     "zan_superior_lateral_brachial_cutaneous_nerve_l": 13.6,
+     "zan_superior_lateral_brachial_cutaneous_nerve_r": 14.7,
+     "zan_superior_subscapular_nerve_l": 12.4,
+     "zan_superior_subscapular_nerve_r": 13.7
+    }
+   }
+  }
+ },
+ "own_f": {
+  "page": "own_f",
+  "n_substituted": 62,
+  "n_new_ids": 60,
+  "checks": {
+   "lateral_antebrachial_cutaneous": {
+    "l": {
+     "present": true,
+     "id": "zan_lateral_antebrachial_cutaneous_nerve_l",
+     "source": "xfer_zan2vhf_nerves_q307",
+     "t_along_forearm": [
+      0.029,
+      0.715
+     ],
+     "radial_coord_p50_mm": 11.5,
+     "ulna_radial_coord_p50_mm": -25.1,
+     "d_musculocutaneous_mm": 14.57,
+     "d_brachioradialis_p50_mm": 1.82,
+     "dihedral_mean_deg": 17.0
+    },
+    "r": {
+     "present": true,
+     "id": "zan_lateral_antebrachial_cutaneous_nerve_r",
+     "source": "xfer_zan2vhf_nerves_q307",
+     "t_along_forearm": [
+      -0.068,
+      0.64
+     ],
+     "radial_coord_p50_mm": 9.5,
+     "ulna_radial_coord_p50_mm": -27.0,
+     "d_musculocutaneous_mm": 15.84,
+     "d_brachioradialis_p50_mm": 7.61,
+     "dihedral_mean_deg": 16.9
+    }
+   },
+   "continuity_mm": {
+    "lateral_plantar_n_l -> tibial_n_l": 0.06,
+    "lateral_plantar_n_r -> tibial_n_r": 0.0,
+    "medial_plantar_n_l -> tibial_n_l": 0.19,
+    "medial_plantar_n_r -> tibial_n_r": 0.0,
+    "saphenous_n_l -> femoral_n_l": 0.36,
+    "saphenous_n_r -> femoral_n_r": 0.27,
+    "femoral_n_anterior_cutaneous_branches_l -> femoral_n_l": 0.08,
+    "femoral_n_anterior_cutaneous_branches_r -> femoral_n_r": 0.24
+   },
+   "body_mask_validates": true,
+   "leaves_the_body": {
+    "zan_dorsal_digital_branches_of_radial_nerve_l": {
+     "n_outside": 2,
+     "worst_mm": 0.82
+    },
+    "zan_dorsal_digital_branches_of_ulnar_nerve_l": {
+     "n_outside": 4,
+     "worst_mm": 1.35
+    }
+   },
+   "in_bone_frac_over_5pct": {
+    "radial_n_superficial_branch_r": 0.0587,
+    "suprascapular_n_l": 0.2957,
+    "suprascapular_n_r": 0.2837,
+    "ulnar_n_deep_branch_r": 0.1986,
+    "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_l": 0.1207,
+    "zan_dorsal_branch_of_ulnar_nerve_r": 0.1643,
+    "zan_dorsal_digital_branches_of_radial_nerve_r": 0.0979,
+    "zan_dorsal_digital_branches_of_ulnar_nerve_l": 0.1558,
+    "zan_dorsal_digital_branches_of_ulnar_nerve_r": 0.1532,
+    "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": 0.0703,
+    "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": 0.178,
+    "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": 0.1816,
+    "zan_roots_of_brachial_plexus_l": 0.0963,
+    "zan_roots_of_brachial_plexus_r": 0.0508
+   },
+   "dihedral": {
+    "cvh_references_deg": [
+     31.7,
+     27.6,
+     29.5
+    ],
+    "min": 11.4,
+    "max": 59.4,
+    "median": 17.4,
+    "per_structure": {
+     "axillary_n_l": 15.8,
+     "axillary_n_r": 13.7,
+     "dorsal_scapular_n_l": 17.3,
+     "dorsal_scapular_n_r": 15.3,
+     "femoral_n_l": 25.6,
+     "lateral_pectoral_n_l": 34.1,
+     "lateral_pectoral_n_r": 26.4,
+     "long_thoracic_n_l": 27.7,
+     "long_thoracic_n_r": 24.9,
+     "medial_pectoral_n_l": 12.9,
+     "medial_pectoral_n_r": 16.5,
+     "radial_n_superficial_branch_l": 28.6,
+     "radial_n_superficial_branch_r": 40.4,
+     "suprascapular_n_l": 23.3,
+     "suprascapular_n_r": 23.3,
+     "thoracodorsal_n_l": 25.6,
+     "thoracodorsal_n_r": 22.6,
+     "tibial_n_l": 20.0,
+     "ulnar_n_deep_branch_l": 11.4,
+     "ulnar_n_deep_branch_r": 17.4,
+     "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_l": 22.2,
+     "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_r": 16.5,
+     "zan_common_palmar_digital_branches_of_median_nerve_l": 12.7,
+     "zan_common_palmar_digital_branches_of_median_nerve_r": 16.0,
+     "zan_common_palmar_digital_branches_of_ulnar_nerve_l": 14.4,
+     "zan_common_palmar_digital_branches_of_ulnar_nerve_r": 33.0,
+     "zan_dorsal_branch_of_ulnar_nerve_l": 12.5,
+     "zan_dorsal_branch_of_ulnar_nerve_r": 24.1,
+     "zan_dorsal_digital_branches_of_radial_nerve_l": 46.2,
+     "zan_dorsal_digital_branches_of_radial_nerve_r": 59.4,
+     "zan_dorsal_digital_branches_of_ulnar_nerve_l": 47.5,
+     "zan_dorsal_digital_branches_of_ulnar_nerve_r": 47.0,
+     "zan_inferior_lateral_brachial_cutaneous_nerve_l": 16.9,
+     "zan_inferior_lateral_brachial_cutaneous_nerve_r": 12.0,
+     "zan_inferior_subscapular_nerve_l": 15.2,
+     "zan_inferior_subscapular_nerve_r": 13.2,
+     "zan_lateral_antebrachial_cutaneous_nerve_l": 17.0,
+     "zan_lateral_antebrachial_cutaneous_nerve_r": 16.9,
+     "zan_medial_antebrachial_cutaneous_nerve_l": 14.3,
+     "zan_medial_antebrachial_cutaneous_nerve_r": 13.2,
+     "zan_medial_brachial_cutaneous_nerve_l": 13.4,
+     "zan_medial_brachial_cutaneous_nerve_r": 12.8,
+     "zan_muscular_branches_of_median_nerve_l": 13.1,
+     "zan_muscular_branches_of_median_nerve_r": 25.4,
+     "zan_muscular_branches_of_ulnar_nerve_l": 15.9,
+     "zan_muscular_branches_of_ulnar_nerve_r": 12.2,
+     "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": 32.1,
+     "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r": 26.0,
+     "zan_posterior_interosseous_nerve_of_forearm_l": 19.4,
+     "zan_posterior_interosseous_nerve_of_forearm_r": 14.9,
+     "zan_proper_palmar_digital_branches_of_median_nerve_l": 36.5,
+     "zan_proper_palmar_digital_branches_of_median_nerve_r": 54.8,
+     "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": 30.3,
+     "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": 46.3,
+     "zan_roots_of_brachial_plexus_l": 22.0,
+     "zan_roots_of_brachial_plexus_r": 21.2,
+     "zan_subclavian_nerve_l": 17.5,
+     "zan_subclavian_nerve_r": 15.3,
+     "zan_superior_lateral_brachial_cutaneous_nerve_l": 15.7,
+     "zan_superior_lateral_brachial_cutaneous_nerve_r": 15.1,
+     "zan_superior_subscapular_nerve_l": 15.2,
+     "zan_superior_subscapular_nerve_r": 13.5
+    }
+   }
+  }
+ }
+}

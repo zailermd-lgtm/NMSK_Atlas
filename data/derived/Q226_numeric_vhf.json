@@ -1,0 +1,153 @@
+{
+ "femur_shaft": {
+  "id": "femur_r",
+  "cat": "bone",
+  "cls": "bone_cortical",
+  "kind": 1,
+  "pixels": 2351,
+  "area_mm2": 517,
+  "hist": {
+   "bone_cortical": 1274,
+   "marrow_yellow": 1077
+  },
+  "centreClass": "fat",
+  "centreOwner": false,
+  "nearestClass": "bone_cortical",
+  "hu_centre": -100,
+  "parityBad": 0,
+  "ms": 7
+ },
+ "femur_end": {
+  "id": "femur_r",
+  "cat": "bone",
+  "cls": "bone_cortical",
+  "kind": 1,
+  "pixels": 6547,
+  "area_mm2": 2557,
+  "hist": {
+   "bone_cortical": 1432,
+   "bone_cancellous": 5115
+  },
+  "centreClass": "bone_cortical",
+  "centreOwner": true,
+  "nearestClass": "bone_cortical",
+  "hu_centre": 1300,
+  "parityBad": 0,
+  "ms": 8
+ },
+ "muscle": {
+  "id": "rectus_femoris_r",
+  "cat": "muscle",
+  "cls": "muscle",
+  "kind": 0,
+  "pixels": 1094,
+  "area_mm2": 1043,
+  "hist": {
+   "muscle": 1094
+  },
+  "centreClass": "muscle",
+  "centreOwner": true,
+  "nearestClass": "muscle",
+  "hu_centre": 52,
+  "parityBad": 0,
+  "ms": 10
+ },
+ "liver": {
+  "id": "liver",
+  "cat": "organ",
+  "cls": "liver",
+  "kind": 0,
+  "pixels": 7590,
+  "area_mm2": 18530,
+  "hist": {
+   "liver": 7590
+  },
+  "centreClass": "liver",
+  "centreOwner": true,
+  "nearestClass": "liver",
+  "hu_centre": 60,
+  "parityBad": 0,
+  "ms": 20
+ },
+ "vessel": {
+  "id": "abdominal_aorta",
+  "cat": "vessel",
+  "cls": "blood_artery",
+  "kind": 0,
+  "pixels": 888,
+  "area_mm2": 305,
+  "hist": {
+   "blood_artery": 888
+  },
+  "centreClass": "blood_artery",
+  "centreOwner": true,
+  "nearestClass": "blood_artery",
+  "hu_centre": 45,
+  "parityBad": 0,
+  "ms": 15
+ },
+ "lung": {
+  "id": "lung_r",
+  "cat": "organ",
+  "cls": "lung",
+  "kind": 0,
+  "pixels": 3823,
+  "area_mm2": 9333,
+  "hist": {
+   "lung": 3823
+  },
+  "centreClass": "lung",
+  "centreOwner": true,
+  "nearestClass": "lung",
+  "hu_centre": -800,
+  "parityBad": 8,
+  "ms": 13
+ },
+ "kidney": {
+  "id": "kidney_r",
+  "cat": "organ",
+  "cls": "kidney",
+  "kind": 0,
+  "pixels": 3512,
+  "area_mm2": 2144,
+  "hist": {
+   "kidney": 3512
+  },
+  "centreClass": "kidney",
+  "centreOwner": true,
+  "nearestClass": "kidney",
+  "hu_centre": 32,
+  "parityBad": 0,
+  "ms": 12
+ },
+ "spleen": {
+  "id": "spleen",
+  "cat": "organ",
+  "cls": "spleen",
+  "kind": 0,
+  "pixels": 3651,
+  "area_mm2": 2228,
+  "hist": {
+   "spleen": 3651
+  },
+  "centreClass": "spleen",
+  "centreOwner": true,
+  "nearestClass": "spleen",
+  "hu_centre": 48,
+  "parityBad": 0,
+  "ms": 10
+ },
+ "_slab": {
+  "sub": 21,
+  "order_ok": true,
+  "strict_mip": 2725,
+  "strict_min": 2725,
+  "bone_pixels": {
+   "single": 400,
+   "mip5": 529,
+   "mip20": 863,
+   "min20": 80,
+   "avg20": 663
+  }
+ }
+}

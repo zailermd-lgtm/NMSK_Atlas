@@ -1,0 +1,556 @@
+{
+ "schema": "nmsk.innervation_injection.v1",
+ "licence": "Private -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md and PROJECT_STATE licensing rule)",
+ "generated": "2026-11-14",
+ "round": "Q322",
+ "references": "data/anatomy/innervation_q322.json (same muscle keys; sources table there, source id guv2026)",
+ "doc": "Injection-technique facts from the guide, paraphrased (no text copied): injection_points = the \"Number\" column of Tables I-II; sites = the Table \"Site\" cell; scan_start = where the guide starts the dynamic scan; manoeuvre = positioning / passive movement the guide uses to identify the muscle; at_risk = neurovascular structures the guide says to avoid. Technique notes: the guide recommends IZ-targeted injection with the \"seeding\" technique (its ref 7: Kaymak 2024, Can J Neurol Sci), e.g. two biceps IZ points reached through one lateral-to-medial puncture with a long (>= 5 cm) needle, and soleus compartments the same way (p.443). Per-muscle scan videos are in the guide's supplementary material.",
+ "technique_refs": [
+  {
+   "id": "kaymak2024seeding",
+   "citation": "Kaymak B, Kara M, Abdulsalam AJ, Ricci V, Özçakar L. Optimizing botulinum toxin injections by minding the muscle architecture and its innervation zone: the \"seeding\" technique. Can J Neurol Sci 2024;25:1-3 (as cited by the guide, ref 7)."
+  }
+ ],
+ "muscles": {
+  "subscapularis": {
+   "injection_points": 3,
+   "sites": "superior, middle, inferior portion: 1 each",
+   "scan_start": "start at the caudal tip of the scapula in the horizontal plane, move cranially past teres major and infraspinatus; only part of the muscle is visible (scapular shadow)",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.444"
+  },
+  "pectoralis_major": {
+   "injection_points": 3,
+   "sites": "clavicular head 1, sternal head 2 (mid-fascicle)",
+   "scan_start": "cranial sternum in long axis, then lateral to the clavicular part",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.445"
+  },
+  "pectoralis_minor": {
+   "injection_points": 2,
+   "sites": "mid-portion of superior and inferior parts: 1 each",
+   "scan_start": "horizontal plane over the coracoid, move caudally past coracobrachialis; deep to pectoralis major",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.445"
+  },
+  "latissimus_dorsi": {
+   "injection_points": 3,
+   "sites": "mid-point of each of three lines: 1 each",
+   "scan_start": "caudal end of the scapula in short axis, move caudally",
+   "manoeuvre": null,
+   "at_risk": "thin muscle close to intercostal muscles and pleura",
+   "src": "guv2026",
+   "cite": "Table I; p.444"
+  },
+  "teres_major": {
+   "injection_points": null,
+   "sites": "not in Table I (text: midpoint inferior angle - posterior axillary fold)",
+   "scan_start": "caudal tip of the scapula, horizontal plane; first muscle appearing cranially",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "p.444"
+  },
+  "biceps_brachii": {
+   "injection_points": 2,
+   "sites": "short head 1, long head 1 (65%)",
+   "scan_start": "just distal to the bicipital groove where the long-head tendon passes under the pectoralis major tendon, scan caudally",
+   "manoeuvre": null,
+   "at_risk": "lateral antebrachial cutaneous nerve between biceps and brachialis",
+   "src": "guv2026",
+   "cite": "Table I; p.445"
+  },
+  "brachialis": {
+   "injection_points": 2,
+   "sites": "medial 1, lateral 1 (75%)",
+   "scan_start": "continue caudally from biceps",
+   "manoeuvre": null,
+   "at_risk": "median nerve and brachial artery medially",
+   "src": "guv2026",
+   "cite": "Table I; p.445"
+  },
+  "brachioradialis": {
+   "injection_points": 1,
+   "sites": "20%",
+   "scan_start": "lateral to brachialis at the elbow; BR, ECRL, ECRB superficial to deep",
+   "manoeuvre": null,
+   "at_risk": "superficial branch of radial nerve between BR and ECRB",
+   "src": "guv2026",
+   "cite": "Table I; p.446"
+  },
+  "triceps_brachii": {
+   "injection_points": 3,
+   "sites": "lateral head 50%, long head 60%, medial head 60%: 1 each",
+   "scan_start": "start at the humeral articular surface; long head becomes muscle last",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.446"
+  },
+  "pronator_teres": {
+   "injection_points": 1,
+   "sites": "20%",
+   "scan_start": "start at the humeral articular surface",
+   "manoeuvre": null,
+   "at_risk": "median nerve and brachial artery between brachialis and pronator teres",
+   "src": "guv2026",
+   "cite": "Table I; p.446"
+  },
+  "pronator_quadratus": {
+   "injection_points": 1,
+   "sites": "90%",
+   "scan_start": "distal approach between radius and ulna",
+   "manoeuvre": null,
+   "at_risk": "superficial radial nerve and radial artery superficial to the target",
+   "src": "guv2026",
+   "cite": "Table I; p.448"
+  },
+  "flexor_carpi_radialis": {
+   "injection_points": 1,
+   "sites": "35%",
+   "scan_start": "proximal forearm; PT, FCR, PL lateral to medial",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.447"
+  },
+  "palmaris_longus": {
+   "injection_points": 1,
+   "sites": "25%",
+   "scan_start": "as FCR",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.447"
+  },
+  "flexor_carpi_ulnaris": {
+   "injection_points": 2,
+   "sites": "ventral (deep) 30%, dorsal (superficial) 50%",
+   "scan_start": "most medial superficial forearm muscle",
+   "manoeuvre": null,
+   "at_risk": "ulnar nerve between FCU, FDP and FDS",
+   "src": "guv2026",
+   "cite": "Table I; p.447"
+  },
+  "flexor_digitorum_superficialis": {
+   "injection_points": 2,
+   "sites": "humeroulnar part 30%, radial part 50%",
+   "scan_start": "from the humeral articular surface, scan caudally",
+   "manoeuvre": null,
+   "at_risk": "median nerve, ulnar artery and ulnar nerve in the FDS/FDP septum",
+   "src": "guv2026",
+   "cite": "Table I; p.447"
+  },
+  "flexor_digitorum_profundus": {
+   "injection_points": 2,
+   "sites": "medial part 40%, lateral part 60%",
+   "scan_start": "deepest muscle wrapping the ulna, move distally/medially",
+   "manoeuvre": null,
+   "at_risk": "as FDS",
+   "src": "guv2026",
+   "cite": "Table I; p.448"
+  },
+  "flexor_pollicis_longus": {
+   "injection_points": 2,
+   "sites": "50% and 65%",
+   "scan_start": "distal approach; tendon to muscle between median nerve and FCR tendon",
+   "manoeuvre": null,
+   "at_risk": "superficial radial nerve and radial artery",
+   "src": "guv2026",
+   "cite": "Table I; p.448"
+  },
+  "extensor_carpi_radialis_longus": {
+   "injection_points": 1,
+   "sites": "20%",
+   "scan_start": "with brachioradialis",
+   "manoeuvre": null,
+   "at_risk": "superficial branch of radial nerve",
+   "src": "guv2026",
+   "cite": "Table I; p.446"
+  },
+  "extensor_carpi_radialis_brevis": {
+   "injection_points": 1,
+   "sites": "40%",
+   "scan_start": "with brachioradialis",
+   "manoeuvre": null,
+   "at_risk": "superficial branch of radial nerve",
+   "src": "guv2026",
+   "cite": "Table I; p.446"
+  },
+  "extensor_carpi_ulnaris": {
+   "injection_points": 1,
+   "sites": "40%",
+   "scan_start": "most proximal dorsal forearm in short axis (anconeus between humerus and ulna), move distally",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.448"
+  },
+  "extensor_digitorum": {
+   "injection_points": 1,
+   "sites": "40%",
+   "scan_start": "as ECU",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.448"
+  },
+  "extensor_digiti_minimi": {
+   "injection_points": 1,
+   "sites": "60%",
+   "scan_start": "as ECU",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.449"
+  },
+  "abductor_pollicis_longus": {
+   "injection_points": 1,
+   "sites": "60%",
+   "scan_start": "distal approach possible",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.449"
+  },
+  "extensor_pollicis_longus": {
+   "injection_points": 1,
+   "sites": "70%",
+   "scan_start": "distal approach possible",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.449"
+  },
+  "extensor_pollicis_brevis": {
+   "injection_points": 1,
+   "sites": "75%",
+   "scan_start": "distal approach possible",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.449"
+  },
+  "extensor_indicis": {
+   "injection_points": 1,
+   "sites": "85%",
+   "scan_start": "distal approach possible",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.449"
+  },
+  "abductor_pollicis_brevis": {
+   "injection_points": 1,
+   "sites": "40%",
+   "scan_start": "transducer perpendicular to the long axis of the thumb",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.450"
+  },
+  "opponens_pollicis": {
+   "injection_points": 1,
+   "sites": "60%",
+   "scan_start": "deep and medial to APB toward the thumb",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.450"
+  },
+  "flexor_pollicis_brevis": {
+   "injection_points": 1,
+   "sites": "60%",
+   "scan_start": "thenar scan",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.450"
+  },
+  "adductor_pollicis": {
+   "injection_points": 2,
+   "sites": "50%: 1 oblique head, 1 transverse head",
+   "scan_start": "thenar scan; transverse head deep to deep head of FPB",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.450"
+  },
+  "lumbricals_hand": {
+   "injection_points": 1,
+   "sites": "75%",
+   "scan_start": "ulnar to adductor pollicis along the 2nd metacarpal",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.450"
+  },
+  "palmar_interossei": {
+   "injection_points": 7,
+   "sites": "75% (palmar and dorsal together: 7)",
+   "scan_start": "dorsal hand, slide from 1st to 5th metacarpal",
+   "manoeuvre": "fingers abducted",
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.450"
+  },
+  "dorsal_interossei_hand": {
+   "injection_points": 7,
+   "sites": "75% (palmar and dorsal together: 7); 1st dorsal interosseous: 1 at mid-muscle",
+   "scan_start": "dorsal hand, slide from 1st to 5th metacarpal",
+   "manoeuvre": "fingers abducted",
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table I; p.450"
+  },
+  "psoas_major": {
+   "injection_points": 1,
+   "sites": "50% (just above the iliac crest)",
+   "scan_start": "posterior approach: posterior superior iliac spine in short axis, iliac crest and gluteus medius",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.451"
+  },
+  "iliacus": {
+   "injection_points": null,
+   "sites": "no IZ / count given",
+   "scan_start": null,
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "p.451"
+  },
+  "piriformis": {
+   "injection_points": null,
+   "sites": "no IZ / count given",
+   "scan_start": "posterior superior iliac spine in short axis; long axis by tilting the lateral transducer edge caudally",
+   "manoeuvre": "passive knee flexion with hip internal/external rotation shows piriformis moving under gluteus maximus",
+   "at_risk": "sciatic nerve (may pass under, through or above the muscle)",
+   "src": "guv2026",
+   "cite": "p.451"
+  },
+  "sartorius": {
+   "injection_points": 3,
+   "sites": "25%, 50%, 75%",
+   "scan_start": "axial over the medial femoral condyle, move proximally",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.452"
+  },
+  "adductor_longus": {
+   "injection_points": 2,
+   "sites": "20% (lateral), 35% (medial)",
+   "scan_start": "distal third of medial thigh (adductor canal), move proximally",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.452"
+  },
+  "adductor_brevis": {
+   "injection_points": 1,
+   "sites": "20%",
+   "scan_start": "from the 30% level, between adductor longus and magnus",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.452"
+  },
+  "adductor_magnus": {
+   "injection_points": 2,
+   "sites": "adductor part 20% and 40%",
+   "scan_start": "axial over the adductor canal at mid-femur",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.452"
+  },
+  "gracilis": {
+   "injection_points": 2,
+   "sites": "30%, 60%",
+   "scan_start": "supine, axial over the medial femoral condyle, slide proximally",
+   "manoeuvre": "hip abducted and externally rotated",
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.453"
+  },
+  "semitendinosus": {
+   "injection_points": 2,
+   "sites": "30% (upper-lateral), 70% (lower-medial)",
+   "scan_start": "axial over the posterior medial femoral condyle (ST superficial, SM deep tendons)",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.453"
+  },
+  "semimembranosus": {
+   "injection_points": 1,
+   "sites": "75%",
+   "scan_start": "as semitendinosus",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.453"
+  },
+  "biceps_femoris": {
+   "injection_points": 2,
+   "sites": "short head 80% (1), long head 50% (1)",
+   "scan_start": "axial over the posterior lateral femoral condyle",
+   "manoeuvre": null,
+   "at_risk": "sciatic nerve shifts under biceps femoris proximally",
+   "src": "guv2026",
+   "cite": "Table II; p.453"
+  },
+  "rectus_femoris": {
+   "injection_points": 2,
+   "sites": "40%, 60%",
+   "scan_start": "axial over the quadriceps tendon, slide proximally",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.454"
+  },
+  "vastus_intermedius": {
+   "injection_points": 2,
+   "sites": "50% and 65%: medial 1, lateral 1",
+   "scan_start": "as rectus femoris",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.454"
+  },
+  "vastus_medialis": {
+   "injection_points": 2,
+   "sites": "75% (proximal-lateral), 85% (distal-medial)",
+   "scan_start": "as rectus femoris",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.454"
+  },
+  "vastus_lateralis": {
+   "injection_points": 2,
+   "sites": "50% (proximal-medial), 65% (distal-lateral)",
+   "scan_start": "as rectus femoris; may not fit one image",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.454"
+  },
+  "gastrocnemius": {
+   "injection_points": 4,
+   "sites": "lateral 20% and 30% (2), medial 25% and 35% (2)",
+   "scan_start": "axial on the posteromedial popliteal fossa for the medial head",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.455"
+  },
+  "soleus": {
+   "injection_points": 6,
+   "sites": "posterior part 35% and 45%, anterior part 45%, medial and lateral: 2 each",
+   "scan_start": "most distal posterior leg in short axis (tibia, FHL, Kager fat pad, Achilles tendon), move proximally",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.455"
+  },
+  "tibialis_posterior": {
+   "injection_points": 2,
+   "sites": "25%, 40%",
+   "scan_start": null,
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.455"
+  },
+  "flexor_digitorum_longus": {
+   "injection_points": 1,
+   "sites": "65%",
+   "scan_start": "axial behind the medial malleolus (FDL tendon posterior to TP tendon), move proximally",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.456"
+  },
+  "flexor_hallucis_longus": {
+   "injection_points": 1,
+   "sites": "65%",
+   "scan_start": "short axis over the medial malleolus",
+   "manoeuvre": "passive flexion/extension of the great toe identifies FHL",
+   "at_risk": "muscle-belly apex in close contact with the tibial nerve",
+   "src": "guv2026",
+   "cite": "Table II; p.456"
+  },
+  "tibialis_anterior": {
+   "injection_points": 1,
+   "sites": "35%",
+   "scan_start": "axial between fibular head and tibia on the anterior leg, scan distally",
+   "manoeuvre": null,
+   "at_risk": "anterior tibial artery and deep peroneal nerve beneath EDL",
+   "src": "guv2026",
+   "cite": "Table II; p.456"
+  },
+  "extensor_digitorum_longus": {
+   "injection_points": null,
+   "sites": "no IZ / count given",
+   "scan_start": "between fibula and tibialis anterior",
+   "manoeuvre": null,
+   "at_risk": "anterior tibial artery and deep peroneal nerve beneath EDL",
+   "src": "guv2026",
+   "cite": "p.456"
+  },
+  "extensor_hallucis_longus": {
+   "injection_points": 1,
+   "sites": "65%",
+   "scan_start": null,
+   "manoeuvre": "passive movement of the great toe identifies it",
+   "at_risk": "anterior tibial artery and deep peroneal nerve beneath EHL",
+   "src": "guv2026",
+   "cite": "Table II; p.457"
+  },
+  "fibularis_longus": {
+   "injection_points": 1,
+   "sites": "35%",
+   "scan_start": "from the lateral malleolus (distal) or the fibular head (proximal)",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.457"
+  },
+  "fibularis_brevis": {
+   "injection_points": 1,
+   "sites": "65%",
+   "scan_start": "as fibularis longus",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.457"
+  },
+  "flexor_digitorum_brevis": {
+   "injection_points": 1,
+   "sites": "50%",
+   "scan_start": "axial over the calcaneus, move toward the toes; beneath the plantar fascia",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.457"
+  },
+  "flexor_hallucis_brevis": {
+   "injection_points": 2,
+   "sites": "70%: medial 1, lateral 1",
+   "scan_start": "axial on the plantar 1st metatarsal head, move proximally (heads from the sesamoids)",
+   "manoeuvre": null,
+   "at_risk": null,
+   "src": "guv2026",
+   "cite": "Table II; p.457"
+  }
+ }
+}

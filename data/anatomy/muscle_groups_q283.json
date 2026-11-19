@@ -1,0 +1,190 @@
+{
+ "schema": "nmsk.muscle_groups.v1",
+ "round": "Q283",
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+ "doc": "Named textbook muscle groups (membership as in the cited source). Functional groups such as 'hip flexors' are NOT listed here: the Learn panel derives them at run time from data/anatomy/muscle_actions_q283.json (every muscle whose cited actions include that joint motion).",
+ "groups": [
+  {
+   "id": "quadriceps_femoris",
+   "name": "Quadriceps femoris",
+   "ta": "Musculus quadriceps femoris",
+   "members": [
+    "rectus_femoris",
+    "vastus_lateralis",
+    "vastus_medialis",
+    "vastus_intermedius"
+   ]
+  },
+  {
+   "id": "hamstrings",
+   "name": "Hamstrings",
+   "ta": "Musculi ischiocrurales",
+   "members": [
+    "biceps_femoris",
+    "semitendinosus",
+    "semimembranosus"
+   ]
+  },
+  {
+   "id": "hip_adductors",
+   "name": "Medial thigh (adductor) group",
+   "ta": "",
+   "members": [
+    "adductor_longus",
+    "adductor_brevis",
+    "adductor_magnus",
+    "gracilis",
+    "pectineus",
+    "obturator_externus"
+   ]
+  },
+  {
+   "id": "gluteal",
+   "name": "Gluteal group (superficial)",
+   "ta": "",
+   "members": [
+    "gluteus_maximus",
+    "gluteus_medius",
+    "gluteus_minimus",
+    "tensor_fasciae_latae"
+   ]
+  },
+  {
+   "id": "deep_gluteal",
+   "name": "Deep gluteal group (short lateral rotators)",
+   "ta": "",
+   "members": [
+    "piriformis",
+    "gemellus_superior",
+    "obturator_internus",
+    "gemellus_inferior",
+    "quadratus_femoris"
+   ]
+  },
+  {
+   "id": "triceps_surae",
+   "name": "Triceps surae",
+   "ta": "Musculus triceps surae",
+   "members": [
+    "gastrocnemius",
+    "soleus"
+   ]
+  },
+  {
+   "id": "leg_anterior",
+   "name": "Anterior compartment of the leg",
+   "ta": "",
+   "members": [
+    "tibialis_anterior",
+    "extensor_hallucis_longus",
+    "extensor_digitorum_longus",
+    "fibularis_tertius"
+   ]
+  },
+  {
+   "id": "leg_lateral",
+   "name": "Lateral compartment of the leg",
+   "ta": "",
+   "members": [
+    "fibularis_longus",
+    "fibularis_brevis"
+   ]
+  },
+  {
+   "id": "rotator_cuff",
+   "name": "Rotator cuff",
+   "ta": "",
+   "members": [
+    "supraspinatus",
+    "infraspinatus",
+    "teres_minor",
+    "subscapularis"
+   ]
+  },
+  {
+   "id": "thenar",
+   "name": "Thenar muscles",
+   "ta": "",
+   "members": [
+    "abductor_pollicis_brevis",
+    "flexor_pollicis_brevis",
+    "opponens_pollicis"
+   ]
+  },
+  {
+   "id": "hypothenar",
+   "name": "Hypothenar muscles",
+   "ta": "",
+   "members": [
+    "abductor_digiti_minimi_hand",
+    "flexor_digiti_minimi_brevis_hand",
+    "opponens_digiti_minimi"
+   ]
+  },
+  {
+   "id": "erector_spinae",
+   "name": "Erector spinae",
+   "ta": "Musculus erector spinae",
+   "members": [
+    "iliocostalis",
+    "longissimus",
+    "spinalis"
+   ]
+  },
+  {
+   "id": "anterolateral_abdominal_wall",
+   "name": "Anterolateral abdominal wall",
+   "ta": "",
+   "members": [
+    "rectus_abdominis",
+    "external_oblique",
+    "internal_oblique",
+    "transversus_abdominis",
+    "pyramidalis"
+   ]
+  },
+  {
+   "id": "scalenes",
+   "name": "Scalene muscles",
+   "ta": "",
+   "members": [
+    "scalenus_anterior",
+    "scalenus_medius",
+    "scalenus_posterior"
+   ]
+  },
+  {
+   "id": "suboccipital",
+   "name": "Suboccipital muscles",
+   "ta": "",
+   "members": [
+    "rectus_capitis_posterior_major",
+    "rectus_capitis_posterior_minor",
+    "obliquus_capitis_superior",
+    "obliquus_capitis_inferior"
+   ]
+  },
+  {
+   "id": "infrahyoid",
+   "name": "Infrahyoid (strap) muscles",
+   "ta": "",
+   "members": [
+    "sternohyoid",
+    "omohyoid",
+    "sternothyroid",
+    "thyrohyoid"
+   ]
+  },
+  {
+   "id": "suprahyoid",
+   "name": "Suprahyoid muscles",
+   "ta": "",
+   "members": [
+    "digastric",
+    "stylohyoid",
+    "mylohyoid",
+    "geniohyoid"
+   ]
+  }
+ ]
+}
