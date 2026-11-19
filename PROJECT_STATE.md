@@ -140,6 +140,17 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   `viewer/q294/history.js`: a pointerdown on another element seals the pending step; repeated presses on the
   same control still merge. Verifier `scripts/anatomy/q380/verify_step_q380.py`. Synced to both templates
   (7aef5c2); regen `regen/q380` → q380 both pages, q329, q321, q343, q344, q368, q347 → publish.
+- ★ **Owner's requests of 2026-11-19 (after testing v103), three agents running since ~10:40 UTC** — common
+  rules `$S/AGENT_RULES.md`, his screenshot `$S/owner_2026-11-19_plan.webp`:
+  **Q381** (planning, `clinical/needle_tool.js`): path must never cross bone; tip marker leaves the muscle in
+  some positions (measure rest/pose/camera/page-zoom, then fix or add a depth cue); tip target "origin" (chip
+  exists — find what is missing; insertion too); quick skin states opaque / translucent / as anatomy mode;
+  "בטיחות" as its own plan subsection. **Q382** (UI): zoom chip shows 10 s after a size change then hides
+  (setting: always / seconds); panels movable by drag, layout saved, Settings (new `viewer/layout`).
+  **Q383** (scan tool, `clinical/ultrasound_tool.js`): transducer drag on the skin when the press starts on
+  it; one central menu; image quality (fasciae, muscle architecture) — his reference picture did NOT arrive,
+  asked to resend → forward to the Q383 agent with SendMessage.
+  On hand-back: commit by file, regen from build, full short queue myself (three rounds meet in one regen).
 - **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; resets 2026-11-22 13:00 UTC):** join
   the rebuilt Base·F chest to its neighbours. Findings so far (scratchpad `q379/notes.md`): free outer border
   vertices exist only on lateral thorax|posterior arm (L 28, R 20, ≤ 1.02 mm off) + 3 corner vertices; the
