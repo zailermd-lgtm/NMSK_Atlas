@@ -121,26 +121,12 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   **read them with ArtifactData before any UI rework** (this session is not woken when he saves).
   Not in the map: adopted entry candidates / clip view / step sheet, the Learn search box, a loaded patient
   file, phone passes of the cut / four-view / measure / pose interaction states.
-- **Q362 — closed 2026-11-18, nothing transferred** (`docs/Q362_imaging_transfer.md`, report
-  `data/derived/Q362_transfer_report.json`): every organ taken from the frozen imaging pages failed its guard
-  or its book check (CT rectum / sphincter ring / perineal muscles / ileum / kidneys); the Z "Sigmoid colon"
-  tube IS the rectum + anal canal (below S3, ends in the external sphincter) → relabelled by data
-  (`data/anatomy/relabels_q362.json`, `scripts/zanatomy/patch_manifest_relabel_q362.py`, a regen step). The
-  transfer steps stay in `scripts/anatomy/q362/transfer_organs_q362.py` as non-default steps. Base·M
-  bulbospongiosus / ischiocavernosus / deep transverse perineal are held (Z prostate ~15 mm low).
-- **Q366 — live on Base·F (v97).** `scripts/anatomy/q366/despike_q366.py`, `docs/Q366_despike.md`, report
-  `data/derived/Q366_despike_report.json`: 649 structures / 3,421 vertices moved to their Base·M position
-  through the local warp (max 11.5 mm, p95 6.3), 21 held by guards; originals beside the build files as
-  `*.q366`. Left by design: broad registration roughness (face, paraspinal, fingers), spikes on excluded
-  structures (skin — up to ~40 mm on `zan_skin_anterior_region_of_arm_r` —, bones, the 194 later-round
-  structures), 789 frozen seeds. The agent also noted the build/ page (no weld block) rendering mirrored
-  against the regen page in a side view — unchecked.
-- **Q375 — live.** Cause of the finger / toe base lines: T-junctions (digit slabs carry twice the border
-  vertices of palm / dorsum / arch; every other one lies on the coarse slab's border EDGE). New weld step 1c in
-  `scripts/anatomy/q334/seams_weld_q334.js` attaches such a vertex to the edge (seam normal, wall twin); no
-  geometry or rig change; weld +190–230 ms. Left: dorsal toe line fainter only (coarse metatarsal facets),
-  toe inner-sheet vertices 0.03–0.2 mm off (translucent view only). Census tool:
-  `scripts/anatomy/q375/border_census_q375.py`; node weld harness: scratchpad `q375/h/`.
+- **Closed and live, detail in docs/PROJECT_HISTORY.md (section "2026-11-18"):** Q362 (nothing transferred from
+  the imaging pages; Z "Sigmoid colon" relabelled "Rectum and anal canal"), Q366 (Base·F de-spike, 649
+  structures; skin / bones / later-round structures excluded), Q372 + Q375 (skin weld: twin walls, slanted
+  pairs, T-junction borders — source `scripts/anatomy/q334/seams_weld_q334.js`, node harness scratchpad
+  `q375/h/`, census `scripts/anatomy/q375/border_census_q375.py`). Left: dorsal toe-base line (faint), faint
+  Base·F philtrum / lower-lip lines (lower-face skin slabs are guard-held), chest WITH walls not re-applied.
 - **Q377 — applied to build/q309 Base·F, NOT yet published** (waits for Q378): `scripts/anatomy/q377/skin_q377.py`,
   `docs/Q377_skin.md`: 10 head / finger skin slabs, 27 vertices de-spiked (forehead streaks gone); 17 slabs
   held (lower face, nose, ear). The 4 q334 FAILs are NOT movable geometry: the trunk camera frames both hands
@@ -160,13 +146,6 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   scheduled), or re-brief from the notes.
 - **Usage:** the weekly limit of the routed strong model was hit on 2026-11-18 after five agent rounds in one
   day (~1.9 M subagent tokens). Until the reset run at most ONE agent, only for defects on the live pages.
-- **Q372 — live.** Source `scripts/anatomy/q334/seams_weld_q334.js` (patched into the Z template by
-  `patch_seams_q334.py`); skin only, cortex / fascia keep the old rule; weld +150–195 ms at load. NOT cured:
-  toe-base and finger-base lines (those borders are half welded in the GEOMETRY: 8/16 and 22/49 border
-  vertices, the rest 0.8–0.9 mm apart — needs a geometry round), faint Base·F philtrum / lower-lip / sternum
-  lines. Possible follow-up, low value: Base·F chest WITH walls (`chest_skin_q360.py --chest-walls`, seamless
-  with this weld; hiding one chest region then shows a real edge). It refits from the page state, so it needs
-  its own round on a private copy (it was last run before Q366) and a rig re-encode — not done.
 - Small UI leftovers: the ADD button reads "ADD" only (owner wrote "הוסף / ADD"); the adjacent list (82
   rows for biceps) fills a phone screen; joint-space tip target picks the largest bone interface (radiocarpal
   → lunate/hamate); clip-view markers ≈ 7 px; Safety size classes are a stated convention (books give none).
