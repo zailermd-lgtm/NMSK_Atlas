@@ -95,7 +95,7 @@ HELPERS = r"""() => {
     const eye = [c.tgt[0] + c.dist * ce * Math.sin(c.az), c.tgt[1] + c.dist * se, c.tgt[2] + c.dist * ce * Math.cos(c.az)];
     /* the model frame is left-handed (+X the patient's right, +Y superior, +Z anterior; Q339): the screen's right is up x forward */
     const f = norm(sub(c.tgt, eye)), right = norm(cross([0, 1, 0], f)), up = norm(sub([0, 1, 0], [f[0] * f[1], f[1] * f[1], f[2] * f[1]])), v = sub(p, eye), z = dot(v, f); if (z <= 1e-6) return null;
-    const th = Math.tan(0.85 / 2), x = dot(v, right) / (z * th * (r.width / r.height)), y = dot(v, up) / (z * th);
+    const cv = T.api.canvas, th = Math.tan(0.85 / 2), x = dot(v, right) / (z * th * (cv.width / cv.height)), y = dot(v, up) / (z * th);   // where it is DRAWN: the picture has the drawing buffer's aspect, shown over the CSS box
     return [r.left + (x * 0.5 + 0.5) * r.width, r.top + (1 - (y * 0.5 + 0.5)) * r.height, r];
   }
   function pinXY(k) { const e = document.querySelector('.q367-pin-' + k); if (!e || e.style.display === 'none') return null; const b = e.getBoundingClientRect(); return [b.left + b.width / 2, b.top + b.height / 2]; }
@@ -155,15 +155,23 @@ TIP_AFTER = r"""async () => { const H = window.__q381, T = window.NMSKClinicalTo
 TIP_CAMS = r"""async () => {   // the same seven orientations once more (after a page-zoom change)
   const H = window.__q381, T = window.NMSKClinicalTool, Q = window.__q334, p = T.target.p.slice(), errs = [];
   for (const c of [[0, 0.1, 400], [1.2, 0.5, 300], [2.5, -0.4, 520], [3.9, 0.9, 380], [5.2, -0.8, 450], [0.6, 0.3, 240], [4.4, 0.0, 600]]) { Q.cam({az: c[0], el: c[1], dist: c[2], tgt: [p[0] + 12, p[1] - 8, p[2] + 5]}); const e = await H.pinErr('tip', p); if (e != null) errs.push(e); }
-  return {n: errs.length, max: errs.length ? Math.max(...errs) : null, dpr: window.devicePixelRatio, w: window.innerWidth};
+  const cv = T.api.canvas, rc = cv.getBoundingClientRect();
+  return {n: errs.length, max: errs.length ? Math.max(...errs) : null, dpr: window.devicePixelRatio, w: window.innerWidth, buf: [cv.width, cv.height], css: [Math.round(rc.width), Math.round(rc.height)],
+          stretch: Math.abs((cv.width / cv.height) / (rc.width / rc.height) - 1)};
 }"""
 
 # A: the blocked path, the offered entry
 BONE_BLOCK = r"""async () => {
   const H = window.__q381, T = window.NMSKClinicalTool, P = window.NMSKClinical.pure, Q = window.__q334, o = {};
   await H.reset(); if (!(await H.pick('""" + TP + r"""'))) return {err: 'picker failed'};
-  const tib = T.byId['tibia_l'][0], tip = T.target.p.slice(), gt = T.geom(tib), ct = P.meshCentre(gt.pos, gt.idx).p, dir = H.norm(H.sub(ct, tip));
-  const hs = T.raySkin(tip, dir, 400); if (!hs.length) return {err: 'no skin beyond the tibia'};
+  // a skin point whose straight path to the tip goes through the tibia: toward the tibia's nearest surface point, else a few anterior directions
+  const tib = T.byId['tibia_l'][0], tip = T.target.p.slice(), gt = T.geom(tib), near = P.closestOnMesh(gt.pos, gt.idx, tip).q;
+  let dir = null, hs = null;
+  for (const d of [H.norm(H.sub(near, tip)), [0.25, 0, 0.968], [0, 0, 1], [0.5, 0, 0.866], [-0.25, 0, 0.968]]) {
+    const h2 = T.raySkin(tip, d, 400); if (!h2.length) continue;
+    if (H.blockedInd(H.add(tip, d, h2[h2.length - 1].t), tip).some(x => x.id === 'tibia_l')) { dir = d; hs = h2; break; }
+  }
+  if (!dir) return {err: 'no skin point in front of the tibia found'};
   const E = H.add(tip, dir, hs[hs.length - 1].t); o.E = E;
   o.indep = H.blockedInd(E, tip).map(x => x.id); o.indepFirst = o.indep[0] || null;
   // an armed tap on the skin, at the pixel of E, looking straight at it
@@ -463,12 +471,25 @@ def main() -> int:
                 cdp.send("Emulation.setDeviceMetricsOverride", {"width": int(W / 1.25), "height": int(H / 1.25), "deviceScaleFactor": 1.25, "mobile": phone})
                 pg.wait_for_timeout(900)
                 z = ev(pg, TIP_CAMS)
-                check(f"page zoom 125 % (devicePixelRatio {z.get('dpr')}, viewport {z.get('w')} px): pin = projection over {z.get('n')} orientations (max {z.get('max')})", z.get("dpr") == 1.25 and (z.get("n") or 0) >= 6 and z["max"] <= 2.0)
+                check(f"page zoom 125 % (devicePixelRatio {z.get('dpr')}, viewport {z.get('w')} px): the picture is not stretched (buffer {z.get('buf')} on a {z.get('css')} box), pin = projection over {z.get('n')} orientations (max {z.get('max')})",
+                      z.get("dpr") == 1.25 and (z.get("n") or 0) >= 6 and z["max"] <= 2.0 and z["stretch"] < 0.004)
                 shot(pg, "b_zoom125")
                 cdp.send("Emulation.setDeviceMetricsOverride", {"width": W, "height": H, "deviceScaleFactor": 1, "mobile": phone})
                 pg.wait_for_timeout(900)
                 z1 = ev(pg, TIP_CAMS)
-                check(f"back at 100 % (devicePixelRatio {z1.get('dpr')}): pin = projection over {z1.get('n')} orientations (max {z1.get('max')})", z1.get("dpr") == 1 and (z1.get("n") or 0) >= 6 and z1["max"] <= 2.0)
+                check(f"back at 100 % (devicePixelRatio {z1.get('dpr')}): not stretched (buffer {z1.get('buf')} on {z1.get('css')}), pin = projection over {z1.get('n')} orientations (max {z1.get('max')})",
+                      z1.get("dpr") == 1 and (z1.get("n") or 0) >= 6 and z1["max"] <= 2.0 and z1["stretch"] < 0.004)
+                # a window / pane resize (the docked canvas follows its slot)
+                pg.set_viewport_size({"width": W - (90 if phone else 380), "height": H - 120})
+                pg.wait_for_timeout(1100)
+                z2 = ev(pg, TIP_CAMS)
+                check(f"after a window resize to {z2.get('w')} px wide: not stretched (buffer {z2.get('buf')} on {z2.get('css')}), pin = projection over {z2.get('n')} orientations (max {z2.get('max')})",
+                      (z2.get("n") or 0) >= 6 and z2["max"] <= 2.0 and z2["stretch"] < 0.004)
+                shot(pg, "b_resized")
+                pg.set_viewport_size({"width": W, "height": H})
+                pg.wait_for_timeout(1100)
+                z3 = ev(pg, TIP_CAMS)
+                check(f"and back to {z3.get('w')} px: not stretched (buffer {z3.get('buf')} on {z3.get('css')}), pin = projection (max {z3.get('max')})", (z3.get("n") or 0) >= 6 and z3["max"] <= 2.0 and z3["stretch"] < 0.004)
                 pg.evaluate("() => { const T = window.NMSKClinicalTool, p = T.target.p; window.__q334.cam({az: 0.5, el: 0.15, dist: 430, tgt: p}); }")
                 pg.wait_for_timeout(400); shot(pg, "b_tip")
 

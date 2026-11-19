@@ -28,15 +28,26 @@ var NMSKModes = (function(){
   /* ---------- docking: a fixed-positioned element follows a slot's rectangle ---------- */
   function placeDock(d){
     var slot = d.slots.filter(function(s){ var r = s.getBoundingClientRect(); return r.width > 2 && r.height > 2; })[0], st = d.el.style;
-    if (!slot || d.hidden){ st.visibility = "hidden"; st.width = "2px"; st.height = "2px"; st.left = "0px"; st.top = "0px"; return; }
+    if (!slot || d.hidden){ st.visibility = "hidden"; st.width = "2px"; st.height = "2px"; st.left = "0px"; st.top = "0px"; var was = d.at; d.at = "hidden"; return was !== "hidden"; }
     var r = slot.getBoundingClientRect(), imp = {position:"fixed", left:r.left + "px", top:r.top + "px", width:r.width + "px", height:r.height + "px", right:"auto", bottom:"auto",
       margin:"0", "min-width":"0", "min-height":"0", "max-width":"none", "max-height":"none", "z-index":String(d.z), overflow:"hidden", "border-radius":getComputedStyle(slot).borderRadius};
     Object.keys(imp).forEach(function(k){ st.setProperty(k, imp[k], "important"); });   // beats the engines' and the tools' own !important layout rules
     st.visibility = "";
     if (d.scale && d.scale !== 1){ st.transform = "scale(" + d.scale + ")"; st.transformOrigin = "50% 50%"; st.clipPath = d.scale > 1 ? "inset(" + ((1 - 1 / d.scale) / 2 * 100).toFixed(3) + "%)" : "none"; }
     else { st.transform = ""; st.clipPath = ""; }
+    var at = [r.left, r.top, r.width, r.height, d.scale || 1].join(","), moved = d.at !== at; d.at = at;
+    return moved;                             // Q381: did the element's rectangle change
   }
-  function placeAll(){ docks.forEach(placeDock); }
+  /* Q381: a docked model follows its slot, so when the slot's rectangle changes (the window or its pane resized, a page zoom, a card that
+     opens) the engine must take the canvas's NEW size. It did not: the engine's own "resize" listener runs before this one and read the
+     rectangle of the step before, so the picture stayed stretched over the new box and every overlay placed from the engine's projection
+     (the plan's tip / entry pins, labels, part markers) stood off its structure -- measured on Base·Male: window 1400 -> 1000 px wide left a
+     1400-px picture on a 1000-px box and the tip's pin 200 px from the muscle. The host is told whenever a model dock's rectangle changed. */
+  function placeAll(){
+    var ch = false;
+    docks.forEach(function(d){ if (placeDock(d) && d.model) ch = true; });
+    if (ch && host && host.resized){ try { host.resized(); } catch (err){} }
+  }
   function dock(e, slots, z, opt){
     if (!e) return null;
     slots = Array.isArray(slots) ? slots : [slots];
