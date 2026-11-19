@@ -141,9 +141,25 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   geometry or rig change; weld +190–230 ms. Left: dorsal toe line fainter only (coarse metatarsal facets),
   toe inner-sheet vertices 0.03–0.2 mm off (translucent view only). Census tool:
   `scripts/anatomy/q375/border_census_q375.py`; node weld harness: scratchpad `q375/h/`.
-- **Q377 (agent running since 2026-11-18 ~11:05 UTC):** Base·F skin — census against Base·M (spikes inside
-  slabs, separated border pairs), cause of the 4 q334 FAILs and of the right axillary step, guarded fix
-  (no engine change, no new topology); private copy in scratchpad `q377/`, hands back the apply command.
+- **Q377 — applied to build/q309 Base·F, NOT yet published** (waits for Q378): `scripts/anatomy/q377/skin_q377.py`,
+  `docs/Q377_skin.md`: 10 head / finger skin slabs, 27 vertices de-spiked (forehead streaks gone); 17 slabs
+  held (lower face, nose, ear). The 4 q334 FAILs are NOT movable geometry: the trunk camera frames both hands
+  on Base·F (without hand / wrist borders 1.70 / 1.55 / 0.98), the rebuilt chest's borders (→ Q379), and the
+  knee line is the translucent skin's edge. Axillary step R: 6 arm-skin vertices wrap `breast_ct_r` — needs
+  a re-fit with the chest, not done.
+- **Q378 (agent running since 2026-11-19 ~07:20 UTC, on the escape-hatch model):** REAL defect on the live
+  pages — for some structure / click sequence, Hide → Undo loses the name card (q321 then fails in a cascade;
+  earlier waved off as load). Probes: scratchpad `q378/`, `q377/x/`, `q377/v/q321*`. Hands back a fix in
+  `viewer/quickcard|selection`, a verifier that tests the failing case by id, and a regen `q378/regen_1`
+  (built from build/q309, so it carries Q377) → run a short queue, publish both pages.
+- **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; resets 2026-11-22 13:00 UTC):** join
+  the rebuilt Base·F chest to its neighbours. Findings so far (scratchpad `q379/notes.md`): free outer border
+  vertices exist only on lateral thorax|posterior arm (L 28, R 20, ≤ 1.02 mm off) + 3 corner vertices; the
+  other "unjoined" counts of Q377 are interior fold vertices; mammary border vertices lie IN pectoral faces.
+  WIP script `scripts/anatomy/q379/`. Resume the same agent with SendMessage after the reset (a reminder is
+  scheduled), or re-brief from the notes.
+- **Usage:** the weekly limit of the routed strong model was hit on 2026-11-18 after five agent rounds in one
+  day (~1.9 M subagent tokens). Until the reset run at most ONE agent, only for defects on the live pages.
 - **Q372 — live.** Source `scripts/anatomy/q334/seams_weld_q334.js` (patched into the Z template by
   `patch_seams_q334.py`); skin only, cortex / fascia keep the old rule; weld +150–195 ms at load. NOT cured:
   toe-base and finger-base lines (those borders are half welded in the GEOMETRY: 8/16 and 22/49 border
