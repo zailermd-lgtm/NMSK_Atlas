@@ -154,6 +154,11 @@ var NMSKHistory = (function(){
     window.addEventListener("keydown", onKey, true);
     ["click", "change", "keyup", "touchend"].forEach(function(t){ document.addEventListener(t, function(){ commit(); }, true); });
     document.addEventListener("pointerup", function(){ commit(); }, true);
+    /* Q380: a press on ANOTHER control seals the step still waiting for its debounced commit (on a busy page that wait
+       is over a second), so Undo takes back that control's action alone and not the click before it as well. Repeated
+       presses on the same control (a stepper, the model) still merge into one step, as before. */
+    var lastT = null;
+    document.addEventListener("pointerdown", function(e){ if (timer && lastT && e.target !== lastT) commitNow(); lastT = e.target; }, true);
     document.addEventListener("wheel", function(){ commit(700); }, {capture:true, passive:true});
   }
   var ICON = {u:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 7L4 12l5 5M4 12h10a6 6 0 0 1 0 12h-2" transform="translate(0,-3)" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
