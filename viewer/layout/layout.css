@@ -6,3 +6,9 @@
 .q382-set .q382-row{display:flex;flex-wrap:wrap;gap:8px}
 .q382-set button{min-height:34px;padding:4px 12px;cursor:pointer}
 .q382-set p{margin:0;opacity:.75;font-size:12px}
+.q382-panel{position:fixed;z-index:2147482100;top:64px;right:14px;width:min(340px,calc(100vw - 28px));max-height:calc(100vh - 84px);overflow:auto;box-sizing:border-box;
+  padding:10px 14px 14px;border-radius:14px;background:#fff;color:#20242B;border:1px solid #D5D9DF;box-shadow:0 10px 30px rgba(32,36,43,.22);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.q382-panel[hidden]{display:none}
+.q382-ph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:14px}
+.q382-ph button{width:34px;height:34px;border-radius:50%;border:1px solid #D5D9DF;background:#F3F4F6;color:#20242B;font-size:20px;line-height:1;cursor:pointer}
+.q382-gear{display:inline-flex;align-items:center;justify-content:center}

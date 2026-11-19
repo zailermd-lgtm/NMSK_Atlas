@@ -7737,6 +7737,12 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ305;
 .q382-set .q382-row{display:flex;flex-wrap:wrap;gap:8px}
 .q382-set button{min-height:34px;padding:4px 12px;cursor:pointer}
 .q382-set p{margin:0;opacity:.75;font-size:12px}
+.q382-panel{position:fixed;z-index:2147482100;top:64px;right:14px;width:min(340px,calc(100vw - 28px));max-height:calc(100vh - 84px);overflow:auto;box-sizing:border-box;
+  padding:10px 14px 14px;border-radius:14px;background:#fff;color:#20242B;border:1px solid #D5D9DF;box-shadow:0 10px 30px rgba(32,36,43,.22);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.q382-panel[hidden]{display:none}
+.q382-ph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:14px}
+.q382-ph button{width:34px;height:34px;border-radius:50%;border:1px solid #D5D9DF;background:#F3F4F6;color:#20242B;font-size:20px;line-height:1;cursor:pointer}
+.q382-gear{display:inline-flex;align-items:center;justify-content:center}
 </style>
 <script>
 /* Q382: what the owner asked for after testing the live page --
@@ -7774,11 +7780,42 @@ var NMSKLayout = (function(){
     SPEC.forEach(function(s){ M.add(s); });
     Object.keys(HEADS).forEach(function(k){ var b = M.box(k); if (b && !b.head) b.head = HEADS[k]; });
     var I = window.NMSKInfo;
-    if (I && I.add){ I.add({key:"settings", title:"Settings: layout and zoom", order:44, el:section()}); }
+    /* the circled i and the control bar are hidden while a mode is on, so the settings live in their own small panel; the i's section
+       and the View group only open it, and the mode bar gets a gear (Hebrew label: that bar is Hebrew) */
+    if (I && I.add){
+      var st = document.createElement("div"); st.className = "q382-set";
+      st.innerHTML = '<p>Zoom chip delay, locking the boxes, resetting the layout.</p><div class="q382-row"><button type="button" id="q382-open">Open the settings</button></div>';
+      st.querySelector("button").addEventListener("click", function(){ api.open(); });
+      I.add({key:"settings", title:"Settings: layout and zoom", order:44, el:st});
+    }
+    gear();
     var G = window.NMSKGroups;
     if (G && G.addTo) G.addTo("view", {label:"Settings", id:"q382-settings", title:"Zoom chip, lock the boxes, reset the layout",
-      run:function(){ api.open(); }, label2:"Layout and zoom settings are in the circled i, under Settings."});
+      run:function(){ api.open(); }, label2:"Zoom chip delay, lock the boxes, reset the layout."});
+    setInterval(gear, 1500);                                  /* the mode bar is built by the modes module, maybe later or again */
     ready = true; return true;
+  }
+  function gear(){
+    var end = document.getElementById("mb-end");
+    if (!end || document.getElementById("q382-gear")) return;
+    var g = document.createElement("button"); g.type = "button"; g.id = "q382-gear"; g.className = "mb-x q382-gear";
+    g.title = "הגדרות: פריסה וזום (Settings)"; g.setAttribute("aria-label", "הגדרות");
+    g.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>';
+    g.addEventListener("click", function(e){ e.stopPropagation(); if (pan && !pan.hidden) api.close(); else api.open(); });
+    end.insertBefore(g, end.firstChild);
+  }
+  var pan = null;
+  function panel(){
+    if (pan) return pan;
+    pan = document.createElement("div"); pan.id = "q382-panel"; pan.className = "q382-panel"; pan.hidden = true;
+    pan.setAttribute("role", "dialog"); pan.setAttribute("aria-label", "Settings: layout and zoom");
+    var h = document.createElement("div"); h.className = "q382-ph";
+    h.innerHTML = '<b>Settings: layout and zoom</b><button type="button" id="q382-x" aria-label="Close" title="Close">&times;</button>';
+    h.querySelector("button").addEventListener("click", function(){ api.close(); });
+    pan.appendChild(h); pan.appendChild(section());
+    document.body.appendChild(pan);
+    window.addEventListener("keydown", function(e){ if (e.key === "Escape" && !pan.hidden){ api.close(); e.stopPropagation(); } }, true);
+    return pan;
   }
   function section(){
     if (sec) return sec;
@@ -7814,7 +7851,7 @@ var NMSKLayout = (function(){
       else if (t.id === "q382-one" && window.NMSKPinch) NMSKPinch.resetAll();
     });
     sec.addEventListener("pointerenter", paint); sec.addEventListener("focusin", paint);
-    paint();
+    sec.paint = paint; paint();
     return sec;
   }
   function boot(){
@@ -7824,7 +7861,8 @@ var NMSKLayout = (function(){
   }
   var api = {
     start:function(){ if (ready || timer) return api; boot(); if (!ready) timer = setInterval(boot, 250); return api; },
-    open:function(){ if (window.NMSKInfo){ NMSKInfo.open("settings"); var d = document.getElementById("qi-settings"); if (d && d.scrollIntoView) d.scrollIntoView({block:"nearest"}); } },
+    open:function(){ var p = panel(); p.hidden = false; if (window.NMSKInfo && NMSKInfo.close) NMSKInfo.close(); var s = section(); if (s.paint) s.paint(); },
+    close:function(){ if (pan) pan.hidden = true; },
     reset:function(){ return window.NMSKMove ? NMSKMove.restore() : false; },
     ready:function(){ return ready; },
     state:function(){ return {ready:ready, locked:!!(window.NMSKMove && NMSKMove.locked()), chip:window.NMSKPinch ? NMSKPinch.prefs() : null, boxes:SPEC.map(function(s){ return s.key; })}; }
@@ -12152,7 +12190,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     /* Q232 selection display states: opacity of a structure that the marked / other group has put in "fade" (user opacity), "xray" (the x-ray preset's per-layer
        opacity) or "ghost"; "hl" is solid, "hide" is a veto in vis(). A per-structure fade (the card's fade button) keeps its own 0.18 and wins. */
     var XRAY_A = {bone:1, cartilage:.85, joint:.5, insertion:.9, muscle:.22, fascia:.15, bursa:.5, nerve:1, cns:.9, vessel:.8, lymph:.2, viscera:.25, fat:.05, skin:.06};
-    function selLook(o) { return selCtl ? selCtl.look(o.id) : ""; }
+    var plainLayer = {};                        // Q381: layers a workspace mode keeps "as the layers say", whatever the selection's group look (add-on API: setCategoryPlain)
+    function selLook(o) { return selCtl && !plainLayer[o.layer] ? selCtl.look(o.id) : ""; }
     function selAlpha(k, layer, fa) {
       return k === "fade" ? Math.min(selCtl.fadeAlpha(fadeLegacy ? null : layer), fa) : k === "xray" ? Math.min(XRAY_A[layer] == null ? 0.3 : XRAY_A[layer], fa) : k === "ghost" ? Math.min(0.12, fa) : 1;
     }
@@ -19355,6 +19394,13 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         setOpacityOverride:function(fn){ addonOpacity=fn?function(k){ return fn(k,null); }:null; need=true; },
         categoryOn:function(k){ return !!on[k]; },
         setCategoryOn:function(k,v){ if(!(k in on)) return; on[k]=!!v; if(v&&alphaFor[k]<=0.01) alphaFor[k]=1; sync(); need=true; },
+        /* Q381: a layer's opacity (the layer panel's own slider value: engine state, so the page-wide undo carries it), and a workspace
+           mode's "plain" layers -- drawn as the layers say, exempt from the selection's fade / x-ray / ghost look (display state of the
+           mode: not part of the history; the mode clears it when it is left) */
+        categoryAlpha:function(k){ return (k in on) ? alphaFor[k] : null; },
+        setCategoryAlpha:function(k,a){ a=+a; if(!(k in on)||!(a>=0)) return; alphaFor[k]=Math.min(1,a); sync(); need=true; },
+        categoryPlain:function(k){ return !!plainLayer[k]; },
+        setCategoryPlain:function(k,v){ if(!(k in on)) return; if(v) plainLayer[k]=1; else delete plainLayer[k]; need=true; },
         setClickHandler:function(fn){ addonClick=fn||null; },
         /* Q268: lazy hand-over of the page's own selection / parts / pose controllers (created after the add-on attaches); public API objects only */
         selection:function(){ return selCtl; }, parts:function(){ return partsCtl; }, pose:function(){ return poseCtl; },

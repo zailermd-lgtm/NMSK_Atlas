@@ -1763,6 +1763,11 @@ TP.render = function () {
     "<dt>Tip lands in</dt><dd>" + (R.tip_in.length ? esc(R.tip_in.join(" / ")) : '<span class="ncl-status">no visible structure (between structures, or the structure is hidden)</span>') + "</dd>" +
     "<dt>Below skin</dt><dd>" + (R.skin.depth == null ? esc(R.skin.how) : f1(R.skin.depth) + ' mm <span class="ncl-status">(' + esc(R.skin.how) + ")</span>") + "</dd>" +
     "</dl>";
+  if (this.isBlocked()) {   // Q381: the one bone rule, said in this panel too
+    var bh = this.block.res.hits[0];
+    h += '<p class="warn" id="ncl-blocked"><b>Blocked:</b> the straight path crosses ' + esc(bh.name) + (sideWord(bh.side) ? " (" + sideWord(bh.side) + ")" : "") + " " + bh.t.toFixed(1) +
+         " mm from the entry" + (this.block.res.hits.length > 1 ? " (and " + (this.block.res.hits.length - 1) + " more)" : "") + ". A needle cannot pass through bone: this path is not valid.</p>";
+  }
   if (R.risk) h += this.riskLine(R.risk);
   h += '<p class="ncl-status" style="margin:8px 0 2px;font-weight:700">Passes through (mm from entry)</p>';
   if (!R.crossings.length) h += '<p class="ncl-status">No visible structure is crossed.</p>';
@@ -3171,8 +3176,11 @@ TP.plAttach = function (i, ty) {
   if (!r || !parts || !parts.partsFor || !parts.anchors) return [];
   var want = ty === "origin" ? "origin_part" : "insertion_point", pf = parts.partsFor(r.id).filter(function (p) { return p.ty === want && p.placed; });
   if (!pf.length) return [];
-  var st = pf[0].id.split(".")[0], side = r.side === "l" || r.side === "r" ? r.side : null, an = parts.anchors(st, side) || [], out = [];
-  pf.forEach(function (p) { an.forEach(function (a) { if (a.id === p.id && a.xyz) out.push({id: p.id, name: p.name, xyz: a.xyz.slice(), side: a.side}); }); });
+  var side = r.side === "l" || r.side === "r" ? r.side : null, out = [], byst = {};
+  pf.forEach(function (p) {
+    var st = p.id.split(".")[0], an = byst[st] || (byst[st] = parts.anchors(st, side) || []);
+    an.forEach(function (a) { if (a.id === p.id && a.xyz) out.push({id: p.id, name: p.name, xyz: a.xyz.slice(), side: a.side}); });
+  });
   return out;
 };
 TP.plUseAttach = function (i, ty, a) {
@@ -3302,8 +3310,8 @@ TP.plAdjacent = function (a) {
 TP.plOffers = function (i) {
   var o = {centre: true, free: true, plane: true, origin: [], insertion: [], mp: [], iz: [], peri: false, cavity: false, intra: false, missing: []};
   if (i == null || !this.recs[i]) return o;
+  o.origin = this.plAttach(i, "origin"); o.insertion = this.plAttach(i, "insertion");   // Q381: wherever this body has a placed site (ligaments and fasciae too, not muscles only)
   if (this.isMuscleT(i)) {
-    o.origin = this.plAttach(i, "origin"); o.insertion = this.plAttach(i, "insertion");
     var nm = this.plNmj(i); o.mp = nm.mp; o.iz = nm.iz;
     if (!o.origin.length) o.missing.push("origin");
     if (!o.insertion.length) o.missing.push("insertion");
@@ -3322,13 +3330,36 @@ TP.safeInit = function () {
     var j = JSON.parse(global.localStorage.getItem(SAFE_STORE) || "null");
     if (j && j.r) SAFE_ROWS.forEach(function (row) { var v = +j.r[row.k]; if (v > 0 && isFinite(v)) S.rules[row.k] = clamp(v, 0.1, 100); });
     if (j && j.t) ["n", "a", "v"].forEach(function (k) { var t = j.t[k]; if (t && t.length === 2 && +t[0] >= +t[1] && +t[1] > 0) S.thr[k] = [+t[0], +t[1]]; });
+    if (j && j.d && j.d.r) {   // Q381: the set the user declared as the default (see safeDefault)
+      var dr = {}, dt = JSON.parse(JSON.stringify(SAFE_THR0));
+      SAFE_ROWS.forEach(function (row) { var v = +j.d.r[row.k]; if (v > 0 && isFinite(v)) dr[row.k] = clamp(v, 0.1, 100); });
+      if (j.d.t) ["n", "a", "v"].forEach(function (k) { var t = j.d.t[k]; if (t && t.length === 2 && +t[0] >= +t[1] && +t[1] > 0) dt[k] = [+t[0], +t[1]]; });
+      if (Object.keys(dr).length) S.def = {r: dr, t: dt};
+    }
     S.stored = !!j;
   } catch (e) {}
   this.sizeCache = {};
   this.vcal = null;
 };
 TP.safeSave = function () {
-  try { global.localStorage.setItem(SAFE_STORE, JSON.stringify({r: this.safe.rules, t: this.safe.thr})); this.safe.stored = true; } catch (e) {}
+  try { global.localStorage.setItem(SAFE_STORE, JSON.stringify({r: this.safe.rules, t: this.safe.thr, d: this.safe.def || null})); this.safe.stored = true; } catch (e) {}
+};
+/* Q381 (owner: "safety definition -- default or a required definition"): no source at hand gives a safety distance in mm, so there is
+   NO built-in default; the default is the set the user declares ("save"), kept beside the current rules. State of the definition:
+   "none" (no rule on: distances only), "default" (the current rules are the declared default), "custom" (rules on that differ from it,
+   or no default declared). */
+function safeCanon(r, t) { var o = []; SAFE_ROWS.forEach(function (row) { o.push(r[row.k] > 0 ? +r[row.k] : 0); }); ["n", "a", "v"].forEach(function (k) { o.push(+t[k][0], +t[k][1]); }); return o.join(","); }
+TP.safeState = function () {
+  var S = this.safe, on = SAFE_ROWS.some(function (row) { return S.rules[row.k] > 0; });
+  if (!on) return "none";
+  return S.def && safeCanon(S.def.r, S.def.t) === safeCanon(S.rules, S.thr) ? "default" : "custom";
+};
+TP.safeDefault = function (op) {
+  var S = this.safe, cp = function (x) { return JSON.parse(JSON.stringify(x)); };
+  if (op === "save") { S.def = SAFE_ROWS.some(function (row) { return S.rules[row.k] > 0; }) ? {r: cp(S.rules), t: cp(S.thr)} : null; this.safeSave(); this.notify(); return true; }
+  if (op === "load") { if (!S.def) return false; S.rules = cp(S.def.r); S.thr = cp(S.def.t); this.sizeCache = {}; this.safeSave(); this.safeRun(); return true; }
+  if (op === "clear") { S.rules = {}; this.safeSave(); this.safeRun(); return true; }
+  return false;
 };
 TP.safeSet = function (o) {   // {rules: {nL: mm|null, ...}, thr: {n: [L, M], ...}} -- partial updates; null / empty / <= 0 = rule off
   var S = this.safe;
@@ -3463,7 +3494,7 @@ var HYALINE_RE = /articular_cartilage|costal_cartilage|triradiate_cartilage/;
 var TIP_TOUCH_MM = 0.5;    // a tip resting on a bone surface (an attachment site) touches the bone; whatever the path meets earlier than this before the tip is a crossing
 var BONE_CLEAR_MM = 1.0;   // an OFFERED entry keeps its path at least this far from bone until 3 mm before the tip (a convention: the needle's radius and a little)
 var PASS_CATS = {joint: 1, ligament: 1, cartilage: 1};   // crossed -> listed, never blocking
-var GHOST_ALPHA = 0.34;
+var GHOST_ALPHA = 0.5;
 TP.blockers = function () {
   if (!this.blk) {
     var self = this, b = this.blk = [], is = this.blkIs = {};
@@ -3681,12 +3712,21 @@ TP.q381 = function () {
 function heMsg(m) {
   var r;
   if (/^Set a target first/.test(m)) return "בחרו מטרה תחילה.";
-  if ((r = /^No skin within the (\d+(?:\.\d+)?) mm needle length/.exec(m))) return "אין עור בטווח אורך המחט (" + r[1] + " מ\"מ): אין מועמדים.";
+  if ((r = /^No straight path to this tip is free of bone within the (\d+(?:\.\d+)?) mm needle length \((\d+) of/.exec(m))) {
+    var r2 = /Shortest bone-free straight path: (\d+) mm/.exec(m);
+    return "אין מסלול ישר ללא עצם לקצה זה באורך המחט (" + r[1] + " מ\"מ): כל " + r[2] + " הכיוונים שמגיעים לעור חוצים עצם. לא מוצעת כניסה." +
+      (r2 ? " המסלול הישר הקצר ביותר ללא עצם: " + r2[1] + " מ\"מ." : (/None within/.test(m) ? " גם עד 200 מ\"מ אין מסלול כזה." : ""));
+  }
+  if ((r = /^No skin within the (\d+(?:\.\d+)?) mm needle length/.exec(m))) {
+    var r3 = /Shortest bone-free straight path: (\d+) mm/.exec(m);
+    return "אין עור בטווח אורך המחט (" + r[1] + " מ\"מ): אין מועמדים." + (r3 ? " המסלול הישר הקצר ביותר ללא עצם: " + r3[1] + " מ\"מ." : "");
+  }
   if ((r = /^None of the (\d+) sampled candidates clears the far display threshold \((\d+(?:\.\d+)?) mm\)/.exec(m))) return "אף אחד מ-" + r[1] + " המועמדים שנדגמו לא עובר את סף התצוגה הרחוק (" + r[2] + " מ\"מ): לא מוצגים. אפשר לסמן ידנית על העור.";
   return m;
 }
 function injectionMode(tool, api) {
   var ctx = null, ui = {}, wasActive = false, posture = "off", partsOn = false, skinCat = null, popOpen = null, hookOn = false;
+  var skin0 = null, skinOk = false;   // Q381: the skin layer as the anatomy mode left it (on / opacity), and whether this engine offers the quick looks
   function h(tag, a, k) { return ctx.el(tag, a, k); }
   function sideHe(r) { return ctx.side(r); }
   function recLabel(r) { return r ? r.name + (sideHe(r) ? " · " + sideHe(r) : "") : ""; }
@@ -3778,6 +3818,33 @@ function injectionMode(tool, api) {
     parts.setMode(partsOn ? "sel" : "off"); if (parts.dirty) parts.dirty(); refresh();
   }
   function toggleSkin() { if (!skinCat) return; api.setCategoryOn(skinCat, !api.categoryOn(skinCat)); refresh(); }
+  /* Q381 (owner: "a quick switch: skin shown / transparency / as defined in anatomy mode -- to think about where exactly the skin
+     site is"). Three looks of the skin layer, beside the on / off pill:
+       plan   "שקוף"      the planning look: the skin shown and faded with everything that is not the target (the mode's default);
+       opaque "אטום"      shown at full opacity and NOT faded: the body surface;
+       anat   "כבאנטומיה"  exactly as the anatomy mode had it (shown / hidden, its opacity), not faded.
+     The layer's on / opacity are ENGINE state (api.setCategoryOn / setCategoryAlpha), so the page-wide undo carries them like the
+     pill's; "not faded" is the engine's plain-layer flag, a display state of this mode that travels with the look through the
+     "inj_skin" history provider. Leaving the mode puts the layer back exactly (exit()). */
+  var SKIN_LOOKS = [{k: "plan", he: "שקוף", t: "עור שקוף: מועם יחד עם כל מה שאינו המטרה (מראה התכנון)"},
+                    {k: "opaque", he: "אטום", t: "עור אטום: פני הגוף, לבחירת מקום הכניסה בעור"},
+                    {k: "anat", he: "כבאנטומיה", t: "העור כפי שהוגדר במצב האנטומיה: מוצג או מוסתר, ובשקיפות שנקבעה שם"}];
+  function skinPlain(k) { if (skinOk) api.setCategoryPlain(skinCat, k === "opaque" || k === "anat"); }
+  function setSkin(k) {
+    if (!skinOk || !skin0) return;
+    ui.skinLook = k;
+    if (k === "opaque") { api.setCategoryOn(skinCat, true); api.setCategoryAlpha(skinCat, 1); }
+    else if (k === "anat") { api.setCategoryOn(skinCat, skin0.on); api.setCategoryAlpha(skinCat, skin0.a); }
+    else { api.setCategoryOn(skinCat, true); api.setCategoryAlpha(skinCat, skin0.a > 0.01 ? skin0.a : 1); }
+    skinPlain(k);
+    refresh();
+  }
+  if (global.NMSKHistory && global.NMSKHistory.register) {
+    try {
+      global.NMSKHistory.register("inj_skin", {get: function () { return ctx && skinOk ? (ui.skinLook || "plan") : null; },
+        set: function (v) { if (!ctx || !skinOk) return; ui.skinLook = v || "plan"; skinPlain(ui.skinLook); refresh(); }});
+    } catch (eH) {}
+  }
   function layersPop() {
     if (popOpen && popOpen.classList.contains("mp-pop")) { closePop(); return; }
     closePop();
@@ -3797,8 +3864,8 @@ function injectionMode(tool, api) {
   var offersOf = {};
   function mkChip(kind) { return h("span", {class: "q367-mk q367-mk-" + kind, "aria-hidden": "true"}); }
   function qb(text, fn, a) { var b = h("button", {type: "button", class: "q367-btn", text: text, onclick: fn}); if (a) Object.keys(a).forEach(function (k) { if (a[k] != null) b.setAttribute(k, a[k]); }); return b; }
-  function arm(kind, fn, hint, skip) { tool.armFn = fn; tool.armSkip = skip == null ? null : skip; ui.armKind = kind; ui.armText = hint; refresh(); }
-  function disarm() { tool.armFn = null; tool.armSkip = null; ui.armKind = null; ui.armText = ""; }
+  function arm(kind, fn, hint, skip) { tool.armFn = fn; tool.armSkip = skip == null ? null : skip; tool.armSkin = kind === "entry"; ui.armKind = kind; ui.armText = hint; refresh(); }
+  function disarm() { tool.armFn = null; tool.armSkip = null; tool.armSkin = false; ui.armKind = null; ui.armText = ""; }
   function armEntry() { closePop(); arm("entry", function (hit) { disarm(); tool.plEntrySet(hit); ui.manualHint = false; refresh(); }, "הקישו על העור במודל: שם תיכנס המחט."); }
   function armFree() { arm("free", function (hit) { disarm(); tool.plTipSet({p: hit.p, i: hit.i}, "free"); ui.rk = "free"; refresh(); }, "הקישו על נקודה במודל (או על פני החתך): שם יהיה קצה המחט."); }
   function armPeri(i) { arm("peri", function (hit) { disarm(); tool.plPeri(i, hit.p, true); refresh(); }, "הקישו על העצב במקום הרצוי: הקצה יונח לידו."); }
@@ -3850,17 +3917,113 @@ function injectionMode(tool, api) {
     ui.pEntClr = qb("ניקוי", function () { disarm(); tool.plEntryClear(); refresh(); }, {"aria-label": "ניקוי מעבר בעור"});
     ui.refine = h("div", {class: "q367-ref"});
     ui.arm = h("div", {class: "q367-arm", hidden: true});
-    ui.pSafeBtn = qb("בטיחות…", function () { toggleSafe(); });
+    /* Q381: what is true of the tip (measured), the blocked-path notice with the offered entry, and SAFETY as its own titled
+       subsection: its state (not defined / the declared default / custom), the rules that are on, and the ways to set them */
+    ui.tipFacts = h("div", {class: "q381-facts", "data-q381": "facts", hidden: true});
+    ui.blockBox = h("div", {class: "q381-block", "data-q381": "block", role: "alert", hidden: true});
+    ui.pSafeBtn = qb("הגדרת כללים…", function () { toggleSafe(); }, {"data-q381": "safe-edit"});
     ui.pSafeTxt = h("span", {class: "q367-val"});
+    ui.pSafeState = h("b", {class: "q381-state"});
+    ui.pSafeRules = h("div", {class: "q381-rules"});
+    ui.pSafeDef = qb("קביעה כברירת מחדל", function () { tool.safeDefault("save"); refresh(); }, {"data-q381": "safe-save"});
+    ui.pSafeLoad = qb("חזרה לברירת המחדל", function () { tool.safeDefault("load"); refresh(); }, {"data-q381": "safe-load"});
+    ui.pSafeOff = qb("ביטול הכללים", function () { tool.safeDefault("clear"); refresh(); }, {"data-q381": "safe-clear"});
+    ui.safeSec = h("div", {class: "q381-sec", "data-q367": "safety", "data-q381": "safety", role: "group", "aria-label": "בטיחות"}, [
+      h("div", {class: "q381-sh", role: "heading", "aria-level": "3", text: "בטיחות"}),
+      h("div", {class: "q367-row"}, [h("span", {class: "q367-lab", text: "הגדרה:"}), ui.pSafeState, ui.pSafeTxt]),
+      ui.pSafeRules,
+      h("div", {class: "q367-ks"}, [ui.pSafeBtn, ui.pSafeDef, ui.pSafeLoad, ui.pSafeOff])
+    ]);
     ui.plan = h("div", {class: "q367-plan", "data-q367": "plan"}, [
       h("div", {class: "q367-h", text: "תכנון · בכל סדר"}),
       h("div", {class: "q367-leg"}, [mkChip("tip"), h("span", {text: "קצה המחט (תכלת, מעוין)"}), mkChip("entry"), h("span", {text: "מעבר בעור (כתום, טבעת)"})]),
       h("div", {class: "q367-row", "data-q367": "tip"}, [mkChip("tip"), h("span", {class: "q367-lab", text: "קצה המחט:"}), ui.pTipVal, ui.pTipPick, ui.pTipClr]),
+      ui.tipFacts,
       ui.refine,
       h("div", {class: "q367-row", "data-q367": "entry"}, [mkChip("entry"), h("span", {class: "q367-lab", text: "מעבר בעור:"}), ui.pEntVal, ui.pEntTap, ui.pEntSug, ui.pEntClr]),
       ui.arm,
-      h("div", {class: "q367-row", "data-q367": "safety"}, [ui.pSafeBtn, ui.pSafeTxt])
+      ui.blockBox,
+      ui.safeSec
     ]);
+  }
+  function boneWord(i) { return tool.cls[i] === "bone" && !/cartilage/.test(tool.recs[i].id) ? "העצם" : "הסחוס"; }
+  function renderBlock() {
+    var X = ui.blockBox, B = tool.isBlocked() ? tool.block : null; X.innerHTML = ""; X.hidden = !B; X.removeAttribute("data-q381-bone");
+    if (!B) return;
+    var R = B.res, h0 = R.hits[0], r0 = tool.recs[h0.i];
+    X.setAttribute("data-q381-bone", h0.id);
+    X.appendChild(h("p", {class: "q381-bt"}, ["המסלול חסום: הוא עובר דרך " + boneWord(h0.i) + " ", h("bdi", {dir: "ltr", text: h0.name}), (sideHe(r0) ? " (" + sideHe(r0) + ")" : "") + ", " + fmt(h0.t) + ' מ"מ מהכניסה' +
+      (R.hits.length > 1 ? " (ועוד " + (R.hits.length - 1) + (R.hits.length === 2 ? " מבנה חוסם)" : " מבנים חוסמים)") : "") + ". מחט אינה עוברת דרך עצם: המסלול אינו תקף."]));
+    if (B.alt === undefined) X.appendChild(h("p", {class: "mc-hint", "data-q381": "alt-wait", text: "מחפש את הכניסה התקינה הקרובה…"}));
+    else if (B.alt && B.alt.E) {
+      X.appendChild(h("p", {class: "mc-hint", "data-q381": "alt", text: "הכניסה התקינה הקרובה: " + fmt(B.alt.d) + ' מ"מ מהנקודה שבחרתם, אורך המסלול ' + fmt(B.alt.L) + ' מ"מ, והוא רחוק לפחות ' + BONE_CLEAR_MM + ' מ"מ מעצם (בירוק במודל).'}));
+      X.appendChild(qb("מעבר לכניסה התקינה", function () { tool.useAltEntry(); refresh(); }, {"data-q381": "alt-use"}));
+    } else X.appendChild(h("p", {class: "q381-bt", "data-q381": "no-path", text: "אין מסלול ישר ללא עצם לקצה זה: נבדקו " + B.alt.tried + " כיוונים עד " + B.alt.reach + ' מ"מ, ' + B.alt.skin + " מגיעים לעור, ואף אחד מהם אינו עובר ללא עצם. בחרו נקודת קצה אחרת."}));
+  }
+  function renderFacts() {
+    var X = ui.tipFacts, f = tool.tipF, t = tool.target; X.innerHTML = ""; X.hidden = !(t && f); X.setAttribute("data-rel", f && f.rel ? f.rel : "");
+    if (X.hidden) return;
+    var a = [];
+    if (f.rel === "in") a.push("בתוך המבנה, " + fmt(f.dOwn) + ' מ"מ מתחת לפניו');
+    else if (f.rel === "on") a.push("על פני המבנה");
+    else if (f.rel === "out") a.push("מחוץ למבנה, " + fmt(f.dOwn) + ' מ"מ מפניו');
+    if (f.dSkin != null) a.push("העור הקרוב ביותר: " + fmt(f.dSkin) + ' מ"מ');
+    X.appendChild(h("span", {class: f.rel === "out" ? "q367-bad" : "q381-fact", text: a.join(" · ")}));
+    X.title = "במודל: המספר שליד המעוין הוא עומק הקצה מתחת לעור לאורך קו המבט (משתנה בסיבוב); קו המתאר התכלת הוא המבנה שבו נמצא הקצה.";
+  }
+  /* Q381: where the tip's point comes from (the owner's "מקור": the provenance of every tip option, stated beside it) */
+  var attInfo = {};
+  function attachInfo(ref, side) {
+    var k = ref + "|" + side; if (attInfo[k] !== undefined) return attInfo[k];
+    var ps = api.parts ? api.parts() : null, out = null;
+    try { (ps.state().markers || []).some(function (m) { if (m.part === ref && (m.side === side || m.side === "m" || !side)) { out = {e: m.e, cls: m.cls}; return true; } return false; }); } catch (err) {}
+    return (attInfo[k] = out);
+  }
+  function renderSrc(i) {
+    var t = tool.target, k = t ? t.kind : null, box = h("div", {class: "q381-src", "data-q381": "src", "data-kind": k || ""}), txt = "", extra = null;
+    if (!t || !k) return null;
+    if (k === "centre") txt = "מחושב מרשת המבנה בגוף זה: אמצע העובי באזור העבה שלו, סמוך למרכז הנפח, ולא בתוך עצם. אינו נתון מהספרות.";
+    else if (k === "free") txt = "הנקודה שהקשתם על המודל.";
+    else if (k === "origin" || k === "insertion") {
+      var ai = attachInfo(t.ref, tool.recs[i] ? tool.recs[i].side : null);
+      txt = "נתוני האחיזות של העמוד: " + (k === "origin" ? "מקור" : "אחיזה") + " על פני העצם. המיקום על גוף זה לפי כלל (קצה רשת המבנה הוצמד לעצם)" + (ai && ai.e != null ? ', שגיאה מוערכת ±' + fmt(ai.e) + ' מ"מ' : "") + ". הציטוטים בכרטיס האחיזה.";
+      extra = qb("כרטיס האחיזה והמקורות", function () { var pz = api.parts ? api.parts() : null; if (pz && pz.focusById) pz.focusById(t.ref); }, {"data-q381": "src-card"});
+    } else if (k === "mp") {
+      var mp = t.mp || {}, rule = mp.source && mp.source.rule ? String(mp.source.rule) : "";
+      txt = "טבלת הנקודות המוטוריות של העמוד" + (rule ? ":" : ".");
+      if (rule) extra = h("bdi", {dir: "ltr", class: "q381-cite", text: rule.length > 220 ? rule.slice(0, 217) + "…" : rule});
+    } else if (k === "iz") txt = "רצועת אזור העצבוב (IZ) שמוקמה על גוף זה לפי מדריך ההזרקה (Güvener ואח׳, Eur J Phys Rehabil Med 2026;62(5):441-59); הפרטים בסעיף המדריך למטה.";
+    else if (k === "plane") txt = "מחושב: נקודת האמצע בין פני שני המבנים, במקום שבו הם קרובים זה לזה.";
+    else if (k === "peri") txt = "מחושב: ליד פני העצב, במרחק שקבעתם, בצד שממנו באה המחט.";
+    else if (k === "cavity") txt = "מחושב מרשת השק: מרכזו, או האמצע בין שתי דפנותיו.";
+    else if (k === "intra") txt = "מחושב: אמצע המרווח בין שתי העצמות שבתוך הקופסית; הסחוס אינו ממודל כאן כמשטח נפרד.";
+    box.appendChild(h("span", {class: "q381-srck", text: "מקור הנקודה: "})); box.appendChild(document.createTextNode(txt));
+    if (extra) box.appendChild(extra);
+    return box;
+  }
+  function renderSafeSec() {
+    var S = tool.safe, st = tool.safeState(), t = tool.target, e = tool.entry, R = ui.pSafeRules;
+    ui.safeSec.setAttribute("data-state", st);
+    ui.pSafeState.textContent = st === "none" ? "לא הוגדרה" : st === "default" ? "ברירת המחדל שלכם" : (S.def ? "מותאמת (שונה מברירת המחדל)" : "מותאמת (לא נקבעה ברירת מחדל)");
+    ui.pSafeTxt.textContent = st === "none" ? "· מוצגים מרחקים בלבד" : "· " + S.nOn + (S.nOn === 1 ? " כלל" : " כללים") + " · " + (!(t || e) ? "ממתין לתכנון" : S.viol.length ? S.viol.length + (S.viol.length === 1 ? " הפרה" : " הפרות") : "אין הפרה");
+    ui.pSafeTxt.classList.toggle("q367-bad", !!S.viol.length);
+    R.innerHTML = "";
+    if (st === "none") R.appendChild(h("p", {class: "mc-hint", text: "לא הוגדרו כללי מרחק: מוצגים רק המרחקים מכלי-הדם ומהעצבים (כרטיס המרחקים), בלי בדיקה מול כלל. אין ברירת מחדל מובנית, כי בספרים שבידינו אין מרחקי בטיחות במ\"מ; ברירת המחדל היא זו שתקבעו כאן."}));
+    else {
+      var ul = h("div", {class: "q381-rl"});
+      SAFE_ROWS.forEach(function (row) {
+        if (!(S.rules[row.k] > 0)) return;
+        var thr = S.thr[row.kind], rng = row.c === "L" ? "≥ " + thr[0] : row.c === "M" ? thr[1] + "–" + thr[0] : "< " + thr[1];
+        ul.appendChild(h("span", {class: "q381-rule", "data-rule": row.k}, [h("span", {class: "q367-dot", style: "background:" + SAFE_COL[row.kind]}), SAFE_HE[row.kind] + " " + SAFE_HE[row.c] + " (קוטר ", h("bdi", {dir: "ltr", text: rng}), ' מ"מ): לפחות ' + S.rules[row.k] + ' מ"מ']));
+      });
+      R.appendChild(ul);
+      R.appendChild(h("p", {class: "mc-hint", text: "הכללים הם שלכם, לא המלצה. ספי הגודל לפי קוטר הם מוסכמה של הפרויקט (לא ממקור) וניתנים לעריכה."}));
+    }
+    ui.pSafeBtn.setAttribute("aria-pressed", String(!!ui.safeOpen));
+    ui.pSafeBtn.textContent = st === "none" ? "הגדרת כללים…" : "עריכת הכללים…";
+    ui.pSafeDef.hidden = st !== "custom";
+    ui.pSafeLoad.hidden = !S.def || st === "default";
+    ui.pSafeOff.hidden = st === "none";
   }
   function renderPlan() {
     var t = tool.target, e = tool.entry, r = tipRec(), P = tool.pl.plane;
@@ -3872,7 +4035,9 @@ function injectionMode(tool, api) {
     else if (r && !t) ui.pTipVal.appendChild(document.createTextNode(" · נקודה טרם נקבעה"));
     ui.pTipPick.textContent = r ? "שינוי" : "בחירה";
     ui.pTipClr.hidden = !t;
-    ui.pEntVal.textContent = !e ? "לא נקבע" : (t ? "נקבע · אורך " + fmt(dist(e.p, t.p)) + ' מ"מ' : "נקבע · ממתין לקצה המחט");
+    var blocked = tool.isBlocked();   // Q381
+    ui.pEntVal.textContent = !e ? "לא נקבע" : !t ? "נקבע · ממתין לקצה המחט" : blocked ? "חסום: המסלול עובר דרך עצם" : "נקבע · אורך " + fmt(dist(e.p, t.p)) + ' מ"מ';
+    ui.pEntVal.classList.toggle("q367-bad", blocked);
     ui.pEntTap.textContent = e ? "הקשה חדשה" : "הקשה על העור";
     ui.pEntSug.disabled = !t; ui.pEntSug.title = t ? "נקודות כניסה מחושבות לקצה הזה" : "דרוש קצה מחט";
     ui.pEntClr.hidden = !e;
@@ -3880,10 +4045,7 @@ function injectionMode(tool, api) {
     if (ui.armKind) { ui.arm.appendChild(h("span", {text: ui.armText})); ui.arm.appendChild(qb("ביטול", function () { disarm(); refresh(); })); }
     ui.pTipPick.setAttribute("aria-pressed", "false"); ui.pEntTap.setAttribute("aria-pressed", String(ui.armKind === "entry"));
     renderRefine(r && r.i != null ? r.i : null);
-    var S = tool.safe;
-    ui.pSafeTxt.textContent = !S.nOn ? "אין כללים פעילים" : S.nOn + (S.nOn === 1 ? " כלל" : " כללים") + " · " + (!(t || e) ? "ממתין לתכנון" : S.viol.length ? S.viol.length + (S.viol.length === 1 ? " הפרה" : " הפרות") : "אין הפרה");
-    ui.pSafeTxt.classList.toggle("q367-bad", !!S.viol.length);
-    ui.pSafeBtn.setAttribute("aria-pressed", String(!!ui.safeOpen));
+    renderFacts(); renderBlock(); renderSafeSec();   // Q381
   }
   function renderRefine(i) {
     var R = ui.refine; R.innerHTML = "";
@@ -3930,6 +4092,7 @@ function injectionMode(tool, api) {
       any = true; sub.appendChild(h("p", {class: "mc-hint", text: "מרווח המפרק: נקודות האמצע בין שתי העצמות שבתוך הקופסית (" + tool.name(tool.pl.plane.a) + " / " + tool.name(tool.pl.plane.b) + "); הקצה בנקודה הקרובה למרכז הקופסית."}));
     } else if (cur === "cavity" && t && t.kind === "cavity") { any = true; sub.appendChild(h("p", {class: "mc-hint", text: t.inside ? "הקצה בתוך השק: מרכזו, או באמצע בין שתי דפנותיו." : "הקצה ליד השק (הרשת אינה סגורה כאן)."})); }
     if (any) R.appendChild(sub);
+    var src = renderSrc(i); if (src) R.appendChild(src);   // Q381
     if (o.missing.length) R.appendChild(h("p", {class: "mc-hint", "data-q367-missing": o.missing.join(" "), text: "אין על גוף זה נתונים ל: " + o.missing.map(function (m) { return MISSING_HE[m]; }).join(", ") + "."}));
   }
   function buildSafe() {
@@ -4064,7 +4227,38 @@ function injectionMode(tool, api) {
         "body.mode-inj.inj-safe .mc-right{visibility:hidden!important}body.mode-inj .q367-grid4{grid-template-columns:auto auto auto auto auto}}";
       document.head.appendChild(s3);
     }
+    if (!document.getElementById("inj-q381-css")) {   // Q381: the tip's facts, the blocked-path notice, the source line, the Safety subsection, the skin looks
+      var s4 = document.createElement("style"); s4.id = "inj-q381-css"; s4.textContent =
+        "body.mode-inj .q381-facts{display:flex;flex-direction:column;gap:2px;font-size:12.5px;color:#20242B;padding-inline-start:22px}" +
+        "body.mode-inj .q381-fact{font-weight:600;color:#0B4A63}body.mode-inj .q381-facts .mc-hint{margin:0;font-size:12px;color:#4A5361}" +
+        "body.mode-inj .q381-block{border:1.5px solid #D63A3A;background:#FDECEC;border-radius:10px;padding:7px 9px;display:flex;flex-direction:column;gap:6px;min-width:0}" +
+        "body.mode-inj .q381-bt{margin:0;color:#8C1D18;font-weight:700;font-size:13px;overflow-wrap:anywhere}" +
+        "body.mode-inj .q381-block .mc-hint{margin:0;color:#20242B;font-size:12.5px}" +
+        "body.mode-inj .q381-block .q367-btn{align-self:flex-start;border-color:#1E6B3E;color:#14532D;background:#E8F5EC}" +
+        "body.mode-inj .q381-src{font-size:12px;line-height:1.4;color:#3F4752;background:#F6F7F8;border-radius:8px;padding:5px 8px;display:flex;flex-direction:column;gap:4px;overflow-wrap:anywhere}" +
+        "body.mode-inj .q381-srck{font-weight:700;color:#20242B}body.mode-inj .q381-cite{font-size:11.5px;color:#4A5361;text-align:left}" +
+        "body.mode-inj .q381-src .q367-btn{align-self:flex-start;min-height:30px;font-size:12.5px}" +
+        "body.mode-inj .q381-sec{border-top:2px solid #E4E1D8;margin-top:3px;padding-top:8px;display:flex;flex-direction:column;gap:6px;min-width:0}" +
+        "body.mode-inj .q381-sh{font-weight:700;font-size:14px;color:#20242B}" +
+        "body.mode-inj .q381-state{font-size:13px;color:#20242B}body.mode-inj .q381-sec[data-state=none] .q381-state{color:#5A3E00;background:#FFF1CC;border-radius:999px;padding:0 8px}" +
+        "body.mode-inj .q381-sec .q367-val{flex:1 1 90px}" +
+        "body.mode-inj .q381-rules .mc-hint{margin:0;font-size:12px;color:#4A5361}" +
+        "body.mode-inj .q381-rl{display:flex;flex-direction:column;gap:3px;font-size:12.5px;margin-bottom:4px}body.mode-inj .q381-rule{display:flex;align-items:center;gap:5px;flex-wrap:wrap}" +
+        "body.mode-inj .q381-long{height:auto;min-height:36px;padding:4px 10px}" +
+        "body.mode-inj .mc-drow.q381-pass .bar{background:#8A929D}body.mode-inj .q381-passh{margin:6px 0 0;font-size:12px;color:#4A5361}" +
+        "body.mode-inj .q381-passr{font-size:12.5px;color:#20242B;display:flex;gap:6px;justify-content:space-between;align-items:baseline;border-inline-start:4px solid #8A929D;padding-inline-start:6px;margin-top:3px;overflow-wrap:anywhere}" +
+        "body.mode-inj .q381-passr .mm{color:#4A5361;white-space:nowrap;font-size:12px}" +
+        /* the skin looks: one compact segmented control in the dock, beside the skin pill */
+        ".q381-seg{display:inline-flex;height:44px;border-radius:999px;background:#F3F4F6;padding:3px;gap:2px;box-sizing:border-box;align-items:stretch}" +
+        ".q381-seg[hidden]{display:none}" +
+        ".q381-seg button{border:0;background:transparent;border-radius:999px;padding:0 11px;font-size:13px;font-weight:500;color:#20242B;white-space:nowrap;min-width:44px;cursor:pointer}" +
+        ".q381-seg button[aria-checked=true]{background:var(--mode-c,#0E7C86);color:#fff;font-weight:700}" +
+        ".q381-seg.off button[aria-checked=true]{background:#C9CDD3;color:#20242B}" +
+        "@media (max-width:760px){.q381-seg button{padding:0 9px;font-size:12.5px}}";
+      document.head.appendChild(s4);
+    }
     skinCat = tool.recs.some(function (r) { return r.cat === "skin"; }) ? "skin" : null;
+    skinOk = !!(skinCat && api.setCategoryAlpha && api.categoryAlpha && api.setCategoryPlain);
     /* bar: the target chip + reset / cancel */
     ui.chipName = h("b", {text: "—"});
     c.bar.chips.appendChild(h("div", {class: "mb-chip mi"}, [h("span", {class: "mb-dim", text: "מטרה"}), ui.chipName, h("button", {type: "button", class: "mb-mini", text: "שנה", onclick: openPicker})]));
@@ -4087,6 +4281,12 @@ function injectionMode(tool, api) {
     ui.primary = h("button", {type: "button", class: "mc-primary", text: "הצע נקודות כניסה", onclick: suggest});
     ui.manual = h("button", {type: "button", class: "mc-sec mc-desk", text: "סמן ידנית על העור", onclick: manualEntry});
     ui.hint = h("p", {class: "mc-hint", text: ""});
+    ui.longBtn = h("button", {type: "button", class: "mc-sec q381-long", hidden: true, "data-q381": "longer", onclick: function () {   // Q381: the shortest bone-free straight path is longer than the needle
+      var L = tool.sugg.longer; if (!(L > 0)) return;
+      tool.len = clamp(Math.ceil((L + 2) / 5) * 5, 5, 200);
+      ["ncl-len", "ncl-lenn"].forEach(function (id) { var el2 = tool.$(id); if (el2) el2.value = tool.len; });
+      suggest();
+    }});
     ui.cands = h("div", {class: "mc-list"});
     ui.mobRow = h("div", {class: "mc-row mc-mob"}, [
       h("button", {type: "button", class: "mc-sec", text: "סמן ידנית", onclick: manualEntry}),
@@ -4103,14 +4303,15 @@ function injectionMode(tool, api) {
     ui.saved = h("div", {class: "mc-list"});
     ui.savedClear = h("button", {type: "button", class: "mc-sec", text: "נקה את כל הנקודות השמורות", onclick: clearSaved});
     buildPlan();   // Q367
-    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.plan, ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.guide, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.scanBtn, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
+    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.plan, ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.guide, ui.step2, ui.primary, ui.manual, ui.hint, ui.longBtn, ui.cands, ui.mobRow, ui.step3, ui.report, ui.scanBtn, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
     /* left: the distance card */
     ui.rows = h("div", {class: "mc-list"});
     ui.near = h("input", {type: "number", min: "0", max: "100", step: "0.5", "aria-label": "סף קרוב (מ\"מ)"}); ui.far = h("input", {type: "number", min: "0", max: "200", step: "0.5", "aria-label": "סף רחוק (מ\"מ)"});
     ui.edit = h("div", {class: "mc-edit"}, ["קרוב", ui.near, "רחוק", ui.far, h("button", {type: "button", class: "mc-sec", style: "height:32px;flex:0 0 auto;padding:0 10px", text: "אישור", onclick: function () { tool.setCorr({near: +ui.near.value, far: +ui.far.value}); ui.edit.hidden = true; refresh(); }})]);
     ui.edit.hidden = true;
     ui.foot = h("div", {class: "mc-foot"});
-    c.main.appendChild(h("div", {class: "mc mc-left mi"}, [h("div", {class: "mc-title", text: ctx.isPhone() ? "הקרובים ביותר" : "מרחק מהמסלול"}), (ui.dhint = h("p", {class: "mc-hint", text: ""})), ui.rows, ui.foot, ui.edit]));
+    ui.pass = h("div", {class: "q381-pass", "data-q381": "pass", hidden: true});   // Q381: ligaments / membranes / capsules the path crosses (listed; no rule)
+    c.main.appendChild(h("div", {class: "mc mc-left mi"}, [h("div", {class: "mc-title", text: ctx.isPhone() ? "הקרובים ביותר" : "מרחק מהמסלול"}), (ui.dhint = h("p", {class: "mc-hint", text: ""})), ui.rows, ui.pass, ui.foot, ui.edit]));
     /* bottom pills */
     ui.pHalo = h("button", {type: "button", class: "mp", text: "הילה", "aria-pressed": "true", onclick: toggleHalo});
     ui.pPost = h("button", {type: "button", class: "mp", text: "תנוחה ספסטית", "aria-pressed": "false", onclick: cyclePosture});
@@ -4118,7 +4319,11 @@ function injectionMode(tool, api) {
     ui.pSkin = h("button", {type: "button", class: "mp", text: "עור", "aria-pressed": "false", onclick: toggleSkin});
     ui.pLayers = h("button", {type: "button", class: "mp", text: "שכבות…", onclick: layersPop});
     ui.pSafe = h("button", {type: "button", class: "mp", text: "בטיחות", "aria-pressed": "false", onclick: function () { toggleSafe(); }});   // Q367
-    [ui.pSafe, ui.pHalo, ui.pPost, ui.pParts, ui.pSkin, ui.pLayers].forEach(function (b) { c.pills.appendChild(b); });
+    ui.skinBtn = {};
+    ui.skinSeg = h("div", {class: "q381-seg", role: "radiogroup", "aria-label": "מראה העור", "data-q381": "skin", hidden: skinOk ? null : true}, SKIN_LOOKS.map(function (m) {
+      return (ui.skinBtn[m.k] = h("button", {type: "button", role: "radio", "aria-checked": "false", "data-skin": m.k, title: m.t, "aria-label": "עור: " + m.he, text: m.he, onclick: function () { setSkin(m.k); }}));
+    }));
+    [ui.pSafe, ui.pHalo, ui.pPost, ui.pParts, ui.pSkin, ui.skinSeg, ui.pLayers].forEach(function (b) { c.pills.appendChild(b); });
     buildSafe();
     c.pills.hidden = false;
     if (!(api.parts && api.parts())) ui.pParts.disabled = true;
@@ -4170,16 +4375,19 @@ function injectionMode(tool, api) {
     else hint = "הקשה על העור מסמנת נקודת כניסה אחרת.";
     if (tool.sugg.msg) hint = heMsg(tool.sugg.msg);
     ui.hint.textContent = hint;
+    var lng = !tool.sugg.shown.length && tool.sugg.longer > tool.len ? clamp(Math.ceil((tool.sugg.longer + 2) / 5) * 5, 5, 200) : 0;   // Q381
+    ui.longBtn.hidden = !lng; if (lng) ui.longBtn.textContent = "הארכת המחט ל-" + lng + ' מ"מ והצעה מחדש';
     ui.cands.innerHTML = "";
     tool.sugg.shown.forEach(function (cd, k) {
       ui.cands.appendChild(h("div", {class: "mc-cand"}, [h("b", {text: (k + 1) + "."}), h("span", {text: fmt(cd.L) + " מ\"מ · מרווח " + fmt(cd.minD) + " מ\"מ"}),
         h("button", {type: "button", text: "השתמש", onclick: function () { tool.adoptSuggestion(cd); ui.manualHint = false; refresh(); }})]));
     });
-    var rep = hasT && hasE ? tool.report() : null;
-    ui.scanBtn.hidden = !(hasT && hasE && global.NMSKUltrasound && global.NMSKUltrasound.needleClip);
-    ui.report.textContent = rep ? "אורך " + fmt(rep.length_mm) + " מ\"מ · חוצה " + rep.crossings.length + " מבנים" + (rep.skin && rep.skin.depth != null ? " · עומק מהעור " + fmt(rep.skin.depth) + " מ\"מ" : "") : "";
+    var rep = hasT && hasE ? tool.report() : null, blocked = tool.isBlocked();   // Q381: a path through bone is not a path -- not played, not saved
+    ui.scanBtn.hidden = !(hasT && hasE && !blocked && global.NMSKUltrasound && global.NMSKUltrasound.needleClip);
+    ui.report.textContent = blocked ? "המסלול חסום: עובר דרך עצם. אינו תקף (ראו בלוח התכנון)." : rep ? "אורך " + fmt(rep.length_mm) + " מ\"מ · חוצה " + rep.crossings.length + " מבנים" + (rep.skin && rep.skin.depth != null ? " · עומק מהעור " + fmt(rep.skin.depth) + " מ\"מ" : "") : "";
+    ui.report.classList.toggle("q367-bad", blocked);
     /* Q276: saved points list -- its own marker (drawn by tool.addSavedPoint()) and its own distance readout per row */
-    ui.addPoint.disabled = !hasT;
+    ui.addPoint.disabled = !hasT || blocked; ui.addPoint.title = blocked ? "המסלול חסום (עצם): לא נשמר" : "שמירת נקודת הכניסה/מטרה הנוכחית כאחת מכמה באותו שריר (לא מחליפה אותה)";
     ui.saved.innerHTML = "";
     if (!tool.savedPts.length) ui.saved.appendChild(h("p", {class: "mc-hint", text: "אין נקודות שמורות עדיין. לתכנון 2+ מקומות באותו שריר: סמנו נקודה ולחצו הוסף נקודה."}));
     tool.savedPts.forEach(function (it, k) {
@@ -4203,6 +4411,14 @@ function injectionMode(tool, api) {
       ui.rows.appendChild(h("div", {class: "mc-drow band-" + tool.band(it.d)}, [h("div", {class: "bar"}), h("div", {class: "nm"}, [it.name, cl ? h("span", {class: "q367-cl", text: cl}) : null]), h("div", {class: "mm", text: fmt(it.d)}), h("div", {class: "un", text: "מ\"מ"})]));
     });
     if (tool.poseAway && tool.poseAway()) ui.dhint.textContent += " · נמדד על המודל בתנוחה הנוכחית";
+    /* Q381: what the path passes through without being blocked -- ligaments, membranes, capsules, fibrocartilage (listed; no rule) */
+    var pass = hasT && hasE ? (tool.corr.pass || []) : [];
+    ui.pass.innerHTML = ""; ui.pass.hidden = !pass.length;
+    if (pass.length) {
+      ui.pass.appendChild(h("p", {class: "q381-passh", text: "המסלול עובר דרך (רצועות, קרומים, קופסיות: לא חוסמים, לידיעה):"}));
+      pass.slice(0, 6).forEach(function (x) { ui.pass.appendChild(h("div", {class: "q381-passr", "data-q381-pass": x.id}, [h("bdi", {dir: "ltr", text: x.name}), h("span", {class: "mm", text: fmt(x.t) + ' מ"מ מהכניסה'})])); });
+      if (pass.length > 6) ui.pass.appendChild(h("p", {class: "q381-passh", text: "ועוד " + (pass.length - 6) + "."}));
+    }
     ui.foot.innerHTML = ""; ui.foot.appendChild(document.createTextNode("מדידה בלבד · ספי צבע " + c.near + " / " + c.far + " מ\"מ · "));
     ui.foot.appendChild(h("button", {type: "button", text: "עריכה", onclick: function () { ui.near.value = c.near; ui.far.value = c.far; ui.edit.hidden = !ui.edit.hidden; }}));
     /* pills */
@@ -4210,10 +4426,16 @@ function injectionMode(tool, api) {
     ui.pPost.setAttribute("aria-pressed", String(posture !== "off")); ui.pPost.textContent = "תנוחה ספסטית" + (ui.postureMsg ? " · " + ui.postureMsg : "");
     ui.pParts.setAttribute("aria-pressed", String(partsOn));
     if (skinCat) ui.pSkin.setAttribute("aria-pressed", String(!!api.categoryOn(skinCat)));
+    if (skinOk) {   // Q381
+      var lk = ui.skinLook || "plan";
+      SKIN_LOOKS.forEach(function (m) { ui.skinBtn[m.k].setAttribute("aria-checked", String(m.k === lk)); ui.skinBtn[m.k].tabIndex = m.k === lk ? 0 : -1; });
+      ui.skinSeg.classList.toggle("off", !api.categoryOn(skinCat));
+    }
     renderPlan(); renderSafe();   // Q367
   }
   function enter(c) {
     wasActive = tool.active; partsOn = false; posture = "off"; ui.postureMsg = ""; ui.manualHint = false;
+    skin0 = skinOk ? {on: !!api.categoryOn(skinCat), a: api.categoryAlpha(skinCat)} : null; ui.skinLook = "plan"; skinPlain("plan");   // Q381: the anatomy mode's skin, kept to be put back exactly
     if (!tool.active) tool.toggle(true);
     tool.setMode("tfirst", true);
     tool.clearSuggestions(); tool.clear();
@@ -4225,6 +4447,8 @@ function injectionMode(tool, api) {
   }
   function exit() {
     closePop(); disarm(); if (ui.safeOpen) toggleSafe(false);   // Q367
+    if (skinOk && skin0) { api.setCategoryPlain(skinCat, false); api.setCategoryOn(skinCat, skin0.on); api.setCategoryAlpha(skinCat, skin0.a); }   // Q381: the anatomy mode's skin exactly as it was
+    skin0 = null; ui.skinLook = null;
     setTimeout(function () { tool.pinsPlace(); }, 0);
     var k = tool.hooks.indexOf(refresh); if (k >= 0) tool.hooks.splice(k, 1); hookOn = false;
     if (posture !== "off") { try { tool.applyPosture("rest", "r"); } catch (e) {} posture = "off"; }
@@ -4236,6 +4460,7 @@ function injectionMode(tool, api) {
      the suggestions and the plan cleared, the target picker reopened (saved injection points are kept: they are the user's record) */
   function reset() {
     closePop(); disarm(); ui.rk = null; ui.planeMsg = "";   // Q367
+    if (skinOk) { ui.skinLook = "plan"; skinPlain("plan"); }   // Q381: the look back to the mode's default (the layer itself is the engine's to reset)
     if (posture !== "off") { try { tool.applyPosture("rest", "r"); } catch (e) {} posture = "off"; }
     tool.clearSuggestions(); tool.clear(); tool.planRelease();
     try { refresh(); } catch (e2) {}

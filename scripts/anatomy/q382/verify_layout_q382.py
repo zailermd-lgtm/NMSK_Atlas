@@ -57,7 +57,7 @@ def main() -> int:
             ctx.add_init_script(BLOCK)
         pg = ctx.new_page(); pg.on("pageerror", lambda e: perr.append(str(e)))
         pg.goto(f"http://127.0.0.1:{port}/index.html", wait_until="load", timeout=180000)
-        pg.wait_for_function("window.NMSKModes && window.NMSKClinicalTool && window.NMSKMove && NMSKMove.state().on && window.NMSKLayout && NMSKLayout.ready() && window.__poseApi && window.__poseApi.ready()", timeout=180000)
+        pg.wait_for_function("window.NMSKModes && window.NMSKClinicalTool && window.NMSKMove && NMSKMove.state().on && window.NMSKLayout && NMSKLayout.ready()", timeout=180000)
         pg.wait_for_timeout(1200)
         pg.evaluate("() => { const c = document.getElementById('mw-close'); if (c) c.click(); }")
         return ctx, pg
@@ -102,7 +102,7 @@ def main() -> int:
         return r and r["l"] >= -1 and r["t"] >= -1 and r["r"] <= W + 1 and r["b"] <= H + 1
 
     def settings(pg):
-        pg.evaluate("() => window.NMSKInfo.open('settings')"); pg.wait_for_selector("#q382-set", state="visible", timeout=10000)
+        pg.evaluate("() => window.NMSKLayout.open()"); pg.wait_for_selector("#q382-set", state="visible", timeout=10000)
 
     def hist(pg):
         return pg.evaluate("() => { const s = window.NMSKHistory && NMSKHistory.state ? NMSKHistory.state() : null; return s ? [s.idx, s.len] : null; }")
@@ -112,14 +112,17 @@ def main() -> int:
             b = pl.chromium.launch(args=ARGS, executable_path="/opt/pw-browsers/chromium")
             ctx, pg = boot(b)
             check("the layout module and the Settings section are on the page", pg.evaluate("() => NMSKInfo.sections().includes('settings') && !!NMSKLayout.state().ready"))
-            check("the section is reachable from the circled i (a real click)", (pg.click("#qi-corner"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[1] is not None)
-            pg.evaluate("() => NMSKInfo.close()")
+            check("the circled i has the Settings section and its button opens the panel (real clicks)", (pg.click("#qi-corner"), pg.click("#qi-settings > summary"), pg.click("#q382-open"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[3] is not None)
+            pg.evaluate("() => NMSKLayout.close()")
             inj(pg)
+            pg.click("#q382-gear"); pg.wait_for_selector("#q382-set", state="visible", timeout=8000)
+            check("in planning mode (the circled i is hidden) the gear in the mode bar opens Settings", True)
+            pg.evaluate("() => NMSKLayout.close()")
             check("default chip mode is 10 s, not always", pg.evaluate("() => { const p = NMSKPinch.prefs(); return p.secs === 10 && !p.always; }"))
             settings(pg)
             pg.fill("#q382-secs", "2"); pg.dispatch_event("#q382-secs", "change"); pg.wait_for_timeout(200)
             check("the delay is changed through the Settings control", pg.evaluate("() => NMSKPinch.prefs().secs === 2"))
-            pg.evaluate("() => NMSKInfo.close()")
+            pg.evaluate("() => NMSKLayout.close()")
             # ---- chip ----
             zoom(pg)
             c = chip(pg)
@@ -139,9 +142,9 @@ def main() -> int:
             check("and it fades once the pointer leaves", not chip_shown(pg))
             settings(pg); pg.check("#q382-always"); pg.wait_for_timeout(200)
             check("'Always visible' is stored", pg.evaluate("() => NMSKPinch.prefs().always === true"))
-            pg.evaluate("() => NMSKInfo.close()"); zoom(pg, -90); pg.wait_for_timeout(3200)
+            pg.evaluate("() => NMSKLayout.close()"); zoom(pg, -90); pg.wait_for_timeout(3200)
             check("'Always visible' keeps the chip past the delay", chip_shown(pg))
-            settings(pg); pg.check("#q382-timed"); pg.wait_for_timeout(2800); pg.evaluate("() => NMSKInfo.close()")
+            settings(pg); pg.check("#q382-timed"); pg.wait_for_timeout(2800); pg.evaluate("() => NMSKLayout.close()")
             check("back to timed: it fades", not chip_shown(pg))
             zoom(pg, -60); pg.wait_for_timeout(2800)
             check("(hidden again)", not chip_shown(pg))
@@ -151,10 +154,10 @@ def main() -> int:
                 ch = chip(pg)
                 check("phone: a double-tap on empty space returns to 1:1 while the chip is hidden", ch is None or ch["hidden"], ch)
             settings(pg); zoom_before = chip(pg)
-            pg.evaluate("() => NMSKInfo.close()"); zoom(pg, -150); pg.wait_for_timeout(2800); settings(pg); pg.click("#q382-one"); pg.wait_for_timeout(500)
+            pg.evaluate("() => NMSKLayout.close()"); zoom(pg, -150); pg.wait_for_timeout(2800); settings(pg); pg.click("#q382-one"); pg.wait_for_timeout(500)
             ch = chip(pg)
             check("Settings > Zoom 1:1 returns to 1:1 with the chip hidden (mouse way back)", ch is None or ch["hidden"], ch)
-            pg.evaluate("() => NMSKInfo.close()")
+            pg.evaluate("() => NMSKLayout.close()")
             # ---- boxes ----
             if not phone:
                 t = rect(pg, "#mode-main .mc-left .mc-title"); r0 = rect(pg, "#mode-main .mc-left")
@@ -180,27 +183,28 @@ def main() -> int:
                 stored = pg.evaluate("() => { const o = {}; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k.indexOf('nmsk.q305.layout') === 0) o[k] = localStorage.getItem(k); } return o; }")
                 check("the position is saved per box", any('"m-dist"' in v for v in stored.values()), list(stored))
                 pg.reload(wait_until="load", timeout=180000)
-                pg.wait_for_function("window.NMSKModes && window.NMSKMove && NMSKMove.state().on && window.NMSKLayout && NMSKLayout.ready() && window.__poseApi && window.__poseApi.ready()", timeout=180000)
+                pg.wait_for_function("window.NMSKModes && window.NMSKMove && NMSKMove.state().on && window.NMSKLayout && NMSKLayout.ready()", timeout=180000)
                 pg.wait_for_timeout(1200); pg.evaluate("() => { const c = document.getElementById('mw-close'); if (c) c.click(); }"); inj(pg)
                 r4 = rect(pg, "#mode-main .mc-left")
                 check("after a reload the box is where it was left", abs(r4["l"] - r3["l"]) < 3 and abs(r4["t"] - r3["t"]) < 3, [r3["l"], r3["t"], r4["l"], r4["t"]])
-                settings(pg); pg.check("#q382-lock"); pg.evaluate("() => NMSKInfo.close()"); pg.wait_for_timeout(200)
+                settings(pg); pg.check("#q382-lock"); pg.evaluate("() => NMSKLayout.close()"); pg.wait_for_timeout(200)
                 t = rect(pg, "#mode-main .mc-left .mc-title"); drag(pg, t["l"] + 30, t["t"] + t["h"] / 2, 100, 60)
                 r5 = rect(pg, "#mode-main .mc-left")
                 check("Lock panels refuses a drag", abs(r5["l"] - r4["l"]) < 2 and abs(r5["t"] - r4["t"]) < 2)
-                settings(pg); pg.uncheck("#q382-lock"); pg.click("#q382-reset"); pg.wait_for_timeout(600); pg.evaluate("() => NMSKInfo.close()"); pg.wait_for_timeout(500)
+                settings(pg); pg.uncheck("#q382-lock"); pg.click("#q382-reset"); pg.wait_for_timeout(600); pg.evaluate("() => NMSKLayout.close()"); pg.wait_for_timeout(500)
                 r6 = rect(pg, "#mode-main .mc-left")
                 check("Reset layout restores the default place", abs(r6["l"] - r0["l"]) < 2 and abs(r6["t"] - r0["t"]) < 2, [r0["l"], r0["t"], r6["l"], r6["t"]])
                 check("the planning panel drags from its top band too", True)
+                pg.evaluate("() => { const c = document.querySelector('.mc-pick .mc-close'); if (c) c.click(); }"); pg.wait_for_timeout(500)
                 p0 = rect(pg, "#mode-main .mc-right")
-                drag(pg, p0["l"] + p0["w"] / 2, p0["t"] + 14, -120, 50)
+                drag(pg, p0["l"] + p0["w"] / 2, p0["t"] + 6, -120, 50)
                 p1 = rect(pg, "#mode-main .mc-right")
                 check("the planning panel moves by its top band", abs((p1["l"] - p0["l"]) + 120) < 6, [p0["l"], p1["l"]])
                 if dock:
                     d0 = rect(pg, "#mode-pills"); drag(pg, d0["l"] + 5, d0["t"] + d0["h"] / 2, -80, -60)
                     d1 = rect(pg, "#mode-pills")
                     check("the bottom dock drags by its edge", abs((d1["l"] - d0["l"]) + 80) < 6 and inside(d1), [d0["l"], d1["l"]])
-                settings(pg); pg.click("#q382-reset"); pg.evaluate("() => NMSKInfo.close()")
+                settings(pg); pg.click("#q382-reset"); pg.evaluate("() => NMSKLayout.close()")
             else:
                 for s in (".mc-left", ".mc-right"):
                     check(f"phone: {s} is a docked sheet and stays where the page puts it",

@@ -286,6 +286,7 @@ def run(page_dir: Path, errs: list):
                     tap(pg, '.mw-tile[data-mode="us"]', phone); pg.wait_for_timeout(1200)
                     check(f"{tag}: 'US אבחנתי' mode entered by a tap on its tile", pg.evaluate("() => document.body.classList.contains('mode-us')"), errs)
                     pg.evaluate(f"() => {U}.idle()")
+                    pg.evaluate("() => { const m = window.NMSKUltrasound.menu; if (m) m.open('cine'); const b = document.querySelector('.mm-bar .mm-tog[aria-label]'); if (b) b.scrollIntoView({block: 'center'}); }"); pg.wait_for_timeout(250)   # Q383: the CINE bar is a group of the scan menu
                     tap(pg, ".mm-bar .mm-tog[aria-expanded]", phone); pg.wait_for_timeout(300)
                     check(f"{tag}: one tap on 'תנועה' opens the short list of 5 motion types", pg.evaluate("() => { const p = document.querySelector('.mm-mopop'); return !p.hidden && p.querySelectorAll('[data-mo]').length === 5; }"), errs)
                     section_A_to_D(pg, phone, errs, ".mm-mopop", tag, model_sel)

@@ -132,11 +132,11 @@
       tex: new Uint8Array(n), aOn: new Uint8Array(n), aTh: new Float32Array(n), aFl: new Float32Array(n), aMin: new Float32Array(n), logz: new Float32Array(n),
       gel: US.global.gel, g: US.global, missing: [], keys: [], tex_p: US.textures, art: US.artefacts
     };
-    var bs0 = US.global.bs0, fb = US.classes.soft_unassigned;
+    var bs0 = US.global.bs0, fb = US.classes.soft_unassigned, sds = US.global.soft_diffuse_scale;
     C.T.classes.forEach(function (cl, i) {
       var r = US.classes[cl.key]; if (!r) { r = fb; A.missing.push(cl.key); }
       A.keys[i] = cl.key; A.z[i] = r.z; A.alpha[i] = r.alpha; A.bs[i] = bs0 * Math.pow(10, r.bs_db / 10); A.speck[i] = r.speck;
-      A.sig[i] = r.spec_sigma_deg * DEG; A.diff[i] = r.diffuse; A.logz[i] = Math.log(r.z);
+      A.sig[i] = r.spec_sigma_deg * DEG; A.diff[i] = r.diffuse * (sds != null && r.z > 0.5 && r.z < 2.5 ? sds : 1); A.logz[i] = Math.log(r.z);   // Q383: soft-tissue interfaces are smooth sheets (see global.soft_diffuse_scale)
       A.tex[i] = r.texture === "muscle" ? 1 : r.texture === "tendon" ? 2 : r.texture === "nerve" ? 3 : r.texture === "fat" ? 4 : 0;
       if (r.aniso) { A.aOn[i] = 1; A.aTh[i] = r.aniso.theta_deg * DEG; A.aFl[i] = r.aniso.floor; A.aMin[i] = r.aniso.min_elong; }
     });
@@ -150,7 +150,7 @@
     if (shT && shT.classes) {
       var zc = US.classes[shT.collagen_class || "tendon_ligament"].z;
       C.T.classes.forEach(function (cl, i) { if (shT.classes.indexOf(cl.key) >= 0 && US.classes[cl.key]) { var rr = (zc - US.classes[cl.key].z) / (zc + US.classes[cl.key].z); A.shR[i] = 2 * rr * rr; A.shOn = 1; } });
-      A.shSig = (shT.spec_sigma_deg || 18) * DEG; A.shDiff = shT.diffuse == null ? 0.2 : shT.diffuse; A.shGapMm = shT.min_gap_mm || 0.4; A.shMaxR = shT.max_class_r == null ? 0.05 : shT.max_class_r;
+      A.shSig = (shT.spec_sigma_deg || 18) * DEG; A.shDiff = shT.diffuse == null ? 0.2 : shT.diffuse; A.shGapMm = shT.min_gap_mm || 0.4; A.shRough = shT.rough == null ? 0 : shT.rough; A.shMaxR = shT.max_class_r == null ? 0.05 : shT.max_class_r;
     }
     /* Q317: an instrument is not a tissue and is not in C.T.classes, so it takes one of the ids those leave
        free (0-32 are the tissues, 255 is the gel) and is filled here by hand from the table's own block. */
@@ -185,14 +185,14 @@
     I *= nn; Q *= nn;
     return (I * I + Q * Q) * 0.5;
   }
-  var WF1 = 0, WF2 = 0, WNX = 0, WNY = 0, WNZ = 0;
+  var WF1 = 0, WF2 = 0, WNX = 0, WNY = 0, WNZ = 0, WW = 1;                   // WW: a weight 0..1 of the wall itself (the same from both of its sides)
   function worley(cx, cy, seed) {                                           // F1, F2 (cell units) of a jittered 2-D grid; (WNX, WNY) = from the nearest feature point to the second = the normal of the wall between them
-    var ix = Math.floor(cx), iy = Math.floor(cy), f1 = 9, f2 = 9, i, j, x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+    var ix = Math.floor(cx), iy = Math.floor(cy), f1 = 9, f2 = 9, i, j, x1 = 0, y1 = 0, x2 = 0, y2 = 0, h1 = 0, h2 = 0;
     for (j = -1; j <= 1; j++) for (i = -1; i <= 1; i++) {
       var h = hash3(ix + i, iy + j, 17, seed), fx = ix + i + (h & 1023) / 1023, fy = iy + j + ((h >>> 10) & 1023) / 1023, d = Math.hypot(cx - fx, cy - fy);
-      if (d < f1) { f2 = f1; x2 = x1; y2 = y1; f1 = d; x1 = fx; y1 = fy; } else if (d < f2) { f2 = d; x2 = fx; y2 = fy; }
+      if (d < f1) { f2 = f1; x2 = x1; y2 = y1; h2 = h1; f1 = d; x1 = fx; y1 = fy; h1 = h; } else if (d < f2) { f2 = d; x2 = fx; y2 = fy; h2 = h; }
     }
-    WF1 = f1; WF2 = f2; WNX = x2 - x1; WNY = y2 - y1;
+    WF1 = f1; WF2 = f2; WNX = x2 - x1; WNY = y2 - y1; WW = (((h1 >>> 20) + (h2 >>> 20)) & 1023) / 1023;
   }
   function worley3(cx, cy, cz, seed) {                                      // the same in 3-D (27 cells): F1, F2 and the wall normal (WNX, WNY, WNZ), cell units
     var ix = Math.floor(cx), iy = Math.floor(cy), iz = Math.floor(cz), f1 = 9, f2 = 9, i, j, k, x1 = 0, y1 = 0, z1 = 0, x2 = 0, y2 = 0, z2 = 0;
@@ -279,8 +279,26 @@
      * the display raster cannot show a finer grain anyway (the same floor latCell already has laterally, 0.4 mm). */
     var cellAx = Math.max(GL.speckle.cell_ax_wavelengths * lam, 2 * ds), cellZ = GL.speckle.elev_mm, elev = o.elevMm || 0, frame = o.frame, nStats = {specCount: 0, lost: 0, texSamples: 0, archSamples: 0, sepSamples: 0};
     var latCell = new Float32Array(nS), ref = o.ref || null;
-    var shOn = !!(AC.shOn && sid && o.sheath !== false && tex);
+    var shOn = !!(AC.shOn && sid && o.sheath !== false && tex), winN = GL.interface_window !== false && !!GL.beam;
     nStats.sheath = 0; nStats.fatSamples = 0;
+    /* Q383: the direction of an interface at a raster pixel, from the shape of the entered region in the 7 x 7 window around it: the
+       region's long axis (second moments of its pixels) runs ALONG the interface, whether the region is a half plane or a layer one
+       pixel thin. The gradient of the smoothed impedance (Q228) vanishes inside a thin layer -- the fat-filled gap between two muscle
+       meshes -- and such a layer then echoed at full strength at any angle; for a class interface the window is therefore used for
+       thin layers only (thinOnly), the gradient everywhere else. -> |cos| of the angle between the beam and the normal, or -1 */
+    function winCos(arr, pix0, val, val2, bx, by, thinOnly) {                   // the smaller of the two regions (entered / left) is the one with a shape
+      var n0 = 0, mx = 0, my = 0, sxx = 0, syy = 0, sxy = 0, i2, j2, na = 0, nb = 0;
+      for (j2 = -3; j2 <= 3; j2++) for (i2 = -3; i2 <= 3; i2++) { var w0 = arr[pix0 + j2 * W + i2]; if (w0 === val) na++; else if (w0 === val2) nb++; }
+      if (nb >= 4 && nb < na) val = val2;
+      for (j2 = -3; j2 <= 3; j2++) for (i2 = -3; i2 <= 3; i2++) if (arr[pix0 + j2 * W + i2] === val) { n0++; mx += i2; my += j2; sxx += i2 * i2; syy += j2 * j2; sxy += i2 * j2; }
+      if (n0 < 4 || n0 > 45) return -1;
+      mx /= n0; my /= n0; sxx = sxx / n0 - mx * mx; syy = syy / n0 - my * my; sxy = sxy / n0 - mx * my;
+      var tr = sxx + syy, dq = Math.sqrt((sxx - syy) * (sxx - syy) + 4 * sxy * sxy), l1 = (tr + dq) / 2, l2 = (tr - dq) / 2;
+      if (!(l1 > 1.35 * l2 + 0.05)) return -1;                                 // no clear long axis (a corner, a blob)
+      if (thinOnly && l2 > 0.6) return -1;                                     // a thick region on both sides: the impedance gradient is the better normal there
+      var a2 = 0.5 * Math.atan2(2 * sxy, sxx - syy);                           // the long axis; the normal is across it
+      return Math.abs(-Math.sin(a2) * bx + Math.cos(a2) * by);
+    }
     function shCls(a, b) { var r0 = (AC.z[a] - AC.z[b]) / (AC.z[a] + AC.z[b]); return r0 * r0 <= AC.shMaxR; }   // not at bone, gas or the gel: their own echo is the interface
     /* Q383: fat lobules -- a frame fixed in the body: the depth direction of the probe's reference frame and two tangents that do not turn with the probe */
     var fN = ref ? ref.b : frame ? frame.b : [0, 0, 1], fT1 = unit(cross(fN, Math.abs(fN[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0])), fT2 = cross(fN, fT1);
@@ -323,11 +341,9 @@
           if (R > 1e-5) {
             var ang = 1, sg = cls === GEL ? 0.4 : Math.max(AC.sig[cls === GEL ? prevCls : cls], prevCls === GEL ? 0 : AC.sig[prevCls]), df = cls === GEL ? 0.25 : Math.max(AC.diff[cls], prevCls === GEL ? 0 : AC.diff[prevCls]);
             if (pix >= 0 && jx > 0 && jy > 0 && jx < W - 1 && jy < H - 1) {
-              var gx = ZS[pix + 1] - ZS[pix - 1], gy = ZS[pix + W] - ZS[pix - W], gl = Math.hypot(gx, gy);
-              if (gl > 1e-7) {
-                var cs = Math.abs(dx * gx + dy * gy) / gl, th = Math.acos(Math.min(1, cs));
-                ang = df + (1 - df) * Math.exp(-th * th / (2 * sg * sg));
-              }
+              var cs = winN && cls !== GEL && jx >= 3 && jy >= 3 && jx < W - 3 && jy < H - 3 ? winCos(lab, pix, cls, prevCls, dx, dy, true) : -1;
+              if (cs < 0) { var gx = ZS[pix + 1] - ZS[pix - 1], gy = ZS[pix + W] - ZS[pix - W], gl = Math.hypot(gx, gy); if (gl > 1e-7) cs = Math.abs(dx * gx + dy * gy) / gl; }
+              if (cs >= 0) { var th = Math.acos(Math.min(1, cs)); ang = df + (1 - df) * Math.exp(-th * th / (2 * sg * sg)); }
             }
             var sp = T * T * R * ang;
             if (k > 0 && fq < 1) P[(k - 1) * nL + L] += sp * (1 - fq);
@@ -346,13 +362,14 @@
               var Rs = Math.max(AC.shR[cls], prevQc === GEL ? 0 : AC.shR[prevQc]);
               if (Rs > 0 && (cls === prevQc || shCls(cls, prevQc))) {
                 var an2 = 1, wx2 = 0, wy2 = 0, ii, jj;
-                if (jx >= 3 && jy >= 3 && jx < W - 3 && jy < H - 3) {             // the boundary's normal from the structure raster around the crossing
-                  for (jj = -3; jj <= 3; jj++) for (ii = -3; ii <= 3; ii++) { var qq2 = sid[pix + jj * W + ii]; if (qq2 === qn) { wx2 += ii; wy2 += jj; } else if (qq2 === prevQ) { wx2 -= ii; wy2 -= jj; } }
-                  var wl = Math.hypot(wx2, wy2);
-                  if (wl > 1e-6) { var cs2 = Math.abs(dx * wx2 + dy * wy2) / wl, th3 = Math.acos(Math.min(1, cs2)); an2 = AC.shDiff + (1 - AC.shDiff) * Math.exp(-th3 * th3 / (2 * AC.shSig * AC.shSig)); }
+                if (jx >= 3 && jy >= 3 && jx < W - 3 && jy < H - 3) {             // the boundary's direction from the structure raster around the crossing
+                  var cs2 = winCos(sid, pix, qn, prevQ, dx, dy);
+                  if (cs2 < 0) { for (jj = -3; jj <= 3; jj++) for (ii = -3; ii <= 3; ii++) { var qq2 = sid[pix + jj * W + ii]; if (qq2 === qn) { wx2 += ii; wy2 += jj; } else if (qq2 === prevQ) { wx2 -= ii; wy2 -= jj; } } var wl = Math.hypot(wx2, wy2); if (wl > 1e-6) cs2 = Math.abs(dx * wx2 + dy * wy2) / wl; }
+                  if (cs2 >= 0) { var th3 = Math.acos(Math.min(1, cs2)); an2 = AC.shDiff + (1 - AC.shDiff) * Math.exp(-th3 * th3 / (2 * AC.shSig * AC.shSig)); }
                 }
+                if (spk && AC.shRough > 0) an2 *= 1 - AC.shRough + AC.shRough * (ref && frame ? speckleE((frame.O[0] + frame.u[0] * X + frame.b[0] * Y - ref.O[0]) * 0.83, (frame.O[1] + frame.u[1] * X + frame.b[1] * Y - ref.O[1]) * 0.83, (frame.O[2] + frame.u[2] * X + frame.b[2] * Y - ref.O[2]) * 0.83, seed + 7) : speckleE(X / 1.2, Y / 1.2, 0, seed + 7));   // a sheath is not a mirror: its echo is grainy along its length (1.2 mm cells fixed in the body)
                 var sp2 = T * T * Rs * an2;
-                P[(k - 1) * nL + L] += sp2 * 0.5; P[k * nL + L] += sp2 * 0.5; nStats.sheath++;
+                P[k * nL + L] += sp2; nStats.sheath++;
                 T *= (1 - Rs); lastSh = s;
               }
             }
@@ -377,11 +394,12 @@
                   var cell = AC.tex[cls] === 2 ? tp1.fib_mm * 5 : tp1.cell_mm, lw = AC.tex[cls] === 2 ? tp1.fib_mm * 0.5 : tp1.line_mm;
                   worley((wx * e1[0] + wy * e1[1] + wz * e1[2]) / cell, (wx * e2[0] + wy * e2[1] + wz * e2[2]) / cell, 5);
                   var dd = (WF2 - WF1) * cell / lw, wg = Math.exp(-dd * dd);
+                  if (tp1.wall_keep != null) { var kw = (WW - (1 - tp1.wall_keep)) / tp1.wall_keep; wg *= kw <= 0 ? tp1.wall_faint : tp1.wall_faint + (1 - tp1.wall_faint) * kw; }   // Q383: not every septum is equally thick: a share of the walls (wall_keep) carries the bright lines, the rest stays faint
                   if (wg > 0.02 && tp1.wall_sigma_deg && bd) {                       // Q383: a septum is a sheet, a specular reflector: bright where the beam meets it square, faint where it runs along the beam
                     var nl2 = Math.hypot(WNX, WNY) || 1, nx2 = WNX / nl2, ny2 = WNY / nl2, cw = Math.abs(bd[0] * (e1[0] * nx2 + e2[0] * ny2) + bd[1] * (e1[1] * nx2 + e2[1] * ny2) + bd[2] * (e1[2] * nx2 + e2[2] * ny2));
                     var tw = Math.acos(cw > 1 ? 1 : cw), sw = tp1.wall_sigma_deg * DEG; wg *= tp1.wall_diffuse + (1 - tp1.wall_diffuse) * Math.exp(-tw * tw / (2 * sw * sw));
                   }
-                  m *= 1 + tp1.gain * wg; nStats.texSamples++;
+                  m *= (tp1.base || 1) * (1 + tp1.gain * wg); nStats.texSamples++;
                 }
               }
             }
@@ -3134,9 +3152,10 @@
       if (!US) { box.appendChild(el("p", {text: loadErr ? "Acoustic table not loaded: " + loadErr : "Loading acoustic table ..."})); return; }
       box.appendChild(el("h3", {text: "What you are looking at"}));
       box.appendChild(el("p", {html: "<b>A simulation computed from this viewer's segmented anatomical meshes – not an ultrasound.</b> The image plane of the virtual probe is intersected with every mesh (the Imaging mode's kernel); each pixel gets a tissue class, and a B-mode image is built along straight beam lines from the acoustic table below. It teaches where structures lie and how the probe movements (tilt, rock, fan, sweep) change the view; it must never be used to judge a patient or a scan."}));
-      var how = ["Per beam line: at every change of tissue class the reflected fraction is R = ((Z2 − Z1)/(Z2 + Z1))² times an angle factor exp(−θ²/2σ²) (θ = angle between the beam and the interface normal estimated from the smoothed impedance field; a diffuse floor for rough interfaces) and the transmitted intensity is multiplied by (1 − R).",
+      var how = ["Lines between structures (rule-based, Q383): wherever a beam passes from one muscle, nerve or vessel mesh into another structure, a thin bright echo stands for its connective-tissue sheath (epimysium, epineurium, vessel wall) – brightest where the beam meets the boundary square, fading where the boundary runs along the beam. The boundary is the mesh's own; the sheath's strength comes from the table's collagen impedance. Muscle septa and fat lobules are synthetic textures: the fibre direction and pennation are documented, the position of each single line is not.",
+        "Per beam line: at every change of tissue class the reflected fraction is R = ((Z2 − Z1)/(Z2 + Z1))² times an angle factor exp(−θ²/2σ²) (θ = angle between the beam and the interface normal estimated from the smoothed impedance field; a diffuse floor for rough interfaces) and the transmitted intensity is multiplied by (1 − R).",
         "Inside a class: attenuation α f L (dB, α in dB/cm/MHz) and class backscatter (liver = 0 dB; relative echogenicity is qualitative) times two-way transmission; time-gain compensation assumes a nominal " + US.global.tgc_alpha_ref_db_cm_mhz + " dB/cm/MHz, so fluid (low attenuation) shows posterior enhancement and bone / lung / air show shadows – no separate switches.",
-        "Resolution: axial ~ 1.25 wavelengths; lateral = 1.2 λ F/D at the focus and growing away from it. Frequency 1–18 MHz in whole-MHz steps (−/+): it changes attenuation, wavelength (1.54 mm at 1 MHz, 0.086 mm at 18 MHz) and therefore both. Each probe shows a typical band as a hint, not a limit (linear 4–18, convex 1–6, sector 1–5 MHz; sources in the table file); outside it a short note appears. At high frequency the far field darkens (0.6 dB/cm/MHz each way) – that is the physics, not a bug. Detail finer than the image raster cannot be shown: the axial speckle grain is held at two sample steps once 1.4 λ is shorter than that.",
+        "Resolution: axial ~ 1.25 wavelengths; lateral = that of an array (dynamic receive focus: 1.2 λ × F-number at every depth, never finer than 2.5 λ + 0.2 mm; the transmit focus matters little). Frequency 1–18 MHz in whole-MHz steps (−/+): it changes attenuation, wavelength (1.54 mm at 1 MHz, 0.086 mm at 18 MHz) and therefore both. Each probe shows a typical band as a hint, not a limit (linear 4–18, convex 1–6, sector 1–5 MHz; sources in the table file); outside it a short note appears. The gain follows the tissue with depth (a convention: what an examiner sets on the TGC sliders), up to 90 dB of round-trip loss; past that the far field darkens at high frequency – that is the physics, not a bug. Detail finer than the image raster cannot be shown: the axial speckle grain is held at two sample steps once 1.4 λ is shorter than that.",
         "Geometry: linear = parallel lines; convex = fan from a centre 60 mm behind the face; sector = fan from the footprint (90°). The beam axis is the smoothed skin normal (area-weighted over 15 mm); the probe is seated on the skin at its centre; air between the face and the skin is coupling gel up to 12 mm.",
         "Orientation: the marker is on the screen LEFT (and the dot on the probe). Longitudinal: marker cranial (screen left = cranial). Transverse: marker to the patient's right (screen left = patient right, the CT convention). Depth scale in cm on the right edge, footprint at the top.",
         "Tilt = the probe handle leans by the stated angle (rigid rotation about the contact point). 'Away / toward marker' = rocking inside the image plane; 'heel / toe' = fanning (the plane swings sideways). Which heel/toe side faces the examiner depends on where the examiner stands.",
@@ -3208,6 +3227,7 @@
       } else {
         if (fs.on) setFs(false);                                           // Q289
         S.open = false; setCine(false); S.placing = false; S.pick3d = false; gen++; applyLayout(); clearOverlay();
+        histPose = null; histBase = null;                                  // Q383: a new session of hand moves starts when the tool opens again
         if (ui.btn) ui.btn.setAttribute("aria-pressed", "false");
       }
     }
@@ -3257,6 +3277,27 @@
       ".mm-mopop .us-mo button[aria-pressed=true]{background:#2B6CB0;border-color:#2B6CB0;color:#fff}",
       ".mm-mopop .us-mo button:disabled{opacity:.45}",
       ".mm-mopop .us-mo output,.mm-mopop .us-mo label{color:#4A5568}",
+      /* Q383: the ONE central menu of the scan workspace -- collapsible groups in a scrolling card under the 3-D view */
+      ".us-menu{padding:10px 12px!important;gap:8px!important;overflow-y:auto;min-height:0;flex:1 1 auto;direction:rtl;font-family:Heebo,system-ui,sans-serif}",
+      ".us-menu-h{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:#20242B;padding:2px 4px}",
+      ".us-menu-h span{font-weight:400;font-size:12px;color:#4A5568;margin-inline-start:auto}",
+      ".us-mg{border:1px solid #E4E1D8;border-radius:12px;background:#fff;flex:0 0 auto}",
+      ".us-mg>summary{list-style:none;cursor:pointer;min-height:44px;padding:0 12px;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:#20242B;border-radius:12px;user-select:none}",
+      ".us-mg>summary::-webkit-details-marker{display:none}",
+      ".us-mg>summary::after{content:'\\25BE';color:#4A5568;margin-inline-start:auto;font-size:15px}",
+      ".us-mg[open]>summary::after{content:'\\25B4'}",
+      ".us-mg>summary:focus-visible{outline:2px solid #2B6CB0;outline-offset:1px}",
+      ".us-mg-b{padding:2px 12px 12px;display:flex;flex-direction:column;gap:10px}",
+      "#us-menu .us-mg-b .mm-bar{height:auto;flex:0 0 auto;flex-wrap:wrap;padding:0;border:0;border-radius:0;gap:8px;background:transparent}",
+      "#us-menu .us-mg-b .mm-bar input[type=range]{flex:1 1 100%;min-height:28px}",
+      "#us-menu .us-mg-b .mm-bar .mm-tog,#us-menu .us-mg-b .us-chips .mm-tog{margin:0;height:40px}",
+      "#us-menu .us-mg-b .mm-bar .mm-tog.m-hide,#us-menu .us-mg-b .mm-bar .lb.fr,#us-menu .us-mg-b .m-hide{display:inline-flex}",
+      "#us-menu .us-mg-b .mc-row.m-hide{display:flex;gap:8px}",
+      "#us-menu .us-mg-b .mm-sl.m-hide{display:flex}",
+      "#us-menu .us-mg-b .us-chips{display:flex;flex-wrap:wrap;gap:8px}",
+      "#us-menu .us-mg-b .mm-note{white-space:normal;margin:0}",
+      "#us-menu .us-mg-b .mm-mopop{margin-top:0}",
+      "body.mode-us #us-root .ms-pane-b{display:none}",                    /* the ruler of every image tile: one entry in the menu instead (group "layers") */
       "body.mode-cmp #us-root .us-head,body.mode-cmp #us-root #us-div,body.mode-cmp #us-root .us-ctl,body.mode-cmp #us-root .us-diag,body.mode-cmp #us-root .us-hint,body.mode-cmp #us-root .us-info,body.mode-cmp #us-root>.us-status,body.mode-cmp #us-root .us-wizard,body.mode-cmp #us-root .us-read{display:none!important}",
       "body.mode-cmp #us-root{border:0!important}"
     ].join("\n");
@@ -3266,10 +3307,10 @@
       function svg(d, w) { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", w || 18); s.setAttribute("height", w || 18); s.setAttribute("aria-hidden", "true"); s.innerHTML = d; return s; }
       function playIcon() { return svg('<path d="M7 5l12 7-12 7z" fill="currentColor"/>'); }
       function pauseIcon() { return svg('<path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/>'); }
-      function chipSet(container, mobile) {
+      function chipSet(container, mobile, cls) {
         PRESETS.forEach(function (d) {
           var label = mobile ? {tear: "קרע שריר", entrap: "entrapment", tendon: "גיד / רצועה", joint: "מפרק"}[d.key] : {tear: "קרע שריר", entrap: "entrapment עצבי", tendon: "גיד / רצועה", joint: "מפרק / בורסה"}[d.key];
-          var b = h("button", {type: "button", class: (mobile ? "mm-tog" : "mb-tog") + " mi", "data-preset": d.key, "aria-pressed": "false", text: label, onclick: function () { choosePreset(d.key); }});
+          var b = h("button", {type: "button", class: (cls || (mobile ? "mm-tog" : "mb-tog")) + " mi", "data-preset": d.key, "aria-pressed": "false", text: label, onclick: function () { choosePreset(d.key); }});
           container.appendChild(b);
         });
       }
@@ -3309,10 +3350,13 @@
       function build(c) {
         ctx = c;
         if (!document.getElementById("us-mode-css")) { var st = document.createElement("style"); st.id = "us-mode-css"; st.textContent = usModeCss; document.head.appendChild(st); }
-        c.bar.chips.appendChild(h("span", {class: "mb-dim", text: "חשד:"}));
-        chipSet(c.bar.chips, false);
+        /* Q383 (owner: "the screen must be simplified while keeping all options, as scrolling menus or menus opening from a more central
+           menu"): the image and the transducer control (the 3-D view with its pad) are the screen; EVERYTHING else -- the suspicion
+           presets and "save image" that sat in the top bar, the CINE bar under the image, the settings card -- is one menu of
+           collapsible groups in a scrolling card (#us-menu). Every control is the same element with the same handler as before, only
+           re-parented; nothing was removed and no default changed. Only the first group (depth / frequency / gain) starts open. */
         ui2.mobText = h("div", {class: "mb-text mi", text: ""}); c.bar.chips.appendChild(ui2.mobText);
-        c.bar.end.insertBefore(h("button", {type: "button", class: "mb-btn mi", text: "שמור תמונה", onclick: savePng}), c.bar.end.firstChild);
+        ui2.save = h("button", {type: "button", class: "mm-sec mi", text: "שמור תמונה", onclick: savePng});
         /* main: hero + cine bar | side column */
         ui2.heroSlot = h("div", {class: "mslot"});
         ui2.chip = h("div", {class: "mm-chip", text: ""});
@@ -3334,12 +3378,12 @@
         ui2.moPop = h("div", {class: "mm-mopop mi", hidden: true}, [motionSheet({open: false})]);
         ui2.moBtn = h("button", {type: "button", class: "mm-tog", "aria-expanded": "false", "aria-pressed": "false", text: "תנועה ▾", onclick: function () { ui2.moPop.hidden = !ui2.moPop.hidden; ui2.moBtn.setAttribute("aria-expanded", String(!ui2.moPop.hidden)); }});
         ui2.fsBtn = h("button", {type: "button", class: "mm-tog", title: "מסך מלא: תלת-ממד | אולטרסאונד (יציאה: ✕ או Esc)", "aria-label": "מסך מלא", text: "⛶", onclick: function () { setFs(true); }});
-        var cine = h("div", {class: "mm-bar mi"}, [ui2.play, h("label", {class: "lb", text: "CINE"}), ui2.moBtn, ui2.fsBtn, ui2.scrub, ui2.frame, ui2.cont, ui2.step, ui2.thick, ui2.note]);
-        ui2.chipsM = h("div", {class: "mm-chips-m"}); chipSet(ui2.chipsM, true);
-        var col = h("div", {class: "mm-col"}, [hero, cine, ui2.moPop, ui2.chipsM]);
+        var cine = h("div", {class: "mm-bar mi"}, [ui2.play, h("label", {class: "lb", text: "CINE"}), ui2.moBtn, ui2.fsBtn, ui2.scrub, ui2.frame, ui2.cont, ui2.step]);
+        ui2.chipsBox = h("div", {class: "us-chips"}); chipSet(ui2.chipsBox, false, "mm-tog");
+        var col = h("div", {class: "mm-col"}, [hero]);
         /* side column */
         ui2.thumbSlot = h("div", {class: "mslot"});
-        var thumb = h("div", {class: "mm-thumb"}, [ui2.thumbSlot, h("div", {class: "mm-cap mi", text: "גרור את המתמר כדי להזיז אותו על העור · הקשה על העור מציבה אותו"})]);
+        var thumb = h("div", {class: "mm-thumb"}, [ui2.thumbSlot, h("div", {class: "mm-cap mi", text: "גרור את המתמר על העור · הקשה מציבה אותו"})]);
         function sl(label, min, max, step, fmtv, get, set) {
           var out = h("span", {text: ""}), inp = h("input", {type: "range", min: String(min), max: String(max), step: String(step), "aria-label": label, oninput: function () { set(+this.value); refreshUi(); }});
           var box = h("div", {class: "mm-sl"}, [h("div", {class: "hd"}, [h("label", {}, [h("b", {text: label})]), out]), inp]);
@@ -3356,8 +3400,21 @@
         var orRow = h("div", {class: "mc-row m-hide"}, [ui2.orL, ui2.orT, ui2.rot]);
         ui2.ab = h("button", {type: "button", class: "mm-primary", "aria-pressed": "false", text: "השווה לצד הנגדי (A/B)", onclick: function () { setAb(!S.ab); refreshUi(); }});
         ui2.adv = h("button", {type: "button", class: "mm-sec", "aria-pressed": "false", text: "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)", onclick: function () { ui.ctlBtn.click(); refreshUi(); }});
-        var row2 = h("div", {class: "mm-row2"}, [ui2.ab, ui2.adv]);
-        var card = h("div", {class: "mm-card mi"}, [ui2.depth, ui2.freq, ui2.gain, orRow, row2]);
+        ui2.measure = h("button", {type: "button", class: "mm-sec", text: "מדידה על התמונה (מרחק, זוויות)", onclick: function () { var v = views[S.sel] || views[0], b = v && v.wrap ? v.wrap.querySelector(".ms-pane-b") : null; if (b) b.click(); else toast("אין עדיין תמונה למדידה"); }});
+        ui2.groups = {};
+        function grp(key, title, kids, open) {
+          var d = h("details", {class: "us-mg", "data-g": key}, [h("summary", {text: title}), h("div", {class: "us-mg-b"}, kids)]);
+          if (open) d.open = true;
+          ui2.groups[key] = d; return d;
+        }
+        var card = h("div", {class: "mm-card mi us-menu", id: "us-menu", role: "group", "aria-label": "תפריט הסריקה"}, [
+          h("div", {class: "us-menu-h"}, [h("b", {text: "תפריט הסריקה"}), h("span", {text: "הקש על כותרת לפתיחה"})]),
+          grp("image", "תמונה: עומק · תדר · הגבר", [ui2.depth, ui2.freq, ui2.gain], true),
+          grp("probe", "כיוון המתמר", [orRow]),
+          grp("proto", "חשד קליני והשוואת צדדים", [ui2.chipsBox, ui2.ab, ui2.note]),
+          grp("cine", "CINE ותנועה", [cine, ui2.moPop]),
+          grp("layers", "שכבות ומדידה", [ui2.thick, ui2.measure]),
+          grp("more", "שמירה והגדרות מתקדמות", [ui2.save, ui2.adv])]);
         var side = h("div", {class: "mm-side"}, [thumb, card]);
         c.main.appendChild(h("div", {class: "mm-fill"}, [col, side]));
         c.dock(root, ui2.heroSlot, 81);
@@ -3497,6 +3554,12 @@
       probeTarget: function (slot) { var L = drawnProbes(), d = L.filter(function (q) { return q.slot === (slot || "A"); })[0] || L[0], o = d && probeOutline(d); return o ? {hull: o.hull, tip: o.tip, w: o.w, h: o.h, contact: contactOf(d), slot: d.slot} : null; },
       probeHit: function (x, y, touch) { return probeHit(x, y, !!touch); },
       histSeat: function () { return {pose: histPose, base: histBase}; },
+      /* Q383: the scan workspace's central menu (#us-menu): open / close a group by key, list the groups */
+      menu: {
+        open: function (k) { var d = document.querySelector('#us-menu details[data-g="' + k + '"]'); if (d) d.open = true; return !!d; },
+        close: function (k) { var d = document.querySelector('#us-menu details[data-g="' + k + '"]'); if (d) d.open = false; return !!d; },
+        groups: function () { return Array.prototype.map.call(document.querySelectorAll("#us-menu details[data-g]"), function (d) { return {key: d.getAttribute("data-g"), open: d.open, title: d.querySelector("summary").textContent, n: d.querySelectorAll("button, input, select").length}; }); }
+      },
       skinAt: function (x, y) { var r = api.ray({clientX: x, clientY: y}), h = r && LIB.skinHit(geo, r.o, LIB.unit(r.d), cutKeep()); return h ? h.point : null; },
       handles: function () { placeHandles(); var h = document.getElementById("us-hdl"), tip = probeTip(), grip = probeGrip(); return {shown: !!h && !h.hidden, tip: tip, grip: grip, tilt: S.mTilt, dir: S.mTiltDir, rot: S.rot, dragging: drag.on, moves: drag.moved}; },
       bundles: function (re) {

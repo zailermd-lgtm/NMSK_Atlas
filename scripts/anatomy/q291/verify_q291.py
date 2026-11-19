@@ -150,6 +150,7 @@ def run(page_dir: Path, errs: list, results: dict):
                     check(f"{tag} D: the card shows {s['label']} (slider {s['rng']})", s["label"] == "10 MHz" and s["rng"] == 10, errs)
                     results[f"{tag} card"] = sweep(pg, "card", phone, errs, f"{tag} D", True)
                     # E: full-screen CINE sheet
+                    pg.evaluate("() => { const m = window.NMSKUltrasound.menu; if (m) m.open('cine'); const b = document.querySelector('.mm-bar .mm-tog[aria-label]'); if (b) b.scrollIntoView({block: 'center'}); }"); pg.wait_for_timeout(250)   # Q383: the CINE bar is a group of the scan menu
                     V.tap(pg, ".mm-bar .mm-tog[aria-label]", phone); pg.wait_for_timeout(1500)
                     pg.wait_for_function(f"() => {U}.fsState().on && {U}.motionState().active", timeout=STEP_T)
                     V.tap(pg, ".fs-more", phone); pg.wait_for_timeout(400)

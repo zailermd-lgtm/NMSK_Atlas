@@ -774,6 +774,7 @@ def run(page_dir: Path, errs: list):
                             if "J" in parts and pg.evaluate("() => !!document.querySelector('.mm-bar .mm-tog[aria-label]')"):
                                 try:                                               # the clean full-screen split from the US mode (one tap): the big 3-D half
                                     pg.evaluate("() => window.NMSKUltrasound.set({cine: false})")
+                                    pg.evaluate("() => { const m = window.NMSKUltrasound.menu; if (m) m.open('cine'); const b = document.querySelector('.mm-bar .mm-tog[aria-label]'); if (b) b.scrollIntoView({block: 'center'}); }"); pg.wait_for_timeout(250)   # Q383: the CINE bar is a group of the scan menu
                                     tap(pg, ".mm-bar .mm-tog[aria-label]", phone)
                                     pg.wait_for_function("() => document.body.classList.contains('us-fs')", timeout=T); pg.wait_for_timeout(1500)
                                     pg.evaluate("() => { const U = window.NMSKUltrasound; U.set({cine: false}); return U.idle(); }")
