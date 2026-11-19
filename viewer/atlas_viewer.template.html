@@ -1418,7 +1418,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- PINCH html begin -->
 <style>
-/* Q290: the zoom chip -- shown only while a surface is zoomed; a tap returns it to 1:1 (double-tap on empty space does the same) */
+/* Q290: the zoom chip -- shown for a few seconds on each zoom change (Q382); a tap returns it to 1:1 (double-tap on empty space does the same) */
 .pz-chip{position:fixed;z-index:2147482010;display:inline-flex;align-items:center;gap:5px;margin:0;padding:3px 9px;min-height:26px;
   border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(20,24,30,.78);color:#fff;
   font:600 11.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.01em;cursor:pointer;touch-action:manipulation;
@@ -1427,6 +1427,9 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 .pz-chip .pz-k{opacity:.82;font-weight:500}
 .pz-chip .pz-r{padding-left:6px;border-left:1px solid rgba(255,255,255,.35)}
 @media (prefers-reduced-motion:no-preference){.pz-chip{transition:opacity .15s}}
+/* Q382: after its delay the chip fades and stops catching taps; the next zoom change brings it back */
+.pz-chip.pz-off{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+@media (prefers-reduced-motion:reduce){.pz-chip.pz-off{transition:none}}
 </style>
 <script>
 /* Q290: two-finger zoom on every surface. Owner: "in all modules, also on mobile, allow zooming the screen like in a browser,
@@ -1440,8 +1443,13 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
                                           is true during a pinch and for 400 ms after it (so the lifted fingers are not a tap)
      NMSKPinch.view()                     a 2-D view transform {k, tx, ty} (screen = k * base + t): about(x, y, f) zooms about
                                           a point, pan(dx, dy), clamp(w, h) keeps the zoomed content covering the frame, reset()
-     NMSKPinch.chip(anchor, onReset, o)   the tiny "2.4x | 1:1" chip on the anchor's rectangle, shown only while zoomed; a tap
-                                          calls onReset (o.pos = "tc" | "tl" | "tr" | "bc" | "bl" | "br", o.dy extra offset)
+     NMSKPinch.chip(anchor, onReset, o)   the tiny "2.4x | 1:1" chip on the anchor's rectangle: shown for a few seconds on every
+                                          zoom / size change while zoomed, then faded (Q382; hovering or touching it keeps it, and
+                                          prefs() can make it permanent); a tap calls onReset (o.pos = "tc" | "tl" | "tr" | "bc" |
+                                          "bl" | "br", o.dy extra offset). It moves to the nearest free spot instead of lying on
+                                          another control.
+     NMSKPinch.prefs() / .setPrefs({always, secs})   the chip's show mode (default: 10 s) -- kept in localStorage, try / catch
+     NMSKPinch.reveal() / .resetAll()     show every zoomed chip again / put every zoomed surface back to 1:1
      NMSKPinch.dbl()                      returns fn(e): true on the second of two quick taps at one place (touch / pen only,
                                           so a desktop double-click keeps its old meaning)
    Native page zoom: the viewport allows it (no user-scalable=no); the canvases keep touch-action:none, so a pinch on them is
@@ -1498,11 +1506,77 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     return z;
   }
 
+  /* Q382: how long the chip stays. Owner: "the dimensions window should be visible on every size change for 10 seconds and then
+     disappear; in Settings it can be changed to permanent, or the delay changed". */
+  var PKEY = "nmsk.q382.chip", prefs = {always: false, secs: 10}, chips = [];
+  (function () {
+    try { var j = JSON.parse(localStorage.getItem(PKEY) || "null"); if (j && typeof j === "object") { prefs.always = !!j.always; if (j.secs > 0) prefs.secs = Math.min(600, +j.secs); } } catch (e) {}
+  })();
+  function getPrefs() { return {always: prefs.always, secs: prefs.secs}; }
+  function setPrefs(o) {
+    if (o && o.always != null) prefs.always = !!o.always;
+    if (o && o.secs != null && +o.secs > 0) prefs.secs = Math.min(600, Math.max(0.2, +o.secs));
+    try { localStorage.setItem(PKEY, JSON.stringify(prefs)); } catch (e) {}
+    chips.forEach(function (c) { c.refade(); });
+    return getPrefs();
+  }
+  /* the show / fade timer shared by both kinds of chip: poke() = "something changed, show it", the fade starts after the delay unless
+     the pointer is on the chip (or it has focus), or the mode is "always" */
+  function fader(b) {
+    var tm = 0, held = false, off = false;
+    function arm() {
+      clearTimeout(tm); tm = 0;
+      if (prefs.always || held || off) return;
+      tm = setTimeout(function () { tm = 0; if (held) return; off = true; b.classList.add("pz-off"); }, prefs.secs * 1000);
+    }
+    function on() { off = false; b.classList.remove("pz-off"); arm(); }
+    ["pointerenter", "focus"].forEach(function (n) { b.addEventListener(n, function () { held = true; clearTimeout(tm); tm = 0; }); });
+    ["pointerleave", "blur"].forEach(function (n) { b.addEventListener(n, function () { held = false; if (!off) arm(); }); });
+    b.addEventListener("pointerup", function (e) { if (e.pointerType !== "mouse") { held = false; arm(); } });
+    b.addEventListener("pointercancel", function () { held = false; arm(); });
+    return {
+      poke: on,
+      refade: function () { if (prefs.always) on(); else if (!off) arm(); },
+      reset: function () { clearTimeout(tm); tm = 0; off = false; held = false; b.classList.remove("pz-off"); },
+      faded: function () { return off; }
+    };
+  }
+
   function fmt(k) { return (k >= 10 ? Math.round(k) : Math.round(k * 10) / 10) + "×"; }
+
+  /* Q382: is the box x, y, w, h lying on another control? Sampled with elementsFromPoint (a corner, the middle of each side and the
+     centre): anything that is not the chip, the anchor surface (or what it contains) or the page itself is in the way. */
+  function blocked(chipEl, anchorEl, x, y, w, h) {
+    var xs = [x + 2, x + w / 2, x + w - 2], ys = [y + 2, y + h / 2, y + h - 2];
+    if (x < 0 || y < 0 || x + w > window.innerWidth || y + h > window.innerHeight) return true;
+    for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++) {
+      var L = document.elementsFromPoint(xs[i], ys[j]);
+      for (var k = 0; k < L.length; k++) {
+        var e = L[k];
+        if (e === chipEl || e.classList && e.classList.contains("pz-chip")) continue;
+        if (e === document.documentElement || e === document.body || e === anchorEl || (anchorEl && anchorEl.contains(e)) || (e.contains && anchorEl && e.contains(anchorEl))) break;
+        if (e.tagName === "CANVAS") break;
+        var cs = getComputedStyle(e);
+        if (cs.pointerEvents === "none" || cs.visibility === "hidden" || +cs.opacity === 0) continue;
+        if (e.classList && (e.classList.contains("nm-note"))) continue;
+        return true;
+      }
+    }
+    return false;
+  }
+  /* the nearest free spot: the asked-for place first, then upwards in steps, then sideways along the asked-for row */
+  function freeSpot(b, a, x, y, w, hh) {
+    if (!blocked(b, a, x, y, w, hh)) return [x, y];
+    var step = hh + 6, i, s;
+    for (i = 1; i <= 14; i++) if (!blocked(b, a, x, y - i * step * 0.6, w, hh)) return [x, y - i * step * 0.6];
+    for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y, w, hh)) return [x + s * i * (w + 8), y];
+    for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y - 2 * step, w, hh)) return [x + s * i * (w + 8), y - 2 * step];
+    return [x, y];
+  }
 
   function chip(anchor, onReset, o) {
     o = o || {};
-    var b = document.createElement("button"), t = 0, last = "";
+    var b = document.createElement("button"), t = 0, last = "", fd = fader(b), kShown = null, spot = null, spotKey = "";
     b.type = "button"; b.className = "pz-chip"; b.hidden = true;
     b.setAttribute("aria-label", "Reset zoom to 1:1"); b.title = "Back to 1:1 (or double-tap empty space)";
     b.innerHTML = '<span class="pz-k"></span><span class="pz-r">1:1</span>';
@@ -1518,22 +1592,35 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
         var w = b.offsetWidth || 70, hh = b.offsetHeight || 26, pos = o.pos || "tc", m = o.margin == null ? 8 : o.margin;
         var x = pos.charAt(1) === "l" ? r.left + m : pos.charAt(1) === "r" ? r.right - w - m : r.left + (r.width - w) / 2;
         var y = pos.charAt(0) === "t" ? r.top + m + (o.dy || 0) : r.bottom - hh - m - (o.dy || 0);
+        if (!fd.faded()) {                                      // a faded chip is not in anyone's way; it is placed when it comes back
+          var ak = Math.round(x) + "," + Math.round(y) + "," + w;
+          if (spot && ak === spotKey && !blocked(b, a, spot[0], spot[1], w, hh)) { x = spot[0]; y = spot[1]; }
+          else { spot = freeSpot(b, a, x, y, w, hh); spotKey = ak; x = spot[0]; y = spot[1]; }
+        }
         var key = Math.round(x) + "," + Math.round(y);
         if (key !== last) { last = key; b.style.left = Math.round(x) + "px"; b.style.top = Math.round(y) + "px"; }
         b.style.visibility = "";
       }
       t = setTimeout(place, 250);                              // follow the anchor while shown (docking, panel scroll, rotation)
     }
-    return {
+    var api = {
       el: b,
       set: function (k, zoomed) {
         if (!zoomed) return this.hide();
-        b.firstChild.textContent = fmt(k);
-        if (b.hidden) { b.hidden = false; clearTimeout(t); place(); }
+        var txt = fmt(k);
+        b.firstChild.textContent = txt;
+        if (b.hidden) { b.hidden = false; clearTimeout(t); spot = null; fd.poke(); place(); }
+        else if (txt !== kShown) { if (fd.faded()) spot = null; fd.poke(); if (!t) place(); }
+        kShown = txt;
       },
-      hide: function () { b.hidden = true; clearTimeout(t); t = 0; },
-      shown: function () { return !b.hidden; }
+      hide: function () { b.hidden = true; clearTimeout(t); t = 0; kShown = null; fd.reset(); },
+      shown: function () { return !b.hidden && !fd.faded(); },
+      refade: fd.refade,
+      reveal: function () { if (!b.hidden) { spot = null; fd.poke(); if (!t) place(); } },
+      reset: function () { if (!b.hidden) onReset(); }
     };
+    chips.push(api);
+    return api;
   }
 
   function dbl() {
@@ -1547,12 +1634,13 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   }
 
   /* ---- native page zoom: keep the main toolbars at 1:1 on the visible part of the page ---- */
-  var PIN = ["#tools", "#topright", "#mode-bar"], nat = null;
+  var PIN = ["#tools", "#topright", "#mode-bar"], nat = null, natF = null, natK = null;
   function natChip() {
     if (nat) return nat;
     nat = document.createElement("button"); nat.type = "button"; nat.className = "pz-chip pz-native"; nat.hidden = true;
     nat.setAttribute("aria-label", "Reset the page zoom to 1:1"); nat.title = "Back to 1:1";
     nat.innerHTML = '<span class="pz-k"></span><span class="pz-r">1:1</span>';
+    natF = fader(nat); chips.push({refade: natF.refade});
     nat.addEventListener("click", function () {                  // honoured by Chromium / Android; iOS ignores it (pinch out there)
       var m = document.querySelectorAll('meta[name="viewport"]'), mm = m[m.length - 1]; if (!mm) return;
       var c = mm.getAttribute("content"); mm.setAttribute("content", c + ", maximum-scale=1");
@@ -1573,8 +1661,9 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     var s = vv.scale || 1, on = s > 1.01;
     document.documentElement.classList.toggle("pz-native-on", on);
     PIN.forEach(function (sel) { var el = document.querySelector(sel); if (el) { if (on) pinTo(el, s, vv.offsetLeft, vv.offsetTop); else unpin(el); } });
-    if (!on) { if (nat) { nat.hidden = true; unpin(nat); } return; }
+    if (!on) { natK = null; if (nat) { nat.hidden = true; unpin(nat); if (natF) natF.reset(); } return; }
     var c = natChip(); c.hidden = false; c.firstChild.textContent = fmt(s);
+    if (natK !== fmt(s)) { natK = fmt(s); natF.poke(); }
     c.style.left = "0px"; c.style.top = "0px"; c.style.transformOrigin = "0 0";
     var w = c.offsetWidth || 70;
     c.style.transform = "translate(" + (vv.offsetLeft + (vv.width - w / s) / 2) + "px," + (vv.offsetTop + 56 / s) + "px) scale(" + (1 / s) + ")";
@@ -1584,7 +1673,9 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     window.visualViewport.addEventListener("scroll", vvSync);
   }
 
-  window.NMSKPinch = {pair: pair, track: track, view: view, chip: chip, dbl: dbl, nativeSync: vvSync, PIN: PIN};
+  window.NMSKPinch = {pair: pair, track: track, view: view, chip: chip, dbl: dbl, nativeSync: vvSync, PIN: PIN, prefs: getPrefs, setPrefs: setPrefs,
+    reveal: function () { chips.forEach(function (c) { if (c.reveal) c.reveal(); }); },
+    resetAll: function () { chips.forEach(function (c) { if (c.reset) c.reset(); }); }};
 })();
 </script>
 <!-- PINCH html end -->
@@ -6566,6 +6657,11 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ303;
 .pz-head .nm-grip.nm-inline,.pz-head .nm-dots.nm-inline{position:static;flex:0 0 auto;margin-right:4px}
 @media (max-width:560px){.qg-bar .nm-grip.nm-inline,.qg-bar .nm-dots.nm-inline{height:40px;min-height:40px}}
 #topright > .nm-grip.nm-inline,#topright > .nm-dots.nm-inline,.ms-row > .nm-grip.nm-inline,.ms-row > .nm-dots.nm-inline{position:static;align-self:center;flex:0 0 auto}
+/* Q382: a box's title row is a drag surface too (only where a box names one); Settings > Layout can lock every box in place */
+.nm-head{cursor:move;touch-action:none;-webkit-user-select:none;user-select:none}
+.nm-head button,.nm-head a,.nm-head input,.nm-head select{cursor:pointer}
+html.nm-locked .nm-grip{display:none !important}
+html.nm-locked .nm-head{cursor:default;touch-action:auto}
 </style>
 <script>
 /* Q305: nothing may end up unreachable.
@@ -6716,15 +6812,27 @@ var NMSKMove = (function(){
   var CAN_T = (function(){ try { return !!(window.CSS && CSS.supports && CSS.supports("translate", "1px 1px")); } catch (err){ return false; } })();
 
   /* ---- the store ---- */
+  /* Q382: a layout is kept per CLASS of screen -- the desktop's free offsets and the phone's slots do not overwrite each other, so
+     rotating a phone or resizing a window back and forth brings each arrangement back. The desktop key is the old one. */
+  function keyNow(){ return phone() ? KEY + ".phone" : KEY; }
+  var LOCK = "nmsk.q382.layout.lock", locked = (function(){ try { return localStorage.getItem(LOCK) === "1"; } catch (err){ return false; } })(), cls = null;
+  function setLocked(v){
+    locked = !!v;
+    try { localStorage.setItem(LOCK, locked ? "1" : "0"); } catch (err){}
+    try { document.documentElement.classList.toggle("nm-locked", locked); } catch (err2){}
+    if (drag) cancel();
+    return locked;
+  }
+  try { document.documentElement.classList.toggle("nm-locked", locked); } catch (err3){}
   function load(){
     var o = {};
-    try { var t = localStorage.getItem(KEY); if (t){ var j = JSON.parse(t); if (j && typeof j === "object") o = j; } } catch (err){ o = {}; }
+    try { var t = localStorage.getItem(keyNow()); if (t){ var j = JSON.parse(t); if (j && typeof j === "object") o = j; } } catch (err){ o = {}; }
     return o;
   }
   function save(){
     var o = {};
     B.forEach(function(b){ if (b.dx || b.dy || b.slot) o[b.key] = b.slot ? {s:b.slot} : {x:Math.round(b.dx), y:Math.round(b.dy)}; });
-    try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (err){}
+    try { localStorage.setItem(keyNow(), JSON.stringify(o)); } catch (err){}
   }
 
   /* ---- the offset, applied ---- */
@@ -6924,14 +7032,26 @@ var NMSKMove = (function(){
     document.addEventListener("pointerup", up, true);
     document.addEventListener("pointercancel", up, true);
   })();
-  function bind(g, b){
+  /* Q382: `head` = the box's own title row is a drag surface too (the handle stays). A press on a control inside it, a drag that
+     has not travelled THRESH px, and a touch that scrolls are all left to the page; nothing is captured until the drag starts. */
+  var HEAD_SKIP = "button,a,input,select,textarea,label,summary,[contenteditable],[role=button],[role=slider],.nm-grip,.nm-dots";
+  function bind(g, b, head){
+    var swallow = false;
+    if (head && b.band) g.addEventListener("pointermove", function(e){
+      if (drag || e.pointerType === "touch") return;
+      g.style.cursor = (!locked && e.clientY - g.getBoundingClientRect().top <= b.band && !(e.target.closest && e.target.closest(HEAD_SKIP))) ? "move" : "";
+    });
     g.addEventListener("pointerdown", function(e){
+      if (locked) return;
+      if (head && (drag || (e.target.closest && e.target.closest(HEAD_SKIP)))) return;
       if (Object.keys(LIVE).length > 1){ cancel(); return; }    /* a second finger: this is a pinch, not a move */
       if (e.button != null && e.button !== 0) return;
-      if (b.grab){ try { b.grab(); } catch (err0){} }
+      if (head && b.band && (e.pointerType === "touch" || e.clientY - el(b).getBoundingClientRect().top > b.band)) return;
+      if (b.grab && !head){ try { b.grab(); } catch (err0){} }
       var r = el(b).getBoundingClientRect();
       drag = {b:b, g:g, done:done, id:e.pointerId, x:e.clientX, y:e.clientY, dx:b.dx || 0, dy:b.dy || 0, slot:b.slot || "",
               moved:false, bad0:badNow(), ghosts:null, r0:{left:r.left, top:r.top}};
+      if (head) return;
       try { g.setPointerCapture(e.pointerId); } catch (err){}
       e.preventDefault(); e.stopPropagation();
     });
@@ -6941,6 +7061,8 @@ var NMSKMove = (function(){
       if (!drag.moved){
         if (Math.abs(mx) < THRESH && Math.abs(my) < THRESH) return;
         drag.moved = true;
+        if (head){ try { g.setPointerCapture(e.pointerId); } catch (err3){} swallow = true;
+          if (b.grab){ try { b.grab(); } catch (err4){} drag.dx = b.dx || 0; drag.dy = b.dy || 0; drag.slot = b.slot || ""; } }
         el(b).classList.add("nm-box-drag");
         if (phone()) drag.ghosts = ghosts(b);
       }
@@ -6972,7 +7094,7 @@ var NMSKMove = (function(){
         /* Q343: a box dropped where the screen edge HELD it keeps the place the user saw. The raw offset used to stay
            stored, so a card that was taller at the drop (held higher) reopened lower once it was shorter. */
         if (!bb.slot && bb._ax != null && (bb._ax !== bb.dx || bb._ay !== bb.dy) && !(bb.use && !bb.use())){ bb.dx = bb._ax; bb.dy = bb._ay; save(); }
-        if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
+        if (bb.moved){ try { bb.moved(); } catch (err1){} } }
       if (window.NMSKGroups && NMSKGroups.state) { try { NMSKGroups.state(); } catch (err){} }
     }
     g.addEventListener("pointerup", done);
@@ -6984,8 +7106,10 @@ var NMSKMove = (function(){
     document.addEventListener("pointerup", function(e){ if (drag && drag.id === e.pointerId && drag.g === g) done(e); }, true);
     document.addEventListener("pointercancel", function(e){ if (drag && drag.id === e.pointerId && drag.g === g) done(e); }, true);
     g.addEventListener("lostpointercapture", function(e){ if (drag && drag.id === e.pointerId) done(e); });
-    g.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); });
+    g.addEventListener("click", function(e){ if (head && !swallow) return; swallow = false; e.preventDefault(); e.stopPropagation(); });
+    if (head) return;
     g.addEventListener("keydown", function(e){
+      if (locked) return;
       var k = e.key, d = {ArrowLeft:[-STEP, 0], ArrowRight:[STEP, 0], ArrowUp:[0, -STEP], ArrowDown:[0, STEP]}[k];
       if (k === "Home"){ resetBox(b); e.preventDefault(); return; }
       if (!d) return;
@@ -6999,7 +7123,7 @@ var NMSKMove = (function(){
       apply(b, true);
       var bad = badNow();
       if (bad.length){ b.dx = keep[0] - d[0]; b.dy = keep[1] - d[1]; apply(b, true); say("Not there -- it would cover " + bad[0].label + "."); }
-      else { if (b.moved){ try { b.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
+      else { if (b.moved){ try { b.moved(); } catch (err1){} } }
       e.preventDefault();
     });
   }
@@ -7199,21 +7323,23 @@ var NMSKMove = (function(){
     if (!ok){ b.dx = keep[0]; b.dy = keep[1]; b.slot = keep[2]; apply(b, true); say("Not there -- it would cover a control. The box is back where it was."); return false; }
     apply(b, true);
     if (b.moved){ try { b.moved(); } catch (err2){} }
-    if (hist && hist.commit) hist.commit();
+   
     return true;
   }
   function resetBox(b){
     b.dx = 0; b.dy = 0; b.slot = ""; apply(b, true);
     var S = spec(b); if (S.reset){ try { S.reset(); } catch (err){} }
-    if (hist && hist.commit) hist.commit();
+   
   }
 
-  /* ---- restore the layout: every box back where it started, as ONE undo step ---- */
+  /* ---- restore the layout: every box back where it started, (Q382: moving boxes is NOT an undo step -- the owner asked for it) ---- */
   function restore(){
     var any = B.some(function(b){ return b.dx || b.dy || b.slot; });
     B.forEach(function(b){ b.dx = 0; b.dy = 0; b.slot = ""; });
     applyAll(true); restores++;
-    if (hist && hist.commit) hist.commit();
+    try { localStorage.removeItem(keyNow() === KEY ? KEY + ".phone" : KEY); } catch (err){}      /* Q382: the other screen class's layout goes too */
+    save();
+   
     say(any ? "Every box is back where it started." : "Every box is already where it started.");
     return any;
   }
@@ -7233,23 +7359,9 @@ var NMSKMove = (function(){
         if (!v) return;
         if (v.s) b.slot = String(v.s); else { b.dx = +v.x || 0; b.dy = +v.y || 0; }
       });
-      /* an ordinary history provider, so the layout is in Q294's Undo / Redo and in Q300's model reset for free: the
-         model reset restores the history's own load snapshot, and this key is in it. `reset` is deliberately a no-op --
-         Q294's Reset is "the module you are in", and the boxes are the page's chrome, not a module's state. */
-      if (hist && hist.register) hist.register("q305layout", {
-        get:function(){ var o = {}; B.forEach(function(b){ o[b.key] = b.slot ? b.slot : [Math.round(b.dx || 0), Math.round(b.dy || 0)]; }); return o; },
-        set:function(v){
-          if (!v) return;
-          B.forEach(function(b){
-            var x = v[b.key];
-            if (typeof x === "string"){ b.slot = x; b.dx = 0; b.dy = 0; }
-            else if (x && x.length === 2){ b.slot = ""; b.dx = +x[0] || 0; b.dy = +x[1] || 0; }
-            else { b.slot = ""; b.dx = 0; b.dy = 0; }
-          });
-          applyAll(true);
-        },
-        reset:function(){}
-      });
+      /* Q382: the layout is NOT a history provider any more (it was one in Q305, so a drop was an Undo step). Owner: moving a box must
+         not create undo steps; the arrangement is a preference, kept in the store above and put back by Restore layout. */
+      cls = phone();
       on = true;
       api.refresh();
       /* The boxes come and go with the engines' own code (the cut panel, the i drawer, the chip bar are built or shown
@@ -7270,19 +7382,34 @@ var NMSKMove = (function(){
     },
     refresh:function(){
       if (!on || drag) return;
+      if (cls !== phone()){                                   /* the other class of screen: its own saved arrangement */
+        cls = phone();
+        var sv = load();
+        B.forEach(function(b){
+          var v = sv[b.key]; b.slot = ""; b.dx = 0; b.dy = 0;
+          if (v){ if (v.s) b.slot = String(v.s); else { b.dx = +v.x || 0; b.dy = +v.y || 0; } }
+        });
+      }
       B.forEach(function(b){
         var e = el(b);
         /* Q335: a box another window has taken in (the full card inside the name card) is that window's, not ours */
         if (e && e.parentNode && e.parentNode.closest && e.parentNode.closest("[data-nm-hosted]")) return;
+        if (b.skip && b.skip()){ if (b._ax || b._ay){ setOff(e, 0, 0); b._ax = 0; b._ay = 0; } if (b._grip) b._grip.style.display = "none"; return; }   /* Q382: a docked sheet on a phone stays put */
         if (!shownBase(b)){ if (b._grip && !e) b._grip = null; return; }
         var fresh = !b._grip || !b._grip.isConnected;
-        if (fresh){ b._grip = null; grip(b); }
+        if (b._grip && b._grip.style.display === "none") b._grip.style.display = "";
+        if (b.nogrip){}                                       /* Q382: a box with no handle of its own, moved by its title row only */
+        else if (fresh){ b._grip = null; grip(b); }
         else if (!b._dots || !b._dots.isConnected){ b._dots = null; dots(b); }
+        if (b.head && e){                                     /* Q382: the title row drags the box too */
+          var h = b.band ? e : (typeof b.head === "function" ? b.head(e) : e.querySelector(b.head));
+          if (h && !h._nmHead){ h._nmHead = 1; if (!b.band) h.classList.add("nm-head"); bind(h, b, true); }
+        }
         apply(b, false);
-        if (!b.into) reseat(b);
+        if (!b.into && !b.nogrip) reseat(b);
       });
     },
-    restore:restore,
+    restore:restore, lock:setLocked, locked:function(){ return locked; },
     menu:function(k, s){ if (k) MENUS[k] = s || {}; return api; },
     openMenu:function(k){ var b = byKey[k]; return b ? openMenu(b) : null; },
     closeMenu:function(){ return closeMenu(false); },
@@ -7306,7 +7433,7 @@ var NMSKMove = (function(){
     present:function(){ return B.filter(function(b){ return shown(el(b)); }).map(function(b){ return b.key; }); },
     phone:function(){ return phone(); },
     state:function(){
-      return {on:on, phone:phone(), translate:CAN_T, key:KEY, drops:drops, reverts:reverts, restores:restores,
+      return {on:on, phone:phone(), locked:locked, translate:CAN_T, key:KEY, drops:drops, reverts:reverts, restores:restores,
               boxes:B.map(function(b){
                 var r = api.rect(b.key);
                 return {key:b.key, label:b.label || b.key, present:!!r, rect:r, off:api.off(b.key), grip:!!(b._grip && b._grip.isConnected), dots:!!(b._dots && b._dots.isConnected),
@@ -7415,8 +7542,8 @@ var NMSKQ305 = (function(){
         "<p><b>" + mv.length + " boxes on this page can be moved</b>: " + mv.map(function(b){ return b.label; }).join(", ") + ".</p>" +
         "<p><b>A drop that would cover a control is refused</b> and the box goes back, with a line saying which control " +
         "it was. The controls kept clear are: " + (window.NMSKGuard ? NMSKGuard.watched().join(", ") : "&mdash;") + ".</p>" +
-        "<p><b>Restore layout</b> puts every box back where it started &mdash; one tap, and one Undo brings your " +
-        "arrangement back. Reset model does it too, because the layout is part of what the page loaded in. It is in the " +
+        "<p><b>Restore layout</b> puts every box back where it started &mdash; one tap. Moving a box is not an Undo step, " +
+        "and Reset model leaves your arrangement alone (a layout is a preference, not a state of the model). It is in the " +
         "<b>View</b> group of the control bar, and here: " +
         "<button type=\"button\" id=\"q305-restore-i\" class=\"nm-rb\">Restore layout</button></p>" +
         "<p>What is <b>not</b> movable, and why: the zoom chip belongs to the picture it reports; a four-pane label names " +
@@ -7451,10 +7578,10 @@ var NMSKQ305 = (function(){
     setInterval(opted, 2000);
     G.addTo("view", {
       label:"Restore layout", id:"q305-restore",
-      title:"Put every box back where it started -- one tap, and one Undo brings your arrangement back",
+      title:"Put every box back where it started -- one tap",
       run:function(){ M.restore(); },
       active:function(){ return M.moved().length > 0; },
-      label2:"Boxes are moved by the small handle of six dots on each one. Reset model puts the layout back as well."
+      label2:"Boxes are moved by the small handle of six dots on each one (or by their title row). Moving a box is not an Undo step."
     });
     info();
     /* a second home for Restore layout, inside the i's own section. The View group's sheet SCROLLS (its body measured
@@ -7492,6 +7619,114 @@ var NMSKQ305 = (function(){
 if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ305;
 </script>
 <!-- Q305 html end -->
+<!-- Q382 html begin -->
+<style>
+/* Q382: Settings > layout and zoom (a section of the circled-i drawer) */
+.q382-set{display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.35}
+.q382-set h4{margin:2px 0 0;font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;opacity:.7}
+.q382-set label{display:flex;align-items:center;gap:8px;min-height:32px}
+.q382-set input[type=number]{width:64px;min-height:30px;padding:2px 6px;box-sizing:border-box}
+.q382-set .q382-row{display:flex;flex-wrap:wrap;gap:8px}
+.q382-set button{min-height:34px;padding:4px 12px;cursor:pointer}
+.q382-set p{margin:0;opacity:.75;font-size:12px}
+</style>
+<script>
+/* Q382: what the owner asked for after testing the live page --
+     "the dimensions window (the zoom chip) should be visible on every size change for 10 seconds and then disappear; in Settings it
+      can be changed to permanent, or the delay changed"  and
+     "allow moving the different boxes on the screen by dragging -- drag and save the state -- and also in SETTINGS".
+   Moving boxes already exists (Q305 / Q335, viewer/q305/move.js: the six-dot handle, the three-dots menu, a per-page store). This module
+   adds to it from the outside, by selector, and does not restructure any panel:
+     - the floating cards the planning mode builds into its shell (#mode-main .mc-right / .mc-left / .mc-pick / .mc-safe) and its bottom
+       dock (#mode-pills) become movable boxes: dragged by their title row (the dock: by its empty edge, mouse only), never by a button;
+     - the title row of the boxes that already have a handle (name card, labels, legend, pose, slices, attachments) drags too;
+     - a Settings section in the circled-i drawer (and a "Settings" button in the View group): zoom chip mode (seconds / always),
+       "Lock panels" (dragging off), "Reset layout", "Show zoom chip", "Zoom 1:1".
+   Positions are saved by NMSKMove per box and per screen class (desktop offsets / phone slots) in localStorage, in try / catch;
+   moving a box is not an undo step. Docked sheets on a phone (the planning cards are bottom sheets there) stay where the page puts them.
+     NMSKLayout.state()  .open()  .reset() */
+var NMSKLayout = (function(){
+  "use strict";
+  var tries = 0, timer = 0, ready = false, sec = null;
+  function q(sel){ return function(){ return document.querySelector(sel); }; }
+  function ph(){ return !!(window.NMSKMove && NMSKMove.phone()); }
+  var SPEC = [
+    {key:"m-plan", label:"the planning panel",    el:q("#mode-main .mc-right"), nogrip:true, head:true, band:46, skip:ph},
+    {key:"m-dist", label:"the distance card",     el:q("#mode-main .mc-left"),  nogrip:true, head:".mc-title", skip:ph},
+    {key:"m-pick", label:"the structure picker",  el:q("#mode-main .mc-pick"),  nogrip:true, head:".mc-title", skip:ph},
+    {key:"m-safe", label:"the safety card",       el:q("#mode-main .mc-safe"),  nogrip:true, head:".mc-title", skip:ph},
+    {key:"m-dock", label:"the bottom dock",       el:q("#mode-pills"),          nogrip:true, head:function(e){ return e; }, mouseOnly:true}
+  ];
+  /* boxes that have their own handle already: their title row drags as well */
+  var HEADS = {qcard:".qc-head", labels:".lb-head", legend:".lg-head", pose:".pz-head", slices:".xsp-head", attach:".pp-h", cut:".cp-head"};
+
+  function mount(){
+    var M = window.NMSKMove;
+    if (!M || !M.state || !M.state().on) return false;
+    SPEC.forEach(function(s){ M.add(s); });
+    Object.keys(HEADS).forEach(function(k){ var b = M.box(k); if (b && !b.head) b.head = HEADS[k]; });
+    var I = window.NMSKInfo;
+    if (I && I.add){ I.add({key:"settings", title:"Settings: layout and zoom", order:44, el:section()}); }
+    var G = window.NMSKGroups;
+    if (G && G.addTo) G.addTo("view", {label:"Settings", id:"q382-settings", title:"Zoom chip, lock the boxes, reset the layout",
+      run:function(){ api.open(); }, label2:"Layout and zoom settings are in the circled i, under Settings."});
+    ready = true; return true;
+  }
+  function section(){
+    if (sec) return sec;
+    sec = document.createElement("div"); sec.className = "q382-set"; sec.id = "q382-set";
+    sec.innerHTML =
+      '<h4>Zoom chip (the &ldquo;2.4&times; | 1:1&rdquo; label)</h4>' +
+      '<label><input type="radio" name="q382-chip" value="timed" id="q382-timed"> Show it after each zoom for <input type="number" id="q382-secs" min="1" max="600" step="1" aria-label="seconds"> seconds</label>' +
+      '<label><input type="radio" name="q382-chip" value="always" id="q382-always"> Always visible while zoomed</label>' +
+      '<p>Hovering or touching the chip keeps it. Double-tap empty space (touch) or use <b>Zoom 1:1</b> below to return to 1:1 while it is hidden.</p>' +
+      '<h4>Boxes</h4>' +
+      '<label><input type="checkbox" id="q382-lock"> Lock panels (no dragging)</label>' +
+      '<div class="q382-row"><button type="button" id="q382-reset">Reset layout</button><button type="button" id="q382-show">Show zoom chip</button><button type="button" id="q382-one">Zoom 1:1</button></div>' +
+      '<p>Boxes move by their handle or by their title row. Positions are kept in this browser, separately for a desktop-width and a phone-width window.</p>';
+    function $(id){ return sec.querySelector("#" + id); }
+    function paint(){
+      var P = window.NMSKPinch ? NMSKPinch.prefs() : {always:false, secs:10};
+      $("q382-always").checked = !!P.always; $("q382-timed").checked = !P.always; $("q382-secs").value = P.secs;
+      $("q382-lock").checked = !!(window.NMSKMove && NMSKMove.locked());
+    }
+    sec.addEventListener("change", function(e){
+      var P = window.NMSKPinch, t = e.target;
+      if (t.id === "q382-lock"){ if (window.NMSKMove) NMSKMove.lock(t.checked); }
+      else if (P){
+        if (t.name === "q382-chip") P.setPrefs({always:$("q382-always").checked});
+        if (t.id === "q382-secs"){ var v = Math.round(+t.value); if (v > 0) P.setPrefs({secs:v, always:false}); }
+      }
+      paint();
+    });
+    sec.addEventListener("click", function(e){
+      var t = e.target && e.target.closest ? e.target.closest("button") : null; if (!t) return;
+      if (t.id === "q382-reset") api.reset();
+      else if (t.id === "q382-show" && window.NMSKPinch) NMSKPinch.reveal();
+      else if (t.id === "q382-one" && window.NMSKPinch) NMSKPinch.resetAll();
+    });
+    sec.addEventListener("pointerenter", paint); sec.addEventListener("focusin", paint);
+    paint();
+    return sec;
+  }
+  function boot(){
+    if (ready) return;
+    if (mount()){ clearInterval(timer); timer = 0; return; }
+    if (++tries > 400){ clearInterval(timer); timer = 0; }
+  }
+  var api = {
+    start:function(){ if (ready || timer) return api; boot(); if (!ready) timer = setInterval(boot, 250); return api; },
+    open:function(){ if (window.NMSKInfo){ NMSKInfo.open("settings"); var d = document.getElementById("qi-settings"); if (d && d.scrollIntoView) d.scrollIntoView({block:"nearest"}); } },
+    reset:function(){ return window.NMSKMove ? NMSKMove.restore() : false; },
+    ready:function(){ return ready; },
+    state:function(){ return {ready:ready, locked:!!(window.NMSKMove && NMSKMove.locked()), chip:window.NMSKPinch ? NMSKPinch.prefs() : null, boxes:SPEC.map(function(s){ return s.key; })}; }
+  };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function(){ api.start(); }); else api.start();
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKLayout;
+</script>
+<!-- Q382 html end -->
 <!-- Q306 html begin -->
 <style>
 /* Q306: the words the search needed, and nothing else.

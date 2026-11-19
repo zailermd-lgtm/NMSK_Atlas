@@ -45,15 +45,27 @@ var NMSKMove = (function(){
   var CAN_T = (function(){ try { return !!(window.CSS && CSS.supports && CSS.supports("translate", "1px 1px")); } catch (err){ return false; } })();
 
   /* ---- the store ---- */
+  /* Q382: a layout is kept per CLASS of screen -- the desktop's free offsets and the phone's slots do not overwrite each other, so
+     rotating a phone or resizing a window back and forth brings each arrangement back. The desktop key is the old one. */
+  function keyNow(){ return phone() ? KEY + ".phone" : KEY; }
+  var LOCK = "nmsk.q382.layout.lock", locked = (function(){ try { return localStorage.getItem(LOCK) === "1"; } catch (err){ return false; } })(), cls = null;
+  function setLocked(v){
+    locked = !!v;
+    try { localStorage.setItem(LOCK, locked ? "1" : "0"); } catch (err){}
+    try { document.documentElement.classList.toggle("nm-locked", locked); } catch (err2){}
+    if (drag) cancel();
+    return locked;
+  }
+  try { document.documentElement.classList.toggle("nm-locked", locked); } catch (err3){}
   function load(){
     var o = {};
-    try { var t = localStorage.getItem(KEY); if (t){ var j = JSON.parse(t); if (j && typeof j === "object") o = j; } } catch (err){ o = {}; }
+    try { var t = localStorage.getItem(keyNow()); if (t){ var j = JSON.parse(t); if (j && typeof j === "object") o = j; } } catch (err){ o = {}; }
     return o;
   }
   function save(){
     var o = {};
     B.forEach(function(b){ if (b.dx || b.dy || b.slot) o[b.key] = b.slot ? {s:b.slot} : {x:Math.round(b.dx), y:Math.round(b.dy)}; });
-    try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (err){}
+    try { localStorage.setItem(keyNow(), JSON.stringify(o)); } catch (err){}
   }
 
   /* ---- the offset, applied ---- */
@@ -253,14 +265,26 @@ var NMSKMove = (function(){
     document.addEventListener("pointerup", up, true);
     document.addEventListener("pointercancel", up, true);
   })();
-  function bind(g, b){
+  /* Q382: `head` = the box's own title row is a drag surface too (the handle stays). A press on a control inside it, a drag that
+     has not travelled THRESH px, and a touch that scrolls are all left to the page; nothing is captured until the drag starts. */
+  var HEAD_SKIP = "button,a,input,select,textarea,label,summary,[contenteditable],[role=button],[role=slider],.nm-grip,.nm-dots";
+  function bind(g, b, head){
+    var swallow = false;
+    if (head && b.band) g.addEventListener("pointermove", function(e){
+      if (drag || e.pointerType === "touch") return;
+      g.style.cursor = (!locked && e.clientY - g.getBoundingClientRect().top <= b.band && !(e.target.closest && e.target.closest(HEAD_SKIP))) ? "move" : "";
+    });
     g.addEventListener("pointerdown", function(e){
+      if (locked) return;
+      if (head && (drag || (e.target.closest && e.target.closest(HEAD_SKIP)))) return;
       if (Object.keys(LIVE).length > 1){ cancel(); return; }    /* a second finger: this is a pinch, not a move */
       if (e.button != null && e.button !== 0) return;
-      if (b.grab){ try { b.grab(); } catch (err0){} }
+      if (head && b.band && (e.pointerType === "touch" || e.clientY - el(b).getBoundingClientRect().top > b.band)) return;
+      if (b.grab && !head){ try { b.grab(); } catch (err0){} }
       var r = el(b).getBoundingClientRect();
       drag = {b:b, g:g, done:done, id:e.pointerId, x:e.clientX, y:e.clientY, dx:b.dx || 0, dy:b.dy || 0, slot:b.slot || "",
               moved:false, bad0:badNow(), ghosts:null, r0:{left:r.left, top:r.top}};
+      if (head) return;
       try { g.setPointerCapture(e.pointerId); } catch (err){}
       e.preventDefault(); e.stopPropagation();
     });
@@ -270,6 +294,8 @@ var NMSKMove = (function(){
       if (!drag.moved){
         if (Math.abs(mx) < THRESH && Math.abs(my) < THRESH) return;
         drag.moved = true;
+        if (head){ try { g.setPointerCapture(e.pointerId); } catch (err3){} swallow = true;
+          if (b.grab){ try { b.grab(); } catch (err4){} drag.dx = b.dx || 0; drag.dy = b.dy || 0; drag.slot = b.slot || ""; } }
         el(b).classList.add("nm-box-drag");
         if (phone()) drag.ghosts = ghosts(b);
       }
@@ -301,7 +327,7 @@ var NMSKMove = (function(){
         /* Q343: a box dropped where the screen edge HELD it keeps the place the user saw. The raw offset used to stay
            stored, so a card that was taller at the drop (held higher) reopened lower once it was shorter. */
         if (!bb.slot && bb._ax != null && (bb._ax !== bb.dx || bb._ay !== bb.dy) && !(bb.use && !bb.use())){ bb.dx = bb._ax; bb.dy = bb._ay; save(); }
-        if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
+        if (bb.moved){ try { bb.moved(); } catch (err1){} } }
       if (window.NMSKGroups && NMSKGroups.state) { try { NMSKGroups.state(); } catch (err){} }
     }
     g.addEventListener("pointerup", done);
@@ -313,8 +339,10 @@ var NMSKMove = (function(){
     document.addEventListener("pointerup", function(e){ if (drag && drag.id === e.pointerId && drag.g === g) done(e); }, true);
     document.addEventListener("pointercancel", function(e){ if (drag && drag.id === e.pointerId && drag.g === g) done(e); }, true);
     g.addEventListener("lostpointercapture", function(e){ if (drag && drag.id === e.pointerId) done(e); });
-    g.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); });
+    g.addEventListener("click", function(e){ if (head && !swallow) return; swallow = false; e.preventDefault(); e.stopPropagation(); });
+    if (head) return;
     g.addEventListener("keydown", function(e){
+      if (locked) return;
       var k = e.key, d = {ArrowLeft:[-STEP, 0], ArrowRight:[STEP, 0], ArrowUp:[0, -STEP], ArrowDown:[0, STEP]}[k];
       if (k === "Home"){ resetBox(b); e.preventDefault(); return; }
       if (!d) return;
@@ -328,7 +356,7 @@ var NMSKMove = (function(){
       apply(b, true);
       var bad = badNow();
       if (bad.length){ b.dx = keep[0] - d[0]; b.dy = keep[1] - d[1]; apply(b, true); say("Not there -- it would cover " + bad[0].label + "."); }
-      else { if (b.moved){ try { b.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
+      else { if (b.moved){ try { b.moved(); } catch (err1){} } }
       e.preventDefault();
     });
   }
@@ -528,21 +556,23 @@ var NMSKMove = (function(){
     if (!ok){ b.dx = keep[0]; b.dy = keep[1]; b.slot = keep[2]; apply(b, true); say("Not there -- it would cover a control. The box is back where it was."); return false; }
     apply(b, true);
     if (b.moved){ try { b.moved(); } catch (err2){} }
-    if (hist && hist.commit) hist.commit();
+   
     return true;
   }
   function resetBox(b){
     b.dx = 0; b.dy = 0; b.slot = ""; apply(b, true);
     var S = spec(b); if (S.reset){ try { S.reset(); } catch (err){} }
-    if (hist && hist.commit) hist.commit();
+   
   }
 
-  /* ---- restore the layout: every box back where it started, as ONE undo step ---- */
+  /* ---- restore the layout: every box back where it started, (Q382: moving boxes is NOT an undo step -- the owner asked for it) ---- */
   function restore(){
     var any = B.some(function(b){ return b.dx || b.dy || b.slot; });
     B.forEach(function(b){ b.dx = 0; b.dy = 0; b.slot = ""; });
     applyAll(true); restores++;
-    if (hist && hist.commit) hist.commit();
+    try { localStorage.removeItem(keyNow() === KEY ? KEY + ".phone" : KEY); } catch (err){}      /* Q382: the other screen class's layout goes too */
+    save();
+   
     say(any ? "Every box is back where it started." : "Every box is already where it started.");
     return any;
   }
@@ -562,23 +592,9 @@ var NMSKMove = (function(){
         if (!v) return;
         if (v.s) b.slot = String(v.s); else { b.dx = +v.x || 0; b.dy = +v.y || 0; }
       });
-      /* an ordinary history provider, so the layout is in Q294's Undo / Redo and in Q300's model reset for free: the
-         model reset restores the history's own load snapshot, and this key is in it. `reset` is deliberately a no-op --
-         Q294's Reset is "the module you are in", and the boxes are the page's chrome, not a module's state. */
-      if (hist && hist.register) hist.register("q305layout", {
-        get:function(){ var o = {}; B.forEach(function(b){ o[b.key] = b.slot ? b.slot : [Math.round(b.dx || 0), Math.round(b.dy || 0)]; }); return o; },
-        set:function(v){
-          if (!v) return;
-          B.forEach(function(b){
-            var x = v[b.key];
-            if (typeof x === "string"){ b.slot = x; b.dx = 0; b.dy = 0; }
-            else if (x && x.length === 2){ b.slot = ""; b.dx = +x[0] || 0; b.dy = +x[1] || 0; }
-            else { b.slot = ""; b.dx = 0; b.dy = 0; }
-          });
-          applyAll(true);
-        },
-        reset:function(){}
-      });
+      /* Q382: the layout is NOT a history provider any more (it was one in Q305, so a drop was an Undo step). Owner: moving a box must
+         not create undo steps; the arrangement is a preference, kept in the store above and put back by Restore layout. */
+      cls = phone();
       on = true;
       api.refresh();
       /* The boxes come and go with the engines' own code (the cut panel, the i drawer, the chip bar are built or shown
@@ -599,19 +615,34 @@ var NMSKMove = (function(){
     },
     refresh:function(){
       if (!on || drag) return;
+      if (cls !== phone()){                                   /* the other class of screen: its own saved arrangement */
+        cls = phone();
+        var sv = load();
+        B.forEach(function(b){
+          var v = sv[b.key]; b.slot = ""; b.dx = 0; b.dy = 0;
+          if (v){ if (v.s) b.slot = String(v.s); else { b.dx = +v.x || 0; b.dy = +v.y || 0; } }
+        });
+      }
       B.forEach(function(b){
         var e = el(b);
         /* Q335: a box another window has taken in (the full card inside the name card) is that window's, not ours */
         if (e && e.parentNode && e.parentNode.closest && e.parentNode.closest("[data-nm-hosted]")) return;
+        if (b.skip && b.skip()){ if (b._ax || b._ay){ setOff(e, 0, 0); b._ax = 0; b._ay = 0; } if (b._grip) b._grip.style.display = "none"; return; }   /* Q382: a docked sheet on a phone stays put */
         if (!shownBase(b)){ if (b._grip && !e) b._grip = null; return; }
         var fresh = !b._grip || !b._grip.isConnected;
-        if (fresh){ b._grip = null; grip(b); }
+        if (b._grip && b._grip.style.display === "none") b._grip.style.display = "";
+        if (b.nogrip){}                                       /* Q382: a box with no handle of its own, moved by its title row only */
+        else if (fresh){ b._grip = null; grip(b); }
         else if (!b._dots || !b._dots.isConnected){ b._dots = null; dots(b); }
+        if (b.head && e){                                     /* Q382: the title row drags the box too */
+          var h = b.band ? e : (typeof b.head === "function" ? b.head(e) : e.querySelector(b.head));
+          if (h && !h._nmHead){ h._nmHead = 1; if (!b.band) h.classList.add("nm-head"); bind(h, b, true); }
+        }
         apply(b, false);
-        if (!b.into) reseat(b);
+        if (!b.into && !b.nogrip) reseat(b);
       });
     },
-    restore:restore,
+    restore:restore, lock:setLocked, locked:function(){ return locked; },
     menu:function(k, s){ if (k) MENUS[k] = s || {}; return api; },
     openMenu:function(k){ var b = byKey[k]; return b ? openMenu(b) : null; },
     closeMenu:function(){ return closeMenu(false); },
@@ -635,7 +666,7 @@ var NMSKMove = (function(){
     present:function(){ return B.filter(function(b){ return shown(el(b)); }).map(function(b){ return b.key; }); },
     phone:function(){ return phone(); },
     state:function(){
-      return {on:on, phone:phone(), translate:CAN_T, key:KEY, drops:drops, reverts:reverts, restores:restores,
+      return {on:on, phone:phone(), locked:locked, translate:CAN_T, key:KEY, drops:drops, reverts:reverts, restores:restores,
               boxes:B.map(function(b){
                 var r = api.rect(b.key);
                 return {key:b.key, label:b.label || b.key, present:!!r, rect:r, off:api.off(b.key), grip:!!(b._grip && b._grip.isConnected), dots:!!(b._dots && b._dots.isConnected),

@@ -9,8 +9,13 @@
                                           is true during a pinch and for 400 ms after it (so the lifted fingers are not a tap)
      NMSKPinch.view()                     a 2-D view transform {k, tx, ty} (screen = k * base + t): about(x, y, f) zooms about
                                           a point, pan(dx, dy), clamp(w, h) keeps the zoomed content covering the frame, reset()
-     NMSKPinch.chip(anchor, onReset, o)   the tiny "2.4x | 1:1" chip on the anchor's rectangle, shown only while zoomed; a tap
-                                          calls onReset (o.pos = "tc" | "tl" | "tr" | "bc" | "bl" | "br", o.dy extra offset)
+     NMSKPinch.chip(anchor, onReset, o)   the tiny "2.4x | 1:1" chip on the anchor's rectangle: shown for a few seconds on every
+                                          zoom / size change while zoomed, then faded (Q382; hovering or touching it keeps it, and
+                                          prefs() can make it permanent); a tap calls onReset (o.pos = "tc" | "tl" | "tr" | "bc" |
+                                          "bl" | "br", o.dy extra offset). It moves to the nearest free spot instead of lying on
+                                          another control.
+     NMSKPinch.prefs() / .setPrefs({always, secs})   the chip's show mode (default: 10 s) -- kept in localStorage, try / catch
+     NMSKPinch.reveal() / .resetAll()     show every zoomed chip again / put every zoomed surface back to 1:1
      NMSKPinch.dbl()                      returns fn(e): true on the second of two quick taps at one place (touch / pen only,
                                           so a desktop double-click keeps its old meaning)
    Native page zoom: the viewport allows it (no user-scalable=no); the canvases keep touch-action:none, so a pinch on them is
@@ -67,11 +72,77 @@
     return z;
   }
 
+  /* Q382: how long the chip stays. Owner: "the dimensions window should be visible on every size change for 10 seconds and then
+     disappear; in Settings it can be changed to permanent, or the delay changed". */
+  var PKEY = "nmsk.q382.chip", prefs = {always: false, secs: 10}, chips = [];
+  (function () {
+    try { var j = JSON.parse(localStorage.getItem(PKEY) || "null"); if (j && typeof j === "object") { prefs.always = !!j.always; if (j.secs > 0) prefs.secs = Math.min(600, +j.secs); } } catch (e) {}
+  })();
+  function getPrefs() { return {always: prefs.always, secs: prefs.secs}; }
+  function setPrefs(o) {
+    if (o && o.always != null) prefs.always = !!o.always;
+    if (o && o.secs != null && +o.secs > 0) prefs.secs = Math.min(600, Math.max(0.2, +o.secs));
+    try { localStorage.setItem(PKEY, JSON.stringify(prefs)); } catch (e) {}
+    chips.forEach(function (c) { c.refade(); });
+    return getPrefs();
+  }
+  /* the show / fade timer shared by both kinds of chip: poke() = "something changed, show it", the fade starts after the delay unless
+     the pointer is on the chip (or it has focus), or the mode is "always" */
+  function fader(b) {
+    var tm = 0, held = false, off = false;
+    function arm() {
+      clearTimeout(tm); tm = 0;
+      if (prefs.always || held || off) return;
+      tm = setTimeout(function () { tm = 0; if (held) return; off = true; b.classList.add("pz-off"); }, prefs.secs * 1000);
+    }
+    function on() { off = false; b.classList.remove("pz-off"); arm(); }
+    ["pointerenter", "focus"].forEach(function (n) { b.addEventListener(n, function () { held = true; clearTimeout(tm); tm = 0; }); });
+    ["pointerleave", "blur"].forEach(function (n) { b.addEventListener(n, function () { held = false; if (!off) arm(); }); });
+    b.addEventListener("pointerup", function (e) { if (e.pointerType !== "mouse") { held = false; arm(); } });
+    b.addEventListener("pointercancel", function () { held = false; arm(); });
+    return {
+      poke: on,
+      refade: function () { if (prefs.always) on(); else if (!off) arm(); },
+      reset: function () { clearTimeout(tm); tm = 0; off = false; held = false; b.classList.remove("pz-off"); },
+      faded: function () { return off; }
+    };
+  }
+
   function fmt(k) { return (k >= 10 ? Math.round(k) : Math.round(k * 10) / 10) + "×"; }
+
+  /* Q382: is the box x, y, w, h lying on another control? Sampled with elementsFromPoint (a corner, the middle of each side and the
+     centre): anything that is not the chip, the anchor surface (or what it contains) or the page itself is in the way. */
+  function blocked(chipEl, anchorEl, x, y, w, h) {
+    var xs = [x + 2, x + w / 2, x + w - 2], ys = [y + 2, y + h / 2, y + h - 2];
+    if (x < 0 || y < 0 || x + w > window.innerWidth || y + h > window.innerHeight) return true;
+    for (var i = 0; i < 3; i++) for (var j = 0; j < 3; j++) {
+      var L = document.elementsFromPoint(xs[i], ys[j]);
+      for (var k = 0; k < L.length; k++) {
+        var e = L[k];
+        if (e === chipEl || e.classList && e.classList.contains("pz-chip")) continue;
+        if (e === document.documentElement || e === document.body || e === anchorEl || (anchorEl && anchorEl.contains(e)) || (e.contains && anchorEl && e.contains(anchorEl))) break;
+        if (e.tagName === "CANVAS") break;
+        var cs = getComputedStyle(e);
+        if (cs.pointerEvents === "none" || cs.visibility === "hidden" || +cs.opacity === 0) continue;
+        if (e.classList && (e.classList.contains("nm-note"))) continue;
+        return true;
+      }
+    }
+    return false;
+  }
+  /* the nearest free spot: the asked-for place first, then upwards in steps, then sideways along the asked-for row */
+  function freeSpot(b, a, x, y, w, hh) {
+    if (!blocked(b, a, x, y, w, hh)) return [x, y];
+    var step = hh + 6, i, s;
+    for (i = 1; i <= 14; i++) if (!blocked(b, a, x, y - i * step * 0.6, w, hh)) return [x, y - i * step * 0.6];
+    for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y, w, hh)) return [x + s * i * (w + 8), y];
+    for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y - 2 * step, w, hh)) return [x + s * i * (w + 8), y - 2 * step];
+    return [x, y];
+  }
 
   function chip(anchor, onReset, o) {
     o = o || {};
-    var b = document.createElement("button"), t = 0, last = "";
+    var b = document.createElement("button"), t = 0, last = "", fd = fader(b), kShown = null, spot = null, spotKey = "";
     b.type = "button"; b.className = "pz-chip"; b.hidden = true;
     b.setAttribute("aria-label", "Reset zoom to 1:1"); b.title = "Back to 1:1 (or double-tap empty space)";
     b.innerHTML = '<span class="pz-k"></span><span class="pz-r">1:1</span>';
@@ -87,22 +158,35 @@
         var w = b.offsetWidth || 70, hh = b.offsetHeight || 26, pos = o.pos || "tc", m = o.margin == null ? 8 : o.margin;
         var x = pos.charAt(1) === "l" ? r.left + m : pos.charAt(1) === "r" ? r.right - w - m : r.left + (r.width - w) / 2;
         var y = pos.charAt(0) === "t" ? r.top + m + (o.dy || 0) : r.bottom - hh - m - (o.dy || 0);
+        if (!fd.faded()) {                                      // a faded chip is not in anyone's way; it is placed when it comes back
+          var ak = Math.round(x) + "," + Math.round(y) + "," + w;
+          if (spot && ak === spotKey && !blocked(b, a, spot[0], spot[1], w, hh)) { x = spot[0]; y = spot[1]; }
+          else { spot = freeSpot(b, a, x, y, w, hh); spotKey = ak; x = spot[0]; y = spot[1]; }
+        }
         var key = Math.round(x) + "," + Math.round(y);
         if (key !== last) { last = key; b.style.left = Math.round(x) + "px"; b.style.top = Math.round(y) + "px"; }
         b.style.visibility = "";
       }
       t = setTimeout(place, 250);                              // follow the anchor while shown (docking, panel scroll, rotation)
     }
-    return {
+    var api = {
       el: b,
       set: function (k, zoomed) {
         if (!zoomed) return this.hide();
-        b.firstChild.textContent = fmt(k);
-        if (b.hidden) { b.hidden = false; clearTimeout(t); place(); }
+        var txt = fmt(k);
+        b.firstChild.textContent = txt;
+        if (b.hidden) { b.hidden = false; clearTimeout(t); spot = null; fd.poke(); place(); }
+        else if (txt !== kShown) { if (fd.faded()) spot = null; fd.poke(); if (!t) place(); }
+        kShown = txt;
       },
-      hide: function () { b.hidden = true; clearTimeout(t); t = 0; },
-      shown: function () { return !b.hidden; }
+      hide: function () { b.hidden = true; clearTimeout(t); t = 0; kShown = null; fd.reset(); },
+      shown: function () { return !b.hidden && !fd.faded(); },
+      refade: fd.refade,
+      reveal: function () { if (!b.hidden) { spot = null; fd.poke(); if (!t) place(); } },
+      reset: function () { if (!b.hidden) onReset(); }
     };
+    chips.push(api);
+    return api;
   }
 
   function dbl() {
@@ -116,12 +200,13 @@
   }
 
   /* ---- native page zoom: keep the main toolbars at 1:1 on the visible part of the page ---- */
-  var PIN = ["#tools", "#topright", "#mode-bar"], nat = null;
+  var PIN = ["#tools", "#topright", "#mode-bar"], nat = null, natF = null, natK = null;
   function natChip() {
     if (nat) return nat;
     nat = document.createElement("button"); nat.type = "button"; nat.className = "pz-chip pz-native"; nat.hidden = true;
     nat.setAttribute("aria-label", "Reset the page zoom to 1:1"); nat.title = "Back to 1:1";
     nat.innerHTML = '<span class="pz-k"></span><span class="pz-r">1:1</span>';
+    natF = fader(nat); chips.push({refade: natF.refade});
     nat.addEventListener("click", function () {                  // honoured by Chromium / Android; iOS ignores it (pinch out there)
       var m = document.querySelectorAll('meta[name="viewport"]'), mm = m[m.length - 1]; if (!mm) return;
       var c = mm.getAttribute("content"); mm.setAttribute("content", c + ", maximum-scale=1");
@@ -142,8 +227,9 @@
     var s = vv.scale || 1, on = s > 1.01;
     document.documentElement.classList.toggle("pz-native-on", on);
     PIN.forEach(function (sel) { var el = document.querySelector(sel); if (el) { if (on) pinTo(el, s, vv.offsetLeft, vv.offsetTop); else unpin(el); } });
-    if (!on) { if (nat) { nat.hidden = true; unpin(nat); } return; }
+    if (!on) { natK = null; if (nat) { nat.hidden = true; unpin(nat); if (natF) natF.reset(); } return; }
     var c = natChip(); c.hidden = false; c.firstChild.textContent = fmt(s);
+    if (natK !== fmt(s)) { natK = fmt(s); natF.poke(); }
     c.style.left = "0px"; c.style.top = "0px"; c.style.transformOrigin = "0 0";
     var w = c.offsetWidth || 70;
     c.style.transform = "translate(" + (vv.offsetLeft + (vv.width - w / s) / 2) + "px," + (vv.offsetTop + 56 / s) + "px) scale(" + (1 / s) + ")";
@@ -153,5 +239,7 @@
     window.visualViewport.addEventListener("scroll", vvSync);
   }
 
-  window.NMSKPinch = {pair: pair, track: track, view: view, chip: chip, dbl: dbl, nativeSync: vvSync, PIN: PIN};
+  window.NMSKPinch = {pair: pair, track: track, view: view, chip: chip, dbl: dbl, nativeSync: vvSync, PIN: PIN, prefs: getPrefs, setPrefs: setPrefs,
+    reveal: function () { chips.forEach(function (c) { if (c.reveal) c.reveal(); }); },
+    resetAll: function () { chips.forEach(function (c) { if (c.reset) c.reset(); }); }};
 })();

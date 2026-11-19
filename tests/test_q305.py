@@ -225,7 +225,7 @@ def test_every_storage_read_and_write_is_guarded(src):
     for call in re.finditer(r"localStorage\.(getItem|setItem)", m):
         seg = m[max(0, call.start() - 260):call.start()]
         assert "try {" in seg, m[call.start() - 120:call.start() + 80]
-    assert m.count("localStorage.getItem") == 1 and m.count("localStorage.setItem") == 1
+    assert m.count("localStorage.getItem") == 2 and m.count("localStorage.setItem") == 2      # Q382: + the lock flag; the layout is saved per screen class
 
 
 def test_the_store_is_per_page(src):
@@ -233,19 +233,11 @@ def test_the_store_is_per_page(src):
     assert "function pageKey()" in src["q305.js"]
 
 
-def test_the_layout_is_an_ordinary_history_provider(src):
-    """So it is in Q294's Undo / Redo and in Q300's model reset for free -- the model reset restores the history's own
-    load snapshot, and this key is in it."""
+def test_the_layout_is_not_a_history_provider_and_moving_a_box_is_not_an_undo_step(src):
+    """Q382 (owner): moving a box must not create undo steps. Q305 registered the layout with Q294's history; that is gone."""
     m = src["move.js"]
-    assert 'hist.register("q305layout"' in m
-    assert "reset:function(){}" in m, "Q294's Reset is the module you are in; the boxes are the page's chrome"
-
-
-def test_restore_is_one_undo_step(src):
-    m = src["move.js"]
-    block = m[m.index("function restore(){"):m.index("function restore(){") + 700]
-    assert block.count("hist.commit()") == 1, "exactly one commit, so exactly one entry"
-    assert "B.forEach(function(b){ b.dx = 0; b.dy = 0; b.slot = \"\"; });" in block
+    assert 'hist.register("q305layout"' not in m
+    assert "hist.commit" not in m
 
 
 def test_restore_is_reachable_from_the_control_bars_view_group_and_not_as_a_new_top_level_button(src):

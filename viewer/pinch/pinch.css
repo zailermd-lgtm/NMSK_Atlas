@@ -1,4 +1,4 @@
-/* Q290: the zoom chip -- shown only while a surface is zoomed; a tap returns it to 1:1 (double-tap on empty space does the same) */
+/* Q290: the zoom chip -- shown for a few seconds on each zoom change (Q382); a tap returns it to 1:1 (double-tap on empty space does the same) */
 .pz-chip{position:fixed;z-index:2147482010;display:inline-flex;align-items:center;gap:5px;margin:0;padding:3px 9px;min-height:26px;
   border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(20,24,30,.78);color:#fff;
   font:600 11.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.01em;cursor:pointer;touch-action:manipulation;
@@ -7,3 +7,6 @@
 .pz-chip .pz-k{opacity:.82;font-weight:500}
 .pz-chip .pz-r{padding-left:6px;border-left:1px solid rgba(255,255,255,.35)}
 @media (prefers-reduced-motion:no-preference){.pz-chip{transition:opacity .15s}}
+/* Q382: after its delay the chip fades and stops catching taps; the next zoom change brings it back */
+.pz-chip.pz-off{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+@media (prefers-reduced-motion:reduce){.pz-chip.pz-off{transition:none}}

@@ -92,3 +92,8 @@
 .pz-head .nm-grip.nm-inline,.pz-head .nm-dots.nm-inline{position:static;flex:0 0 auto;margin-right:4px}
 @media (max-width:560px){.qg-bar .nm-grip.nm-inline,.qg-bar .nm-dots.nm-inline{height:40px;min-height:40px}}
 #topright > .nm-grip.nm-inline,#topright > .nm-dots.nm-inline,.ms-row > .nm-grip.nm-inline,.ms-row > .nm-dots.nm-inline{position:static;align-self:center;flex:0 0 auto}
+/* Q382: a box's title row is a drag surface too (only where a box names one); Settings > Layout can lock every box in place */
+.nm-head{cursor:move;touch-action:none;-webkit-user-select:none;user-select:none}
+.nm-head button,.nm-head a,.nm-head input,.nm-head select{cursor:pointer}
+html.nm-locked .nm-grip{display:none !important}
+html.nm-locked .nm-head{cursor:default;touch-action:auto}

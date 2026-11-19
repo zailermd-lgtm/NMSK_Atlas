@@ -96,8 +96,8 @@ var NMSKQ305 = (function(){
         "<p><b>" + mv.length + " boxes on this page can be moved</b>: " + mv.map(function(b){ return b.label; }).join(", ") + ".</p>" +
         "<p><b>A drop that would cover a control is refused</b> and the box goes back, with a line saying which control " +
         "it was. The controls kept clear are: " + (window.NMSKGuard ? NMSKGuard.watched().join(", ") : "&mdash;") + ".</p>" +
-        "<p><b>Restore layout</b> puts every box back where it started &mdash; one tap, and one Undo brings your " +
-        "arrangement back. Reset model does it too, because the layout is part of what the page loaded in. It is in the " +
+        "<p><b>Restore layout</b> puts every box back where it started &mdash; one tap. Moving a box is not an Undo step, " +
+        "and Reset model leaves your arrangement alone (a layout is a preference, not a state of the model). It is in the " +
         "<b>View</b> group of the control bar, and here: " +
         "<button type=\"button\" id=\"q305-restore-i\" class=\"nm-rb\">Restore layout</button></p>" +
         "<p>What is <b>not</b> movable, and why: the zoom chip belongs to the picture it reports; a four-pane label names " +
@@ -132,10 +132,10 @@ var NMSKQ305 = (function(){
     setInterval(opted, 2000);
     G.addTo("view", {
       label:"Restore layout", id:"q305-restore",
-      title:"Put every box back where it started -- one tap, and one Undo brings your arrangement back",
+      title:"Put every box back where it started -- one tap",
       run:function(){ M.restore(); },
       active:function(){ return M.moved().length > 0; },
-      label2:"Boxes are moved by the small handle of six dots on each one. Reset model puts the layout back as well."
+      label2:"Boxes are moved by the small handle of six dots on each one (or by their title row). Moving a box is not an Undo step."
     });
     info();
     /* a second home for Restore layout, inside the i's own section. The View group's sheet SCROLLS (its body measured
