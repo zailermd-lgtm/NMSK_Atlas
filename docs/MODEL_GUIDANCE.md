@@ -20,7 +20,7 @@ Read this file before dispatching work. It is compared against the real usage lo
 ## 1. The models, and what they cost
 
 Prices per million tokens, from the `claude-api` skill's table (cached 2026‑11‑03; re-read
-2026‑11‑16, unchanged). Always re-read that table in a review rather than trusting the copy below.
+2026‑11‑20, unchanged). Always re-read that table in a review rather than trusting the copy below.
 
 | Model | id | in | out | cache read | context |
 |---|---|---|---|---|---|
@@ -128,6 +128,17 @@ worth reading **by path**, and the scope boundary. The prompt is the only contex
   the regenerated page as the place to verify. Two of the three Sonnet defects in 2026-11-14…16 sat
   there (Q325 builder, Q355 mode-switch parking), not inside the pattern; the third was an early
   hand-back (rule above).
+- **Limits cap the number of agents, not just the price (2026-11-19).** At most **two agents at once
+  in total**, and at most **one Fable-high** among them: two Fable-high plus one Sonnet exhausted the
+  5-hour limit twice in a day and stopped every agent *and* the main session each time. Anything
+  beyond that waits for a slot.
+- **If the routed model is at its weekly limit** (Opus 5.5, 2026-11-18, until 2026-11-22): rows that
+  risk a wrong answer (geometry, anatomical fact, cross-module, unknown-cause debug) either wait or go
+  to `claude-fable-5-2` `high` (one at a time) — never to a cheaper model; Sonnet 5.5 `high` is allowed
+  only for rows the table already gives Sonnet; Haiku rows are unaffected. Record the substitution in
+  the log (`followed=false`, note why).
+- **Each agent keeps progress notes in its scratch dir** (done / ruled out / next step), so a limit
+  stop costs a resume, not a restart.
 - **Log every agent stretch with its model, its effort, and the completion notice's
   `subagent_tokens` and tool-use count in `--notes`.** `get_session` sees only the main thread, so
   without this a subagent entry is blind (review 2026-11-13: 3 of 8 entries were).
@@ -175,3 +186,6 @@ watch items: run-and-report inline vs Haiku, cache-write cost after restarts.
 `reviews/2026-11-16.md` — no routing row changed (38 of 40 entries unpriced); operating rules 9–11
 and four dispatch rules added from the log; watch items: Sonnet rows at seams, run-and-report on
 Haiku (never tried), verifier flakes under lock load, cache writes ~20 % of priced cost.
+`reviews/2026-11-20.md` — no routing row changed (0 of 28 entries priced); dispatch rules added from
+the limit stops: agent cap by tier, weekly-limit fallback, progress notes; watch items: Sonnet rows
+at seams, Haiku never run, whether a two-agent cap is enough.
