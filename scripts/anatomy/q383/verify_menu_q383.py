@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common_q383 import U, Checks, enter_scan, idle, open_page  # noqa: E402
 from playwright.sync_api import sync_playwright  # noqa: E402
 
-# (key, group, css selector | None, text the control starts with | None)  -- the workspace's controls before Q383
+# (key, group, css selector | None, text the control's label contains | None)  -- the workspace's controls before Q383
 CONTROLS = [
     ("depth slider", "image", 'input[type=range][aria-label="עומק"]', None),
     ("frequency -", "image", '[data-fq-box="card"] .fq-b[data-fq="-"]', None),
@@ -51,7 +51,7 @@ BAR = ["mb-undo", "mb-redo", "mb-reset"]
 
 FIND = """([sel, txt]) => {
   const root = document.getElementById('mode-shell') || document.body;
-  let L = [...root.querySelectorAll(sel || 'button')]; if (txt) L = L.filter(b => (b.textContent || '').trim().startsWith(txt));
+  let L = [...root.querySelectorAll(sel || 'button')]; if (txt) L = L.filter(b => (b.textContent || '').includes(txt));     // 'includes': a toggle's label changes with its state
   L = L.filter(e => !e.closest('.fs-sheet, .us-fs, #us-root'));
   if (!L.length) return {n: 0};
   const e = L[0]; e.scrollIntoView({block: 'center'});
