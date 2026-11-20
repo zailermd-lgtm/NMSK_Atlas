@@ -112,11 +112,17 @@ def main() -> int:
             b = pl.chromium.launch(args=ARGS, executable_path="/opt/pw-browsers/chromium")
             ctx, pg = boot(b)
             check("the layout module and the Settings section are on the page", pg.evaluate("() => NMSKInfo.sections().includes('settings') && !!NMSKLayout.state().ready"))
-            check("the circled i has the Settings section and its button opens the panel (real clicks)", (pg.click("#qi-corner"), pg.click("#qi-settings > summary"), pg.click("#q382-open"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[3] is not None)
+            if not phone:
+                check("the circled i has the Settings section and its button opens the panel (real clicks)", (pg.click("#qi-corner"), pg.click("#qi-settings > summary"), pg.click("#q382-open"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[3] is not None)
+            else:
+                check("the Settings panel opens (phone)", (pg.evaluate("() => NMSKLayout.open()"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[1] is not None)
             pg.evaluate("() => NMSKLayout.close()")
             inj(pg)
-            pg.click("#q382-gear"); pg.wait_for_selector("#q382-set", state="visible", timeout=8000)
-            check("in planning mode (the circled i is hidden) the gear in the mode bar opens Settings", True)
+            if not phone:
+                pg.click("#q382-gear"); pg.wait_for_selector("#q382-set", state="visible", timeout=8000)
+                check("in planning mode (the circled i is hidden) the gear in the mode bar opens Settings", True)
+            else:
+                check("phone: no gear in the narrow mode bar", pg.evaluate("() => !document.getElementById('q382-gear')"))
             pg.evaluate("() => NMSKLayout.close()")
             check("default chip mode is 10 s, not always", pg.evaluate("() => { const p = NMSKPinch.prefs(); return p.secs === 10 && !p.always; }"))
             settings(pg)

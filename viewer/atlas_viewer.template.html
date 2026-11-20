@@ -7688,8 +7688,10 @@ var NMSKLayout = (function(){
     ready = true; return true;
   }
   function gear(){
-    var end = document.getElementById("mb-end");
-    if (!end || document.getElementById("q382-gear")) return;
+    var end = document.getElementById("mb-end"), old = document.getElementById("q382-gear");
+    /* on a phone the mode bar has no room (the gear measurably cut the header name short): Settings are reached from the anatomy view there */
+    if (window.innerWidth <= 560){ if (old && old.parentNode) old.parentNode.removeChild(old); return; }
+    if (!end || old) return;
     var g = document.createElement("button"); g.type = "button"; g.id = "q382-gear"; g.className = "mb-x q382-gear";
     g.title = "הגדרות: פריסה וזום (Settings)"; g.setAttribute("aria-label", "הגדרות");
     g.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>';
