@@ -88,3 +88,8 @@ body.ss-marking canvas{cursor:copy!important}
 #sel-sec .ss-taps>button{min-width:42px}
 .ss-phone #sel-sec .ss-sumrow{min-height:30px;font-size:13.5px}
 .ss-phone #sel-sec .ss-quick>button{flex:1 1 30%}
+/* Q385: "Clear marks" in the control bar's second row, only while something is marked */
+#sel-clear-bar[hidden]{display:none}
+#sel-clear-bar{border-color:var(--ss-mark,#F0B429);color:#FFE7A8}
+#sel-clear-bar .ss-cb-x{font-size:17px;line-height:1;font-weight:700}
+#sel-clear-bar .ss-cb-t{font-size:10.5px;line-height:1.1;white-space:nowrap}

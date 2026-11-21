@@ -141,6 +141,7 @@ function NMSKSelect(E){
     if (hlEl && hlEl.value !== hl) hlEl.value = hl;
     if (tintEl) tintEl.checked = tintOn;
     if (invNoteEl) invNoteEl.hidden = !inv;
+    barClear(n);
     if (tbMark){ tbMark.setAttribute("aria-pressed", String(markMode)); tbMark.textContent = n ? "Mark · " + n : "Mark"; }
     if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(md === "only")); tbOnly.hidden = !n; tbOnly.textContent = md === "only" ? "Show all" : "Only marked";
       tbOnly.title = md === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
@@ -396,6 +397,23 @@ function NMSKSelect(E){
     if (!quiet) say(n ? n + " structures " + (on === false ? "unmarked." : "marked.") : "None of those structures are on this page.");
     changed();
     return n;
+  }
+  /* Q385: once anything is marked, "Clear marks" is one press away in the control bar's second row (beside undo); it is
+     the same action as the Clear button of the Search sheet and leaves the bar again when nothing is marked. */
+  var barBtn = null, barWait = 0;
+  function barClear(n){
+    if (!barBtn){
+      var host = document.getElementById("q301-hist");
+      if (!host){ if (n && !barWait) barWait = setTimeout(function(){ barWait = 0; barClear(marks.length); }, 900); return; }
+      barBtn = document.createElement("button"); barBtn.type = "button"; barBtn.id = "sel-clear-bar"; barBtn.className = "qg-h ss-clearbar";
+      barBtn.title = "Unmark every marked structure (Undo brings the marks back)";
+      barBtn.innerHTML = '<span class="ss-cb-x" aria-hidden="true">&times;</span><span class="ss-cb-t"></span>';
+      barBtn.addEventListener("click", function(){ clearMarks(); });
+      host.appendChild(barBtn);
+    }
+    barBtn.hidden = !n;
+    var t = barBtn.lastChild; if (t) t.textContent = "Clear " + n;
+    barBtn.setAttribute("aria-label", "Clear all " + n + " marks");
   }
   function clearMarks(){ beginChange(); marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
   function resetAll(){
