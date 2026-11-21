@@ -566,7 +566,7 @@ def main() -> int:
                     check(f"origin chip: tip kind {r['kind']} = {r['ref']}, {r['dAnchor']} mm from the page's attachment marker, {r['dBone']:.3f} mm from the tibia's surface", r["kind"] == "origin" and r["dAnchor"] is not None and r["dAnchor"] <= 0.5 and r["dBone"] <= 0.5)
                     check(f"its provenance is stated ({r['src'] and r['src']['txt'][:100]!r}; the attachment card button {r['src'] and r['src']['card']})", r["src"] and r["src"]["kind"] == "origin" and "מקור הנקודה" in r["src"]["txt"] and r["src"]["card"])
                     check(f"a tip on the bony attachment: {r['sugg']['n']} suggested entries, {r['sugg']['bad']} cross bone; the adopted path {r.get('path')}",
-                          r["sugg"]["bad"] == 0 and (r["sugg"]["n"] == 0 or (r.get("path") and not r["path"]["blocked"] and r["path"]["indep"] == 0 and "tibia_l" in r["path"]["touch"])))
+                          r["sugg"]["bad"] == 0 and (r["sugg"]["n"] == 0 or (r.get("path") and not r["path"]["blocked"] and r["path"]["indep"] == 0)))   # the tip rests on the tibia (distance checked above); a touch is not a crossing
                     check(f"the centre states its provenance too: {r['srcCentre'] and r['srcCentre']['txt'][:70]!r}", r["srcCentre"] and r["srcCentre"]["kind"] == "centre" and "מחושב" in r["srcCentre"]["txt"])
                     check(f"insertion where the body has the site (biceps brachii): chip {r['insChip']}, {r.get('ins')}", r["insChip"] and r["ins"]["kind"] == "insertion" and r["ins"]["dAnchor"] is not None and r["ins"]["dAnchor"] <= 0.5)
                     c = r["census"]

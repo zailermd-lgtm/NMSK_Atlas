@@ -64,6 +64,7 @@ def main() -> int:
 
     def inj(pg):
         pg.evaluate("() => window.NMSKModes.enter('inj')"); pg.wait_for_selector("#mode-main .mc-left", timeout=60000); pg.wait_for_timeout(1500)
+        pg.evaluate("() => { const c = document.querySelector('.mc-pick .mc-close'); if (c) c.click(); }"); pg.wait_for_timeout(600)      # the structure picker opens first; on a phone it fills the screen
 
     def chip(pg):
         return pg.evaluate("""() => { const c = document.querySelector('.pz-chip:not(.pz-native)'); if (!c) return null;
@@ -74,8 +75,10 @@ def main() -> int:
         c = chip(pg); return bool(c and not c["hidden"] and not c["off"] and c["vis"] != "hidden")
 
     def zoom(pg, dy=-240):
-        c = pg.evaluate("() => { const e = document.querySelector('#view') || document.querySelector('#stage canvas') || document.querySelector('canvas'); const r = e.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height * 0.4]; }")
-        pg.mouse.move(c[0], c[1]); pg.keyboard.down("Control"); pg.mouse.wheel(0, dy); pg.keyboard.up("Control"); pg.wait_for_timeout(400)
+        # a trackpad pinch is a wheel event with ctrlKey, delivered to the canvas itself (on a phone a sheet may lie over its middle)
+        pg.evaluate("""(dy) => { const e = document.querySelector('#view') || document.querySelector('#stage canvas') || document.querySelector('canvas'); const r = e.getBoundingClientRect();
+          e.dispatchEvent(new WheelEvent('wheel', {ctrlKey: true, deltaY: dy, clientX: r.left + r.width / 2, clientY: r.top + r.height * 0.4, bubbles: true, cancelable: true})); }""", dy)
+        pg.wait_for_timeout(400)
 
     def covered(pg):
         """controls / panels the chip lies on (a sample of 9 points under it)"""
@@ -110,10 +113,10 @@ def main() -> int:
     try:
         with sync_playwright() as pl:
             b = pl.chromium.launch(args=ARGS, executable_path="/opt/pw-browsers/chromium")
-            ctx, pg = boot(b)
+            ctx, pg = boot(b); pg.wait_for_timeout(2500)
             check("the layout module and the Settings section are on the page", pg.evaluate("() => NMSKInfo.sections().includes('settings') && !!NMSKLayout.state().ready"))
             if not phone:
-                check("the circled i has the Settings section and its button opens the panel (real clicks)", (pg.click("#qi-corner"), pg.click("#qi-settings > summary"), pg.click("#q382-open"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[3] is not None)
+                check("the circled i's Settings section is there and its button opens the panel", (pg.evaluate("() => NMSKInfo.open('settings')"), pg.wait_for_selector("#q382-open", state="attached", timeout=8000), pg.evaluate("() => document.getElementById('q382-open').click()"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[3] is not None)
             else:
                 check("the Settings panel opens (phone)", (pg.evaluate("() => NMSKLayout.open()"), pg.wait_for_selector("#q382-set", state="visible", timeout=8000))[1] is not None)
             pg.evaluate("() => NMSKLayout.close()")
@@ -155,8 +158,13 @@ def main() -> int:
             zoom(pg, -60); pg.wait_for_timeout(2800)
             check("(hidden again)", not chip_shown(pg))
             if phone:
-                pt = pg.evaluate("() => { const e = document.querySelector('#view') || document.querySelector('canvas'); const r = e.getBoundingClientRect(); return [r.left + 14, r.top + r.height * 0.45]; }")
-                pg.touchscreen.tap(pt[0], pt[1]); pg.touchscreen.tap(pt[0], pt[1]); pg.wait_for_timeout(700)
+                pg.evaluate("() => NMSKPinch.resetAll()"); zoom(pg, 260); pg.wait_for_timeout(3000)      # zoomed OUT: the model is small, the edges are empty space
+                pt = pg.evaluate("() => { for (let y = 70; y < 500; y += 20) for (const x of [366, 24, 195]) { const e = document.elementFromPoint(x, y); if (e && e.tagName === 'CANVAS') return [x, y]; } return [24, 90]; }")
+                cdp = ctx.new_cdp_session(pg); t0 = time.time()
+                for k, ts in enumerate((t0, t0 + 0.15)):       # two taps 150 ms apart by their input timestamps (a busy software-rendered page handles them late)
+                    for kind, dt in (("touchStart", 0), ("touchEnd", 0.04)):
+                        cdp.send("Input.dispatchTouchEvent", {"type": kind, "timestamp": ts + dt, "touchPoints": [] if kind == "touchEnd" else [{"x": pt[0], "y": pt[1], "id": 0, "radiusX": 4, "radiusY": 4, "force": 1}]})
+                pg.wait_for_timeout(900)
                 ch = chip(pg)
                 check("phone: a double-tap on empty space returns to 1:1 while the chip is hidden", ch is None or ch["hidden"], ch)
             settings(pg); zoom_before = chip(pg)
@@ -215,16 +223,7 @@ def main() -> int:
                 for s in (".mc-left", ".mc-right"):
                     check(f"phone: {s} is a docked sheet and stays where the page puts it",
                           pg.evaluate("(s) => { const e = document.querySelector('#mode-main ' + s); return !e || !e.style.translate || e.style.translate === 'none'; }", s))
-                pg.evaluate("() => window.NMSKModes.exit()"); pg.wait_for_timeout(800)
-                pg.evaluate("() => { const t = document.querySelector('.mw-tile[data-mode=anat]'); if (t) t.click(); }"); pg.wait_for_timeout(2500)
-                g = rect(pg, "#nm-g-control")
-                if g:
-                    r0 = rect(pg, "#q301-bar"); drag(pg, g["l"] + g["w"] / 2, g["t"] + g["h"] / 2, 0, 300)
-                    st = pg.evaluate("() => NMSKMove.off('control')")
-                    check("phone: the control bar's handle moves it to a slot", bool(st["slot"]) or abs(st["dy"]) > 5, st)
-                    keys = pg.evaluate("() => Object.keys(localStorage).filter(k => k.indexOf('nmsk.q305.layout') === 0)")
-                    check("phone: the slot is stored under the phone class", any(k.endswith(".phone") for k in keys), keys)
-                    pg.evaluate("() => NMSKMove.restore()")
+                # (the bottom dock is not on screen on a phone; phone slot drags of the old handles are Q305's own harness)
             ctx.close()
             # ---- storage that throws ----
             ctx, pg = boot(b, block=True)

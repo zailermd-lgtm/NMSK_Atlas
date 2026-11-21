@@ -134,7 +134,7 @@
   function freeSpot(b, a, x, y, w, hh) {
     if (!blocked(b, a, x, y, w, hh)) return [x, y];
     var step = hh + 6, i, s;
-    for (i = 1; i <= 14; i++) if (!blocked(b, a, x, y - i * step * 0.6, w, hh)) return [x, y - i * step * 0.6];
+    for (i = 1; i <= 45; i++) if (!blocked(b, a, x, y - i * 16, w, hh)) return [x, y - i * 16];       // up, past a bottom sheet if need be
     for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y, w, hh)) return [x + s * i * (w + 8), y];
     for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y - 2 * step, w, hh)) return [x + s * i * (w + 8), y - 2 * step];
     return [x, y];

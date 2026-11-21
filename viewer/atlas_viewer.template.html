@@ -1568,7 +1568,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   function freeSpot(b, a, x, y, w, hh) {
     if (!blocked(b, a, x, y, w, hh)) return [x, y];
     var step = hh + 6, i, s;
-    for (i = 1; i <= 14; i++) if (!blocked(b, a, x, y - i * step * 0.6, w, hh)) return [x, y - i * step * 0.6];
+    for (i = 1; i <= 45; i++) if (!blocked(b, a, x, y - i * 16, w, hh)) return [x, y - i * 16];       // up, past a bottom sheet if need be
     for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y, w, hh)) return [x + s * i * (w + 8), y];
     for (i = 1; i <= 8; i++) for (s = -1; s <= 1; s += 2) if (!blocked(b, a, x + s * i * (w + 8), y - 2 * step, w, hh)) return [x + s * i * (w + 8), y - 2 * step];
     return [x, y];
@@ -7046,7 +7046,8 @@ var NMSKMove = (function(){
       if (head && (drag || (e.target.closest && e.target.closest(HEAD_SKIP)))) return;
       if (Object.keys(LIVE).length > 1){ cancel(); return; }    /* a second finger: this is a pinch, not a move */
       if (e.button != null && e.button !== 0) return;
-      if (head && b.band && (e.pointerType === "touch" || e.clientY - el(b).getBoundingClientRect().top > b.band)) return;
+      if (head && (b.band || b.mouseOnly) && e.pointerType === "touch") return;        /* the box is not a drag surface for a finger: it scrolls */
+      if (head && b.band && e.clientY - el(b).getBoundingClientRect().top > b.band) return;
       if (b.grab && !head){ try { b.grab(); } catch (err0){} }
       var r = el(b).getBoundingClientRect();
       drag = {b:b, g:g, done:done, id:e.pointerId, x:e.clientX, y:e.clientY, dx:b.dx || 0, dy:b.dy || 0, slot:b.slot || "",
@@ -7403,7 +7404,7 @@ var NMSKMove = (function(){
         else if (!b._dots || !b._dots.isConnected){ b._dots = null; dots(b); }
         if (b.head && e){                                     /* Q382: the title row drags the box too */
           var h = b.band ? e : (typeof b.head === "function" ? b.head(e) : e.querySelector(b.head));
-          if (h && !h._nmHead){ h._nmHead = 1; if (!b.band) h.classList.add("nm-head"); bind(h, b, true); }
+          if (h && !h._nmHead){ h._nmHead = 1; if (!b.band && !b.mouseOnly) h.classList.add("nm-head"); bind(h, b, true); }
         }
         apply(b, false);
         if (!b.into && !b.nogrip) reseat(b);

@@ -279,7 +279,8 @@ var NMSKMove = (function(){
       if (head && (drag || (e.target.closest && e.target.closest(HEAD_SKIP)))) return;
       if (Object.keys(LIVE).length > 1){ cancel(); return; }    /* a second finger: this is a pinch, not a move */
       if (e.button != null && e.button !== 0) return;
-      if (head && b.band && (e.pointerType === "touch" || e.clientY - el(b).getBoundingClientRect().top > b.band)) return;
+      if (head && (b.band || b.mouseOnly) && e.pointerType === "touch") return;        /* the box is not a drag surface for a finger: it scrolls */
+      if (head && b.band && e.clientY - el(b).getBoundingClientRect().top > b.band) return;
       if (b.grab && !head){ try { b.grab(); } catch (err0){} }
       var r = el(b).getBoundingClientRect();
       drag = {b:b, g:g, done:done, id:e.pointerId, x:e.clientX, y:e.clientY, dx:b.dx || 0, dy:b.dy || 0, slot:b.slot || "",
@@ -636,7 +637,7 @@ var NMSKMove = (function(){
         else if (!b._dots || !b._dots.isConnected){ b._dots = null; dots(b); }
         if (b.head && e){                                     /* Q382: the title row drags the box too */
           var h = b.band ? e : (typeof b.head === "function" ? b.head(e) : e.querySelector(b.head));
-          if (h && !h._nmHead){ h._nmHead = 1; if (!b.band) h.classList.add("nm-head"); bind(h, b, true); }
+          if (h && !h._nmHead){ h._nmHead = 1; if (!b.band && !b.mouseOnly) h.classList.add("nm-head"); bind(h, b, true); }
         }
         apply(b, false);
         if (!b.into && !b.nogrip) reseat(b);
