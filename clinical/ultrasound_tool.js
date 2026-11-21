@@ -242,7 +242,7 @@
       var z = s < 1 ? 1 : s, wr = 1.2 * lam * Math.max(FnR, z / Dap), wt = Math.hypot(1.2 * lam * FnT, (z - Fc) / FnT);
       return Math.min(8, Math.max(wmin, 1 / Math.sqrt(1 / (wr * wr) + 1 / (wt * wt))));
     }
-    var AIR = AC.airId, GEL = 255, Zgel = AC.gelZ, maxGap = AC.gel.max_gap_mm;
+    var AIR = AC.airId, GEL = 255, Zgel = AC.gelZ, maxGap = AC.gel.max_gap_mm, NID = AC.needleId == null ? -1 : AC.needleId;
     var attStep = new Float32Array(256), c;
     for (c = 0; c < 256; c++) attStep[c] = Math.pow(10, -AC.alpha[c] * f * ds / 100);
     var tgcRef = GL.tgc_alpha_ref_db_cm_mhz, Gt = new Float32Array(nS);
@@ -310,6 +310,10 @@
       var ls = lineStart(g, L + Lo, nLt), x0 = ls[0], y0 = ls[1], dx = ls[2], dy = ls[3];
       var T = 1, prevZ = Zgel, prevCls = GEL, body = false, gap = 0, firstRev = -1, revVal = 0, bd = null, airUntil = -1, airNext = 0, fillK = Math.ceil(AC.airFillMm / ds);
       var shaded = false, prevQ = -1, prevQc = GEL, lastSh = -1e9;
+      /* Tg: the transmission of the ANATOMY alone, for the gain statistic. An instrument in the picture (Q317: the needle) must not
+         change the gain of the tissue around it: its own loss and shadow are left out (the tissue it displaced is taken as the
+         tissue the beam was in), and a line it has blacked out is followed to the bottom for the statistic only (dead). */
+      var Tg = 1, anat = GEL, viaI = false, dead = false;
       if (frame) bd = [frame.u[0] * dx + frame.b[0] * dy, frame.u[1] * dx + frame.b[1] * dy, frame.u[2] * dx + frame.b[2] * dy];
       for (k = 0; k < nS; k++) {
         var s = k * ds, X = x0 + dx * s, Y = y0 + dy * s + ysk;
@@ -336,7 +340,8 @@
           if (k > 0 && prevCls !== GEL) {                                    // sub-sample position of the interface: where the smoothed log-impedance crosses the mid-level between the two classes
             var za = AC.logz[prevCls], zb = AC.logz[cls], mid = (za + zb) / 2, v0 = zsAt(X - dx * ds, Y - dy * ds), v1 = zsAt(X, Y);
             if (Math.abs(v1 - v0) > 1e-6) { fq = (mid - v0) / (v1 - v0); fq = fq < 0 ? 0 : fq > 1 ? 1 : fq; }
-            T *= Math.pow(10, -(AC.alpha[cls] - AC.alpha[prevCls]) * f * (1 - fq) * ds / 100);   // the last step spent (1 - fq) of its length in the new class
+            var hf = Math.pow(10, -(AC.alpha[cls] - AC.alpha[prevCls]) * f * (1 - fq) * ds / 100); T *= hf;   // the last step spent (1 - fq) of its length in the new class
+            if (cls !== NID && prevCls !== NID) Tg *= hf;
           }
           if (R > 1e-5) {
             var ang = 1, sg = cls === GEL ? 0.4 : Math.max(AC.sig[cls === GEL ? prevCls : cls], prevCls === GEL ? 0 : AC.sig[prevCls]), df = cls === GEL ? 0.25 : Math.max(AC.diff[cls], prevCls === GEL ? 0 : AC.diff[prevCls]);
@@ -350,7 +355,7 @@
             P[k * nL + L] += sp * fq; nStats.specCount++;
             if (o.reverb && firstRev < 0 && R >= AC.art.reverb.r_min && k > 3) { firstRev = k; revVal = sp; }
             T *= (1 - R);
-            if (R >= shadeR) shaded = true;
+            if (cls === NID || prevCls === NID) viaI = true; else { Tg *= (1 - R); if (R >= shadeR) shaded = true; }
           }
           prevZ = Z2; prevCls = cls;
         }
@@ -370,14 +375,14 @@
                 if (spk && AC.shRough > 0) an2 *= 1 - AC.shRough + AC.shRough * (ref && frame ? speckleE((frame.O[0] + frame.u[0] * X + frame.b[0] * Y - ref.O[0]) * 0.83, (frame.O[1] + frame.u[1] * X + frame.b[1] * Y - ref.O[1]) * 0.83, (frame.O[2] + frame.u[2] * X + frame.b[2] * Y - ref.O[2]) * 0.83, seed + 7) : speckleE(X / 1.2, Y / 1.2, 0, seed + 7));   // a sheath is not a mirror: its echo is grainy along its length (1.2 mm cells fixed in the body)
                 var sp2 = T * T * Rs * an2;
                 P[k * nL + L] += sp2; nStats.sheath++;
-                T *= (1 - Rs); lastSh = s;
+                T *= (1 - Rs); Tg *= (1 - Rs); lastSh = s;
               }
             }
             prevQ = qn; prevQc = cls;
           }
         }
         if (cls !== GEL) {
-          var bsl = AC.bs[cls];
+          var bsl = dead ? 0 : AC.bs[cls];
           if (bsl > 0) {
             var m = 1;
             if (AC.aOn[cls] || (tex && AC.tex[cls])) {
@@ -423,10 +428,10 @@
             }
             P[k * nL + L] += bsl * T * T * m;
           }
-          if (AC.alpha[cls] >= shadeA) shaded = true;
-          if (!shaded && body) { tgSum[k] += Math.log(T); tgN[k]++; }
-          T *= attStep[cls];
-          if (T < 1e-13) break;
+          if (cls !== NID) { anat = cls; if (AC.alpha[cls] >= shadeA) shaded = true; }
+          if (!shaded && body) { tgSum[k] += Math.log(Tg); tgN[k]++; }
+          T *= attStep[cls]; Tg *= attStep[anat === GEL ? cls : anat];
+          if (T < 1e-13) { if (!viaI || shaded) break; dead = true; }
         }
       }
       if (firstRev > 0) reverb.push(L, firstRev, revVal);
