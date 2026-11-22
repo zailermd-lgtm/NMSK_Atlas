@@ -63,8 +63,12 @@ JS_LIB = """() => {
     at(id){ return P.screen(this.world(id)); },
     under(x, y){ const e = document.elementFromPoint(x, y); return e ? (e.id || e.tagName) + '.' + (e.getAttribute('class') || '') : null; },
     grab(k){ const g = document.querySelectorAll('#pz-rings .pz-grab')[k]; if (!g) return null;
-      const pts = g.getAttribute('points').trim().split(/\\s+/).map(s => s.split(',').map(Number));
-      return {pts, j: g.dataset.j, n: document.querySelectorAll('#pz-rings .pz-grab').length}; },
+      let pts;
+      if (g.dataset.bar){      // E2: a ring seen edge-on is a bar: 17 points along its far end (two bars cross at the hub)
+        const a = [+g.getAttribute('x1'), +g.getAttribute('y1')], b = [+g.getAttribute('x2'), +g.getAttribute('y2')]; pts = [];
+        for (let i = 0; i < 17; i++){ const u = 0.70 + 0.28 * i / 16; pts.push([a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u]); }
+      } else pts = g.getAttribute('points').trim().split(/\\s+/).map(s => s.split(',').map(Number));
+      return {pts, j: g.dataset.j, bar: !!g.dataset.bar, n: document.querySelectorAll('#pz-rings .pz-grab').length}; },
     hist(){ return window.NMSKHistory ? NMSKHistory.state() : null; },
     b64(i){ const a = window.__poseLive(i); if (!a) return null; const u = new Uint8Array(a.buffer, a.byteOffset, a.byteLength); let s = ''; const n = 0x8000;
       for (let k = 0; k < u.length; k += n) s += String.fromCharCode.apply(null, u.subarray(k, k + n)); return btoa(s); }
