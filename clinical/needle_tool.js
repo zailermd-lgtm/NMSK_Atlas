@@ -3857,10 +3857,10 @@ function injectionMode(tool, api) {
   }
   function moreToggle() { document.body.classList.toggle("mode-more"); }
   /* ---------- Q367: the plan panel (the tip and the skin entry, in any order), the marker legend and the Safety card ---------- */
-  var KIND_HE = {centre: "מרכז המבנה", free: "נקודה בהקשה", origin: "מקור (origin)", insertion: "אחיזה (insertion)", nmj: "צומת עצב-שריר",
+  var KIND_HE = {centre: "מרכז המבנה", free: "נקודה בהקשה", origin: "אחיזה פרוקסימלית (origin)", insertion: "אחיזה דיסטלית (insertion)", nmj: "צומת עצב-שריר",
                  mp: "צומת עצב-שריר · נקודה מוטורית", iz: "צומת עצב-שריר · רצועת IZ", plane: "מישור (plane block)", peri: "פרינוירלי (ליד העצב)",
                  cavity: "בתוך הבורסה / הנדן", intra: "תוך-מפרקי (מרווח המפרק)"};
-  var MISSING_HE = {origin: "מקור", insertion: "אחיזה", nmj: "צומת עצב-שריר", intra: "מרווח מפרק"};
+  var MISSING_HE = {origin: "אחיזה פרוקסימלית (origin)", insertion: "אחיזה דיסטלית (insertion)", nmj: "צומת עצב-שריר", intra: "מרווח מפרק"};
   var offersOf = {};
   function mkChip(kind) { return h("span", {class: "q367-mk q367-mk-" + kind, "aria-hidden": "true"}); }
   function qb(text, fn, a) { var b = h("button", {type: "button", class: "q367-btn", text: text, onclick: fn}); if (a) Object.keys(a).forEach(function (k) { if (a[k] != null) b.setAttribute(k, a[k]); }); return b; }
@@ -3986,7 +3986,7 @@ function injectionMode(tool, api) {
     else if (k === "free") txt = "הנקודה שהקשתם על המודל.";
     else if (k === "origin" || k === "insertion") {
       var ai = attachInfo(t.ref, tool.recs[i] ? tool.recs[i].side : null);
-      txt = "נתוני האחיזות של העמוד: " + (k === "origin" ? "מקור" : "אחיזה") + " על פני העצם. המיקום על גוף זה לפי כלל (קצה רשת המבנה הוצמד לעצם)" + (ai && ai.e != null ? ', שגיאה מוערכת ±' + fmt(ai.e) + ' מ"מ' : "") + ". הציטוטים בכרטיס האחיזה.";
+      txt = "נתוני האחיזות של העמוד: " + (k === "origin" ? "האחיזה הפרוקסימלית (origin: הקצה הקרוב לשלד הצירי)" : "האחיזה הדיסטלית (insertion: הקצה הרחוק ממנו)") + " על פני העצם. המיקום על גוף זה לפי כלל (קצה רשת המבנה הוצמד לעצם)" + (ai && ai.e != null ? ', שגיאה מוערכת ±' + fmt(ai.e) + ' מ"מ' : "") + ". הציטוטים בכרטיס האחיזה.";
       extra = qb("כרטיס האחיזה והמקורות", function () { var pz = api.parts ? api.parts() : null; if (pz && pz.focusById) pz.focusById(t.ref); }, {"data-q381": "src-card"});
     } else if (k === "mp") {
       var mp = t.mp || {}, rule = mp.source && mp.source.rule ? String(mp.source.rule) : "";
