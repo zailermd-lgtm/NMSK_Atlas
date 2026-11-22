@@ -160,12 +160,17 @@ def main() -> int:
             if phone:
                 pg.evaluate("() => NMSKPinch.resetAll()"); zoom(pg, 260); pg.wait_for_timeout(3000)      # zoomed OUT: the model is small, the edges are empty space
                 pt = pg.evaluate("() => { for (let y = 70; y < 500; y += 20) for (const x of [366, 24, 195]) { const e = document.elementFromPoint(x, y); if (e && e.tagName === 'CANVAS') return [x, y]; } return [24, 90]; }")
-                cdp = ctx.new_cdp_session(pg); t0 = time.time()
-                for k, ts in enumerate((t0, t0 + 0.15)):       # two taps 150 ms apart by their input timestamps (a busy software-rendered page handles them late)
-                    for kind, dt in (("touchStart", 0), ("touchEnd", 0.04)):
-                        cdp.send("Input.dispatchTouchEvent", {"type": kind, "timestamp": ts + dt, "touchPoints": [] if kind == "touchEnd" else [{"x": pt[0], "y": pt[1], "id": 0, "radiusX": 4, "radiusY": 4, "force": 1}]})
-                pg.wait_for_timeout(900)
-                ch = chip(pg)
+                cdp = ctx.new_cdp_session(pg)
+                for attempt in range(2):       # a second double-tap if the first was lost (Base·F under software rendering: 2 of 4 runs), as a user would
+                    t0 = time.time()
+                    for k, ts in enumerate((t0, t0 + 0.15)):       # two taps 150 ms apart by their input timestamps (a busy software-rendered page handles them late)
+                        for kind, dt in (("touchStart", 0), ("touchEnd", 0.04)):
+                            cdp.send("Input.dispatchTouchEvent", {"type": kind, "timestamp": ts + dt, "touchPoints": [] if kind == "touchEnd" else [{"x": pt[0], "y": pt[1], "id": 0, "radiusX": 4, "radiusY": 4, "force": 1}]})
+                    pg.wait_for_timeout(900)
+                    ch = chip(pg)
+                    if ch is None or ch["hidden"]:
+                        break
+                    print("  note: double-tap attempt %d did not reset the zoom" % (attempt + 1), flush=True); pg.wait_for_timeout(1200)
                 check("phone: a double-tap on empty space returns to 1:1 while the chip is hidden", ch is None or ch["hidden"], ch)
             settings(pg); zoom_before = chip(pg)
             pg.evaluate("() => NMSKLayout.close()"); zoom(pg, -150); pg.wait_for_timeout(2800); settings(pg); pg.click("#q382-one"); pg.wait_for_timeout(500)
