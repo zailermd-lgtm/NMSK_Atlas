@@ -419,7 +419,7 @@ var NMSKMove = (function(){
      Owner (translated): "just as every window has a drag mark, there should also be a three-dots mark that opens a menu
      relevant to that window." One helper, here, because this module owns the grips: a box gets its "⋮" the moment it
      gets its grip, inline beside an inline grip and in the next corner slot beside a corner grip. */
-  var MENUS = {}, menuEl = null, menuFor = null;
+  var MENUS = {}, menuEl = null, menuFor = null, EXTRA = null;
   function dots(b){
     var g = b._grip; if (!g) return null;
     if (b._dots && b._dots.isConnected) return b._dots;
@@ -464,7 +464,10 @@ var NMSKMove = (function(){
     if (cl) out.push({label:"Close", key:"close", run:cl});
     var extra = [];
     try { extra = S.items ? (S.items() || []) : []; } catch (err){ extra = []; }
-    return out.concat(extra);
+    /* Q386: items every box's menu gets from another module (text size, reset size), by box key */
+    var more = [];
+    try { more = EXTRA ? (EXTRA(b.key) || []) : []; } catch (err9){ more = []; }
+    return out.concat(extra, more);
   }
   function openMenu(b){
     closeMenu(false);
@@ -645,6 +648,10 @@ var NMSKMove = (function(){
     },
     restore:restore, lock:setLocked, locked:function(){ return locked; },
     menu:function(k, s){ if (k) MENUS[k] = s || {}; return api; },
+    extraItems:function(fn){ EXTRA = typeof fn === "function" ? fn : null; return api; },
+    /* Q386: a resize changed the box's own rectangle; move the stored offset by (dx, dy) so its top-left stays where the user had it */
+    shift:function(k, dx, dy){ var b = byKey[k]; if (!b || phone() || b.slot) return false; b.dx = (b.dx || 0) + dx; b.dy = (b.dy || 0) + dy; if (el(b)) apply(b, false); return true; },
+    keep:function(){ save(); return true; },
     openMenu:function(k){ var b = byKey[k]; return b ? openMenu(b) : null; },
     closeMenu:function(){ return closeMenu(false); },
     menuOpen:function(){ return menuFor ? menuFor.key : null; },

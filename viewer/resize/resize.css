@@ -1,0 +1,16 @@
+/* Q386: resize and text size for the boxes (see resize.js) */
+.q386-s{width:var(--q386-w) !important;height:var(--q386-h) !important;min-width:0 !important;min-height:0 !important;box-sizing:border-box !important}
+.q386-s,.q386-f{overflow:auto !important;max-width:var(--q386-mw,none) !important;max-height:var(--q386-mh,none) !important;overscroll-behavior:contain}
+.q386-f > :not(.nm-grip):not(.nm-dots){zoom:var(--q386-z,1)}
+.q386-ov{position:fixed;display:flex;align-items:center;gap:3px;padding:1px;pointer-events:none;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.q386-ov[hidden]{display:none}
+.q386-ov button,.q386-ov .q386-rz{pointer-events:auto}
+.q386-fa,.q386-fb{display:none;min-width:22px;height:20px;padding:0 4px;border-radius:5px;border:1px solid #C9CED6;background:rgba(255,255,255,.92);color:#20242B;font:600 11px/1 system-ui,sans-serif;cursor:pointer}
+.q386-ov.q386-hot .q386-fa,.q386-ov.q386-hot .q386-fb{display:inline-block}
+.q386-rz{width:16px;height:16px;border-radius:4px;cursor:nwse-resize;touch-action:none;color:#5A6270;background:rgba(255,255,255,.7);display:flex;align-items:flex-end;justify-content:flex-end;opacity:.55}
+.q386-ov.q386-hot .q386-rz,.q386-rz:hover{opacity:1}
+.q386-rz svg{display:block}
+.q386-resizing,.q386-resizing *{user-select:none !important;cursor:nwse-resize !important}
+.q386-rows{display:flex;flex-direction:column;gap:4px}
+.q386-rows label{min-height:28px;justify-content:space-between}
+.q386-rows select,.q386-set select{min-height:30px}

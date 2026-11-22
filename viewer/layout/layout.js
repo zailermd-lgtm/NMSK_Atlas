@@ -80,19 +80,46 @@ var NMSKLayout = (function(){
       '<label><input type="radio" name="q382-chip" value="timed" id="q382-timed"> Show it after each zoom for <input type="number" id="q382-secs" min="1" max="600" step="1" aria-label="seconds"> seconds</label>' +
       '<label><input type="radio" name="q382-chip" value="always" id="q382-always"> Always visible while zoomed</label>' +
       '<p>Hovering or touching the chip keeps it. Double-tap empty space (touch) or use <b>Zoom 1:1</b> below to return to 1:1 while it is hidden.</p>' +
+      '<h4>Text size</h4>' +
+      '<label>All boxes <select id="q386-g" aria-label="Text size of all boxes"></select></label>' +
+      '<div class="q386-rows" id="q386-rows" role="group" aria-label="Text size of one box"></div>' +
+      '<p>Each box can also have its own: the A&minus; / A+ buttons at its lower-right corner while the pointer is over it, or its three-dots menu. Text never goes under 10 px.</p>' +
       '<h4>Boxes</h4>' +
-      '<label><input type="checkbox" id="q382-lock"> Lock panels (no dragging)</label>' +
+      '<label><input type="checkbox" id="q382-lock"> Lock panels (no dragging or resizing)</label>' +
       '<div class="q382-row"><button type="button" id="q382-reset">Reset layout</button><button type="button" id="q382-show">Show zoom chip</button><button type="button" id="q382-one">Zoom 1:1</button></div>' +
-      '<p>Boxes move by their handle or by their title row. Positions are kept in this browser, separately for a desktop-width and a phone-width window.</p>';
+      '<p>Boxes move by their handle or by their title row, and change size by the grip at their lower-right corner (double-click it: back to the box&rsquo;s own size). Positions and sizes are kept in this browser, separately for a desktop-width and a phone-width window.</p>';
     function $(id){ return sec.querySelector("#" + id); }
     function paint(){
       var P = window.NMSKPinch ? NMSKPinch.prefs() : {always:false, secs:10};
       $("q382-always").checked = !!P.always; $("q382-timed").checked = !P.always; $("q382-secs").value = P.secs;
       $("q382-lock").checked = !!(window.NMSKMove && NMSKMove.locked());
+      fonts();
+    }
+    /* Q386: the all-boxes text size and one row per box that is on the screen now (a row's value "" = the all-boxes size) */
+    function opts(sel, withDefault, cur){
+      var R = window.NMSKResize, h = withDefault ? '<option value="">Default</option>' : "";
+      (R ? R.steps() : [100]).forEach(function(p){ h += '<option value="' + p + '"' + (cur === p ? " selected" : "") + ">" + p + " %</option>"; });
+      return h;
+    }
+    function fonts(){
+      var R = window.NMSKResize, g = $("q386-g"), rows = $("q386-rows"); if (!R || !g || !rows) return;
+      if (document.activeElement !== g) g.innerHTML = opts(g, false, R.global());
+      var bs = R.boxes().filter(function(b){ return b.present; }), sig = bs.map(function(b){ return b.key + ":" + (b.own ? b.pct : ""); }).join(",") + "|" + R.global();
+      if (rows.getAttribute("data-sig") === sig) return;
+      if (rows.contains(document.activeElement) && rows.getAttribute("data-sig") != null) return;
+      rows.setAttribute("data-sig", sig);
+      rows.innerHTML = "";
+      bs.forEach(function(b){
+        var l = document.createElement("label"), s = document.createElement("select");
+        l.appendChild(document.createTextNode(b.label)); s.setAttribute("data-k", b.key); s.setAttribute("aria-label", "Text size of " + b.label);
+        s.innerHTML = opts(s, true, b.own ? b.pct : -1); l.appendChild(s); rows.appendChild(l);
+      });
     }
     sec.addEventListener("change", function(e){
       var P = window.NMSKPinch, t = e.target;
       if (t.id === "q382-lock"){ if (window.NMSKMove) NMSKMove.lock(t.checked); }
+      else if (t.id === "q386-g"){ if (window.NMSKResize) NMSKResize.setGlobal(+t.value); }
+      else if (t.getAttribute && t.getAttribute("data-k")){ if (window.NMSKResize) NMSKResize.setBox(t.getAttribute("data-k"), t.value === "" ? null : +t.value); }
       else if (P){
         if (t.name === "q382-chip") P.setPrefs({always:$("q382-always").checked});
         if (t.id === "q382-secs"){ var v = Math.round(+t.value); if (v > 0) P.setPrefs({secs:v, always:false}); }
@@ -118,7 +145,11 @@ var NMSKLayout = (function(){
     start:function(){ if (ready || timer) return api; boot(); if (!ready) timer = setInterval(boot, 250); return api; },
     open:function(){ var p = panel(); p.hidden = false; if (window.NMSKInfo && NMSKInfo.close) NMSKInfo.close(); var s = section(); if (s.paint) s.paint(); },
     close:function(){ if (pan) pan.hidden = true; },
-    reset:function(){ return window.NMSKMove ? NMSKMove.restore() : false; },
+    reset:function(){
+      var a = window.NMSKMove ? NMSKMove.restore() : false, b = window.NMSKResize ? NMSKResize.reset() : false;
+      if (sec && sec.paint) sec.paint();
+      return !!(a || b);
+    },
     ready:function(){ return ready; },
     state:function(){ return {ready:ready, locked:!!(window.NMSKMove && NMSKMove.locked()), chip:window.NMSKPinch ? NMSKPinch.prefs() : null, boxes:SPEC.map(function(s){ return s.key; })}; }
   };
