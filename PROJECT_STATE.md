@@ -145,6 +145,16 @@ Q372 skin wall pass, Q377 Base·F head skin de-spike, Q378 + Q380 undo steps.
   joint and must stretch; elbow lacks flexion–extension; a joint picked for moving stays held until a second click.
   Order: D sticky grab, C elbow, then A measure / B skinning. On hand-back: commit by file, regen from build,
   cmp, my own queue (q384 verifier, q318, q319, q338, q353, q356, q329, q344, q382 layout), publish.
+- ★ **Owner, 2026-11-22 (after testing v106) — queued / running:** pose: elbow flexion–extension (his live page still
+  lacks the rings), shoulder rings far away / hidden by other joints' rings / vanish when the figure is rotated
+  (every permitted axis must be rotatable in every pose), latissimus dorsi loses origin + insertion when the arm is
+  abducted (always keep both), Pose window takes half the screen (add "this joint only" + minimize to a tile),
+  fingers abduction/adduction, thumb opposition → added to **Q384** (`$S/q384/addendum_2026-11-22.md`; resume agent
+  a08e7b033759c23c5 at 13:03 UTC, reminder set). **Q386** (Sonnet, running since ~12:00 UTC, brief `$S/q386/brief.md`):
+  every window resizable + scrollable + font size (extends viewer/layout, q305/move.js). **Q387** (not started):
+  camera rotation "360° and more without limit" — elevation is clamped ±1.45 rad (zan template ~19427, 18822;
+  azimuth is free); needs the up vector to flip past the pole wherever a lookAt/axes is built; Fable high after
+  Q384; assumed he means the camera, not joint ranges — ask.
 - **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; reset 2026-11-22 13:00 UTC):** join the
   rebuilt Base·F chest to its neighbours. Findings in the scratchpad `q379/notes.md`; WIP `scripts/anatomy/q379/`.
   Resume the same agent with SendMessage after Q384 (never two heavy agents at once), or re-brief from the notes.
