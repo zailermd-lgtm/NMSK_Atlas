@@ -77,7 +77,7 @@ AXIS_SIGMA, AXIS_RATIO = 30.0, 2.5
 LIMB_R = {"leg": (120.0, 170.0), "arm": (60.0, 85.0)}      # deep tissue is the limb's within this distance of the limb axis (full, none): the chest wall beside the arm is not the arm
 import os as _os
 MUSCLE_MODE = _os.environ.get("Q384_MUSCLE", "field")      # field | ends | axis (how a muscle follows; see run())
-PIN_RAMP = float(__import__("os").environ.get("Q384_PIN_RAMP", 40.0))      # (15 and 25 were measured too: the footprints hold either way, the biceps' turn next to its radial insertion at 120 degrees of elbow flexion goes from +78 to +63 / +70 degrees, the rectus femoris' changes side; 40 kept)                     # E3: a muscle's placed footprint on a bone goes with that bone exactly; over the next PIN_RAMP mm the muscle's own weights take over
+PIN_RAMP = float(__import__("os").environ.get("Q384_PIN_RAMP", 20.0))      # (15 and 25 were measured too: the footprints hold either way, the biceps' turn next to its radial insertion at 120 degrees of elbow flexion goes from +78 to +63 / +70 degrees, the rectus femoris' changes side; 40 kept)                     # E3: a muscle's placed footprint on a bone goes with that bone exactly; over the next PIN_RAMP mm the muscle's own weights take over
 END_MM = 60.0                       # a muscle keeps its stored (attachment) weights at its two ends and follows the limb field beyond END_MM from them
 SMOOTH_ITERS, SMOOTH_ALPHA = 4, 0.5      # 12 held the medial thigh skin back at the perineum for 30-40 mm while the adductors under it went with the thigh
 REFINE = 0.02
@@ -453,8 +453,8 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
     # kept." Measured (attach_q384.py, Base Male): before this round 38 of 488 placed bony ends came more than 5 mm off their
     # bone in some pose (deltoid origin 24 mm, latissimus insertion 9 mm); with the limb field above and nothing else, 89 did
     # (the hamstrings' origins left the ischium by 82 mm at 90 degrees of hip flexion). So: the vertices of a muscle within
-    # the footprint radius of one of its placed sites take the segment of the bone the site is on, whole; from there the
-    # muscle's own weights return over PIN_RAMP mm. The sites are this project's placed sites (data/derived/Q220_parts_z*.json),
+    # the footprint radius of one of its placed sites that touch the bone (attach_q384.py) take the segment of that bone, whole;
+    # from those vertices the muscle's own weights return over PIN_RAMP mm. The sites are this project's placed sites (data/derived/Q220_parts_z*.json),
     # not new anatomy. Hands and feet keep the weights of Q338.
     import attach_q384 as AT
     n_pin = 0
@@ -465,7 +465,10 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
     for mi, lst in by_m.items():
         v = V[mi]
         Wm = (new[mi][0] if mi in new else quant(E_of(mi))).astype(np.float64)
-        es = np.stack([1.0 - sstep((np.linalg.norm(v - st_["pos"], axis=1) - st_["r"]) / PIN_RAMP) for st_ in lst], 1)
+        # distance from the footprint itself (the vertices that touch the bone), not from its centre: a sphere of the footprint
+        # radius took the whole thickness of the muscle's end with it, and with the 40 mm ramp the nearest 70 mm of the biceps
+        # and triceps stayed with the scapula, outside the skin of the raised arm
+        es = np.stack([1.0 - sstep(cKDTree(v[st_["verts"]]).query(v)[0] / PIN_RAMP) for st_ in lst], 1)
         keep = np.prod(1.0 - es, axis=1)
         if (keep < 1).sum() == 0:
             continue

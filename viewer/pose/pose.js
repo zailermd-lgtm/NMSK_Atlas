@@ -981,7 +981,13 @@ function NMSKPose(E){
       .concat(dots.map(function(h){ return h.j.id + ":" + Math.round(h.a[0]) + ":" + Math.round(h.a[1]); })).join(",");
     if (sig === rg.sig) return;                   /* the camera has not moved and nothing has turned */
     rg.sig = sig;
-    svg.textContent = "";
+    /* The handle a finger is ON stays in the page while it is being dragged: the rings are redrawn at every step of a turn,
+       and when that took the touched element away the browser let go of the gesture (its "no panning here" went with the
+       element) and cancelled the drag as soon as the finger crossed a joint's dot. Found by the touch check of
+       scripts/anatomy/q384/verify_pose_q384.py; the old, wider rings never led the finger over a dot. */
+    var keep = rg.drag && rg.drag.el && rg.drag.el.parentNode === svg ? rg.drag.el : null;
+    while (svg.lastChild && svg.lastChild !== keep) svg.removeChild(svg.lastChild);
+    while (svg.firstChild && svg.firstChild !== keep) svg.removeChild(svg.firstChild);
     svg.setAttribute("class", rg.held ? "pz-holding" : "");
     var PX = c0 ? ringPx(J, c0) : RPX;
     rg.px = PX;
@@ -1056,13 +1062,13 @@ function NMSKPose(E){
     var bar = e.currentTarget.dataset.bar;
     if (bar){      /* a ring seen edge-on: the drag runs along the bar, its whole length = the whole allowed range */
       var bb = bar.split(",").map(Number);
-      rg.drag = {id:j.id, k:x, key:d.k, bar:[bb[0], bb[1]], len:bb[2], x0:e.clientX, y0:e.clientY, span:d.hi - d.lo, q0:st.pose.j[j.id][x]};
+      rg.drag = {id:j.id, k:x, key:d.k, bar:[bb[0], bb[1]], len:bb[2], x0:e.clientX, y0:e.clientY, span:d.hi - d.lo, q0:st.pose.j[j.id][x], el:e.currentTarget};
     } else {
       var B = basis(f.ax[x]), mpp = mmPerPx(f.c, B.u);
       if (!mpp) return;
       var r = (+e.currentTarget.dataset.r || RPX[k]) * mpp, a0 = plane(f.c, B, r, e.clientX, e.clientY);
       if (a0 == null) return;
-      rg.drag = {id:j.id, k:x, key:d.k, c:f.c, B:B, r:r, a0:a0, q0:st.pose.j[j.id][x]};
+      rg.drag = {id:j.id, k:x, key:d.k, c:f.c, B:B, r:r, a0:a0, q0:st.pose.j[j.id][x], el:e.currentTarget};
     }
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err){}
     if (rg.held !== hid){ rg.held = hid; rg.peek = null; rg.sig = ""; showGroup(j.group); }      /* Q384: a turn takes hold of the joint, as a click on its hub does */

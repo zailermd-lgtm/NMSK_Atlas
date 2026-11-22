@@ -6,7 +6,8 @@ kept."
 
 The attachment sites are this project's own placed sites (data/derived/Q220_parts_z<page>.json, rule `end_snap_bone`: the
 end of the muscle's mesh that touches a bone, the footprint centre on that bone's surface, the footprint radius). For each
-site the FOOTPRINT is the muscle's vertices within the footprint radius (8..30 mm) of the centre. In a pose the bone moves
+site the FOOTPRINT is the muscle's vertices within the footprint radius (8..30 mm) of the centre that lie within 10 mm of
+the bone's surface (all of them when fewer than three do). In a pose the bone moves
 rigidly with its segment; the footprint has kept its hold when its vertices went with that same motion. Measured per site:
   drift  mean distance (mm) between the posed footprint vertices and where the bone's own motion carries them
   gap    change (mm) of the median distance from the footprint vertices to the bone's surface, pose minus rest
@@ -31,6 +32,7 @@ import pose_replica_q384 as PR  # noqa: E402
 
 LIMIT = 5.0
 R_MIN, R_MAX = 8.0, 30.0
+CONTACT = 10.0      # mm: a vertex of the muscle's end belongs to the footprint when it lies this close to the bone's surface (the placement rule snaps an end that touches the bone within 8-12 mm)
 FILES = {"base_m": "Q220_parts_zbase_m.json", "base_f": "Q220_parts_zbase_f.json"}
 TEST_POSES = {
     "hipknee_l": {"hip_l": {"flex": 90}, "knee_l": {"flex": 90}},
@@ -51,7 +53,7 @@ def sites(key, S, rig):
     d = json.loads((REPO / "data/derived" / FILES[key]).read_text(encoding="utf-8"))
     by = {x["id"]: x for x in S}
     seg_of = {i: g[0] for g in rig["rigid"] for i in g[1]}
-    out = []
+    out, trees = [], {}
     for p in d["placed"]:
         if p.get("rule") != "end_snap_bone" or p.get("part_type") not in ("origin_part", "insertion_point"):
             continue
@@ -63,6 +65,11 @@ def sites(key, S, rig):
         vi = np.where(np.linalg.norm(v - pos, axis=1) <= r)[0]
         if len(vi) < 3:
             continue
+        if bid not in trees:
+            trees[bid] = cKDTree(np.asarray(by[bid]["v"], float))
+        touch = vi[trees[bid].query(v[vi])[0] <= CONTACT]      # the part of the end that is ON the bone; a thick belly near the site is not the footprint
+        if len(touch) >= 3:
+            vi = touch
         out.append(dict(part=p["part_id"], type=p["part_type"], side=p.get("side"), muscle=by[mid]["idx"], mid=mid, bone=by[bid]["idx"], bid=bid,
                         seg=seg_of[by[bid]["idx"]], pos=pos, verts=vi, r=r))
     return out
