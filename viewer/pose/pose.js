@@ -739,8 +739,10 @@ function NMSKPose(E){
     return rg.svg;
   }
   function hideRings(){
-    if (rg.held && statusEl) statusEl.dataset.msg = "";
+    var was = rg.held;
+    if (was && statusEl) statusEl.dataset.msg = "";
     rg.jid = null; rg.sig = ""; rg.held = null; rg.peek = null;
+    if (was) chrome();      /* the status line says "Holding ..." no longer */
     if (rg.raf){ cancelAnimationFrame(rg.raf); rg.raf = 0; }
     if (rg.svg) rg.svg.textContent = "";
   }

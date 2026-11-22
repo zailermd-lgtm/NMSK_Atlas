@@ -70,8 +70,9 @@ ZONE_IN = 1.6                       # and, on the side the joint folds towards, 
 PAT_MM = 12.0
 FIELD_SYS = ("skin", "fat", "fascia", "vessel", "nerve", "lymph")
 AXIS_SYS = ("muscle",)
+MUSCLE_SHARE = 0.5                  # a muscle is the limb's when at least this share of its vertices is stored with the limb's own segments
 AXIS_SIGMA, AXIS_RATIO = 30.0, 2.5
-LIMB_R = {"leg": (120.0, 170.0), "arm": (75.0, 110.0)}      # deep tissue is the limb's within this distance of the limb axis (full, none): the chest wall beside the arm is not the arm
+LIMB_R = {"leg": (120.0, 170.0), "arm": (60.0, 85.0)}      # deep tissue is the limb's within this distance of the limb axis (full, none): the chest wall beside the arm is not the arm
 import os as _os
 MUSCLE_MODE = _os.environ.get("Q384_MUSCLE", "field")      # field | ends | axis (how a muscle follows; see run())
 END_MM = 60.0                       # a muscle keeps its stored (attachment) weights at its two ends and follows the limb field beyond END_MM from them
@@ -140,9 +141,13 @@ class Limb:
         return sstep((s - (zone[0] - r - rin)) / (zone[1] - zone[0] + 2 * r + rin))
 
     def member(self, x):
-        """1 inside the limb, 0 away from it: distance from the line through the limb's two joint centres"""
-        d = x - self.ca; s = d @ self.ax_a
-        r = np.linalg.norm(d - np.outer(s, self.ax_a), axis=1)
+        """1 inside the limb, 0 away from it: distance from the limb's own axis, the two straight pieces joint centre to joint
+        centre (hip-knee-ankle, shoulder-elbow-wrist). Measured from the upper piece's line alone, the forearm -- which
+        does not continue the humerus -- counted as "away" and its muscles were left hanging from the trunk."""
+        def seg(a, b):
+            ab = b - a; t = np.clip((x - a) @ ab / (ab @ ab), 0, 1)
+            return np.linalg.norm(x - (a + t[:, None] * ab), axis=1)
+        r = np.minimum(seg(self.ca, self.cb), seg(self.cb, self.cc))
         r0, r1 = LIMB_R[self.kind]
         return 1.0 - sstep((r - r0) / (r1 - r0))
 
@@ -408,7 +413,9 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
             # smooths the stored weights along the muscle (the first version of this round).
             c = v.mean(0); u, s_, vt = np.linalg.svd(v - c, full_matrices=False)
             t = (v - c) @ vt[0]
-            gated = [(L, r_) for L, r_ in zip(limbs, rr) if r_.max() > 0 and (E[:, L.sub_mid].sum(1) >= 0.5).mean() >= 0.05]
+            # ... a muscle OF THE LIMB: with the 5% that admits a vessel, the latissimus and the pectoralis major (trunk muscles
+            # that only insert on the humerus) swung out with the abducted arm like a wing. Those keep their stored entry.
+            gated = [(L, r_) for L, r_ in zip(limbs, rr) if r_.max() > 0 and (E[:, L.sub_mid].sum(1) >= 0.5).mean() >= MUSCLE_SHARE]
             if not gated:
                 continue
             W = E.copy()
