@@ -20,7 +20,7 @@ Read this file before dispatching work. It is compared against the real usage lo
 ## 1. The models, and what they cost
 
 Prices per million tokens, from the `claude-api` skill's table (cached 2026‑11‑03; re-read
-2026‑11‑20, unchanged). Always re-read that table in a review rather than trusting the copy below.
+2026‑11‑22, unchanged). Always re-read that table in a review rather than trusting the copy below.
 
 | Model | id | in | out | cache read | context |
 |---|---|---|---|---|---|
@@ -55,7 +55,7 @@ Pick by **what kind of wrongness the task risks**, not by how big it feels.
 | Anatomical fact work: ROM tables, tissue properties, ligament subdivision, citations | `claude-opus-5-5` | `high` | The standing rule — real sources only, never fabricated geometry — makes a confident invention far more expensive than any token saving. |
 | Running a test suite, a build, a regeneration; reading a log and reporting pass/fail | `claude-haiku-5-5` | — | No judgement required. Must return only the verdict lines, never the log. |
 | Mechanical sweeps: rename across files, apply one known edit to six build dirs, collect ids from a manifest | `claude-haiku-5-5` | — | Verify the result with a test, not by reading it. |
-| Something genuinely stuck after a strong-model attempt has failed twice | `claude-fable-5-2` | `high` | Twice the price of Opus 5.5. It is an escape hatch, not a default; record in the log why it was needed. |
+| Something genuinely stuck after a strong-model attempt has failed twice | `claude-fable-5-2` | `high` | Twice Opus 5.5's input/output price but the same cache-read price, so on this project's bill the gap is smaller than 2x (unmeasured). Stood in 3 of 3 times for Opus rows at the weekly limit with no rework (Q378, Q381, Q383). Escape hatch, not a default; record in the log why it was needed. |
 
 **Effort.** Opus 5.5 defaults to `medium`, which is below where this project's hard work wants to
 be, so set it explicitly. Do not use `max`: on the tasks above it has not been shown to buy anything
@@ -132,7 +132,8 @@ worth reading **by path**, and the scope boundary. The prompt is the only contex
   in total**, and at most **one Fable-high** among them: two Fable-high plus one Sonnet exhausted the
   5-hour limit twice in a day and stopped every agent *and* the main session each time. Anything
   beyond that waits for a slot.
-- **If the routed model is at its weekly limit** (Opus 5.5, 2026-11-18, until 2026-11-22): rows that
+- **If the routed model is at its weekly limit** (Opus 5.5 hit it 2026-11-18, due to reset
+  2026-11-22 13:00 UTC; the log has not yet shown an Opus row running again): rows that
   risk a wrong answer (geometry, anatomical fact, cross-module, unknown-cause debug) either wait or go
   to `claude-fable-5-2` `high` (one at a time) — never to a cheaper model; Sonnet 5.5 `high` is allowed
   only for rows the table already gives Sonnet; Haiku rows are unaffected. Record the substitution in
@@ -141,7 +142,9 @@ worth reading **by path**, and the scope boundary. The prompt is the only contex
   stop costs a resume, not a restart.
 - **Log every agent stretch with its model, its effort, and the completion notice's
   `subagent_tokens` and tool-use count in `--notes`.** `get_session` sees only the main thread, so
-  without this a subagent entry is blind (review 2026-11-13: 3 of 8 entries were).
+  without this a subagent entry is blind (review 2026-11-13: 3 of 8 entries were). An agent resumed
+  after a limit stop: add up every notice's counts and say so in the notes (review 2026-11-22: 4 of 4
+  resumed agents were logged "tokens unknown").
 
 ### The project rules every agent inherits
 
@@ -189,3 +192,7 @@ Haiku (never tried), verifier flakes under lock load, cache writes ~20 % of pric
 `reviews/2026-11-20.md` — no routing row changed (0 of 28 entries priced); dispatch rules added from
 the limit stops: agent cap by tier, weekly-limit fallback, progress notes; watch items: Sonnet rows
 at seams, Haiku never run, whether a two-agent cap is enough.
+`reviews/2026-11-22.md` — no routing row changed (0 of 6 entries priced); Fable high held as the
+weekly-limit stand-in (3 of 3, no rework); Fable's cache-read price noted equal to Opus 5.5; resumed
+agents must sum their token counts; watch items: first Opus row after the 11-22 reset, the two-agent
+cap (Q381-383 predate it), Sonnet rows at seams, Haiku never run.
