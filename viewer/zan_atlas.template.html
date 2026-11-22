@@ -19238,7 +19238,9 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       if(ptrs.has(e.pointerId)){
         if(ptrs.size===1&&moved<10&&Date.now()-downT<500&&(!panMode||(e.shiftKey&&!panToggle&&e.button===0))){      // Q227: Shift-click (no drag) marks
           var r=canvas.getBoundingClientRect();
-          if(!(window.measureCtl&&measureCtl.consumeClick(e)) && !(cutCtl&&cutCtl.consumeClick(e)) && !(selCtl&&selCtl.consumeClick(e)) && !(addonClick&&addonClick(e))){ var hz=pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr); select(hz,false); if(window.NMSKQuick) NMSKQuick.open(hz?hz.id:null,e.clientX,e.clientY); if(!hz&&pzTap(e)) pzReset(); }   /* Q321: every pick no tool consumed opens the quick card, an empty click closes it */   // Q290: double-tap on empty space = 1:1
+          if(!(window.measureCtl&&measureCtl.consumeClick(e)) && !(cutCtl&&cutCtl.consumeClick(e)) && !(selCtl&&selCtl.consumeClick(e)) && !(addonClick&&addonClick(e))){ var hz=pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr); select(hz,false); if(window.NMSKQuick) NMSKQuick.open(hz?hz.id:null,e.clientX,e.clientY); if(!hz&&pzTap(e)) pzReset(); }
+          else if(pzTap(e) && !pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr)) pzReset();   /* Q382: a tool that takes the tap (the injection plan) keeps the double-tap on empty space = 1:1; the chip is hidden after its delay, so this is the way back on a phone */
+            /* Q321: every pick no tool consumed opens the quick card, an empty click closes it */   // Q290: double-tap on empty space = 1:1
         }
         ptrs.delete(e.pointerId);
       }

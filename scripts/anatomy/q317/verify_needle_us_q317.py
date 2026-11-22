@@ -118,7 +118,7 @@ PROBE = """async () => {
 
   const diff = (p, q, wantNear) => {
     if (!p || !q || p.db.length !== q.db.length) return null;
-    let n = 0, up = 0, maxUp = 0, upNear = 0, upFar = 0;
+    let n = 0, up = 0, maxUp = 0, upNear = 0, upFar = 0, nShaft = 0, upShaft = 0;
     for (let i = 0; i < p.db.length; i++) {
       // -200 is "no signal": outside the fan, or deep in a shadow. A difference measured from that
       // floor is not a brightening of anything, so neither side may be near it.
@@ -126,6 +126,10 @@ PROBE = """async () => {
       const d = q.db[i] - p.db[i];
       if (Math.abs(d) <= 1) continue;
       n++;
+      // Q383: ON the shaft itself (within 1.5 mm of its line). Since the gain follows the tissue, the tissue behind the needle is
+      // no longer under the -60 dB floor, so its (legitimate) shadow counts as "changed": brightening is judged where the steel is.
+      const onShaft = wantNear && distToShaft(i % p.W, Math.floor(i / p.W)) <= 1.5;
+      if (onShaft) { nShaft++; if (d > 0) upShaft++; }
       if (d > 0) {
         up++;
         if (d > maxUp) maxUp = d;
@@ -135,7 +139,7 @@ PROBE = """async () => {
         if (wantNear) { (onShaftLine(i % p.W) ? upNear++ : upFar++); }
       }
     }
-    return {changed: n, brighter: up, maxUp: maxUp, total: p.db.length, upNear: upNear, upFar: upFar};
+    return {changed: n, brighter: up, maxUp: maxUp, total: p.db.length, upNear: upNear, upFar: upFar, nShaft: nShaft, upShaft: upShaft};
   };
   return {
     needleId: AC.needleId,
@@ -183,7 +187,8 @@ def main() -> int:
             check("the painter does nothing when there is no needle", not r["base_painted"], errs)
             check("an in-plane needle is painted", r["inplane_painted"], errs)
             check("an in-plane needle changes the image", di["changed"] > 50, errs)
-            check("and it does so by brightening (a steel interface reflects)", di["brighter"] > di["changed"] * 0.5, errs)
+            check(f"and it does so by brightening (a steel interface reflects): {di['upShaft']} of the {di['nShaft']} changed pixels within 1.5 mm of the shaft are brighter",
+                  di["nShaft"] > 20 and di["upShaft"] > di["nShaft"] * 0.5, errs)
             check("the brightening is strong, as an impedance step of 0.86 should be (> 10 dB)", di["maxUp"] > 10, errs)
             check("every brightening sits on a beam line through the shaft, none off to the side "
                   "(a reflector reverberates deeper, it does not light up its neighbours)",
