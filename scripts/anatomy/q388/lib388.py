@@ -29,6 +29,8 @@ SG = {"r": 1.0, "l": -1.0}
 def load(key, page_dir=None, cache=None):
     """-> {id: dict(name, side, sys, V, F, rec)}"""
     cache = cache or os.environ.get("Q388_CACHE")
+    if not page_dir and key not in PAGES and cache and (Path(cache) / f"{key}.pkl").exists():
+        return pickle.load(open(Path(cache) / f"{key}.pkl", "rb"))
     d = Path(page_dir) if page_dir else REPO / "build/q309" / PAGES[key]
     if cache:
         cp = Path(cache) / f"{key}.pkl"
@@ -45,6 +47,41 @@ def load(key, page_dir=None, cache=None):
         Path(cache).mkdir(parents=True, exist_ok=True)
         pickle.dump(out, open(Path(cache) / f"{key}.pkl", "wb"))
     return out
+
+
+class LazyPage(dict):
+    """{id: mesh dict} decoded on first access (the verifier touches ~150 of ~3300 meshes); .meta[id] has name/sys/side/rec
+    and the manifest bbox (min, min + span) without decoding."""
+
+    def __init__(self, page_dir):
+        super().__init__()
+        d = Path(page_dir)
+        man, blob, _ = read_page(d, stem_of(d))
+        self._blob = blob
+        self._m = {m["id"]: m for m in man["meshes"]}
+        self.meta = {k: dict(name=m["name"], side=m.get("side"), sys=m.get("sys"), rec=m.get("rec", {}),
+                             lo=np.asarray(m["min"], float), hi=np.asarray(m["min"], float) + np.asarray(m["span"], float))
+                     for k, m in self._m.items()}
+
+    def __contains__(self, k):
+        return k in self._m
+
+    def __missing__(self, k):
+        m = self._m[k]
+        V, F = dec(m, self._blob)
+        v = dict(name=m["name"], side=m.get("side"), sys=m.get("sys"), V=V.astype(np.float32), F=F.astype(np.int32),
+                 rec=m.get("rec", {}))
+        self[k] = v
+        return v
+
+    def get(self, k, default=None):
+        return self[k] if k in self._m else default
+
+    def keys(self):
+        return self._m.keys()
+
+    def items(self):
+        return ((k, self[k]) for k in self._m)
 
 
 def centreline(m, n=90, top_first=True):
@@ -73,9 +110,15 @@ class Scene:
 
     def __init__(self, D, systems=("muscle", "bone")):
         self.D = D
-        self.ids = [k for k, v in D.items() if v["sys"] in systems and len(v["F"])]
-        self.lo = np.array([D[k]["V"].min(0) for k in self.ids])
-        self.hi = np.array([D[k]["V"].max(0) for k in self.ids])
+        meta = getattr(D, "meta", None)
+        if meta is not None:
+            self.ids = [k for k, v in meta.items() if v["sys"] in systems]
+            self.lo = np.array([meta[k]["lo"] for k in self.ids])
+            self.hi = np.array([meta[k]["hi"] for k in self.ids])
+        else:
+            self.ids = [k for k, v in D.items() if v["sys"] in systems and len(v["F"])]
+            self.lo = np.array([D[k]["V"].min(0) for k in self.ids])
+            self.hi = np.array([D[k]["V"].max(0) for k in self.ids])
         self._kd = {}
 
     def near_ids(self, p, rad):
@@ -157,3 +200,58 @@ def inside_ids(sc, p, rad=60.0, thr=0.5, systems=None):
         if w > thr:
             res.append((k, round(float(w), 2)))
     return res
+
+
+def slice_segments(V, F, y):
+    """intersection segments of the triangle mesh with the plane y = const -> (n, 2, 2) array of (x, z) end points, each
+    oriented by its triangle's normal (direction (-nz, nx), i.e. n x y_hat), so that a closed oriented surface gives
+    oriented loops and the 2-D winding number (non-zero rule) is defined even where several bodies of one mesh overlap."""
+    V = np.asarray(V, float); F = np.asarray(F)
+    d = V[:, 1] - y
+    dF = d[F]
+    pos = dF > 0
+    cross = pos.any(1) & ~pos.all(1)
+    if not cross.any():
+        return np.zeros((0, 2, 2))
+    Fc, dc, pc = F[cross], dF[cross], pos[cross]
+    P = V[Fc]                                   # (m, 3, 3)
+    nrm = np.cross(P[:, 1] - P[:, 0], P[:, 2] - P[:, 0])
+    out = np.zeros((len(Fc), 2, 2)); k = np.zeros(len(Fc), int)
+    for a, b in ((0, 1), (1, 2), (2, 0)):
+        m = pc[:, a] != pc[:, b]
+        tt = dc[m, a] / (dc[m, a] - dc[m, b])
+        q = P[m, a] + tt[:, None] * (P[m, b] - P[m, a])
+        rows = np.where(m)[0]
+        sl = np.minimum(k[rows], 1)
+        out[rows, sl] = q[:, [0, 2]]
+        k[rows] += 1
+    ok = k == 2
+    out, nrm = out[ok], nrm[ok]
+    dirv = out[:, 1] - out[:, 0]
+    flip = (dirv[:, 0] * -nrm[:, 2] + dirv[:, 1] * nrm[:, 0]) < 0
+    out[flip] = out[flip][:, ::-1]
+    return out
+
+
+def inside_slice(segs, P2):
+    """2-D winding number (non-zero rule) of the oriented slice segments along +x, -x, +z, -z rays; inside where at least
+    3 of the 4 rays give |winding| >= 1 (tolerates small holes in a source mesh and overlapping bodies of one mesh;
+    sign-agnostic, so inward-oriented sources work too)."""
+    if not len(segs):
+        return np.zeros(len(P2), bool)
+    P2 = np.asarray(P2, float)
+    a, b = segs[:, 0], segs[:, 1]
+    votes = np.zeros(len(P2), int)
+    for ax, sgn in ((0, 1), (0, -1), (1, 1), (1, -1)):
+        o = 1 - ax
+        lo = np.minimum(a[:, o], b[:, o]); hi = np.maximum(a[:, o], b[:, o])
+        po = P2[:, o][:, None]
+        straddle = (po >= lo[None]) & (po < hi[None])
+        den = np.where(b[:, o] - a[:, o] == 0, 1, b[:, o] - a[:, o])
+        t = (po - a[None, :, o]) / den[None]
+        xc = a[None, :, ax] + t * (b[None, :, ax] - a[None, :, ax])
+        hit = straddle & ((xc - P2[:, ax][:, None]) * sgn > 0)
+        sgnseg = np.sign(b[:, o] - a[:, o])[None]
+        w = (hit * sgnseg).sum(1)
+        votes += (np.abs(w) >= 1)
+    return votes >= 3

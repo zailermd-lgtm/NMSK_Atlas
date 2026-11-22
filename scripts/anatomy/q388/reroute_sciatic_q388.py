@@ -18,23 +18,22 @@ magnus, deep to the long head of biceps which crosses it (Mannan p. 228-229 rela
 Rule (both sides of each body measured and moved independently, never mirrored):
   * Fixed: everything above the inferior border of piriformis (the plexus end and its contacts) and the last FIX_END mm
     before the division (the tibial and common fibular meshes start there). The cross-section of the tube is NOT re-shaped:
-    every vertex moves by the displacement of its centreline station (a rigid translation per station), so calibre and
-    length are the source's (guards below).
-  * Ischial level (hip-bone slab of the tuberosity, QF levels): ideal centre = medial edge of the nerve MILLER_MM lateral to
-    the tuberosity's lateral margin in that slab, z on the posterior face of quadratus femoris plus the nerve radius; then
-    projected to the nearest point of free space (outside every muscle and bone, clearance >= the nerve radius or the best
-    the neighbourhood allows).
-  * Between the fixed exit and the ischial level: a straight line in the posterior view (Mannan p. 539: from the exit point
-    "downwards and slightly outwards" to just medial of the midpoint of the trochanter-tuberosity line), z projected to free
-    space behind the short rotators.
-  * Thigh, where the source centre lies inside a muscle: the nearest free-space point (anterior neighbour must be adductor
-    magnus or the femur-side muscles, not inside biceps). x blends from the ischial target to the source x over BLEND_MM.
-  * Displacements interpolated along arclength (PCHIP), smoothed, zero at both fixed ends.
+    every ring moves by the displacement of its (smoothed) centreline station, so calibre, vertex / triangle counts and
+    order are the source's (pose-rig contract).
+  * Ideal centre per station: exit -> ischial level on a straight line (Mannan p. 539: "downwards and slightly
+    outwards"), z on the posterior face of the gemelli / obturator internus (Mannan p. 228-229); at the ischial
+    tuberosity the nerve's medial edge MILLER_MM lateral of the tuberosity's lateral margin, on the posterior face of
+    quadratus femoris; below it a blend back to the source course over BLEND_MM (no anterior push onto adductor magnus:
+    the source is already deeper under the skin than Bruhn 2009 measured).
+  * A Viterbi chain through free space (cf. scripts/cryo/vhf_nerve_track.py): per station, candidates on a GRID mm slice
+    grid (2-D winding number of the oriented muscle / bone sections); unary = distance to the ideal + overlap with muscle +
+    12 x depth inside muscle (+ a penalty for being medial of the Miller line at the tuberosity); transition = step between
+    consecutive stations (~3 mm apart), steps > 8 mm forbidden.
   * Attached rule-based stubs (sciatic branches to semitendinosus / semimembranosus / adductor magnus, nerve to obturator
     internus, inferior gluteal) follow with a weight that falls from 1 at the sciatic end to 0 at their far end.
-Guards (a side failing any is NOT written): centreline outside every muscle / bone (winding < 0.5) at every station of the
-moved stretch; no vertex deeper than BONE_TOL mm inside a bone; tube length within LEN_TOL %; displacement <= CAP mm; max
-turning angle of the centreline <= KINK_DEG.
+Guards (a side failing any is NOT written): centre not deeper than CENTRE_TOL mm inside a muscle and never inside a bone
+on the moved stretch; no vertex deeper than BONE_TOL mm inside a bone; tube length within LEN_TOL %; displacement <= CAP mm;
+max turning angle of the smoothed centreline <= max(KINK_DEG, source + 5). A page already carrying the Q388 badge is refused.
 """
 from __future__ import annotations
 
@@ -46,7 +45,6 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from scipy.interpolate import PchipInterpolator
 from scipy.ndimage import distance_transform_edt, gaussian_filter1d
 from scipy.spatial import cKDTree
 
@@ -62,12 +60,13 @@ from conform_palm_q340 import LIT, ser_manifest, repack, read_page, stem_of  # n
 TAG = "Q388"
 MILLER_MM = 12.0      # Miller 2007: 1.2 +/- 0.2 cm from the most lateral aspect of the ischial tuberosity
 FIX_END = 12.0        # mm of the distal end kept (division: tibial / common fibular start)
-BLEND_MM = 70.0
+BLEND_MM = 150.0
 CAP = 45.0
 KINK_DEG = 35.0
 LEN_TOL = 6.0
 BONE_TOL = 1.0
 GRID = 0.75
+CENTRE_TOL = 1.5   # mm a centre may sit inside a packed muscle junction (surface sampling of the source meshes)
 WIN = 26.0
 STUBS = ("sciatic_n_branch_to_semitendinosus", "sciatic_n_branch_to_semimembranosus",
          "sciatic_n_branch_to_adductor_magnus_hamstring_part", "nerve_to_obturator_internus", "inferior_gluteal_n")
@@ -93,29 +92,40 @@ def occupancy(sc, y, cx, cz, ids):
         lo, hi = V.min(0), V.max(0)
         if not (lo[1] - 1 <= y <= hi[1] + 1):
             continue
-        cand = ~occ & np.all((P >= lo - 0.5) & (P <= hi + 0.5), axis=1)
-        if not cand.any():
-            continue
-        # only faces near the slice matter little for the winding number; use all (exact)
-        occ[np.where(cand)[0][np.abs(L.winding(V, F, P[cand])) > 0.5]] = True
+        segs = L.slice_segments(V, F, y)
+        if len(segs):
+            occ |= L.inside_slice(segs, P[:, [0, 2]])
     return xs, zs, occ.reshape(X.shape)
 
 
-def project_free(sc, y, ideal_xz, r, ids, forbid=None):
-    """nearest point to ideal (x, z) in free space with clearance >= r_eff (r_eff = min(r, 0.8 * best clearance within
-    12 mm of the ideal)). forbid(x, z) -> bool mask of grid points not allowed by the relation rule."""
-    xs, zs, occ = occupancy(sc, y, ideal_xz[0], ideal_xz[1], ids)
-    clr = distance_transform_edt(~occ) * GRID
-    X, Z = np.meshgrid(xs, zs, indexing="ij")
-    dist = np.hypot(X - ideal_xz[0], Z - ideal_xz[1])
-    ok = np.ones_like(occ) if forbid is None else ~forbid(X, Z)
-    near = (dist <= 12.0) & ok
-    best = clr[near].max() if near.any() else clr[ok].max()
-    r_eff = min(r, 0.8 * best)
-    cand = (clr >= r_eff - 1e-9) & ok
-    j = np.argmin(np.where(cand, dist, np.inf))
-    i0, i1 = np.unravel_index(j, occ.shape)
-    return np.array([xs[i0], zs[i1]]), float(clr[i0, i1]), float(r_eff)
+ROTATORS = ("gemellus_superior", "obturator_internus", "gemellus_inferior", "quadratus_femoris", "hip_bone")
+
+
+def post_face(D, s, y, x):
+    """most posterior crossing (min z) of the short lateral rotators / hip bone with the line (x, y, z)."""
+    zs = []
+    for base in ROTATORS:
+        m = D.get(sid(base, s))
+        if m is None:
+            continue
+        segs = L.slice_segments(m["V"], m["F"], y)
+        if not len(segs):
+            continue
+        a, b = segs[:, 0], segs[:, 1]
+        lo = np.minimum(a[:, 0], b[:, 0]); hi = np.maximum(a[:, 0], b[:, 0])
+        mm = (x >= lo) & (x < hi)
+        if mm.any():
+            tt = (x - a[mm, 0]) / np.where(b[mm, 0] - a[mm, 0] == 0, 1, b[mm, 0] - a[mm, 0])
+            zs.append((a[mm, 1] + tt * (b[mm, 1] - a[mm, 1])).min())
+    return float(min(zs)) if zs else None
+
+
+def section_radius(V, F, y):
+    s = L.slice_segments(V, F, y)
+    if not len(s):
+        return np.nan
+    P = s.reshape(-1, 2)
+    return 0.25 * ((P[:, 0].max() - P[:, 0].min()) + (P[:, 1].max() - P[:, 1].min()))
 
 
 def side_reroute(D, sc, s, log):
@@ -126,14 +136,13 @@ def side_reroute(D, sc, s, log):
     S = L.arclen(C)
     # nerve radius per station: half the mean width of a 3 mm slab perpendicular to y (the nerve runs ~vertically below the
     # piriformis)
-    rad = np.array([np.sqrt(max(np.mean(np.sum((L.slab(V0, p[1], 1.5)[:, [0, 2]] - p[[0, 2]]) ** 2, 1)), 1.0))
-                    if len(L.slab(V0, p[1], 1.5)) else 4.0 for p in C])
+    rad = np.array([section_radius(V0, N["F"], p[1]) for p in C])
+    rad = np.where(np.isfinite(rad), rad, np.nanmedian(rad))
     rad = np.clip(gaussian_filter1d(rad, 3), 2.5, 9.0)
     hip = D[sid("hip_bone", s)]["V"]; fem = D[sid("femur", s)]["V"]
     pir = D[sid("piriformis", s)]["V"]; qf = D[sid("quadratus_femoris", s)]["V"]
     lo = hip[np.argmin(hip[:, 1])]
-    it_blob = hip[(np.linalg.norm(hip - lo, axis=1) < 40) & (hip[:, 1] < lo[1] + 38)]
-    ids_all = [k for k in sc.ids]
+    it_blob = hip[(np.linalg.norm(hip - lo, axis=1) < 55) & (hip[:, 1] < lo[1] + 40)]
     # exit: lowest piriformis vertex within 40 mm (xz) of the nerve at that height
     yp = pir[:, 1].min()
     near_p = pir[np.linalg.norm(pir[:, [0, 2]] - C[np.argmin(np.abs(C[:, 1] - yp))][[0, 2]], axis=1) < 40]
@@ -141,86 +150,105 @@ def side_reroute(D, sc, s, log):
     i_exit = int(np.argmin(np.abs(C[:, 1] - y_exit)))
     i_end = int(np.searchsorted(S, S[-1] - FIX_END))
     it_top, it_bot = float(it_blob[:, 1].max()), float(it_blob[:, 1].min())
-    qf_bot = float(qf[:, 1].min())
-    # ischial-level stations
-    targets = {}
-    ys_is = np.arange(min(it_top, qf[:, 1].max()) - 2, max(it_bot, qf_bot) + 2, -6.0)
-    for y in ys_is:
-        i = int(np.argmin(np.abs(C[:, 1] - y)))
-        hs = L.slab(it_blob, C[i, 1], 2.0)
-        if not len(hs):
-            continue
-        it_lat = float((sg * hs[:, 0]).max())
-        xc = sg * (it_lat + MILLER_MM + rad[i])
-        qs = L.slab(qf, C[i, 1], 2.0)
-        qs = qs[np.abs(qs[:, 0] - xc) < 8] if len(qs) else qs
-        zc = float(qs[:, 2].min() - rad[i] - 0.5) if len(qs) else float(C[i, 2])
-        ids = sc.near_ids([xc, C[i, 1], zc], WIN + 5)
-        # relation: not medial of the rule's medial edge by more than 2 mm (keeps the nerve lateral to the tuberosity)
-        forbid = (lambda X, Z, it_lat=it_lat, r=rad[i]: sg * X - r < it_lat + MILLER_MM - 2.0 - 4.0)
-        p, clr, reff = project_free(sc, C[i, 1], (xc, zc), rad[i], ids, forbid)
-        targets[i] = dict(kind="ischial", y=float(C[i, 1]), ideal=[xc, zc], to=p.tolist(), clr=clr, r=float(rad[i]),
-                          it_lat=sg * it_lat)
-    if not targets:
+    Cs = gaussian_filter1d(C, 2.0, axis=0, mode="nearest")      # the raw bin centroids zig-zag on a flat band
+    # ---- the ideal centre per station (rule), then a Viterbi chain through free space (cf. scripts/cryo/vhf_nerve_track.py)
+    ideal, kind, itl = {}, {}, {}
+    for i in range(i_exit + 1, i_end):
+        hs = L.slab(it_blob, Cs[i, 1], 2.0)
+        if len(hs) and Cs[i, 1] < it_top - 3:
+            it_lat = float((sg * hs[:, 0]).max())
+            ns = L.slab(V0, Cs[i, 1], 1.5)       # the nerve's own medial half-width at this level (its section is not round)
+            hw = float(sg * Cs[i, 0] - (sg * ns[:, 0]).min()) if len(ns) else rad[i]
+            xc = sg * (it_lat + MILLER_MM + hw)
+            qs = L.slab(qf, Cs[i, 1], 2.0)
+            qs = qs[np.abs(qs[:, 0] - xc) < 8] if len(qs) else qs
+            zc = float(qs[:, 2].min() - rad[i] - 0.5) if len(qs) else float(Cs[i, 2])
+            ideal[i] = (xc, zc); kind[i] = "ischial"; itl[i] = it_lat
+    if not ideal:
         raise RuntimeError("no ischial station")
-    i_is_top = min(targets); i_is_bot = max(targets)
-    # straight posterior-view line from the exit to the top ischial target
-    A = C[i_exit]; Bt = targets[i_is_top]
-    for i in range(i_exit + 3, i_is_top, 4):
+    i_is_top, i_is_bot = min(ideal), max(ideal)
+    A = Cs[i_exit]; Bt = ideal[i_is_top]
+    for i in range(i_exit + 1, i_is_top):      # exit -> ischial level: straight line, on the short rotators' posterior face
         t = (S[i] - S[i_exit]) / (S[i_is_top] - S[i_exit])
-        x = A[0] + t * (Bt["to"][0] - A[0])
-        z0 = C[i, 2] + t * (Bt["to"][1] - C[i_is_top, 2]) * 0.0
-        ids = sc.near_ids([x, C[i, 1], z0], WIN + 5)
-        p, clr, reff = project_free(sc, C[i, 1], (x, z0), rad[i], ids)
-        targets[i] = dict(kind="line", y=float(C[i, 1]), ideal=[x, z0], to=p.tolist(), clr=clr, r=float(rad[i]))
-    # thigh: stations below the ischial level whose source centre is inside a muscle / bone (or within the blend)
-    x_is = targets[i_is_bot]["to"][0]
-    for i in range(i_is_bot + 4, i_end - 2, 4):
-        p0 = C[i]
-        ins = L.inside_ids(sc, p0)
+        x = A[0] + t * (Bt[0] - A[0]); z = A[2] + t * (Bt[1] - A[2])
+        zf = post_face(D, s, Cs[i, 1], x)
+        if zf is not None and t > 0.15:
+            z = zf - rad[i] - 0.5
+        ideal[i] = (x, z); kind[i] = "line"
+    x_is, z_is = ideal[i_is_bot]
+    for i in range(i_is_bot + 1, i_end):       # thigh: blend to the source course
         blend = np.clip((S[i] - S[i_is_bot]) / BLEND_MM, 0, 1)
-        x = (1 - blend) * x_is + blend * p0[0]
-        if not ins and blend >= 1:
-            continue
-        ids = sc.near_ids([x, p0[1], p0[2]], WIN + 5)
-        p, clr, reff = project_free(sc, p0[1], (x, p0[2]), rad[i], ids)
-        targets[i] = dict(kind="thigh", y=float(p0[1]), ideal=[x, float(p0[2])], to=p.tolist(), clr=clr, r=float(rad[i]),
-                          src_inside=[k for k, _ in ins])
-    # displacement field along arclength
-    keys = sorted(targets)
-    knots_s = [S[i_exit]] + [S[i] for i in keys] + [S[i_end]]
-    dx = [0.0] + [targets[i]["to"][0] - C[i, 0] for i in keys] + [0.0]
-    dz = [0.0] + [targets[i]["to"][1] - C[i, 2] for i in keys] + [0.0]
-    fx, fz = PchipInterpolator(knots_s, dx), PchipInterpolator(knots_s, dz)
-    Dx = np.where((S > S[i_exit]) & (S < S[i_end]), fx(np.clip(S, knots_s[0], knots_s[-1])), 0.0)
-    Dz = np.where((S > S[i_exit]) & (S < S[i_end]), fz(np.clip(S, knots_s[0], knots_s[-1])), 0.0)
-    Dx = gaussian_filter1d(Dx, 2); Dz = gaussian_filter1d(Dz, 2)
+        ideal[i] = ((1 - blend) * x_is + blend * Cs[i, 0], (1 - blend) * z_is + blend * Cs[i, 2]); kind[i] = "thigh"
+    stations = list(range(i_exit, i_end + 1))
+    cands, unary = [], []
+    for i in stations:
+        if i in (i_exit, i_end):
+            cands.append(Cs[i][[0, 2]][None]); unary.append(np.zeros(1)); continue
+        ix, iz = ideal[i]
+        ids = sc.near_ids([ix, Cs[i, 1], iz], WIN + 5)
+        xs, zs, occ = occupancy(sc, Cs[i, 1], ix, iz, ids)
+        clr = distance_transform_edt(~occ) * GRID
+        dep = distance_transform_edt(occ) * GRID
+        X, Z = np.meshgrid(xs, zs, indexing="ij")
+        X, Z, cl, dp = X[::2, ::2].ravel(), Z[::2, ::2].ravel(), clr[::2, ::2].ravel(), dep[::2, ::2].ravel()
+        d = np.hypot(X - ix, Z - iz)
+        sig = 3.0 if kind[i] == "ischial" else 5.0
+        U = 0.5 * (d / sig) ** 2 + 1.0 * np.maximum(0.0, rad[i] - cl) + 12.0 * dp
+        if kind[i] == "ischial":
+            U += 10.0 * np.maximum(0.0, (itl[i] + MILLER_MM - 2.0) - (sg * X - rad[i]))
+        keep = np.argsort(U)[:150]
+        cands.append(np.c_[X[keep], Z[keep]]); unary.append(U[keep])
+    # Viterbi: transition cost on the xz step between consecutive stations (~3 mm apart along the nerve)
+    cost = unary[0].copy(); back = []
+    for k in range(1, len(stations)):
+        dxz = np.linalg.norm(cands[k][:, None, :] - cands[k - 1][None, :, :], axis=2)
+        T = 0.5 * (dxz / 1.0) ** 2 + np.where(dxz > 8.0, 1e6, 0.0)
+        tot = cost[None, :] + T
+        j = np.argmin(tot, axis=1)
+        back.append(j); cost = tot[np.arange(len(j)), j] + unary[k]
+    path = [int(np.argmin(cost))]
+    for k in range(len(stations) - 1, 0, -1):
+        path.append(int(back[k - 1][path[-1]]))
+    path = path[::-1]
+    chosen = np.array([cands[k][path[k]] for k in range(len(stations))])
+    targets = {}
+    for k, i in enumerate(stations):
+        if i in ideal:
+            targets[i] = dict(kind=kind[i], y=float(Cs[i, 1]), ideal=[float(v) for v in ideal[i]], to=chosen[k].tolist(),
+                              r=float(rad[i]), **({"it_lat": sg * itl[i]} if i in itl else {}))
+    Dx = np.zeros(len(C)); Dz = np.zeros(len(C))
+    Dx[stations] = chosen[:, 0] - Cs[stations, 0]; Dz[stations] = chosen[:, 1] - Cs[stations, 2]
+    Dx = gaussian_filter1d(Dx, 1.0); Dz = gaussian_filter1d(Dz, 1.0)
     Dx[: i_exit + 1] = 0; Dz[: i_exit + 1] = 0; Dx[i_end:] = 0; Dz[i_end:] = 0
     disp = np.c_[Dx, np.zeros_like(Dx), Dz]
     # per-vertex: interpolate the station displacement by the vertex's projection onto the centreline
-    seg_t = cKDTree(C)
+    seg_t = cKDTree(Cs)
     _, ii = seg_t.query(V0, k=2)
-    a, b = C[ii[:, 0]], C[ii[:, 1]]
+    a, b = Cs[ii[:, 0]], Cs[ii[:, 1]]
     w = np.clip(np.einsum("ij,ij->i", V0 - a, b - a) / np.maximum(np.einsum("ij,ij->i", b - a, b - a), 1e-9), 0, 1)
     dv = disp[ii[:, 0]] * (1 - w)[:, None] + disp[ii[:, 1]] * w[:, None]
     V1 = V0 + dv
-    C1 = C + disp
+    C1 = Cs + disp
     rep = dict(side=s, y_exit=y_exit, i_exit=i_exit, it_top=it_top, it_bot=it_bot, max_disp=float(np.linalg.norm(disp, axis=1).max()),
                stations={int(k): v for k, v in targets.items()})
-    return V1, C, C1, disp, rep
+    return V1, Cs, C1, disp, rep
 
 
 def guards(D, sc, s, N, V1, C1, i_lo, i_hi, rep):
     fails = []
     Vs = N["V"].astype(float)
-    # centreline outside muscle / bone on the moved stretch
+    # centreline outside muscle / bone on the moved stretch: depth of the centre in the occupied region of its slice
     ins = []
     for i in range(i_lo, i_hi, 3):
-        hit = [k for k, w in L.inside_ids(sc, C1[i]) if True]
-        if hit:
-            ins.append((round(float(C1[i, 1]), 1), hit))
+        p = C1[i]
+        ids = sc.near_ids(p, 12)
+        xs, zs, occ = occupancy(sc, p[1], p[0], p[2], ids)
+        dep = distance_transform_edt(occ) * GRID
+        c = occ.shape[0] // 2, occ.shape[1] // 2
+        if dep[c] > CENTRE_TOL or any(sc.D[k]["sys"] == "bone" for k, _ in L.inside_ids(sc, p)):
+            ins.append((round(float(p[1]), 1), [k for k, _ in L.inside_ids(sc, p)], round(float(dep[c]), 1)))
     if ins:
-        fails.append(f"centre inside {len(ins)} stations: {ins[:6]}")
+        fails.append(f"centre inside muscle/bone (depth > {CENTRE_TOL} mm) at {len(ins)} stations: {ins[:5]}")
     # bone depth
     for b in (sid("hip_bone", s), sid("femur", s)):
         Bm = D[b]
@@ -231,18 +259,24 @@ def guards(D, sc, s, N, V1, C1, i_lo, i_hi, rep):
                 dd = sc.kd(b).query(V1[moved][::3][wn > 0.5])[0]
                 if dd.max() > BONE_TOL:
                     fails.append(f"{b}: {int((wn > 0.5).sum())} vertices inside, deepest {dd.max():.1f} mm")
-    # length
-    l0 = L.arclen(L.centreline(dict(V=Vs, F=N["F"]), n=160))[-1]
-    l1 = L.arclen(L.centreline(dict(V=V1, F=N["F"]), n=160))[-1]
+    # length and turning, on the centreline smoothed over ~3 stations (the raw bin centroids of the source zig-zag)
+    def smooth_c(V):
+        return gaussian_filter1d(L.centreline(dict(V=V, F=N["F"]), n=160), 2.0, axis=0, mode="nearest")
+
+    def turn(P):
+        T = np.diff(P, axis=0); T /= np.linalg.norm(T, axis=1)[:, None] + 1e-9
+        return np.degrees(np.arccos(np.clip(np.einsum("ij,ij->i", T[:-1], T[1:]), -1, 1)))
+    c0, c1 = smooth_c(Vs), smooth_c(V1)
+    l0, l1 = L.arclen(c0)[-1], L.arclen(c1)[-1]
     if abs(l1 - l0) / l0 * 100 > LEN_TOL:
         fails.append(f"length {l0:.0f} -> {l1:.0f} mm")
     if rep["max_disp"] > CAP:
         fails.append(f"displacement {rep['max_disp']:.1f} > {CAP}")
-    T = np.diff(C1, axis=0); T /= np.linalg.norm(T, axis=1)[:, None] + 1e-9
-    ang = np.degrees(np.arccos(np.clip(np.einsum("ij,ij->i", T[:-1], T[1:]), -1, 1)))
-    if ang.max() > KINK_DEG:
-        fails.append(f"kink {ang.max():.0f} deg")
-    rep.update(len_before=float(l0), len_after=float(l1), max_turn_deg=float(ang.max()), inside_after=ins)
+    a0, a1 = turn(c0), turn(c1)
+    if a1.max() > max(KINK_DEG, a0.max() + 5):
+        fails.append(f"kink {a1.max():.0f} deg (source {a0.max():.0f})")
+    ang = a1
+    rep.update(len_before=float(l0), len_after=float(l1), max_turn_deg=float(ang.max()), max_turn_src_deg=float(a0.max()), inside_after=ins)
     return fails
 
 
