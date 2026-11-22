@@ -1,0 +1,59 @@
+{
+  "subject": "ct_vhm",
+  "audit_timestamp": "2026-09-20",
+  "source": "Q104: Intervertebral Disc Integration Task",
+  "methodology": "Face-adjacency connected components with vertex-based main_frac metric (matching Q103 methodology)",
+  "regions": {
+    "cervical": {
+      "status": "SEVERE_BREAK",
+      "main_frac": 0.14249714720426018,
+      "n_components": 14,
+      "total_vertices": 21032,
+      "largest_component_vertices": 2997,
+      "included_structures": [
+        "cervical_vertebrae",
+        "intervertebral_disc_c1_c2",
+        "intervertebral_disc_c2_c3",
+        "intervertebral_disc_c3_c4",
+        "intervertebral_disc_c4_c5",
+        "intervertebral_disc_c5_c6",
+        "intervertebral_disc_c6_c7"
+      ]
+    },
+    "thoracic": {
+      "status": "SEVERE_BREAK",
+      "main_frac": 0.08240393109540636,
+      "n_components": 32,
+      "total_vertices": 36224,
+      "largest_component_vertices": 2985,
+      "included_structures": [
+        "thoracic_vertebrae",
+        "intervertebral_disc_t1_t2",
+        "intervertebral_disc_t2_t3",
+        "intervertebral_disc_t3_t4",
+        "intervertebral_disc_t4_t5",
+        "intervertebral_disc_t5_t6",
+        "intervertebral_disc_t6_t7",
+        "intervertebral_disc_t7_t8",
+        "intervertebral_disc_t8_t9",
+        "intervertebral_disc_t9_t10",
+        "intervertebral_disc_t10_t11",
+        "intervertebral_disc_t11_t12"
+      ]
+    },
+    "lumbar": {
+      "status": "SEVERE_BREAK",
+      "main_frac": 0.19870941990420438,
+      "n_components": 10,
+      "total_vertices": 15032,
+      "largest_component_vertices": 2987,
+      "included_structures": [
+        "lumbar_vertebrae",
+        "intervertebral_disc_l1_l2",
+        "intervertebral_disc_l2_l3",
+        "intervertebral_disc_l3_l4",
+        "intervertebral_disc_l4_l5"
+      ]
+    }
+  }
+}

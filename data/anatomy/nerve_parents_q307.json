@@ -1,0 +1,39 @@
+{
+ "schema": "nmsk.nerve_parents.v1",
+ "generated_by": "Q307 (2026-11-03), by hand from sources read this round through the PubMed MCP tools",
+ "why": "The project's own cited nerve registry (data/nerves/*.json, 312 entities with a parent_id from Gray's / Moore / Terminologia Anatomica) does NOT contain the lateral antebrachial cutaneous nerve, which is the structure the owner reported as out of place, so Q307's continuity test had no parent for it and could not measure whether it meets the nerve it branches from. These rows fill only what this round could cite from a source it actually read; a nerve with no row here is reported by the audit as 'no parent resolved' rather than given a guessed one.",
+ "parents": [
+  {
+   "id": "lateral_antebrachial_cutaneous_nerve",
+   "name": "Lateral antebrachial cutaneous nerve (lateral cutaneous nerve of the forearm)",
+   "parent_id": "musculocutaneous_n",
+   "relation": "terminal continuation",
+   "source": "Tagliafico AS, Michaud J, Marchetti A, Garello I, Padua L, Martinoli C. US imaging of the musculocutaneous nerve. Skeletal Radiol 2010;40(5):609-16. PMID 20931188, doi:10.1007/s00256-010-1046-6 -- 'the MCN can be reliably identified from the axilla through the elbow, including the lateral antebrachial cutaneous (LAbC) nerve', i.e. the LACN is the continuation of the musculocutaneous nerve. Emergence landmark: Qawasmi F, MacLeod J, AbuHamdia A, Grindel SI, Yassin M. Anatomy of the Lateral Antebrachial Cutaneous Nerve: Landmarks for Procedures in the Cubital Fossa. J Hand Surg Am 2024;50(7):882.e1-882.e5. PMID 38934998, doi:10.1016/j.jhsa.2024.04.018 -- 28 fresh cadaveric upper extremities: 'The LABCN emerged lateral to the BT [biceps tendon] in all specimens'.",
+   "measured_course": {
+    "deep_to_the_forearm_superficial_fascia": "Qawasmi 2024: 'It was deep to the forearm superficial fascia in all cadavers' and 'The LABCN and antebrachial vein are in the same deep fascia plane, on average 47.6 +- 5 mm (37-55) from the LE'.",
+    "distance_to_the_brachioradialis_mm": "Khadanovich A, Benes M, Kaiser R, Herma T, Kachlik D. Clinical anatomy of the lateral antebrachial cutaneous nerve: Is there any safe zone for interventional approach? Ann Anat 2023;252:152202. PMID 38128746, doi:10.1016/j.aanat.2023.152202 -- 93 cadaveric forearms: 'The medial border of the brachioradialis muscle was observed less than 1.8 mm from the LACN' and 'The LACN appeared to be in a close proximity within the whole length of the brachioradialis muscle'.",
+    "lateral_epicondyle_at_the_interepicondylar_line_mm": "Qawasmi 2024: 24.5 +- 7.2 mm.",
+    "aligns_with_the_brachioradialis_medial_border_mm_distal_to_the_IEL": "Qawasmi 2024: a mean of 68 mm.",
+    "emerging_point_relative_to_the_interepicondylar_line": "Khadanovich 2023: 'The emerging point of the LACN was found distally, proximally or at the level of the interepicondylar line (IEL)' -- so a distal emergence is within reported variation.",
+    "division_into_anterior_and_posterior_branches": "Khadanovich 2023: 'The LACN branched in 76 cases (81.7 %) into an anterior and posterior branch at mean distance of 47.8 +- 34.2 mm distal to the IEL'.",
+    "distal_territory": "Khadanovich 2023: 'The LACN and the SBRN intersected in 86 % of upper limbs with communications noticed in 71 % of forearms' in the distal forearm and hand; 'The LACN supplying the dorsum of the hand was observed in 39.8 % of cases'."
+   }
+  },
+  {
+   "id": "anterior_branch_of_lateral_antebrachial_cutaneous_nerve",
+   "name": "Anterior branch of the lateral antebrachial cutaneous nerve",
+   "parent_id": "lateral_antebrachial_cutaneous_nerve",
+   "relation": "terminal division",
+   "source": "Khadanovich 2023, PMID 38128746, doi:10.1016/j.aanat.2023.152202 -- the anterior and posterior branches, present in 76 of 93 forearms (81.7 %).",
+   "not_shipped": "No mesh of this branch exists on any of the six pages; recorded here so the gap is on record rather than implied by its absence."
+  },
+  {
+   "id": "posterior_branch_of_lateral_antebrachial_cutaneous_nerve",
+   "name": "Posterior branch of the lateral antebrachial cutaneous nerve",
+   "parent_id": "lateral_antebrachial_cutaneous_nerve",
+   "relation": "terminal division",
+   "source": "Khadanovich 2023, PMID 38128746, doi:10.1016/j.aanat.2023.152202 -- 'The posterior branch of the LACN was predicted as appropriate donor of the graft for a digital nerve'.",
+   "not_shipped": "No mesh of this branch exists on any of the six pages."
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "schema": "nmsk.structure_colours.v1",
+ "round": "Q364",
+ "doc": "Per-structure display colours that override the layer colour in the Z engine (Base pages). The layer still decides visibility, the system controls, the peel and the legend row; only the drawn colour (and, where given, the opacity) of these structures differs. Each entry names base ids: a page id matches when it equals the base id or the base id + '_l' / '_r'. 'hex' is '#rrggbb', or '@<layer>' to take that layer's theme colour (follows light / dark). 'alpha' < 1 draws the structure translucent (at most its layer's opacity); below 0.35 a click passes through it, as through the skin. The user's own colour, the selection highlight and the radiographic styles win over this table. Injected into each Base page by scripts/anatomy/q364/colours_q364.py --inject (regen step).",
+ "entries": [
+  {"ids": ["zan_sclera"], "hex": "#ebe6da", "alpha": 1, "why": "the white of the eye: dense collagen, off-white"},
+  {"ids": ["zan_cornea"], "hex": "#e6f2f6", "alpha": 0.12, "why": "transparent; drawn faint so the iris and pupil behind it show"},
+  {"ids": ["zan_iris"], "hex": "#6b4426", "alpha": 1, "why": "pigmented iris, a natural brown (the pupil is the opening in this mesh; no separate pupil mesh exists)"},
+  {"ids": ["zan_lens"], "hex": "#e8d9a6", "alpha": 0.12, "why": "pale, slightly yellow and translucent (light enough that the pupil still reads dark)"},
+  {"ids": ["zan_zonular_fibres"], "hex": "#e8e1cc", "alpha": 0.15, "why": "fine, nearly clear fibres between the ciliary region and the lens (opaque they drew a white hatched ring round the iris)"},
+  {"ids": ["zan_retina"], "hex": "#8c3f2e", "alpha": 1, "why": "inner coat of the posterior globe, a deep red-brown: it is what the pupil opens onto, so the pupil reads dark"},
+  {"ids": ["zan_vitreous_body"], "hex": "#e4eef1", "alpha": 0.06, "why": "transparent gel filling the posterior segment"},
+  {"ids": ["zan_anterior_chamber_of_eyeball", "zan_anterior_segment_of_eyeball", "zan_posterior_segment_of_eyeball"], "hex": "#e4eef1", "alpha": 0.04, "why": "regions (spaces) of the globe, not tissues: near-transparent so they do not hide the iris, lens and retina"},
+  {"ids": ["zan_suspensory_ligament_of_eyeball"], "hex": "@joint", "alpha": 1, "why": "fibrous sling below the globe: ligament colour, not brain"},
+  {"ids": ["optic_n", "zan_optic_chiasm", "zan_optic_tract"], "hex": "@nerve", "alpha": 1, "why": "the visual pathway keeps the nerve colour of the atlases (filed under the CNS layer because it is a brain tract)"},
+  {"ids": ["zan_superior_tarsus", "zan_inferior_tarsus"], "hex": "#e2c3b2", "alpha": 1, "why": "the dense connective plates of the eyelids: pale lid tone, not muscle red"},
+  {"ids": ["zan_lacrimal_gland"], "hex": "#d49a94", "alpha": 1, "why": "glandular tissue, pink"},
+  {"ids": ["zan_lacrimal_sac", "zan_lacrimal_canaliculus", "zan_ampulla_of_lacrimal_canaliculus", "zan_nasolacrimal_duct"], "hex": "#dd9f9a", "alpha": 1, "why": "tear passages lined by mucosa: mucosa pink"},
+  {"ids": ["zan_spinal_dura", "zan_falx_cerebri", "zan_tentorium_cerebelli"], "hex": "#d6cfc2", "alpha": 1, "why": "dura mater, a tough fibrous membrane: off-white grey, not brain lavender (Q354 moved the spinal dura to the CNS layer)"}
+ ]
+}

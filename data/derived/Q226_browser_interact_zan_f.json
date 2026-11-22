@@ -1,0 +1,224 @@
+{
+ "1440x900": {
+  "geometry_s": 10.63,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "mpr",
+   "active": "cut",
+   "P": [
+    -1.0370025634765625,
+    289.62750244140625,
+    13.107498168945312
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "side"
+  },
+  "geo_timing": {
+   "t0": 1791796061869,
+   "read": 2898,
+   "pack": 767,
+   "worker": 396
+  },
+  "perf": {
+   "n": 2942,
+   "nv": 1591520,
+   "nt": 3144598,
+   "axial512_ms": [
+    24,
+    30,
+    178
+   ],
+   "axial512_25sub_ms": 389,
+   "coronal512_ms": 69,
+   "sagittal512_ms": 48
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 949,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 242,
+    "parityBad": 219
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-z img-side",
+   "scrollW": 1440,
+   "innerW": 1440,
+   "scrollH": 900,
+   "innerH": 900,
+   "panel": [
+    720,
+    0,
+    720,
+    900
+   ],
+   "canvas": [
+    0,
+    0,
+    720,
+    900
+   ],
+   "smallButtons": 0,
+   "buttons": 32,
+   "ctlScrollW": 719,
+   "ctlClientW": 719
+  },
+  "interact": {
+   "click_coronal_moves_anchor": true,
+   "click_coronal_moves_cut_plane": true,
+   "cut_state": [
+    "axial, Y = 289.6 mm",
+    "axial, Y = 485.6 mm"
+   ],
+   "readout": "Fat (subcutaneous / intermuscular baseline) | baseline fat / connective (no structure) | HU -100 (class -100) | x -56 y 681 z 12 mm",
+   "readout_has_tissue_and_hu": true,
+   "axial_click_keeps_plane_y": true,
+   "mip_mode": true,
+   "thick_10": true,
+   "cut_panel_slab_adopted": true,
+   "cut_th_text_after_link": "3.0 mm slice",
+   "views_have_content": {
+    "cut": true,
+    "ax": true,
+    "co": true,
+    "sa": true
+   },
+   "closed_cleanly": {
+    "cls": "img-z",
+    "canvasW": 1440,
+    "innerW": 1440,
+    "rootVisible": "none"
+   }
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "390x844": {
+  "geometry_s": 8.53,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "single",
+   "active": "cut",
+   "P": [
+    -1.0370025634765625,
+    289.62750244140625,
+    13.107498168945312
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "tab"
+  },
+  "geo_timing": {
+   "t0": 1791796099957,
+   "read": 2801,
+   "pack": 410,
+   "worker": 237
+  },
+  "perf": {
+   "n": 2942,
+   "nv": 1591520,
+   "nt": 3144598,
+   "axial512_ms": [
+    42,
+    74,
+    87
+   ],
+   "axial512_25sub_ms": 472,
+   "coronal512_ms": 45,
+   "sagittal512_ms": 30
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 476,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 242,
+    "parityBad": 219
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-z img-tab",
+   "scrollW": 390,
+   "innerW": 390,
+   "scrollH": 844,
+   "innerH": 844,
+   "panel": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "canvas": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "smallButtons": 0,
+   "buttons": 12,
+   "ctlScrollW": 390,
+   "ctlClientW": 390
+  },
+  "interact": {
+   "click_coronal_moves_anchor": true,
+   "click_coronal_moves_cut_plane": true,
+   "cut_state": [
+    "axial, Y = 289.6 mm",
+    "axial, Y = 567.1 mm"
+   ],
+   "readout": "Air (outside the body) | outside the body | HU -1000 (class -1000) | x -46 y 845 z 12 mm",
+   "readout_has_tissue_and_hu": true,
+   "axial_click_keeps_plane_y": true,
+   "mip_mode": true,
+   "thick_10": true,
+   "cut_panel_slab_adopted": true,
+   "cut_th_text_after_link": "3.0 mm slice",
+   "views_have_content": {
+    "cut": true,
+    "ax": true,
+    "co": true,
+    "sa": true
+   },
+   "closed_cleanly": {
+    "cls": "img-z",
+    "canvasW": 390,
+    "innerW": 390,
+    "rootVisible": "none"
+   }
+  },
+  "errors": [],
+  "bad_responses": []
+ }
+}

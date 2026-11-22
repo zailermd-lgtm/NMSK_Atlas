@@ -1,0 +1,476 @@
+{
+ "schema": "nmsk.relations_rules.v1",
+ "round": "Q298",
+ "doc": "The RULES the Q298 \"Related\" and \"Functional group\" expansions are built from. The facts they stand on are the project's existing cited data (data/anatomy/muscle_actions_q283.json, muscle_groups_q283.json, muscle_heads_q293.json, muscle_audit_q293.json, data/anatomy/structure_parts.json, the per-page nmsk-learn block built by scripts/anatomy/q283/build_learn.py, data/derived/Q256_plexus_groups.json and each structure's own card record). THIS file holds only the mapping rules -- which page structures count as a joint, which naming patterns mark a tendon or a bursa, and the few functional groups that are not in the textbook group table. Every rule carries `inferred`: 1 means the LINK is a rule of this project's own and the UI labels it 'inferred'; 0 means the link is read straight out of a cited field and the UI shows that field's own source.",
+ "kinds": {
+  "head": {
+   "label": "another part of the same muscle",
+   "inferred": 0,
+   "src": "the page's own `part_of_id` / `part_of` record field, plus data/anatomy/muscle_heads_q293.json (Gray's Anatomy for Students 4th ed.; Moore's Clinically Oriented Anatomy 8th ed.) where the page ships the heads of a muscle instead of one whole-muscle mesh",
+   "why": "Structures the page itself declares to be parts of the same parent, or named '<something> head/part of <the same muscle>'."
+  },
+  "tendon": {
+   "label": "its tendon, aponeurosis or tendon sheath",
+   "inferred": 1,
+   "src": "this project's own structure naming (Q118 / Q122 generated connectors and the Z-Anatomy names)",
+   "why": "INFERRED BY NAME: a structure whose name is '<muscle> tendon', 'Tendon of <muscle>', 'Tendon sheath of <muscle>', '<muscle> aponeurosis' or 'Aponeurosis of <muscle>'. No source states the pairing; the name does."
+  },
+  "bursa": {
+   "label": "a bursa of this muscle or tendon",
+   "inferred": 1,
+   "src": "this project's own structure naming (Z-Anatomy bursa names)",
+   "why": "INFERRED BY NAME: a structure of the bursa layer whose own name contains this muscle's name."
+  },
+  "nerve": {
+   "label": "its nerve supply",
+   "inferred": 0,
+   "src": "the structure's own cited `nerve` field and the nmsk-learn `nv` list (Gray's Anatomy for Students, 4th ed.; Moore's Clinically Oriented Anatomy, 8th ed.), matched to the page's own nerve meshes by name",
+   "why": "The nerve named in the muscle's own cited record, where that nerve (or a named branch of it) is itself a mesh on this page."
+  },
+  "artery": {
+   "label": "an artery that supplies it",
+   "inferred": 0,
+   "src": "the ARTERY's own cited `supplies` field on this page",
+   "why": "Read from the other direction: an artery whose own record lists this structure among what it supplies."
+  },
+  "attach": {
+   "label": "a bone it attaches to",
+   "inferred": 0,
+   "src": "the nmsk-learn `o` / `in` origin and insertion bone ids (Q283, from Gray's and Moore's, corrected by data/anatomy/muscle_audit_q293.json)",
+   "why": "The origin and insertion bones named in the muscle's own cited attachment record."
+  },
+  "joint": {
+   "label": "a structure of a joint it crosses",
+   "inferred": 1,
+   "src": "joint list per muscle: data/anatomy/muscle_actions_q283.json (cited); joint -> page structure: the `joint_structures` rules in this file",
+   "why": "WHICH JOINTS a muscle crosses is cited (Q283 action data). WHICH PAGE STRUCTURES belong to a joint is a rule of this project's own, listed in data/anatomy/relations_q298.json, because no page ships a mesh called 'knee joint'."
+  },
+  "antagonist": {
+   "label": "an antagonist at a shared joint",
+   "inferred": 1,
+   "src": "data/anatomy/muscle_actions_q283.json (each action quoted verbatim from the muscle's own cited record)",
+   "why": "INFERRED BY RULE: a muscle whose cited action at the SAME joint and the SAME degree of freedom carries the OPPOSITE sign. The actions are sourced; calling the pair antagonists is this project's rule, and a muscle may be an antagonist in one plane and a synergist in another."
+  },
+  "continuity": {
+   "label": "a structure it attaches to or is continuous with",
+   "inferred": 0,
+   "src": "per entry in `related_extra` below",
+   "why": "For the fasciae, tendons and retinacula, which are not in the Q283 muscle table and therefore have no attachment, nerve or action record of their own: an explicit, individually cited list of what each one attaches to or is continuous with."
+  }
+ },
+ "joint_structures_doc": "For each joint key used by data/anatomy/muscle_actions_q283.json, the page structures Q298 counts as belonging to that joint, as regular expressions over the folded page name (lower case, punctuation to spaces). This is a RULE of this project's own, not a sourced list: no page ships a 'knee joint' mesh, so the joint is represented by the structures that are there.",
+ "joint_structures": {
+  "hip": {
+   "name": "hip joint",
+   "re": [
+    "acetabular labrum",
+    "^(ilio|pubo|ischio)femoral ligament",
+    "ligament of (the )?head of femur",
+    "transverse acetabular ligament",
+    "iliopsoas bursa",
+    "trochanteric bursa"
+   ]
+  },
+  "knee": {
+   "name": "knee joint",
+   "re": [
+    "^(medial|lateral) meniscus$",
+    "cruciate ligament",
+    "collateral ligament of (the )?knee",
+    "^(tibial|fibular) collateral ligament",
+    "^patella",
+    "patellar ligament",
+    "infrapatellar",
+    "suprapatellar",
+    "popliteal (cyst|bursa)",
+    "meniscofemoral ligament",
+    "meniscopatellar ligament",
+    "oblique popliteal ligament",
+    "arcuate popliteal ligament",
+    "prepatellar bursa"
+   ]
+  },
+  "ankle": {
+   "name": "talocrural (ankle) joint",
+   "re": [
+    "talocrural",
+    "^(anterior|posterior) talofibular ligament",
+    "calcaneofibular ligament",
+    "deltoid ligament",
+    "tibiocalcaneal ligament",
+    "tibionavicular ligament",
+    "tibiotalar",
+    "^(anterior|posterior) inferior tibiofibular ligament",
+    "retrocalcaneal bursa"
+   ]
+  },
+  "subtalar": {
+   "name": "subtalar (talocalcaneal) joint",
+   "re": [
+    "talocalcaneal",
+    "^talus$",
+    "^calcaneus$",
+    "interosseous talocalcaneal"
+   ]
+  },
+  "shoulder": {
+   "name": "glenohumeral (shoulder) joint",
+   "re": [
+    "glenoid labrum",
+    "glenohumeral ligament",
+    "coracohumeral ligament",
+    "coraco acromial ligament",
+    "subacromial",
+    "subdeltoid",
+    "subcoracoid",
+    "^articular capsule of (the )?shoulder",
+    "transverse humeral ligament"
+   ]
+  },
+  "elbow": {
+   "name": "elbow joint",
+   "re": [
+    "^(radial|ulnar) collateral ligament of (the )?elbow",
+    "annular ligament of (the )?radius",
+    "olecranon bursa",
+    "^articular capsule of (the )?elbow",
+    "oblique cord"
+   ]
+  },
+  "forearm": {
+   "name": "radio-ulnar joints (pronation / supination)",
+   "re": [
+    "radio ulnar",
+    "interosseous membrane of (the )?forearm",
+    "annular ligament of (the )?radius",
+    "oblique cord"
+   ]
+  },
+  "wrist": {
+   "name": "radiocarpal (wrist) joint",
+   "re": [
+    "radiocarpal",
+    "collateral ligament of (the )?wrist",
+    "radiocarpal ligament",
+    "ulnocarpal",
+    "flexor retinaculum",
+    "extensor retinaculum"
+   ]
+  },
+  "thumb_cmc": {
+   "name": "first carpometacarpal (thumb) joint",
+   "re": [
+    "carpometacarpal",
+    "^trapezium$"
+   ]
+  },
+  "thumb_mcp": {
+   "name": "thumb metacarpophalangeal joint",
+   "re": [
+    "metacarpophalangeal"
+   ]
+  },
+  "thumb_ip": {
+   "name": "thumb interphalangeal joint",
+   "re": [
+    "interphalangeal joint of (the )?(great )?(toe|thumb)",
+    "interphalangeal joints"
+   ]
+  },
+  "cervical": {
+   "name": "cervical spine",
+   "re": [
+    "^cervical vertebra",
+    "^atlas$",
+    "^axis$",
+    "atlanto (occipital|axial)",
+    "ligamentum flavum",
+    "^(anterior|posterior) longitudinal ligament",
+    "nuchal ligament",
+    "intervertebral disc of (the )?cervical"
+   ]
+  },
+  "thoracic": {
+   "name": "thoracic spine",
+   "re": [
+    "^thoracic vertebra",
+    "costotransverse",
+    "costovertebral",
+    "intervertebral disc of (the )?thoracic"
+   ]
+  },
+  "lumbar": {
+   "name": "lumbar spine",
+   "re": [
+    "^lumbar vertebra",
+    "iliolumbar ligament",
+    "intervertebral disc of (the )?lumbar",
+    "^(anterior|posterior) longitudinal ligament",
+    "supraspinous ligament",
+    "interspinous ligament"
+   ]
+  }
+ },
+ "finger_joint_re": {
+  "doc": "The per-digit joint keys (f2_mcp, f3_pip, t1_mtp ...) all map to the page's own metacarpophalangeal / interphalangeal / metatarsophalangeal capsule meshes, which the pages ship as one mesh per row and not per digit.",
+  "mcp": [
+   "metacarpophalangeal"
+  ],
+  "pip": [
+   "proximal interphalangeal"
+  ],
+  "dip": [
+   "distal interphalangeal"
+  ],
+  "mtp": [
+   "metatarsophalangeal"
+  ],
+  "ip": [
+   "interphalangeal joint of (the )?great toe"
+  ]
+ },
+ "dof_names": {
+  "flex": "flexion / extension",
+  "abd": "abduction / adduction",
+  "rot": "rotation",
+  "lat": "lateral flexion",
+  "dp": "dorsiflexion / plantarflexion",
+  "inv": "inversion / eversion",
+  "sup": "supination / pronation",
+  "dev": "radial / ulnar deviation"
+ },
+ "functional_extra_doc": "Functional groups that the textbook group table (data/anatomy/muscle_groups_q283.json) deliberately does not carry, because its membership is 'named groups only'. Each one here is a group a clinician asks for; each cites its source and names the page structures by their display names, so the build step resolves it by the same explicit rules as everything else. `for` lists the structures that OFFER this group when they are selected.",
+ "functional_extra": [
+  {
+   "id": "itb_tensors",
+   "name": "Tensors of the iliotibial tract",
+   "inferred": 0,
+   "src": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Stecco C, Functional Atlas of the Human Fascial System (2015), lower-limb fascial continuity",
+   "why": "The two muscles that insert into and tension the iliotibial tract: tensor fasciae latae anteriorly and the superficial fibres of gluteus maximus posteriorly.",
+   "for": [
+    "iliotibial tract",
+    "iliotibial tract band"
+   ],
+   "members": [
+    "tensor fasciae latae",
+    "gluteus maximus",
+    "iliotibial tract",
+    "iliotibial tract band"
+   ]
+  },
+  {
+   "id": "calcaneal_tendon_contributors",
+   "name": "Muscles that form the calcaneal (Achilles) tendon",
+   "inferred": 0,
+   "src": "Gray's Anatomy for Students, 4th ed. ch.6; Terminologia Anatomica (musculus triceps surae)",
+   "why": "The three bellies of the triceps surae whose tendons unite as the calcaneal tendon.",
+   "for": [
+    "calcaneal tendon"
+   ],
+   "members": [
+    "gastrocnemius",
+    "soleus",
+    "calcaneal tendon"
+   ]
+  },
+  {
+   "id": "patellar_tendon_contributors",
+   "name": "Muscles that form the quadriceps / patellar tendon",
+   "inferred": 0,
+   "src": "Gray's Anatomy for Students, 4th ed. ch.6",
+   "why": "The four heads of the quadriceps femoris, whose common tendon encloses the patella and continues as the patellar ligament.",
+   "for": [
+    "patellar ligament",
+    "patellar ligament patellar tendon",
+    "quadriceps femoris tendon",
+    "patella",
+    "patella kneecap sesamoid"
+   ],
+   "members": [
+    "rectus femoris",
+    "vastus lateralis",
+    "vastus medialis",
+    "vastus intermedius",
+    "quadriceps femoris tendon",
+    "patellar ligament"
+   ]
+  },
+  {
+   "id": "pes_anserinus",
+   "name": "Pes anserinus (the three medial knee tendons)",
+   "inferred": 0,
+   "src": "Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. (medial knee)",
+   "why": "The conjoined insertion on the medial tibia of sartorius, gracilis and semitendinosus.",
+   "for": [
+    "sartorius",
+    "gracilis",
+    "semitendinosus"
+   ],
+   "members": [
+    "sartorius",
+    "gracilis",
+    "semitendinosus"
+   ]
+  },
+  {
+   "id": "carpal_tunnel_contents",
+   "name": "Contents of the carpal tunnel",
+   "inferred": 0,
+   "src": "Gray's Anatomy for Students, 4th ed. ch.7 (carpal tunnel)",
+   "why": "The median nerve and the nine flexor tendons that pass under the flexor retinaculum.",
+   "for": [
+    "flexor retinaculum of the hand",
+    "flexor retinaculum",
+    "median nerve"
+   ],
+   "members": [
+    "median nerve",
+    "flexor pollicis longus",
+    "flexor digitorum profundus",
+    "flexor digitorum superficialis",
+    "flexor retinaculum of the hand",
+    "flexor retinaculum"
+   ]
+  },
+  {
+   "id": "rotator_cuff_plus",
+   "name": "Rotator cuff and the structures it runs under",
+   "inferred": 1,
+   "src": "Gray's Anatomy for Students, 4th ed. ch.7; the four cuff muscles are the named group in data/anatomy/muscle_groups_q283.json",
+   "why": "INFERRED ADDITION: the four cuff muscles (sourced) plus the subacromial-subdeltoid bursa and the glenoid labrum, which are what a shoulder examination asks for alongside them. Calling these one group is this project's convenience, not a textbook group.",
+   "for": [
+    "supraspinatus",
+    "infraspinatus",
+    "subscapularis",
+    "teres minor"
+   ],
+   "members": [
+    "supraspinatus",
+    "infraspinatus",
+    "subscapularis",
+    "teres minor",
+    "subacromial subdeltoid bursa",
+    "glenoid labrum"
+   ]
+  }
+ ],
+ "related_extra_doc": "Explicit related structures for the non-muscle structures the Q283 muscle table does not cover (fasciae, tendons, retinacula). Each entry cites its own source and names the page structures by their display names, so they resolve by the same explicit rules as everything else. `for` lists the structures that offer the links; `targets` the structures offered.",
+ "related_extra": [
+  {
+   "for": [
+    "iliotibial tract",
+    "iliotibial tract band"
+   ],
+   "kind": "continuity",
+   "targets": [
+    "tensor fasciae latae",
+    "gluteus maximus",
+    "tibia",
+    "tibia shin bone",
+    "vastus lateralis",
+    "trochanteric bursa of gluteus maximus muscle",
+    "fascia lata",
+    "crural fascia"
+   ],
+   "src": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Stecco C, Functional Atlas of the Human Fascial System (2015), lower-limb fascial continuity",
+   "inferred": 0,
+   "why": "The iliotibial tract is the thickened lateral part of the fascia lata: tensor fasciae latae and the superficial fibres of gluteus maximus insert into it proximally, it runs over vastus lateralis, and it attaches distally to Gerdy's tubercle on the tibia and continues into the crural fascia."
+  },
+  {
+   "for": [
+    "calcaneal tendon"
+   ],
+   "kind": "continuity",
+   "targets": [
+    "gastrocnemius",
+    "soleus",
+    "calcaneus",
+    "subcutaneous calcaneal achilles pre achilles bursa",
+    "retrocalcaneal bursa",
+    "crural fascia",
+    "plantar aponeurosis"
+   ],
+   "src": "Gray's Anatomy for Students, 4th ed. ch.6; Terminologia Anatomica (tendo calcaneus)",
+   "inferred": 0,
+   "why": "The common tendon of gastrocnemius and soleus, inserting on the posterior calcaneus with a bursa on either side of its insertion and a fascial continuity into the plantar aponeurosis."
+  },
+  {
+   "for": [
+    "plantar aponeurosis"
+   ],
+   "kind": "continuity",
+   "targets": [
+    "calcaneus",
+    "flexor digitorum brevis",
+    "calcaneal tendon",
+    "abductor hallucis",
+    "abductor digiti minimi foot"
+   ],
+   "src": "Gray's Anatomy for Students, 4th ed. ch.6; Stecco C, Functional Atlas of the Human Fascial System (2015)",
+   "inferred": 0,
+   "why": "Arises from the medial process of the calcaneal tuberosity, overlies flexor digitorum brevis, and is continuous posteriorly with the paratenon of the calcaneal tendon."
+  },
+  {
+   "for": [
+    "patellar ligament",
+    "patellar ligament patellar tendon"
+   ],
+   "kind": "continuity",
+   "targets": [
+    "patella",
+    "patella kneecap sesamoid",
+    "tibia",
+    "tibia shin bone",
+    "quadriceps femoris tendon",
+    "infrapatellar fat pad",
+    "deep infrapatellar bursa",
+    "rectus femoris"
+   ],
+   "src": "Gray's Anatomy for Students, 4th ed. ch.6",
+   "inferred": 0,
+   "why": "The continuation of the quadriceps tendon below the patella to the tibial tuberosity, with the infrapatellar fat pad behind it and the deep infrapatellar bursa between it and the tibia."
+  },
+  {
+   "for": [
+    "flexor retinaculum of the hand",
+    "flexor retinaculum"
+   ],
+   "kind": "continuity",
+   "targets": [
+    "median nerve",
+    "flexor pollicis longus",
+    "flexor digitorum profundus",
+    "flexor digitorum superficialis",
+    "ulnar nerve",
+    "pisiform",
+    "scaphoid",
+    "trapezium",
+    "hamate"
+   ],
+   "src": "Gray's Anatomy for Students, 4th ed. ch.7 (carpal tunnel)",
+   "inferred": 0,
+   "why": "The roof of the carpal tunnel, attached to the scaphoid and trapezium radially and the pisiform and hook of hamate ulnarly, with the median nerve and the long flexor tendons beneath it and the ulnar nerve superficial to it."
+  },
+  {
+   "for": [
+    "thoracolumbar fascia posterior layer",
+    "posterior layer of thoracolumbar fascia"
+   ],
+   "kind": "continuity",
+   "targets": [
+    "latissimus dorsi",
+    "gluteus maximus",
+    "erector spinae",
+    "iliocostalis",
+    "longissimus",
+    "transversus abdominis",
+    "internal oblique",
+    "quadratus lumborum",
+    "sacrum"
+   ],
+   "src": "Stecco C, Functional Atlas of the Human Fascial System (2015), thoracolumbar fascia; Gray's Anatomy for Students, 4th ed. ch.2",
+   "inferred": 0,
+   "why": "The posterior layer encloses erector spinae, receives latissimus dorsi and gluteus maximus, and is continuous laterally with the aponeurosis of transversus abdominis and internal oblique."
+  }
+ ]
+}

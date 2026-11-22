@@ -1,0 +1,637 @@
+{
+ "own_m": {
+  "pair": "comb_m",
+  "registration": {
+   "upper": {
+    "n": 140741,
+    "median_mm": 0.95,
+    "p95_mm": 15.56,
+    "max_mm": 69.68,
+    "rms_mm": 7.31,
+    "before": {
+     "n": 140741,
+     "median_mm": 1.56,
+     "p95_mm": 20.84,
+     "max_mm": 71.23,
+     "rms_mm": 8.74
+    },
+    "kept_pairs": 130089,
+    "iters": 3,
+    "control_points": 3500,
+    "trim_mm": 8.0,
+    "displacement_median_mm": 1.77,
+    "displacement_p95_mm": 8.01,
+    "displacement_max_mm": 30.48
+   },
+   "lower_fix": {
+    "n": 99683,
+    "median_mm": 0.79,
+    "p95_mm": 3.03,
+    "max_mm": 13.95,
+    "rms_mm": 1.56,
+    "before": {
+     "n": 99683,
+     "median_mm": 1.6,
+     "p95_mm": 7.63,
+     "max_mm": 19.53,
+     "rms_mm": 3.45
+    },
+    "kept_pairs": 99180,
+    "iters": 3,
+    "control_points": 3500,
+    "trim_mm": 8.0,
+    "displacement_median_mm": 1.78,
+    "displacement_p95_mm": 6.87,
+    "displacement_max_mm": 18.38
+   }
+  },
+  "bones": {
+   "upper": {
+    "carpals_l": {
+     "src_v": 3113,
+     "dst_v": 3053
+    },
+    "carpals_r": {
+     "src_v": 3113,
+     "dst_v": 2188
+    },
+    "cervical_spine": {
+     "src_v": 7852,
+     "dst_v": 20636
+    },
+    "clavicle_l": {
+     "src_v": 782,
+     "dst_v": 2987
+    },
+    "clavicle_r": {
+     "src_v": 781,
+     "dst_v": 3818
+    },
+    "humerus_l": {
+     "src_v": 2143,
+     "dst_v": 3090
+    },
+    "humerus_r": {
+     "src_v": 2143,
+     "dst_v": 3088
+    },
+    "metacarpals_l": {
+     "src_v": 1664,
+     "dst_v": 2971
+    },
+    "metacarpals_r": {
+     "src_v": 1664,
+     "dst_v": 3004
+    },
+    "phalanges_hand_l": {
+     "src_v": 2284,
+     "dst_v": 2994
+    },
+    "phalanges_hand_r": {
+     "src_v": 2284,
+     "dst_v": 2997
+    },
+    "radius_l": {
+     "src_v": 394,
+     "dst_v": 3653
+    },
+    "radius_r": {
+     "src_v": 394,
+     "dst_v": 3411
+    },
+    "ribs_l": {
+     "src_v": 32329,
+     "dst_v": 7523
+    },
+    "ribs_r": {
+     "src_v": 32329,
+     "dst_v": 7530
+    },
+    "scapula_l": {
+     "src_v": 3001,
+     "dst_v": 2983
+    },
+    "scapula_r": {
+     "src_v": 3001,
+     "dst_v": 2962
+    },
+    "sternum": {
+     "src_v": 3004,
+     "dst_v": 2973
+    },
+    "thoracic_spine": {
+     "src_v": 13735,
+     "dst_v": 35497
+    },
+    "ulna_l": {
+     "src_v": 454,
+     "dst_v": 3141
+    },
+    "ulna_r": {
+     "src_v": 454,
+     "dst_v": 3611
+    }
+   },
+   "lower_fix": {
+    "calcaneus_l": {
+     "src_v": 726,
+     "dst_v": 2979
+    },
+    "calcaneus_r": {
+     "src_v": 726,
+     "dst_v": 2949
+    },
+    "coccyx": {
+     "src_v": 589,
+     "dst_v": 1242
+    },
+    "femur_l": {
+     "src_v": 1899,
+     "dst_v": 2845
+    },
+    "femur_r": {
+     "src_v": 1899,
+     "dst_v": 2860
+    },
+    "fibula_l": {
+     "src_v": 653,
+     "dst_v": 2883
+    },
+    "fibula_r": {
+     "src_v": 653,
+     "dst_v": 2864
+    },
+    "hip_bone_l": {
+     "src_v": 1894,
+     "dst_v": 2895
+    },
+    "hip_bone_r": {
+     "src_v": 1894,
+     "dst_v": 2818
+    },
+    "lumbar_spine": {
+     "src_v": 8443,
+     "dst_v": 14768
+    },
+    "metatarsals_l": {
+     "src_v": 2170,
+     "dst_v": 7494
+    },
+    "metatarsals_r": {
+     "src_v": 2170,
+     "dst_v": 2915
+    },
+    "patella_l": {
+     "src_v": 140,
+     "dst_v": 2985
+    },
+    "patella_r": {
+     "src_v": 140,
+     "dst_v": 2967
+    },
+    "phalanges_foot_l": {
+     "src_v": 2715,
+     "dst_v": 6344
+    },
+    "phalanges_foot_r": {
+     "src_v": 2715,
+     "dst_v": 3024
+    },
+    "sacrum": {
+     "src_v": 2969,
+     "dst_v": 2789
+    },
+    "talus_l": {
+     "src_v": 677,
+     "dst_v": 2998
+    },
+    "talus_r": {
+     "src_v": 677,
+     "dst_v": 2964
+    },
+    "tarsals_l": {
+     "src_v": 1912,
+     "dst_v": 9728
+    },
+    "tarsals_r": {
+     "src_v": 1912,
+     "dst_v": 9696
+    },
+    "tibia_l": {
+     "src_v": 837,
+     "dst_v": 2902
+    },
+    "tibia_r": {
+     "src_v": 837,
+     "dst_v": 2870
+    }
+   }
+  },
+  "bone_groups": {
+   "upper": 21,
+   "lower_fix": 23
+  },
+  "gate": {
+   "p95_mm": 20.0,
+   "median_mm": 4.0
+  },
+  "n_candidates": 70,
+  "n_refused": 12,
+  "refused": {
+   "ulnar_n_superficial_branch_l": "after Q299's bone guard it is still 60.1% inside bone against 0.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own",
+   "ulnar_n_superficial_branch_r": "after Q299's bone guard it is still 32.6% inside bone against 0.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own",
+   "zan_communicating_branch_of_median_nerve_with_ulnar_nerve_l": "after Q299's bone guard it is still 68.6% inside bone against 0.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own",
+   "zan_communicating_branch_of_median_nerve_with_ulnar_nerve_r": "its opposite side zan_communicating_branch_of_median_nerve_with_ulnar_nerve_l was refused (after Q299's bone guard it is still 68.6% inside bone against 0.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own), and this round carries a nerve only if BOTH sides pass",
+   "zan_dorsal_branch_of_ulnar_nerve_l": "after Q299's bone guard it is still 29.1% inside bone against 2.3% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own",
+   "zan_dorsal_branch_of_ulnar_nerve_r": "its opposite side zan_dorsal_branch_of_ulnar_nerve_l was refused (after Q299's bone guard it is still 29.1% inside bone against 2.3% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own), and this round carries a nerve only if BOTH sides pass",
+   "zan_dorsal_digital_branches_of_radial_nerve_l": "its opposite side zan_dorsal_digital_branches_of_radial_nerve_r was refused (local bone residual median 1.57 / p95 27.49 mm exceeds the gate (median <= 4.0, p95 <= 20.0)), and this round carries a nerve only if BOTH sides pass",
+   "zan_dorsal_digital_branches_of_radial_nerve_r": "local bone residual median 1.57 / p95 27.49 mm exceeds the gate (median <= 4.0, p95 <= 20.0)",
+   "zan_palmar_branch_of_median_nerve_l": "after Q299's bone guard it is still 29.8% inside bone against 0.6% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own",
+   "zan_palmar_branch_of_median_nerve_r": "its opposite side zan_palmar_branch_of_median_nerve_l was refused (after Q299's bone guard it is still 29.8% inside bone against 0.6% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own), and this round carries a nerve only if BOTH sides pass",
+   "zan_proper_palmar_digital_branches_of_median_nerve_l": "its opposite side zan_proper_palmar_digital_branches_of_median_nerve_r was refused (local bone residual median 1.52 / p95 26.28 mm exceeds the gate (median <= 4.0, p95 <= 20.0)), and this round carries a nerve only if BOTH sides pass",
+   "zan_proper_palmar_digital_branches_of_median_nerve_r": "local bone residual median 1.52 / p95 26.28 mm exceeds the gate (median <= 4.0, p95 <= 20.0)"
+  },
+  "n_transferred": 58,
+  "n_added": 57,
+  "n_replaced": 1,
+  "triangles": 66600,
+  "cm3_absolute": 15.31,
+  "n_inverted_winding": 28,
+  "ids": [
+   "axillary_n_l",
+   "axillary_n_r",
+   "dorsal_scapular_n_l",
+   "dorsal_scapular_n_r",
+   "lateral_pectoral_n_l",
+   "lateral_pectoral_n_r",
+   "long_thoracic_n_l",
+   "long_thoracic_n_r",
+   "medial_pectoral_n_l",
+   "medial_pectoral_n_r",
+   "musculocutaneous_n_r",
+   "posterior_interosseous_n_l",
+   "radial_n_superficial_branch_l",
+   "radial_n_superficial_branch_r",
+   "recurrent_branch_of_median_n_r",
+   "suprascapular_n_l",
+   "suprascapular_n_r",
+   "thoracodorsal_n_l",
+   "thoracodorsal_n_r",
+   "tibial_n_r",
+   "ulnar_n_deep_branch_l",
+   "ulnar_n_deep_branch_r",
+   "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+   "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+   "zan_common_palmar_digital_branches_of_median_nerve_l",
+   "zan_common_palmar_digital_branches_of_median_nerve_r",
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_l",
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_r",
+   "zan_dorsal_digital_branches_of_ulnar_nerve_l",
+   "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+   "zan_inferior_lateral_brachial_cutaneous_nerve_l",
+   "zan_inferior_lateral_brachial_cutaneous_nerve_r",
+   "zan_inferior_subscapular_nerve_l",
+   "zan_inferior_subscapular_nerve_r",
+   "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "zan_medial_antebrachial_cutaneous_nerve_l",
+   "zan_medial_antebrachial_cutaneous_nerve_r",
+   "zan_medial_brachial_cutaneous_nerve_l",
+   "zan_medial_brachial_cutaneous_nerve_r",
+   "zan_muscular_branches_of_median_nerve_l",
+   "zan_muscular_branches_of_median_nerve_r",
+   "zan_muscular_branches_of_ulnar_nerve_l",
+   "zan_muscular_branches_of_ulnar_nerve_r",
+   "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+   "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+   "zan_posterior_interosseous_nerve_of_forearm_l",
+   "zan_posterior_interosseous_nerve_of_forearm_r",
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+   "zan_roots_of_brachial_plexus_l",
+   "zan_roots_of_brachial_plexus_r",
+   "zan_subclavian_nerve_l",
+   "zan_subclavian_nerve_r",
+   "zan_superior_lateral_brachial_cutaneous_nerve_l",
+   "zan_superior_lateral_brachial_cutaneous_nerve_r",
+   "zan_superior_subscapular_nerve_l",
+   "zan_superior_subscapular_nerve_r"
+  ]
+ },
+ "own_f": {
+  "pair": "comb_f",
+  "registration": {
+   "upper": {
+    "n": 127695,
+    "median_mm": 0.91,
+    "p95_mm": 4.62,
+    "max_mm": 46.54,
+    "rms_mm": 3.49,
+    "before": {
+     "n": 127695,
+     "median_mm": 1.69,
+     "p95_mm": 12.58,
+     "max_mm": 50.4,
+     "rms_mm": 5.88
+    },
+    "kept_pairs": 123211,
+    "iters": 3,
+    "control_points": 3500,
+    "trim_mm": 8.0,
+    "displacement_median_mm": 1.99,
+    "displacement_p95_mm": 9.64,
+    "displacement_max_mm": 30.94
+   },
+   "lower_fix": {
+    "n": 87204,
+    "median_mm": 0.86,
+    "p95_mm": 3.54,
+    "max_mm": 20.66,
+    "rms_mm": 1.83,
+    "before": {
+     "n": 87204,
+     "median_mm": 1.58,
+     "p95_mm": 7.67,
+     "max_mm": 24.35,
+     "rms_mm": 3.55
+    },
+    "kept_pairs": 86398,
+    "iters": 3,
+    "control_points": 3500,
+    "trim_mm": 8.0,
+    "displacement_median_mm": 1.8,
+    "displacement_p95_mm": 6.81,
+    "displacement_max_mm": 23.06
+   }
+  },
+  "bones": {
+   "upper": {
+    "carpals_l": {
+     "src_v": 3113,
+     "dst_v": 3113
+    },
+    "carpals_r": {
+     "src_v": 3113,
+     "dst_v": 7500
+    },
+    "cervical_spine": {
+     "src_v": 7852,
+     "dst_v": 52048
+    },
+    "clavicle_l": {
+     "src_v": 782,
+     "dst_v": 7502
+    },
+    "clavicle_r": {
+     "src_v": 781,
+     "dst_v": 7502
+    },
+    "humerus_l": {
+     "src_v": 2143,
+     "dst_v": 8026
+    },
+    "humerus_r": {
+     "src_v": 2143,
+     "dst_v": 8460
+    },
+    "metacarpals_l": {
+     "src_v": 1664,
+     "dst_v": 1664
+    },
+    "metacarpals_r": {
+     "src_v": 1664,
+     "dst_v": 23242
+    },
+    "phalanges_hand_l": {
+     "src_v": 2284,
+     "dst_v": 2284
+    },
+    "phalanges_hand_r": {
+     "src_v": 2284,
+     "dst_v": 7508
+    },
+    "radius_l": {
+     "src_v": 394,
+     "dst_v": 394
+    },
+    "radius_r": {
+     "src_v": 394,
+     "dst_v": 7686
+    },
+    "ribs_l": {
+     "src_v": 32329,
+     "dst_v": 7551
+    },
+    "ribs_r": {
+     "src_v": 32329,
+     "dst_v": 7528
+    },
+    "scapula_l": {
+     "src_v": 3001,
+     "dst_v": 7501
+    },
+    "scapula_r": {
+     "src_v": 3001,
+     "dst_v": 8384
+    },
+    "sternum": {
+     "src_v": 3004,
+     "dst_v": 7502
+    },
+    "thoracic_spine": {
+     "src_v": 13735,
+     "dst_v": 90014
+    },
+    "ulna_l": {
+     "src_v": 454,
+     "dst_v": 454
+    },
+    "ulna_r": {
+     "src_v": 454,
+     "dst_v": 8161
+    }
+   },
+   "lower_fix": {
+    "calcaneus_l": {
+     "src_v": 726,
+     "dst_v": 7440
+    },
+    "calcaneus_r": {
+     "src_v": 726,
+     "dst_v": 7426
+    },
+    "femur_l": {
+     "src_v": 1899,
+     "dst_v": 7488
+    },
+    "femur_r": {
+     "src_v": 1899,
+     "dst_v": 7487
+    },
+    "fibula_l": {
+     "src_v": 653,
+     "dst_v": 7476
+    },
+    "fibula_r": {
+     "src_v": 653,
+     "dst_v": 7490
+    },
+    "hip_bone_l": {
+     "src_v": 1894,
+     "dst_v": 8452
+    },
+    "hip_bone_r": {
+     "src_v": 1894,
+     "dst_v": 7500
+    },
+    "lumbar_spine": {
+     "src_v": 8443,
+     "dst_v": 37499
+    },
+    "metatarsals_l": {
+     "src_v": 2170,
+     "dst_v": 7504
+    },
+    "metatarsals_r": {
+     "src_v": 2170,
+     "dst_v": 7511
+    },
+    "patella_l": {
+     "src_v": 140,
+     "dst_v": 7490
+    },
+    "patella_r": {
+     "src_v": 140,
+     "dst_v": 7500
+    },
+    "phalanges_foot_l": {
+     "src_v": 2715,
+     "dst_v": 7516
+    },
+    "phalanges_foot_r": {
+     "src_v": 2715,
+     "dst_v": 7514
+    },
+    "sacrum": {
+     "src_v": 2969,
+     "dst_v": 14990
+    },
+    "talus_l": {
+     "src_v": 677,
+     "dst_v": 7507
+    },
+    "talus_r": {
+     "src_v": 677,
+     "dst_v": 7506
+    },
+    "tarsals_l": {
+     "src_v": 1912,
+     "dst_v": 27550
+    },
+    "tarsals_r": {
+     "src_v": 1912,
+     "dst_v": 26972
+    },
+    "tibia_l": {
+     "src_v": 837,
+     "dst_v": 7458
+    },
+    "tibia_r": {
+     "src_v": 837,
+     "dst_v": 7464
+    }
+   }
+  },
+  "bone_groups": {
+   "upper": 21,
+   "lower_fix": 22
+  },
+  "gate": {
+   "p95_mm": 20.0,
+   "median_mm": 4.0
+  },
+  "n_candidates": 68,
+  "n_refused": 6,
+  "refused": {
+   "ulnar_n_superficial_branch_l": "its opposite side ulnar_n_superficial_branch_r was refused (after Q299's bone guard it is still 55.3% inside bone against 1.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own), and this round carries a nerve only if BOTH sides pass",
+   "ulnar_n_superficial_branch_r": "after Q299's bone guard it is still 55.3% inside bone against 1.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own",
+   "zan_communicating_branch_of_median_nerve_with_ulnar_nerve_l": "its opposite side zan_communicating_branch_of_median_nerve_with_ulnar_nerve_r was refused (after Q299's bone guard it is still 89.7% inside bone against 0.2% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own), and this round carries a nerve only if BOTH sides pass",
+   "zan_communicating_branch_of_median_nerve_with_ulnar_nerve_r": "after Q299's bone guard it is still 89.7% inside bone against 0.2% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own",
+   "zan_palmar_branch_of_median_nerve_l": "its opposite side zan_palmar_branch_of_median_nerve_r was refused (after Q299's bone guard it is still 25.9% inside bone against 0.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own), and this round carries a nerve only if BOTH sides pass",
+   "zan_palmar_branch_of_median_nerve_r": "after Q299's bone guard it is still 25.9% inside bone against 0.0% on the Combined page, a gain of more than 25%: this round may not add bone penetration of its own"
+  },
+  "n_transferred": 62,
+  "n_added": 60,
+  "n_replaced": 2,
+  "triangles": 72213,
+  "cm3_absolute": 13.22,
+  "n_inverted_winding": 29,
+  "ids": [
+   "axillary_n_l",
+   "axillary_n_r",
+   "dorsal_scapular_n_l",
+   "dorsal_scapular_n_r",
+   "femoral_n_l",
+   "lateral_pectoral_n_l",
+   "lateral_pectoral_n_r",
+   "long_thoracic_n_l",
+   "long_thoracic_n_r",
+   "medial_pectoral_n_l",
+   "medial_pectoral_n_r",
+   "radial_n_superficial_branch_l",
+   "radial_n_superficial_branch_r",
+   "suprascapular_n_l",
+   "suprascapular_n_r",
+   "thoracodorsal_n_l",
+   "thoracodorsal_n_r",
+   "tibial_n_l",
+   "ulnar_n_deep_branch_l",
+   "ulnar_n_deep_branch_r",
+   "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+   "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+   "zan_common_palmar_digital_branches_of_median_nerve_l",
+   "zan_common_palmar_digital_branches_of_median_nerve_r",
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_l",
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_r",
+   "zan_dorsal_branch_of_ulnar_nerve_l",
+   "zan_dorsal_branch_of_ulnar_nerve_r",
+   "zan_dorsal_digital_branches_of_radial_nerve_l",
+   "zan_dorsal_digital_branches_of_radial_nerve_r",
+   "zan_dorsal_digital_branches_of_ulnar_nerve_l",
+   "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+   "zan_inferior_lateral_brachial_cutaneous_nerve_l",
+   "zan_inferior_lateral_brachial_cutaneous_nerve_r",
+   "zan_inferior_subscapular_nerve_l",
+   "zan_inferior_subscapular_nerve_r",
+   "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "zan_medial_antebrachial_cutaneous_nerve_l",
+   "zan_medial_antebrachial_cutaneous_nerve_r",
+   "zan_medial_brachial_cutaneous_nerve_l",
+   "zan_medial_brachial_cutaneous_nerve_r",
+   "zan_muscular_branches_of_median_nerve_l",
+   "zan_muscular_branches_of_median_nerve_r",
+   "zan_muscular_branches_of_ulnar_nerve_l",
+   "zan_muscular_branches_of_ulnar_nerve_r",
+   "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+   "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+   "zan_posterior_interosseous_nerve_of_forearm_l",
+   "zan_posterior_interosseous_nerve_of_forearm_r",
+   "zan_proper_palmar_digital_branches_of_median_nerve_l",
+   "zan_proper_palmar_digital_branches_of_median_nerve_r",
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+   "zan_roots_of_brachial_plexus_l",
+   "zan_roots_of_brachial_plexus_r",
+   "zan_subclavian_nerve_l",
+   "zan_subclavian_nerve_r",
+   "zan_superior_lateral_brachial_cutaneous_nerve_l",
+   "zan_superior_lateral_brachial_cutaneous_nerve_r",
+   "zan_superior_subscapular_nerve_l",
+   "zan_superior_subscapular_nerve_r"
+  ]
+ },
+ "_README": [
+  "Q307: the UPPER-LIMB nerve meshes carried from the Combined page of the same body onto the Imaging page by Q304's bone-point registration (identity + a thin-plate-spline correction field), plus the three lower-limb nerves Q304 left as a mirror_q237 stub on one side while the other side carried the full transferred nerve. scripts/anatomy/q307/xfer307.py. Nothing traced on the body's own imaging is replaced."
+ ]
+}

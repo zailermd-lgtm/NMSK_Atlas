@@ -1,0 +1,4179 @@
+{
+ "_README": [
+  "Q293: per page, does the page's muscle mesh reach the bone each head arises from (min distance mm; present = <= 6 mm)"
+ ],
+ "pages": {
+  "own_m": {
+   "rectus_femoris|straight_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|reflected_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|straight_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "rectus_femoris|reflected_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "biceps_brachii|long_head|r": {
+    "d_mm": 1.1,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r",
+     "biceps_brachii_r_zfill",
+     "biceps_brachii_r_zfill203",
+     "biceps_brachii_r_zfill203s"
+    ]
+   },
+   "biceps_brachii|short_head|r": {
+    "d_mm": 1.1,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r",
+     "biceps_brachii_r_zfill",
+     "biceps_brachii_r_zfill203",
+     "biceps_brachii_r_zfill203s"
+    ]
+   },
+   "biceps_brachii|long_head|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l",
+     "biceps_brachii_l_zfill",
+     "biceps_brachii_l_zfill203",
+     "biceps_brachii_l_zfill203s"
+    ]
+   },
+   "biceps_brachii|short_head|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l",
+     "biceps_brachii_l_zfill",
+     "biceps_brachii_l_zfill203",
+     "biceps_brachii_l_zfill203s"
+    ]
+   },
+   "triceps_brachii|long_head|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "triceps_brachii_r",
+     "triceps_brachii_r_zfill",
+     "triceps_brachii_r_zfill203"
+    ]
+   },
+   "triceps_brachii|lateral_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "triceps_brachii_r",
+     "triceps_brachii_r_zfill",
+     "triceps_brachii_r_zfill203"
+    ]
+   },
+   "triceps_brachii|medial_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "triceps_brachii_r",
+     "triceps_brachii_r_zfill",
+     "triceps_brachii_r_zfill203"
+    ]
+   },
+   "triceps_brachii|long_head|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "triceps_brachii_l",
+     "triceps_brachii_l_zfill203"
+    ]
+   },
+   "triceps_brachii|lateral_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "triceps_brachii_l",
+     "triceps_brachii_l_zfill203"
+    ]
+   },
+   "triceps_brachii|medial_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "triceps_brachii_l",
+     "triceps_brachii_l_zfill203"
+    ]
+   },
+   "biceps_femoris|long_head|r": {
+    "d_mm": 154.5,
+    "present": false,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|short_head|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|long_head|l": {
+    "d_mm": 146.6,
+    "present": false,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "biceps_femoris|short_head|l": {
+    "d_mm": 1.1,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "gastrocnemius|medial_head|r": {
+    "d_mm": 4.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|lateral_head|r": {
+    "d_mm": 4.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|medial_head|l": {
+    "d_mm": 5.2,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "gastrocnemius|lateral_head|l": {
+    "d_mm": 5.2,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "sternocleidomastoid|sternal|r": {
+    "d_mm": 24.1,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_r",
+     "sternocleidomastoid_r_zfill203"
+    ]
+   },
+   "sternocleidomastoid|clavicular|r": {
+    "d_mm": 12.0,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_r",
+     "sternocleidomastoid_r_zfill203"
+    ]
+   },
+   "sternocleidomastoid|sternal|l": {
+    "d_mm": 6.5,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "sternocleidomastoid|clavicular|l": {
+    "d_mm": 3.1,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "pectoralis_major|clavicular|r": {
+    "d_mm": 6.9,
+    "present": false,
+    "structures": [
+     "pectoralis_major_r",
+     "pectoralis_major_r_zfill203s"
+    ]
+   },
+   "pectoralis_major|sternocostal|r": {
+    "d_mm": 2.3,
+    "present": true,
+    "structures": [
+     "pectoralis_major_r",
+     "pectoralis_major_r_zfill203s"
+    ]
+   },
+   "pectoralis_major|abdominal|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "pectoralis_major|clavicular|l": {
+    "d_mm": 4.1,
+    "present": true,
+    "structures": [
+     "pectoralis_major_l"
+    ]
+   },
+   "pectoralis_major|sternocostal|l": {
+    "d_mm": 1.0,
+    "present": true,
+    "structures": [
+     "pectoralis_major_l"
+    ]
+   },
+   "pectoralis_major|abdominal|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "flexor_digitorum_superficialis|humeroulnar|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "flexor_digitorum_superficialis_r_zfill203s"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "flexor_digitorum_superficialis_r_zfill203s"
+    ]
+   },
+   "flexor_digitorum_superficialis|humeroulnar|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|l": {
+    "d_mm": 1.0,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "pronator_teres|humeral|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|ulnar|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|humeral|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "pronator_teres|ulnar|l": {
+    "d_mm": 1.1,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r",
+     "extensor_carpi_ulnaris_r_zfill",
+     "extensor_carpi_ulnaris_r_zfill203s"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r",
+     "extensor_carpi_ulnaris_r_zfill",
+     "extensor_carpi_ulnaris_r_zfill203s"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|l": {
+    "d_mm": 1.3,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "deltoid|clavicular|r": {
+    "d_mm": 11.1,
+    "present": false,
+    "structures": [
+     "deltoid_r",
+     "deltoid_r_zfill203"
+    ]
+   },
+   "deltoid|acromial|r": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "deltoid_r",
+     "deltoid_r_zfill203"
+    ]
+   },
+   "deltoid|spinal|r": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "deltoid_r",
+     "deltoid_r_zfill203"
+    ]
+   },
+   "deltoid|clavicular|l": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "deltoid_l",
+     "deltoid_l_zfill203"
+    ]
+   },
+   "deltoid|acromial|l": {
+    "d_mm": 1.6,
+    "present": true,
+    "structures": [
+     "deltoid_l",
+     "deltoid_l_zfill203"
+    ]
+   },
+   "deltoid|spinal|l": {
+    "d_mm": 1.6,
+    "present": true,
+    "structures": [
+     "deltoid_l",
+     "deltoid_l_zfill203"
+    ]
+   },
+   "adductor_magnus|adductor_part|r": {
+    "d_mm": 2.0,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|hamstring_part|r": {
+    "d_mm": 2.0,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|adductor_part|l": {
+    "d_mm": 2.2,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l",
+     "adductor_magnus_l_zfill203s"
+    ]
+   },
+   "adductor_magnus|hamstring_part|l": {
+    "d_mm": 2.2,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l",
+     "adductor_magnus_l_zfill203s"
+    ]
+   },
+   "soleus|fibular|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|tibial|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|fibular|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "soleus|tibial|l": {
+    "d_mm": 1.8,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "iliopsoas|psoas_major|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "iliopsoas_r"
+    ]
+   },
+   "iliopsoas|iliacus|r": {
+    "d_mm": 3.3,
+    "present": true,
+    "structures": [
+     "iliopsoas_r"
+    ]
+   },
+   "iliopsoas|psoas_major|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "iliopsoas_l"
+    ]
+   },
+   "iliopsoas|iliacus|l": {
+    "d_mm": 2.0,
+    "present": true,
+    "structures": [
+     "iliopsoas_l"
+    ]
+   },
+   "adductor_pollicis|oblique|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|transverse|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|oblique|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "adductor_pollicis|transverse|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "medial_pterygoid|deep|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "medial_pterygoid|superficial|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "medial_pterygoid|deep|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "medial_pterygoid|superficial|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|superior|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|inferior|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|superior|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|inferior|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "quadratus_plantae|medial|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|lateral|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|medial|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "quadratus_plantae|lateral|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "adductor_hallucis|oblique|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_r"
+    ]
+   },
+   "adductor_hallucis|transverse|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "adductor_hallucis|oblique|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_l",
+     "adductor_hallucis_l_zfill203s"
+    ]
+   },
+   "adductor_hallucis|transverse|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "digastric|posterior|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "digastric|anterior|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|posterior|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "digastric|anterior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   }
+  },
+  "own_f": {
+   "rectus_femoris|straight_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|reflected_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|straight_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "rectus_femoris|reflected_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "biceps_brachii|long_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r",
+     "biceps_brachii_r_zfill",
+     "biceps_brachii_r_zfill212"
+    ]
+   },
+   "biceps_brachii|short_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r",
+     "biceps_brachii_r_zfill",
+     "biceps_brachii_r_zfill212"
+    ]
+   },
+   "biceps_brachii|long_head|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l",
+     "biceps_brachii_l_zfill",
+     "biceps_brachii_l_zfill203"
+    ]
+   },
+   "biceps_brachii|short_head|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l",
+     "biceps_brachii_l_zfill",
+     "biceps_brachii_l_zfill203"
+    ]
+   },
+   "triceps_brachii|long_head|r": {
+    "d_mm": 9.3,
+    "present": false,
+    "structures": [
+     "triceps_brachii_r",
+     "triceps_brachii_r_zfill"
+    ]
+   },
+   "triceps_brachii|lateral_head|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "triceps_brachii_r",
+     "triceps_brachii_r_zfill"
+    ]
+   },
+   "triceps_brachii|medial_head|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "triceps_brachii_r",
+     "triceps_brachii_r_zfill"
+    ]
+   },
+   "triceps_brachii|long_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "triceps_brachii_l",
+     "triceps_brachii_l_zfill203",
+     "triceps_brachii_l_zfill203s"
+    ]
+   },
+   "triceps_brachii|lateral_head|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "triceps_brachii_l",
+     "triceps_brachii_l_zfill203",
+     "triceps_brachii_l_zfill203s"
+    ]
+   },
+   "triceps_brachii|medial_head|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "triceps_brachii_l",
+     "triceps_brachii_l_zfill203",
+     "triceps_brachii_l_zfill203s"
+    ]
+   },
+   "biceps_femoris|long_head|r": {
+    "d_mm": 49.1,
+    "present": false,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|short_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|long_head|l": {
+    "d_mm": 55.0,
+    "present": false,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "biceps_femoris|short_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "gastrocnemius|medial_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|lateral_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|medial_head|l": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "gastrocnemius|lateral_head|l": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "sternocleidomastoid|sternal|r": {
+    "d_mm": 5.8,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|clavicular|r": {
+    "d_mm": 1.6,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|sternal|l": {
+    "d_mm": 11.4,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_l",
+     "sternocleidomastoid_l_zfill203"
+    ]
+   },
+   "sternocleidomastoid|clavicular|l": {
+    "d_mm": 3.1,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l",
+     "sternocleidomastoid_l_zfill203"
+    ]
+   },
+   "pectoralis_major|clavicular|r": {
+    "d_mm": 3.6,
+    "present": true,
+    "structures": [
+     "pectoralis_major_r"
+    ]
+   },
+   "pectoralis_major|sternocostal|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "pectoralis_major_r"
+    ]
+   },
+   "pectoralis_major|abdominal|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "pectoralis_major|clavicular|l": {
+    "d_mm": 1.6,
+    "present": true,
+    "structures": [
+     "pectoralis_major_l",
+     "pectoralis_major_l_zfill203s"
+    ]
+   },
+   "pectoralis_major|sternocostal|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "pectoralis_major_l",
+     "pectoralis_major_l_zfill203s"
+    ]
+   },
+   "pectoralis_major|abdominal|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "flexor_digitorum_superficialis|humeroulnar|r": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|humeroulnar|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "pronator_teres|humeral|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "pronator_teres_r",
+     "pronator_teres_r_zfill"
+    ]
+   },
+   "pronator_teres|ulnar|r": {
+    "d_mm": 1.8,
+    "present": true,
+    "structures": [
+     "pronator_teres_r",
+     "pronator_teres_r_zfill"
+    ]
+   },
+   "pronator_teres|humeral|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "pronator_teres|ulnar|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r",
+     "flexor_carpi_ulnaris_r_zfill"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r",
+     "flexor_carpi_ulnaris_r_zfill"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|l": {
+    "d_mm": 7.3,
+    "present": false,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r",
+     "extensor_carpi_ulnaris_r_zfill"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r",
+     "extensor_carpi_ulnaris_r_zfill"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|l": {
+    "d_mm": 7.4,
+    "present": false,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "deltoid|clavicular|r": {
+    "d_mm": 7.3,
+    "present": false,
+    "structures": [
+     "deltoid_r",
+     "deltoid_r_zfill203"
+    ]
+   },
+   "deltoid|acromial|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "deltoid_r",
+     "deltoid_r_zfill203"
+    ]
+   },
+   "deltoid|spinal|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "deltoid_r",
+     "deltoid_r_zfill203"
+    ]
+   },
+   "deltoid|clavicular|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "deltoid_l",
+     "deltoid_l_zfill203"
+    ]
+   },
+   "deltoid|acromial|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "deltoid_l",
+     "deltoid_l_zfill203"
+    ]
+   },
+   "deltoid|spinal|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "deltoid_l",
+     "deltoid_l_zfill203"
+    ]
+   },
+   "adductor_magnus|adductor_part|r": {
+    "d_mm": 1.5,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|hamstring_part|r": {
+    "d_mm": 1.5,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|adductor_part|l": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l",
+     "adductor_magnus_l_zfill212"
+    ]
+   },
+   "adductor_magnus|hamstring_part|l": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l",
+     "adductor_magnus_l_zfill212"
+    ]
+   },
+   "soleus|fibular|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|tibial|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|fibular|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "soleus|tibial|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "iliopsoas|psoas_major|r": {
+    "d_mm": 1.1,
+    "present": true,
+    "structures": [
+     "iliopsoas_r"
+    ]
+   },
+   "iliopsoas|iliacus|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "iliopsoas_r"
+    ]
+   },
+   "iliopsoas|psoas_major|l": {
+    "d_mm": 1.2,
+    "present": true,
+    "structures": [
+     "iliopsoas_l"
+    ]
+   },
+   "iliopsoas|iliacus|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "iliopsoas_l"
+    ]
+   },
+   "adductor_pollicis|oblique|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|transverse|r": {
+    "d_mm": 1.6,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|oblique|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "adductor_pollicis|transverse|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "medial_pterygoid|deep|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "medial_pterygoid|superficial|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "medial_pterygoid|deep|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "medial_pterygoid|superficial|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|superior|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|inferior|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|superior|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "lateral_pterygoid|inferior|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "quadratus_plantae|medial|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|lateral|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|medial|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "quadratus_plantae|lateral|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "adductor_hallucis|oblique|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_r"
+    ]
+   },
+   "adductor_hallucis|transverse|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "adductor_hallucis|oblique|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_l",
+     "adductor_hallucis_l_zfill203s"
+    ]
+   },
+   "adductor_hallucis|transverse|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "digastric|posterior|r": {
+    "d_mm": 63.5,
+    "present": false,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|anterior|r": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|posterior|l": {
+    "d_mm": 65.5,
+    "present": false,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "digastric|anterior|l": {
+    "d_mm": 1.3,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   }
+  },
+  "base_m": {
+   "rectus_femoris|straight_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|reflected_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|straight_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "rectus_femoris|reflected_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "biceps_brachii|long_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|short_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|long_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "biceps_brachii|short_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|long_head|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|lateral_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|medial_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|long_head|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|lateral_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|medial_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "biceps_femoris|long_head|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|short_head|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|long_head|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "biceps_femoris|short_head|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "gastrocnemius|medial_head|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|lateral_head|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|medial_head|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "gastrocnemius|lateral_head|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "sternocleidomastoid|sternal|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|clavicular|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|sternal|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "sternocleidomastoid|clavicular|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "pectoralis_major|clavicular|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|sternocostal|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|abdominal|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "pectoralis_major|clavicular|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|sternocostal|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|abdominal|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "flexor_digitorum_superficialis|humeroulnar|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|humeroulnar|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "pronator_teres|humeral|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|ulnar|r": {
+    "d_mm": 1.5,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|humeral|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "pronator_teres|ulnar|l": {
+    "d_mm": 1.5,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "deltoid|clavicular|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|acromial|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|spinal|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|clavicular|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|acromial|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|spinal|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "adductor_magnus|adductor_part|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|hamstring_part|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|adductor_part|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "adductor_magnus|hamstring_part|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "soleus|fibular|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|tibial|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|fibular|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "soleus|tibial|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "iliopsoas|psoas_major|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_r",
+     "zan_psoas_major_r"
+    ]
+   },
+   "iliopsoas|psoas_major|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_l",
+     "zan_psoas_major_l"
+    ]
+   },
+   "adductor_pollicis|oblique|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|transverse|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|oblique|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "adductor_pollicis|transverse|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "medial_pterygoid|deep|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|superficial|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|deep|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "medial_pterygoid|superficial|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|superior|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|inferior|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|superior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|inferior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "quadratus_plantae|medial|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|lateral|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|medial|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "quadratus_plantae|lateral|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "adductor_hallucis|oblique|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_r"
+    ]
+   },
+   "adductor_hallucis|transverse|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "adductor_hallucis|oblique|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_l"
+    ]
+   },
+   "adductor_hallucis|transverse|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "digastric|posterior|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|anterior|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|posterior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "digastric|anterior|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "omohyoid|inferior_belly|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|superior_belly|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|inferior_belly|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   },
+   "omohyoid|superior_belly|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   }
+  },
+  "base_f": {
+   "rectus_femoris|straight_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|reflected_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|straight_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "rectus_femoris|reflected_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "biceps_brachii|long_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|short_head|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|long_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "biceps_brachii|short_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|long_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|lateral_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|medial_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|long_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|lateral_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|medial_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "biceps_femoris|long_head|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|short_head|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|long_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "biceps_femoris|short_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "gastrocnemius|medial_head|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|lateral_head|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|medial_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "gastrocnemius|lateral_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "sternocleidomastoid|sternal|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|clavicular|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|sternal|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "sternocleidomastoid|clavicular|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "pectoralis_major|clavicular|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|sternocostal|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|abdominal|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "pectoralis_major|clavicular|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|sternocostal|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|abdominal|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "flexor_digitorum_superficialis|humeroulnar|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|humeroulnar|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "pronator_teres|humeral|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|ulnar|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|humeral|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "pronator_teres|ulnar|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "deltoid|clavicular|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|acromial|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|spinal|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|clavicular|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|acromial|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|spinal|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "adductor_magnus|adductor_part|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|hamstring_part|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|adductor_part|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "adductor_magnus|hamstring_part|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "soleus|fibular|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|tibial|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|fibular|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "soleus|tibial|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "iliopsoas|psoas_major|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_r",
+     "zan_psoas_major_r"
+    ]
+   },
+   "iliopsoas|psoas_major|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_l",
+     "zan_psoas_major_l"
+    ]
+   },
+   "adductor_pollicis|oblique|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|transverse|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|oblique|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "adductor_pollicis|transverse|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "medial_pterygoid|deep|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|superficial|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|deep|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "medial_pterygoid|superficial|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|superior|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|inferior|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|superior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|inferior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "quadratus_plantae|medial|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|lateral|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|medial|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "quadratus_plantae|lateral|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "adductor_hallucis|oblique|r": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_r"
+    ]
+   },
+   "adductor_hallucis|transverse|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "adductor_hallucis|oblique|l": {
+    "d_mm": 0.0,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_l"
+    ]
+   },
+   "adductor_hallucis|transverse|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "digastric|posterior|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|anterior|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|posterior|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "digastric|anterior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "omohyoid|inferior_belly|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|superior_belly|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|inferior_belly|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   },
+   "omohyoid|superior_belly|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   }
+  },
+  "comb_m": {
+   "rectus_femoris|straight_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|reflected_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|straight_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "rectus_femoris|reflected_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "biceps_brachii|long_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|short_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|long_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "biceps_brachii|short_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|long_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|lateral_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|medial_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|long_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|lateral_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|medial_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "biceps_femoris|long_head|r": {
+    "d_mm": 8.4,
+    "present": false,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|short_head|r": {
+    "d_mm": 3.8,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|long_head|l": {
+    "d_mm": 4.8,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "biceps_femoris|short_head|l": {
+    "d_mm": 1.4,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "gastrocnemius|medial_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|lateral_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|medial_head|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "gastrocnemius|lateral_head|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "sternocleidomastoid|sternal|r": {
+    "d_mm": 22.6,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|clavicular|r": {
+    "d_mm": 2.1,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|sternal|l": {
+    "d_mm": 14.6,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "sternocleidomastoid|clavicular|l": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "pectoralis_major|clavicular|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|sternocostal|r": {
+    "d_mm": 1.4,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|abdominal|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "pectoralis_major|clavicular|l": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|sternocostal|l": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|abdominal|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "flexor_digitorum_superficialis|humeroulnar|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|humeroulnar|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|l": {
+    "d_mm": 1.1,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "pronator_teres|humeral|r": {
+    "d_mm": 1.8,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|ulnar|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|humeral|l": {
+    "d_mm": 1.0,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "pronator_teres|ulnar|l": {
+    "d_mm": 1.0,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|l": {
+    "d_mm": 1.0,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|l": {
+    "d_mm": 2.1,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "deltoid|clavicular|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|acromial|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|spinal|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|clavicular|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|acromial|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|spinal|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "adductor_magnus|adductor_part|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|hamstring_part|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|adductor_part|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "adductor_magnus|hamstring_part|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "soleus|fibular|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|tibial|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|fibular|l": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "soleus|tibial|l": {
+    "d_mm": 2.8,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "iliopsoas|psoas_major|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_r",
+     "zan_psoas_major_r"
+    ]
+   },
+   "iliopsoas|psoas_major|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|l": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_l",
+     "zan_psoas_major_l"
+    ]
+   },
+   "adductor_pollicis|oblique|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|transverse|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|oblique|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "adductor_pollicis|transverse|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "medial_pterygoid|deep|r": {
+    "d_mm": 2.0,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|superficial|r": {
+    "d_mm": 3.2,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|deep|l": {
+    "d_mm": 1.3,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "medial_pterygoid|superficial|l": {
+    "d_mm": 3.9,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|superior|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|inferior|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|superior|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|inferior|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "quadratus_plantae|medial|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|lateral|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|medial|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "quadratus_plantae|lateral|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "adductor_hallucis|oblique|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_r"
+    ]
+   },
+   "adductor_hallucis|transverse|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "adductor_hallucis|oblique|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_l"
+    ]
+   },
+   "adductor_hallucis|transverse|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "digastric|posterior|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|anterior|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|posterior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "digastric|anterior|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "omohyoid|inferior_belly|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|superior_belly|r": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|inferior_belly|l": {
+    "d_mm": 1.9,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   },
+   "omohyoid|superior_belly|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   }
+  },
+  "comb_f": {
+   "rectus_femoris|straight_head|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|reflected_head|r": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "rectus_femoris_r",
+     "rectus_femoris_reflected_head_r"
+    ]
+   },
+   "rectus_femoris|straight_head|l": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "rectus_femoris|reflected_head|l": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "rectus_femoris_l",
+     "rectus_femoris_reflected_head_l"
+    ]
+   },
+   "biceps_brachii|long_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|short_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "biceps_brachii_r"
+    ]
+   },
+   "biceps_brachii|long_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "biceps_brachii|short_head|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "biceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|long_head|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|lateral_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|medial_head|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_r",
+     "zan_long_head_of_triceps_brachii_r",
+     "zan_medial_head_of_triceps_brachii_r"
+    ]
+   },
+   "triceps_brachii|long_head|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|lateral_head|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "triceps_brachii|medial_head|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_lateral_head_of_triceps_brachii_l",
+     "zan_long_head_of_triceps_brachii_l",
+     "zan_medial_head_of_triceps_brachii_l"
+    ]
+   },
+   "biceps_femoris|long_head|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|short_head|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "biceps_femoris_r"
+    ]
+   },
+   "biceps_femoris|long_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "biceps_femoris|short_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "biceps_femoris_l"
+    ]
+   },
+   "gastrocnemius|medial_head|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|lateral_head|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "gastrocnemius_r"
+    ]
+   },
+   "gastrocnemius|medial_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "gastrocnemius|lateral_head|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "gastrocnemius_l"
+    ]
+   },
+   "sternocleidomastoid|sternal|r": {
+    "d_mm": 8.2,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|clavicular|r": {
+    "d_mm": 3.5,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_r"
+    ]
+   },
+   "sternocleidomastoid|sternal|l": {
+    "d_mm": 13.2,
+    "present": false,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "sternocleidomastoid|clavicular|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "sternocleidomastoid_l"
+    ]
+   },
+   "pectoralis_major|clavicular|r": {
+    "d_mm": 1.2,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|sternocostal|r": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_r",
+     "zan_clavicular_head_of_pectoralis_major_muscle_r",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+    ]
+   },
+   "pectoralis_major|abdominal|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "pectoralis_major|clavicular|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|sternocostal|l": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "zan_abdominal_part_of_pectoralis_major_muscle_l",
+     "zan_clavicular_head_of_pectoralis_major_muscle_l",
+     "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+    ]
+   },
+   "pectoralis_major|abdominal|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "flexor_digitorum_superficialis|humeroulnar|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_r",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+    ]
+   },
+   "flexor_digitorum_superficialis|humeroulnar|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "flexor_digitorum_superficialis|radial|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_digitorum_superficialis_l",
+     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+    ]
+   },
+   "pronator_teres|humeral|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|ulnar|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "pronator_teres_r"
+    ]
+   },
+   "pronator_teres|humeral|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "pronator_teres|ulnar|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "pronator_teres_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_r"
+    ]
+   },
+   "flexor_carpi_ulnaris|humeral|l": {
+    "d_mm": 1.1,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "flexor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "flexor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|r": {
+    "d_mm": 0.9,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_r"
+    ]
+   },
+   "extensor_carpi_ulnaris|humeral|l": {
+    "d_mm": 1.6,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "extensor_carpi_ulnaris|ulnar|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "extensor_carpi_ulnaris_l"
+    ]
+   },
+   "deltoid|clavicular|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|acromial|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|spinal|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_r",
+     "zan_clavicular_part_of_deltoid_muscle_r",
+     "zan_scapular_spinal_part_of_deltoid_muscle_r"
+    ]
+   },
+   "deltoid|clavicular|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|acromial|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "deltoid|spinal|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "zan_acromial_part_of_deltoid_muscle_l",
+     "zan_clavicular_part_of_deltoid_muscle_l",
+     "zan_scapular_spinal_part_of_deltoid_muscle_l"
+    ]
+   },
+   "adductor_magnus|adductor_part|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|hamstring_part|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "adductor_magnus_r"
+    ]
+   },
+   "adductor_magnus|adductor_part|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "adductor_magnus|hamstring_part|l": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "adductor_magnus_l"
+    ]
+   },
+   "soleus|fibular|r": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|tibial|r": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "soleus_r"
+    ]
+   },
+   "soleus|fibular|l": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "soleus|tibial|l": {
+    "d_mm": 1.0,
+    "present": true,
+    "structures": [
+     "soleus_l"
+    ]
+   },
+   "iliopsoas|psoas_major|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_r",
+     "zan_psoas_major_r"
+    ]
+   },
+   "iliopsoas|psoas_major|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "bone not on this page"
+   },
+   "iliopsoas|iliacus|l": {
+    "d_mm": 0.6,
+    "present": true,
+    "structures": [
+     "zan_iliacus_muscle_l",
+     "zan_psoas_major_l"
+    ]
+   },
+   "adductor_pollicis|oblique|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|transverse|r": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_r"
+    ]
+   },
+   "adductor_pollicis|oblique|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "adductor_pollicis|transverse|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "adductor_pollicis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_r"
+    ]
+   },
+   "flexor_pollicis_brevis|superficial|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "flexor_pollicis_brevis|deep|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "flexor_pollicis_brevis_l"
+    ]
+   },
+   "medial_pterygoid|deep|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|superficial|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_r"
+    ]
+   },
+   "medial_pterygoid|deep|l": {
+    "d_mm": 0.1,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "medial_pterygoid|superficial|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "medial_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|superior|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|inferior|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_r"
+    ]
+   },
+   "lateral_pterygoid|superior|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "lateral_pterygoid|inferior|l": {
+    "d_mm": 0.5,
+    "present": true,
+    "structures": [
+     "lateral_pterygoid_l"
+    ]
+   },
+   "quadratus_plantae|medial|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|lateral|r": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_r"
+    ]
+   },
+   "quadratus_plantae|medial|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "quadratus_plantae|lateral|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "quadratus_plantae_l"
+    ]
+   },
+   "adductor_hallucis|oblique|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_r"
+    ]
+   },
+   "adductor_hallucis|transverse|r": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "adductor_hallucis|oblique|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "adductor_hallucis_l"
+    ]
+   },
+   "adductor_hallucis|transverse|l": {
+    "d_mm": null,
+    "present": null,
+    "note": "no bone attachment to check"
+   },
+   "digastric|posterior|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|anterior|r": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_r"
+    ]
+   },
+   "digastric|posterior|l": {
+    "d_mm": 0.2,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "digastric|anterior|l": {
+    "d_mm": 0.3,
+    "present": true,
+    "structures": [
+     "digastric_l"
+    ]
+   },
+   "omohyoid|inferior_belly|r": {
+    "d_mm": 0.8,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|superior_belly|r": {
+    "d_mm": 0.4,
+    "present": true,
+    "structures": [
+     "omohyoid_r"
+    ]
+   },
+   "omohyoid|inferior_belly|l": {
+    "d_mm": 1.0,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   },
+   "omohyoid|superior_belly|l": {
+    "d_mm": 0.7,
+    "present": true,
+    "structures": [
+     "omohyoid_l"
+    ]
+   }
+  }
+ }
+}

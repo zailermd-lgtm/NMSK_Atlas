@@ -1,0 +1,26 @@
+=== viewer_m_hr@1400 ===
+  OK   viewer_m_hr@1400 A: the panel's stepper shows the linear default (10 MHz, probe linear, no note: True)
+  OK   viewer_m_hr@1400 A: − and + are on top and at least 36 px tall ([(40, 36), (40, 36)])
+  OK   viewer_m_hr@1400 A: stepped 34 times 10->1->18->10; label / state / re-simulated image / no NaN / end-stops / out-of-band note correct at every step ([])
+  OK   viewer_m_hr@1400 A: out-of-band note at 1 MHz '1 MHz is outside the typical linear band (4–18 MHz) — still simulated', none in band (4 MHz '', 18 MHz '')
+     per-step kernel time of the selected frame: min 41 / max 89 ms; at 1 MHz 89, 18 MHz 69
+  OK   viewer_m_hr@1400 B: convex default 4 MHz in band (no note), 7 MHz out of band: '7 MHz is outside the typical convex band (1–6 MHz) — still simulated'
+  OK   viewer_m_hr@1400 B: sector default 3 MHz in band (no note), 6 MHz out of band: '6 MHz is outside the typical sector band (1–5 MHz) — still simulated'
+  OK   viewer_m_hr@1400 B: back to linear -> 10 MHz
+  OK   viewer_m_hr@1400 C: kernel on the selected frame's body raster (246x319, ds 0.143 mm): 1 MHz 39.7 ms, 7.5 MHz 33.4 ms, 12 MHz 31.5 ms, 18 MHz 31.7 ms (18 / 7.5 = 0.95); no NaN / Inf; mean dB -14.2 -> -20.0 (darker far field)
+  OK   viewer_m_hr@1400 F: 0 page errors ([])
+=== viewer_m_hr@390 ===
+  OK   viewer_m_hr@390: 'US אבחנתי' mode entered by a tap on its tile
+  OK   viewer_m_hr@390 D: card − / + tap targets [(40, 36), (40, 36)] on top, inside 390 px; page scroll width 390 <= 390
+  OK   viewer_m_hr@390 D: the card shows 10 MHz (slider 10)
+  OK   viewer_m_hr@390 D: stepped 34 times 10->1->18->10; label / state / re-simulated image / no NaN / end-stops / out-of-band note correct at every step ([])
+  OK   viewer_m_hr@390 D: out-of-band note at 1 MHz 'מחוץ לטווח האופייני למתמר (⁦4–18 MHz⁩) – עדיין מדומה', none in band (4 MHz '', 18 MHz '')
+     per-step kernel time of the selected frame: min 31 / max 71 ms; at 1 MHz 49, 18 MHz 48
+  OK   viewer_m_hr@390 E: the full-screen ⋯ sheet holds the stepper (10 MHz)
+  OK   viewer_m_hr@390 E: with CINE playing, the sheet's + / − change the frequency and the running CINE re-simulates at it ([('11 MHz', '11', True), ('12 MHz', '12', True), ('11 MHz', '11', True)])
+  OK   viewer_m_hr@390 F: 0 page errors ([])
+  viewer_m_hr@1400 panel: [(9, 70), (8, 83), (7, 50), (6, 44), (5, 68), (4, 51), (3, 67), (2, 52), (1, 89), (2, 75), (3, 42), (4, 42), (5, 51), (6, 42), (7, 42), (8, 68), (9, 76), (10, 56), (11, 70), (12, 70), (13, 65), (14, 43), (15, 65), (16, 80), (17, 59), (18, 69), (17, 69), (16, 51), (15, 46), (14, 41), (13, 41), (12, 55), (11, 49), (10, 48)]
+  viewer_m_hr@1400 kernel: {18: (31.7, 0, -20.0), 7.5: (33.4, 0, -14.2), 1: (39.7, 0, -8.1), 12: (31.5, 0, -16.7)}
+  viewer_m_hr@390 card: [(9, 37), (8, 53), (7, 36), (6, 53), (5, 34), (4, 37), (3, 41), (2, 71), (1, 49), (2, 39), (3, 34), (4, 57), (5, 53), (6, 36), (7, 55), (8, 48), (9, 34), (10, 47), (11, 36), (12, 44), (13, 57), (14, 34), (15, 33), (16, 34), (17, 31), (18, 48), (17, 57), (16, 32), (15, 35), (14, 34), (13, 34), (12, 38), (11, 35), (10, 37)]
+
+ALL OK

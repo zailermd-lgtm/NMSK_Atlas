@@ -1,0 +1,165 @@
+{
+ "before": {
+  "sciatic_n": {
+   "vertices": 14949,
+   "inside_target_muscle": 11759,
+   "pct_target": 78.7,
+   "pct_any_muscle": 78.7,
+   "per_muscle_pct": {
+    "adductor_magnus_l": 48.0,
+    "adductor_magnus_r": 12.4,
+    "biceps_femoris_r": 9.3,
+    "semimembranosus_l": 3.8,
+    "vastus_intermedius_r": 2.5,
+    "semitendinosus_r": 0.7,
+    "vastus_medialis_l": 0.7,
+    "vastus_lateralis_r": 0.6,
+    "biceps_femoris_l": 0.5,
+    "adductor_brevis_l": 0.2,
+    "vastus_intermedius_l": 0.0
+   },
+   "moved": false
+  },
+  "femoral_a_r": {
+   "vertices": 1877,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 29.1,
+   "per_muscle_pct": {
+    "pectineus_r": 29.0,
+    "iliopsoas_r": 0.2
+   },
+   "moved": false
+  },
+  "femoral_v_r": {
+   "vertices": 1877,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 42.8,
+   "per_muscle_pct": {
+    "pectineus_r": 42.8
+   },
+   "moved": false
+  },
+  "femoral_n": {
+   "vertices": 1877,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 84.9,
+   "per_muscle_pct": {
+    "iliopsoas_r": 84.9
+   },
+   "moved": false
+  },
+  "popliteal_a_r": {
+   "vertices": 1851,
+   "inside_target_muscle": 53,
+   "pct_target": 2.9,
+   "pct_any_muscle": 21.2,
+   "per_muscle_pct": {
+    "gastrocnemius_r": 11.4,
+    "plantaris_r": 6.9,
+    "semimembranosus_r": 2.9
+   },
+   "moved": false
+  },
+  "popliteal_v_r": {
+   "vertices": 1869,
+   "inside_target_muscle": 2,
+   "pct_target": 0.1,
+   "pct_any_muscle": 0.6,
+   "per_muscle_pct": {
+    "plantaris_r": 0.5,
+    "semimembranosus_r": 0.1
+   },
+   "moved": false
+  },
+  "tibial_n": {
+   "vertices": 1877,
+   "inside_target_muscle": 1082,
+   "pct_target": 57.6,
+   "pct_any_muscle": 92.9,
+   "per_muscle_pct": {
+    "biceps_femoris_r": 57.6,
+    "gastrocnemius_r": 32.2,
+    "plantaris_r": 3.1
+   },
+   "moved": false
+  }
+ },
+ "after": {
+  "sciatic_n": {
+   "vertices": 14949,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 0.0,
+   "per_muscle_pct": {},
+   "moved": false
+  },
+  "femoral_a_r": {
+   "vertices": 1877,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 29.1,
+   "per_muscle_pct": {
+    "pectineus_r": 29.0,
+    "iliopsoas_r": 0.2
+   },
+   "moved": false
+  },
+  "femoral_v_r": {
+   "vertices": 1877,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 42.8,
+   "per_muscle_pct": {
+    "pectineus_r": 42.8
+   },
+   "moved": false
+  },
+  "femoral_n": {
+   "vertices": 1877,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 84.9,
+   "per_muscle_pct": {
+    "iliopsoas_r": 84.9
+   },
+   "moved": false
+  },
+  "popliteal_a_r": {
+   "vertices": 1851,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 18.3,
+   "per_muscle_pct": {
+    "gastrocnemius_r": 11.4,
+    "plantaris_r": 6.9
+   },
+   "moved": false
+  },
+  "popliteal_v_r": {
+   "vertices": 1869,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 0.5,
+   "per_muscle_pct": {
+    "plantaris_r": 0.5
+   },
+   "moved": false
+  },
+  "tibial_n": {
+   "vertices": 1877,
+   "inside_target_muscle": 0,
+   "pct_target": 0.0,
+   "pct_any_muscle": 35.3,
+   "per_muscle_pct": {
+    "gastrocnemius_r": 32.2,
+    "plantaris_r": 3.1
+   },
+   "moved": false
+  }
+ },
+ "traced_structures_byte_identical": true,
+ "note": "the traced tubes keep their positions (measured evidence); the muscles were carved away from them in Q216 (groove open towards the nearest surface, corridor = tube + 1 mm); the remaining overlap is with muscles that were not re-bounded in Q215 (gastrocnemius, plantaris: her own CT muscles) and was not touched"
+}

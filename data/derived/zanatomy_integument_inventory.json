@@ -1,0 +1,4934 @@
+{
+ "source": "Q141 (2026-09-23): phase-1 extraction of Z-Anatomy (CC BY-SA 4.0) FBX geometry via scripts/zanatomy/extract_fbx.py, run with bpy 5.0.1 in an isolated venv (build/.venv-bpy). Z-Anatomy clone: /home/user/lluisv/z-anatomy, commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6 (pinned: 6c7f9016bd5899ac8edafd31b9900c151df42ed6). See third_party/z-anatomy/ for licence and attribution and docs/GEOMETRY_SOURCES.md for the owner decision permitting this material into the repo. Per-object meshes are NOT committed (build/ is gitignored); this inventory and scripts/zanatomy/extract_fbx.py are the reproducible record.",
+ "generated": "2026-09-23",
+ "zanatomy_root": "/home/user/lluisv/z-anatomy",
+ "zanatomy_commit": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+ "zanatomy_commit_pinned": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+ "extraction_route": "bpy (Blender's Python API), NOT a hand-rolled binary-FBX reader: `pip install bpy==5.0.1` installed cleanly for this Python 3.11 (cp311 wheel) into build/.venv-bpy/, isolated from the project's main venv because bpy pins numpy<2.0 and the project runs numpy 2.x. bpy.ops.import_scene.fbx resolves the FBX node tree, geometry, transforms (Lcl Translation/Rotation/Scaling, PreRotation), Model->Model parenting and GlobalSettings unit scale/axis convention into each object's matrix_world; vertices are read via matrix_world @ local_co, faces via mesh.loop_triangles (already triangulated), and metres are converted to millimetres by *1000.",
+ "min_vertices_kept": 12,
+ "excluded_non_tissue_systems": {
+  "References100.fbx": "reference planes/lines/cross-sections for the interactive app's own UI -- not tissue"
+ },
+ "nc_licensed_name_patterns": [
+  "\\bkidney\\b",
+  "\\brenal\\b",
+  "\\bcochlea",
+  "\\bvestibule\\b",
+  "\\bvestibular\\b",
+  "\\bsemicircular duct",
+  "\\bsemicircular canal",
+  "\\binner ear\\b",
+  "\\bmembranous labyrinth",
+  "\\bbony labyrinth",
+  "\\bosseous labyrinth",
+  "\\bendolymphatic"
+ ],
+ "nc_licensing_note": "Resources/Models/License.txt (in the pinned clone) states most of the release is CC BY-SA 4.0 (derivative of BodyParts3D, Database Center for Life Science, CC-BY-SA 2.1 Japan -- both credits required together) BUT explicitly carries non-commercial exceptions: 'Anatomy of the Inner Ear' (Univ. of Dundee, CC-BY-NC-SA 4.0) and 'Kidney' (lissiecowley, CC-BY-NC 4.0). Objects matching nc_licensed_name_patterns are extracted here for inventory completeness only and are flagged license!=\"CC-BY-SA-4.0\" -- they must never be used past this phase-1 catalogue in a commercial product.",
+ "systems": {
+  "Integument": {
+   "source_file": "Resources/Models/FBX/Regions of human body100.fbx",
+   "total_mesh_objects": 301,
+   "kept": 256,
+   "excluded_pin_markers": 45,
+   "nc_flagged": 0,
+   "seconds": 1.3
+  }
+ },
+ "total_objects_kept": 256,
+ "sanity_checks": {
+  "femur_length_mm": {
+   "left": null,
+   "right": null,
+   "expected_range_mm": [
+    400,
+    500
+   ]
+  },
+  "humerus_length_mm": {
+   "left": null,
+   "right": null,
+   "expected_range_mm": [
+    300,
+    340
+   ]
+  },
+  "skeleton_height_mm": {
+   "value": null,
+   "expected_range_mm": [
+    1600,
+    1800
+   ],
+   "note": "z-span of every Skeletal-system object except the diagram 'Cross Section X/Y/Z' reference planes"
+  },
+  "left_right_mirror_femur_within_1mm": null,
+  "muscle_sits_on_bone_check": null,
+  "radial_nerve_present": false,
+  "radial_nerve_objects": []
+ },
+ "objects": [
+  {
+   "name": "Anal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 26,
+   "face_count": 48,
+   "bbox_min_mm": [
+    0.0,
+    13.2,
+    739.1
+   ],
+   "bbox_max_mm": [
+    15.7,
+    72.3,
+    783.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 26,
+   "face_count": 48,
+   "bbox_min_mm": [
+    -15.7,
+    13.2,
+    739.1
+   ],
+   "bbox_max_mm": [
+    0.0,
+    72.3,
+    783.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Angle of mouth.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 42,
+   "face_count": 80,
+   "bbox_min_mm": [
+    22.7,
+    -84.9,
+    1526.2
+   ],
+   "bbox_max_mm": [
+    32.1,
+    -77.0,
+    1535.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Angle of mouth.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 42,
+   "face_count": 80,
+   "bbox_min_mm": [
+    -32.1,
+    -84.9,
+    1526.2
+   ],
+   "bbox_max_mm": [
+    -22.7,
+    -77.0,
+    1535.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior notch of auricle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 38,
+   "face_count": 49,
+   "bbox_min_mm": [
+    67.4,
+    -7.4,
+    1576.8
+   ],
+   "bbox_max_mm": [
+    73.9,
+    6.4,
+    1591.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior notch of auricle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 38,
+   "face_count": 49,
+   "bbox_min_mm": [
+    -73.9,
+    -7.4,
+    1576.8
+   ],
+   "bbox_max_mm": [
+    -67.4,
+    6.4,
+    1591.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of ankle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 274,
+   "face_count": 544,
+   "bbox_min_mm": [
+    45.7,
+    -1.3,
+    56.4
+   ],
+   "bbox_max_mm": [
+    115.8,
+    79.6,
+    126.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of ankle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 274,
+   "face_count": 544,
+   "bbox_min_mm": [
+    -115.8,
+    -1.3,
+    56.4
+   ],
+   "bbox_max_mm": [
+    -45.7,
+    79.6,
+    126.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of arm.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 514,
+   "face_count": 1028,
+   "bbox_min_mm": [
+    161.0,
+    -22.8,
+    1129.5
+   ],
+   "bbox_max_mm": [
+    256.9,
+    43.4,
+    1311.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of arm.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 514,
+   "face_count": 1028,
+   "bbox_min_mm": [
+    -256.9,
+    -22.8,
+    1129.5
+   ],
+   "bbox_max_mm": [
+    -161.0,
+    43.4,
+    1311.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of elbow.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 216,
+   "face_count": 428,
+   "bbox_min_mm": [
+    179.0,
+    -3.6,
+    1074.8
+   ],
+   "bbox_max_mm": [
+    274.5,
+    39.7,
+    1142.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of elbow.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 216,
+   "face_count": 428,
+   "bbox_min_mm": [
+    -274.5,
+    -3.6,
+    1074.8
+   ],
+   "bbox_max_mm": [
+    -179.0,
+    39.7,
+    1142.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of forearm.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 586,
+   "face_count": 1168,
+   "bbox_min_mm": [
+    180.3,
+    -38.7,
+    852.6
+   ],
+   "bbox_max_mm": [
+    295.6,
+    26.1,
+    1088.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of forearm.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 586,
+   "face_count": 1168,
+   "bbox_min_mm": [
+    -295.6,
+    -38.7,
+    852.6
+   ],
+   "bbox_max_mm": [
+    -180.3,
+    26.1,
+    1088.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of knee.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 376,
+   "face_count": 748,
+   "bbox_min_mm": [
+    19.7,
+    -53.9,
+    379.8
+   ],
+   "bbox_max_mm": [
+    143.3,
+    41.2,
+    506.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of knee.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 376,
+   "face_count": 748,
+   "bbox_min_mm": [
+    -143.3,
+    -53.9,
+    379.8
+   ],
+   "bbox_max_mm": [
+    -19.7,
+    41.2,
+    506.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of leg.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 628,
+   "face_count": 1252,
+   "bbox_min_mm": [
+    31.0,
+    -19.7,
+    120.6
+   ],
+   "bbox_max_mm": [
+    149.2,
+    53.5,
+    389.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of leg.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 628,
+   "face_count": 1252,
+   "bbox_min_mm": [
+    -149.2,
+    -19.7,
+    120.6
+   ],
+   "bbox_max_mm": [
+    -31.0,
+    53.5,
+    389.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of thigh.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 946,
+   "face_count": 1888,
+   "bbox_min_mm": [
+    3.6,
+    -79.7,
+    499.7
+   ],
+   "bbox_max_mm": [
+    181.8,
+    46.1,
+    1015.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of thigh.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 946,
+   "face_count": 1888,
+   "bbox_min_mm": [
+    -181.8,
+    -79.7,
+    499.7
+   ],
+   "bbox_max_mm": [
+    -3.6,
+    46.1,
+    1015.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of wrist.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    229.1,
+    -53.3,
+    829.9
+   ],
+   "bbox_max_mm": [
+    311.4,
+    -17.9,
+    862.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Anterior region of wrist.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    -311.4,
+    -53.3,
+    829.9
+   ],
+   "bbox_max_mm": [
+    -229.1,
+    -17.9,
+    862.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Antihelix.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 64,
+   "face_count": 88,
+   "bbox_min_mm": [
+    77.1,
+    4.9,
+    1561.4
+   ],
+   "bbox_max_mm": [
+    85.1,
+    13.4,
+    1596.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Antihelix.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 64,
+   "face_count": 88,
+   "bbox_min_mm": [
+    -85.1,
+    4.9,
+    1561.4
+   ],
+   "bbox_max_mm": [
+    -77.1,
+    13.4,
+    1596.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Antitragus.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 29,
+   "face_count": 39,
+   "bbox_min_mm": [
+    68.1,
+    -3.6,
+    1559.7
+   ],
+   "bbox_max_mm": [
+    78.9,
+    10.3,
+    1570.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Antitragus.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 29,
+   "face_count": 39,
+   "bbox_min_mm": [
+    -78.9,
+    -3.6,
+    1559.7
+   ],
+   "bbox_max_mm": [
+    -68.1,
+    10.3,
+    1570.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Apex of auricle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 27,
+   "face_count": 36,
+   "bbox_min_mm": [
+    85.3,
+    4.6,
+    1602.8
+   ],
+   "bbox_max_mm": [
+    90.2,
+    10.1,
+    1606.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Apex of auricle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 27,
+   "face_count": 36,
+   "bbox_min_mm": [
+    -90.2,
+    4.6,
+    1602.8
+   ],
+   "bbox_max_mm": [
+    -85.3,
+    10.1,
+    1606.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Auricular region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 148,
+   "face_count": 296,
+   "bbox_min_mm": [
+    54.6,
+    -16.2,
+    1547.9
+   ],
+   "bbox_max_mm": [
+    78.4,
+    27.2,
+    1611.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Auricular region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 148,
+   "face_count": 296,
+   "bbox_min_mm": [
+    -78.4,
+    -16.2,
+    1547.9
+   ],
+   "bbox_max_mm": [
+    -54.6,
+    27.2,
+    1611.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Auricular tubercle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 20,
+   "face_count": 26,
+   "bbox_min_mm": [
+    90.9,
+    16.1,
+    1587.0
+   ],
+   "bbox_max_mm": [
+    93.3,
+    18.4,
+    1593.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Auricular tubercle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 20,
+   "face_count": 26,
+   "bbox_min_mm": [
+    -93.3,
+    16.1,
+    1587.0
+   ],
+   "bbox_max_mm": [
+    -90.9,
+    18.4,
+    1593.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Buccal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 216,
+   "face_count": 428,
+   "bbox_min_mm": [
+    16.8,
+    -87.9,
+    1492.0
+   ],
+   "bbox_max_mm": [
+    63.8,
+    -39.3,
+    1565.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Buccal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 216,
+   "face_count": 428,
+   "bbox_min_mm": [
+    -63.8,
+    -87.9,
+    1492.0
+   ],
+   "bbox_max_mm": [
+    -16.8,
+    -39.3,
+    1565.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Carotid triangle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 44,
+   "face_count": 84,
+   "bbox_min_mm": [
+    19.5,
+    -47.3,
+    1474.7
+   ],
+   "bbox_max_mm": [
+    45.3,
+    -19.2,
+    1511.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Carotid triangle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 44,
+   "face_count": 84,
+   "bbox_min_mm": [
+    -45.3,
+    -47.3,
+    1474.7
+   ],
+   "bbox_max_mm": [
+    -19.5,
+    -19.2,
+    1511.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Cavity of concha.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 122,
+   "face_count": 215,
+   "bbox_min_mm": [
+    64.6,
+    -1.1,
+    1567.3
+   ],
+   "bbox_max_mm": [
+    77.4,
+    13.5,
+    1579.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Cavity of concha.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 122,
+   "face_count": 215,
+   "bbox_min_mm": [
+    -77.4,
+    -1.1,
+    1567.3
+   ],
+   "bbox_max_mm": [
+    -64.6,
+    13.5,
+    1579.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Concha of auricle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 51,
+   "face_count": 64,
+   "bbox_min_mm": [
+    67.4,
+    3.1,
+    1570.2
+   ],
+   "bbox_max_mm": [
+    79.5,
+    13.5,
+    1586.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Concha of auricle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 51,
+   "face_count": 64,
+   "bbox_min_mm": [
+    -79.5,
+    3.1,
+    1570.2
+   ],
+   "bbox_max_mm": [
+    -67.4,
+    13.5,
+    1586.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Crura of antihelix.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 69,
+   "face_count": 92,
+   "bbox_min_mm": [
+    71.7,
+    -0.3,
+    1585.6
+   ],
+   "bbox_max_mm": [
+    85.9,
+    12.3,
+    1602.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Crura of antihelix.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 69,
+   "face_count": 92,
+   "bbox_min_mm": [
+    -85.9,
+    -0.3,
+    1585.6
+   ],
+   "bbox_max_mm": [
+    -71.7,
+    12.3,
+    1602.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Cubital fossa.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 70,
+   "face_count": 136,
+   "bbox_min_mm": [
+    195.9,
+    -1.0,
+    1109.7
+   ],
+   "bbox_max_mm": [
+    241.6,
+    13.2,
+    1139.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Cubital fossa.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 70,
+   "face_count": 136,
+   "bbox_min_mm": [
+    -241.6,
+    -1.0,
+    1109.7
+   ],
+   "bbox_max_mm": [
+    -195.9,
+    13.2,
+    1139.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Cymba conchae.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 59,
+   "face_count": 89,
+   "bbox_min_mm": [
+    69.8,
+    3.3,
+    1577.0
+   ],
+   "bbox_max_mm": [
+    79.3,
+    13.6,
+    1588.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Cymba conchae.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 59,
+   "face_count": 89,
+   "bbox_min_mm": [
+    -79.3,
+    3.3,
+    1577.0
+   ],
+   "bbox_max_mm": [
+    -69.8,
+    13.6,
+    1588.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Deltoid region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 314,
+   "face_count": 624,
+   "bbox_min_mm": [
+    134.0,
+    -31.8,
+    1273.3
+   ],
+   "bbox_max_mm": [
+    242.2,
+    102.0,
+    1436.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Deltoid region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 314,
+   "face_count": 624,
+   "bbox_min_mm": [
+    -242.2,
+    -31.8,
+    1273.3
+   ],
+   "bbox_max_mm": [
+    -134.0,
+    102.0,
+    1436.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Deltopectoral triangle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 46,
+   "face_count": 88,
+   "bbox_min_mm": [
+    115.8,
+    -34.7,
+    1355.5
+   ],
+   "bbox_max_mm": [
+    159.7,
+    11.5,
+    1420.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Deltopectoral triangle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 46,
+   "face_count": 88,
+   "bbox_min_mm": [
+    -159.7,
+    -34.7,
+    1355.5
+   ],
+   "bbox_max_mm": [
+    -115.8,
+    11.5,
+    1420.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Distal transverse arch of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 42,
+   "face_count": 80,
+   "bbox_min_mm": [
+    86.7,
+    -84.4,
+    -0.4
+   ],
+   "bbox_max_mm": [
+    145.4,
+    -39.1,
+    9.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Distal transverse arch of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 42,
+   "face_count": 80,
+   "bbox_min_mm": [
+    -145.4,
+    -84.4,
+    -0.4
+   ],
+   "bbox_max_mm": [
+    -86.7,
+    -39.1,
+    9.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsal surfaces of digits of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 648,
+   "face_count": 1157,
+   "bbox_min_mm": [
+    62.8,
+    -145.6,
+    11.4
+   ],
+   "bbox_max_mm": [
+    149.2,
+    -47.3,
+    38.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsal surfaces of digits of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 648,
+   "face_count": 1157,
+   "bbox_min_mm": [
+    -149.2,
+    -145.6,
+    11.4
+   ],
+   "bbox_max_mm": [
+    -62.8,
+    -47.3,
+    38.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsal surfaces of digits of hand.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 2144,
+   "face_count": 4260,
+   "bbox_min_mm": [
+    223.6,
+    -100.0,
+    698.5
+   ],
+   "bbox_max_mm": [
+    340.0,
+    -24.0,
+    820.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsal surfaces of digits of hand.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 2144,
+   "face_count": 4260,
+   "bbox_min_mm": [
+    -340.0,
+    -100.0,
+    698.5
+   ],
+   "bbox_max_mm": [
+    -223.6,
+    -24.0,
+    820.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsum of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 176,
+   "face_count": 348,
+   "bbox_min_mm": [
+    45.7,
+    -29.6,
+    32.5
+   ],
+   "bbox_max_mm": [
+    121.3,
+    51.3,
+    92.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsum of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 176,
+   "face_count": 348,
+   "bbox_min_mm": [
+    -121.3,
+    -29.6,
+    32.5
+   ],
+   "bbox_max_mm": [
+    -45.7,
+    51.3,
+    92.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsum of hand.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 358,
+   "face_count": 712,
+   "bbox_min_mm": [
+    225.0,
+    -57.3,
+    763.1
+   ],
+   "bbox_max_mm": [
+    323.9,
+    -5.0,
+    838.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Dorsum of hand.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 358,
+   "face_count": 712,
+   "bbox_min_mm": [
+    -323.9,
+    -57.3,
+    763.1
+   ],
+   "bbox_max_mm": [
+    -225.0,
+    -5.0,
+    838.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eminentia conchae.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 45,
+   "face_count": 61,
+   "bbox_min_mm": [
+    60.6,
+    4.1,
+    1558.3
+   ],
+   "bbox_max_mm": [
+    79.5,
+    18.8,
+    1593.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eminentia conchae.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 45,
+   "face_count": 61,
+   "bbox_min_mm": [
+    -79.5,
+    4.1,
+    1558.3
+   ],
+   "bbox_max_mm": [
+    -60.6,
+    18.8,
+    1593.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eminentia fossae triangularis.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 39,
+   "face_count": 51,
+   "bbox_min_mm": [
+    72.1,
+    -4.9,
+    1592.2
+   ],
+   "bbox_max_mm": [
+    83.8,
+    12.1,
+    1606.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eminentia fossae triangularis.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 39,
+   "face_count": 51,
+   "bbox_min_mm": [
+    -83.8,
+    -4.9,
+    1592.2
+   ],
+   "bbox_max_mm": [
+    -72.1,
+    12.1,
+    1606.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eminentia scaphae.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 72,
+   "face_count": 103,
+   "bbox_min_mm": [
+    73.7,
+    7.3,
+    1568.7
+   ],
+   "bbox_max_mm": [
+    87.2,
+    21.4,
+    1606.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eminentia scaphae.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 72,
+   "face_count": 103,
+   "bbox_min_mm": [
+    -87.2,
+    7.3,
+    1568.7
+   ],
+   "bbox_max_mm": [
+    -73.7,
+    21.4,
+    1606.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Epigastric region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 94,
+   "face_count": 184,
+   "bbox_min_mm": [
+    -0.0,
+    -132.3,
+    1093.9
+   ],
+   "bbox_max_mm": [
+    81.3,
+    -104.6,
+    1224.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Epigastric region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 94,
+   "face_count": 184,
+   "bbox_min_mm": [
+    -81.3,
+    -132.3,
+    1093.9
+   ],
+   "bbox_max_mm": [
+    0.0,
+    -104.6,
+    1224.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eyebrow.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 28,
+   "face_count": 52,
+   "bbox_min_mm": [
+    10.9,
+    -94.5,
+    1612.6
+   ],
+   "bbox_max_mm": [
+    48.7,
+    -76.4,
+    1620.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eyebrow.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 28,
+   "face_count": 52,
+   "bbox_min_mm": [
+    -48.7,
+    -94.5,
+    1612.6
+   ],
+   "bbox_max_mm": [
+    -10.9,
+    -76.4,
+    1620.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eyelashes.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 302,
+   "face_count": 600,
+   "bbox_min_mm": [
+    -44.9,
+    -84.3,
+    1582.8
+   ],
+   "bbox_max_mm": [
+    -19.4,
+    -70.9,
+    1597.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Eyelashes.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 302,
+   "face_count": 600,
+   "bbox_min_mm": [
+    19.4,
+    -84.3,
+    1582.8
+   ],
+   "bbox_max_mm": [
+    44.9,
+    -70.9,
+    1597.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Femoral triangle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    28.4,
+    -80.8,
+    749.0
+   ],
+   "bbox_max_mm": [
+    101.6,
+    -48.9,
+    930.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Femoral triangle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    -101.6,
+    -80.8,
+    749.0
+   ],
+   "bbox_max_mm": [
+    -28.4,
+    -48.9,
+    930.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Fossa antihelica.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 42,
+   "face_count": 61,
+   "bbox_min_mm": [
+    73.7,
+    14.5,
+    1563.8
+   ],
+   "bbox_max_mm": [
+    82.6,
+    19.2,
+    1594.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Fossa antihelica.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 42,
+   "face_count": 61,
+   "bbox_min_mm": [
+    -82.6,
+    14.5,
+    1563.8
+   ],
+   "bbox_max_mm": [
+    -73.7,
+    19.2,
+    1594.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Frontal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 278,
+   "face_count": 552,
+   "bbox_min_mm": [
+    -0.2,
+    -94.5,
+    1587.7
+   ],
+   "bbox_max_mm": [
+    69.4,
+    -23.1,
+    1703.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Frontal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 278,
+   "face_count": 552,
+   "bbox_min_mm": [
+    -69.4,
+    -94.5,
+    1587.7
+   ],
+   "bbox_max_mm": [
+    0.2,
+    -23.1,
+    1703.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Gluteal fold.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 28,
+   "face_count": 52,
+   "bbox_min_mm": [
+    11.8,
+    68.1,
+    760.5
+   ],
+   "bbox_max_mm": [
+    102.0,
+    121.1,
+    779.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Gluteal fold.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 28,
+   "face_count": 52,
+   "bbox_min_mm": [
+    -102.0,
+    68.1,
+    760.5
+   ],
+   "bbox_max_mm": [
+    -11.8,
+    121.1,
+    779.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Gluteal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 418,
+   "face_count": 832,
+   "bbox_min_mm": [
+    0.0,
+    17.7,
+    769.8
+   ],
+   "bbox_max_mm": [
+    170.6,
+    148.3,
+    1015.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Gluteal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 418,
+   "face_count": 832,
+   "bbox_min_mm": [
+    -170.6,
+    17.7,
+    769.8
+   ],
+   "bbox_max_mm": [
+    0.0,
+    148.3,
+    1015.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Greater supraclavicular fossa.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 102,
+   "face_count": 200,
+   "bbox_min_mm": [
+    55.7,
+    -35.7,
+    1424.3
+   ],
+   "bbox_max_mm": [
+    101.0,
+    23.4,
+    1474.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Greater supraclavicular fossa.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 102,
+   "face_count": 200,
+   "bbox_min_mm": [
+    -101.0,
+    -35.7,
+    1424.3
+   ],
+   "bbox_max_mm": [
+    -55.7,
+    23.4,
+    1474.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hairs of eyebrow.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 397,
+   "face_count": 794,
+   "bbox_min_mm": [
+    13.0,
+    -94.6,
+    1608.7
+   ],
+   "bbox_max_mm": [
+    53.8,
+    -71.6,
+    1617.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hairs of eyebrow.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 397,
+   "face_count": 794,
+   "bbox_min_mm": [
+    -53.8,
+    -94.6,
+    1608.7
+   ],
+   "bbox_max_mm": [
+    -13.0,
+    -71.6,
+    1617.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hairs of head",
+   "suffix": null,
+   "system": "Integument",
+   "side": null,
+   "vertex_count": 8283,
+   "face_count": 16563,
+   "bbox_min_mm": [
+    -102.9,
+    -88.5,
+    1523.4
+   ],
+   "bbox_max_mm": [
+    92.9,
+    131.6,
+    1743.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hallucial eminence.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 132,
+   "face_count": 260,
+   "bbox_min_mm": [
+    52.2,
+    -100.5,
+    0.3
+   ],
+   "bbox_max_mm": [
+    89.0,
+    -48.8,
+    31.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hallucial eminence.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 132,
+   "face_count": 260,
+   "bbox_min_mm": [
+    -89.0,
+    -100.5,
+    0.3
+   ],
+   "bbox_max_mm": [
+    -52.2,
+    -48.8,
+    31.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Heel region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 314,
+   "face_count": 624,
+   "bbox_min_mm": [
+    43.5,
+    45.7,
+    1.6
+   ],
+   "bbox_max_mm": [
+    111.5,
+    108.8,
+    69.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Heel region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 314,
+   "face_count": 624,
+   "bbox_min_mm": [
+    -111.5,
+    45.7,
+    1.6
+   ],
+   "bbox_max_mm": [
+    -43.5,
+    108.8,
+    69.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Helix.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 289,
+   "face_count": 473,
+   "bbox_min_mm": [
+    71.7,
+    -5.2,
+    1558.3
+   ],
+   "bbox_max_mm": [
+    93.4,
+    21.6,
+    1606.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Helix.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 289,
+   "face_count": 473,
+   "bbox_min_mm": [
+    -93.4,
+    -5.2,
+    1558.3
+   ],
+   "bbox_max_mm": [
+    -71.7,
+    21.6,
+    1606.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hip region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 84,
+   "face_count": 164,
+   "bbox_min_mm": [
+    150.6,
+    -38.0,
+    794.9
+   ],
+   "bbox_max_mm": [
+    180.3,
+    68.2,
+    903.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hip region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 84,
+   "face_count": 164,
+   "bbox_min_mm": [
+    -180.3,
+    -38.0,
+    794.9
+   ],
+   "bbox_max_mm": [
+    -150.6,
+    68.2,
+    903.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hypochondriac region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 128,
+   "face_count": 252,
+   "bbox_min_mm": [
+    73.5,
+    -122.4,
+    1088.7
+   ],
+   "bbox_max_mm": [
+    153.5,
+    53.7,
+    1179.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hypochondriac region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 128,
+   "face_count": 252,
+   "bbox_min_mm": [
+    -153.5,
+    -122.4,
+    1088.7
+   ],
+   "bbox_max_mm": [
+    -73.5,
+    53.7,
+    1179.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hypogastric region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 150,
+   "face_count": 296,
+   "bbox_min_mm": [
+    -0.2,
+    -119.1,
+    828.7
+   ],
+   "bbox_max_mm": [
+    70.2,
+    -56.8,
+    963.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Hypogastric region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 150,
+   "face_count": 296,
+   "bbox_min_mm": [
+    -70.2,
+    -119.1,
+    828.7
+   ],
+   "bbox_max_mm": [
+    0.2,
+    -56.8,
+    963.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Infra-orbital region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 74,
+   "face_count": 136,
+   "bbox_min_mm": [
+    9.8,
+    -89.3,
+    1556.5
+   ],
+   "bbox_max_mm": [
+    76.9,
+    35.4,
+    1650.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Infra-orbital region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 74,
+   "face_count": 136,
+   "bbox_min_mm": [
+    -76.9,
+    -89.3,
+    1556.5
+   ],
+   "bbox_max_mm": [
+    -9.8,
+    35.4,
+    1650.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Infraclavicular fossa.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    16.7,
+    -73.4,
+    1382.9
+   ],
+   "bbox_max_mm": [
+    142.3,
+    29.7,
+    1435.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Infraclavicular fossa.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    -142.3,
+    -73.4,
+    1382.9
+   ],
+   "bbox_max_mm": [
+    -16.7,
+    29.7,
+    1435.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Inframammary region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 48,
+   "face_count": 92,
+   "bbox_min_mm": [
+    7.4,
+    -131.3,
+    1178.7
+   ],
+   "bbox_max_mm": [
+    82.3,
+    -113.8,
+    1245.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Inframammary region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 48,
+   "face_count": 92,
+   "bbox_min_mm": [
+    -82.3,
+    -131.3,
+    1178.7
+   ],
+   "bbox_max_mm": [
+    -7.4,
+    -113.8,
+    1245.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Infrascapular region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 242,
+   "face_count": 480,
+   "bbox_min_mm": [
+    27.9,
+    43.1,
+    1090.0
+   ],
+   "bbox_max_mm": [
+    139.2,
+    133.7,
+    1268.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Infrascapular region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 242,
+   "face_count": 480,
+   "bbox_min_mm": [
+    -139.2,
+    43.1,
+    1090.0
+   ],
+   "bbox_max_mm": [
+    -27.9,
+    133.7,
+    1268.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Inguinal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 88,
+   "face_count": 172,
+   "bbox_min_mm": [
+    29.4,
+    -101.3,
+    824.1
+   ],
+   "bbox_max_mm": [
+    121.5,
+    -53.8,
+    974.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Inguinal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 88,
+   "face_count": 172,
+   "bbox_min_mm": [
+    -121.5,
+    -101.3,
+    824.1
+   ],
+   "bbox_max_mm": [
+    -29.4,
+    -53.8,
+    974.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Interscapular region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 136,
+   "face_count": 268,
+   "bbox_min_mm": [
+    26.3,
+    99.7,
+    1265.2
+   ],
+   "bbox_max_mm": [
+    80.4,
+    134.9,
+    1436.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Interscapular region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 136,
+   "face_count": 268,
+   "bbox_min_mm": [
+    -80.4,
+    99.7,
+    1265.2
+   ],
+   "bbox_max_mm": [
+    -26.3,
+    134.9,
+    1436.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Intertragic incisure.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 46,
+   "face_count": 71,
+   "bbox_min_mm": [
+    65.3,
+    -8.8,
+    1560.0
+   ],
+   "bbox_max_mm": [
+    70.7,
+    1.9,
+    1573.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Intertragic incisure.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 46,
+   "face_count": 71,
+   "bbox_min_mm": [
+    -70.7,
+    -8.8,
+    1560.0
+   ],
+   "bbox_max_mm": [
+    -65.3,
+    1.9,
+    1573.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Labial commissure.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 72,
+   "face_count": 140,
+   "bbox_min_mm": [
+    -0.5,
+    -97.4,
+    1526.1
+   ],
+   "bbox_max_mm": [
+    24.6,
+    -77.4,
+    1535.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Labial commissure.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 72,
+   "face_count": 140,
+   "bbox_min_mm": [
+    -24.6,
+    -97.4,
+    1526.1
+   ],
+   "bbox_max_mm": [
+    0.5,
+    -77.4,
+    1535.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral bicipital groove.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 52,
+   "face_count": 100,
+   "bbox_min_mm": [
+    217.3,
+    1.9,
+    1145.4
+   ],
+   "bbox_max_mm": [
+    243.5,
+    19.4,
+    1276.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral bicipital groove.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 52,
+   "face_count": 100,
+   "bbox_min_mm": [
+    -243.5,
+    1.9,
+    1145.4
+   ],
+   "bbox_max_mm": [
+    -217.3,
+    19.4,
+    1276.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral border of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 154,
+   "face_count": 304,
+   "bbox_min_mm": [
+    101.9,
+    -58.6,
+    6.8
+   ],
+   "bbox_max_mm": [
+    149.0,
+    68.1,
+    50.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral border of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 154,
+   "face_count": 304,
+   "bbox_min_mm": [
+    -149.0,
+    -58.6,
+    6.8
+   ],
+   "bbox_max_mm": [
+    -101.9,
+    68.1,
+    50.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral border of forearm.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    271.3,
+    -21.1,
+    868.3
+   ],
+   "bbox_max_mm": [
+    293.3,
+    30.6,
+    1088.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral border of forearm.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    -293.3,
+    -21.1,
+    868.3
+   ],
+   "bbox_max_mm": [
+    -271.3,
+    30.6,
+    1088.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral malleolus.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 98,
+   "face_count": 192,
+   "bbox_min_mm": [
+    93.6,
+    38.3,
+    47.1
+   ],
+   "bbox_max_mm": [
+    119.3,
+    75.1,
+    100.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral malleolus.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 98,
+   "face_count": 192,
+   "bbox_min_mm": [
+    -119.3,
+    38.3,
+    47.1
+   ],
+   "bbox_max_mm": [
+    -93.6,
+    75.1,
+    100.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral part of longitudinal arch of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    99.2,
+    -48.0,
+    2.8
+   ],
+   "bbox_max_mm": [
+    145.4,
+    64.6,
+    14.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral part of longitudinal arch of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    -145.4,
+    -48.0,
+    2.8
+   ],
+   "bbox_max_mm": [
+    -99.2,
+    64.6,
+    14.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral region of abdomen.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 182,
+   "face_count": 360,
+   "bbox_min_mm": [
+    68.7,
+    -107.3,
+    962.8
+   ],
+   "bbox_max_mm": [
+    152.9,
+    46.2,
+    1094.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral region of abdomen.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 182,
+   "face_count": 360,
+   "bbox_min_mm": [
+    -152.9,
+    -107.3,
+    962.8
+   ],
+   "bbox_max_mm": [
+    -68.7,
+    46.2,
+    1094.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral region of neck.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 232,
+   "face_count": 460,
+   "bbox_min_mm": [
+    34.0,
+    -42.5,
+    1412.2
+   ],
+   "bbox_max_mm": [
+    117.3,
+    64.2,
+    1558.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral region of neck.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 232,
+   "face_count": 460,
+   "bbox_min_mm": [
+    -117.3,
+    -42.5,
+    1412.2
+   ],
+   "bbox_max_mm": [
+    -34.0,
+    64.2,
+    1558.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral region of thorax.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 396,
+   "face_count": 788,
+   "bbox_min_mm": [
+    79.6,
+    -122.8,
+    1128.8
+   ],
+   "bbox_max_mm": [
+    180.7,
+    124.7,
+    1372.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral region of thorax.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 396,
+   "face_count": 788,
+   "bbox_min_mm": [
+    -180.7,
+    -122.8,
+    1128.8
+   ],
+   "bbox_max_mm": [
+    -79.6,
+    124.7,
+    1372.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral retromalleolar region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    65.6,
+    56.9,
+    42.3
+   ],
+   "bbox_max_mm": [
+    114.3,
+    98.7,
+    119.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lateral retromalleolar region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    -114.3,
+    56.9,
+    42.3
+   ],
+   "bbox_max_mm": [
+    -65.6,
+    98.7,
+    119.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lesser supraclavicular fossa.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 26,
+   "face_count": 48,
+   "bbox_min_mm": [
+    32.1,
+    -47.5,
+    1422.4
+   ],
+   "bbox_max_mm": [
+    67.5,
+    -24.1,
+    1436.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lesser supraclavicular fossa.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 26,
+   "face_count": 48,
+   "bbox_min_mm": [
+    -67.5,
+    -47.5,
+    1422.4
+   ],
+   "bbox_max_mm": [
+    -32.1,
+    -24.1,
+    1436.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lobule of auricle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 128,
+   "face_count": 219,
+   "bbox_min_mm": [
+    59.7,
+    -9.7,
+    1550.9
+   ],
+   "bbox_max_mm": [
+    83.1,
+    11.4,
+    1566.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lobule of auricle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 128,
+   "face_count": 219,
+   "bbox_min_mm": [
+    -83.1,
+    -9.7,
+    1550.9
+   ],
+   "bbox_max_mm": [
+    -59.7,
+    11.4,
+    1566.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lumbar region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 194,
+   "face_count": 384,
+   "bbox_min_mm": [
+    27.7,
+    42.0,
+    970.3
+   ],
+   "bbox_max_mm": [
+    140.5,
+    104.8,
+    1130.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Lumbar region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 194,
+   "face_count": 384,
+   "bbox_min_mm": [
+    -140.5,
+    42.0,
+    970.3
+   ],
+   "bbox_max_mm": [
+    -27.7,
+    104.8,
+    1130.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mammary region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 162,
+   "face_count": 320,
+   "bbox_min_mm": [
+    69.9,
+    -129.4,
+    1243.5
+   ],
+   "bbox_max_mm": [
+    148.3,
+    -69.9,
+    1325.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mammary region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 162,
+   "face_count": 320,
+   "bbox_min_mm": [
+    -148.3,
+    -129.4,
+    1243.5
+   ],
+   "bbox_max_mm": [
+    -69.9,
+    -69.9,
+    1325.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mastoid region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 60,
+   "face_count": 116,
+   "bbox_min_mm": [
+    57.1,
+    18.7,
+    1557.0
+   ],
+   "bbox_max_mm": [
+    72.7,
+    56.0,
+    1614.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mastoid region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 60,
+   "face_count": 116,
+   "bbox_min_mm": [
+    -72.7,
+    18.7,
+    1557.0
+   ],
+   "bbox_max_mm": [
+    -57.1,
+    56.0,
+    1614.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial bicipital groove.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 40,
+   "face_count": 76,
+   "bbox_min_mm": [
+    166.8,
+    5.2,
+    1138.0
+   ],
+   "bbox_max_mm": [
+    194.1,
+    17.8,
+    1236.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial bicipital groove.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 40,
+   "face_count": 76,
+   "bbox_min_mm": [
+    -194.1,
+    5.2,
+    1138.0
+   ],
+   "bbox_max_mm": [
+    -166.8,
+    17.8,
+    1236.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial border of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 156,
+   "face_count": 308,
+   "bbox_min_mm": [
+    42.4,
+    -68.0,
+    6.5
+   ],
+   "bbox_max_mm": [
+    63.1,
+    63.4,
+    77.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial border of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 156,
+   "face_count": 308,
+   "bbox_min_mm": [
+    -63.1,
+    -68.0,
+    6.5
+   ],
+   "bbox_max_mm": [
+    -42.4,
+    63.4,
+    77.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial border of forearm.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    180.3,
+    -17.4,
+    860.0
+   ],
+   "bbox_max_mm": [
+    235.6,
+    33.5,
+    1075.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial border of forearm.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    -235.6,
+    -17.4,
+    860.0
+   ],
+   "bbox_max_mm": [
+    -180.3,
+    33.5,
+    1075.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial malleolus.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 78,
+   "face_count": 152,
+   "bbox_min_mm": [
+    42.1,
+    21.3,
+    55.0
+   ],
+   "bbox_max_mm": [
+    51.1,
+    63.6,
+    98.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial malleolus.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 78,
+   "face_count": 152,
+   "bbox_min_mm": [
+    -51.1,
+    21.3,
+    55.0
+   ],
+   "bbox_max_mm": [
+    -42.1,
+    63.6,
+    98.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial part of longitudinal arch of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 56,
+   "face_count": 108,
+   "bbox_min_mm": [
+    47.4,
+    -62.7,
+    2.1
+   ],
+   "bbox_max_mm": [
+    92.1,
+    45.9,
+    28.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial part of longitudinal arch of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 56,
+   "face_count": 108,
+   "bbox_min_mm": [
+    -92.1,
+    -62.7,
+    2.1
+   ],
+   "bbox_max_mm": [
+    -47.4,
+    45.9,
+    28.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial retromalleolar region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 118,
+   "face_count": 232,
+   "bbox_min_mm": [
+    43.4,
+    37.4,
+    47.6
+   ],
+   "bbox_max_mm": [
+    73.3,
+    98.7,
+    118.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Medial retromalleolar region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 118,
+   "face_count": 232,
+   "bbox_min_mm": [
+    -73.3,
+    37.4,
+    47.6
+   ],
+   "bbox_max_mm": [
+    -43.4,
+    98.7,
+    118.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mental region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 106,
+   "face_count": 208,
+   "bbox_min_mm": [
+    -0.3,
+    -89.2,
+    1487.7
+   ],
+   "bbox_max_mm": [
+    25.1,
+    -71.4,
+    1516.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mental region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 106,
+   "face_count": 208,
+   "bbox_min_mm": [
+    -25.1,
+    -89.2,
+    1487.7
+   ],
+   "bbox_max_mm": [
+    0.3,
+    -71.4,
+    1516.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mentolabial sulcus.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 56,
+   "face_count": 108,
+   "bbox_min_mm": [
+    -0.2,
+    -93.5,
+    1512.2
+   ],
+   "bbox_max_mm": [
+    12.7,
+    -83.8,
+    1519.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Mentolabial sulcus.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 56,
+   "face_count": 108,
+   "bbox_min_mm": [
+    -12.7,
+    -93.5,
+    1512.2
+   ],
+   "bbox_max_mm": [
+    0.2,
+    -83.8,
+    1519.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Metatarsal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 248,
+   "face_count": 492,
+   "bbox_min_mm": [
+    55.7,
+    -84.8,
+    20.1
+   ],
+   "bbox_max_mm": [
+    142.0,
+    14.7,
+    71.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Metatarsal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 248,
+   "face_count": 492,
+   "bbox_min_mm": [
+    -142.0,
+    -84.8,
+    20.1
+   ],
+   "bbox_max_mm": [
+    -55.7,
+    14.7,
+    71.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Muscular triangle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 132,
+   "face_count": 260,
+   "bbox_min_mm": [
+    -0.2,
+    -56.9,
+    1401.1
+   ],
+   "bbox_max_mm": [
+    24.8,
+    -33.2,
+    1492.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Muscular triangle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 132,
+   "face_count": 260,
+   "bbox_min_mm": [
+    -24.8,
+    -56.9,
+    1401.1
+   ],
+   "bbox_max_mm": [
+    0.2,
+    -33.2,
+    1492.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nail plate (foot).l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 978,
+   "face_count": 1936,
+   "bbox_min_mm": [
+    80.8,
+    -144.1,
+    15.1
+   ],
+   "bbox_max_mm": [
+    148.6,
+    -85.9,
+    25.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nail plate (foot).r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 978,
+   "face_count": 1936,
+   "bbox_min_mm": [
+    -148.6,
+    -144.1,
+    15.1
+   ],
+   "bbox_max_mm": [
+    -80.8,
+    -85.9,
+    25.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nail plate.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 1392,
+   "face_count": 2760,
+   "bbox_min_mm": [
+    225.0,
+    -98.3,
+    698.5
+   ],
+   "bbox_max_mm": [
+    340.1,
+    -61.5,
+    779.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nail plate.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 1392,
+   "face_count": 2760,
+   "bbox_min_mm": [
+    -340.1,
+    -98.3,
+    698.5
+   ],
+   "bbox_max_mm": [
+    -225.0,
+    -61.5,
+    779.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nasal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 304,
+   "face_count": 608,
+   "bbox_min_mm": [
+    -0.8,
+    -116.7,
+    1547.3
+   ],
+   "bbox_max_mm": [
+    17.8,
+    -82.3,
+    1610.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nasal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 304,
+   "face_count": 608,
+   "bbox_min_mm": [
+    -17.8,
+    -116.7,
+    1547.3
+   ],
+   "bbox_max_mm": [
+    0.8,
+    -82.3,
+    1610.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nasolabial sulcus.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 50,
+   "face_count": 96,
+   "bbox_min_mm": [
+    15.2,
+    -90.7,
+    1526.2
+   ],
+   "bbox_max_mm": [
+    35.9,
+    -77.4,
+    1556.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Nasolabial sulcus.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 50,
+   "face_count": 96,
+   "bbox_min_mm": [
+    -35.9,
+    -90.7,
+    1526.2
+   ],
+   "bbox_max_mm": [
+    -15.2,
+    -77.4,
+    1556.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Occipital region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 174,
+   "face_count": 344,
+   "bbox_min_mm": [
+    0.0,
+    34.3,
+    1557.0
+   ],
+   "bbox_max_mm": [
+    70.4,
+    107.4,
+    1648.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Occipital region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 174,
+   "face_count": 344,
+   "bbox_min_mm": [
+    -70.4,
+    34.3,
+    1557.0
+   ],
+   "bbox_max_mm": [
+    -0.0,
+    107.4,
+    1648.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Oral region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 338,
+   "face_count": 672,
+   "bbox_min_mm": [
+    -0.5,
+    -100.8,
+    1509.5
+   ],
+   "bbox_max_mm": [
+    33.9,
+    -76.6,
+    1551.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Oral region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 338,
+   "face_count": 672,
+   "bbox_min_mm": [
+    -33.9,
+    -100.8,
+    1509.5
+   ],
+   "bbox_max_mm": [
+    0.5,
+    -76.6,
+    1551.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Orbital region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 292,
+   "face_count": 584,
+   "bbox_min_mm": [
+    5.4,
+    -92.9,
+    1571.3
+   ],
+   "bbox_max_mm": [
+    54.5,
+    -61.6,
+    1617.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Orbital region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 292,
+   "face_count": 584,
+   "bbox_min_mm": [
+    -54.5,
+    -92.9,
+    1571.3
+   ],
+   "bbox_max_mm": [
+    -5.4,
+    -61.6,
+    1617.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Palm.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 298,
+   "face_count": 592,
+   "bbox_min_mm": [
+    225.0,
+    -60.6,
+    769.4
+   ],
+   "bbox_max_mm": [
+    317.4,
+    -27.6,
+    841.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Palm.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 298,
+   "face_count": 592,
+   "bbox_min_mm": [
+    -317.4,
+    -60.6,
+    769.4
+   ],
+   "bbox_max_mm": [
+    -225.0,
+    -27.6,
+    841.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Palmar surfaces of digits of hand.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 1922,
+   "face_count": 3836,
+   "bbox_min_mm": [
+    224.4,
+    -100.0,
+    700.0
+   ],
+   "bbox_max_mm": [
+    336.0,
+    -39.1,
+    820.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Palmar surfaces of digits of hand.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 1922,
+   "face_count": 3836,
+   "bbox_min_mm": [
+    -336.0,
+    -100.0,
+    700.0
+   ],
+   "bbox_max_mm": [
+    -224.4,
+    -39.1,
+    820.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Parietal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 254,
+   "face_count": 504,
+   "bbox_min_mm": [
+    -0.5,
+    -34.5,
+    1603.9
+   ],
+   "bbox_max_mm": [
+    78.4,
+    106.5,
+    1709.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Parietal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 254,
+   "face_count": 504,
+   "bbox_min_mm": [
+    -78.4,
+    -34.5,
+    1603.9
+   ],
+   "bbox_max_mm": [
+    0.5,
+    106.5,
+    1709.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Parotideomasseteric region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 118,
+   "face_count": 232,
+   "bbox_min_mm": [
+    43.3,
+    -47.2,
+    1508.9
+   ],
+   "bbox_max_mm": [
+    70.0,
+    -3.1,
+    1578.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Parotideomasseteric region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 118,
+   "face_count": 232,
+   "bbox_min_mm": [
+    -70.0,
+    -47.2,
+    1508.9
+   ],
+   "bbox_max_mm": [
+    -43.3,
+    -3.1,
+    1578.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Pectoral region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 258,
+   "face_count": 516,
+   "bbox_min_mm": [
+    20.1,
+    -130.6,
+    1227.1
+   ],
+   "bbox_max_mm": [
+    156.1,
+    -17.5,
+    1400.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Pectoral region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 258,
+   "face_count": 516,
+   "bbox_min_mm": [
+    -156.1,
+    -130.6,
+    1227.1
+   ],
+   "bbox_max_mm": [
+    -20.1,
+    -17.5,
+    1400.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Perionyx (foot).l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 930,
+   "face_count": 1840,
+   "bbox_min_mm": [
+    81.0,
+    -132.1,
+    16.9
+   ],
+   "bbox_max_mm": [
+    148.4,
+    -86.3,
+    25.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Perionyx (foot).r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 930,
+   "face_count": 1840,
+   "bbox_min_mm": [
+    -148.4,
+    -132.1,
+    16.9
+   ],
+   "bbox_max_mm": [
+    -81.0,
+    -85.9,
+    25.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Perionyx.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 128,
+   "face_count": 236,
+   "bbox_min_mm": [
+    225.0,
+    -85.6,
+    703.4
+   ],
+   "bbox_max_mm": [
+    337.6,
+    -61.3,
+    779.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Perionyx.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 128,
+   "face_count": 236,
+   "bbox_min_mm": [
+    -337.6,
+    -85.6,
+    703.4
+   ],
+   "bbox_max_mm": [
+    -225.0,
+    -61.3,
+    779.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Philtrum.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 30,
+   "face_count": 56,
+   "bbox_min_mm": [
+    0.0,
+    -100.8,
+    1536.1
+   ],
+   "bbox_max_mm": [
+    5.3,
+    -95.0,
+    1549.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Philtrum.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 30,
+   "face_count": 56,
+   "bbox_min_mm": [
+    -5.3,
+    -100.8,
+    1536.1
+   ],
+   "bbox_max_mm": [
+    -0.0,
+    -95.0,
+    1549.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Plantar surfaces of digits of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 1016,
+   "face_count": 2028,
+   "bbox_min_mm": [
+    64.3,
+    -145.6,
+    -0.4
+   ],
+   "bbox_max_mm": [
+    149.4,
+    -47.6,
+    18.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Plantar surfaces of digits of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 1016,
+   "face_count": 2028,
+   "bbox_min_mm": [
+    -149.4,
+    -145.6,
+    -0.4
+   ],
+   "bbox_max_mm": [
+    -64.3,
+    -47.6,
+    18.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Popliteal fossa.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 62,
+   "face_count": 120,
+   "bbox_min_mm": [
+    40.6,
+    57.6,
+    463.7
+   ],
+   "bbox_max_mm": [
+    121.5,
+    78.6,
+    505.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Popliteal fossa.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 62,
+   "face_count": 120,
+   "bbox_min_mm": [
+    -121.5,
+    57.6,
+    463.7
+   ],
+   "bbox_max_mm": [
+    -40.6,
+    78.6,
+    505.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior auricular groove.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 94,
+   "face_count": 184,
+   "bbox_min_mm": [
+    56.1,
+    -1.5,
+    1561.8
+   ],
+   "bbox_max_mm": [
+    76.2,
+    20.7,
+    1604.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior auricular groove.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 94,
+   "face_count": 184,
+   "bbox_min_mm": [
+    -76.2,
+    -1.5,
+    1561.8
+   ],
+   "bbox_max_mm": [
+    -56.1,
+    20.7,
+    1604.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of arm.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 458,
+   "face_count": 912,
+   "bbox_min_mm": [
+    162.6,
+    34.7,
+    1129.5
+   ],
+   "bbox_max_mm": [
+    256.9,
+    111.3,
+    1356.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of arm.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 458,
+   "face_count": 912,
+   "bbox_min_mm": [
+    -256.9,
+    34.7,
+    1129.5
+   ],
+   "bbox_max_mm": [
+    -162.6,
+    111.3,
+    1356.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of elbow.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 242,
+   "face_count": 480,
+   "bbox_min_mm": [
+    177.6,
+    29.3,
+    1075.4
+   ],
+   "bbox_max_mm": [
+    274.5,
+    82.1,
+    1142.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of elbow.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 242,
+   "face_count": 480,
+   "bbox_min_mm": [
+    -274.5,
+    29.3,
+    1075.4
+   ],
+   "bbox_max_mm": [
+    -177.6,
+    82.1,
+    1142.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of forearm.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 668,
+   "face_count": 1332,
+   "bbox_min_mm": [
+    181.3,
+    -23.7,
+    851.6
+   ],
+   "bbox_max_mm": [
+    295.9,
+    74.7,
+    1088.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of forearm.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 668,
+   "face_count": 1332,
+   "bbox_min_mm": [
+    -295.9,
+    -23.7,
+    851.6
+   ],
+   "bbox_max_mm": [
+    -181.3,
+    74.7,
+    1088.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of knee.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 324,
+   "face_count": 644,
+   "bbox_min_mm": [
+    19.0,
+    13.0,
+    387.8
+   ],
+   "bbox_max_mm": [
+    142.2,
+    103.3,
+    507.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of knee.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 324,
+   "face_count": 644,
+   "bbox_min_mm": [
+    -142.2,
+    13.0,
+    387.8
+   ],
+   "bbox_max_mm": [
+    -19.0,
+    103.3,
+    507.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of leg.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 612,
+   "face_count": 1220,
+   "bbox_min_mm": [
+    30.4,
+    33.1,
+    117.6
+   ],
+   "bbox_max_mm": [
+    149.2,
+    118.5,
+    406.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of leg.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 612,
+   "face_count": 1220,
+   "bbox_min_mm": [
+    -149.2,
+    33.1,
+    117.6
+   ],
+   "bbox_max_mm": [
+    -30.4,
+    118.5,
+    406.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of neck.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 344,
+   "face_count": 684,
+   "bbox_min_mm": [
+    -0.6,
+    8.0,
+    1426.9
+   ],
+   "bbox_max_mm": [
+    145.7,
+    103.3,
+    1562.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of neck.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 344,
+   "face_count": 684,
+   "bbox_min_mm": [
+    -145.7,
+    8.0,
+    1426.9
+   ],
+   "bbox_max_mm": [
+    0.6,
+    103.3,
+    1562.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of thigh.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 502,
+   "face_count": 1000,
+   "bbox_min_mm": [
+    1.5,
+    5.1,
+    502.4
+   ],
+   "bbox_max_mm": [
+    181.3,
+    115.7,
+    807.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of thigh.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 502,
+   "face_count": 1000,
+   "bbox_min_mm": [
+    -181.3,
+    5.1,
+    502.4
+   ],
+   "bbox_max_mm": [
+    -1.5,
+    115.7,
+    807.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of wrist.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 124,
+   "face_count": 240,
+   "bbox_min_mm": [
+    229.2,
+    -33.9,
+    827.6
+   ],
+   "bbox_max_mm": [
+    311.5,
+    2.3,
+    860.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Posterior region of wrist.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 124,
+   "face_count": 240,
+   "bbox_min_mm": [
+    -311.5,
+    -33.9,
+    827.6
+   ],
+   "bbox_max_mm": [
+    -229.2,
+    2.3,
+    860.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Presternal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 144,
+   "face_count": 284,
+   "bbox_min_mm": [
+    -0.0,
+    -125.8,
+    1223.3
+   ],
+   "bbox_max_mm": [
+    28.1,
+    -54.0,
+    1402.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Presternal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 144,
+   "face_count": 284,
+   "bbox_min_mm": [
+    -28.1,
+    -125.8,
+    1223.3
+   ],
+   "bbox_max_mm": [
+    -0.0,
+    -54.0,
+    1402.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Proximal transverse arch of foot.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 46,
+   "face_count": 88,
+   "bbox_min_mm": [
+    47.4,
+    28.2,
+    2.8
+   ],
+   "bbox_max_mm": [
+    108.5,
+    64.6,
+    27.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Proximal transverse arch of foot.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 46,
+   "face_count": 88,
+   "bbox_min_mm": [
+    -108.5,
+    28.2,
+    2.8
+   ],
+   "bbox_max_mm": [
+    -47.4,
+    64.6,
+    27.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Pubic hairs",
+   "suffix": null,
+   "system": "Integument",
+   "side": null,
+   "vertex_count": 820,
+   "face_count": 1491,
+   "bbox_min_mm": [
+    -55.5,
+    -100.2,
+    820.4
+   ],
+   "bbox_max_mm": [
+    57.1,
+    -57.5,
+    892.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Radial foveola.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 30,
+   "face_count": 56,
+   "bbox_min_mm": [
+    284.0,
+    -28.9,
+    832.2
+   ],
+   "bbox_max_mm": [
+    311.5,
+    -4.2,
+    858.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Radial foveola.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 30,
+   "face_count": 56,
+   "bbox_min_mm": [
+    -311.5,
+    -28.9,
+    832.2
+   ],
+   "bbox_max_mm": [
+    -284.0,
+    -4.2,
+    858.7
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Sacral region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 88,
+   "face_count": 172,
+   "bbox_min_mm": [
+    0.0,
+    96.0,
+    892.6
+   ],
+   "bbox_max_mm": [
+    81.4,
+    119.1,
+    973.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Sacral region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 88,
+   "face_count": 172,
+   "bbox_min_mm": [
+    -81.4,
+    96.0,
+    892.6
+   ],
+   "bbox_max_mm": [
+    0.0,
+    119.1,
+    973.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Scapha.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 47,
+   "face_count": 69,
+   "bbox_min_mm": [
+    84.0,
+    8.7,
+    1573.9
+   ],
+   "bbox_max_mm": [
+    89.9,
+    18.2,
+    1602.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Scapha.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 47,
+   "face_count": 69,
+   "bbox_min_mm": [
+    -89.9,
+    8.7,
+    1573.9
+   ],
+   "bbox_max_mm": [
+    -84.0,
+    18.2,
+    1602.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Scapular region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 344,
+   "face_count": 676,
+   "bbox_min_mm": [
+    54.7,
+    54.9,
+    1070.2
+   ],
+   "bbox_max_mm": [
+    193.3,
+    135.9,
+    1436.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Scapular region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 344,
+   "face_count": 676,
+   "bbox_min_mm": [
+    -193.3,
+    54.9,
+    1070.2
+   ],
+   "bbox_max_mm": [
+    -54.7,
+    135.9,
+    1436.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Sole.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 90,
+   "face_count": 176,
+   "bbox_min_mm": [
+    61.9,
+    -60.8,
+    2.8
+   ],
+   "bbox_max_mm": [
+    123.6,
+    42.1,
+    15.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Sole.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 90,
+   "face_count": 176,
+   "bbox_min_mm": [
+    -123.6,
+    -60.8,
+    2.8
+   ],
+   "bbox_max_mm": [
+    -61.9,
+    42.1,
+    15.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Sternocleidomastoid region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 274,
+   "face_count": 544,
+   "bbox_min_mm": [
+    4.1,
+    -59.5,
+    1401.0
+   ],
+   "bbox_max_mm": [
+    74.1,
+    37.2,
+    1564.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Sternocleidomastoid region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 274,
+   "face_count": 544,
+   "bbox_min_mm": [
+    -74.1,
+    -59.5,
+    1401.0
+   ],
+   "bbox_max_mm": [
+    -4.1,
+    37.2,
+    1564.0
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Submandibular triangle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    18.3,
+    -69.4,
+    1488.9
+   ],
+   "bbox_max_mm": [
+    54.2,
+    -14.0,
+    1528.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Submandibular triangle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 80,
+   "face_count": 156,
+   "bbox_min_mm": [
+    -54.2,
+    -69.4,
+    1488.9
+   ],
+   "bbox_max_mm": [
+    -18.3,
+    -14.0,
+    1528.9
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Submental triangle.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 64,
+   "face_count": 124,
+   "bbox_min_mm": [
+    -0.2,
+    -80.2,
+    1484.3
+   ],
+   "bbox_max_mm": [
+    27.4,
+    -49.6,
+    1496.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Submental triangle.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 64,
+   "face_count": 124,
+   "bbox_min_mm": [
+    -27.4,
+    -80.2,
+    1484.3
+   ],
+   "bbox_max_mm": [
+    0.2,
+    -49.6,
+    1496.4
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Temporal region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 220,
+   "face_count": 436,
+   "bbox_min_mm": [
+    59.3,
+    -51.7,
+    1587.5
+   ],
+   "bbox_max_mm": [
+    81.9,
+    50.2,
+    1656.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Temporal region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 220,
+   "face_count": 436,
+   "bbox_min_mm": [
+    -81.9,
+    -51.7,
+    1587.5
+   ],
+   "bbox_max_mm": [
+    -59.3,
+    50.2,
+    1656.2
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Tragus.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 50,
+   "face_count": 76,
+   "bbox_min_mm": [
+    66.0,
+    -9.9,
+    1566.9
+   ],
+   "bbox_max_mm": [
+    72.3,
+    1.3,
+    1587.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Tragus.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 50,
+   "face_count": 76,
+   "bbox_min_mm": [
+    -72.3,
+    -9.9,
+    1566.9
+   ],
+   "bbox_max_mm": [
+    -66.0,
+    1.3,
+    1587.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Triangle of auscultation.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 12,
+   "face_count": 20,
+   "bbox_min_mm": [
+    61.8,
+    129.9,
+    1281.7
+   ],
+   "bbox_max_mm": [
+    72.0,
+    134.3,
+    1298.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Triangle of auscultation.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 12,
+   "face_count": 20,
+   "bbox_min_mm": [
+    -72.0,
+    129.9,
+    1281.7
+   ],
+   "bbox_max_mm": [
+    -61.8,
+    134.3,
+    1298.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Triangular fossa.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 41,
+   "face_count": 58,
+   "bbox_min_mm": [
+    74.3,
+    -0.4,
+    1591.4
+   ],
+   "bbox_max_mm": [
+    81.0,
+    7.9,
+    1600.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Triangular fossa.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 41,
+   "face_count": 58,
+   "bbox_min_mm": [
+    -81.0,
+    -0.4,
+    1591.4
+   ],
+   "bbox_max_mm": [
+    -74.3,
+    7.9,
+    1600.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Tubercle of upper lip.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 12,
+   "face_count": 20,
+   "bbox_min_mm": [
+    -0.7,
+    -100.4,
+    1532.1
+   ],
+   "bbox_max_mm": [
+    2.2,
+    -95.2,
+    1537.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Tubercle of upper lip.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 12,
+   "face_count": 20,
+   "bbox_min_mm": [
+    -2.2,
+    -100.4,
+    1532.1
+   ],
+   "bbox_max_mm": [
+    0.7,
+    -95.2,
+    1537.6
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Umbilical region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 118,
+   "face_count": 232,
+   "bbox_min_mm": [
+    0.0,
+    -124.4,
+    958.0
+   ],
+   "bbox_max_mm": [
+    75.0,
+    -98.7,
+    1096.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Umbilical region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 118,
+   "face_count": 232,
+   "bbox_min_mm": [
+    -75.0,
+    -124.4,
+    958.0
+   ],
+   "bbox_max_mm": [
+    -0.0,
+    -98.7,
+    1096.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Umbilicus.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 22,
+   "face_count": 40,
+   "bbox_min_mm": [
+    -0.0,
+    -121.0,
+    1004.3
+   ],
+   "bbox_max_mm": [
+    16.0,
+    -107.4,
+    1029.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Umbilicus.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 22,
+   "face_count": 40,
+   "bbox_min_mm": [
+    -16.0,
+    -121.0,
+    1004.3
+   ],
+   "bbox_max_mm": [
+    0.0,
+    -107.4,
+    1029.5
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Urogenital region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 646,
+   "face_count": 1284,
+   "bbox_min_mm": [
+    -1.1,
+    -110.9,
+    723.6
+   ],
+   "bbox_max_mm": [
+    33.9,
+    16.3,
+    838.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Urogenital region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 646,
+   "face_count": 1284,
+   "bbox_min_mm": [
+    -33.9,
+    -110.9,
+    723.6
+   ],
+   "bbox_max_mm": [
+    1.1,
+    16.3,
+    838.3
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Vertebral region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 292,
+   "face_count": 580,
+   "bbox_min_mm": [
+    -0.0,
+    84.3,
+    969.8
+   ],
+   "bbox_max_mm": [
+    32.7,
+    132.0,
+    1435.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Vertebral region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 292,
+   "face_count": 580,
+   "bbox_min_mm": [
+    -32.7,
+    84.3,
+    969.8
+   ],
+   "bbox_max_mm": [
+    0.0,
+    132.0,
+    1435.8
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Zygomatic region.l",
+   "suffix": "l",
+   "system": "Integument",
+   "side": "left",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    44.4,
+    -76.1,
+    1557.1
+   ],
+   "bbox_max_mm": [
+    71.0,
+    -11.2,
+    1589.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  },
+  {
+   "name": "Zygomatic region.r",
+   "suffix": "r",
+   "system": "Integument",
+   "side": "right",
+   "vertex_count": 108,
+   "face_count": 212,
+   "bbox_min_mm": [
+    -71.0,
+    -76.1,
+    1557.1
+   ],
+   "bbox_max_mm": [
+    -44.4,
+    -11.2,
+    1589.1
+   ],
+   "license": "CC-BY-SA-4.0"
+  }
+ ]
+}

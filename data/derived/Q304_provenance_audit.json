@@ -1,0 +1,72 @@
+{
+ "src": "build/q304",
+ "pages": {
+  "own_m": {
+   "label": "Imaging M",
+   "kind": "own",
+   "meshes": 1022,
+   "classes": {
+    "c_rule_based": 275,
+    "a_measured": 346,
+    "b_real_third_party": 401
+   }
+  },
+  "own_f": {
+   "label": "Imaging F",
+   "kind": "own",
+   "meshes": 1168,
+   "classes": {
+    "a_measured": 356,
+    "c_rule_based": 265,
+    "b_real_third_party": 547
+   }
+  },
+  "base_m": {
+   "label": "Base M",
+   "kind": "zan",
+   "meshes": 3252,
+   "classes": {
+    "b_real_third_party": 3005,
+    "c_rule_based": 247
+   }
+  },
+  "base_f": {
+   "label": "Base F",
+   "kind": "zan",
+   "meshes": 3288,
+   "classes": {
+    "b_real_third_party": 3050,
+    "c_rule_based": 236,
+    "a_measured": 2
+   }
+  },
+  "comb_m": {
+   "label": "Combined M",
+   "kind": "zan",
+   "meshes": 3254,
+   "classes": {
+    "b_real_third_party": 2979,
+    "c_rule_based": 227,
+    "a_measured": 48
+   }
+  },
+  "comb_f": {
+   "label": "Combined F",
+   "kind": "zan",
+   "meshes": 3304,
+   "classes": {
+    "b_real_third_party": 3022,
+    "c_rule_based": 231,
+    "a_measured": 51
+   }
+  }
+ },
+ "class_totals": {
+  "c_rule_based": 1481,
+  "a_measured": 803,
+  "b_real_third_party": 13004
+ },
+ "mislabelled": [],
+ "rule_without_visible_badge": [],
+ "unaccounted": []
+}

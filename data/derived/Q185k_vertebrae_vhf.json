@@ -1,0 +1,323 @@
+{
+ "_README": [
+  "Q185k: her (VHF) TotalSegmentator vertebra labels at the thoracolumbar junction -- documented relabel + audit.",
+  "",
+  "    python3 scripts/vhf_vertebra_relabel_q185k.py relabel     # -> data/ct_sources/task_outputs/vhf_total_q185k.nii.gz (not in git)",
+  "    python3 scripts/vhf_vertebra_relabel_q185k.py audit       # CT profile + body heights (both bodies) + figures (scratch q185k/)",
+  "",
+  "FINDING (her CT, 2026-10-01). Her TS `total` label 31 (vertebrae_L1) covers TWO vertebral bodies separated by a disc",
+  "space (6-connected pieces of 52.6 k and 60.0 k voxels, z -610..-572 and -657..-608 mm): TS's 5-lumbar model met her",
+  "6 rib-free presacral vertebrae (7 C + 12 T + 6 L; ribs 1-12 bilateral, rib 12 on TS T12, no rib below) and named both",
+  "\"L1\". Every other level holds one body. Numerical variant: Tins & Balain 2016 (whole-spine MRI, 418 patients) found",
+  "+1 mobile vertebra in 4.3 % (doi:10.1007/s13244-016-0468-7).",
+  "",
+  "RELABEL (only what the CT shows; deterministic, from the TS output, which stays untouched):",
+  " 1. label 31 -> its two largest 6-connected pieces (each >= MIN_PIECE voxels, centroids >= MIN_SEP_MM apart in z):",
+  "    the UPPER keeps 31 = L1 (the first rib-free vertebra below the rib-12-bearing T12 -- T12/L1 is anchored to the last",
+  "    rib); the LOWER becomes L1B (118, \"vertebrae_L1b\", her supernumerary lumbar vertebra). L2..L5 / S1 keep TS's",
+  "    sacrum-anchored numbering, so every lumbar disc id below stays what it was.",
+  " 2. small pieces of labels 30 / 31 / 32 (not their label's main body) within JUNCTION_PAD_MM of the two pieces and",
+  "    <= AXIS_MM from the column axis go to whichever of L1 / L1B they touch most (26-neighbour contact); no contact ->",
+  "    the nearer piece if <= NEAR_MM, else left as is. (Her T12 piece 2 = L1's inferior articular processes; her L2",
+  "    pieces 1-5 = L1B's spinous / superior articular processes.)",
+  " 3. pieces of 30 / 31 / 32 whose centroid is > AXIS_MM from the column axis are not vertebra -> 0.",
+  "The atlas carries the lumbar spine as ONE entity (lumbar_vertebrae), so L1B ships as one more part of it (ct_vhf",
+  "mapping entry label 118); costal_cartilage_from_ct_labels.BONE includes 118 so bone gates see it."
+ ],
+ "relabel": {
+  "L1_upper_voxels": 52648,
+  "L1B_lower_voxels": 60029,
+  "pieces": [
+   {
+    "label": 32,
+    "voxels": 2062,
+    "z_mm": [
+     -620.0,
+     -608.0
+    ],
+    "axis_offset_mm": 23.8,
+    "contact_L1": 337,
+    "contact_L1B": 127,
+    "to": "L1 (31)"
+   },
+   {
+    "label": 31,
+    "voxels": 4,
+    "z_mm": [
+     -574.0,
+     -574.0
+    ],
+    "axis_offset_mm": 31.4,
+    "contact_L1": 3,
+    "contact_L1B": 0,
+    "to": "L1 (31)"
+   },
+   {
+    "label": 31,
+    "voxels": 4,
+    "z_mm": [
+     -576.0,
+     -575.0
+    ],
+    "axis_offset_mm": 32.5,
+    "contact_L1": 1,
+    "contact_L1B": 0,
+    "to": "L1 (31)"
+   },
+   {
+    "label": 31,
+    "voxels": 28,
+    "z_mm": [
+     -594.0,
+     -592.0
+    ],
+    "axis_offset_mm": 37.1,
+    "contact_L1": 0,
+    "contact_L1B": 0,
+    "to": "L1 (31)"
+   },
+   {
+    "label": 31,
+    "voxels": 14,
+    "z_mm": [
+     -592.0,
+     -590.0
+    ],
+    "axis_offset_mm": 41.7,
+    "contact_L1": 0,
+    "contact_L1B": 0,
+    "to": "L1 (31)"
+   },
+   {
+    "label": 30,
+    "voxels": 502,
+    "z_mm": [
+     -777.0,
+     -769.0
+    ],
+    "axis_offset_mm": 208.8,
+    "to": "0 (not vertebra: off the column axis)"
+   },
+   {
+    "label": 30,
+    "voxels": 2,
+    "z_mm": [
+     -777.0,
+     -777.0
+    ],
+    "axis_offset_mm": 212.0,
+    "to": "0 (not vertebra: off the column axis)"
+   },
+   {
+    "label": 30,
+    "voxels": 221,
+    "z_mm": [
+     -620.0,
+     -609.0
+    ],
+    "axis_offset_mm": 33.3,
+    "contact_L1": 0,
+    "contact_L1B": 169,
+    "to": "L1B (118)"
+   },
+   {
+    "label": 30,
+    "voxels": 30,
+    "z_mm": [
+     -607.0,
+     -607.0
+    ],
+    "axis_offset_mm": 24.0,
+    "contact_L1": 8,
+    "contact_L1B": 42,
+    "to": "L1B (118)"
+   },
+   {
+    "label": 30,
+    "voxels": 1314,
+    "z_mm": [
+     -643.0,
+     -623.0
+    ],
+    "axis_offset_mm": 41.4,
+    "contact_L1": 0,
+    "contact_L1B": 435,
+    "to": "L1B (118)"
+   },
+   {
+    "label": 30,
+    "voxels": 120,
+    "z_mm": [
+     -607.0,
+     -605.0
+    ],
+    "axis_offset_mm": 22.9,
+    "contact_L1": 7,
+    "contact_L1B": 66,
+    "to": "L1B (118)"
+   },
+   {
+    "label": 30,
+    "voxels": 238,
+    "z_mm": [
+     -622.0,
+     -611.0
+    ],
+    "axis_offset_mm": 32.1,
+    "contact_L1": 0,
+    "contact_L1B": 149,
+    "to": "L1B (118)"
+   }
+  ],
+  "voxels_before": {
+   "32": 50026,
+   "31": 112727,
+   "30": 74055
+  },
+  "voxels_after": {
+   "32": 47964,
+   "31": 54760,
+   "118": 61952,
+   "30": 71628
+  }
+ },
+ "label_z_range_mm_after": {
+  "T9": [
+   -509.0,
+   -467.0
+  ],
+  "T10": [
+   -530.0,
+   -489.0
+  ],
+  "T11": [
+   -554.0,
+   -515.0
+  ],
+  "T12": [
+   -583.0,
+   -539.0
+  ],
+  "L1": [
+   -620.0,
+   -572.0
+  ],
+  "L1B": [
+   -657.0,
+   -605.0
+  ],
+  "L2": [
+   -696.0,
+   -641.0
+  ],
+  "L3": [
+   -724.0,
+   -673.0
+  ],
+  "L4": [
+   -754.0,
+   -704.0
+  ],
+  "L5": [
+   -780.0,
+   -734.0
+  ],
+  "S1": [
+   -804.0,
+   -760.0
+  ]
+ },
+ "ct_profile": {
+  "x_mm": 5.6,
+  "disc_minima_z_mm": [
+   -486.0,
+   -502.0,
+   -517.0,
+   -555.0,
+   -586.0,
+   -607.0,
+   -639.0,
+   -675.0,
+   -710.0,
+   -746.0,
+   -762.0,
+   -787.0
+  ]
+ },
+ "body_heights": {
+  "vhf": {
+   "T10": {
+    "central_height_mm": 21.6,
+    "body_cut": "foramen",
+    "body_voxels": 19657
+   },
+   "T11": {
+    "central_height_mm": 24.0,
+    "body_cut": "foramen",
+    "body_voxels": 22773
+   },
+   "T12": {
+    "central_height_mm": 25.4,
+    "body_cut": "foramen",
+    "body_voxels": 27524
+   },
+   "L1": {
+    "central_height_mm": 26.2,
+    "body_cut": "foramen",
+    "body_voxels": 31839
+   },
+   "L1B": {
+    "central_height_mm": 27.1,
+    "body_cut": "foramen",
+    "body_voxels": 37247
+   },
+   "L2": {
+    "central_height_mm": 27.0,
+    "body_cut": "foramen",
+    "body_voxels": 43545
+   },
+   "L3": {
+    "central_height_mm": 27.7,
+    "body_cut": "foramen",
+    "body_voxels": 42804
+   }
+  },
+  "vhm": {
+   "T10": {
+    "central_height_mm": 24.6,
+    "body_cut": "foramen",
+    "body_voxels": 29061
+   },
+   "T11": {
+    "central_height_mm": 27.0,
+    "body_cut": "foramen",
+    "body_voxels": 34939
+   },
+   "T12": {
+    "central_height_mm": 28.8,
+    "body_cut": "foramen",
+    "body_voxels": 40418
+   },
+   "L1": {
+    "central_height_mm": 30.5,
+    "body_cut": "foramen",
+    "body_voxels": 48645
+   },
+   "L2": {
+    "central_height_mm": 30.1,
+    "body_cut": "foramen",
+    "body_voxels": 50205
+   },
+   "L3": {
+    "central_height_mm": 30.2,
+    "body_cut": "foramen",
+    "body_voxels": 54941
+   }
+  }
+ },
+ "references": [
+  "Tins BJ, Balain B. Incidence of numerical variants and transitional lumbosacral vertebrae on whole-spine MRI. Insights Imaging 2016;7(2):199-203. doi:10.1007/s13244-016-0468-7",
+  "Panjabi MM et al. Thoracic human vertebrae. Spine 1991;16(8):888-901. doi:10.1097/00007632-199108000-00006",
+  "Panjabi MM et al. Human lumbar vertebrae. Spine 1992;17(3):299-306. doi:10.1097/00007632-199203000-00010"
+ ]
+}

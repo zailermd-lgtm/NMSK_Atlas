@@ -1,0 +1,212 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): male cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons (series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385); his bundle build/viewer_m_hr (vhm_both muscles/bones). Derived by scripts/cryo/vhm_stream_leg_crops.py + scripts/cryo/vhf_nerve_track.py + scripts/cryo/vhf_nerve_volume.py (Q57, 2026-09-29).",
+ "verdict": "NOT SHIPPED -- fails the containment check: 21,750 of 35,820 nerve-mesh vertices (61%) lie inside his vhm_both adductor_magnus_r/l meshes (median depth 3.0 mm, max 6.6 mm), 1,556 inside biceps_femoris/semitendinosus (max 4.0 mm). On the photographs the verified nerve lies in the fat plane between adductor magnus and the hamstrings; the adductor magnus mesh's posterior surface runs through that plane (overlay scratch q57/am_overlay.png). Owner decision needed: ship with a disclosed overlap, or correct the adductor magnus surface first.",
+ "existing_male_sciatic": "none -- build/viewer_m_hr/bundle.json has no sciatic_n (its only nerve is optic_n, transferred); nothing would be replaced",
+ "frame": {
+  "photo_frame_ap_sense": "row 0 ANTERIOR (+row = posterior, ap_row = -1) -- same as her frame, OPPOSITE to legs_total.nii.gz's own grid",
+  "evidence": [
+   "legs_total femur/hip/gluteus labels land on the photographed bone/muscle only when row-flipped (q57/ts_overlay.png, k=600/700/760)",
+   "his vhm_both thigh-muscle sections vs photographed muscle class, 10 levels: best overlap 0.877 at X0 241-242, Y0 237-238; 0.872 at the value used (X0 242.72, Y0 239.05 = flip of legs_total's grid + block offset +2.72/-0.89); the unflipped sense misplaces the hamstrings onto the quadriceps (q57/frame_overlay.png)"
+  ],
+  "mapping": "frame col c = X0 - RASx, row r = Y0 + ap_row*RASy; photo row (H-1)-(r-4)/0.99, col (c+96)/0.99; x3 full resolution; photo index round(-16 - RASz)",
+  "flag_for_Q171_Q172": "scripts/cryo/vhm_pelvic_floor_from_cryo.py zooms legs_total labels onto cryo_legs_frame_* WITHOUT a row flip (its docstring says verified); in this check that overlay is AP-mirrored against the photographs. Its label-derived anchors and its photograph-derived muscle class are therefore in opposite AP senses; Q172's POST_ROW_SIGN/+Y affine fix makes the output consistent with the labels only. Not touched (Q172 pending)."
+ },
+ "attempts": [
+  {
+   "n": 1,
+   "config": "tracker as at HEAD (texture weight lam=8, honeycomb_score from Q54)",
+   "result": "1 blob in 360 levels per side: his fascicle cells score 0-0.34 on honeycomb_score, so every blob costs >= 5.4 mm more than a 6 mm gap and the chain is all gaps"
+  },
+  {
+   "n": 2,
+   "config": "--lam 0 = the pure-jump chain that shipped Q53 (commit 679caa9); everything else unchanged; landmark-rule seed",
+   "result": "right 247/355, left 274/363 levels with a blob; montage check (every level, 30 mm tiles) verifies the fascicle band at the cross-hair right -91..-216, left -89..-108, -116..-121, -139..-151, -172..-222; below that both chains sit on fat junctions while the band lies 8-15 mm posterior"
+  }
+ ],
+ "seed": {
+  "rule": "midway between the ischial tuberosity and the greater trochanter, 20 mm below the tuberosity, 10 mm posterior (her rule, his hip_bone/femur meshes)",
+  "right": [
+   106.6,
+   -86,
+   -37.2
+  ],
+  "left": [
+   -104.5,
+   -86,
+   -43.4
+  ]
+ },
+ "verification": {
+  "vertices_total": 35820,
+  "vertices_inside_other_meshes": {
+   "adductor_magnus_l": {
+    "vertices_inside": 10739,
+    "of": 35820
+   },
+   "biceps_femoris_l": {
+    "vertices_inside": 61,
+    "of": 35820
+   },
+   "semitendinosus_l": {
+    "vertices_inside": 27,
+    "of": 35820
+   },
+   "adductor_magnus_r": {
+    "vertices_inside": 11011,
+    "of": 35820
+   },
+   "biceps_femoris_r": {
+    "vertices_inside": 1162,
+    "of": 35820
+   },
+   "semitendinosus_r": {
+    "vertices_inside": 306,
+    "of": 35820
+   }
+  },
+  "right": {
+   "y_top": -91,
+   "y_bottom": -216,
+   "levels": 126,
+   "span_mm": 125,
+   "path_length_mm_within_levels": 181.7,
+   "missing_levels": 0,
+   "section_mm2": {
+    "median": 50.6,
+    "p10": 31.8,
+    "p90": 107.9
+   },
+   "width_mm": {
+    "median": 10.4,
+    "p10": 7.6,
+    "p90": 20.1
+   },
+   "thickness_mm": {
+    "median": 7.4,
+    "p10": 5.6,
+    "p90": 9.9
+   },
+   "equivalent_diameter_mm_median": 8.0,
+   "dist_to_femur_mm": {
+    "min": 35.9,
+    "median": 39.8,
+    "max": 42.5,
+    "levels": 126
+   },
+   "dist_to_biceps_femoris_mm": {
+    "min": 1.9,
+    "median": 4.2,
+    "max": 9.1,
+    "levels": 126
+   },
+   "dist_to_semimembranosus_mm": {
+    "min": 14.0,
+    "median": 35.5,
+    "max": 53.9,
+    "levels": 66
+   },
+   "dist_to_semitendinosus_mm": {
+    "min": 3.8,
+    "median": 9.8,
+    "max": 17.6,
+    "levels": 126
+   },
+   "dist_to_adductor_magnus_mm": {
+    "min": 0.3,
+    "median": 1.7,
+    "max": 3.6,
+    "levels": 126
+   },
+   "posterior_to_adductor_magnus_centroid_frac": 1.0,
+   "anterior_deep_to_biceps_femoris_centroid_frac": 1.0,
+   "posterior_to_femur_centroid_frac": 1.0,
+   "centroid_x_range": [
+    102.6,
+    121.4
+   ],
+   "centroid_z_range": [
+    -55.6,
+    -44.3
+   ]
+  },
+  "left": {
+   "y_top": -89,
+   "y_bottom": -222,
+   "levels": 84,
+   "span_mm": 133,
+   "path_length_mm_within_levels": 148.4,
+   "missing_levels": 50,
+   "section_mm2": {
+    "median": 64.4,
+    "p10": 27.0,
+    "p90": 115.2
+   },
+   "width_mm": {
+    "median": 12.2,
+    "p10": 7.5,
+    "p90": 20.4
+   },
+   "thickness_mm": {
+    "median": 7.9,
+    "p10": 4.9,
+    "p90": 10.0
+   },
+   "equivalent_diameter_mm_median": 9.1,
+   "dist_to_femur_mm": {
+    "min": 31.3,
+    "median": 39.8,
+    "max": 50.6,
+    "levels": 84
+   },
+   "dist_to_biceps_femoris_mm": {
+    "min": 4.2,
+    "median": 6.1,
+    "max": 17.4,
+    "levels": 84
+   },
+   "dist_to_semimembranosus_mm": {
+    "min": 17.4,
+    "median": 34.8,
+    "max": 48.1,
+    "levels": 57
+   },
+   "dist_to_semitendinosus_mm": {
+    "min": 1.7,
+    "median": 11.0,
+    "max": 19.9,
+    "levels": 84
+   },
+   "dist_to_adductor_magnus_mm": {
+    "min": 0.8,
+    "median": 2.5,
+    "max": 4.4,
+    "levels": 84
+   },
+   "posterior_to_adductor_magnus_centroid_frac": 1.0,
+   "anterior_deep_to_biceps_femoris_centroid_frac": 1.0,
+   "posterior_to_femur_centroid_frac": 1.0,
+   "centroid_x_range": [
+    -113.2,
+    -81.8
+   ],
+   "centroid_z_range": [
+    -63.7,
+    -51.0
+   ]
+  },
+  "outside_skin_frac_sampled": 0.0,
+  "mesh": {
+   "triangles": 71616,
+   "volume_cm3": 14.07,
+   "components": 8
+  }
+ },
+ "expected": {
+  "course": "greater sciatic foramen (below piriformis) to the upper angle of the popliteal fossa (Adibatti & V 2014, doi:10.7860/JCDR/2014/9116.4725); popliteal-fossa bifurcation in 79.6% of 338 limbs (Bergsteedt et al. 2021, doi:10.1016/j.morpho.2021.05.002)",
+  "his_levels_mm": "piriformis lower border y +11 to the femoral condyles/popliteal apex ~y -380..-390 (tibial plateau y -451): ~390-400 mm vertical",
+  "coverage": "right 125 mm span (~32%), left 133 mm span with 50 of 134 levels missing (~34% span, 3 pieces); gluteal course and distal third not covered, as for her (Q53)",
+  "width": "Gray's Anatomy (Standring, 42nd ed.): ~2 cm wide at its origin, the thickest nerve in the body; his tracked band median 10.4/12.2 mm wide x 7.4/7.9 mm thick (p90 width 20 mm), section 51/64 mm2 (her Q53 26/34 mm2); like hers the blob is the fascicle core, not the whole epineurial sheath"
+ },
+ "slice_level_error": "not reported by Q53 (its only held-out number was Q54's scorer AUC); here the montage check is per level",
+ "pngs": "scratchpad q57/q57_check.png (front/side/back with femur + posterior thigh muscles), am_overlay.png, ts_overlay.png, frame_overlay.png, zr1/zr2/zl1/zl2/zl3.png (per-level montages)"
+}

@@ -1,0 +1,859 @@
+{
+ "schema": "nmsk.antagonist_groups.v1",
+ "round": "Q368",
+ "doc": "Opposing (antagonist) functional groups for the name card's ADD menu. Group ids are the Q298 functional groups (data/derived/Q298_relations_<page>.json fgroups, identical on both Base pages) plus the groups defined here under added_groups (members are page-id bases; the sidecar adds _l / _r). Pairs are undirected (A opposes B and B opposes A). Every pair cites the book statement it rests on (printed page, paraphrase only). Built by scripts/anatomy/q368/build_antagonists_q368.py.",
+ "books": {
+  "mannan2017": {
+   "short": "Mannan 2017",
+   "citation": "Noor MA. Mannan's Regional Dissection and Surface Anatomy. 14th ed. Jaypee Brothers Medical Publishers, New Delhi, 2017. ISBN 978-93-86322-11-1",
+   "opened": "owner-supplied PDF with a text layer; pages are the printed page numbers (PDF page = printed + 18)"
+  },
+  "sontakke2023": {
+   "short": "Sontakke 2023",
+   "citation": "Sontakke YA. Textbook of Human Anatomy with Color Atlas and Clinical Integration, Vol. 5: Head, Neck and Face (bound with Vol. 6: Brain). CBS Publishers & Distributors, New Delhi, 1st e-book ed. 2023",
+   "opened": "owner-supplied PDF with a text layer; pages are the printed page numbers of Vol. 5 (PDF page = printed + 19)"
+  }
+ },
+ "not_used": [
+  {
+   "file": "grays_atlas_of_anatomy.pdf",
+   "why": "image-only scan (no text layer); not usable for this pass"
+  },
+  {
+   "file": "lumley_surface_anatomy.pdf",
+   "why": "image-only scan (no text layer); not usable for this pass"
+  },
+  {
+   "file": "peripheral_nerves.pdf",
+   "why": "image-only scan (no text layer); not usable for this pass"
+  },
+  {
+   "file": "peripheral_nerve_injury_anatomical.pdf",
+   "why": "text layer; a nerve-injury book, its movement lists are per nerve, not per joint -- Mannan's per-joint tables were used instead"
+  },
+  {
+   "file": "pns_interrelationships_variations.pdf",
+   "why": "text layer; nerve variations only, no movement tables"
+  },
+  {
+   "file": "fascia_in_sport_and_movement.pdf",
+   "why": "text layer; fascial chains, no per-joint antagonist statements"
+  },
+  {
+   "file": "atlas_untitled.pdf",
+   "why": "text layer; neonatal procedures atlas, no muscle actions"
+  }
+ ],
+ "labels": {
+  "act_hip_rot_p": "Medial rotation at the hip joint",
+  "act_hip_rot_n": "Lateral rotation at the hip joint",
+  "act_shoulder_rot_p": "Medial rotation at the glenohumeral (shoulder) joint",
+  "act_shoulder_rot_n": "Lateral rotation at the glenohumeral (shoulder) joint",
+  "act_wrist_dev_p": "Radial deviation (abduction) at the radiocarpal (wrist) joint",
+  "act_wrist_dev_n": "Ulnar deviation (adduction) at the radiocarpal (wrist) joint"
+ },
+ "added_groups": {
+  "q368_toes_mtp_flex": {
+   "name": "Flexion of the lateral four toes at the metatarsophalangeal joints",
+   "members": [
+    "flexor_digitorum_brevis",
+    "zan_lumbrical_muscles_of_foot",
+    "plantar_interossei",
+    "dorsal_interossei_foot",
+    "flexor_digitorum_longus",
+    "quadratus_plantae"
+   ],
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Metatarsophalangeal joints: flexion by flexor digitorum brevis, the lumbricals and the interossei (prime movers), with flexor digitorum longus and flexor accessorius (quadratus plantae) assisting."
+    }
+   ],
+   "why": "The Q298 set has extension at the 2nd-4th MTP joints but no flexion group for those toes."
+  },
+  "q368_toes_ip_ext": {
+   "name": "Extension of the lateral four toes at the interphalangeal joints",
+   "members": [
+    "extensor_digitorum_longus",
+    "extensor_digitorum_brevis"
+   ],
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: the digits are extended by extensor digitorum longus and brevis and extensor hallucis longus; the hallux muscle is split off into its own group here."
+    }
+   ],
+   "why": "The Q298 set has flexion at the PIP / DIP joints of the 2nd-5th toes but no extension group."
+  },
+  "q368_hallux_ip_ext": {
+   "name": "Extension of the great toe at the interphalangeal joint",
+   "members": [
+    "extensor_hallucis_longus"
+   ],
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: extensor hallucis longus is the long extensor named for the great toe in the extension list."
+    }
+   ],
+   "why": "The Q298 set has flexion at the great toe's IP joint but no extension group."
+  }
+ },
+ "pairs": [
+  {
+   "a": "act_shoulder_flex_p",
+   "b": "act_shoulder_flex_n",
+   "movement": "shoulder flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "195",
+     "note": "Shoulder joint: flexors (clavicular head of pectoralis major, anterior deltoid, coracobrachialis, biceps) and extensors (posterior deltoid, teres major, latissimus dorsi) listed as opposite movements. Functional classification of the upper-limb muscles by joint; a note on the same page defines the antagonist as the muscle that opposes the action of the other group (p. 198)."
+    }
+   ]
+  },
+  {
+   "a": "act_shoulder_abd_p",
+   "b": "act_shoulder_abd_n",
+   "movement": "shoulder abduction / adduction",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "195",
+     "note": "Shoulder joint: abductors (deltoid, supraspinatus) and adductors (pectoralis major, latissimus dorsi, coracobrachialis, teres major, long head of triceps)."
+    }
+   ]
+  },
+  {
+   "a": "act_shoulder_rot_p",
+   "b": "act_shoulder_rot_n",
+   "movement": "shoulder medial / lateral rotation",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "196",
+     "note": "Shoulder joint: medial rotators (pectoralis major, anterior deltoid, latissimus dorsi, teres major, subscapularis) and lateral rotators (infraspinatus, teres minor, posterior deltoid)."
+    }
+   ]
+  },
+  {
+   "a": "act_elbow_flex_p",
+   "b": "act_elbow_flex_n",
+   "movement": "elbow flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "196",
+     "note": "Elbow joint: flexors (biceps, brachialis; pronator teres, brachioradialis) and extensors (triceps, anconeus)."
+    }
+   ]
+  },
+  {
+   "a": "act_forearm_sup_p",
+   "b": "act_forearm_sup_n",
+   "movement": "supination / pronation",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "196",
+     "note": "Radio-ulnar joints: supinators (supinator, biceps) and pronators (pronator teres, pronator quadratus)."
+    }
+   ]
+  },
+  {
+   "a": "act_wrist_flex_p",
+   "b": "act_wrist_flex_n",
+   "movement": "wrist flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "196",
+     "note": "Wrist joint: flexion by flexor carpi radialis and ulnaris and palmaris longus (with the long finger flexors, p. 197)."
+    },
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Wrist joint: extension by the radial extensors and extensor carpi ulnaris (with extensor digitorum)."
+    }
+   ]
+  },
+  {
+   "a": "act_wrist_dev_p",
+   "b": "act_wrist_dev_n",
+   "movement": "wrist abduction (radial deviation) / adduction (ulnar deviation)",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Wrist joint: adduction by flexor and extensor carpi ulnaris; abduction by flexor carpi radialis and the radial extensors."
+    }
+   ]
+  },
+  {
+   "a": "act_thumb_cmc_flex_p",
+   "b": "act_thumb_cmc_flex_n",
+   "movement": "thumb CMC flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Carpometacarpal joint of the thumb: flexion (flexor pollicis brevis, opponens; flexor pollicis longus) and extension (extensor pollicis longus and brevis, abductor pollicis longus)."
+    }
+   ]
+  },
+  {
+   "a": "act_thumb_cmc_abd_p",
+   "b": "act_thumb_cmc_abd_n",
+   "movement": "thumb CMC abduction / adduction",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Carpometacarpal joint of the thumb: abduction (abductor pollicis longus and brevis) and adduction (adductor pollicis)."
+    }
+   ]
+  },
+  {
+   "a": "act_thumb_mcp_flex_p",
+   "b": "act_thumb_mcp_flex_n",
+   "movement": "thumb MCP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Metacarpophalangeal joints: flexion movement listed."
+    },
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Metacarpophalangeal joints: extension, for the thumb by extensor pollicis longus and brevis."
+    }
+   ]
+  },
+  {
+   "a": "act_thumb_ip_flex_p",
+   "b": "act_thumb_ip_flex_n",
+   "movement": "thumb IP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the thumb is flexed by flexor pollicis longus and extended by extensor pollicis longus."
+    }
+   ]
+  },
+  {
+   "a": "act_f2_mcp_flex_p",
+   "b": "act_f2_mcp_flex_n",
+   "movement": "finger 2 MCP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Metacarpophalangeal joints: flexion by the long finger flexors (prime movers) with lumbricals and interossei."
+    },
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Metacarpophalangeal joints: extension by extensor digitorum (with extensor indicis / digiti minimi for the index and little finger)."
+    }
+   ]
+  },
+  {
+   "a": "act_f2_pip_flex_p",
+   "b": "act_f2_pip_flex_n",
+   "movement": "finger 2 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the proximal joint is flexed by flexor digitorum superficialis and profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_f2_dip_flex_p",
+   "b": "act_f2_dip_flex_n",
+   "movement": "finger 2 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the distal joint is flexed by flexor digitorum profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_f3_mcp_flex_p",
+   "b": "act_f3_mcp_flex_n",
+   "movement": "finger 3 MCP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Metacarpophalangeal joints: flexion by the long finger flexors (prime movers) with lumbricals and interossei."
+    },
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Metacarpophalangeal joints: extension by extensor digitorum (with extensor indicis / digiti minimi for the index and little finger)."
+    }
+   ]
+  },
+  {
+   "a": "act_f3_pip_flex_p",
+   "b": "act_f3_pip_flex_n",
+   "movement": "finger 3 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the proximal joint is flexed by flexor digitorum superficialis and profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_f3_dip_flex_p",
+   "b": "act_f3_dip_flex_n",
+   "movement": "finger 3 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the distal joint is flexed by flexor digitorum profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_f4_mcp_flex_p",
+   "b": "act_f4_mcp_flex_n",
+   "movement": "finger 4 MCP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Metacarpophalangeal joints: flexion by the long finger flexors (prime movers) with lumbricals and interossei."
+    },
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Metacarpophalangeal joints: extension by extensor digitorum (with extensor indicis / digiti minimi for the index and little finger)."
+    }
+   ]
+  },
+  {
+   "a": "act_f4_pip_flex_p",
+   "b": "act_f4_pip_flex_n",
+   "movement": "finger 4 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the proximal joint is flexed by flexor digitorum superficialis and profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_f4_dip_flex_p",
+   "b": "act_f4_dip_flex_n",
+   "movement": "finger 4 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the distal joint is flexed by flexor digitorum profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_f5_mcp_flex_p",
+   "b": "act_f5_mcp_flex_n",
+   "movement": "finger 5 MCP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "197",
+     "note": "Metacarpophalangeal joints: flexion by the long finger flexors (prime movers) with lumbricals and interossei."
+    },
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Metacarpophalangeal joints: extension by extensor digitorum (with extensor indicis / digiti minimi for the index and little finger)."
+    }
+   ]
+  },
+  {
+   "a": "act_f5_pip_flex_p",
+   "b": "act_f5_pip_flex_n",
+   "movement": "finger 5 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the proximal joint is flexed by flexor digitorum superficialis and profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_f5_dip_flex_p",
+   "b": "act_f5_dip_flex_n",
+   "movement": "finger 5 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "198",
+     "note": "Interphalangeal joints: the distal joint is flexed by flexor digitorum profundus; extension by extensor digitorum."
+    }
+   ]
+  },
+  {
+   "a": "act_hip_flex_p",
+   "b": "act_hip_flex_n",
+   "movement": "hip flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "296",
+     "note": "Hip joint: flexion (psoas major, iliacus; pectineus, rectus femoris, sartorius, adductors) and extension (gluteus maximus; hamstrings). Functional classification of the lower-limb muscles by joint (Movement involved in the inferior extremity)."
+    }
+   ]
+  },
+  {
+   "a": "act_hip_abd_p",
+   "b": "act_hip_abd_n",
+   "movement": "hip abduction / adduction",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "296",
+     "note": "Hip joint: abduction (gluteus medius and minimus; tensor fasciae latae, sartorius)."
+    },
+    {
+     "book": "mannan2017",
+     "page": "297",
+     "note": "Hip joint: adduction (adductor longus, brevis and magnus; pectineus, gracilis)."
+    }
+   ]
+  },
+  {
+   "a": "act_hip_rot_p",
+   "b": "act_hip_rot_n",
+   "movement": "hip medial / lateral rotation",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "297",
+     "note": "Hip joint: medial rotation (tensor fasciae latae, anterior fibres of gluteus medius and minimus) and lateral rotation (obturators, gemelli, quadratus femoris; piriformis, gluteus maximus, sartorius, adductors)."
+    }
+   ]
+  },
+  {
+   "a": "act_knee_flex_p",
+   "b": "act_knee_flex_n",
+   "movement": "knee flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "297",
+     "note": "Knee joint: flexion (biceps femoris, semimembranosus, semitendinosus; gracilis, sartorius, popliteus) and extension (quadriceps femoris; tensor fasciae latae)."
+    }
+   ]
+  },
+  {
+   "a": "act_ankle_dp_p",
+   "b": "act_ankle_dp_n",
+   "movement": "ankle dorsiflexion / plantarflexion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "298",
+     "note": "Ankle joint: dorsiflexion (tibialis anterior; extensor digitorum longus, extensor hallucis longus, peroneus tertius) and plantar flexion (gastrocnemius, soleus; tibialis posterior, the long toe flexors, plantaris)."
+    }
+   ]
+  },
+  {
+   "a": "act_subtalar_inv_p",
+   "b": "act_subtalar_inv_n",
+   "movement": "inversion / eversion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "298",
+     "note": "Subtalar and talocalcaneonavicular joints: eversion (peroneus longus, brevis, tertius) and inversion (tibialis anterior and posterior)."
+    }
+   ]
+  },
+  {
+   "a": "act_t1_mtp_flex_p",
+   "b": "act_t1_mtp_flex_n",
+   "movement": "great toe MTP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Metatarsophalangeal joints: flexion and extension listed as opposite movements (extension of the great toe by extensor hallucis longus)."
+    }
+   ]
+  },
+  {
+   "a": "act_t5_mtp_flex_p",
+   "b": "act_t5_mtp_flex_n",
+   "movement": "little toe MTP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Metatarsophalangeal joints: flexion and extension listed as opposite movements."
+    }
+   ]
+  },
+  {
+   "a": "quadriceps_femoris",
+   "b": "hamstrings",
+   "movement": "knee extension / flexion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "297",
+     "note": "Knee joint: the hamstrings (biceps femoris, semimembranosus, semitendinosus) are the prime flexors and quadriceps femoris the prime extensor."
+    }
+   ]
+  },
+  {
+   "a": "triceps_surae",
+   "b": "leg_anterior",
+   "movement": "ankle plantarflexion / dorsiflexion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "298",
+     "note": "Ankle joint: gastrocnemius and soleus are the prime plantar flexors (plantaris assisting); the dorsiflexors are the anterior-compartment muscles (tibialis anterior, extensor digitorum longus, extensor hallucis longus, peroneus tertius)."
+    }
+   ]
+  },
+  {
+   "a": "leg_lateral",
+   "b": "act_subtalar_inv_p",
+   "movement": "eversion / inversion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "298",
+     "note": "Subtalar joint: the peroneal (fibular) muscles evert the foot; tibialis anterior and posterior invert it."
+    }
+   ]
+  },
+  {
+   "a": "hip_adductors",
+   "b": "act_hip_abd_p",
+   "movement": "hip adduction / abduction",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "296",
+     "note": "Hip joint: abductors (gluteus medius and minimus; tensor fasciae latae, sartorius)."
+    },
+    {
+     "book": "mannan2017",
+     "page": "297",
+     "note": "Hip joint: adductors (adductor longus, brevis, magnus; pectineus, gracilis)."
+    }
+   ]
+  },
+  {
+   "a": "deep_gluteal",
+   "b": "act_hip_rot_p",
+   "movement": "hip lateral / medial rotation",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "297",
+     "note": "Hip joint: the short lateral rotators (obturators, gemelli, quadratus femoris; piriformis) against the medial rotators (tensor fasciae latae, anterior fibres of gluteus medius and minimus)."
+    }
+   ]
+  },
+  {
+   "a": "act_t2_mtp_flex_n",
+   "b": "q368_toes_mtp_flex",
+   "movement": "toe 2 MTP extension / flexion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Metatarsophalangeal joints: extension by extensor digitorum longus and brevis against flexion by flexor digitorum brevis, lumbricals and interossei (flexor digitorum longus and accessorius assisting)."
+    }
+   ]
+  },
+  {
+   "a": "act_t3_mtp_flex_n",
+   "b": "q368_toes_mtp_flex",
+   "movement": "toe 3 MTP extension / flexion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Metatarsophalangeal joints: extension by extensor digitorum longus and brevis against flexion by flexor digitorum brevis, lumbricals and interossei (flexor digitorum longus and accessorius assisting)."
+    }
+   ]
+  },
+  {
+   "a": "act_t4_mtp_flex_n",
+   "b": "q368_toes_mtp_flex",
+   "movement": "toe 4 MTP extension / flexion",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Metatarsophalangeal joints: extension by extensor digitorum longus and brevis against flexion by flexor digitorum brevis, lumbricals and interossei (flexor digitorum longus and accessorius assisting)."
+    }
+   ]
+  },
+  {
+   "a": "act_t2_pip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 2 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t2_dip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 2 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t3_pip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 3 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t3_dip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 3 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t4_pip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 4 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t4_dip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 4 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t5_pip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 5 PIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t5_dip_flex_p",
+   "b": "q368_toes_ip_ext",
+   "movement": "toe 5 DIP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexion of the digits (flexor digitorum longus and brevis) against extension (extensor digitorum longus and brevis)."
+    }
+   ]
+  },
+  {
+   "a": "act_t1_ip_flex_p",
+   "b": "q368_hallux_ip_ext",
+   "movement": "great toe IP flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "299",
+     "note": "Interphalangeal joints of the foot: flexor hallucis longus in the flexion list, extensor hallucis longus in the extension list."
+    }
+   ]
+  },
+  {
+   "a": "act_lumbar_flex_p",
+   "b": "act_lumbar_flex_n",
+   "movement": "lumbar flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "311",
+     "note": "Rectus abdominis flexes the vertebral column."
+    },
+    {
+     "book": "mannan2017",
+     "page": "338",
+     "note": "Erector spinae (sacrospinalis) mainly extends the vertebral column."
+    }
+   ]
+  },
+  {
+   "a": "act_thoracic_flex_p",
+   "b": "act_thoracic_flex_n",
+   "movement": "thoracic flexion / extension",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "311",
+     "note": "The anterior abdominal wall muscles flex the vertebral column (rectus abdominis)."
+    },
+    {
+     "book": "mannan2017",
+     "page": "338",
+     "note": "Erector spinae (sacrospinalis) mainly extends the vertebral column."
+    }
+   ]
+  },
+  {
+   "a": "erector_spinae",
+   "b": "act_lumbar_flex_p",
+   "movement": "trunk extension / flexion (lumbar)",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "338",
+     "note": "Erector spinae (sacrospinalis) mainly extends the vertebral column."
+    },
+    {
+     "book": "mannan2017",
+     "page": "311",
+     "note": "Rectus abdominis flexes the vertebral column."
+    }
+   ]
+  },
+  {
+   "a": "erector_spinae",
+   "b": "act_thoracic_flex_p",
+   "movement": "trunk extension / flexion (thoracic)",
+   "refs": [
+    {
+     "book": "mannan2017",
+     "page": "338",
+     "note": "Erector spinae (sacrospinalis) mainly extends the vertebral column."
+    },
+    {
+     "book": "mannan2017",
+     "page": "311",
+     "note": "The anterior abdominal wall flexes the vertebral column."
+    }
+   ]
+  },
+  {
+   "a": "act_cervical_flex_p",
+   "b": "act_cervical_flex_n",
+   "movement": "neck flexion / extension",
+   "refs": [
+    {
+     "book": "sontakke2023",
+     "page": "91",
+     "note": "Sternocleidomastoid flexes the cervical vertebral column."
+    },
+    {
+     "book": "sontakke2023",
+     "page": "205",
+     "note": "The prevertebral muscles are (weak) flexors of the head and neck."
+    },
+    {
+     "book": "sontakke2023",
+     "page": "225",
+     "note": "The suboccipital muscles extend the head at the atlanto-occipital joints."
+    }
+   ]
+  },
+  {
+   "a": "suprahyoid",
+   "b": "infrahyoid",
+   "movement": "hyoid elevation / depression",
+   "refs": [
+    {
+     "book": "sontakke2023",
+     "page": "110",
+     "note": "The infrahyoid (strap) muscles depress the hyoid bone after it has been elevated in swallowing."
+    },
+    {
+     "book": "sontakke2023",
+     "page": "147",
+     "note": "The suprahyoid muscles (mylohyoid among them) fix and elevate the hyoid bone."
+    }
+   ]
+  }
+ ],
+ "none": {
+  "act_cervical_lat_p": "Lateral flexion to one side is opposed by the same muscles of the other side, which are already in this group (it holds both sides); there is no separate opposing group.",
+  "act_cervical_rot_n": "The two spinal rotation groups split rotation to the same side and to the opposite side, each holding both sides -- the right member of one and the left member of the other turn the same way, so they are not antagonists; the opposing rotation is produced by the same groups' members of the other side.",
+  "act_cervical_rot_p": "The two spinal rotation groups split rotation to the same side and to the opposite side, each holding both sides -- the right member of one and the left member of the other turn the same way, so they are not antagonists; the opposing rotation is produced by the same groups' members of the other side.",
+  "act_lumbar_lat_p": "Lateral flexion to one side is opposed by the same muscles of the other side, which are already in this group (it holds both sides); there is no separate opposing group.",
+  "act_thoracic_lat_p": "Lateral flexion to one side is opposed by the same muscles of the other side, which are already in this group (it holds both sides); there is no separate opposing group.",
+  "act_thoracic_rot_n": "The two spinal rotation groups split rotation to the same side and to the opposite side, each holding both sides -- the right member of one and the left member of the other turn the same way, so they are not antagonists; the opposing rotation is produced by the same groups' members of the other side.",
+  "act_thoracic_rot_p": "The two spinal rotation groups split rotation to the same side and to the opposite side, each holding both sides -- the right member of one and the left member of the other turn the same way, so they are not antagonists; the opposing rotation is produced by the same groups' members of the other side.",
+  "anterolateral_abdominal_wall": "Grouped by region: rectus abdominis flexes the vertebral column (Mannan 2017 p. 311) while transversus abdominis only compresses the abdomen; the trunk-flexion action groups carry the pair with the erector spinae.",
+  "calcaneal_tendon_contributors": "Defined by a shared tendon (calcaneal), not by an action; the plantarflexion groups carry the pair.",
+  "carpal_tunnel_contents": "Defined by a shared tunnel (tendons and a nerve), not by an action.",
+  "gluteal": "Mixed actions: gluteus maximus is the prime extensor of the hip, gluteus medius and minimus abduct and medially rotate it (Mannan 2017 pp. 296-297); the opposing groups are given per action instead.",
+  "hypothenar": "Grouped by region (the short muscles of the little finger) with mixed actions; no opposing group.",
+  "itb_tensors": "Defined by a shared insertion (the iliotibial tract), not by an action at one joint.",
+  "patellar_tendon_contributors": "Defined by a shared tendon (quadriceps / patellar), not by an action; Quadriceps femoris carries the pair.",
+  "pes_anserinus": "Defined by a shared insertion (the three medial knee tendons), not by an action.",
+  "rotator_cuff": "Stabiliser group: it holds the humeral head in the glenoid, and its own members rotate in opposite directions (subscapularis medially; infraspinatus, teres minor laterally -- Mannan 2017 p. 196).",
+  "rotator_cuff_plus": "Stabiliser group with the structures it runs under (see Rotator cuff); no opposing group.",
+  "scalenes": "Grouped by region; their actions (flexing and side-bending the neck, raising the upper ribs) have no single opposing group.",
+  "suboccipital": "Postural group that steadies and extends the head (Sontakke 2023 p. 225); no opposing group.",
+  "thenar": "Grouped by region (the short muscles of the thumb) with mixed actions; the opposing movements are given per joint in the thumb action groups."
+ },
+ "counts": {
+  "pairs": 54,
+  "groups_paired": 93,
+  "groups_without": 20,
+  "added_groups": 3,
+  "q298_groups": 110
+ }
+}

@@ -1,0 +1,28 @@
+{
+  "_README": [
+    "Label id -> structure name for the male genioglossus derived directly from his OWN CT tongue label",
+    "(head_muscles.nii.gz label 9, TotalSegmentator), not cryo. Position-anchored on his mandibular",
+    "symphysis midline (craniofacial_structures.nii.gz label 1, mandible) via scripts/cryo/vhm_genioglossus_from_ct.py,",
+    "replicating the geometric core of scripts/cryo/vhf_hyoid_muscles_from_cryo.py's tongue_rules() (paramedian",
+    "fan dxT < 10 mm of the mandibular midline, gT (AP fraction within the tongue mask, per-column) > 0.25,",
+    "below the dorsum's top 8 mm) directly in native CT voxel space -- no cryo texture needed for this split."
+  ],
+  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `head_muscles` (tongue) and `craniofacial_structures` (mandible) labels. Rule adapted from scripts/cryo/vhf_hyoid_muscles_from_cryo.py's tongue_rules(), itself from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 30 'Oral cavity'. Derived data (scripts/cryo/vhm_genioglossus_from_ct.py), rule-based.",
+  "task": "vhm_genioglossus_ct",
+  "labels": {
+    "1": "genioglossus_right",
+    "2": "genioglossus_left"
+  },
+  "atlas": {
+    "genioglossus_right": {
+      "atlas_id": "genioglossus_r",
+      "relationship": "exact",
+      "note": "12.17 cm3; rule-based from his own CT tongue label, position-anchored on his mandibular symphysis midline; replaces the cross-body-transferred xfer_vhf2vhm_neck copy."
+    },
+    "genioglossus_left": {
+      "atlas_id": "genioglossus_l",
+      "relationship": "exact",
+      "note": "11.25 cm3; rule-based from his own CT tongue label, position-anchored on his mandibular symphysis midline; replaces the cross-body-transferred xfer_vhf2vhm_neck copy."
+    }
+  }
+}

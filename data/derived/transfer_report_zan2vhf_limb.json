@@ -1,0 +1,381 @@
+{
+ "source": "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: forearm, hand and foot soft tissue (muscles, tendons, ligaments, retinacula) from Z-Anatomy (CC BY-SA 4.0), registered onto this specimen's OWN bones one bone at a time (radius and ulna kept separate to absorb pronation/pose differences; scripts/transfer/limb_per_bone_transfer.py, Q147) -- not the broader multi-bone spatial blend used elsewhere in this project. Shipped only for ids this project has no real-data mesh for on this specimen; real geometry always wins (this subject is listed last). See PROJECT_STATE.md Q147 for the validation table this badge's error figure comes from (29.1 mm median centroid error, 91.0 mm max). Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike). Derived data (scripts/transfer/limb_per_bone_transfer.py).",
+ "direction": "zan2f",
+ "badge_error_mm": 29.1,
+ "badge_max_error_mm": 91.0,
+ "n": 23,
+ "not_transferred": {
+  "abductor_digiti_minimi_foot_l": "per-bone transform put 70% of this structure outside the specimen's own skin (driving bones ['tarsals_l']) -- not shipped",
+  "abductor_digiti_minimi_foot_r": "per-bone transform put 61% of this structure outside the specimen's own skin (driving bones ['tarsals_r']) -- not shipped",
+  "abductor_digiti_minimi_hand_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "abductor_hallucis_r": "per-bone transform put 55% of this structure outside the specimen's own skin (driving bones ['tarsals_r']) -- not shipped",
+  "abductor_pollicis_brevis_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "abductor_pollicis_brevis_r": "per-bone transform put 57% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
+  "adductor_pollicis_l": "no driving bone available on this specimen (metacarpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "anconeus_l": "no driving bone available on this specimen (ulna_l)",
+  "brachioradialis_l": "no driving bone available on this specimen (radius_l)",
+  "dorsal_interossei_foot_l": "per-bone transform put 52% of this structure outside the specimen's own skin (driving bones ['metatarsals_l']) -- not shipped",
+  "dorsal_interossei_hand_l": "no driving bone available on this specimen (metacarpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "extensor_carpi_radialis_brevis_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+  "extensor_carpi_radialis_longus_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+  "extensor_carpi_ulnaris_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+  "extensor_digitorum_brevis_l": "per-bone transform put 75% of this structure outside the specimen's own skin (driving bones ['tarsals_l']) -- not shipped",
+  "extensor_digitorum_brevis_r": "per-bone transform put 76% of this structure outside the specimen's own skin (driving bones ['tarsals_r']) -- not shipped",
+  "extensor_hallucis_brevis_l": "per-bone transform put 66% of this structure outside the specimen's own skin (driving bones ['tarsals_l']) -- not shipped",
+  "extensor_hallucis_brevis_r": "per-bone transform put 66% of this structure outside the specimen's own skin (driving bones ['tarsals_r']) -- not shipped",
+  "extensor_indicis_l": "no driving bone available on this specimen (phalanges_hand_l,ulna_l)",
+  "flexor_carpi_radialis_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+  "flexor_carpi_ulnaris_l": "no driving bone available on this specimen (carpals_l,radius_l,ulna_l)",
+  "flexor_digiti_minimi_brevis_hand_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "flexor_digitorum_brevis_l": "per-bone transform put 76% of this structure outside the specimen's own skin (driving bones ['tarsals_l']) -- not shipped",
+  "flexor_digitorum_brevis_r": "per-bone transform put 72% of this structure outside the specimen's own skin (driving bones ['tarsals_r']) -- not shipped",
+  "flexor_digitorum_profundus_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,ulna_l)",
+  "flexor_digitorum_superficialis_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "flexor_hallucis_brevis_l": "per-bone transform put 79% of this structure outside the specimen's own skin (driving bones ['tarsals_l']) -- not shipped",
+  "flexor_hallucis_brevis_r": "per-bone transform put 84% of this structure outside the specimen's own skin (driving bones ['tarsals_r']) -- not shipped",
+  "flexor_pollicis_brevis_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "flexor_pollicis_brevis_r": "per-bone transform put 68% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
+  "flexor_pollicis_longus_l": "no driving bone available on this specimen (phalanges_hand_l,radius_l)",
+  "opponens_digiti_minimi_l": "no driving bone available on this specimen (carpals_l,metacarpals_l,radius_l,ulna_l)",
+  "opponens_pollicis_l": "no driving bone available on this specimen (carpals_l,metacarpals_l,radius_l,ulna_l)",
+  "palmar_aponeurosis_r": "per-bone transform put 87% of this structure outside the specimen's own skin (driving bones ['carpals_r']) -- not shipped",
+  "palmar_interossei_l": "no driving bone available on this specimen (metacarpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "pronator_quadratus_l": "no driving bone available on this specimen (radius_l,ulna_l)",
+  "pronator_teres_l": "no driving bone available on this specimen (radius_l)",
+  "supinator_l": "no driving bone available on this specimen (radius_l)"
+ },
+ "rows": [
+  {
+   "atlas_id": "abductor_hallucis_l",
+   "category": "muscle",
+   "side": "left",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tarsals_l": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 51,
+   "vertices_clipped_to_skin": 417,
+   "volume_src_cm3": 10.03,
+   "volume_out_cm3": 13.1,
+   "displacement_mm_median": 822.7
+  },
+  {
+   "atlas_id": "adductor_hallucis_l",
+   "category": "muscle",
+   "side": "left",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 74,
+   "vertices_clipped_to_skin": 49,
+   "volume_src_cm3": 6.19,
+   "volume_out_cm3": 6.58,
+   "displacement_mm_median": 865.7
+  },
+  {
+   "atlas_id": "adductor_hallucis_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 109,
+   "vertices_clipped_to_skin": 17,
+   "volume_src_cm3": 6.19,
+   "volume_out_cm3": 10.26,
+   "displacement_mm_median": 876.3
+  },
+  {
+   "atlas_id": "anconeus_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "upper_limb",
+   "driving_bones": {
+    "ulna_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 0,
+   "vertices_clipped_to_skin": 255,
+   "volume_src_cm3": 8.33,
+   "volume_out_cm3": 2.05,
+   "displacement_mm_median": 797.5
+  },
+  {
+   "atlas_id": "antebrachial_fascia_r",
+   "category": "fascia",
+   "side": "right",
+   "region": "forearm",
+   "driving_bones": {
+    "ulna_r": 0.528,
+    "radius_r": 0.472
+   },
+   "bone_penetration_vertices_before_pushoff": 115,
+   "vertices_clipped_to_skin": 151,
+   "volume_src_cm3": 322.62,
+   "volume_out_cm3": 296.94,
+   "displacement_mm_median": 755.1
+  },
+  {
+   "atlas_id": "dorsal_interossei_foot_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 62,
+   "vertices_clipped_to_skin": 427,
+   "volume_src_cm3": 3.98,
+   "volume_out_cm3": 2.84,
+   "displacement_mm_median": 874.5
+  },
+  {
+   "atlas_id": "extensor_retinaculum_r",
+   "category": "fascia",
+   "side": "right",
+   "region": "wrist_hand",
+   "driving_bones": {
+    "carpals_r": 0.51,
+    "radius_r": 0.49
+   },
+   "bone_penetration_vertices_before_pushoff": 12,
+   "vertices_clipped_to_skin": 0,
+   "volume_src_cm3": 1.77,
+   "volume_out_cm3": 2.71,
+   "displacement_mm_median": 719.9
+  },
+  {
+   "atlas_id": "flexor_carpi_radialis_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "upper_limb",
+   "driving_bones": {
+    "ulna_r": 0.535,
+    "radius_r": 0.465
+   },
+   "bone_penetration_vertices_before_pushoff": 77,
+   "vertices_clipped_to_skin": 0,
+   "volume_src_cm3": 24.74,
+   "volume_out_cm3": 5.57,
+   "displacement_mm_median": 755.1
+  },
+  {
+   "atlas_id": "flexor_digiti_minimi_brevis_foot_l",
+   "category": "muscle",
+   "side": "left",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 36,
+   "vertices_clipped_to_skin": 81,
+   "volume_src_cm3": 1.39,
+   "volume_out_cm3": 1.65,
+   "displacement_mm_median": 866.0
+  },
+  {
+   "atlas_id": "flexor_digiti_minimi_brevis_foot_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 52,
+   "vertices_clipped_to_skin": 44,
+   "volume_src_cm3": 1.39,
+   "volume_out_cm3": 2.18,
+   "displacement_mm_median": 877.5
+  },
+  {
+   "atlas_id": "flexor_digitorum_superficialis_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "upper_limb",
+   "driving_bones": {
+    "radius_r": 0.602,
+    "ulna_r": 0.352,
+    "carpals_r": 0.046
+   },
+   "bone_penetration_vertices_before_pushoff": 62,
+   "vertices_clipped_to_skin": 0,
+   "volume_src_cm3": 19.44,
+   "volume_out_cm3": 5.51,
+   "displacement_mm_median": 739.8
+  },
+  {
+   "atlas_id": "flexor_retinaculum_ankle_r",
+   "category": "fascia",
+   "side": "right",
+   "region": "ankle_foot",
+   "driving_bones": {
+    "tarsals_r": 0.824,
+    "tibia_r": 0.176
+   },
+   "bone_penetration_vertices_before_pushoff": 36,
+   "vertices_clipped_to_skin": 141,
+   "volume_src_cm3": 2.34,
+   "volume_out_cm3": 2.75,
+   "displacement_mm_median": 821.9
+  },
+  {
+   "atlas_id": "flexor_retinaculum_r",
+   "category": "fascia",
+   "side": "right",
+   "region": "wrist_hand",
+   "driving_bones": {
+    "carpals_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 0,
+   "vertices_clipped_to_skin": 112,
+   "volume_src_cm3": 2.25,
+   "volume_out_cm3": 7.39,
+   "displacement_mm_median": 718.5
+  },
+  {
+   "atlas_id": "interosseous_membrane_forearm_r",
+   "category": "fascia",
+   "side": "right",
+   "region": "forearm",
+   "driving_bones": {
+    "ulna_r": 0.53,
+    "radius_r": 0.47
+   },
+   "bone_penetration_vertices_before_pushoff": 317,
+   "vertices_clipped_to_skin": 0,
+   "volume_src_cm3": 4.43,
+   "volume_out_cm3": 2.01,
+   "displacement_mm_median": 741.9
+  },
+  {
+   "atlas_id": "opponens_pollicis_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "upper_limb",
+   "driving_bones": {
+    "carpals_r": 0.764,
+    "radius_r": 0.157,
+    "ulna_r": 0.08
+   },
+   "bone_penetration_vertices_before_pushoff": 26,
+   "vertices_clipped_to_skin": 91,
+   "volume_src_cm3": 0.98,
+   "volume_out_cm3": 1.02,
+   "displacement_mm_median": 732.2
+  },
+  {
+   "atlas_id": "peroneal_retinaculum_r",
+   "category": "fascia",
+   "side": "right",
+   "region": "ankle_foot",
+   "driving_bones": {
+    "tarsals_r": 0.789,
+    "fibula_r": 0.211
+   },
+   "bone_penetration_vertices_before_pushoff": 109,
+   "vertices_clipped_to_skin": 109,
+   "volume_src_cm3": 2.65,
+   "volume_out_cm3": 0.68,
+   "displacement_mm_median": 823.8
+  },
+  {
+   "atlas_id": "plantar_aponeurosis_r",
+   "category": "fascia",
+   "side": "right",
+   "region": "ankle_foot",
+   "driving_bones": {
+    "tarsals_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 27,
+   "vertices_clipped_to_skin": 116,
+   "volume_src_cm3": 56.02,
+   "volume_out_cm3": 900.62,
+   "displacement_mm_median": 834.5
+  },
+  {
+   "atlas_id": "plantar_interossei_l",
+   "category": "muscle",
+   "side": "left",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 92,
+   "vertices_clipped_to_skin": 244,
+   "volume_src_cm3": 1.34,
+   "volume_out_cm3": 1.14,
+   "displacement_mm_median": 865.6
+  },
+  {
+   "atlas_id": "plantar_interossei_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 49,
+   "vertices_clipped_to_skin": 179,
+   "volume_src_cm3": 1.34,
+   "volume_out_cm3": 1.48,
+   "displacement_mm_median": 875.9
+  },
+  {
+   "atlas_id": "pronator_teres_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "upper_limb",
+   "driving_bones": {
+    "radius_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 8,
+   "vertices_clipped_to_skin": 276,
+   "volume_src_cm3": 19.21,
+   "volume_out_cm3": 17.83,
+   "displacement_mm_median": 742.3
+  },
+  {
+   "atlas_id": "quadratus_plantae_l",
+   "category": "muscle",
+   "side": "left",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tarsals_l": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 130,
+   "vertices_clipped_to_skin": 61,
+   "volume_src_cm3": 4.78,
+   "volume_out_cm3": 7.8,
+   "displacement_mm_median": 824.1
+  },
+  {
+   "atlas_id": "quadratus_plantae_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tarsals_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 154,
+   "vertices_clipped_to_skin": 26,
+   "volume_src_cm3": 4.78,
+   "volume_out_cm3": 8.82,
+   "displacement_mm_median": 833.3
+  },
+  {
+   "atlas_id": "supinator_r",
+   "category": "muscle",
+   "side": "right",
+   "region": "upper_limb",
+   "driving_bones": {
+    "radius_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 0,
+   "vertices_clipped_to_skin": 22,
+   "volume_src_cm3": 12.89,
+   "volume_out_cm3": 14.29,
+   "displacement_mm_median": 736.6
+  }
+ ]
+}

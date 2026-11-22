@@ -1,0 +1,25 @@
+/* Q343: the Parts chooser on the name card and the group families' status extras (evidence, key muscles, rule-based) */
+.qc-addon[data-addon="parts"]{display:flex;flex-direction:column;gap:4px;padding:5px 6px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.04)}
+.g3-ph{font-size:11.5px;line-height:1.3;color:#d3dae2;overflow-wrap:anywhere}
+.g3-ph b{color:#E6EDF3;font-weight:650}
+.g3-prow{display:flex;flex-wrap:wrap;gap:4px}
+.qc .g3-pc{flex:0 0 auto;min-height:30px;padding:3px 8px;border:1px solid rgba(255,255,255,.2);border-radius:7px;background:rgba(255,255,255,.06);
+  color:#E6EDF3;font:inherit;font-size:11.5px;line-height:1.15;cursor:pointer;white-space:nowrap}
+.qc .g3-pc:hover{background:rgba(255,255,255,.14)}
+.qc .g3-pc:focus-visible{outline:2px solid #D9A227;outline-offset:1px}
+.qc .g3-pc[aria-pressed="true"]{background:#D9A227;border-color:#D9A227;color:#1b1b1b}
+.qc .g3-pc.g3-off{color:#b4bdc8;border-style:dashed;background:transparent;cursor:help}
+.g3-rb{display:inline-block;padding:0 5px;border-radius:8px;font-size:10px;background:#c4ccd6;color:#1a1f26;vertical-align:1px}
+.g3-pnote{margin:0;font-size:11px;line-height:1.35;color:#c9d1da}
+.g3-pnote:empty{display:none}
+/* status-line extras (in the card's related-structures line) */
+.g3-tag{display:inline-block;margin:1px 0;padding:1px 7px;border-radius:9px;font-size:10.5px;font-weight:600;line-height:1.4;white-space:normal}
+.qc-relmenu .g3-ev-strong,.g3-ev-strong{background:#8fd19e;color:#10261a}
+.qc-relmenu .g3-ev-moderate,.g3-ev-moderate{background:#f2d27a;color:#2b2205}
+.qc-relmenu .g3-ev-none,.g3-ev-none{background:#f4b0b0;color:#2a0b0b}
+.qc-relmenu .g3-ev-not_examined,.g3-ev-not_examined{background:#c4ccd6;color:#1a1f26}
+.g3-key{background:#a9c8f0;color:#0e1d30}
+.g3-rule{background:#c4ccd6;color:#1a1f26}
+.q8-status .g3-x{min-height:26px;padding:2px 8px;margin:1px 0;border:1px solid rgba(255,255,255,.22);border-radius:7px;background:rgba(255,255,255,.06);
+  color:#E6EDF3;font:inherit;font-size:11px;cursor:pointer;white-space:nowrap}
+@media (pointer:coarse){.qc .g3-pc{min-height:38px}.q8-status .g3-x{min-height:34px}}

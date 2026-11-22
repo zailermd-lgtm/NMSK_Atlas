@@ -1,0 +1,14 @@
+/* Q382: Settings > layout and zoom (a section of the circled-i drawer) */
+.q382-set{display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.35}
+.q382-set h4{margin:2px 0 0;font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase;opacity:.7}
+.q382-set label{display:flex;align-items:center;gap:8px;min-height:32px}
+.q382-set input[type=number]{width:64px;min-height:30px;padding:2px 6px;box-sizing:border-box}
+.q382-set .q382-row{display:flex;flex-wrap:wrap;gap:8px}
+.q382-set button{min-height:34px;padding:4px 12px;cursor:pointer}
+.q382-set p{margin:0;opacity:.75;font-size:12px}
+.q382-panel{position:fixed;z-index:2147482100;top:64px;right:14px;width:min(340px,calc(100vw - 28px));max-height:calc(100vh - 84px);overflow:auto;box-sizing:border-box;
+  padding:10px 14px 14px;border-radius:14px;background:#fff;color:#20242B;border:1px solid #D5D9DF;box-shadow:0 10px 30px rgba(32,36,43,.22);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.q382-panel[hidden]{display:none}
+.q382-ph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:14px}
+.q382-ph button{width:34px;height:34px;border-radius:50%;border:1px solid #D5D9DF;background:#F3F4F6;color:#20242B;font-size:20px;line-height:1;cursor:pointer}
+.q382-gear{display:inline-flex;align-items:center;justify-content:center}

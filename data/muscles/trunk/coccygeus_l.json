@@ -1,0 +1,84 @@
+{
+ "id": "coccygeus_l",
+ "name_ta": "Coccygeus (ischiococcygeus)",
+ "name_common": "Coccygeus",
+ "side": "left",
+ "region": "trunk",
+ "overall_architecture_type": "convergent_triangular",
+ "attachments": {
+  "origin_bone": "hip_bone_l",
+  "origin_landmark": "ischial spine",
+  "insertion_bone": "coccyx",
+  "insertion_landmark": "lateral coccyx and lowest sacral segment",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "sacral_root_S3",
+   "sacral_root_S4"
+  ],
+  "root_levels": "S4-S5",
+  "was_packed_as": "direct_sacral_branches"
+ },
+ "actions": [
+  "supports the posterior pelvic floor (with levator ani)",
+  "flexes the coccyx"
+ ],
+ "functional_compartments": [
+  {
+   "id": "coccygeus_l_main",
+   "name": "Single fiber population",
+   "fiber_architecture": {
+    "architecture_type": "convergent_triangular",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 40,
+    "physiological_cross_section_area_mm2": 100,
+    "max_isometric_force_N": 22.5
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     15,
+     -30,
+     -30
+    ],
+    [
+     10,
+     -35,
+     -35
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Small triangular muscle lying on the pelvic surface of the sacrospinous ligament, which it is frequently largely fused with/replaced by fibrous tissue in adults -- a well-documented degree of variable ossification/fibrosis unlike its more consistently muscular counterpart in most other mammals.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "innervation_branch_ids": [
+    "sacral_root_S3",
+    "sacral_root_S4"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "No ultrasound-specific technique is published for this muscle in isolation; it is grouped with levator ani as a target for pelvic floor botulinum toxin injection in chronic pelvic pain, via the same transperineal or transvaginal digitally-guided routes used for levator ani, with the more posterolateral, cephalad position of coccygeus (overlying the sacrospinous ligament) used to distinguish it on palpation.",
+  "depth_layer": "Overlies the sacrospinous ligament on the pelvic surface, posterolateral and cephalad to levator ani.",
+  "identification_cues": "A cadaveric nerve-mapping study localised this muscle's intramuscular nerve-dense region (the notional injection target) by body-surface projection and depth, reporting it well posterolateral to the equivalent point for levator ani -- evidence that a distinct, mappable injection target exists, even though no clinical dosing series isolates coccygeus from levator ani.",
+  "structures_at_risk": [
+   "sacral plexus branches running on the pelvic surface of the ischial spine/sacrospinous ligament region",
+   "pudendal nerve and internal pudendal vessels, close to the ischial spine at the muscle's origin"
+  ],
+  "notes": "Cited alongside levator ani and obturator internus as a botulinum toxin target for chronic pelvic pain in a 2025 review, though no series reports outcomes for coccygeus injection in isolation -- the clinical literature treats the posterior pelvic floor as a functional unit rather than injecting this muscle individually. Recorded here as a genuine but weak lead, not an established individual technique.",
+  "source": "Karp BI, Stratton P (2025) Toxicon 258:108336, doi:10.1016/j.toxicon.2025.108336 -- review listing coccygeus among pelvic floor muscles injected for chronic pelvic pain (PubMed); Hu X, Hu S, Wang M, Xiong W, Yang S (2022) Clin Anat 35(7):979-986, doi:10.1002/ca.23935 -- cadaveric Sihler's-staining/CT localisation of the intramuscular nerve-dense region of levator ani and coccygeus, for botulinum toxin targeting (PubMed)"
+ },
+ "trigger_points": [
+  {
+   "location_description": "Coccygeus trigger points identified by digital vaginal palpation and correlated with transvaginal ultrasound findings, alongside the adjacent piriformis and levator ani.",
+   "referred_pain_pattern": "Coccygeus trigger-point pain intensity correlates with vaginal pain, bilateral buttock pain, bilateral low back pain, and lower abdominal pain.",
+   "notes": "From a 2025 ultrasound correlation study of pelvic floor myofascial pain (70 women); an exploratory correlational finding rather than a classic Travell & Simons essential/spillover map, but real, current, and specific to this muscle -- one of the few deep-trunk/pelvic-floor muscles in this atlas's scope with directly documented myofascial trigger point involvement.",
+   "source": "\"Ultrasonographic identification of pelvic floor myofascial trigger points and their correlation with clinical symptoms in patients with pelvic floor myofascial pain.\" Quant Imaging Med Surg (2025), doi:10.21037/qims-2025-1-2515, PMID 42582432, PMC13457711 (PubMed)."
+  }
+ ]
+}

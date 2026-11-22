@@ -1,0 +1,788 @@
+{
+ "page": "base_m",
+ "kind": "zan",
+ "viewports": {
+  "desktop": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "layer_off_hides_marked_in_it": true,
+    "layer_on_shows_them_again": true,
+    "xray_with_selection_works": true,
+    "parts_markers_follow_selection": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "shift_click_marks": true,
+    "ctrl_click_unmarks": true,
+    "mark_by_clicking": true,
+    "plain_click_still_selects": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "hover_on_cap_names_the_structure": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_changes_the_cap": true,
+    "fill_off_removes_the_cap": true,
+    "remembered_last_selection_after_reload": true,
+    "link_in_the_address_restores": true,
+    "no_errors_on_reload": true,
+    "blocked_storage_page_works": true,
+    "blocked_storage_says_so": true,
+    "blocked_storage_export_works": true
+   },
+   "info": {
+    "ss_phone_class": false,
+    "marked_layer": "muscle",
+    "parts_markers_visible_only_vs_all": [
+     2,
+     131
+    ],
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 51
+    },
+    "probe_structure": "zan_skin_hypogastric_region_r",
+    "link_chars": 60,
+    "sel_state": {
+     "marks": [
+      "zan_skin_hypogastric_region_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:base_male",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 62,
+       "filled": 56,
+       "outline_only": 6,
+       "ms": 45,
+       "odd_rows": 591,
+       "rows": 5904
+      },
+      "thigh": {
+       "structures_cut": 142,
+       "filled": 128,
+       "outline_only": 12,
+       "ms": 987,
+       "odd_rows": 877,
+       "rows": 8663
+      },
+      "forearm": {
+       "structures_cut": 210,
+       "filled": 194,
+       "outline_only": 15,
+       "ms": 100,
+       "odd_rows": 2100,
+       "rows": 13447
+      },
+      "thorax": {
+       "structures_cut": 268,
+       "filled": 238,
+       "outline_only": 24,
+       "ms": 65,
+       "odd_rows": 2155,
+       "rows": 16063
+      }
+     },
+     "cap_pixel": {
+      "key": "semimembranosus_l",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "hover": "Semimembranosus",
+     "card": "Semimembranosus",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 10,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      9,
+      1
+     ]
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js"
+   ],
+   "seconds": 336.6
+  },
+  "laptop": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "shift_click_marks": true,
+    "ctrl_click_unmarks": true,
+    "mark_by_clicking": true,
+    "plain_click_still_selects": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "hover_on_cap_names_the_structure": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_changes_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": false,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 12
+    },
+    "probe_structure": "external_oblique_r",
+    "link_chars": 49,
+    "sel_state": {
+     "marks": [
+      "external_oblique_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:base_male",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 47,
+       "odd_rows": 0,
+       "rows": 4555
+      }
+     },
+     "cap_pixel": {
+      "key": "adductor_magnus_l",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "hover": "Adductor magnus",
+     "card": "Adductor magnus",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 8,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      7,
+      1
+     ]
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js"
+   ],
+   "seconds": 101.2
+  },
+  "tablet": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "touch_targets_ge_38px": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_changes_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": true,
+    "min_tap_px": 38,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 42
+    },
+    "probe_structure": "external_oblique_r",
+    "link_chars": 49,
+    "sel_state": {
+     "marks": [
+      "external_oblique_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:base_male",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 41,
+       "odd_rows": 0,
+       "rows": 4555
+      }
+     },
+     "cap_pixel": {
+      "key": "gracilis_r",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Gracilis",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 8,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      7,
+      1
+     ]
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js"
+   ],
+   "seconds": 157.0
+  },
+  "tablet_l": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_changes_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": false,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 20
+    },
+    "probe_structure": "external_oblique_r",
+    "link_chars": 49,
+    "sel_state": {
+     "marks": [
+      "external_oblique_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:base_male",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 94,
+       "odd_rows": 0,
+       "rows": 4555
+      }
+     },
+     "cap_pixel": {
+      "key": "adductor_magnus_l",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Adductor magnus",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 8,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      7,
+      1
+     ]
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js"
+   ],
+   "seconds": 134.2
+  },
+  "phone": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "touch_targets_ge_38px": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "layer_off_hides_marked_in_it": true,
+    "layer_on_shows_them_again": true,
+    "xray_with_selection_works": true,
+    "parts_markers_follow_selection": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_changes_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": true,
+    "min_tap_px": 38,
+    "marked_layer": "muscle",
+    "parts_markers_visible_only_vs_all": [
+     2,
+     131
+    ],
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 23
+    },
+    "probe_structure": "zan_skin_hypogastric_region_r",
+    "link_chars": 60,
+    "sel_state": {
+     "marks": [
+      "zan_skin_hypogastric_region_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:base_male",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 62,
+       "filled": 56,
+       "outline_only": 6,
+       "ms": 27,
+       "odd_rows": 591,
+       "rows": 5904
+      },
+      "thigh": {
+       "structures_cut": 142,
+       "filled": 128,
+       "outline_only": 12,
+       "ms": 65,
+       "odd_rows": 877,
+       "rows": 8663
+      },
+      "forearm": {
+       "structures_cut": 210,
+       "filled": 194,
+       "outline_only": 15,
+       "ms": 49,
+       "odd_rows": 2100,
+       "rows": 13447
+      },
+      "thorax": {
+       "structures_cut": 268,
+       "filled": 238,
+       "outline_only": 24,
+       "ms": 112,
+       "odd_rows": 2155,
+       "rows": 16063
+      }
+     },
+     "cap_pixel": {
+      "key": "zan_skin_posterior_region_of_thigh_r",
+      "texel": [
+       201,
+       159,
+       120,
+       255
+      ],
+      "screen_rgb": [
+       201,
+       159,
+       120
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Posterior region of thigh (skin)",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 10,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      9,
+      1
+     ]
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js"
+   ],
+   "seconds": 184.7
+  },
+  "phone_l": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "touch_targets_ge_38px": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_changes_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": true,
+    "min_tap_px": 38,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 27
+    },
+    "probe_structure": "external_oblique_r",
+    "link_chars": 49,
+    "sel_state": {
+     "marks": [
+      "external_oblique_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:base_male",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 54,
+       "odd_rows": 0,
+       "rows": 4555
+      }
+     },
+     "cap_pixel": {
+      "key": "gracilis_r",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Gracilis",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 8,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      7,
+      1
+     ]
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js"
+   ],
+   "seconds": 96.5
+  }
+ }
+}

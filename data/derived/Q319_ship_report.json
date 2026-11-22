@@ -1,0 +1,1039 @@
+{
+ "schema": "nmsk.q319.ship.v1",
+ "round": "Q319",
+ "generated": "2026-11-12",
+ "rule": "an in-bone conform ships iff no check in that muscle's own bucket_because reaches a worse severity than before (audit severities, no new threshold); the opponens split ships as is; no give-up item is touched; nothing is deleted",
+ "written": true,
+ "pages": {
+  "base_m": {
+   "page": "base_m",
+   "label": "Base M",
+   "source": "build/q309/viewer_zan_atlas/atlas_viewer_zan_atlas.html",
+   "conform_candidates_in_report": [
+    "abductor_digiti_minimi_foot_l",
+    "abductor_digiti_minimi_foot_r",
+    "anconeus_l",
+    "anconeus_r",
+    "extensor_carpi_ulnaris_l",
+    "extensor_carpi_ulnaris_r",
+    "extensor_hallucis_brevis_l",
+    "extensor_hallucis_brevis_r",
+    "medial_pterygoid_l",
+    "medial_pterygoid_r",
+    "plantar_interossei_l",
+    "plantar_interossei_r",
+    "zan_adductor_minimus_l",
+    "zan_adductor_minimus_r",
+    "zan_medial_head_of_triceps_brachii_l",
+    "zan_medial_head_of_triceps_brachii_r"
+   ],
+   "excluded_giveup": [],
+   "recompute_drift": [],
+   "rounds": [
+    {
+     "kept_in": [
+      "abductor_digiti_minimi_foot_l",
+      "abductor_digiti_minimi_foot_r",
+      "anconeus_l",
+      "anconeus_r",
+      "extensor_carpi_ulnaris_l",
+      "extensor_carpi_ulnaris_r",
+      "extensor_hallucis_brevis_l",
+      "extensor_hallucis_brevis_r",
+      "medial_pterygoid_l",
+      "medial_pterygoid_r",
+      "plantar_interossei_l",
+      "plantar_interossei_r",
+      "zan_adductor_minimus_l",
+      "zan_adductor_minimus_r",
+      "zan_medial_head_of_triceps_brachii_l",
+      "zan_medial_head_of_triceps_brachii_r"
+     ],
+     "worsened_itself": {
+      "extensor_carpi_ulnaris_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "extensor_carpi_ulnaris_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     },
+     "neighbours_worsened": {
+      "flexor_digiti_minimi_brevis_foot_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "flexor_digitorum_profundus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "flexor_digitorum_profundus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "stylohyoid_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "stylopharyngeus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     },
+     "blamed_for_a_neighbour": {
+      "abductor_digiti_minimi_foot_l": [
+       "flexor_digiti_minimi_brevis_foot_l"
+      ],
+      "extensor_hallucis_brevis_l": [
+       "flexor_digiti_minimi_brevis_foot_l"
+      ],
+      "plantar_interossei_l": [
+       "flexor_digiti_minimi_brevis_foot_l"
+      ],
+      "anconeus_l": [
+       "flexor_digitorum_profundus_l"
+      ],
+      "extensor_carpi_ulnaris_l": [
+       "flexor_digitorum_profundus_l"
+      ],
+      "anconeus_r": [
+       "flexor_digitorum_profundus_r"
+      ],
+      "extensor_carpi_ulnaris_r": [
+       "flexor_digitorum_profundus_r"
+      ],
+      "medial_pterygoid_r": [
+       "stylohyoid_r",
+       "stylopharyngeus_r"
+      ]
+     },
+     "unexplained": []
+    },
+    {
+     "kept_in": [
+      "abductor_digiti_minimi_foot_r",
+      "extensor_hallucis_brevis_r",
+      "medial_pterygoid_l",
+      "plantar_interossei_r",
+      "zan_adductor_minimus_l",
+      "zan_adductor_minimus_r",
+      "zan_medial_head_of_triceps_brachii_l",
+      "zan_medial_head_of_triceps_brachii_r"
+     ],
+     "worsened_itself": {},
+     "neighbours_worsened": {},
+     "blamed_for_a_neighbour": {},
+     "unexplained": []
+    }
+   ],
+   "shipped": {
+    "abductor_digiti_minimi_foot_r": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      20.31,
+      11.72
+     ],
+     "overlap_muscle_pct": [
+      33.0,
+      34.7
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "extensor_hallucis_brevis_r": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      20.86,
+      10.7
+     ],
+     "overlap_muscle_pct": [
+      26.6,
+      31.7
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "medial_pterygoid_l": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {},
+     "in_bone_vertex_pct": [
+      22.09,
+      5.62
+     ],
+     "overlap_muscle_pct": [
+      26.0,
+      26.8
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "plantar_interossei_r": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      22.97,
+      8.45
+     ],
+     "overlap_muscle_pct": [
+      11.4,
+      12.0
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "zan_adductor_minimus_l": {
+     "before": {
+      "in_bone": 3
+     },
+     "after": {},
+     "in_bone_vertex_pct": [
+      53.36,
+      null
+     ],
+     "overlap_muscle_pct": [
+      33.4,
+      38.8
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "zan_adductor_minimus_r": {
+     "before": {
+      "in_bone": 3
+     },
+     "after": {},
+     "in_bone_vertex_pct": [
+      53.36,
+      null
+     ],
+     "overlap_muscle_pct": [
+      33.7,
+      39.5
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "zan_medial_head_of_triceps_brachii_l": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      23.72,
+      10.33
+     ],
+     "overlap_muscle_pct": [
+      17.2,
+      20.6
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "zan_medial_head_of_triceps_brachii_r": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      23.72,
+      10.33
+     ],
+     "overlap_muscle_pct": [
+      16.8,
+      20.3
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    }
+   },
+   "held": {
+    "extensor_carpi_ulnaris_l": {
+     "why": "worsened its own check",
+     "checks": [
+      [
+       "overlap_muscle",
+       0,
+       2
+      ]
+     ]
+    },
+    "extensor_carpi_ulnaris_r": {
+     "why": "worsened its own check",
+     "checks": [
+      [
+       "overlap_muscle",
+       0,
+       2
+      ]
+     ]
+    },
+    "abductor_digiti_minimi_foot_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digiti_minimi_brevis_foot_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "extensor_hallucis_brevis_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digiti_minimi_brevis_foot_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "plantar_interossei_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digiti_minimi_brevis_foot_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "anconeus_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digitorum_profundus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "anconeus_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digitorum_profundus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "medial_pterygoid_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "stylohyoid_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "stylopharyngeus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    }
+   },
+   "collateral_worsened": {},
+   "split": {
+    "opponens_digiti_minimi_r": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 790.7,
+     "new_structure": "opponens_digiti_minimi_foot_r"
+    },
+    "opponens_digiti_minimi_l": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 790.8,
+     "new_structure": "opponens_digiti_minimi_foot_l"
+    }
+   },
+   "bucket_counts_before": {
+    "repairable": 193,
+    "defensible": 235,
+    "not_defensible": 4
+   },
+   "bucket_counts_after": {
+    "repairable": 185,
+    "defensible": 243,
+    "not_defensible": 4
+   },
+   "meshes_before": 3262,
+   "meshes_after": 3264,
+   "geometry_changed": [
+    "abductor_digiti_minimi_foot_r",
+    "extensor_hallucis_brevis_r",
+    "medial_pterygoid_l",
+    "opponens_digiti_minimi_l",
+    "opponens_digiti_minimi_r",
+    "plantar_interossei_r",
+    "zan_adductor_minimus_l",
+    "zan_adductor_minimus_r",
+    "zan_medial_head_of_triceps_brachii_l",
+    "zan_medial_head_of_triceps_brachii_r"
+   ],
+   "structures_added": [
+    "opponens_digiti_minimi_foot_r",
+    "opponens_digiti_minimi_foot_l"
+   ],
+   "structures_deleted": [],
+   "pose_rig": {
+    "rig_file": "data/anatomy/pose_rig_base_m.json",
+    "count_before": 3262,
+    "count_after": 3264,
+    "skin_entries_before": 1765,
+    "skin_entries_after": 1763,
+    "changes": [
+     {
+      "hand": "opponens_digiti_minimi_r",
+      "hand_index": 407,
+      "hand_rig_before": "skinned",
+      "hand_rig_after": "rigid, segment 31 (hand_r)",
+      "foot": "opponens_digiti_minimi_foot_r",
+      "foot_index": 3262,
+      "foot_rig": "rigid, segment 51 (foot_r)"
+     },
+     {
+      "hand": "opponens_digiti_minimi_l",
+      "hand_index": 406,
+      "hand_rig_before": "skinned",
+      "hand_rig_after": "rigid, segment 71 (hand_l)",
+      "foot": "opponens_digiti_minimi_foot_l",
+      "foot_index": 3263,
+      "foot_rig": "rigid, segment 91 (foot_l)"
+     }
+    ]
+   },
+   "files": {
+    "replaced": [
+     "atlas_viewer_zan_atlas.html",
+     "atlas_viewer_zan_atlas_geo_00.txt",
+     "atlas_viewer_zan_atlas_geo_01.txt",
+     "atlas_viewer_zan_atlas_geo_02.txt",
+     "atlas_viewer_zan_atlas_geo_03.txt",
+     "index.html"
+    ],
+    "geo_files": [
+     "atlas_viewer_zan_atlas_geo_00.txt",
+     "atlas_viewer_zan_atlas_geo_01.txt",
+     "atlas_viewer_zan_atlas_geo_02.txt",
+     "atlas_viewer_zan_atlas_geo_03.txt"
+    ],
+    "bin_files": [
+     {
+      "path": "atlas_viewer_zan_atlas_geo_00.txt",
+      "bytes": 11000000,
+      "enc": "base64"
+     },
+     {
+      "path": "atlas_viewer_zan_atlas_geo_01.txt",
+      "bytes": 11000000,
+      "enc": "base64"
+     },
+     {
+      "path": "atlas_viewer_zan_atlas_geo_02.txt",
+      "bytes": 11000000,
+      "enc": "base64"
+     },
+     {
+      "path": "atlas_viewer_zan_atlas_geo_03.txt",
+      "bytes": 2432772,
+      "enc": "base64"
+     }
+    ]
+   }
+  },
+  "base_f": {
+   "page": "base_f",
+   "label": "Base F",
+   "source": "build/q309/viewer_base_female/atlas_viewer_base_female.html",
+   "conform_candidates_in_report": [
+    "abductor_digiti_minimi_foot_l",
+    "abductor_digiti_minimi_foot_r",
+    "anconeus_l",
+    "anconeus_r",
+    "extensor_carpi_ulnaris_l",
+    "extensor_carpi_ulnaris_r",
+    "extensor_hallucis_brevis_l",
+    "extensor_hallucis_brevis_r",
+    "medial_pterygoid_l",
+    "medial_pterygoid_r",
+    "plantar_interossei_l",
+    "plantar_interossei_r",
+    "rectus_femoris_reflected_head_l",
+    "stylohyoid_l",
+    "stylohyoid_r",
+    "zan_adductor_minimus_l",
+    "zan_adductor_minimus_r",
+    "zan_medial_head_of_triceps_brachii_l",
+    "zan_medial_head_of_triceps_brachii_r"
+   ],
+   "excluded_giveup": [
+    "rectus_femoris_reflected_head_l"
+   ],
+   "recompute_drift": [],
+   "rounds": [
+    {
+     "kept_in": [
+      "abductor_digiti_minimi_foot_l",
+      "abductor_digiti_minimi_foot_r",
+      "anconeus_l",
+      "anconeus_r",
+      "extensor_carpi_ulnaris_l",
+      "extensor_carpi_ulnaris_r",
+      "extensor_hallucis_brevis_l",
+      "extensor_hallucis_brevis_r",
+      "medial_pterygoid_l",
+      "medial_pterygoid_r",
+      "plantar_interossei_l",
+      "plantar_interossei_r",
+      "stylohyoid_l",
+      "stylohyoid_r",
+      "zan_adductor_minimus_l",
+      "zan_adductor_minimus_r",
+      "zan_medial_head_of_triceps_brachii_l",
+      "zan_medial_head_of_triceps_brachii_r"
+     ],
+     "worsened_itself": {
+      "extensor_carpi_ulnaris_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "extensor_carpi_ulnaris_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "zan_adductor_minimus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "zan_adductor_minimus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     },
+     "neighbours_worsened": {
+      "flexor_digiti_minimi_brevis_foot_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "flexor_digitorum_profundus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "flexor_digitorum_profundus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "stylopharyngeus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ],
+      "stylopharyngeus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     },
+     "blamed_for_a_neighbour": {
+      "abductor_digiti_minimi_foot_r": [
+       "flexor_digiti_minimi_brevis_foot_r"
+      ],
+      "extensor_hallucis_brevis_r": [
+       "flexor_digiti_minimi_brevis_foot_r"
+      ],
+      "plantar_interossei_r": [
+       "flexor_digiti_minimi_brevis_foot_r"
+      ],
+      "anconeus_l": [
+       "flexor_digitorum_profundus_l"
+      ],
+      "extensor_carpi_ulnaris_l": [
+       "flexor_digitorum_profundus_l"
+      ],
+      "zan_medial_head_of_triceps_brachii_l": [
+       "flexor_digitorum_profundus_l"
+      ],
+      "anconeus_r": [
+       "flexor_digitorum_profundus_r"
+      ],
+      "extensor_carpi_ulnaris_r": [
+       "flexor_digitorum_profundus_r"
+      ],
+      "zan_medial_head_of_triceps_brachii_r": [
+       "flexor_digitorum_profundus_r"
+      ],
+      "medial_pterygoid_l": [
+       "stylopharyngeus_l"
+      ],
+      "stylohyoid_l": [
+       "stylopharyngeus_l"
+      ],
+      "medial_pterygoid_r": [
+       "stylopharyngeus_r"
+      ],
+      "stylohyoid_r": [
+       "stylopharyngeus_r"
+      ]
+     },
+     "unexplained": []
+    },
+    {
+     "kept_in": [
+      "abductor_digiti_minimi_foot_l",
+      "extensor_hallucis_brevis_l",
+      "plantar_interossei_l"
+     ],
+     "worsened_itself": {},
+     "neighbours_worsened": {},
+     "blamed_for_a_neighbour": {},
+     "unexplained": []
+    }
+   ],
+   "shipped": {
+    "abductor_digiti_minimi_foot_l": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      20.16,
+      11.72
+     ],
+     "overlap_muscle_pct": [
+      33.0,
+      32.9
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "extensor_hallucis_brevis_l": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      20.5,
+      10.7
+     ],
+     "overlap_muscle_pct": [
+      30.6,
+      36.3
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    },
+    "plantar_interossei_l": {
+     "before": {
+      "in_bone": 2
+     },
+     "after": {
+      "in_bone": 1
+     },
+     "in_bone_vertex_pct": [
+      22.65,
+      8.61
+     ],
+     "overlap_muscle_pct": [
+      16.1,
+      16.6
+     ],
+     "bucket": [
+      "repairable",
+      "defensible"
+     ]
+    }
+   },
+   "held": {
+    "extensor_carpi_ulnaris_l": {
+     "why": "worsened its own check",
+     "checks": [
+      [
+       "overlap_muscle",
+       0,
+       2
+      ]
+     ]
+    },
+    "extensor_carpi_ulnaris_r": {
+     "why": "worsened its own check",
+     "checks": [
+      [
+       "overlap_muscle",
+       0,
+       2
+      ]
+     ]
+    },
+    "zan_adductor_minimus_l": {
+     "why": "worsened its own check",
+     "checks": [
+      [
+       "overlap_muscle",
+       0,
+       2
+      ]
+     ]
+    },
+    "zan_adductor_minimus_r": {
+     "why": "worsened its own check",
+     "checks": [
+      [
+       "overlap_muscle",
+       0,
+       2
+      ]
+     ]
+    },
+    "abductor_digiti_minimi_foot_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digiti_minimi_brevis_foot_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "extensor_hallucis_brevis_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digiti_minimi_brevis_foot_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "plantar_interossei_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digiti_minimi_brevis_foot_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "anconeus_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digitorum_profundus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "zan_medial_head_of_triceps_brachii_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digitorum_profundus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "anconeus_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digitorum_profundus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "zan_medial_head_of_triceps_brachii_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "flexor_digitorum_profundus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "medial_pterygoid_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "stylopharyngeus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "stylohyoid_l": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "stylopharyngeus_l": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "medial_pterygoid_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "stylopharyngeus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    },
+    "stylohyoid_r": {
+     "why": "pushed into a neighbour whose check worsened",
+     "neighbours": {
+      "stylopharyngeus_r": [
+       [
+        "overlap_muscle",
+        0,
+        2
+       ]
+      ]
+     }
+    }
+   },
+   "collateral_worsened": {},
+   "split": {
+    "opponens_digiti_minimi_r": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 826.6,
+     "new_structure": "opponens_digiti_minimi_foot_r"
+    },
+    "opponens_digiti_minimi_l": {
+     "hand_vertices": 210,
+     "foot_vertices": 120,
+     "pieces_apart_mm": 826.7,
+     "new_structure": "opponens_digiti_minimi_foot_l"
+    }
+   },
+   "bucket_counts_before": {
+    "repairable": 218,
+    "defensible": 220,
+    "not_defensible": 4
+   },
+   "bucket_counts_after": {
+    "defensible": 223,
+    "repairable": 215,
+    "not_defensible": 4
+   },
+   "meshes_before": 3298,
+   "meshes_after": 3300,
+   "geometry_changed": [
+    "abductor_digiti_minimi_foot_l",
+    "extensor_hallucis_brevis_l",
+    "opponens_digiti_minimi_l",
+    "opponens_digiti_minimi_r",
+    "plantar_interossei_l"
+   ],
+   "structures_added": [
+    "opponens_digiti_minimi_foot_r",
+    "opponens_digiti_minimi_foot_l"
+   ],
+   "structures_deleted": [],
+   "pose_rig": {
+    "rig_file": "data/anatomy/pose_rig_base_f.json",
+    "count_before": 3298,
+    "count_after": 3300,
+    "skin_entries_before": 1788,
+    "skin_entries_after": 1786,
+    "changes": [
+     {
+      "hand": "opponens_digiti_minimi_r",
+      "hand_index": 405,
+      "hand_rig_before": "skinned",
+      "hand_rig_after": "rigid, segment 31 (hand_r)",
+      "foot": "opponens_digiti_minimi_foot_r",
+      "foot_index": 3298,
+      "foot_rig": "rigid, segment 51 (foot_r)"
+     },
+     {
+      "hand": "opponens_digiti_minimi_l",
+      "hand_index": 404,
+      "hand_rig_before": "skinned",
+      "hand_rig_after": "rigid, segment 71 (hand_l)",
+      "foot": "opponens_digiti_minimi_foot_l",
+      "foot_index": 3299,
+      "foot_rig": "rigid, segment 91 (foot_l)"
+     }
+    ]
+   },
+   "files": {
+    "replaced": [
+     "atlas_viewer_base_female.html",
+     "atlas_viewer_base_female_geo_00.txt",
+     "atlas_viewer_base_female_geo_01.txt",
+     "atlas_viewer_base_female_geo_02.txt",
+     "atlas_viewer_base_female_geo_03.txt",
+     "index.html"
+    ],
+    "geo_files": [
+     "atlas_viewer_base_female_geo_00.txt",
+     "atlas_viewer_base_female_geo_01.txt",
+     "atlas_viewer_base_female_geo_02.txt",
+     "atlas_viewer_base_female_geo_03.txt"
+    ],
+    "bin_files": [
+     {
+      "path": "atlas_viewer_base_female_geo_00.txt",
+      "bytes": 11000000,
+      "enc": "base64"
+     },
+     {
+      "path": "atlas_viewer_base_female_geo_01.txt",
+      "bytes": 11000000,
+      "enc": "base64"
+     },
+     {
+      "path": "atlas_viewer_base_female_geo_02.txt",
+      "bytes": 11000000,
+      "enc": "base64"
+     },
+     {
+      "path": "atlas_viewer_base_female_geo_03.txt",
+      "bytes": 5440722,
+      "enc": "base64"
+     }
+    ]
+   }
+  }
+ },
+ "verified_on_disk": {
+  "audit": "data/derived/Q319_shipped_audit.json (re-run with --src build/q309 on the written pages; bucket counts and every shipped structure identical to this report)",
+  "chromium": "scripts/anatomy/q319/verify_ship_q319.py: VERIFY_SHIP_OK on both engine pages and both index.html (ready, failed empty, rig.count == meshes, foot pieces present, Pose enabled, 0 page errors)",
+  "rig_injected": "scripts/anatomy/q241/make_pose_rig.py --inject on both dirs (its own nv/count check passed)"
+ },
+ "first_attempt_rolled_back": "the literal rule (own checks only) shipped 14+14 conforms and left 3+3 neighbours with overlap 0->2; written, then restored from the .q318 copies and replaced by this page-wide selection"
+}

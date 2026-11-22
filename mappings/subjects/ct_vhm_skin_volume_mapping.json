@@ -1,0 +1,22 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhm_skin",
+  "source_volume": "data/ct_sources/task_outputs/vhm_skin_ct.nii.gz",
+  "label_map": "vhm_skin",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "body_surface",
+      "side": null,
+      "status": "curated",
+      "atlas_id": "skin",
+      "relationship": "exact",
+      "note": "Whole-body silhouette from his OWN CT, all three blocks (torso+legs+feet, scripts/cryo/vhm_whole_body_skin.py), replacing the earlier torso-only photograph-route surface. Block-to-block shifts fitted directly against the DU-STL bone/muscle vertices (not the originally documented image-correlation shifts, which left up to 42% of tarsal/phalanx vertices and 15-17% of thigh/calf muscle vertices outside); mean vertex containment failure across all 130 vhm_both structures is 0.03% with a 2 mm dilation margin (worst case fibularis_longus_r 1.8%).",
+      "candidates": []
+    }
+  ]
+}

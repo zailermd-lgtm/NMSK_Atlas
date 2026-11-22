@@ -1,0 +1,53 @@
+{
+ "note": "Q234 sources: HuBMAP CCF 3D Reference Object Library (CC BY 4.0), Visible Human Female directory. The two small GLBs are copied in this directory unchanged; the others are downloaded on demand by scripts/anatomy/q234/hra_q234.py (sha256-checked) into third_party/hra_vh_f/_download/ (git-ignored) and only their decimated derivatives are kept (data/derived/Q234_hra_meshes.npz).",
+ "repository": "https://github.com/hubmapconsortium/ccf-3d-reference-object-library",
+ "commit": "f1a3a63f110e27ff0736047d52d04dba5d3087f9",
+ "raw_base": "https://raw.githubusercontent.com/hubmapconsortium/ccf-3d-reference-object-library/f1a3a63f110e27ff0736047d52d04dba5d3087f9/VH_Female/",
+ "files": {
+  "v1.2_VH_F_Vagina": {
+   "path": "v1.2/VH_F_Vagina.glb",
+   "url": "https://raw.githubusercontent.com/hubmapconsortium/ccf-3d-reference-object-library/f1a3a63f110e27ff0736047d52d04dba5d3087f9/VH_Female/v1.2/VH_F_Vagina.glb",
+   "sha256": "ef334a9315ce0dd7e112bd757d22dce4bf57722c7fd0cac81a05d86209bfce34",
+   "bytes": 231392,
+   "copied_in_repo": true,
+   "use": "vagina (Q234)"
+  },
+  "v1.2_VH_F_Ligaments_Uterus_Ovaries": {
+   "path": "v1.2/VH_F_Ligaments_Uterus_Ovaries.glb",
+   "url": "https://raw.githubusercontent.com/hubmapconsortium/ccf-3d-reference-object-library/f1a3a63f110e27ff0736047d52d04dba5d3087f9/VH_Female/v1.2/VH_F_Ligaments_Uterus_Ovaries.glb",
+   "sha256": "ba7bd64c8c40cca6c12d944be4aa7cecd6ecc1fa577be3000337ce114f44f846",
+   "bytes": 1395596,
+   "copied_in_repo": true,
+   "use": "ligaments of the uterus and ovaries (Q234)"
+  },
+  "v1.3_VH_F_mammary_gland_L": {
+   "path": "v1.3/VH_F_mammary_gland_L.glb",
+   "url": "https://raw.githubusercontent.com/hubmapconsortium/ccf-3d-reference-object-library/f1a3a63f110e27ff0736047d52d04dba5d3087f9/VH_Female/v1.3/VH_F_mammary_gland_L.glb",
+   "sha256": "5181797d8b669580d0243684ce10e61657881178c9bd56b4ba338547ecb1099e",
+   "bytes": 13727160,
+   "copied_in_repo": false,
+   "use": "left breast (Q234)"
+  },
+  "v1.3_VH_F_mammary_gland_R": {
+   "path": "v1.3/VH_F_mammary_gland_R.glb",
+   "url": "https://raw.githubusercontent.com/hubmapconsortium/ccf-3d-reference-object-library/f1a3a63f110e27ff0736047d52d04dba5d3087f9/VH_Female/v1.3/VH_F_mammary_gland_R.glb",
+   "sha256": "7fb6c2dd90190a80dbcca487e3aaa27cc801d1c66a205840ea36a6c851082ff0",
+   "bytes": 24388424,
+   "copied_in_repo": false,
+   "use": "right breast (Q234)"
+  },
+  "v1.2_VH_F_Vertebrae": {
+   "path": "v1.2/VH_F_Vertebrae.glb",
+   "url": "https://raw.githubusercontent.com/hubmapconsortium/ccf-3d-reference-object-library/f1a3a63f110e27ff0736047d52d04dba5d3087f9/VH_Female/v1.2/VH_F_Vertebrae.glb",
+   "sha256": "bdbea49a40e9e64cac1c8f0d67b6483686a3cc9617f7cae645e58159e4b02984",
+   "bytes": 7700856,
+   "copied_in_repo": false,
+   "use": "thoracic registration anchor only (Q234)"
+  }
+ },
+ "library_descriptions_copied": {
+  "mammary-gland-female-left.md": "ccf-releases b036a91aaf7234f462b1249d4a5f4fb0e982f412 v1.3/markdown/ref-organs/3d-vh-f-mammary-gland-l.md (the breast 'was sculpted from scratch ... Krstic 1994, Thieme Atlas of Anatomy 2008'; Heidi Schlehlein; reviewer Harikrishna Nakshatri; DOI 10.48539/HBM378.VWZG.633)",
+  "mammary-gland-female-right.md": "same, ...-r.md (DOI 10.48539/HBM989.SNHP.535)",
+  "vagina / ligaments": "the library has no description record for VH_F_Vagina or VH_F_Ligaments_Uterus_Ovaries (not in ccf-releases)"
+ }
+}

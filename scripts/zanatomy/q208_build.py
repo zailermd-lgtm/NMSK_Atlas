@@ -1,0 +1,534 @@
+#!/usr/bin/env python3
+"""Q208 build of the two Z-fitted pages (in-process patch of the Q207 pages, no Z build):
+   stage tube   : forearm / wrist skin slabs re-warped from the Z source onto the person's own skin (bone-pair frames), welded to the fixed hand neighbours     (q208_refit)
+   stage elbow  : elbow / cubital slabs re-warped between the fixed arm skin and the new forearm skin                                                          (q208_elbow)
+   stage uro    : male urogenital rims welded to the anal / thigh patches (neighbours move slightly)                                                            (q208_uro)
+   stage pack   : changed skin patches re-packed with before -> after badges, all other structures byte for byte                                                 (q208_pack)
+    python3 scripts/zanatomy/q208_build.py male|female tube|elbow|uro|pack|all"""
+from __future__ import annotations
+
+import pickle
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+
+REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO))
+from scripts.zanatomy import q208_core as K  # noqa: E402
+from scripts.zanatomy import q208_refit as RF  # noqa: E402
+from scripts.zanatomy import q208_tube as T  # noqa: E402
+from scipy.spatial import cKDTree  # noqa: E402
+
+MARGIN = 1.0
+
+
+def tube_setup(pg, raw, own, side):
+    """frames, s map, slabs of the tube group; (roll not yet calibrated)"""
+    s = "_" + side
+    Wr, Wp = raw.wrist()[side], pg.wrist()[side]
+    Fs = T.Frames(raw.v("radius" + s), raw.v("ulna" + s), Wr)
+    Fp = T.Frames(pg.v("radius" + s), pg.v("ulna" + s), Wp)
+    ss = np.concatenate([(raw.v(b + s) - Wr) @ Fs.a for b in ("radius", "ulna")])
+    sp = np.concatenate([(pg.v(b + s) - Wp) @ Fp.a for b in ("radius", "ulna")])
+    g = T.monotone_map(ss, sp)
+    ids = [K.pid(n, side) for n in K.TUBE]
+    S = RF.Slabs({i: raw.v(i) for i in ids}, {i: pg.f(i) for i in ids}, ids)
+    outer = S.outer_flags(bone_pts=K.side_bones(raw, side))
+    return Fs, Fp, g, ids, S, outer
+
+
+def calibrate_roll(pg, raw, own, V, side, margin=MARGIN, log=print):
+    """The roll of the bone-pair frame of the page (radius -> ulna direction) is not the roll of the person's skin at the two ends of the forearm: at the elbow the arm skin (fixed) and at the wrist the hand skin
+    (fixed) sit where they sit.  Two roll angles (elbow end, wrist end; linear in s between) are chosen so that the tube's rims meet the fixed rims: elbow = the rim vertices of the tube shared with the elbow slabs
+    against the arm rim (nodes of equal source theta), wrist = the tube's wrist rim against the fixed palm / dorsum / foveola vertices (median distance)."""
+    Fs, Fp, g, ids, S, outer = tube_setup(pg, raw, own, side)
+    s0, s1 = Fp.grid[0], Fp.grid[-1]
+    s_ = "_" + side
+    eids = [K.pid(n, side) for n in K.ELBOW]
+    SE = RF.Slabs({i: raw.v(i) for i in eids}, {i: pg.f(i) for i in eids}, eids)
+    eouter = SE.outer_flags(bone_pts=K.side_bones(raw, side))
+    arm = [K.pid(x, side) for x in K.ARM_NB]
+    tg_arm = RF.rim_targets(SE, None, {i: raw.v(i) for i in arm}, {i: V[i] for i in arm})
+    top = [(vi, t[0]) for vi, t in tg_arm.items() if eouter[vi] and not t[3]]
+    _, th_top, _, _ = Fs.coords(SE.V[[v for v, _ in top]])
+    P_top = np.array([p for _, p in top])
+    # tube vertices touching the elbow slabs (source distance < 1.5)
+    tr = cKDTree(SE.V)
+    near_e = np.flatnonzero((tr.query(S.V)[0] < 1.5) & outer)
+    _, th_e, _, _ = Fs.coords(S.V[near_e])
+    nb = [K.pid(n, side) for n in K.WRIST_NB]
+    tg_w = RF.rim_targets(S, None, {i: raw.v(i) for i in nb}, {i: V[i] for i in nb})
+    wv = [vi for vi, t in tg_w.items() if outer[vi] and not t[3]]
+    W_t = np.array([tg_w[vi][0] for vi in wv])
+
+    def positions(dp, dd):
+        Fp.roll = lambda s, dp=dp, dd=dd: np.interp(s, [s0, s1], [dp, dd])
+        prof = T.OwnProfile(own.tm, Fp, g(-262.0), g(45.0))
+        P, _, _ = RF.tube_positions(S, Fs, Fp, g, prof, margin=margin, outer=outer)
+        return P
+
+    def obj_elbow(dp):
+        P = positions(dp, 0.0)[near_e]
+        d = []
+        for k in range(len(top)):
+            dd = np.abs(((th_e - th_top[k] + np.pi) % (2 * np.pi)) - np.pi)
+            d.append(np.linalg.norm(P_top[k] - P[np.argmin(dd)]))
+        return float(np.median(d))
+
+    def obj_wrist(dd, dp):
+        P = positions(dp, dd)[wv]
+        return float(np.median(np.linalg.norm(P - W_t, axis=1)))
+    grid = np.radians(np.arange(-180, 180, 10))
+    e0 = obj_elbow(0.0)
+    best_p = min(grid, key=obj_elbow)
+    fine = best_p + np.radians(np.arange(-8, 9, 2))
+    best_p = min(fine, key=obj_elbow)
+    w0 = obj_wrist(0.0, best_p)
+    best_d = min(grid, key=lambda d: obj_wrist(d, best_p))
+    fine = best_d + np.radians(np.arange(-8, 9, 2))
+    best_d = min(fine, key=lambda d: obj_wrist(d, best_p))
+    info = dict(roll_elbow_deg=round(float(np.degrees(best_p)), 1), roll_wrist_deg=round(float(np.degrees(best_d)), 1),
+                elbow_rim_median_mm=[round(e0, 1), round(obj_elbow(best_p), 1)], wrist_rim_median_mm=[round(w0, 1), round(obj_wrist(best_d, best_p), 1)])
+    log(f"   roll calibration {side}: {info}")
+    return best_p, best_d, info
+
+
+def source_cap(raw, ids, Fs, g, ratio=1.4):
+    """cap function for T.OwnProfile: ratio x the Z source skin radius (farthest hit of the source tube slabs from the source axis) at the same (s, theta)"""
+    import trimesh
+    vs, fs, o = [], [], 0
+    for i in ids:
+        vs.append(raw.v(i))
+        fs.append(raw.f(i) + o)
+        o += len(raw.v(i))
+    zm = trimesh.Trimesh(np.vstack(vs), np.vstack(fs), process=False)
+    sg = np.linspace(-300, 80, 400)
+    pg_ = g(sg)
+
+    def cap(sp, th):
+        s_src = np.interp(sp, pg_, sg)
+        org, e1, e2 = Fs.at(s_src)
+        D = np.cos(th)[None, :, None] * e1[:, None, :] + np.sin(th)[None, :, None] * e2[:, None, :]
+        O = np.repeat(org[:, None, :], len(th), 1).reshape(-1, 3)
+        loc, ray, tri = zm.ray.intersects_location(O, D.reshape(-1, 3), multiple_hits=True)
+        rz = np.full(len(O), np.nan)
+        d = np.linalg.norm(loc - O[ray], axis=1)
+        for r_, dd in zip(ray, d):
+            if np.isnan(rz[r_]) or dd > rz[r_]:
+                rz[r_] = dd
+        return ratio * rz.reshape(len(sp), len(th))
+    return cap
+
+
+def contact_mesh(pg, own, V, side=None):
+    """own skin + the skin patches of the trunk / thigh / pelvis (every patch that is not a limb patch of the Z page): where the forearm rests on the body the voxel skin of the CT is fused and the trunk skin patches
+    of the earlier fits lie INSIDE the forearm; the forearm skin must not cut through them (ray target of the own-skin profile = whichever surface the ray meets first)"""
+    import trimesh
+    from scripts.zanatomy import q207_core as C7
+    ids = [i for i in pg.skin_ids if not (C7.LIMB_SKIN_RE.search(i) and i[-2:] in ("_l", "_r"))]
+    vs, fs, o = [], [], 0
+    for i in ids:
+        vs.append(V[i])
+        fs.append(pg.f(i) + o)
+        o += len(V[i])
+    return trimesh.Trimesh(np.vstack(vs), np.vstack(fs), process=False)
+
+
+def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True, contact=False, cap=True):
+    from scripts.zanatomy.q207_inflate import OwnSkin
+    pg, raw = K.load(which)
+    own = OwnSkin(which)
+    V = {i: pg.v(i) for i in pg.skin_ids}
+    info = {}
+    for side in sides:
+        Fs, Fp, g, ids, S, outer = tube_setup(pg, raw, own, side)
+        rinfo = {}
+        if roll:
+            dp, dd, rinfo = calibrate_roll(pg, raw, own, V, side, margin=margin, log=log)
+            s0, s1 = Fp.grid[0], Fp.grid[-1]
+            Fp.roll = lambda s, dp=dp, dd=dd, s0=s0, s1=s1: np.interp(s, [s0, s1], [dp, dd])
+        prof = T.OwnProfile(own.tm, Fp, g(-262.0), g(45.0), ray_mesh=contact_mesh(pg, own, V) if contact else None, cap_fn=source_cap(raw, ids, Fs, g) if cap else None)
+        if cap:
+            log(f"   own-skin profile: {prof.n_capped} of {prof.rho.size} cells capped at 1.4 x the Z source radius (fused skin)")
+        P, outer, co = RF.tube_positions(S, Fs, Fp, g, prof, margin=margin, outer=outer)
+        nb = [K.pid(n, side) for n in K.WRIST_NB]
+        tgf = RF.rim_targets(S, None, {i: raw.v(i) for i in nb}, {i: V[i] for i in nb})
+        tg = {vi: t[0] for vi, t in tgf.items() if not t[3]}
+        P2, D = RF.correct(S, P, tg)
+        log(f"[{which} {side}] profile bad {prof.nbad}, wrist rim vertices fixed {len(tg)} (stray neighbour vertices re-seated {len(tgf) - len(tg)}), correction max {np.linalg.norm(D, axis=1).max():.1f} mm")
+        for i, v in S.split(P2).items():
+            V[i] = v
+        reseat = reseat_neighbours(V, tgf, P2)
+        info[side] = dict(outer=S.split(outer), nfix=len(tg), reseated=reseat, roll=rinfo)
+    pickle.dump((V, info), open(K.state_path(which, "tube"), "wb"))
+    return V, info
+
+
+def reseat_neighbours(V, tgf, P):
+    """a neighbour vertex whose inner / outer twin the earlier fits pulled apart (stray sheet vertex) is not used as a weld target: it is re-seated on the refitted patch's vertex (V is modified); -> {neighbour id: count}"""
+    out = {}
+    for vi, (pos, nb_id, nb_idx, stray) in tgf.items():
+        if stray:
+            v = V[nb_id].copy()
+            v[nb_idx] = P[vi]
+            V[nb_id] = v
+            out[nb_id] = out.get(nb_id, 0) + 1
+    return out
+
+
+def own_targets(own_tm, X, S, outer_nodes, margin=MARGIN, min_cos=0.5):
+    """soft targets of the OUTER nodes on the person's own skin (nearest point moved inward by `margin`), only where the own skin faces the same way as the slab (outward normal = twin direction)"""
+    import trimesh
+    nodes = np.flatnonzero(outer_nodes)
+    pts = X[nodes]
+    cp, dist, tri = trimesh.proximity.closest_point(own_tm, pts)
+    nf = own_tm.face_normals[tri]
+    # outward direction of the slab at a node: outer node - its inner twin
+    inner_of = {}
+    tw = S.twin
+    node_inner = np.zeros((S.nnode, 3))
+    cnt = np.zeros(S.nnode)
+    d = X[S.node] - X[S.node[tw]]
+    np.add.at(node_inner, S.node, d)
+    np.add.at(cnt, S.node, 1)
+    u = node_inner[nodes] / np.maximum(np.linalg.norm(node_inner[nodes], axis=1, keepdims=True), 1e-9)
+    ok = ((nf * u).sum(1) > min_cos) & (dist < 40.0)
+    return nodes[ok], (cp - margin * nf)[ok], ok
+
+
+def harmonic_start(S, fixed):
+    """starting positions of all nodes: the graph-Laplacian (harmonic) interpolation of the fixed rim nodes (chords between the rims; the own-skin pull then drapes them)"""
+    from scipy.sparse.linalg import spsolve
+    L, A = RF.laplacian(S.nnode, RF.node_graph(S)[0])
+    fk = np.array(sorted(fixed))
+    free = np.setdiff1d(np.arange(S.nnode), fk)
+    D = np.array([fixed[k] for k in fk])
+    X = np.zeros((S.nnode, 3))
+    X[fk] = D
+    L = L.tocsr()
+    X[free] = spsolve(L[free][:, free].tocsc(), -L[free][:, fk] @ D)
+    return X
+
+
+def fill_unset(S, P):
+    """vertices that no rule placed (a stray twin pair of a rim: both flagged inner) take the mean of their mesh neighbours' positions"""
+    P = P.copy()
+    unset = np.linalg.norm(P, axis=1) < 1e-9
+    if not unset.any():
+        return P
+    e = np.concatenate([S.F[:, [0, 1]], S.F[:, [1, 2]], S.F[:, [2, 0]]])
+    e = np.vstack([e, e[:, ::-1]])
+    for _ in range(10):
+        if not unset.any():
+            break
+        ok = ~unset
+        m = unset[e[:, 0]] & ok[e[:, 1]]
+        acc = np.zeros_like(P)
+        cnt = np.zeros(len(P))
+        np.add.at(acc, e[m, 0], P[e[m, 1]])
+        np.add.at(cnt, e[m, 0], 1)
+        got = cnt > 0
+        P[got] = acc[got] / cnt[got][:, None]
+        unset = unset & ~got
+    return P
+
+
+def relieve(pg, V, S, ids, P, outer, neighbours, rounds=8, factor=0.8, min_frac=0.4, depth_mm=1.5, log=None):
+    """thin the inner sheet (inner = outer + f (inner - outer), f >= min_frac) of the slab vertices that take part in a deep skin crossing (> depth_mm) with the neighbouring slabs, until no deep crossing is left"""
+    from scripts.zanatomy import q207_geom as G
+    P = P.copy()
+    inner = ~outer
+    frac = np.ones(len(P))
+    base = P.copy()
+    ck = list(ids) + [i for i in neighbours if i not in ids]
+    offs = {i: o for i, o in zip(ids, S.off[:-1])}
+    n_hit = 0
+    for rd in range(rounds):
+        Vc = dict(V)
+        for i, v in S.split(P).items():
+            Vc[i] = v
+        M, Fc, ow, nm = G.concat({i: (Vc[i], pg.f(i)) for i in ck})
+        pr = G.intersecting_pairs(M, Fc, ow)
+        if not len(pr):
+            break
+        dd = G.pair_depth(M, Fc, pr)
+        pr = pr[dd > depth_mm]
+        if not len(pr):
+            break
+        starts = np.cumsum([0] + [len(V[i]) for i in ck])
+        hit = []
+        for f_ in np.unique(pr):
+            i = ck[ow[f_]]
+            if i in offs:
+                hit.extend((Fc[f_] - starts[ow[f_]] + offs[i]).tolist())
+        hit = np.unique(hit).astype(int)
+        sel = np.unique(np.r_[hit[inner[hit]], S.twin[hit[~inner[hit]]]]).astype(int)
+        sel = sel[inner[sel]]
+        if not len(sel):
+            break
+        frac[sel] = np.maximum(frac[sel] * factor, min_frac)
+        tw = S.twin
+        P = np.where(inner[:, None], P[tw] + frac[:, None] * (base - base[tw]), P) if False else np.where(inner[:, None], base[tw] + frac[:, None] * (base - base[tw]), base)
+        n_hit = int((frac < 1 - 1e-9).sum())
+        if log:
+            log(f"      relief round {rd}: {len(pr)} deep pairs, {n_hit} inner vertices thinned")
+    return P, dict(thinned=n_hit, min_fraction=float(frac.min()))
+
+
+def elbow_side_e1(pg, raw, own, V, side, mu=0.05, relief=True, log=None):
+    """elbow slabs keep their Q207 shape; the rims that touch the refitted forearm skin follow it (harmonic displacement, decays into the patch), the rims at the arm skin stay.
+    Where the slabs of the crease still cut through each other deeper than 1.5 mm the inner sheet is thinned there (down to 40 % of its thickness)."""
+    ids = [K.pid(n, side) for n in K.ELBOW]
+    S = RF.Slabs({i: raw.v(i) for i in ids}, {i: pg.f(i) for i in ids}, ids)
+    outer = S.outer_flags(bone_pts=K.side_bones(raw, side))
+    nb = [K.pid(n, side) for n in K.TUBE + K.ARM_NB]
+    tgf = RF.rim_targets(S, None, {i: raw.v(i) for i in nb}, {i: V[i] for i in nb}, tol=1.5)
+    tg = {vi: t[0] for vi, t in tgf.items() if not t[3]}
+    P0 = np.vstack([pg.v(i) for i in ids])
+    P2, D = RF.correct(S, P0, tg, mu=mu)
+    info = dict(tgf=tgf, nfixed=len(tg), outer=outer, relief=None)
+    if relief:
+        P2, info["relief"] = relieve(pg, V, S, ids, P2, outer, nb, log=log)
+        for vi, p in tg.items():          # welded vertices stay exactly on the neighbour
+            P2[vi] = p
+    return S, P2, info
+
+
+def elbow_side(pg, raw, own, V, side, margin=MARGIN, thickness=3.0, mu_in=0.05, spring="inv_len", normals="own", drape=False, w_pull=8.0, relief=True, nsmooth=3, start="harmonic", step=1.0, proj_every=5, iters=300, radial=False, e1_hint=False, ruled=False, guard_mm=None, tension=0):
+    """elbow / cubital slabs of one side between the fixed arm skin and the refitted forearm skin (V: current skin).  -> (S, P2 vertex positions, info dict)"""
+    s = "_" + side
+    Fs = T.Frames(raw.v("radius" + s), raw.v("ulna" + s), raw.wrist()[side])
+    ids = [K.pid(n, side) for n in K.ELBOW]
+    S = RF.Slabs({i: raw.v(i) for i in ids}, {i: pg.f(i) for i in ids}, ids)
+    outer = S.outer_flags(bone_pts=K.side_bones(raw, side))
+    nb = [K.pid(n, side) for n in K.TUBE + K.ARM_NB]
+    tgf = RF.rim_targets(S, None, {i: raw.v(i) for i in nb}, {i: V[i] for i in nb}, tol=1.5)
+    tg = {vi: t[0] for vi, t in tgf.items() if not t[3]}
+    fixed_v = {}
+    for vi, p in tg.items():
+        fixed_v.setdefault(int(S.node[vi]), []).append(p)
+    fixed = {k: np.mean(v, 0) for k, v in fixed_v.items()}
+    outer_nodes = set(S.node[outer].tolist())
+    outer_fixed = {k: p for k, p in fixed.items() if k in outer_nodes}
+    hint = np.vstack([V[i] for i in ids])
+    if ruled:
+        arm_n = {K.pid(x, side) for x in K.ARM_NB}
+        top = {vi: t[0] for vi, t in tgf.items() if not t[3] and t[1] in arm_n and outer[vi]}
+        bot = {vi: t[0] for vi, t in tgf.items() if not t[3] and t[1] not in arm_n and outer[vi]}
+        hint = RF.rim_ruled_positions(S, Fs, top, bot)
+        start = "hint"
+    if e1_hint:
+        hint, _ = RF.correct(S, np.vstack([pg.v(i) for i in ids]), {vi: t[0] for vi, t in tgf.items() if not t[3]}, mu=0.2)
+        start = "hint"
+    centre = None
+    if radial:
+        ul, hu = raw.v("ulna" + s), raw.v("humerus" + s)
+        pu, ph = pg.v("ulna" + s), pg.v("humerus" + s)
+        wr = pg.wrist()[side]
+        a = pu.mean(0) - wr
+        a /= np.linalg.norm(a)
+        O_ = 0.5 * (pu[np.argmax((pu - wr) @ a)] + ph[np.argmin((ph - wr) @ a)])
+        ha_ = np.linalg.svd(ph - ph.mean(0), full_matrices=False)[2][0]
+        if ha_ @ a > 0:
+            ha_ = -ha_                    # toward the shoulder
+        centre = np.array([[O_, O_ + 160 * ha_], [O_, O_ + 160 * a]])
+    if start == "lbs":
+        hint, start = RF.lbs_positions(S, raw, pg, side, Fs=Fs), "hint"
+    Xo, nrm, onode = RF.surface_harmonic(S, outer, outer_fixed, own.tm, margin=margin, hint=hint, spring=spring, start=start, step=step, proj_every=proj_every, iters=iters, centre=centre)
+    if guard_mm:
+        # side guard: the harmonic chords through the joint can drop a node of the anterior patch on the posterior skin; such nodes (farther than guard_mm from the rim-corrected Q207 position)
+        # are put on the own skin at that position and held, the rest relaxes again around them
+        g_hint, _ = RF.correct(S, np.vstack([pg.v(i) for i in ids]), {vi: t[0] for vi, t in tgf.items() if not t[3]}, mu=0.2)
+        gn = RF.node_values(S, g_hint)
+        dev = np.linalg.norm(Xo - gn, axis=1)
+        bad = onode & (dev > guard_mm) & ~np.isin(np.arange(S.nnode), list(outer_fixed))
+        if bad.any():
+            import trimesh
+            cp, dist, tri = trimesh.proximity.closest_point(own.tm, gn[bad])
+            anchored = dict(outer_fixed)
+            Xg = Xo.copy()
+            Xg[bad] = cp - margin * own.tm.face_normals[tri]
+            for k in np.flatnonzero(bad):
+                anchored[int(k)] = Xg[k]
+            Xo2, nrm2, onode2 = RF.surface_harmonic(S, outer, anchored, own.tm, margin=margin, hint=hint, spring=spring, start="hint", step=0.5, proj_every=1, iters=100)
+            Xo = Xo2
+            nrm = np.where(bad[:, None], 0, nrm2)
+            nrm[bad] = own.tm.face_normals[tri]
+        guard_info = int(bad.sum())
+    else:
+        guard_info = 0
+    if tension:
+        free_t = onode & ~np.isin(np.arange(S.nnode), list(outer_fixed))
+        Xt, nrm_t = RF.tension_relax(S, outer, Xo, outer_fixed, own.tm, margin=margin, rounds=tension)
+        Xo = np.where(free_t[:, None], Xt, Xo)
+        nrm = np.where(free_t[:, None], nrm_t, nrm)
+    if drape:
+        free_mask = onode & ~np.isin(np.arange(S.nnode), list(outer_fixed))
+        Xo2, nrm2 = RF.drape_asap(S, outer, Xo, outer_fixed, own.tm, margin=margin, w_pull=w_pull, free_mask=free_mask)
+        Xo = np.where(free_mask[:, None], Xo2, Xo)
+        nrm = np.where(free_mask[:, None], nrm2, nrm)
+    if normals == "mesh":
+        nrm = RF.mesh_normals(S, outer, Xo, nrm)
+    P = np.zeros((len(S.V), 3))
+    P[outer] = Xo[S.node[outer]]
+    inner = ~outer
+    P_outer = P.copy()
+    tvec = np.full(len(S.V), thickness)
+    inner_targets = {vi: p for vi, p in tg.items() if inner[vi]}
+    nb_all = [K.pid(n, side) for n in K.TUBE + K.ARM_NB]
+
+    def build_inner(tvec):
+        Q = P_outer.copy()
+        Q[inner] = Q[S.twin[inner]] - tvec[inner][:, None] * nrm[S.node[S.twin[inner]]]
+        Q = fill_unset(S, Q)
+        Q2, D = RF.correct(S, Q, inner_targets, mu=mu_in)
+        for vi, p in tg.items():
+            if outer[vi]:
+                Q2[vi] = p
+        return Q2, D
+    P2, D = build_inner(tvec)
+    relief_info = {"rounds": 0, "vertices_thinned": 0, "min_mm": thickness}
+    if relief:
+        from scripts.zanatomy import q207_geom as G
+        ck = [i for i in ids] + nb_all
+        for rd in range(8):
+            Vc = dict(V)
+            for i, v in S.split(P2).items():
+                Vc[i] = v
+            M, Fc, ow, nm = G.concat({i: (Vc[i], pg.f(i)) for i in ck})
+            pr = G.intersecting_pairs(M, Fc, ow)
+            if not len(pr):
+                break
+            dd = G.pair_depth(M, Fc, pr)
+            pr = pr[dd > 1.5]
+            if not len(pr):
+                break
+            offs = np.cumsum([0] + [len(V[i]) for i in ck])
+            hit = set()
+            for f_ in np.unique(pr):
+                pi = ow[f_]
+                if ck[pi] in ids:
+                    base = offs[pi]
+                    local = S.off[ids.index(ck[pi])]
+                    hit.update((Fc[f_] - base + local).tolist())
+            hit = np.array(sorted(hit), int)
+            hit_in = hit[inner[hit]] if len(hit) else hit
+            hit_tw = S.twin[hit[~inner[hit]]] if len(hit) else hit
+            sel = np.unique(np.r_[hit_in, hit_tw]).astype(int)
+            sel = sel[inner[sel]]
+            if not len(sel):
+                break
+            tvec[sel] = np.maximum(tvec[sel] * 0.8, 1.2)
+            P2, D = build_inner(tvec)
+            relief_info = {"rounds": rd + 1, "vertices_thinned": int((tvec < thickness - 1e-6).sum()), "min_mm": float(tvec.min())}
+    return S, P2, dict(outer=outer, tgf=tgf, nfixed=len(fixed), inner_corr_max=float(np.linalg.norm(D, axis=1).max()), Xo=Xo, onode=onode, relief=relief_info, guarded=guard_info)
+
+
+def elbow_centreline(pg, raw, side):
+    s = "_" + side
+    pu, ph = pg.v("ulna" + s), pg.v("humerus" + s)
+    wr = pg.wrist()[side]
+    a = pu.mean(0) - wr
+    a /= np.linalg.norm(a)
+    O = 0.5 * (pu[np.argmax((pu - wr) @ a)] + ph[np.argmin((ph - wr) @ a)])
+    ha = np.linalg.svd(ph - ph.mean(0), full_matrices=False)[2][0]
+    if ha @ a > 0:
+        ha = -ha
+    return O, ha, a
+
+
+def bones_poking(pg, raw, V, side, radius_mm=90.0):
+    """bone vertices near the elbow (humerus / ulna / radius) whose outward ray (away from the humerus-forearm centreline) meets no OUTER sheet of the limb slabs within 120 mm: not enclosed by the displayed skin"""
+    import trimesh
+    s = "_" + side
+    O, ha, a = elbow_centreline(pg, raw, side)
+    ids = [i for i in pg.skin_ids if i.endswith(s) and any(k in i for k in K.TUBE + K.ELBOW + K.ARM_NB)]
+    bones = K.side_bones(raw, side)
+    Fl, Vl = [], []
+    off = 0
+    for i in ids:
+        S = RF.Slabs({i: raw.v(i)}, {i: pg.f(i)}, [i])
+        outer = S.outer_flags(bone_pts=bones)
+        f = pg.f(i)
+        fo = outer[f].all(1)
+        Vl.append(V[i])
+        Fl.append(f[fo] + off)
+        off += len(V[i])
+    mesh = trimesh.Trimesh(np.vstack(Vl), np.vstack(Fl), process=False)
+    pts = np.vstack([pg.v(b + s) for b in ("humerus", "ulna", "radius")])
+    pts = pts[np.linalg.norm(pts - O, axis=1) < radius_mm]
+    seg = [(O, O + 200 * ha), (O, O + 200 * a)]
+    org = np.zeros_like(pts)
+    bd = np.full(len(pts), np.inf)
+    for a_, b_ in seg:
+        ab = b_ - a_
+        t_ = np.clip(((pts - a_) @ ab) / (ab @ ab), 0, 1)
+        c_ = a_ + t_[:, None] * ab
+        d_ = np.linalg.norm(pts - c_, axis=1)
+        m_ = d_ < bd
+        org[m_], bd[m_] = c_[m_], d_[m_]
+    d = pts - org
+    d /= np.maximum(np.linalg.norm(d, axis=1, keepdims=True), 1e-9)
+    hit = mesh.ray.intersects_any(pts + d * 0.5, d)
+    return int((~hit).sum()), len(pts)
+
+
+def stage_elbow(which, log=print, margin=MARGIN, sides="lr", **kw):
+    """both candidate refits of the elbow slabs of a side (S = drape on the own skin between the fixed rims, R = rim-following: Q207 shape, rims follow) are built and scored: deep skin crossings of the
+    elbow slabs (> 2 mm) + 8 x the extra bone vertices of the elbow region that the displayed skin does not enclose (against the better candidate); the better one is kept (reported)"""
+    from scripts.zanatomy.q207_inflate import OwnSkin
+    from scripts.zanatomy import q208_eval as E
+    pg, raw = K.load(which)
+    own = OwnSkin(which)
+    V, info = pickle.load(open(K.state_path(which, "tube"), "rb"))
+    V = dict(V)
+    rep = {}
+    for side in sides:
+        cand = {}
+        for tag, fn in (("S", lambda: elbow_side(pg, raw, own, V, side, margin=margin, **kw)), ("R", lambda: elbow_side_e1(pg, raw, own, V, side, mu=0.03, relief=False))):
+            S, P2, d = fn()
+            Vc = dict(V)
+            for i, v in S.split(P2).items():
+                Vc[i] = v
+            lim = [i for i in pg.skin_ids if i.endswith("_" + side) and any(k in i for k in K.TUBE + K.ELBOW + K.ARM_NB)]
+            r, deep = E.crossings(pg, Vc, lim)
+            el = sum(c for k, c in deep.items() if any(x in k[0] or x in k[1] for x in ("elbow", "cubital")))
+            poke, npts = bones_poking(pg, raw, Vc, side)
+            cand[tag] = (el, el, poke, S, P2, d)
+            log(f"[{which} {side}] elbow candidate {tag}: elbow deep crossings {el}, bone vertices not enclosed {poke} of {npts}")
+        pm = min(c[2] for c in cand.values())
+        tag = min(cand, key=lambda t: cand[t][1] + 8 * (cand[t][2] - pm))
+        _, el, poke, S, P2, d = cand[tag]
+        log(f"[{which} {side}] elbow: candidate {tag} kept")
+        for i, v in S.split(P2).items():
+            V[i] = v
+        rep[side] = dict(kept=tag, reseated=reseat_neighbours(V, d["tgf"], P2), elbow_deep_crossings={t: cand[t][1] for t in cand}, bones_not_enclosed={t: cand[t][2] for t in cand},
+                         relief=d.get("relief"))
+    pickle.dump((V, rep), open(K.state_path(which, "elbow"), "wb"))
+    return V, rep
+
+def stage_uro(which, log=print):
+    from scripts.zanatomy import q208_uro as U8
+    pg, raw = K.load(which)
+    V, rep = pickle.load(open(K.state_path(which, "elbow"), "rb"))
+    V = dict(V)
+    if which != "male":
+        pickle.dump((V, {}), open(K.state_path(which, "uro"), "wb"))
+        return V, {}
+    rawv = {i: raw.v(i) for i in pg.skin_ids if i in raw.S}
+    faces = {i: pg.f(i) for i in pg.skin_ids}
+    V2, info = U8.weld(faces, rawv, V, list(rawv), w_pull=20.0, lam_s=0.3, log=lambda *a: None)
+    mv = {i: [round(float(np.linalg.norm(V2[i] - V[i], axis=1).max()), 2), round(float(np.linalg.norm(V2[i] - V[i], axis=1).mean()), 2)] for i in info["free"]}
+    log(f"[{which}] urogenital weld: {info['constraints']} border constraints, moves (max, mean mm) {mv}")
+    info["moves"] = mv
+    pickle.dump((V2, info), open(K.state_path(which, "uro"), "wb"))
+    return V2, info
+
+
+if __name__ == "__main__":
+    which, stage = sys.argv[1], sys.argv[2]
+    stages = ["tube", "elbow", "uro"] if stage == "all" else [stage]
+    for s_ in stages:
+        globals()["stage_" + s_](which)

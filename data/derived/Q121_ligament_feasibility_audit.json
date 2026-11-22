@@ -1,0 +1,711 @@
+{
+  "source": "scripts/generate_ligament_connectors.py + manual investigation, Q121 (2026-09-22)",
+  "generated": "2026-09-22",
+  "method": "Same rigor as Q118's tendon feasibility investigation, generalized to ligaments (bone-to-bone, not muscle-to-bone): for each of the 83 ligament ids the Q117 audit found unshipped on both bodies, checked whether BOTH attachment bones have a measured frame via scripts/audit_landmarks_vs_geometry.py:build_frames() on the REAL, currently-published (pending) geometry, AND whether the ligament's own authored landmark_a/landmark_b text matches -- as an exact substring, the same rule generate_tendon_connectors.py already uses -- exactly one landmark name already authored in that bone's own data/skeleton/bones.json entry. The one candidate that passed both checks was then generated and put through the same post-generation containment verification Q118 used for skin, checked here against the connector's own target bone as well.",
+  "correction_to_q118": "Q118's PROJECT_STATE entry states build_frames() 'constructs a MEASURED frame for only 8 bones' (femur/fibula/hip_bone/patella, r/l). That was true only of the RESTRICTED subject list Q118's own male_order()/female_order() loaded (lower-limb subjects sufficient for its own tendon set), not a limit of build_frames() itself. Verified this item by decoding the actual published (pending) bundle HTML files (build/viewer_{m,f}/atlas_viewer_*.html's own embedded bundle-json/bundle-b64, dequantized at the export pipeline's own 0.25mm/int16 scheme) AND by loading the real, full per-subject order each rebuild shell script actually uses: build_frames() resolves 19 bones on the male (femur/fibula/hip_bone/patella/clavicle/humerus/radius/scapula/ulna r+l, plus hyoid/mandible/sternum) and 17 on the female (missing radius_l/ulna_l -- her left forearm is documented elsewhere, Q12/Q71/Q97, as incomplete).",
+  "resolvable_bones_union_both_bodies": [
+    "clavicle_l",
+    "clavicle_r",
+    "femur_l",
+    "femur_r",
+    "fibula_l",
+    "fibula_r",
+    "hip_bone_l",
+    "hip_bone_r",
+    "humerus_l",
+    "humerus_r",
+    "hyoid",
+    "mandible",
+    "patella_l",
+    "patella_r",
+    "radius_l",
+    "radius_r",
+    "scapula_l",
+    "scapula_r",
+    "sternum",
+    "ulna_l",
+    "ulna_r"
+  ],
+  "resolvable_bones_both_bodies": [
+    "clavicle_l",
+    "clavicle_r",
+    "femur_l",
+    "femur_r",
+    "fibula_l",
+    "fibula_r",
+    "hip_bone_l",
+    "hip_bone_r",
+    "humerus_l",
+    "humerus_r",
+    "hyoid",
+    "mandible",
+    "patella_l",
+    "patella_r",
+    "radius_r",
+    "scapula_l",
+    "scapula_r",
+    "sternum",
+    "ulna_r"
+  ],
+  "total_ligaments_checked": 83,
+  "shipped_count": 0,
+  "declined": {
+    "bone_frame_blocked": {
+      "count": 50,
+      "reason": "at least one attachment bone has no measured build_frames() frame on this session's geometry (tibia, tarsals, metatarsals, phalanges_(hand/foot), carpals, metacarpals, sacrum, lumbar/cervical/thoracic vertebrae, ribs, occipital, temporal -- or the attachment is to a meniscus, a soft-tissue structure with no coordinate in this project's data model at all)",
+      "ids": [
+        {
+          "id": "anterior_longitudinal_ligament",
+          "bone_a": "occipital",
+          "bone_b": "sacrum",
+          "unresolvable_bones": [
+            "occipital",
+            "sacrum"
+          ]
+        },
+        {
+          "id": "anterior_sacroiliac_ligament_l",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_l",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "anterior_sacroiliac_ligament_r",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_r",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "costal_ligament_complex_l",
+          "bone_a": "thoracic_vertebrae",
+          "bone_b": "ribs_l",
+          "unresolvable_bones": [
+            "ribs_l",
+            "thoracic_vertebrae"
+          ]
+        },
+        {
+          "id": "costal_ligament_complex_r",
+          "bone_a": "thoracic_vertebrae",
+          "bone_b": "ribs_r",
+          "unresolvable_bones": [
+            "ribs_r",
+            "thoracic_vertebrae"
+          ]
+        },
+        {
+          "id": "costoclavicular_ligament_l",
+          "bone_a": "ribs_l",
+          "bone_b": "clavicle_l",
+          "unresolvable_bones": [
+            "ribs_l"
+          ]
+        },
+        {
+          "id": "costoclavicular_ligament_r",
+          "bone_a": "ribs_r",
+          "bone_b": "clavicle_r",
+          "unresolvable_bones": [
+            "ribs_r"
+          ]
+        },
+        {
+          "id": "craniovertebral_ligament_complex",
+          "bone_a": "occipital",
+          "bone_b": "cervical_vertebrae",
+          "unresolvable_bones": [
+            "cervical_vertebrae",
+            "occipital"
+          ]
+        },
+        {
+          "id": "deltoid_ligament_l",
+          "bone_a": "tibia_l",
+          "bone_b": "tarsals_l",
+          "unresolvable_bones": [
+            "tarsals_l",
+            "tibia_l"
+          ]
+        },
+        {
+          "id": "deltoid_ligament_r",
+          "bone_a": "tibia_r",
+          "bone_b": "tarsals_r",
+          "unresolvable_bones": [
+            "tarsals_r",
+            "tibia_r"
+          ]
+        },
+        {
+          "id": "finger_mcp_collateral_and_plate_complex_l",
+          "bone_a": "metacarpals_l",
+          "bone_b": "phalanges_hand_l",
+          "unresolvable_bones": [
+            "metacarpals_l",
+            "phalanges_hand_l"
+          ]
+        },
+        {
+          "id": "finger_mcp_collateral_and_plate_complex_r",
+          "bone_a": "metacarpals_r",
+          "bone_b": "phalanges_hand_r",
+          "unresolvable_bones": [
+            "metacarpals_r",
+            "phalanges_hand_r"
+          ]
+        },
+        {
+          "id": "first_mtp_plantar_plate_complex_l",
+          "bone_a": "metatarsals_l",
+          "bone_b": "phalanges_foot_l",
+          "unresolvable_bones": [
+            "metatarsals_l",
+            "phalanges_foot_l"
+          ]
+        },
+        {
+          "id": "first_mtp_plantar_plate_complex_r",
+          "bone_a": "metatarsals_r",
+          "bone_b": "phalanges_foot_r",
+          "unresolvable_bones": [
+            "metatarsals_r",
+            "phalanges_foot_r"
+          ]
+        },
+        {
+          "id": "iliolumbar_ligament_l",
+          "bone_a": "lumbar_vertebrae",
+          "bone_b": "hip_bone_l",
+          "unresolvable_bones": [
+            "lumbar_vertebrae"
+          ]
+        },
+        {
+          "id": "iliolumbar_ligament_r",
+          "bone_a": "lumbar_vertebrae",
+          "bone_b": "hip_bone_r",
+          "unresolvable_bones": [
+            "lumbar_vertebrae"
+          ]
+        },
+        {
+          "id": "interspinous_ligament",
+          "bone_a": "thoracic_vertebrae",
+          "bone_b": "thoracic_vertebrae",
+          "unresolvable_bones": [
+            "thoracic_vertebrae"
+          ]
+        },
+        {
+          "id": "intertransverse_ligament",
+          "bone_a": "thoracic_vertebrae",
+          "bone_b": "thoracic_vertebrae",
+          "unresolvable_bones": [
+            "thoracic_vertebrae"
+          ]
+        },
+        {
+          "id": "lateral_ligament_complex_ankle_l",
+          "bone_a": "fibula_l",
+          "bone_b": "tarsals_l",
+          "unresolvable_bones": [
+            "tarsals_l"
+          ]
+        },
+        {
+          "id": "lateral_ligament_complex_ankle_r",
+          "bone_a": "fibula_r",
+          "bone_b": "tarsals_r",
+          "unresolvable_bones": [
+            "tarsals_r"
+          ]
+        },
+        {
+          "id": "ligamentum_flavum",
+          "bone_a": "cervical_vertebrae",
+          "bone_b": "cervical_vertebrae",
+          "unresolvable_bones": [
+            "cervical_vertebrae"
+          ]
+        },
+        {
+          "id": "ligamentum_nuchae",
+          "bone_a": "occipital",
+          "bone_b": "cervical_vertebrae",
+          "unresolvable_bones": [
+            "cervical_vertebrae",
+            "occipital"
+          ]
+        },
+        {
+          "id": "meniscofemoral_ligaments_l",
+          "bone_a": "femur_l",
+          "bone_b": "tibia_l",
+          "unresolvable_bones": [
+            "tibia_l"
+          ]
+        },
+        {
+          "id": "meniscofemoral_ligaments_r",
+          "bone_a": "femur_r",
+          "bone_b": "tibia_r",
+          "unresolvable_bones": [
+            "tibia_r"
+          ]
+        },
+        {
+          "id": "patellar_ligament_l",
+          "bone_a": "patella_l",
+          "bone_b": "tibia_l",
+          "unresolvable_bones": [
+            "tibia_l"
+          ]
+        },
+        {
+          "id": "patellar_ligament_r",
+          "bone_a": "patella_r",
+          "bone_b": "tibia_r",
+          "unresolvable_bones": [
+            "tibia_r"
+          ]
+        },
+        {
+          "id": "plantar_ligament_complex_l",
+          "bone_a": "tarsals_l",
+          "bone_b": "metatarsals_l",
+          "unresolvable_bones": [
+            "metatarsals_l",
+            "tarsals_l"
+          ]
+        },
+        {
+          "id": "plantar_ligament_complex_r",
+          "bone_a": "tarsals_r",
+          "bone_b": "metatarsals_r",
+          "unresolvable_bones": [
+            "metatarsals_r",
+            "tarsals_r"
+          ]
+        },
+        {
+          "id": "posterior_longitudinal_ligament",
+          "bone_a": "occipital",
+          "bone_b": "sacrum",
+          "unresolvable_bones": [
+            "occipital",
+            "sacrum"
+          ]
+        },
+        {
+          "id": "posterior_sacroiliac_ligament_l",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_l",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "posterior_sacroiliac_ligament_r",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_r",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "sacrospinous_ligament_l",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_l",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "sacrospinous_ligament_r",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_r",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "sacrotuberous_ligament_l",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_l",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "sacrotuberous_ligament_r",
+          "bone_a": "sacrum",
+          "bone_b": "hip_bone_r",
+          "unresolvable_bones": [
+            "sacrum"
+          ]
+        },
+        {
+          "id": "sternocostal_ligament_complex_l",
+          "bone_a": "sternum",
+          "bone_b": "ribs_l",
+          "unresolvable_bones": [
+            "ribs_l"
+          ]
+        },
+        {
+          "id": "sternocostal_ligament_complex_r",
+          "bone_a": "sternum",
+          "bone_b": "ribs_r",
+          "unresolvable_bones": [
+            "ribs_r"
+          ]
+        },
+        {
+          "id": "supraspinous_ligament",
+          "bone_a": "cervical_vertebrae",
+          "bone_b": "sacrum",
+          "unresolvable_bones": [
+            "cervical_vertebrae",
+            "sacrum"
+          ]
+        },
+        {
+          "id": "thumb_mcp_rcl_l",
+          "bone_a": "metacarpals_l",
+          "bone_b": "phalanges_hand_l",
+          "unresolvable_bones": [
+            "metacarpals_l",
+            "phalanges_hand_l"
+          ]
+        },
+        {
+          "id": "thumb_mcp_rcl_r",
+          "bone_a": "metacarpals_r",
+          "bone_b": "phalanges_hand_r",
+          "unresolvable_bones": [
+            "metacarpals_r",
+            "phalanges_hand_r"
+          ]
+        },
+        {
+          "id": "thumb_mcp_ucl_l",
+          "bone_a": "metacarpals_l",
+          "bone_b": "phalanges_hand_l",
+          "unresolvable_bones": [
+            "metacarpals_l",
+            "phalanges_hand_l"
+          ]
+        },
+        {
+          "id": "thumb_mcp_ucl_r",
+          "bone_a": "metacarpals_r",
+          "bone_b": "phalanges_hand_r",
+          "unresolvable_bones": [
+            "metacarpals_r",
+            "phalanges_hand_r"
+          ]
+        },
+        {
+          "id": "tibiofibular_syndesmosis_l",
+          "bone_a": "tibia_l",
+          "bone_b": "fibula_l",
+          "unresolvable_bones": [
+            "tibia_l"
+          ]
+        },
+        {
+          "id": "tibiofibular_syndesmosis_r",
+          "bone_a": "tibia_r",
+          "bone_b": "fibula_r",
+          "unresolvable_bones": [
+            "tibia_r"
+          ]
+        },
+        {
+          "id": "tmj_ligament_complex_l",
+          "bone_a": "temporal_l",
+          "bone_b": "mandible",
+          "unresolvable_bones": [
+            "temporal_l"
+          ]
+        },
+        {
+          "id": "tmj_ligament_complex_r",
+          "bone_a": "temporal_r",
+          "bone_b": "mandible",
+          "unresolvable_bones": [
+            "temporal_r"
+          ]
+        },
+        {
+          "id": "transverse_ligament_of_knee_l",
+          "bone_a": "tibia_l",
+          "bone_b": "tibia_l",
+          "unresolvable_bones": [
+            "tibia_l"
+          ]
+        },
+        {
+          "id": "transverse_ligament_of_knee_r",
+          "bone_a": "tibia_r",
+          "bone_b": "tibia_r",
+          "unresolvable_bones": [
+            "tibia_r"
+          ]
+        },
+        {
+          "id": "wrist_ligament_complex_l",
+          "bone_a": "radius_l",
+          "bone_b": "carpals_l",
+          "unresolvable_bones": [
+            "carpals_l"
+          ]
+        },
+        {
+          "id": "wrist_ligament_complex_r",
+          "bone_a": "radius_r",
+          "bone_b": "carpals_r",
+          "unresolvable_bones": [
+            "carpals_r"
+          ]
+        }
+      ]
+    },
+    "landmark_text_mismatch": {
+      "count": 31,
+      "reason": "BOTH attachment bones ARE frame-resolvable, but the ligament's own authored landmark text (an eponymous or descriptive phrase, e.g. \"Schottle's point\", \"intertrochanteric line\", \"musculotendinous junction\", \"superior pubic ramus\") does not match, as an exact substring, any landmark name already authored on that bone in data/skeleton/bones.json -- a second, independent blocker from the bone-frame gap, never before documented in this project. Not resolved by interpolating between two named landmarks or reusing a differently-named nearby one: per this item's hard constraint, an unresolvable landmark is declined, not approximated.",
+      "ids": [
+        {
+          "id": "acromioclavicular_ligament_l",
+          "bone_a": "clavicle_l",
+          "bone_b": "scapula_l",
+          "landmark_a": "lateral (acromial) end of clavicle",
+          "landmark_b": "acromion"
+        },
+        {
+          "id": "acromioclavicular_ligament_r",
+          "bone_a": "clavicle_r",
+          "bone_b": "scapula_r",
+          "landmark_a": "lateral (acromial) end of clavicle",
+          "landmark_b": "acromion"
+        },
+        {
+          "id": "annular_ligament_l",
+          "bone_a": "ulna_l",
+          "bone_b": "ulna_l",
+          "landmark_a": "anterior margin of radial notch",
+          "landmark_b": "posterior margin of radial notch (encircling the radial head)"
+        },
+        {
+          "id": "annular_ligament_r",
+          "bone_a": "ulna_r",
+          "bone_b": "ulna_r",
+          "landmark_a": "anterior margin of radial notch",
+          "landmark_b": "posterior margin of radial notch (encircling the radial head)"
+        },
+        {
+          "id": "arcuate_pubic_ligament",
+          "bone_a": "hip_bone_r",
+          "bone_b": "hip_bone_l",
+          "landmark_a": "inferior pubic ramus",
+          "landmark_b": "inferior pubic ramus"
+        },
+        {
+          "id": "coracoacromial_ligament_l",
+          "bone_a": "scapula_l",
+          "bone_b": "scapula_l",
+          "landmark_a": "coracoid process",
+          "landmark_b": "acromion (anterior undersurface)"
+        },
+        {
+          "id": "coracoacromial_ligament_r",
+          "bone_a": "scapula_r",
+          "bone_b": "scapula_r",
+          "landmark_a": "coracoid process",
+          "landmark_b": "acromion (anterior undersurface)"
+        },
+        {
+          "id": "coracoclavicular_ligament_l",
+          "bone_a": "clavicle_l",
+          "bone_b": "scapula_l",
+          "landmark_a": "conoid tubercle / trapezoid line, inferior clavicle",
+          "landmark_b": "coracoid process"
+        },
+        {
+          "id": "coracoclavicular_ligament_r",
+          "bone_a": "clavicle_r",
+          "bone_b": "scapula_r",
+          "landmark_a": "conoid tubercle / trapezoid line, inferior clavicle",
+          "landmark_b": "coracoid process"
+        },
+        {
+          "id": "coracohumeral_ligament_l",
+          "bone_a": "scapula_l",
+          "bone_b": "humerus_l",
+          "landmark_a": "lateral border of coracoid process",
+          "landmark_b": "greater and lesser tubercles (forms the roof of the biceps tendon sheath/rotator interval)"
+        },
+        {
+          "id": "coracohumeral_ligament_r",
+          "bone_a": "scapula_r",
+          "bone_b": "humerus_r",
+          "landmark_a": "lateral border of coracoid process",
+          "landmark_b": "greater and lesser tubercles (forms the roof of the biceps tendon sheath/rotator interval)"
+        },
+        {
+          "id": "glenohumeral_ligament_complex_l",
+          "bone_a": "scapula_l",
+          "bone_b": "humerus_l",
+          "landmark_a": "anterior/inferior glenoid rim",
+          "landmark_b": "anatomical/surgical neck"
+        },
+        {
+          "id": "glenohumeral_ligament_complex_r",
+          "bone_a": "scapula_r",
+          "bone_b": "humerus_r",
+          "landmark_a": "anterior/inferior glenoid rim",
+          "landmark_b": "anatomical/surgical neck"
+        },
+        {
+          "id": "hip_ligament_complex_l",
+          "bone_a": "hip_bone_l",
+          "bone_b": "femur_l",
+          "landmark_a": "acetabular rim",
+          "landmark_b": "intertrochanteric line/crest"
+        },
+        {
+          "id": "hip_ligament_complex_r",
+          "bone_a": "hip_bone_r",
+          "bone_b": "femur_r",
+          "landmark_a": "acetabular rim",
+          "landmark_b": "intertrochanteric line/crest"
+        },
+        {
+          "id": "interclavicular_ligament",
+          "bone_a": "clavicle_r",
+          "bone_b": "clavicle_l",
+          "landmark_a": "medial (sternal) end",
+          "landmark_b": "medial (sternal) end"
+        },
+        {
+          "id": "medial_patellofemoral_ligament_l",
+          "bone_a": "femur_l",
+          "bone_b": "patella_l",
+          "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+          "landmark_b": "superomedial border of patella"
+        },
+        {
+          "id": "medial_patellofemoral_ligament_r",
+          "bone_a": "femur_r",
+          "bone_b": "patella_r",
+          "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+          "landmark_b": "superomedial border of patella"
+        },
+        {
+          "id": "popliteofibular_ligament_l",
+          "bone_a": "femur_l",
+          "bone_b": "fibula_l",
+          "landmark_a": "popliteus musculotendinous junction, near the lateral epicondyle",
+          "landmark_b": "fibular styloid process (apex of fibular head)"
+        },
+        {
+          "id": "popliteofibular_ligament_r",
+          "bone_a": "femur_r",
+          "bone_b": "fibula_r",
+          "landmark_a": "popliteus musculotendinous junction, near the lateral epicondyle",
+          "landmark_b": "fibular styloid process (apex of fibular head)"
+        },
+        {
+          "id": "quadrate_ligament_l",
+          "bone_a": "ulna_l",
+          "bone_b": "radius_l",
+          "landmark_a": "inferior margin of the radial notch",
+          "landmark_b": "neck of radius, medial aspect, just distal to the annular ligament"
+        },
+        {
+          "id": "quadrate_ligament_r",
+          "bone_a": "ulna_r",
+          "bone_b": "radius_r",
+          "landmark_a": "inferior margin of the radial notch",
+          "landmark_b": "neck of radius, medial aspect, just distal to the annular ligament"
+        },
+        {
+          "id": "radial_collateral_ligament_complex_elbow_l",
+          "bone_a": "humerus_l",
+          "bone_b": "ulna_l",
+          "landmark_a": "lateral epicondyle",
+          "landmark_b": "annular ligament / supinator crest"
+        },
+        {
+          "id": "radial_collateral_ligament_complex_elbow_r",
+          "bone_a": "humerus_r",
+          "bone_b": "ulna_r",
+          "landmark_a": "lateral epicondyle",
+          "landmark_b": "annular ligament / supinator crest"
+        },
+        {
+          "id": "sternoclavicular_ligament_l",
+          "bone_a": "sternum",
+          "bone_b": "clavicle_l",
+          "landmark_a": "manubrium, clavicular notch",
+          "landmark_b": "medial (sternal) end of clavicle"
+        },
+        {
+          "id": "sternoclavicular_ligament_r",
+          "bone_a": "sternum",
+          "bone_b": "clavicle_r",
+          "landmark_a": "manubrium, clavicular notch",
+          "landmark_b": "medial (sternal) end of clavicle"
+        },
+        {
+          "id": "superior_pubic_ligament",
+          "bone_a": "hip_bone_r",
+          "bone_b": "hip_bone_l",
+          "landmark_a": "superior pubic ramus/body",
+          "landmark_b": "superior pubic ramus/body"
+        },
+        {
+          "id": "superior_transverse_scapular_ligament_l",
+          "bone_a": "scapula_l",
+          "bone_b": "scapula_l",
+          "landmark_a": "base of coracoid process",
+          "landmark_b": "medial (superior) margin of the suprascapular notch"
+        },
+        {
+          "id": "superior_transverse_scapular_ligament_r",
+          "bone_a": "scapula_r",
+          "bone_b": "scapula_r",
+          "landmark_a": "base of coracoid process",
+          "landmark_b": "medial (superior) margin of the suprascapular notch"
+        },
+        {
+          "id": "ulnar_collateral_ligament_elbow_l",
+          "bone_a": "humerus_l",
+          "bone_b": "ulna_l",
+          "landmark_a": "medial epicondyle",
+          "landmark_b": "coronoid process / olecranon"
+        },
+        {
+          "id": "ulnar_collateral_ligament_elbow_r",
+          "bone_a": "humerus_r",
+          "bone_b": "ulna_r",
+          "landmark_a": "medial epicondyle",
+          "landmark_b": "coronoid process / olecranon"
+        }
+      ]
+    },
+    "geometry_verification_failed": {
+      "count": 2,
+      "reason": "transverse_humeral_ligament_{r,l} is the ONE ligament whose bones AND landmark text both resolved cleanly (greater tubercle -> lesser tubercle, both on humerus). Generated and then put through the same post-generation containment check Q118 used for skin, checked here against the connector's OWN target bone: 70-77% of the generated tube's vertices (and 95-100% of the pure straight-line midline, independent of cross-section radius) lie INSIDE the humerus's own mesh on BOTH bodies. Root cause: the two tubercle landmarks sit on either side of a locally convex bone bulge, so a straight 3D chord between them cuts inward through the bone -- the same straight-cord method that works for a muscle-to-bone tendon (muscle end clearly outside the bone) does not safely generalize to a bone-to-bone connector whose two points flank a convex/grooved bone region. Declined rather than shipped half-buried in bone; see generate_ligament_connectors.py's own docstring and report JSON for the exact per-body containment fractions.",
+      "ids": [
+        "transverse_humeral_ligament_l",
+        "transverse_humeral_ligament_r"
+      ]
+    }
+  },
+  "next_lever_for_a_future_session": "Two independent, real levers, in order of expected payoff: (1) build_frames()'s bone frames whose transverse/rotational axis is 'anatomical-position convention, not fitted' (humerus, scapula, clavicle, mandible, hyoid, sternum -- see its own docstring) place a landmark's local x/z coordinates reliably along the bone's long axis but NOT reliably around its circumference; fitting that axis (or adding a curved/offset via-point path for ligaments that must route OVER a bone surface rather than straight through it) would be needed before ANY bone-to-bone ligament can ship honestly, not just transverse_humeral_ligament. (2) Authoring bones.json landmark entries under the SAME name text ligament records already cite (or vice versa) would unlock the 8 landmark_text_mismatch ligaments above without needing any new geometry method -- a pure data-authoring task, no code change."
+}

@@ -1,0 +1,688 @@
+{
+ "commit": "f1a3a63f110e27ff0736047d52d04dba5d3087f9",
+ "source": "https://raw.githubusercontent.com/hubmapconsortium/ccf-3d-reference-object-library/f1a3a63f110e27ff0736047d52d04dba5d3087f9/VH_Female/",
+ "files": {
+  "v1.2_VH_F_Vagina": {
+   "path": "v1.2/VH_F_Vagina.glb",
+   "sha256": "ef334a9315ce0dd7e112bd757d22dce4bf57722c7fd0cac81a05d86209bfce34"
+  },
+  "v1.2_VH_F_Ligaments_Uterus_Ovaries": {
+   "path": "v1.2/VH_F_Ligaments_Uterus_Ovaries.glb",
+   "sha256": "ba7bd64c8c40cca6c12d944be4aa7cecd6ecc1fa577be3000337ce114f44f846"
+  },
+  "v1.3_VH_F_mammary_gland_L": {
+   "path": "v1.3/VH_F_mammary_gland_L.glb",
+   "sha256": "5181797d8b669580d0243684ce10e61657881178c9bd56b4ba338547ecb1099e"
+  },
+  "v1.3_VH_F_mammary_gland_R": {
+   "path": "v1.3/VH_F_mammary_gland_R.glb",
+   "sha256": "7fb6c2dd90190a80dbcca487e3aaa27cc801d1c66a205840ea36a6c851082ff0"
+  },
+  "v1.2_VH_F_Vertebrae": {
+   "path": "v1.2/VH_F_Vertebrae.glb",
+   "sha256": "bdbea49a40e9e64cac1c8f0d67b6483686a3cc9617f7cae645e58159e4b02984"
+  }
+ },
+ "structures": {
+  "vagina": {
+   "name": "Vagina",
+   "latin": "Vagina",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "pelvis",
+   "side": null,
+   "hra_file": "v1.2_VH_F_Vagina",
+   "mode": "closed envelope",
+   "voxel_pitch_mm": 0.5,
+   "closing": 1,
+   "triangles_full": 121772,
+   "triangles": 6000,
+   "watertight": true,
+   "volume_cm3": 13.66,
+   "envelope_to_source_p95_mm": 0.66,
+   "decimation_deviation_mm": {
+    "median": 0.34,
+    "p95": 0.71,
+    "max": 1.38
+   }
+  },
+  "round_ligament_uterus_l": {
+   "name": "Round ligament of the uterus (left)",
+   "latin": "Ligamentum teres uteri sinistrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "left",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 902,
+   "triangles": 902,
+   "watertight": true,
+   "volume_cm3": 0.352,
+   "area_cm2": 8.22,
+   "area_full_cm2": 8.22,
+   "decimation_deviation_mm": {
+    "median": 0.1,
+    "p95": 0.2,
+    "max": 0.37
+   },
+   "parts": [
+    "VH_F_right_round_ligament_of_uterus"
+   ]
+  },
+  "round_ligament_uterus_r": {
+   "name": "Round ligament of the uterus (right)",
+   "latin": "Ligamentum teres uteri dextrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 1024,
+   "triangles": 1024,
+   "watertight": true,
+   "volume_cm3": 0.304,
+   "area_cm2": 8.18,
+   "area_full_cm2": 8.18,
+   "decimation_deviation_mm": {
+    "median": 0.09,
+    "p95": 0.2,
+    "max": 0.4
+   },
+   "parts": [
+    "VH_F_left_round_ligament_of_uterus"
+   ]
+  },
+  "uterosacral_ligament_l": {
+   "name": "Uterosacral ligament (left)",
+   "latin": "Ligamentum sacrouterinum sinistrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "left",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 1948,
+   "triangles": 1948,
+   "watertight": true,
+   "volume_cm3": 0.255,
+   "area_cm2": 7.16,
+   "area_full_cm2": 7.16,
+   "decimation_deviation_mm": {
+    "median": 0.09,
+    "p95": 0.18,
+    "max": 0.36
+   },
+   "parts": [
+    "VH_F_left_uterosacral_ligament"
+   ]
+  },
+  "uterosacral_ligament_r": {
+   "name": "Uterosacral ligament (right)",
+   "latin": "Ligamentum sacrouterinum dextrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 1990,
+   "triangles": 1990,
+   "watertight": true,
+   "volume_cm3": 0.222,
+   "area_cm2": 6.59,
+   "area_full_cm2": 6.59,
+   "decimation_deviation_mm": {
+    "median": 0.09,
+    "p95": 0.18,
+    "max": 0.32
+   },
+   "parts": [
+    "VH_F_right_uterosacral_ligament"
+   ]
+  },
+  "cardinal_ligament_uterus_l": {
+   "name": "Cardinal ligament of the uterus (left)",
+   "latin": "Ligamentum cardinale sinistrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "left",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 4056,
+   "triangles": 3000,
+   "watertight": true,
+   "volume_cm3": 1.638,
+   "area_cm2": 37.14,
+   "area_full_cm2": 37.14,
+   "decimation_deviation_mm": {
+    "median": 0.2,
+    "p95": 0.42,
+    "max": 0.77
+   },
+   "parts": [
+    "VH_F_left_cardinal_ligament_of_uterus"
+   ]
+  },
+  "cardinal_ligament_uterus_r": {
+   "name": "Cardinal ligament of the uterus (right)",
+   "latin": "Ligamentum cardinale dextrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 4056,
+   "triangles": 3000,
+   "watertight": true,
+   "volume_cm3": 2.021,
+   "area_cm2": 37.26,
+   "area_full_cm2": 37.26,
+   "decimation_deviation_mm": {
+    "median": 0.2,
+    "p95": 0.42,
+    "max": 0.77
+   },
+   "parts": [
+    "VH_F_right_cardinal_ligament_of_uterus"
+   ]
+  },
+  "broad_ligament_uterus": {
+   "name": "Broad ligament of the uterus",
+   "latin": "Ligamentum latum uteri",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": null,
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 29442,
+   "triangles": 7000,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 292.98,
+   "area_full_cm2": 292.43,
+   "decimation_deviation_mm": {
+    "median": 0.56,
+    "p95": 1.15,
+    "max": 2.52
+   },
+   "parts": [
+    "VH_F_broad_ligament"
+   ]
+  },
+  "ovarian_ligament_l": {
+   "name": "Ligament of the ovary (left)",
+   "latin": "Ligamentum ovarii proprium sinistrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "left",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 208,
+   "triangles": 200,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 1.55,
+   "area_full_cm2": 1.55,
+   "decimation_deviation_mm": {
+    "median": 0.04,
+    "p95": 0.09,
+    "max": 0.62
+   },
+   "parts": [
+    "VH_F_ovarian_ligament_L"
+   ]
+  },
+  "ovarian_ligament_r": {
+   "name": "Ligament of the ovary (right)",
+   "latin": "Ligamentum ovarii proprium dextrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 198,
+   "triangles": 198,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 1.34,
+   "area_full_cm2": 1.34,
+   "decimation_deviation_mm": {
+    "median": 0.04,
+    "p95": 0.08,
+    "max": 0.15
+   },
+   "parts": [
+    "VH_F_ovarian_ligament_R"
+   ]
+  },
+  "suspensory_ligament_ovary_l": {
+   "name": "Suspensory ligament of the ovary (left)",
+   "latin": "Ligamentum suspensorium ovarii sinistrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "left",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 1270,
+   "triangles": 1270,
+   "watertight": true,
+   "volume_cm3": 0.261,
+   "area_cm2": 3.79,
+   "area_full_cm2": 3.79,
+   "decimation_deviation_mm": {
+    "median": 0.06,
+    "p95": 0.13,
+    "max": 0.29
+   },
+   "parts": [
+    "VH_F_suspensory_ligament_of_ovary_L"
+   ]
+  },
+  "suspensory_ligament_ovary_r": {
+   "name": "Suspensory ligament of the ovary (right)",
+   "latin": "Ligamentum suspensorium ovarii dextrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 880,
+   "triangles": 880,
+   "watertight": true,
+   "volume_cm3": 0.227,
+   "area_cm2": 3.17,
+   "area_full_cm2": 3.17,
+   "decimation_deviation_mm": {
+    "median": 0.06,
+    "p95": 0.12,
+    "max": 0.24
+   },
+   "parts": [
+    "VH_F_suspensory_ligament_of_ovary_R"
+   ]
+  },
+  "mesosalpinx_l": {
+   "name": "Mesosalpinx (left)",
+   "latin": "Mesosalpinx sinistra",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "left",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 1914,
+   "triangles": 1899,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 13.86,
+   "area_full_cm2": 13.9,
+   "decimation_deviation_mm": {
+    "median": 0.12,
+    "p95": 0.26,
+    "max": 1.29
+   },
+   "parts": [
+    "VH_F_mesosalpinx_L"
+   ]
+  },
+  "mesosalpinx_r": {
+   "name": "Mesosalpinx (right)",
+   "latin": "Mesosalpinx dextra",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 1755,
+   "triangles": 1755,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 11.1,
+   "area_full_cm2": 11.1,
+   "decimation_deviation_mm": {
+    "median": 0.11,
+    "p95": 0.23,
+    "max": 0.49
+   },
+   "parts": [
+    "VH_F_mesosalpinx_R"
+   ]
+  },
+  "mesovarium_l": {
+   "name": "Mesovarium (left)",
+   "latin": "Mesovarium sinistrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "left",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 644,
+   "triangles": 644,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 2.23,
+   "area_full_cm2": 2.23,
+   "decimation_deviation_mm": {
+    "median": 0.05,
+    "p95": 0.1,
+    "max": 0.19
+   },
+   "parts": [
+    "VH_F_mesovarium_L"
+   ]
+  },
+  "mesovarium_r": {
+   "name": "Mesovarium (right)",
+   "latin": "Mesovarium dextrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 183,
+   "triangles": 183,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 0.97,
+   "area_full_cm2": 0.97,
+   "decimation_deviation_mm": {
+    "median": 0.03,
+    "p95": 0.07,
+    "max": 0.16
+   },
+   "parts": [
+    "VH_F_mesovarium_R"
+   ]
+  },
+  "breast_fat_l": {
+   "name": "Breast: fat pad (left)",
+   "latin": "Corpus adiposum mammae sinistra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "left",
+   "hra_file": "v1.3_VH_F_mammary_gland_L",
+   "mode": "closed envelope",
+   "voxel_pitch_mm": 0.8,
+   "closing": 2,
+   "triangles_full": 245652,
+   "triangles": 7798,
+   "watertight": true,
+   "volume_cm3": 739.46,
+   "envelope_to_source_p95_mm": 1.54,
+   "decimation_deviation_mm": {
+    "median": 0.77,
+    "p95": 1.58,
+    "max": 2.94
+   }
+  },
+  "mammary_gland_l": {
+   "name": "Mammary gland: lobes (left)",
+   "latin": "Lobi glandulae mammariae sinistra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "left",
+   "hra_file": "v1.3_VH_F_mammary_gland_L",
+   "mode": "HRA surface as is",
+   "triangles_full": 75784,
+   "triangles": 8997,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 176.82,
+   "area_full_cm2": 176.93,
+   "decimation_deviation_mm": {
+    "median": 0.45,
+    "p95": 0.91,
+    "max": 1.94
+   },
+   "parts": [
+    "VH_F_mammary_lobes_L"
+   ]
+  },
+  "lactiferous_ducts_l": {
+   "name": "Lactiferous ducts and sinuses (left)",
+   "latin": "Ductus et sinus lactiferi sinistra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "left",
+   "hra_file": "v1.3_VH_F_mammary_gland_L",
+   "mode": "HRA surface as is",
+   "triangles_full": 46211,
+   "triangles": 6500,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 40.31,
+   "area_full_cm2": 40.33,
+   "decimation_deviation_mm": {
+    "median": 0.21,
+    "p95": 0.43,
+    "max": 0.78
+   },
+   "parts": [
+    "VH_F_main_lactiferous_sinuses_L",
+    "VH_F_main_lactiferous_ducts_L"
+   ]
+  },
+  "areola_l": {
+   "name": "Areola (left)",
+   "latin": "Areola mammae sinistra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "left",
+   "hra_file": "v1.3_VH_F_mammary_gland_L",
+   "mode": "closed envelope",
+   "voxel_pitch_mm": 0.4,
+   "closing": 1,
+   "triangles_full": 20996,
+   "triangles": 1500,
+   "watertight": true,
+   "volume_cm3": 0.86,
+   "envelope_to_source_p95_mm": 0.35,
+   "decimation_deviation_mm": {
+    "median": 0.11,
+    "p95": 0.23,
+    "max": 0.43
+   }
+  },
+  "nipple_l": {
+   "name": "Nipple (left)",
+   "latin": "Papilla mammaria sinistra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "left",
+   "hra_file": "v1.3_VH_F_mammary_gland_L",
+   "mode": "closed envelope",
+   "voxel_pitch_mm": 0.3,
+   "closing": 1,
+   "triangles_full": 8516,
+   "triangles": 900,
+   "watertight": true,
+   "volume_cm3": 0.18,
+   "envelope_to_source_p95_mm": 0.33,
+   "decimation_deviation_mm": {
+    "median": 0.05,
+    "p95": 0.11,
+    "max": 0.2
+   }
+  },
+  "breast_suspensory_ligaments_l": {
+   "name": "Suspensory ligaments of the breast (left)",
+   "latin": "Ligamenta suspensoria mammaria sinistra",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "breast",
+   "side": "left",
+   "hra_file": "v1.3_VH_F_mammary_gland_L",
+   "mode": "HRA surface as is",
+   "triangles_full": 44278,
+   "triangles": 5000,
+   "watertight": true,
+   "volume_cm3": 0.296,
+   "area_cm2": 14.38,
+   "area_full_cm2": 14.35,
+   "decimation_deviation_mm": {
+    "median": 0.13,
+    "p95": 0.26,
+    "max": 0.5
+   },
+   "parts": [
+    "VH_F_suspensory_ligaments_L"
+   ]
+  },
+  "breast_fat_r": {
+   "name": "Breast: fat pad (right)",
+   "latin": "Corpus adiposum mammae dextra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "right",
+   "hra_file": "v1.3_VH_F_mammary_gland_R",
+   "mode": "closed envelope",
+   "voxel_pitch_mm": 0.8,
+   "closing": 2,
+   "triangles_full": 250000,
+   "triangles": 8022,
+   "watertight": true,
+   "volume_cm3": 754.48,
+   "envelope_to_source_p95_mm": 1.64,
+   "decimation_deviation_mm": {
+    "median": 0.77,
+    "p95": 1.61,
+    "max": 2.92
+   }
+  },
+  "mammary_gland_r": {
+   "name": "Mammary gland: lobes (right)",
+   "latin": "Lobi glandulae mammariae dextra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "right",
+   "hra_file": "v1.3_VH_F_mammary_gland_R",
+   "mode": "HRA surface as is",
+   "triangles_full": 75784,
+   "triangles": 8999,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 176.89,
+   "area_full_cm2": 176.93,
+   "decimation_deviation_mm": {
+    "median": 0.44,
+    "p95": 0.89,
+    "max": 2.07
+   },
+   "parts": [
+    "VH_F_mammary_lobes_R"
+   ]
+  },
+  "lactiferous_ducts_r": {
+   "name": "Lactiferous ducts and sinuses (right)",
+   "latin": "Ductus et sinus lactiferi dextra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "right",
+   "hra_file": "v1.3_VH_F_mammary_gland_R",
+   "mode": "HRA surface as is",
+   "triangles_full": 46109,
+   "triangles": 6500,
+   "watertight": false,
+   "volume_cm3": null,
+   "area_cm2": 40.29,
+   "area_full_cm2": 40.31,
+   "decimation_deviation_mm": {
+    "median": 0.21,
+    "p95": 0.43,
+    "max": 0.78
+   },
+   "parts": [
+    "VH_F_main_lactiferous_ducts_R",
+    "VH_F_main_lactiferous_sinuses_R"
+   ]
+  },
+  "areola_r": {
+   "name": "Areola (right)",
+   "latin": "Areola mammae dextra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "right",
+   "hra_file": "v1.3_VH_F_mammary_gland_R",
+   "mode": "closed envelope",
+   "voxel_pitch_mm": 0.4,
+   "closing": 1,
+   "triangles_full": 21000,
+   "triangles": 1500,
+   "watertight": true,
+   "volume_cm3": 0.86,
+   "envelope_to_source_p95_mm": 0.41,
+   "decimation_deviation_mm": {
+    "median": 0.11,
+    "p95": 0.23,
+    "max": 0.43
+   }
+  },
+  "nipple_r": {
+   "name": "Nipple (right)",
+   "latin": "Papilla mammaria dextra",
+   "cat": "organ",
+   "folder": "viscera",
+   "region": "breast",
+   "side": "right",
+   "hra_file": "v1.3_VH_F_mammary_gland_R",
+   "mode": "closed envelope",
+   "voxel_pitch_mm": 0.3,
+   "closing": 1,
+   "triangles_full": 8488,
+   "triangles": 900,
+   "watertight": true,
+   "volume_cm3": 0.18,
+   "envelope_to_source_p95_mm": 0.35,
+   "decimation_deviation_mm": {
+    "median": 0.05,
+    "p95": 0.11,
+    "max": 0.21
+   }
+  },
+  "breast_suspensory_ligaments_r": {
+   "name": "Suspensory ligaments of the breast (right)",
+   "latin": "Ligamenta suspensoria mammaria dextra",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "breast",
+   "side": "right",
+   "hra_file": "v1.3_VH_F_mammary_gland_R",
+   "mode": "HRA surface as is",
+   "triangles_full": 51682,
+   "triangles": 5000,
+   "watertight": true,
+   "volume_cm3": 0.144,
+   "area_cm2": 10.01,
+   "area_full_cm2": 10.01,
+   "decimation_deviation_mm": {
+    "median": 0.1,
+    "p95": 0.21,
+    "max": 0.39
+   },
+   "parts": [
+    "VH_F_suspensory_ligaments_R"
+   ]
+  }
+ }
+}

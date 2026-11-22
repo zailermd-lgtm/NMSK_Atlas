@@ -1,0 +1,178 @@
+{
+ "1440x900": {
+  "geometry_s": 8.69,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "mpr",
+   "active": "cut",
+   "P": [
+    6.962005615234375,
+    273.98101806640625,
+    23.730995178222656
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "side"
+  },
+  "geo_timing": {
+   "t0": 1791794413834,
+   "read": 2438,
+   "pack": 282,
+   "worker": 283
+  },
+  "perf": {
+   "n": 2966,
+   "nv": 1609462,
+   "nt": 3180443,
+   "axial512_ms": [
+    17,
+    23,
+    24
+   ],
+   "axial512_25sub_ms": 840,
+   "coronal512_ms": 43,
+   "sagittal512_ms": 29
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 122,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 233,
+    "parityBad": 90
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-z img-side",
+   "scrollW": 1440,
+   "innerW": 1440,
+   "scrollH": 900,
+   "innerH": 900,
+   "panel": [
+    720,
+    0,
+    720,
+    900
+   ],
+   "canvas": [
+    0,
+    0,
+    720,
+    900
+   ],
+   "smallButtons": 0,
+   "buttons": 32,
+   "ctlScrollW": 719,
+   "ctlClientW": 719
+  },
+  "errors": [
+   "console:Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "bad_responses": [
+   "404 clinical_needle_tool.js"
+  ]
+ },
+ "390x844": {
+  "geometry_s": 8.94,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "single",
+   "active": "cut",
+   "P": [
+    6.962005615234375,
+    273.98101806640625,
+    23.730995178222656
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "tab"
+  },
+  "geo_timing": {
+   "t0": 1791794435699,
+   "read": 2787,
+   "pack": 401,
+   "worker": 1217
+  },
+  "perf": {
+   "n": 2966,
+   "nv": 1609462,
+   "nt": 3180443,
+   "axial512_ms": [
+    31,
+    29,
+    59
+   ],
+   "axial512_25sub_ms": 596,
+   "coronal512_ms": 66,
+   "sagittal512_ms": 29
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 318,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 233,
+    "parityBad": 90
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-z img-tab",
+   "scrollW": 390,
+   "innerW": 390,
+   "scrollH": 844,
+   "innerH": 844,
+   "panel": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "canvas": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "smallButtons": 0,
+   "buttons": 12,
+   "ctlScrollW": 390,
+   "ctlClientW": 390
+  },
+  "errors": [
+   "console:Failed to load resource: the server responded with a status of 404 (File not found)"
+  ],
+  "bad_responses": [
+   "404 clinical_needle_tool.js"
+  ]
+ }
+}

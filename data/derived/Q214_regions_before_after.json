@@ -1,0 +1,690 @@
+{
+ "vhm": {
+  "added_rows": {
+   "splenius_capitis_l": {
+    "vol_cm3": 74.8,
+    "overlap_pct": 52.9,
+    "inside_bone_pct": 11.46,
+    "inside_bone_max_mm": 4.5,
+    "flat_caps": [],
+    "outside_skin_pct": 0.0,
+    "attach_ends": {
+     "prox": {
+      "min_any_bone_mm": 0.19,
+      "median_any_bone_mm": 1.47,
+      "connective_mm": 22.0
+     },
+     "dist": {
+      "min_any_bone_mm": 0.24,
+      "median_any_bone_mm": 2.7,
+      "connective_mm": 37.6
+     }
+    },
+    "open_edge_frac": 0.0,
+    "defects": [
+     {
+      "check": "muscle_interpenetration",
+      "severity": 1,
+      "value": 52.9,
+      "unit": "% of volume",
+      "detail": "52.9% of 74.8 cm3 inside other muscles"
+     }
+    ]
+   },
+   "splenius_capitis_r": {
+    "vol_cm3": 67.4,
+    "overlap_pct": 44.4,
+    "inside_bone_pct": 11.46,
+    "inside_bone_max_mm": 4.5,
+    "flat_caps": [],
+    "outside_skin_pct": 0.0,
+    "attach_ends": {
+     "prox": {
+      "min_any_bone_mm": 0.24,
+      "median_any_bone_mm": 2.03,
+      "connective_mm": 38.5
+     },
+     "dist": {
+      "min_any_bone_mm": 0.34,
+      "median_any_bone_mm": 1.52,
+      "connective_mm": 20.1
+     }
+    },
+    "open_edge_frac": 0.0,
+    "defects": [
+     {
+      "check": "muscle_interpenetration",
+      "severity": 1,
+      "value": 44.4,
+      "unit": "% of volume",
+      "detail": "44.4% of 67.4 cm3 inside other muscles"
+     }
+    ]
+   }
+  },
+  "named_neighbours": {
+   "semispinalis_capitis_l": {
+    "overlap_before": 27.1,
+    "overlap_after": 53.2,
+    "vol_cm3": 66.7,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "semispinalis_cervicis_l": {
+    "overlap_before": 47.4,
+    "overlap_after": 48.2,
+    "vol_cm3": 27.6,
+    "severity_before": 1,
+    "severity_after": 1
+   },
+   "trapezius_r": {
+    "overlap_before": 15.2,
+    "overlap_after": 15.2,
+    "vol_cm3": 346.2,
+    "severity_before": 3,
+    "severity_after": 3
+   },
+   "trapezius_l": {
+    "overlap_before": 19.3,
+    "overlap_after": 19.3,
+    "vol_cm3": 336.6,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "extensor_digitorum_longus_l": {
+    "overlap_before": 21.0,
+    "overlap_after": 21.0,
+    "vol_cm3": 135.4,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "flexor_hallucis_longus_l": {
+    "overlap_before": 18.8,
+    "overlap_after": 18.8,
+    "vol_cm3": 146.8,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "fibularis_longus_l": {
+    "overlap_before": 10.0,
+    "overlap_after": 10.0,
+    "vol_cm3": 219.1,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "soleus_l": {
+    "overlap_before": 8.8,
+    "overlap_after": 8.8,
+    "vol_cm3": 822.6,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "extensor_digitorum_longus_r": {
+    "overlap_before": 24.4,
+    "overlap_after": 24.4,
+    "vol_cm3": 125.0,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "flexor_hallucis_longus_r": {
+    "overlap_before": 19.9,
+    "overlap_after": 19.9,
+    "vol_cm3": 139.6,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "fibularis_longus_r": {
+    "overlap_before": 9.9,
+    "overlap_after": 9.9,
+    "vol_cm3": 228.1,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "soleus_r": {
+    "overlap_before": 9.0,
+    "overlap_after": 9.0,
+    "vol_cm3": 763.8,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "spinalis_r": {
+    "overlap_before": 47.8,
+    "overlap_after": 50.5,
+    "vol_cm3": 85.8,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "longissimus_r": {
+    "overlap_before": 18.5,
+    "overlap_after": 19.3,
+    "vol_cm3": 535.3,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "spinalis_l": {
+    "overlap_before": 46.7,
+    "overlap_after": 53.9,
+    "vol_cm3": 93.5,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "longissimus_l": {
+    "overlap_before": 14.3,
+    "overlap_after": 14.7,
+    "vol_cm3": 570.5,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "sternocleidomastoid_r": {
+    "overlap_before": 0.1,
+    "overlap_after": 0.1,
+    "vol_cm3": 45.4,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "sternocleidomastoid_l": {
+    "overlap_before": 0.5,
+    "overlap_after": 0.5,
+    "vol_cm3": 78.0,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "levator_scapulae_r": {
+    "overlap_before": 10.4,
+    "overlap_after": 10.4,
+    "vol_cm3": 53.7,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "levator_scapulae_l": {
+    "overlap_before": 17.8,
+    "overlap_after": 17.8,
+    "vol_cm3": 46.9,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "semispinalis_capitis_r": {
+    "overlap_before": 39.2,
+    "overlap_after": 53.0,
+    "vol_cm3": 66.3,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "semispinalis_cervicis_r": {
+    "overlap_before": 48.7,
+    "overlap_after": 52.6,
+    "vol_cm3": 30.7,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "multifidus_r": {
+    "overlap_before": 16.1,
+    "overlap_after": 16.4,
+    "vol_cm3": 250.0,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "multifidus_l": {
+    "overlap_before": 13.9,
+    "overlap_after": 14.7,
+    "vol_cm3": 242.4,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "extensor_digitorum_brevis_l": {
+    "overlap_before": 11.4,
+    "overlap_after": 11.4,
+    "vol_cm3": 24.9,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "extensor_digitorum_brevis_r": {
+    "overlap_before": 10.1,
+    "overlap_after": 10.1,
+    "vol_cm3": 20.4,
+    "severity_before": 0,
+    "severity_after": 0
+   }
+  },
+  "neighbours_crossing_40_or_60": [
+   {
+    "id": "semispinalis_capitis_l",
+    "line": 40.0,
+    "before": 27.1,
+    "after": 53.2,
+    "vol_cm3": 66.7
+   },
+   {
+    "id": "semispinalis_capitis_r",
+    "line": 40.0,
+    "before": 39.2,
+    "after": 53.0,
+    "vol_cm3": 66.3
+   }
+  ],
+  "new_findings": [
+   [
+    "semispinalis_capitis_l",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "semispinalis_capitis_r",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "splenius_capitis_l",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "splenius_capitis_r",
+    "muscle_interpenetration",
+    1
+   ]
+  ],
+  "removed_findings": [],
+  "counts_before": {
+   "structures": 491,
+   "defect_sev>=1": 233,
+   "defect_sev>=2": 172,
+   "muscle_interpenetration_sev>=1": 45,
+   "muscle_interpenetration_sev2": 19,
+   "inside_bone_findings": 47
+  },
+  "counts_after": {
+   "structures": 493,
+   "defect_sev>=1": 235,
+   "defect_sev>=2": 172,
+   "muscle_interpenetration_sev>=1": 49,
+   "muscle_interpenetration_sev2": 19,
+   "inside_bone_findings": 47
+  }
+ },
+ "vhf": {
+  "added_rows": {
+   "splenius_capitis_l": {
+    "vol_cm3": 64.5,
+    "overlap_pct": 57.9,
+    "inside_bone_pct": 12.4,
+    "inside_bone_max_mm": 4.9,
+    "flat_caps": [],
+    "outside_skin_pct": 0.0,
+    "attach_ends": {
+     "prox": {
+      "min_any_bone_mm": 0.27,
+      "median_any_bone_mm": 1.39,
+      "connective_mm": 20.3
+     },
+     "dist": {
+      "min_any_bone_mm": 0.25,
+      "median_any_bone_mm": 3.04,
+      "connective_mm": 8.6
+     }
+    },
+    "open_edge_frac": 0.0,
+    "defects": [
+     {
+      "check": "muscle_interpenetration",
+      "severity": 1,
+      "value": 57.9,
+      "unit": "% of volume",
+      "detail": "57.9% of 64.5 cm3 inside other muscles"
+     }
+    ]
+   },
+   "splenius_capitis_r": {
+    "vol_cm3": 53.2,
+    "overlap_pct": 59.2,
+    "inside_bone_pct": 12.19,
+    "inside_bone_max_mm": 3.5,
+    "flat_caps": [],
+    "outside_skin_pct": 0.0,
+    "attach_ends": {
+     "prox": {
+      "min_any_bone_mm": 1.54,
+      "median_any_bone_mm": 4.97,
+      "connective_mm": 7.0
+     },
+     "dist": {
+      "min_any_bone_mm": 0.17,
+      "median_any_bone_mm": 1.29,
+      "connective_mm": 15.2
+     }
+    },
+    "open_edge_frac": 0.0,
+    "defects": [
+     {
+      "check": "muscle_interpenetration",
+      "severity": 1,
+      "value": 59.2,
+      "unit": "% of volume",
+      "detail": "59.2% of 53.2 cm3 inside other muscles"
+     }
+    ]
+   },
+   "splenius_cervicis_r": {
+    "vol_cm3": 28.5,
+    "overlap_pct": 58.2,
+    "inside_bone_pct": 17.75,
+    "inside_bone_max_mm": 4.5,
+    "flat_caps": [],
+    "outside_skin_pct": 0.0,
+    "attach_ends": {
+     "prox": {
+      "min_any_bone_mm": 0.25,
+      "median_any_bone_mm": 1.38,
+      "connective_mm": 28.7
+     },
+     "dist": {
+      "min_any_bone_mm": 0.83,
+      "median_any_bone_mm": 7.54,
+      "connective_mm": 26.5
+     }
+    },
+    "open_edge_frac": 0.0,
+    "defects": [
+     {
+      "check": "muscle_interpenetration",
+      "severity": 1,
+      "value": 58.2,
+      "unit": "% of volume",
+      "detail": "58.2% of 28.5 cm3 inside other muscles"
+     }
+    ]
+   }
+  },
+  "named_neighbours": {
+   "semispinalis_capitis_r": {
+    "overlap_before": 39.9,
+    "overlap_after": 50.1,
+    "vol_cm3": 63.7,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "semispinalis_cervicis_r": {
+    "overlap_before": 55.2,
+    "overlap_after": 63.7,
+    "vol_cm3": 44.2,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "semispinalis_capitis_l": {
+    "overlap_before": 34.7,
+    "overlap_after": 51.0,
+    "vol_cm3": 69.6,
+    "severity_before": 3,
+    "severity_after": 3
+   },
+   "semispinalis_cervicis_l": {
+    "overlap_before": 64.6,
+    "overlap_after": 66.6,
+    "vol_cm3": 44.3,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "spinalis_r": {
+    "overlap_before": 60.4,
+    "overlap_after": 64.9,
+    "vol_cm3": 66.6,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "spinalis_l": {
+    "overlap_before": 59.4,
+    "overlap_after": 60.9,
+    "vol_cm3": 89.6,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "sternocleidomastoid_r": {
+    "overlap_before": 0.6,
+    "overlap_after": 0.7,
+    "vol_cm3": 63.0,
+    "severity_before": 0,
+    "severity_after": 0
+   },
+   "sternocleidomastoid_l": {
+    "overlap_before": 0.1,
+    "overlap_after": 0.1,
+    "vol_cm3": 56.0,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "trapezius_r": {
+    "overlap_before": 50.9,
+    "overlap_after": 50.9,
+    "vol_cm3": 145.8,
+    "severity_before": 1,
+    "severity_after": 1
+   },
+   "trapezius_l": {
+    "overlap_before": 42.8,
+    "overlap_after": 42.8,
+    "vol_cm3": 133.9,
+    "severity_before": 1,
+    "severity_after": 1
+   },
+   "levator_scapulae_r": {
+    "overlap_before": 6.7,
+    "overlap_after": 8.7,
+    "vol_cm3": 44.0,
+    "severity_before": 1,
+    "severity_after": 1
+   },
+   "levator_scapulae_l": {
+    "overlap_before": 11.1,
+    "overlap_after": 12.8,
+    "vol_cm3": 44.9,
+    "severity_before": 1,
+    "severity_after": 1
+   },
+   "multifidus_r": {
+    "overlap_before": 14.1,
+    "overlap_after": 16.7,
+    "vol_cm3": 227.5,
+    "severity_before": 3,
+    "severity_after": 3
+   },
+   "multifidus_l": {
+    "overlap_before": 14.8,
+    "overlap_after": 17.0,
+    "vol_cm3": 215.4,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "longissimus_r": {
+    "overlap_before": 47.3,
+    "overlap_after": 48.1,
+    "vol_cm3": 159.1,
+    "severity_before": 1,
+    "severity_after": 1
+   },
+   "longissimus_l": {
+    "overlap_before": 56.6,
+    "overlap_after": 56.8,
+    "vol_cm3": 148.0,
+    "severity_before": 3,
+    "severity_after": 3
+   },
+   "extensor_digitorum_longus_l": {
+    "overlap_before": 62.6,
+    "overlap_after": 62.6,
+    "vol_cm3": 79.1,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "extensor_digitorum_longus_r": {
+    "overlap_before": 74.9,
+    "overlap_after": 74.9,
+    "vol_cm3": 54.4,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "fibularis_longus_l": {
+    "overlap_before": 40.6,
+    "overlap_after": 40.6,
+    "vol_cm3": 105.4,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "fibularis_longus_r": {
+    "overlap_before": 30.0,
+    "overlap_after": 30.0,
+    "vol_cm3": 141.9,
+    "severity_before": 1,
+    "severity_after": 1
+   },
+   "flexor_hallucis_longus_l": {
+    "overlap_before": 36.9,
+    "overlap_after": 36.9,
+    "vol_cm3": 125.1,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "flexor_hallucis_longus_r": {
+    "overlap_before": 32.1,
+    "overlap_after": 32.1,
+    "vol_cm3": 117.8,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "soleus_l": {
+    "overlap_before": 22.1,
+    "overlap_after": 22.1,
+    "vol_cm3": 434.0,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "soleus_r": {
+    "overlap_before": 19.1,
+    "overlap_after": 19.1,
+    "vol_cm3": 509.3,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "extensor_digitorum_brevis_l": {
+    "overlap_before": 25.6,
+    "overlap_after": 25.6,
+    "vol_cm3": 19.0,
+    "severity_before": 2,
+    "severity_after": 2
+   },
+   "extensor_digitorum_brevis_r": {
+    "overlap_before": 21.1,
+    "overlap_after": 21.1,
+    "vol_cm3": 21.0,
+    "severity_before": 3,
+    "severity_after": 3
+   }
+  },
+  "neighbours_crossing_40_or_60": [
+   {
+    "id": "semispinalis_capitis_r",
+    "line": 40.0,
+    "before": 39.9,
+    "after": 50.1,
+    "vol_cm3": 63.7
+   },
+   {
+    "id": "semispinalis_cervicis_r",
+    "line": 60.0,
+    "before": 55.2,
+    "after": 63.7,
+    "vol_cm3": 44.2
+   },
+   {
+    "id": "semispinalis_capitis_l",
+    "line": 40.0,
+    "before": 34.7,
+    "after": 51.0,
+    "vol_cm3": 69.6
+   },
+   {
+    "id": "spinalis_l",
+    "line": 60.0,
+    "before": 59.4,
+    "after": 60.9,
+    "vol_cm3": 89.6
+   },
+   {
+    "id": "obliquus_capitis_inferior_l",
+    "line": 40.0,
+    "before": 31.8,
+    "after": 44.4,
+    "vol_cm3": 16.4
+   }
+  ],
+  "new_findings": [
+   [
+    "obliquus_capitis_inferior_l",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "semispinalis_capitis_l",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "semispinalis_capitis_r",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "semispinalis_cervicis_r",
+    "muscle_interpenetration",
+    2
+   ],
+   [
+    "spinalis_l",
+    "muscle_interpenetration",
+    2
+   ],
+   [
+    "splenius_capitis_l",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "splenius_capitis_r",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "splenius_cervicis_r",
+    "muscle_interpenetration",
+    1
+   ]
+  ],
+  "removed_findings": [
+   [
+    "semispinalis_cervicis_r",
+    "muscle_interpenetration",
+    1
+   ],
+   [
+    "spinalis_l",
+    "muscle_interpenetration",
+    1
+   ]
+  ],
+  "counts_before": {
+   "structures": 544,
+   "defect_sev>=1": 288,
+   "defect_sev>=2": 199,
+   "muscle_interpenetration_sev>=1": 90,
+   "muscle_interpenetration_sev2": 40,
+   "inside_bone_findings": 80
+  },
+  "counts_after": {
+   "structures": 547,
+   "defect_sev>=1": 291,
+   "defect_sev>=2": 199,
+   "muscle_interpenetration_sev>=1": 96,
+   "muscle_interpenetration_sev2": 42,
+   "inside_bone_findings": 80
+  }
+ }
+}

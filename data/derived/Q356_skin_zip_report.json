@@ -1,0 +1,2273 @@
+{
+ "schema": "nmsk.q356.skin_zip_report.v1",
+ "pages": {
+  "atlas_viewer_base_female": {
+   "schema": "nmsk.q356.skin_zip.v1",
+   "round": "Q356",
+   "generated": "2026-11-16",
+   "page_dir": "/dev/shm/q356src/viewer_base_female",
+   "page": "atlas_viewer_base_female",
+   "written": true,
+   "rule_based": true,
+   "parameters": {
+    "match_mm": 6.0,
+    "past_mm": 1.5,
+    "under_mm": 0.3,
+    "cap_mm": 8.0,
+    "fall_mm": 20.0,
+    "cover_mm": 1.0,
+    "grow_max_mm": 0.2,
+    "flip_max_pct": 0.5,
+    "stretch_add_pts": 12.0,
+    "slab_vol_max_pct": 20.0,
+    "mirror_max_mm": 0.5,
+    "steps": {
+     "chest": {
+      "seam": [
+       "zan_skin_pectoral_region_r",
+       "zan_skin_pectoral_region_l",
+       "zan_skin_mammary_region_r",
+       "zan_skin_mammary_region_l",
+       "zan_skin_presternal_region_r",
+       "zan_skin_presternal_region_l",
+       "zan_skin_inframammary_region_r",
+       "zan_skin_inframammary_region_l",
+       "zan_skin_epigastric_region_r",
+       "zan_skin_epigastric_region_l",
+       "zan_skin_hypochondriac_region_r",
+       "zan_skin_hypochondriac_region_l",
+       "zan_skin_infraclavicular_fossa_r",
+       "zan_skin_infraclavicular_fossa_l",
+       "zan_skin_deltopectoral_triangle_r",
+       "zan_skin_deltopectoral_triangle_l"
+      ],
+      "tuck": [],
+      "strict": [
+       "breast_fat_r",
+       "breast_fat_l",
+       "lactiferous_ducts_r",
+       "lactiferous_ducts_l",
+       "mammary_gland_r",
+       "mammary_gland_l",
+       "breast_suspensory_ligaments_r",
+       "breast_suspensory_ligaments_l"
+      ]
+     }
+    }
+   },
+   "steps": {
+    "chest": {
+     "step": "chest",
+     "seams": {
+      "zan_skin_presternal_region_r": {
+       "rank": 0,
+       "border_edge_median_mm": 3.16,
+       "border_vertices": 197,
+       "under_leader": 17,
+       "already_joined": 3,
+       "shared_vertices_held": 2,
+       "facing_later_region": 179,
+       "no_neighbour": 0,
+       "over_cap": 0,
+       "released_folding": 0,
+       "flattened_faces": 2,
+       "border_gap_before_mm": {
+        "median": 1.78,
+        "over_1_5mm": 42,
+        "open_vertices": 61,
+        "of": 197
+       },
+       "border_gap_after_mm": {
+        "median": 2.2,
+        "over_1_5mm": 50,
+        "open_vertices": 54,
+        "of": 197
+       }
+      },
+      "zan_skin_mammary_region_l": {
+       "rank": 1,
+       "border_edge_median_mm": 3.14,
+       "border_vertices": 117,
+       "under_leader": 0,
+       "already_joined": 0,
+       "shared_vertices_held": 0,
+       "facing_later_region": 117,
+       "no_neighbour": 0,
+       "over_cap": 0,
+       "released_folding": 0,
+       "flattened_faces": 0,
+       "border_gap_before_mm": {
+        "median": 2.42,
+        "over_1_5mm": 46,
+        "open_vertices": 56,
+        "of": 117
+       },
+       "border_gap_after_mm": {
+        "median": 1.89,
+        "over_1_5mm": 11,
+        "open_vertices": 14,
+        "of": 117
+       }
+      },
+      "zan_skin_mammary_region_r": {
+       "rank": 2,
+       "border_edge_median_mm": 3.03,
+       "border_vertices": 124,
+       "under_leader": 0,
+       "already_joined": 1,
+       "shared_vertices_held": 0,
+       "facing_later_region": 123,
+       "no_neighbour": 1,
+       "over_cap": 0,
+       "released_folding": 0,
+       "flattened_faces": 0,
+       "border_gap_before_mm": {
+        "median": 2.11,
+        "over_1_5mm": 52,
+        "open_vertices": 72,
+        "of": 124
+       },
+       "border_gap_after_mm": {
+        "median": 1.72,
+        "over_1_5mm": 7,
+        "open_vertices": 10,
+        "of": 124
+       }
+      },
+      "zan_skin_pectoral_region_r": {
+       "rank": 3,
+       "border_edge_median_mm": 3.0,
+       "border_vertices": 426,
+       "under_leader": 311,
+       "already_joined": 2,
+       "shared_vertices_held": 0,
+       "facing_later_region": 48,
+       "no_neighbour": 40,
+       "over_cap": 0,
+       "released_folding": 25,
+       "flattened_faces": 43,
+       "border_gap_before_mm": {
+        "median": 2.48,
+        "over_1_5mm": 168,
+        "open_vertices": 215,
+        "of": 406
+       },
+       "border_gap_after_mm": {
+        "median": 1.53,
+        "over_1_5mm": 46,
+        "open_vertices": 80,
+        "of": 413
+       }
+      },
+      "zan_skin_presternal_region_l": {
+       "rank": 4,
+       "border_edge_median_mm": 3.0,
+       "border_vertices": 223,
+       "under_leader": 78,
+       "already_joined": 5,
+       "shared_vertices_held": 2,
+       "facing_later_region": 133,
+       "no_neighbour": 0,
+       "over_cap": 0,
+       "released_folding": 10,
+       "flattened_faces": 7,
+       "border_gap_before_mm": {
+        "median": 1.93,
+        "over_1_5mm": 64,
+        "open_vertices": 90,
+        "of": 223
+       },
+       "border_gap_after_mm": {
+        "median": 2.05,
+        "over_1_5mm": 65,
+        "open_vertices": 74,
+        "of": 223
+       }
+      },
+      "zan_skin_infraclavicular_fossa_l": {
+       "rank": 5,
+       "border_edge_median_mm": 2.87,
+       "border_vertices": 175,
+       "under_leader": 69,
+       "already_joined": 31,
+       "shared_vertices_held": 6,
+       "facing_later_region": 59,
+       "no_neighbour": 0,
+       "over_cap": 0,
+       "released_folding": 16,
+       "flattened_faces": 5,
+       "border_gap_before_mm": {
+        "median": 2.24,
+        "over_1_5mm": 64,
+        "open_vertices": 78,
+        "of": 175
+       },
+       "border_gap_after_mm": {
+        "median": 1.49,
+        "over_1_5mm": 28,
+        "open_vertices": 60,
+        "of": 175
+       }
+      },
+      "zan_skin_pectoral_region_l": {
+       "rank": 6,
+       "border_edge_median_mm": 2.83,
+       "border_vertices": 446,
+       "under_leader": 317,
+       "already_joined": 1,
+       "shared_vertices_held": 0,
+       "facing_later_region": 51,
+       "no_neighbour": 22,
+       "over_cap": 0,
+       "released_folding": 55,
+       "flattened_faces": 40,
+       "border_gap_before_mm": {
+        "median": 2.13,
+        "over_1_5mm": 155,
+        "open_vertices": 206,
+        "of": 431
+       },
+       "border_gap_after_mm": {
+        "median": 1.53,
+        "over_1_5mm": 62,
+        "open_vertices": 93,
+        "of": 437
+       }
+      },
+      "zan_skin_epigastric_region_l": {
+       "rank": 7,
+       "border_edge_median_mm": 2.73,
+       "border_vertices": 204,
+       "under_leader": 19,
+       "already_joined": 40,
+       "shared_vertices_held": 28,
+       "facing_later_region": 170,
+       "no_neighbour": 2,
+       "over_cap": 0,
+       "released_folding": 6,
+       "flattened_faces": 0,
+       "border_gap_before_mm": {
+        "median": 1.81,
+        "over_1_5mm": 45,
+        "open_vertices": 55,
+        "of": 204
+       },
+       "border_gap_after_mm": {
+        "median": 1.51,
+        "over_1_5mm": 24,
+        "open_vertices": 42,
+        "of": 204
+       }
+      },
+      "zan_skin_epigastric_region_r": {
+       "rank": 8,
+       "border_edge_median_mm": 2.7,
+       "border_vertices": 228,
+       "under_leader": 70,
+       "already_joined": 36,
+       "shared_vertices_held": 26,
+       "facing_later_region": 120,
+       "no_neighbour": 2,
+       "over_cap": 0,
+       "released_folding": 9,
+       "flattened_faces": 5,
+       "border_gap_before_mm": {
+        "median": 1.73,
+        "over_1_5mm": 55,
+        "open_vertices": 71,
+        "of": 228
+       },
+       "border_gap_after_mm": {
+        "median": 1.53,
+        "over_1_5mm": 25,
+        "open_vertices": 40,
+        "of": 228
+       }
+      },
+      "zan_skin_inframammary_region_l": {
+       "rank": 9,
+       "border_edge_median_mm": 2.64,
+       "border_vertices": 153,
+       "under_leader": 132,
+       "already_joined": 1,
+       "shared_vertices_held": 0,
+       "facing_later_region": 0,
+       "no_neighbour": 0,
+       "over_cap": 0,
+       "released_folding": 20,
+       "flattened_faces": 20,
+       "border_gap_before_mm": {
+        "median": 1.76,
+        "over_1_5mm": 33,
+        "open_vertices": 47,
+        "of": 153
+       },
+       "border_gap_after_mm": {
+        "median": 1.48,
+        "over_1_5mm": 10,
+        "open_vertices": 21,
+        "of": 153
+       }
+      },
+      "zan_skin_inframammary_region_r": {
+       "rank": 10,
+       "border_edge_median_mm": 2.48,
+       "border_vertices": 152,
+       "under_leader": 117,
+       "already_joined": 0,
+       "shared_vertices_held": 0,
+       "facing_later_region": 0,
+       "no_neighbour": 0,
+       "over_cap": 0,
+       "released_folding": 35,
+       "flattened_faces": 18,
+       "border_gap_before_mm": {
+        "median": 1.67,
+        "over_1_5mm": 39,
+        "open_vertices": 60,
+        "of": 152
+       },
+       "border_gap_after_mm": {
+        "median": 1.51,
+        "over_1_5mm": 36,
+        "open_vertices": 58,
+        "of": 152
+       }
+      },
+      "zan_skin_hypochondriac_region_r": {
+       "rank": 11,
+       "border_edge_median_mm": 2.38,
+       "border_vertices": 349,
+       "under_leader": 214,
+       "already_joined": 49,
+       "shared_vertices_held": 7,
+       "facing_later_region": 0,
+       "no_neighbour": 16,
+       "over_cap": 0,
+       "released_folding": 70,
+       "flattened_faces": 38,
+       "border_gap_before_mm": {
+        "median": 2.44,
+        "over_1_5mm": 126,
+        "open_vertices": 180,
+        "of": 341
+       },
+       "border_gap_after_mm": {
+        "median": 1.53,
+        "over_1_5mm": 52,
+        "open_vertices": 84,
+        "of": 343
+       }
+      },
+      "zan_skin_hypochondriac_region_l": {
+       "rank": 12,
+       "border_edge_median_mm": 2.33,
+       "border_vertices": 306,
+       "under_leader": 212,
+       "already_joined": 53,
+       "shared_vertices_held": 6,
+       "facing_later_region": 0,
+       "no_neighbour": 5,
+       "over_cap": 0,
+       "released_folding": 36,
+       "flattened_faces": 38,
+       "border_gap_before_mm": {
+        "median": 2.55,
+        "over_1_5mm": 101,
+        "open_vertices": 136,
+        "of": 304
+       },
+       "border_gap_after_mm": {
+        "median": 1.51,
+        "over_1_5mm": 38,
+        "open_vertices": 63,
+        "of": 304
+       }
+      }
+     },
+     "seam_anchors": [
+      "zan_skin_anterior_region_of_arm_l",
+      "zan_skin_anterior_region_of_arm_r",
+      "zan_skin_carotid_triangle_l",
+      "zan_skin_carotid_triangle_r",
+      "zan_skin_deltoid_region_l",
+      "zan_skin_deltoid_region_r",
+      "zan_skin_deltopectoral_triangle_l",
+      "zan_skin_deltopectoral_triangle_r",
+      "zan_skin_greater_supraclavicular_fossa_l",
+      "zan_skin_greater_supraclavicular_fossa_r",
+      "zan_skin_infraclavicular_fossa_r",
+      "zan_skin_infrascapular_region_l",
+      "zan_skin_infrascapular_region_r",
+      "zan_skin_lateral_region_of_abdomen_l",
+      "zan_skin_lateral_region_of_abdomen_r",
+      "zan_skin_lateral_region_of_neck_l",
+      "zan_skin_lateral_region_of_neck_r",
+      "zan_skin_lateral_region_of_thorax_l",
+      "zan_skin_lateral_region_of_thorax_r",
+      "zan_skin_lesser_supraclavicular_fossa_l",
+      "zan_skin_lesser_supraclavicular_fossa_r",
+      "zan_skin_lumbar_region_l",
+      "zan_skin_lumbar_region_r",
+      "zan_skin_medial_bicipital_groove_l",
+      "zan_skin_medial_bicipital_groove_r",
+      "zan_skin_muscular_triangle_l",
+      "zan_skin_muscular_triangle_r",
+      "zan_skin_posterior_region_of_arm_l",
+      "zan_skin_posterior_region_of_arm_r",
+      "zan_skin_posterior_region_of_neck_l",
+      "zan_skin_posterior_region_of_neck_r",
+      "zan_skin_sternocleidomastoid_region_l",
+      "zan_skin_sternocleidomastoid_region_r",
+      "zan_skin_umbilical_region_l",
+      "zan_skin_umbilical_region_r"
+     ],
+     "seam_guards": {
+      "zan_skin_pectoral_region_r": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        1.24
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 55268.7,
+       "volume_after_mm3": 54177.2,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.63,
+        "stretched_pct": [
+         0.0,
+         1.77
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 3798,
+        "max_mm": 7.32,
+        "mean_moved_mm": 1.19
+       },
+       "volume_change_pct": 1.97,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 65,
+       "fails": []
+      },
+      "zan_skin_pectoral_region_l": {
+       "flipped_pct_moved_faces": 0.025,
+       "stretched_pct": [
+        0.0,
+        1.92
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 47926.1,
+       "volume_after_mm3": 47484.2,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 1.056,
+        "stretched_pct": [
+         0.0,
+         2.44
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 3924,
+        "max_mm": 7.14,
+        "mean_moved_mm": 1.02
+       },
+       "volume_change_pct": 0.92,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 42,
+       "fails": []
+      },
+      "zan_skin_mammary_region_r": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.0
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 18076.0,
+       "volume_after_mm3": 18076.0,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.0,
+        "stretched_pct": [
+         0.0,
+         0.0
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 0,
+        "max_mm": 0.0,
+        "mean_moved_mm": 0.0
+       },
+       "volume_change_pct": 0.0,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 0,
+       "fails": []
+      },
+      "zan_skin_mammary_region_l": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.0
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 19595.2,
+       "volume_after_mm3": 19595.2,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.0,
+        "stretched_pct": [
+         0.0,
+         0.0
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 0,
+        "max_mm": 0.0,
+        "mean_moved_mm": 0.0
+       },
+       "volume_change_pct": 0.0,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 0,
+       "fails": []
+      },
+      "zan_skin_presternal_region_r": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.29
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 9606.9,
+       "volume_after_mm3": 9058.7,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.678,
+        "stretched_pct": [
+         0.0,
+         1.29
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 263,
+        "max_mm": 3.66,
+        "mean_moved_mm": 0.89
+       },
+       "volume_change_pct": 5.71,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 3,
+       "fails": []
+      },
+      "zan_skin_presternal_region_l": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.73
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 6616.9,
+       "volume_after_mm3": 6618.6,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.0,
+        "stretched_pct": [
+         0.0,
+         0.61
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 941,
+        "max_mm": 2.37,
+        "mean_moved_mm": 0.51
+       },
+       "volume_change_pct": 0.03,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 48,
+       "fails": []
+      },
+      "zan_skin_inframammary_region_r": {
+       "flipped_pct_moved_faces": 0.126,
+       "stretched_pct": [
+        0.0,
+        2.07
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 3837.6,
+       "volume_after_mm3": 3705.3,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.651,
+        "stretched_pct": [
+         0.0,
+         1.18
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 741,
+        "max_mm": 3.47,
+        "mean_moved_mm": 0.58
+       },
+       "volume_change_pct": 3.45,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 41,
+       "fails": []
+      },
+      "zan_skin_inframammary_region_l": {
+       "flipped_pct_moved_faces": 0.445,
+       "stretched_pct": [
+        0.0,
+        2.03
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 3988.2,
+       "volume_after_mm3": 3685.1,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.718,
+        "stretched_pct": [
+         0.0,
+         1.78
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 810,
+        "max_mm": 2.99,
+        "mean_moved_mm": 0.53
+       },
+       "volume_change_pct": 7.6,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 43,
+       "fails": []
+      },
+      "zan_skin_epigastric_region_r": {
+       "flipped_pct_moved_faces": 0.238,
+       "stretched_pct": [
+        0.0,
+        0.24
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 27501.3,
+       "volume_after_mm3": 26267.0,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.9,
+        "stretched_pct": [
+         0.0,
+         0.84
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 1690,
+        "max_mm": 6.16,
+        "mean_moved_mm": 0.83
+       },
+       "volume_change_pct": 4.49,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 7,
+       "fails": []
+      },
+      "zan_skin_epigastric_region_l": {
+       "flipped_pct_moved_faces": 0.404,
+       "stretched_pct": [
+        0.0,
+        0.12
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 27903.7,
+       "volume_after_mm3": 26991.6,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 1.309,
+        "stretched_pct": [
+         0.0,
+         0.12
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 921,
+        "max_mm": 6.16,
+        "mean_moved_mm": 0.61
+       },
+       "volume_change_pct": 3.27,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 6,
+       "fails": []
+      },
+      "zan_skin_hypochondriac_region_r": {
+       "flipped_pct_moved_faces": 0.242,
+       "stretched_pct": [
+        0.0,
+        1.42
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 22640.0,
+       "volume_after_mm3": 19302.9,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 2.351,
+        "stretched_pct": [
+         0.0,
+         2.59
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 3072,
+        "max_mm": 4.38,
+        "mean_moved_mm": 0.68
+       },
+       "volume_change_pct": 14.74,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 45,
+       "fails": []
+      },
+      "zan_skin_hypochondriac_region_l": {
+       "flipped_pct_moved_faces": 0.091,
+       "stretched_pct": [
+        0.0,
+        1.2
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 22438.3,
+       "volume_after_mm3": 19450.0,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 2.078,
+        "stretched_pct": [
+         0.0,
+         2.65
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 3071,
+        "max_mm": 4.37,
+        "mean_moved_mm": 0.62
+       },
+       "volume_change_pct": 13.32,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 54,
+       "fails": []
+      },
+      "zan_skin_infraclavicular_fossa_l": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.65
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 13068.5,
+       "volume_after_mm3": 12264.3,
+       "border_wall_and_inner": {
+        "flipped_pct_moved_faces": 0.405,
+        "stretched_pct": [
+         0.0,
+         1.07
+        ]
+       },
+       "displacement": {
+        "vertices_moved": 1297,
+        "max_mm": 5.82,
+        "mean_moved_mm": 0.59
+       },
+       "volume_change_pct": 6.15,
+       "border_growth": {
+        "vertices": 0,
+        "max_growth_mm": 0.0
+       },
+       "locally_reverted_border_points": 19,
+       "fails": []
+      }
+     },
+     "seam_kept": {
+      "zan_skin_infraclavicular_fossa_r": {
+       "fails": [
+        "slab volume change 25.2 %"
+       ],
+       "guards": {
+        "flipped_pct_moved_faces": 0.133,
+        "stretched_pct": [
+         0.0,
+         2.4
+        ],
+        "closed_manifold": true,
+        "volume_before_mm3": 13306.5,
+        "volume_after_mm3": 9958.5,
+        "border_wall_and_inner": {
+         "flipped_pct_moved_faces": 0.785,
+         "stretched_pct": [
+          0.0,
+          3.95
+         ]
+        },
+        "displacement": {
+         "vertices_moved": 1582,
+         "max_mm": 4.97,
+         "mean_moved_mm": 0.97
+        },
+        "volume_change_pct": 25.16,
+        "border_growth": {
+         "vertices": 0,
+         "max_growth_mm": 0.0
+        },
+        "locally_reverted_border_points": 14,
+        "fails": [
+         "slab volume change 25.2 %"
+        ]
+       },
+       "pass_": 1
+      },
+      "zan_skin_deltopectoral_triangle_r": {
+       "fails": [
+        "slab volume change 38.9 %"
+       ],
+       "guards": {
+        "flipped_pct_moved_faces": 0.176,
+        "stretched_pct": [
+         0.0,
+         6.05
+        ],
+        "closed_manifold": true,
+        "volume_before_mm3": 3483.3,
+        "volume_after_mm3": 2128.3,
+        "border_wall_and_inner": {
+         "flipped_pct_moved_faces": 3.387,
+         "stretched_pct": [
+          0.0,
+          11.72
+         ]
+        },
+        "displacement": {
+         "vertices_moved": 576,
+         "max_mm": 6.74,
+         "mean_moved_mm": 1.67
+        },
+        "volume_change_pct": 38.9,
+        "border_growth": {
+         "vertices": 0,
+         "max_growth_mm": 0.0
+        },
+        "locally_reverted_border_points": 4,
+        "fails": [
+         "slab volume change 38.9 %"
+        ]
+       },
+       "pass_": 1
+      },
+      "zan_skin_deltopectoral_triangle_l": {
+       "fails": [
+        "flipped 2.135 %",
+        "slab volume change 39.3 %"
+       ],
+       "guards": {
+        "flipped_pct_moved_faces": 2.135,
+        "stretched_pct": [
+         0.0,
+         6.5
+        ],
+        "closed_manifold": true,
+        "volume_before_mm3": 3586.3,
+        "volume_after_mm3": 2178.1,
+        "border_wall_and_inner": {
+         "flipped_pct_moved_faces": 2.773,
+         "stretched_pct": [
+          0.0,
+          10.84
+         ]
+        },
+        "displacement": {
+         "vertices_moved": 546,
+         "max_mm": 6.8,
+         "mean_moved_mm": 1.49
+        },
+        "volume_change_pct": 39.27,
+        "border_growth": {
+         "vertices": 0,
+         "max_growth_mm": 0.0
+        },
+        "locally_reverted_border_points": 6,
+        "fails": [
+         "flipped 2.135 %",
+         "slab volume change 39.3 %"
+        ]
+       },
+       "pass_": 1
+      }
+     },
+     "border_growth_guard": {
+      "limit_mm": 0.2,
+      "pieces_checked": 50,
+      "border_vertices": 6121,
+      "grew_over_limit": 543,
+      "max_growth_mm": 1.604,
+      "closed_by_more_than_limit": 1196
+     },
+     "tuck": {
+      "breast_fat_l": {
+       "before": {
+        "outside": 2,
+        "in_slab": 655,
+        "max_out_mm": 1.26,
+        "beyond_border": 0
+       },
+       "tries": [
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 4.0,
+         "displacement": {
+          "vertices_moved": 1501,
+          "max_mm": 2.61,
+          "mean_moved_mm": 1.19
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 0,
+          "max_out_mm": 0.0,
+          "beyond_border": 0
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.092,
+          "stretched_pct": [
+           0.0,
+           0.05
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 211448.8,
+          "volume_after_mm3": 196241.4
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 7.19,
+         "fails": [
+          "volume change 7.2 %"
+         ]
+        },
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 10.0,
+         "displacement": {
+          "vertices_moved": 1501,
+          "max_mm": 2.61,
+          "mean_moved_mm": 1.19
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 0,
+          "max_out_mm": 0.0,
+          "beyond_border": 0
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.061,
+          "stretched_pct": [
+           0.0,
+           0.05
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 211448.8,
+          "volume_after_mm3": 196280.3
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 7.17,
+         "fails": [
+          "volume change 7.2 %"
+         ]
+        },
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 1000000.0,
+         "displacement": {
+          "vertices_moved": 1501,
+          "max_mm": 3.05,
+          "mean_moved_mm": 1.23
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 0,
+          "max_out_mm": 0.0,
+          "beyond_border": 0
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.061,
+          "stretched_pct": [
+           0.0,
+           0.06
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 211448.8,
+          "volume_after_mm3": 196719.6
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 6.97,
+         "fails": [
+          "volume change 7.0 %"
+         ]
+        },
+        {
+         "mode": "under_outer_surface",
+         "direction_sigma_mm": 4.0,
+         "displacement": {
+          "vertices_moved": 64,
+          "max_mm": 1.76,
+          "mean_moved_mm": 0.42
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 652,
+          "max_out_mm": 0.0,
+          "beyond_border": 0
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.0,
+          "stretched_pct": [
+           0.0,
+           0.0
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 211448.8,
+          "volume_after_mm3": 211455.8
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 0.0,
+         "fails": []
+        }
+       ],
+       "ships": true,
+       "mode": "under_outer_surface",
+       "displacement": {
+        "vertices_moved": 64,
+        "max_mm": 1.76,
+        "mean_moved_mm": 0.42
+       },
+       "after": {
+        "outside": 0,
+        "in_slab": 652,
+        "max_out_mm": 0.0,
+        "beyond_border": 0
+       },
+       "guards": {
+        "flipped_pct_moved_faces": 0.0,
+        "stretched_pct": [
+         0.0,
+         0.0
+        ],
+        "closed_manifold": true,
+        "volume_before_mm3": 211448.8,
+        "volume_after_mm3": 211455.8
+       },
+       "inside_bone": [
+        0,
+        0
+       ],
+       "volume_change_pct": 0.0,
+       "listed": false
+      },
+      "breast_fat_r": {
+       "before": {
+        "outside": 14,
+        "in_slab": 603,
+        "max_out_mm": 1.33,
+        "beyond_border": 0
+       },
+       "tries": [
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 4.0,
+         "displacement": {
+          "vertices_moved": 1049,
+          "max_mm": 3.48,
+          "mean_moved_mm": 1.43
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 1,
+          "max_out_mm": 0.0,
+          "beyond_border": 1
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.087,
+          "stretched_pct": [
+           0.0,
+           0.09
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 275299.8,
+          "volume_after_mm3": 261064.3
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 5.17,
+         "fails": [
+          "1 vertices still in the skin slab",
+          "volume change 5.2 %"
+         ]
+        },
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 10.0,
+         "displacement": {
+          "vertices_moved": 1049,
+          "max_mm": 3.31,
+          "mean_moved_mm": 1.42
+         },
+         "after": {
+          "outside": 1,
+          "in_slab": 0,
+          "max_out_mm": 0.09,
+          "beyond_border": 1
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.087,
+          "stretched_pct": [
+           0.0,
+           0.04
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 275299.8,
+          "volume_after_mm3": 261131.7
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 5.15,
+         "fails": [
+          "1 vertices still outside the skin",
+          "volume change 5.1 %"
+         ]
+        },
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 1000000.0,
+         "displacement": {
+          "vertices_moved": 1049,
+          "max_mm": 4.26,
+          "mean_moved_mm": 1.53
+         },
+         "after": {
+          "outside": 1,
+          "in_slab": 0,
+          "max_out_mm": 0.01,
+          "beyond_border": 0
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.087,
+          "stretched_pct": [
+           0.0,
+           0.1
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 275299.8,
+          "volume_after_mm3": 261179.5
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 5.13,
+         "fails": [
+          "1 vertices still outside the skin",
+          "volume change 5.1 %"
+         ]
+        },
+        {
+         "mode": "under_outer_surface",
+         "direction_sigma_mm": 4.0,
+         "displacement": {
+          "vertices_moved": 158,
+          "max_mm": 1.83,
+          "mean_moved_mm": 0.42
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 612,
+          "max_out_mm": 0.0,
+          "beyond_border": 0
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.214,
+          "stretched_pct": [
+           0.0,
+           0.0
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 275299.8,
+          "volume_after_mm3": 274897.2
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 0.15,
+         "fails": []
+        }
+       ],
+       "ships": true,
+       "mode": "under_outer_surface",
+       "displacement": {
+        "vertices_moved": 158,
+        "max_mm": 1.83,
+        "mean_moved_mm": 0.42
+       },
+       "after": {
+        "outside": 0,
+        "in_slab": 612,
+        "max_out_mm": 0.0,
+        "beyond_border": 0
+       },
+       "guards": {
+        "flipped_pct_moved_faces": 0.214,
+        "stretched_pct": [
+         0.0,
+         0.0
+        ],
+        "closed_manifold": true,
+        "volume_before_mm3": 275299.8,
+        "volume_after_mm3": 274897.2
+       },
+       "inside_bone": [
+        0,
+        0
+       ],
+       "volume_change_pct": 0.15,
+       "listed": false
+      },
+      "breast_ct_l": {
+       "before": {
+        "outside": 22,
+        "in_slab": 815,
+        "max_out_mm": 1.85,
+        "beyond_border": 0
+       },
+       "tries": [
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 4.0,
+         "displacement": {
+          "vertices_moved": 1731,
+          "max_mm": 5.99,
+          "mean_moved_mm": 1.52
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 0,
+          "max_out_mm": 0.0,
+          "beyond_border": 0
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.054,
+          "stretched_pct": [
+           0.0,
+           0.19
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 639206.7,
+          "volume_after_mm3": 615613.1
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 3.69,
+         "fails": []
+        }
+       ],
+       "ships": true,
+       "mode": "under_inner_sheet",
+       "displacement": {
+        "vertices_moved": 1731,
+        "max_mm": 5.99,
+        "mean_moved_mm": 1.52
+       },
+       "after": {
+        "outside": 0,
+        "in_slab": 0,
+        "max_out_mm": 0.0,
+        "beyond_border": 0
+       },
+       "guards": {
+        "flipped_pct_moved_faces": 0.054,
+        "stretched_pct": [
+         0.0,
+         0.19
+        ],
+        "closed_manifold": true,
+        "volume_before_mm3": 639206.7,
+        "volume_after_mm3": 615613.1
+       },
+       "inside_bone": [
+        0,
+        0
+       ],
+       "volume_change_pct": 3.69,
+       "listed": false
+      },
+      "breast_ct_r": {
+       "before": {
+        "outside": 30,
+        "in_slab": 693,
+        "max_out_mm": 1.27,
+        "beyond_border": 1
+       },
+       "tries": [
+        {
+         "mode": "under_inner_sheet",
+         "direction_sigma_mm": 4.0,
+         "displacement": {
+          "vertices_moved": 1557,
+          "max_mm": 4.76,
+          "mean_moved_mm": 1.2
+         },
+         "after": {
+          "outside": 0,
+          "in_slab": 0,
+          "max_out_mm": 0.0,
+          "beyond_border": 1
+         },
+         "guards": {
+          "flipped_pct_moved_faces": 0.03,
+          "stretched_pct": [
+           0.0,
+           0.03
+          ],
+          "closed_manifold": true,
+          "volume_before_mm3": 837021.2,
+          "volume_after_mm3": 811658.4
+         },
+         "inside_bone": [
+          0,
+          0
+         ],
+         "volume_change_pct": 3.03,
+         "fails": []
+        }
+       ],
+       "ships": true,
+       "mode": "under_inner_sheet",
+       "displacement": {
+        "vertices_moved": 1557,
+        "max_mm": 4.76,
+        "mean_moved_mm": 1.2
+       },
+       "after": {
+        "outside": 0,
+        "in_slab": 0,
+        "max_out_mm": 0.0,
+        "beyond_border": 1
+       },
+       "guards": {
+        "flipped_pct_moved_faces": 0.03,
+        "stretched_pct": [
+         0.0,
+         0.03
+        ],
+        "closed_manifold": true,
+        "volume_before_mm3": 837021.2,
+        "volume_after_mm3": 811658.4
+       },
+       "inside_bone": [
+        0,
+        0
+       ],
+       "volume_change_pct": 3.03,
+       "listed": false
+      }
+     },
+     "outside_skin_gained_within_tolerance": {
+      "sternocleidomastoid_l": [
+       19,
+       20
+      ]
+     },
+     "outside_skin_gained": {},
+     "outside_skin_region": {
+      "biceps_brachii_l": [
+       {
+        "outside": 59,
+        "in_slab": 40,
+        "max_out_mm": 10.16,
+        "beyond_border": 0
+       },
+       {
+        "outside": 59,
+        "in_slab": 40,
+        "max_out_mm": 10.16,
+        "beyond_border": 0
+       }
+      ],
+      "biceps_brachii_r": [
+       {
+        "outside": 55,
+        "in_slab": 44,
+        "max_out_mm": 9.69,
+        "beyond_border": 0
+       },
+       {
+        "outside": 55,
+        "in_slab": 44,
+        "max_out_mm": 9.69,
+        "beyond_border": 0
+       }
+      ],
+      "elbow_articular_cartilage_r": [
+       {
+        "outside": 2,
+        "in_slab": 0,
+        "max_out_mm": 1.16,
+        "beyond_border": 0
+       },
+       {
+        "outside": 2,
+        "in_slab": 0,
+        "max_out_mm": 1.16,
+        "beyond_border": 0
+       }
+      ],
+      "flexor_carpi_ulnaris_l": [
+       {
+        "outside": 5,
+        "in_slab": 0,
+        "max_out_mm": 4.27,
+        "beyond_border": 1
+       },
+       {
+        "outside": 5,
+        "in_slab": 0,
+        "max_out_mm": 4.27,
+        "beyond_border": 1
+       }
+      ],
+      "flexor_carpi_ulnaris_r": [
+       {
+        "outside": 12,
+        "in_slab": 110,
+        "max_out_mm": 4.19,
+        "beyond_border": 4
+       },
+       {
+        "outside": 12,
+        "in_slab": 110,
+        "max_out_mm": 4.19,
+        "beyond_border": 4
+       }
+      ],
+      "humerus_l": [
+       {
+        "outside": 6,
+        "in_slab": 0,
+        "max_out_mm": 3.0,
+        "beyond_border": 0
+       },
+       {
+        "outside": 6,
+        "in_slab": 0,
+        "max_out_mm": 3.0,
+        "beyond_border": 0
+       }
+      ],
+      "humerus_r": [
+       {
+        "outside": 6,
+        "in_slab": 0,
+        "max_out_mm": 3.0,
+        "beyond_border": 0
+       },
+       {
+        "outside": 6,
+        "in_slab": 0,
+        "max_out_mm": 3.0,
+        "beyond_border": 0
+       }
+      ],
+      "latissimus_dorsi_l": [
+       {
+        "outside": 14,
+        "in_slab": 1,
+        "max_out_mm": 11.45,
+        "beyond_border": 4
+       },
+       {
+        "outside": 14,
+        "in_slab": 1,
+        "max_out_mm": 11.45,
+        "beyond_border": 4
+       }
+      ],
+      "latissimus_dorsi_r": [
+       {
+        "outside": 12,
+        "in_slab": 0,
+        "max_out_mm": 11.71,
+        "beyond_border": 6
+       },
+       {
+        "outside": 12,
+        "in_slab": 0,
+        "max_out_mm": 11.71,
+        "beyond_border": 6
+       }
+      ],
+      "platysma_l": [
+       {
+        "outside": 1,
+        "in_slab": 0,
+        "max_out_mm": 11.56,
+        "beyond_border": 2
+       },
+       {
+        "outside": 0,
+        "in_slab": 0,
+        "max_out_mm": 0.0,
+        "beyond_border": 2
+       }
+      ],
+      "sternocleidomastoid_l": [
+       {
+        "outside": 19,
+        "in_slab": 41,
+        "max_out_mm": 3.77,
+        "beyond_border": 0
+       },
+       {
+        "outside": 20,
+        "in_slab": 36,
+        "max_out_mm": 3.77,
+        "beyond_border": 0
+       }
+      ],
+      "sternocleidomastoid_r": [
+       {
+        "outside": 20,
+        "in_slab": 37,
+        "max_out_mm": 6.2,
+        "beyond_border": 0
+       },
+       {
+        "outside": 15,
+        "in_slab": 36,
+        "max_out_mm": 6.2,
+        "beyond_border": 0
+       }
+      ],
+      "ulnar_n_l": [
+       {
+        "outside": 7,
+        "in_slab": 8,
+        "max_out_mm": 1.53,
+        "beyond_border": 1
+       },
+       {
+        "outside": 7,
+        "in_slab": 8,
+        "max_out_mm": 1.53,
+        "beyond_border": 1
+       }
+      ],
+      "ulnar_n_r": [
+       {
+        "outside": 8,
+        "in_slab": 126,
+        "max_out_mm": 11.99,
+        "beyond_border": 1
+       },
+       {
+        "outside": 8,
+        "in_slab": 126,
+        "max_out_mm": 11.99,
+        "beyond_border": 1
+       }
+      ],
+      "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_r": [
+       {
+        "outside": 3,
+        "in_slab": 96,
+        "max_out_mm": 2.63,
+        "beyond_border": 0
+       },
+       {
+        "outside": 3,
+        "in_slab": 96,
+        "max_out_mm": 2.63,
+        "beyond_border": 0
+       }
+      ],
+      "zan_basilic_vein_l": [
+       {
+        "outside": 4,
+        "in_slab": 15,
+        "max_out_mm": 1.08,
+        "beyond_border": 0
+       },
+       {
+        "outside": 4,
+        "in_slab": 15,
+        "max_out_mm": 1.08,
+        "beyond_border": 0
+       }
+      ],
+      "zan_basilic_vein_r": [
+       {
+        "outside": 11,
+        "in_slab": 46,
+        "max_out_mm": 2.55,
+        "beyond_border": 0
+       },
+       {
+        "outside": 11,
+        "in_slab": 46,
+        "max_out_mm": 2.55,
+        "beyond_border": 0
+       }
+      ],
+      "zan_brachial_artery_l": [
+       {
+        "outside": 1,
+        "in_slab": 0,
+        "max_out_mm": 6.94,
+        "beyond_border": 0
+       },
+       {
+        "outside": 1,
+        "in_slab": 0,
+        "max_out_mm": 6.94,
+        "beyond_border": 0
+       }
+      ],
+      "zan_brachial_artery_r": [
+       {
+        "outside": 1,
+        "in_slab": 0,
+        "max_out_mm": 6.93,
+        "beyond_border": 0
+       },
+       {
+        "outside": 1,
+        "in_slab": 0,
+        "max_out_mm": 6.93,
+        "beyond_border": 0
+       }
+      ],
+      "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l": [
+       {
+        "outside": 1,
+        "in_slab": 0,
+        "max_out_mm": 1.0,
+        "beyond_border": 0
+       },
+       {
+        "outside": 1,
+        "in_slab": 0,
+        "max_out_mm": 1.0,
+        "beyond_border": 0
+       }
+      ],
+      "zan_long_head_of_triceps_brachii_l": [
+       {
+        "outside": 30,
+        "in_slab": 69,
+        "max_out_mm": 5.24,
+        "beyond_border": 2
+       },
+       {
+        "outside": 30,
+        "in_slab": 69,
+        "max_out_mm": 5.24,
+        "beyond_border": 2
+       }
+      ],
+      "zan_long_head_of_triceps_brachii_r": [
+       {
+        "outside": 22,
+        "in_slab": 70,
+        "max_out_mm": 3.52,
+        "beyond_border": 2
+       },
+       {
+        "outside": 22,
+        "in_slab": 70,
+        "max_out_mm": 3.52,
+        "beyond_border": 2
+       }
+      ],
+      "zan_medial_antebrachial_cutaneous_nerve_l": [
+       {
+        "outside": 3,
+        "in_slab": 0,
+        "max_out_mm": 11.72,
+        "beyond_border": 0
+       },
+       {
+        "outside": 3,
+        "in_slab": 0,
+        "max_out_mm": 11.72,
+        "beyond_border": 0
+       }
+      ],
+      "zan_medial_antebrachial_cutaneous_nerve_r": [
+       {
+        "outside": 4,
+        "in_slab": 0,
+        "max_out_mm": 11.89,
+        "beyond_border": 0
+       },
+       {
+        "outside": 4,
+        "in_slab": 0,
+        "max_out_mm": 11.89,
+        "beyond_border": 0
+       }
+      ],
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": [
+       {
+        "outside": 15,
+        "in_slab": 82,
+        "max_out_mm": 1.03,
+        "beyond_border": 0
+       },
+       {
+        "outside": 15,
+        "in_slab": 82,
+        "max_out_mm": 1.03,
+        "beyond_border": 0
+       }
+      ],
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r": [
+       {
+        "outside": 14,
+        "in_slab": 81,
+        "max_out_mm": 1.21,
+        "beyond_border": 0
+       },
+       {
+        "outside": 14,
+        "in_slab": 81,
+        "max_out_mm": 1.21,
+        "beyond_border": 0
+       }
+      ],
+      "zan_supratrochlear_nodes_l": [
+       {
+        "outside": 5,
+        "in_slab": 0,
+        "max_out_mm": 1.0,
+        "beyond_border": 0
+       },
+       {
+        "outside": 5,
+        "in_slab": 0,
+        "max_out_mm": 1.0,
+        "beyond_border": 0
+       }
+      ],
+      "zan_supratrochlear_nodes_r": [
+       {
+        "outside": 6,
+        "in_slab": 0,
+        "max_out_mm": 1.0,
+        "beyond_border": 0
+       },
+       {
+        "outside": 6,
+        "in_slab": 0,
+        "max_out_mm": 1.0,
+        "beyond_border": 0
+       }
+      ],
+      "supraclavicular_n_l": [
+       {
+        "outside": 18,
+        "in_slab": 58,
+        "max_out_mm": 1.48,
+        "beyond_border": 0
+       },
+       {
+        "outside": 18,
+        "in_slab": 58,
+        "max_out_mm": 1.48,
+        "beyond_border": 0
+       }
+      ],
+      "supraclavicular_n_r": [
+       {
+        "outside": 16,
+        "in_slab": 63,
+        "max_out_mm": 1.26,
+        "beyond_border": 0
+       },
+       {
+        "outside": 16,
+        "in_slab": 63,
+        "max_out_mm": 1.26,
+        "beyond_border": 0
+       }
+      ],
+      "subcostal_n_anterior_cutaneous_l": [
+       {
+        "outside": 2,
+        "in_slab": 2,
+        "max_out_mm": 0.08,
+        "beyond_border": 0
+       },
+       {
+        "outside": 2,
+        "in_slab": 2,
+        "max_out_mm": 0.08,
+        "beyond_border": 0
+       }
+      ],
+      "subcostal_n_anterior_cutaneous_r": [
+       {
+        "outside": 8,
+        "in_slab": 0,
+        "max_out_mm": 0.87,
+        "beyond_border": 0
+       },
+       {
+        "outside": 8,
+        "in_slab": 0,
+        "max_out_mm": 0.87,
+        "beyond_border": 0
+       }
+      ],
+      "breast_ct_l": [
+       {
+        "outside": 7,
+        "in_slab": 816,
+        "max_out_mm": 1.0,
+        "beyond_border": 0
+       },
+       {
+        "outside": 0,
+        "in_slab": 0,
+        "max_out_mm": 0.0,
+        "beyond_border": 0
+       }
+      ],
+      "breast_ct_r": [
+       {
+        "outside": 3,
+        "in_slab": 691,
+        "max_out_mm": 0.69,
+        "beyond_border": 1
+       },
+       {
+        "outside": 0,
+        "in_slab": 0,
+        "max_out_mm": 0.0,
+        "beyond_border": 1
+       }
+      ]
+     },
+     "mirror": {
+      "zan_skin_hypochondriac_region_l": [
+       1.079,
+       1.068
+      ],
+      "zan_skin_hypochondriac_region_r": [
+       1.083,
+       1.072
+      ],
+      "zan_skin_inframammary_region_l": [
+       3.545,
+       3.491
+      ],
+      "zan_skin_inframammary_region_r": [
+       2.682,
+       2.592
+      ]
+     },
+     "ships": true
+    }
+   },
+   "structures": {
+    "breast_ct_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "viscera",
+     "vertices": 4001,
+     "faces": 7998,
+     "displacement": {
+      "vertices_moved": 1731,
+      "max_mm": 5.99,
+      "mean_moved_mm": 1.52
+     },
+     "flipped_pct_moved_faces": 0.054,
+     "stretched_pct": [
+      0.0,
+      0.19
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 639206.7,
+     "volume_after_mm3": 615613.1,
+     "card": "Q285: measured on this body by automatic segmentation (TotalSegmentator v2.18 `breasts` task on her own CT, class `breast`), not hand-drawn; not checked by hand. The bilateral label is cut at her own midline (midline at X=2.2 mm from the sternum) and kept one voxel (0.94 mm) beneath her body silhouette (HU > -300, as her skin mesh), the outermost layer being skin. Label volume 876 cm3 on this side; left/right difference 13.6 % of the mean. HU: 94 % fat-range, 5 % soft-tissue range (fibroglandular). Largest connected piece (100 % of the side), holes filled, surface at the level that keeps the label volume (mesh 1.000x). Checked: 0.0 % of vertices more than 1 mm outside her skin, 0.0 % more than 1 mm inside her CT bone labels; it touches her pectoralis major / serratus anterior labels only at their surface. Published cohort means for comparison (not a range for her): MRI volumetry, 22 women: mean left 771 / right 764 mL (Behrens AS, Huebner H, Haeberle L, et al et al., doi:10.1007/s12282-024-01647-6); VECTRA 3-D surface imaging, 100 healthy participants; mean relative left/right difference 16.0 % (SD 12.7): mean left 637 / right 665 mL (Killaars RC, Janssen DGE, Piatkowski de Grzymala AA et al., doi:10.1007/s00266-026-06058-w). The specimen is an unfrozen 59-year-old cadaver (unenhanced CT, supine). Q292: HER OWN BREAST, measured on her CT (Q285: TotalSegmentator `breasts`), REFITTED onto this body BY STATED RULES -- not her exact shape here. Rigid fit of her own chest wall (ribs 2-7, costal cartilages, sternum) onto this page's chest wall (rotation 3.2 deg, residual median 5.8 mm), her breast-to-rib-cage height kept (depth correction p95 6.6 mm). RULE-BASED adjustments: beyond 145 mm from the midline the lateral offset is multiplied by 0.35 (smooth knee 10 mm) (her supine lateral spread lies against her arm in the CT; the arm of this page hangs there; up to 31.7 mm), pushed out of the arm (max 4.5 mm) and out of the rib cage keeping 4 mm for the pectoral layer (max 4.0 mm). Volume 639.2 cm3 = 73.0 % of her CT breast (875.2 cm3; cohort means for comparison, not a range for her: MRI volumetry, 22 women, left 771 / right 764 mL (Behrens AS et al., doi:10.1007/s12282-024-01647-6); VECTRA, 100 healthy women, 637 / 665 mL (Killaars RC et al., doi:10.1007/s00266-026-06058-w)). Checks: 1.5 % of vertices more than 0.5 mm outside the skin, 0.0 % inside the rib cage. Supine cadaver shape (59 y): a standing breast sits lower and projects more. No separate nipple / areola object (her skin contour only). The HRA sculpted breast set is hidden by default ('unhide' on its cards). Faded by default so the glandular tissue inside is seen. || Q297 re-measured this page's own breast meshes. On THIS page left 639.2 / right 844.2 cm3, a left/right difference of 27.6 % of the mean -- against the 13.6 % of her own CT label, which the line above quotes. The extra asymmetry is the fit on this page, not her body (Base F carries the Q250 bone-anchored thin-plate spline). Mesh quality on this page: 282 zero-area triangles, 0.00 % defect edges, mean dihedral 19.3 deg, no spikes (max one-ring offset 0.96 x the local edge length) and consistent winding -- so what looks distorted is the SHAPE, not a broken mesh. The shape is her SUPINE unenhanced cadaver CT: a 59-year-old supine breast spreads laterally and superiorly almost to the clavicle. We hold no upright or prone imaging of her, and this atlas will not sculpt a more flattering breast. See docs/OPEN_ITEMS_FOR_OWNER.md. Q356 chest: the part lying in or outside the skin moved inward along the skin's normal until it lies under the skin (under inner sheet); rule-based, max 5.99 mm (cap 8), volume change 3.69 %; mesh, vertex and triangle counts unchanged."
+    },
+    "breast_ct_r": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "viscera",
+     "vertices": 4001,
+     "faces": 7998,
+     "displacement": {
+      "vertices_moved": 1557,
+      "max_mm": 4.76,
+      "mean_moved_mm": 1.2
+     },
+     "flipped_pct_moved_faces": 0.03,
+     "stretched_pct": [
+      0.0,
+      0.03
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 837021.2,
+     "volume_after_mm3": 811658.4,
+     "card": "Q285: measured on this body by automatic segmentation (TotalSegmentator v2.18 `breasts` task on her own CT, class `breast`), not hand-drawn; not checked by hand. The bilateral label is cut at her own midline (midline at X=2.2 mm from the sternum) and kept one voxel (0.94 mm) beneath her body silhouette (HU > -300, as her skin mesh), the outermost layer being skin. Label volume 1004 cm3 on this side; left/right difference 13.6 % of the mean. HU: 95 % fat-range, 5 % soft-tissue range (fibroglandular). Largest connected piece (100 % of the side), holes filled, surface at the level that keeps the label volume (mesh 1.000x). Checked: 0.0 % of vertices more than 1 mm outside her skin, 0.0 % more than 1 mm inside her CT bone labels; it touches her pectoralis major / serratus anterior labels only at their surface. Published cohort means for comparison (not a range for her): MRI volumetry, 22 women: mean left 771 / right 764 mL (Behrens AS, Huebner H, Haeberle L, et al et al., doi:10.1007/s12282-024-01647-6); VECTRA 3-D surface imaging, 100 healthy participants; mean relative left/right difference 16.0 % (SD 12.7): mean left 637 / right 665 mL (Killaars RC, Janssen DGE, Piatkowski de Grzymala AA et al., doi:10.1007/s00266-026-06058-w). The specimen is an unfrozen 59-year-old cadaver (unenhanced CT, supine). Q292: HER OWN BREAST, measured on her CT (Q285: TotalSegmentator `breasts`), REFITTED onto this body BY STATED RULES -- not her exact shape here. Rigid fit of her own chest wall (ribs 2-7, costal cartilages, sternum) onto this page's chest wall (rotation 1.95 deg, residual median 7.8 mm), her breast-to-rib-cage height kept (depth correction p95 9.4 mm). RULE-BASED adjustments: beyond 145 mm from the midline the lateral offset is multiplied by 0.35 (smooth knee 10 mm) (her supine lateral spread lies against her arm in the CT; the arm of this page hangs there; up to 29.2 mm), pushed out of the arm (max 3.0 mm) and out of the rib cage keeping 4 mm for the pectoral layer (max 15.0 mm). Volume 844.1 cm3 = 84.2 % of her CT breast (1003.1 cm3; cohort means for comparison, not a range for her: MRI volumetry, 22 women, left 771 / right 764 mL (Behrens AS et al., doi:10.1007/s12282-024-01647-6); VECTRA, 100 healthy women, 637 / 665 mL (Killaars RC et al., doi:10.1007/s00266-026-06058-w)). Checks: 0.62 % of vertices more than 0.5 mm outside the skin, 0.67 % inside the rib cage. Supine cadaver shape (59 y): a standing breast sits lower and projects more. No separate nipple / areola object (her skin contour only). The HRA sculpted breast set is hidden by default ('unhide' on its cards). Faded by default so the glandular tissue inside is seen. || Q297 re-measured this page's own breast meshes. On THIS page left 639.2 / right 844.2 cm3, a left/right difference of 27.6 % of the mean -- against the 13.6 % of her own CT label, which the line above quotes. The extra asymmetry is the fit on this page, not her body (Base F carries the Q250 bone-anchored thin-plate spline). Mesh quality on this page: 82 zero-area triangles, 0.00 % defect edges, mean dihedral 18.7 deg, no spikes (max one-ring offset 0.97 x the local edge length) and consistent winding -- so what looks distorted is the SHAPE, not a broken mesh. The shape is her SUPINE unenhanced cadaver CT: a 59-year-old supine breast spreads laterally and superiorly almost to the clavicle. We hold no upright or prone imaging of her, and this atlas will not sculpt a more flattering breast. See docs/OPEN_ITEMS_FOR_OWNER.md. Q333: pushed out of the Base chest wall to the 4 mm gap Q292 reserves for the pectoral layer, which Q292's own push had left unfinished on this side (236 vertices inside that gap, up to 5.66 mm inside the wall): max move 10.0 mm, p95 1.62 mm, volume 844.2 -> 837.0 cm3. Q356 chest: the part lying in or outside the skin moved inward along the skin's normal until it lies under the skin (under inner sheet); rule-based, max 4.76 mm (cap 8), volume change 3.03 %; mesh, vertex and triangle counts unchanged."
+    },
+    "breast_fat_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "viscera",
+     "vertices": 3901,
+     "faces": 7798,
+     "displacement": {
+      "vertices_moved": 64,
+      "max_mm": 1.76,
+      "mean_moved_mm": 0.42
+     },
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.0
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 211448.8,
+     "volume_after_mm3": 211455.8,
+     "card": "REFERENCE MODEL, NOT donor data: HuBMAP HRA 3D reference object `VH_F_mammary_gland_L` (v1.3, CC BY 4.0, Heidi Schlehlein), which the library describes as 'sculpted from scratch to include relevant anatomy for placement of registration blocks' with textbook atlases as the reference (Krstic 1994, Thieme Atlas of Anatomy 2008); it is placed in the Visible Human female's frame but was NOT built from her images. It is NOT part of Z-Anatomy (Z-Anatomy has no breast tissue: its skin only has a flat 'mammary region' patch), NOT measured by this atlas, and NOT a real breast of this page's body: this page's chest skin is nearly flat, whereas the library breast projects up to 40 mm farther forward. FITTED INTO THE SKIN ENVELOPE in two steps. (1) Registration: the HRA thoracic vertebrae onto the Z-Anatomy thoracic vertebrae T1-T12 of this page's body (rigid + uniform scale x0.9901, residual median 1.28 mm, p90 3.66). (2) Skin-envelope fit: each anteroposterior column of the breast (all breast structures with the same map) was compressed, only as much as needed, between this page's chest wall (Z-Anatomy ribs, costal cartilage, sternum, clavicle, scapula, pectoralis major and the other muscles, themselves fits to this page's skeleton) and this page's skin (median column ratio 0.89), then the rim that still overhung the skin or touched a muscle / bone was pushed in by a smooth field (2096 of 3901 vertices of this structure by more than 1 mm, max 39.4 mm). The shape is therefore the HRA breast flattened to the space this body leaves, not a measured breast. Shape: closed envelope of the HRA surface (voxel fill 0.8 mm, 7798 triangles after decimation (surface deviation from the full HRA mesh median 0.77, p95 1.58, max 2.94 mm)). Volume 344.7 cm3 after the fit (HRA original 717.71 cm3). Signed distances of every vertex: inside the skin by at least 1.04 mm (median 4.9 mm), pectoralis major 0.02 mm (positive = anterior to it), ribs / cartilage / sternum / clavicle / scapula at least 4.74 mm away. Distances to the Z-Anatomy muscles other than the pectoralis major are reported, not gated (they are fit estimates): 0.62 mm. Registration error: bone-based, median 1.28 mm; the fit error of the soft tissue is the compression itself (see volume). Q235 added the vestibular bulbs, Bartholin's glands, the perineal muscles, the perineal body, the female urethra (layers, lumen) as separate structures from ANOTHER person (Chinese Visible Human, CC BY 4.0; see their cards); the labia majora and minora, the mons pubis and the vulvar skin surface are not built. Hidden by default on Base \u00b7 Female since Q292: replaced by her own CT breast (Q292); this HRA object is sculpted from scratch (HRA record), not donor data ('unhide' on the card). || Q299 containment fix: 1146 of 3901 vertices of this mesh lay OUTSIDE this page's own body (up to 23.8 mm in front of the nearest skin surface) and were pulled back in. Each such vertex was moved to the nearest point of this page's own skin / subcutaneous surface and 1.0 mm further in along the same line; the displacement was spread over the mesh with a 8 mm Gaussian, so 2468 vertices moved in all, by 6.8 mm on average and 24.5 mm at most. Nothing was sculpted and no vertex was invented: this is the skin guard of Q250 re-run against a body mask that passes validation (Q250's own guard could not decide inside from outside against ~250 open skin patches and recorded 1,057 such vertices as 'only counted'). Surface area x0.845, enclosed volume x0.616, 4 of 7798 triangles flipped, mean dihedral 17.4 -> 18.0 deg. Furthest point outside after the fix: 0.00 mm (the body mask's own error band is p95 1.4 / max 8.3 mm). THIS IS A LARGE SHAPE CHANGE: the structure lost more than a tenth of its enclosed volume, because the sculpted HuBMAP HRA breast object this page carries does not fit this page's chest skin. See docs/OPEN_ITEMS_FOR_OWNER.md: the alternatives are to re-run the Q250 chest-skin raise or to drop the HRA breast objects and keep only her own CT breast label (`breast_ct_l` / `breast_ct_r`, which is inside the body). Q353 chest_tuck: the part lying in or outside the skin moved inward along the skin's normal until it lies under the skin (under outer surface); rule-based, max 3.03 mm (cap 8), volume change 0.47 %; mesh, vertex and triangle counts unchanged. Q356 chest: the part lying in or outside the skin moved inward along the skin's normal until it lies under the skin (under outer surface); rule-based, max 1.76 mm (cap 8), volume change 0.0 %; mesh, vertex and triangle counts unchanged."
+    },
+    "breast_fat_r": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "viscera",
+     "vertices": 4013,
+     "faces": 8022,
+     "displacement": {
+      "vertices_moved": 158,
+      "max_mm": 1.83,
+      "mean_moved_mm": 0.42
+     },
+     "flipped_pct_moved_faces": 0.214,
+     "stretched_pct": [
+      0.0,
+      0.0
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 275299.8,
+     "volume_after_mm3": 274897.2,
+     "card": "REFERENCE MODEL, NOT donor data: HuBMAP HRA 3D reference object `VH_F_mammary_gland_R` (v1.3, CC BY 4.0, Heidi Schlehlein), which the library describes as 'sculpted from scratch to include relevant anatomy for placement of registration blocks' with textbook atlases as the reference (Krstic 1994, Thieme Atlas of Anatomy 2008); it is placed in the Visible Human female's frame but was NOT built from her images. It is NOT part of Z-Anatomy (Z-Anatomy has no breast tissue: its skin only has a flat 'mammary region' patch), NOT measured by this atlas, and NOT a real breast of this page's body: this page's chest skin is nearly flat, whereas the library breast projects up to 40 mm farther forward. FITTED INTO THE SKIN ENVELOPE in two steps. (1) Registration: the HRA thoracic vertebrae onto the Z-Anatomy thoracic vertebrae T1-T12 of this page's body (rigid + uniform scale x0.9901, residual median 1.28 mm, p90 3.66). (2) Skin-envelope fit: each anteroposterior column of the breast (all breast structures with the same map) was compressed, only as much as needed, between this page's chest wall (Z-Anatomy ribs, costal cartilage, sternum, clavicle, scapula, pectoralis major and the other muscles, themselves fits to this page's skeleton) and this page's skin (median column ratio 0.84), then the rim that still overhung the skin or touched a muscle / bone was pushed in by a smooth field (2070 of 4013 vertices of this structure by more than 1 mm, max 34.9 mm). The shape is therefore the HRA breast flattened to the space this body leaves, not a measured breast. Shape: closed envelope of the HRA surface (voxel fill 0.8 mm, 8022 triangles after decimation (surface deviation from the full HRA mesh median 0.77, p95 1.61, max 2.92 mm)). Volume 371.78 cm3 after the fit (HRA original 732.29 cm3). Signed distances of every vertex: inside the skin by at least 0.62 mm (median 4.5 mm), pectoralis major 0.06 mm (positive = anterior to it), ribs / cartilage / sternum / clavicle / scapula at least 5.34 mm away. Distances to the Z-Anatomy muscles other than the pectoralis major are reported, not gated (they are fit estimates): 0.6 mm. Registration error: bone-based, median 1.28 mm; the fit error of the soft tissue is the compression itself (see volume). Q235 added the vestibular bulbs, Bartholin's glands, the perineal muscles, the perineal body, the female urethra (layers, lumen) as separate structures from ANOTHER person (Chinese Visible Human, CC BY 4.0; see their cards); the labia majora and minora, the mons pubis and the vulvar skin surface are not built. Hidden by default on Base \u00b7 Female since Q292: replaced by her own CT breast (Q292); this HRA object is sculpted from scratch (HRA record), not donor data ('unhide' on the card). || Q299 containment fix: 834 of 4013 vertices of this mesh lay OUTSIDE this page's own body (up to 21.3 mm in front of the nearest skin surface) and were pulled back in. Each such vertex was moved to the nearest point of this page's own skin / subcutaneous surface and 1.0 mm further in along the same line; the displacement was spread over the mesh with a 8 mm Gaussian, so 1930 vertices moved in all, by 5.6 mm on average and 21.8 mm at most. Nothing was sculpted and no vertex was invented: this is the skin guard of Q250 re-run against a body mask that passes validation (Q250's own guard could not decide inside from outside against ~250 open skin patches and recorded 1,057 such vertices as 'only counted'). Surface area x0.901, enclosed volume x0.743, 2 of 8022 triangles flipped, mean dihedral 16.2 -> 16.6 deg. Furthest point outside after the fix: 0.00 mm (the body mask's own error band is p95 1.4 / max 8.3 mm). THIS IS A LARGE SHAPE CHANGE: the structure lost more than a tenth of its enclosed volume, because the sculpted HuBMAP HRA breast object this page carries does not fit this page's chest skin. See docs/OPEN_ITEMS_FOR_OWNER.md: the alternatives are to re-run the Q250 chest-skin raise or to drop the HRA breast objects and keep only her own CT breast label (`breast_ct_l` / `breast_ct_r`, which is inside the body). Q353 chest_tuck: the part lying in or outside the skin moved inward along the skin's normal until it lies under the skin (under outer surface); rule-based, max 2.78 mm (cap 8), volume change 0.32 %; mesh, vertex and triangle counts unchanged. Q356 chest: the part lying in or outside the skin moved inward along the skin's normal until it lies under the skin (under outer surface); rule-based, max 1.83 mm (cap 8), volume change 0.15 %; mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_epigastric_region_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 4664,
+     "faces": 9324,
+     "displacement": {
+      "vertices_moved": 921,
+      "max_mm": 6.16,
+      "mean_moved_mm": 0.61
+     },
+     "flipped_pct_moved_faces": 0.89,
+     "stretched_pct": [
+      0.0,
+      0.12
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 27903.7,
+     "volume_after_mm3": 26991.6,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 38.7 mm, max 44.5 mm; surface area x1.091, enclosed volume x0.987. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 19 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 6.16 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_epigastric_region_r": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 4680,
+     "faces": 9356,
+     "displacement": {
+      "vertices_moved": 1690,
+      "max_mm": 6.16,
+      "mean_moved_mm": 0.83
+     },
+     "flipped_pct_moved_faces": 0.597,
+     "stretched_pct": [
+      0.0,
+      0.57
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 27501.3,
+     "volume_after_mm3": 26267.0,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 38.68 mm, max 44.5 mm; surface area x1.091, enclosed volume x0.987. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 70 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 6.16 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_hypochondriac_region_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 4270,
+     "faces": 8536,
+     "displacement": {
+      "vertices_moved": 3071,
+      "max_mm": 4.37,
+      "mean_moved_mm": 0.62
+     },
+     "flipped_pct_moved_faces": 1.102,
+     "stretched_pct": [
+      0.0,
+      1.94
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 22438.3,
+     "volume_after_mm3": 19450.0,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 31.54 mm, max 47.1 mm; surface area x0.762, enclosed volume x0.639. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 212 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 4.37 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_hypochondriac_region_r": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 4270,
+     "faces": 8536,
+     "displacement": {
+      "vertices_moved": 3072,
+      "max_mm": 4.38,
+      "mean_moved_mm": 0.68
+     },
+     "flipped_pct_moved_faces": 1.32,
+     "stretched_pct": [
+      0.0,
+      2.03
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 22640.0,
+     "volume_after_mm3": 19302.9,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 31.53 mm, max 47.1 mm; surface area x0.762, enclosed volume x0.639. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 214 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 4.38 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_infraclavicular_fossa_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 1835,
+     "faces": 3666,
+     "displacement": {
+      "vertices_moved": 1297,
+      "max_mm": 5.82,
+      "mean_moved_mm": 0.59
+     },
+     "flipped_pct_moved_faces": 0.213,
+     "stretched_pct": [
+      0.0,
+      0.87
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 13068.5,
+     "volume_after_mm3": 12264.3,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 22.35 mm, max 35.1 mm; surface area x0.953, enclosed volume x1.052. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 69 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 5.82 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_inframammary_region_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 1508,
+     "faces": 3012,
+     "displacement": {
+      "vertices_moved": 810,
+      "max_mm": 2.99,
+      "mean_moved_mm": 0.53
+     },
+     "flipped_pct_moved_faces": 0.587,
+     "stretched_pct": [
+      0.0,
+      1.89
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 3988.2,
+     "volume_after_mm3": 3685.1,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 40.99 mm, max 43.7 mm; surface area x0.911, enclosed volume x0.818. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 132 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 2.99 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_inframammary_region_r": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 1508,
+     "faces": 3012,
+     "displacement": {
+      "vertices_moved": 741,
+      "max_mm": 3.47,
+      "mean_moved_mm": 0.58
+     },
+     "flipped_pct_moved_faces": 0.408,
+     "stretched_pct": [
+      0.0,
+      1.59
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 3837.6,
+     "volume_after_mm3": 3705.3,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 40.98 mm, max 43.7 mm; surface area x0.912, enclosed volume x0.820. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 117 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 3.47 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_pectoral_region_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 6505,
+     "faces": 13010,
+     "displacement": {
+      "vertices_moved": 3924,
+      "max_mm": 7.14,
+      "mean_moved_mm": 1.02
+     },
+     "flipped_pct_moved_faces": 0.578,
+     "stretched_pct": [
+      0.0,
+      2.2
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 47926.1,
+     "volume_after_mm3": 47484.2,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 26.68 mm, max 41.0 mm; surface area x0.849, enclosed volume x0.759. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 317 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 7.14 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_pectoral_region_r": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 6521,
+     "faces": 13042,
+     "displacement": {
+      "vertices_moved": 3798,
+      "max_mm": 7.32,
+      "mean_moved_mm": 1.19
+     },
+     "flipped_pct_moved_faces": 0.338,
+     "stretched_pct": [
+      0.0,
+      1.52
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 55268.7,
+     "volume_after_mm3": 54177.2,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 26.72 mm, max 41.0 mm; surface area x0.849, enclosed volume x0.758. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 311 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 7.32 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_presternal_region_l": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 1503,
+     "faces": 3002,
+     "displacement": {
+      "vertices_moved": 941,
+      "max_mm": 2.37,
+      "mean_moved_mm": 0.51
+     },
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.67
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 6616.9,
+     "volume_after_mm3": 6618.6,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 32.03 mm, max 43.9 mm; surface area x0.705, enclosed volume x0.605. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 78 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 2.37 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    },
+    "zan_skin_presternal_region_r": {
+     "steps": [
+      "chest"
+     ],
+     "sys": "skin",
+     "vertices": 1504,
+     "faces": 3004,
+     "displacement": {
+      "vertices_moved": 263,
+      "max_mm": 3.66,
+      "mean_moved_mm": 0.89
+     },
+     "flipped_pct_moved_faces": 0.356,
+     "stretched_pct": [
+      0.0,
+      0.83
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 9606.9,
+     "volume_after_mm3": 9058.7,
+     "card": "Q292: this Z-Anatomy skin patch (male-derived chest contour) is SUBDIVIDED to 4 mm edges and FITTED onto HER OWN skin surface (her CT, mapped with her breasts' transform): fully over the breasts, tapering to nothing 30-80 mm from them and at the borders with the patches that do not move; pushed outward over her breast where her CT has no skin of her own (her lateral breast lies against her arm there; max 5.5 mm). The Q250 skin bump over the HRA sculpted breast is removed (this starts from the patch before that lift). Contour hers (supine), outline Z-Anatomy's. Earlier: Q250 female skeleton: carried with the deformation of the bones (bone-anchored thin-plate spline; within 1.5 mm of a bone it moves with that bone): mean displacement 32.06 mm, max 43.9 mm; surface area x0.704, enclosed volume x0.603. Shape is Z-Anatomy's (male-derived), not re-modelled. Q356 chest: border laid under the neighbouring skin region (this body's trunk regions were refitted one by one: they met with slots, overlaps and rounded rims -- an outline, and tissue showing through); 17 border vertices 1.5 mm past the neighbour's border and 0.3 mm under its surface, the move carried 20 mm into the region, max 3.66 mm (cap 8); mesh, vertex and triangle counts unchanged."
+    }
+   },
+   "geometry_changed": [
+    "breast_ct_l",
+    "breast_ct_r",
+    "breast_fat_l",
+    "breast_fat_r",
+    "zan_skin_epigastric_region_l",
+    "zan_skin_epigastric_region_r",
+    "zan_skin_hypochondriac_region_l",
+    "zan_skin_hypochondriac_region_r",
+    "zan_skin_infraclavicular_fossa_l",
+    "zan_skin_inframammary_region_l",
+    "zan_skin_inframammary_region_r",
+    "zan_skin_pectoral_region_l",
+    "zan_skin_pectoral_region_r",
+    "zan_skin_presternal_region_l",
+    "zan_skin_presternal_region_r"
+   ],
+   "files_changed": [
+    "atlas_viewer_base_female_geo_02.txt",
+    "atlas_viewer_base_female.html",
+    "index.html"
+   ],
+   "seconds": 117.2
+  }
+ }
+}

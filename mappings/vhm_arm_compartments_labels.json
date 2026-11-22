@@ -1,0 +1,61 @@
+{
+ "_README": [
+  "Label id -> structure name for the upper-limb muscle COMPARTMENT volume derived from the Visible Human male colour cryosections by scripts/cryo/arm_compartments_from_cryo.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. The arm's muscle mass (muscle-coloured pixels connected to the humerus, between the elbow joint line and 70 mm below the humeral head) is split by the coronal plane through the humerus centre: anterior = flexor compartment (biceps brachii, brachialis, coracobrachialis), posterior = extensor compartment (triceps brachii). The intermuscular septa are oblique to that plane, so the boundary is approximate; nothing here separates individual muscles. The forearm labels (3,4,7,8) are NOT mapped: the arm lies pronated against the thigh and an image-frame anterior/posterior split does not follow the flexor/extensor septa."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male colour cryosections, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md). Compartment membership: Standring S (ed.), Gray's Anatomy, 42nd ed., Elsevier 2021, ch. 'Elbow and forearm' / 'Shoulder girdle and arm' (fascial compartments of the arm).",
+ "task": "vhm_arm_compartments",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "arm_anterior_right",
+  "2": "arm_posterior_right",
+  "3": "forearm_anterior_right",
+  "4": "forearm_posterior_right",
+  "5": "arm_anterior_left",
+  "6": "arm_posterior_left",
+  "7": "forearm_anterior_left",
+  "8": "forearm_posterior_left"
+ },
+ "atlas": {
+  "arm_anterior_right": {
+   "atlas_id": "arm_anterior_compartment_r",
+   "relationship": "exact",
+   "note": "Composite compartment entity; boundary with the posterior compartment approximate."
+  },
+  "arm_posterior_right": {
+   "atlas_id": "arm_posterior_compartment_r",
+   "relationship": "exact",
+   "note": "Composite compartment entity; boundary with the anterior compartment approximate."
+  },
+  "forearm_anterior_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "Image-frame split does not follow the forearm septa in this pronated arm. Not ingested."
+  },
+  "forearm_posterior_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "Image-frame split does not follow the forearm septa in this pronated arm. Not ingested."
+  },
+  "arm_anterior_left": {
+   "atlas_id": "arm_anterior_compartment_l",
+   "relationship": "exact",
+   "note": "Composite compartment entity; boundary with the posterior compartment approximate."
+  },
+  "arm_posterior_left": {
+   "atlas_id": "arm_posterior_compartment_l",
+   "relationship": "exact",
+   "note": "Composite compartment entity; boundary with the anterior compartment approximate."
+  },
+  "forearm_anterior_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "Image-frame split does not follow the forearm septa in this pronated arm. Not ingested."
+  },
+  "forearm_posterior_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "Image-frame split does not follow the forearm septa in this pronated arm. Not ingested."
+  }
+ }
+}

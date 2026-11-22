@@ -1,0 +1,222 @@
+=== viewer_zan_atlas@1400 ===
+  OK   viewer_zan_atlas@1400 A: 14 real actions, each a new history entry ([] unchanged)
+  OK   viewer_zan_atlas@1400 A: 12 undos each restore the exact recorded state (mismatch [])
+  OK   viewer_zan_atlas@1400 A: 12 redos each restore the exact recorded state (mismatch []); history 15/15, redo empty
+  OK   viewer_zan_atlas@1400 B: two list ticks tapped -> summary 'Marked 2 -> shown', 'Others -> shown', scene 'On screen: 3193 shown · 0 hidden · 311 faded'
+  OK   viewer_zan_atlas@1400 B: one tap 'Fade others' -> 'Others -> faded', scene 'On screen: 3193 shown · 0 hidden · 3191 faded'
+  OK   viewer_zan_atlas@1400 B: one tap 'Only marked' -> 'Others -> hidden', scene 'On screen: 2 shown · 3191 hidden' (more hidden than before)
+  OK   viewer_zan_atlas@1400 B: one tap 'Everything' -> both groups shown again, marks kept (2)
+  OK   viewer_zan_atlas@1400 B: one-tap row 11 buttons ([['sel-markmode', 131, 28], ['sel-markcur', 110, 28], ['sel-clear', 168, 31], ['sel-undo', 34, 31]]), no horizontal scroll (244 <= 244); advanced parts folded [['ss-det-groups', False], ['ss-det-more', False], ['sel-saved', False], ['sel-share', False]]
+  OK   viewer_zan_atlas@1400 C: the index finger is its own segment on this page (Index finger (R): 3 phalanges)
+  OK   viewer_zan_atlas@1400 C: 1 mm every 10 mm along 82.4 mm -> 9 slices (expected floor((L - 1) / 10) + 1 = 9), 18 faces (near + far each), built in 78 ms
+  OK   viewer_zan_atlas@1400 C: interval 10.00-10.00 mm, thickness 1.00-1.00 mm
+  OK   viewer_zan_atlas@1400 C: spread x3 draws the faces up to 80 mm apart ((t - mean) x 2 each) and every true position is unchanged (True)
+  OK   viewer_zan_atlas@1400 D: hovering the label 'SupeTranMetaLiga-R' opens the popup 'Superficial transverse metacarpal ligament'
+  OK   viewer_zan_atlas@1400 D: 13 help texts folded behind an 'i'; a tap shows one (none -> block)
+  OK   viewer_zan_atlas@1400 E: synthetic geometry: [['dist', 50], ['ang3', 90], ['ang3', 30.000727780827372], ['ang2', 34.978933982660365], ['cobb', 35.00157794298672]] vs [50.0, 90.0, 30.0, 35.0, 35.0] (max error 0.0211)
+  OK   viewer_zan_atlas@1400 E: two taps on the model -> 24.6 mm vs |P1 - P2| = 24.61 mm of the tapped surface points
+  OK   viewer_zan_atlas@1400 E: three taps on the model -> 176.6° vs 176.59 deg from the tapped surface points
+  OK   viewer_zan_atlas@1400 E: Clear removes them (0 left), Undo brings them back (2)
+  OK   viewer_zan_atlas@1400 F: changes in 6 places -> Reset -> the page-start state exactly (differs: [])
+  OK   viewer_zan_atlas@1400 F: Undo after Reset brings every change back
+  OK   viewer_zan_atlas@1400 E: image pane (simulated echo): the four tap points lie on the pane, nothing covers them
+  OK   viewer_zan_atlas@1400 E: image pane (simulated echo): taps at known pixel offsets -> [('dist', 42.02), ('ang3', 90), ('ang3', 36.86), ('cobb', 20.14)] vs [('dist', 42.03), ('ang3', 90.0), ('ang3', 36.87), ('cobb', 20.0)] (0.2802 mm/px; max error 0.140)
+  OK   viewer_zan_atlas@1400 G [panel]: 'Interosseous membrane (forearm)' (drawn 0.90 mm thick) on the image: band 1.48 mm at 1x (pixel 0.179 mm) vs 1.60 mm at 4x (re-simulated: pixel 0.070 mm, 424 of 628 lines, 523 ms, shown True)
+  OK   viewer_zan_atlas@1400 I [panel] rotation 0, tilt 0: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.94, 0.90/0.94, 1.07/0.97, 1.07/1.03; median ratio 1.05 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@1400 I [panel] rotation 0, tilt 0 at 4x (re-simulated): 0.98 mm at pixel 0.07 vs expected 0.94
+  OK   viewer_zan_atlas@1400 I [panel] rotation 45: drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.07/0.91, 0.90/0.97, 1.07/1.10, 1.07/1.10; median ratio 0.98 over 4 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@1400 I [panel] rotation 90: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.93, 0.90/1.03, 0.90/1.01; median ratio 0.89 over 3 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@1400 I [panel] rotation 90 at 4x (re-simulated): 0.91 mm at pixel 0.07 vs expected 0.93
+  OK   viewer_zan_atlas@1400 I [panel] tilt 15 (heel): drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.91, 0.90/0.91, 0.90/0.91; median ratio 0.99 over 3 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@1400 I [panel] tilt 15 (rock): drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.07/1.01, 1.07/1.01, 0.90/1.02, 1.07/1.04; median ratio 1.07 over 6 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@1400 I [panel] tilt 15 (rock) at 4x (re-simulated): 1.05 mm at pixel 0.07 vs expected 1.01
+  OK   viewer_zan_atlas@1400 I [panel] depth 3 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.96/0.94, 0.83/0.94, 0.96/0.97; median ratio 1.0 over 3 crossings (pixel 0.138 mm)
+  OK   viewer_zan_atlas@1400 I [panel] depth 8 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.97/0.94, 0.97/0.94, 0.97/0.97, 1.21/1.03; median ratio 1.03 over 6 crossings (pixel 0.242 mm)
+  OK   viewer_zan_atlas@1400 I [panel] CINE (live tier): drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.81/1.01, 1.07/1.01, 1.07/1.02, 0.81/1.04; median ratio 1.05 over 6 crossings (pixel 0.269 mm vs the still frame's 0.179)
+  OK   viewer_zan_atlas@1400 K [panel] linear: footprint 49.0 x 13 mm (expected 49.0 x 13), housing 125 mm, face on the skin (gap -0.006 mm, seat 0.01 mm), marker ridge on the image-left end (True, u -26.3 mm), drawn (1008 / 48 triangles)
+  OK   viewer_zan_atlas@1400 K [panel] convex: footprint 67.9 x 20 mm (expected 67.9 x 20), housing 142 mm, face on the skin (gap -0.074 mm, seat 0.07 mm), marker ridge on the image-left end (True, u -35.7 mm), drawn (1008 / 48 triangles)
+  OK   viewer_zan_atlas@1400 K [panel] sector: footprint 30.0 x 20 mm (expected 30.0 x 20), housing 116 mm, face on the skin (gap 0.214 mm, seat -0.21 mm), marker ridge on the image-left end (True, u -16.8 mm), drawn (840 / 48 triangles)
+  OK   viewer_zan_atlas@1400 L [panel] deltoid: 3 bundles ['acromial (middle) part', 'clavicular (anterior) part', 'spinal (posterior) part'] on ['zan_acromial_part_of_deltoid_muscle_r', 'zan_clavicular_part_of_deltoid_muscle_r', 'zan_scapular_spinal_part_of_deltoid_muscle_r']; axes pairwise [24, 31, 29] deg apart (['origin and insertion markers']); pennation [(21.16, 21.16), (16.63, 16.63), (20.26, 20.26)] (drawn, cited); image fibre vs bundle axis [21.16, 16.63, 20.26] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@1400 L [panel] pectoralis_major: 3 bundles ['abdominal head', 'clavicular head', 'sternocostal head'] on ['zan_abdominal_part_of_pectoralis_major_muscle_r', 'zan_clavicular_head_of_pectoralis_major_muscle_r', 'zan_sternocostal_head_of_pectoralis_major_muscle_r']; axes pairwise [69, 28, 42] deg apart (['bundle centre to the insertion marker']); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0, 0, 0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@1400 L [panel] trapezius: 3 bundles ['ascending (lower) part', 'transverse (middle) part', 'descending (upper) part'] on ['trapezius_r']; axes pairwise [45, 87, 43] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0, 0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(13, 0.0), (5, 0.0), (12, 0.0)]
+  OK   viewer_zan_atlas@1400 L [panel] rectus_femoris: 2 bundles ['straight (direct) head', 'reflected (indirect) head'] on ['rectus_femoris_r', 'rectus_femoris_reflected_head_r']; axes pairwise [86] deg apart (['rule: origin side to insertion side']); pennation [(14, 14.0), (12, 12.0)] (drawn, cited); image fibre vs bundle axis [14, 12.0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@1400 J [panel]: the probe is on the 3-D view ([446, 379]) and the pad shows (True)
+  OK   viewer_zan_atlas@1400 J [panel]: ONE mouse drag from the probe slides it 94.9 mm over the skin (11 live moves) to the skin under the release point (off by 0.00 mm), the axis on the skin normal (True), the face on the skin (gap -0.01 mm), the camera did not orbit (0.00 mm)
+  OK   viewer_zan_atlas@1400 J [panel]: pad taps (each one tap, uncovered: [True, True, True, True, True]): rotate 0 -> 345 deg; heel tilt -> 5 deg toward 90 (the star centre image's axis leans 5.00 deg); + marker-side tilt -> 7 deg toward 135; upright + rotate back -> tilt 0, rotation 0
+  steps [panel]: move the probe = 1 drag (before: 'Place on skin' + a tap, per move); rotate 15 deg = 1 tap (before: a slider / mode-only button); tilt 5 deg = 1 tap in any mode (before: mode 2 + a slider); history entries during the test: 0
+  OK   viewer_zan_atlas@1400 G [full-screen split]: 'Interosseous membrane (forearm)' (drawn 0.90 mm thick) on the image: band 1.48 mm at 1x (pixel 0.179 mm) vs 1.66 mm at 4x (re-simulated: pixel 0.045 mm, 426 of 982 lines, 628 ms, shown True)
+  OK   viewer_zan_atlas@1400 J [full-screen split]: the probe is on the 3-D view ([378, 406]) and the pad shows (True)
+  OK   viewer_zan_atlas@1400 J [full-screen split]: ONE mouse drag from the probe slides it 24.0 mm over the skin (11 live moves) to the skin under the release point (off by 0.00 mm), the axis on the skin normal (True), the face on the skin (gap -0.01 mm), the camera did not orbit (0.00 mm)
+  OK   viewer_zan_atlas@1400 J [full-screen split]: pad taps (each one tap, uncovered: [True, True, True, True, True]): rotate 0 -> 345 deg; heel tilt -> 5 deg toward 90 (the star centre image's axis leans 5.00 deg); + marker-side tilt -> 7 deg toward 135; upright + rotate back -> tilt 0, rotation 0
+  steps [full-screen split]: move the probe = 1 drag (before: 'Place on skin' + a tap, per move); rotate 15 deg = 1 tap (before: a slider / mode-only button); tilt 5 deg = 1 tap in any mode (before: mode 2 + a slider); history entries during the test: 0
+  OK   viewer_zan_atlas@1400 H: 0 page errors ([])
+=== viewer_zan_atlas@390 ===
+  OK   viewer_zan_atlas@390 A: 14 real actions, each a new history entry ([] unchanged)
+  OK   viewer_zan_atlas@390 A: 12 undos each restore the exact recorded state (mismatch [])
+  OK   viewer_zan_atlas@390 A: 12 redos each restore the exact recorded state (mismatch []); history 15/15, redo empty
+  OK   viewer_zan_atlas@390 B: two list ticks tapped -> summary 'Marked 2 -> shown', 'Others -> shown', scene 'On screen: 3193 shown · 0 hidden · 311 faded'
+  OK   viewer_zan_atlas@390 B: one tap 'Fade others' -> 'Others -> faded', scene 'On screen: 3193 shown · 0 hidden · 3191 faded'
+  OK   viewer_zan_atlas@390 B: one tap 'Only marked' -> 'Others -> hidden', scene 'On screen: 2 shown · 3191 hidden' (more hidden than before)
+  OK   viewer_zan_atlas@390 B: one tap 'Everything' -> both groups shown again, marks kept (2)
+  OK   viewer_zan_atlas@390 B: one-tap row 11 buttons >= 36 px tall ([['sel-markmode', 121, 38], ['sel-markcur', 97, 38], ['sel-clear', 95, 38], ['sel-undo', 34, 38]]), no horizontal scroll (359 <= 359); advanced parts folded [['ss-det-groups', False], ['ss-det-more', False], ['sel-saved', False], ['sel-share', False]]
+  OK   viewer_zan_atlas@390 C: the index finger is its own segment on this page (Index finger (R): 3 phalanges)
+  OK   viewer_zan_atlas@390 C: 1 mm every 10 mm along 82.4 mm -> 9 slices (expected floor((L - 1) / 10) + 1 = 9), 18 faces (near + far each), built in 66 ms
+  OK   viewer_zan_atlas@390 C: interval 10.00-10.00 mm, thickness 1.00-1.00 mm
+  OK   viewer_zan_atlas@390 C: spread x3 draws the faces up to 80 mm apart ((t - mean) x 2 each) and every true position is unchanged (True)
+  OK   viewer_zan_atlas@390 D: tapping the label 'SupeTranMetaLiga-R' opens the popup 'Superficial transverse metacarpal ligament'
+  OK   viewer_zan_atlas@390 D: 13 help texts folded behind an 'i'
+  OK   viewer_zan_atlas@390 E: synthetic geometry: [['dist', 50], ['ang3', 90], ['ang3', 30.000727780827372], ['ang2', 34.978933982660365], ['cobb', 35.00157794298672]] vs [50.0, 90.0, 30.0, 35.0, 35.0] (max error 0.0211)
+  OK   viewer_zan_atlas@390 E: two taps on the model -> 20.0 mm vs |P1 - P2| = 19.96 mm of the tapped surface points
+  OK   viewer_zan_atlas@390 E: three taps on the model -> 122.9° vs 122.85 deg from the tapped surface points
+  OK   viewer_zan_atlas@390 E: Clear removes them (0 left), Undo brings them back (2)
+  OK   viewer_zan_atlas@390 F: changes in 6 places -> Reset -> the page-start state exactly (differs: [])
+  OK   viewer_zan_atlas@390 F: Undo after Reset brings every change back
+  OK   viewer_zan_atlas@390 I [US mode] rotation 0, tilt 0: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.94, 0.90/0.94, 1.07/0.97, 1.07/1.03; median ratio 1.05 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@390 I [US mode] rotation 0, tilt 0 at 4x (re-simulated): 0.99 mm at pixel 0.076 vs expected 0.94
+  OK   viewer_zan_atlas@390 I [US mode] rotation 45: drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.07/0.91, 0.90/0.97, 1.07/1.10, 1.07/1.10; median ratio 0.98 over 4 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@390 I [US mode] rotation 90: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.93, 0.90/1.03, 0.90/1.01; median ratio 0.89 over 3 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@390 I [US mode] rotation 90 at 4x (re-simulated): 0.92 mm at pixel 0.076 vs expected 0.93
+  OK   viewer_zan_atlas@390 I [US mode] tilt 15 (heel): drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.91, 0.90/0.91, 0.90/0.91; median ratio 0.99 over 3 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@390 I [US mode] tilt 15 (rock): drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.07/1.01, 1.07/1.01, 0.90/1.02, 1.07/1.04; median ratio 1.07 over 6 crossings (pixel 0.179 mm)
+  OK   viewer_zan_atlas@390 I [US mode] tilt 15 (rock) at 4x (re-simulated): 0.99 mm at pixel 0.076 vs expected 1.01
+  OK   viewer_zan_atlas@390 I [US mode] depth 3 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.96/0.94, 0.83/0.94, 0.96/0.97; median ratio 1.0 over 3 crossings (pixel 0.138 mm)
+  OK   viewer_zan_atlas@390 I [US mode] depth 8 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.97/0.94, 0.97/0.94, 0.97/0.97, 1.21/1.03; median ratio 1.03 over 6 crossings (pixel 0.242 mm)
+  OK   viewer_zan_atlas@390 K [US mode] linear: footprint 49.0 x 13 mm (expected 49.0 x 13), housing 125 mm, face on the skin (gap -0.006 mm, seat 0.01 mm), marker ridge on the image-left end (True, u -26.3 mm), drawn (1008 / 48 triangles)
+  OK   viewer_zan_atlas@390 K [US mode] convex: footprint 67.9 x 20 mm (expected 67.9 x 20), housing 142 mm, face on the skin (gap -0.074 mm, seat 0.07 mm), marker ridge on the image-left end (True, u -35.7 mm), drawn (1008 / 48 triangles)
+  OK   viewer_zan_atlas@390 K [US mode] sector: footprint 30.0 x 20 mm (expected 30.0 x 20), housing 116 mm, face on the skin (gap 0.214 mm, seat -0.21 mm), marker ridge on the image-left end (True, u -16.8 mm), drawn (840 / 48 triangles)
+  OK   viewer_zan_atlas@390 L [US mode] deltoid: 3 bundles ['acromial (middle) part', 'clavicular (anterior) part', 'spinal (posterior) part'] on ['zan_acromial_part_of_deltoid_muscle_r', 'zan_clavicular_part_of_deltoid_muscle_r', 'zan_scapular_spinal_part_of_deltoid_muscle_r']; axes pairwise [24, 31, 29] deg apart (['origin and insertion markers']); pennation [(21.16, 21.16), (16.63, 16.63), (20.26, 20.26)] (drawn, cited); image fibre vs bundle axis [21.16, 16.63, 20.26] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@390 L [US mode] pectoralis_major: 3 bundles ['abdominal head', 'clavicular head', 'sternocostal head'] on ['zan_abdominal_part_of_pectoralis_major_muscle_r', 'zan_clavicular_head_of_pectoralis_major_muscle_r', 'zan_sternocostal_head_of_pectoralis_major_muscle_r']; axes pairwise [69, 28, 42] deg apart (['bundle centre to the insertion marker']); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0, 0, 0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@390 L [US mode] trapezius: 3 bundles ['ascending (lower) part', 'transverse (middle) part', 'descending (upper) part'] on ['trapezius_r']; axes pairwise [45, 87, 43] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0, 0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(13, 0.0), (5, 0.0), (12, 0.0)]
+  OK   viewer_zan_atlas@390 L [US mode] rectus_femoris: 2 bundles ['straight (direct) head', 'reflected (indirect) head'] on ['rectus_femoris_r', 'rectus_femoris_reflected_head_r']; axes pairwise [86] deg apart (['rule: origin side to insertion side']); pennation [(14, 14.0), (12, 12.0)] (drawn, cited); image fibre vs bundle axis [14, 12.0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@390 J [US mode]: the 3-D thumbnail (88x88 px): ONE tap on its skin moves the probe 481.6 mm to the tapped skin point (off 0.00 mm), face on the skin (gap -0.01 mm); no pad over the thumbnail (True) -- the full-screen split (one tap) gives the drag + pad
+  OK   viewer_zan_atlas@390 G [US mode]: 'Interosseous membrane (forearm)' (drawn 0.90 mm thick) on the image: band 1.48 mm at 1x (pixel 0.179 mm) vs 1.57 mm at 4x (re-simulated: pixel 0.076 mm, 292 of 576 lines, 290 ms, shown True)
+  OK   viewer_zan_atlas@390 J [US mode full-screen split]: the probe is on the 3-D view ([174, 174]) and the pad shows (True)
+  OK   viewer_zan_atlas@390 J [US mode full-screen split]: ONE touch drag from the probe slides it 42.2 mm over the skin (11 live moves) to the skin under the release point (off by 0.00 mm), the axis on the skin normal (True), the face on the skin (gap -0.01 mm), the camera did not orbit (0.00 mm)
+  OK   viewer_zan_atlas@390 J [US mode full-screen split]: pad taps (each one tap, uncovered: [True, True, True, True, True]): rotate 0 -> 345 deg; heel tilt -> 5 deg toward 90 (the star centre image's axis leans 5.00 deg); + marker-side tilt -> 7 deg toward 135; upright + rotate back -> tilt 0, rotation 0
+  steps [US mode full-screen split]: move the probe = 1 drag (before: 'Place on skin' + a tap, per move); rotate 15 deg = 1 tap (before: a slider / mode-only button); tilt 5 deg = 1 tap in any mode (before: mode 2 + a slider); history entries during the test: 0
+  OK   viewer_zan_atlas@390 F: in the US mode the bar's Reset restores the mode's controls (gain 7 -> 0) without leaving it (True)
+  OK   viewer_zan_atlas@390 H: 0 page errors ([])
+=== viewer_f_hr@1400 ===
+  OK   viewer_f_hr@1400 A: 14 real actions, each a new history entry ([] unchanged)
+  OK   viewer_f_hr@1400 A: 12 undos each restore the exact recorded state (mismatch [])
+  OK   viewer_f_hr@1400 A: 12 redos each restore the exact recorded state (mismatch []); history 15/15, redo empty
+  OK   viewer_f_hr@1400 B: two list ticks tapped -> summary 'Marked 2 -> shown', 'Others -> shown', scene 'On screen: 535 shown · 494 hidden'
+  OK   viewer_f_hr@1400 B: one tap 'Fade others' -> 'Others -> faded', scene 'On screen: 535 shown · 494 hidden · 532 faded'
+  OK   viewer_f_hr@1400 B: one tap 'Only marked' -> 'Others -> hidden', scene 'On screen: 2 shown · 1027 hidden' (more hidden than before)
+  OK   viewer_f_hr@1400 B: one tap 'Everything' -> both groups shown again, marks kept (2)
+  OK   viewer_f_hr@1400 B: one-tap row 11 buttons ([['sel-markmode', 112, 28], ['sel-markcur', 91, 28], ['sel-clear', 131, 33], ['sel-undo', 34, 33]]), no horizontal scroll (235 <= 235); advanced parts folded [['ss-det-groups', False], ['ss-det-more', False], ['sel-saved', False], ['sel-share', False]]
+  OK   viewer_f_hr@1400 C: no separate finger phalanges on this page -> the forearm segment (Forearm (R) (radius + ulna): ['radius_r', 'ulna_r', 'ulna_r_zfill', 'radius_r_zfill', 'ulna_r_zfill203s'])
+  OK   viewer_f_hr@1400 C: 1 mm every 10 mm along 250.1 mm -> 25 slices (expected floor((L - 1) / 10) + 1 = 25), 50 faces (near + far each), built in 348 ms
+  OK   viewer_f_hr@1400 C: interval 10.00-10.00 mm, thickness 1.00-1.00 mm
+  OK   viewer_f_hr@1400 C: spread x3 draws the faces up to 240 mm apart ((t - mean) x 2 each) and every true position is unchanged (True)
+  OK   viewer_f_hr@1400 D: hovering the label 'BR-R' opens the popup 'Brachioradialis'
+  OK   viewer_f_hr@1400 D: 13 help texts folded behind an 'i'; a tap shows one (none -> block)
+  OK   viewer_f_hr@1400 E: synthetic geometry: [['dist', 50], ['ang3', 90], ['ang3', 30.000727780827372], ['ang2', 34.978933982660365], ['cobb', 35.00157794298672]] vs [50.0, 90.0, 30.0, 35.0, 35.0] (max error 0.0211)
+  OK   viewer_f_hr@1400 E: two taps on the model -> 71.2 mm vs |P1 - P2| = 71.20 mm of the tapped surface points
+  OK   viewer_f_hr@1400 E: three taps on the model -> 70.7° vs 70.65 deg from the tapped surface points
+  OK   viewer_f_hr@1400 E: Clear removes them (0 left), Undo brings them back (2)
+  OK   viewer_f_hr@1400 F: changes in 6 places -> Reset -> the page-start state exactly (differs: [])
+  OK   viewer_f_hr@1400 F: Undo after Reset brings every change back
+  OK   viewer_f_hr@1400 E: image pane (simulated echo): the four tap points lie on the pane, nothing covers them
+  OK   viewer_f_hr@1400 E: image pane (simulated echo): taps at known pixel offsets -> [('dist', 42.24), ('ang3', 90), ('ang3', 36.87), ('cobb', 20.14)] vs [('dist', 42.23), ('ang3', 90.0), ('ang3', 36.87), ('cobb', 20.0)] (0.2815 mm/px; max error 0.137)
+  OK   viewer_f_hr@1400 G [panel]: 'Antebrachial (deep) fascia of the forearm' (drawn 0.90 mm thick) on the image: band 1.34 mm at 1x (pixel 0.179 mm) vs 1.22 mm at 4x (re-simulated: pixel 0.070 mm, 380 of 625 lines, 453 ms, shown True)
+  OK   viewer_f_hr@1400 I [panel] rotation 0, tilt 0: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.91, 0.90/0.91, 0.90/0.90, 0.90/0.90; median ratio 0.99 over 6 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@1400 I [panel] rotation 0, tilt 0 at 4x (re-simulated): 0.92 mm at pixel 0.07 vs expected 0.91
+  OK   viewer_f_hr@1400 I [panel] rotation 45: drawn sheet thickness along the beam / expected t/|m.b| (mm): 2.51/2.49, 1.07/1.09, 0.90/0.90, 0.90/0.93; median ratio 0.99 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@1400 I [panel] rotation 90: drawn sheet thickness along the beam / expected t/|m.b| (mm): 2.15/2.17, 1.07/0.91, 0.90/0.90, 1.07/0.95; median ratio 0.99 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@1400 I [panel] rotation 90 at 4x (re-simulated): 2.18 mm at pixel 0.07 vs expected 2.17
+  OK   viewer_f_hr@1400 I [panel] tilt 15 (heel): drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.97/1.73, 1.25/1.38, 1.25/0.99, 0.90/0.90; median ratio 1.06 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@1400 I [panel] tilt 15 (rock): drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.07/1.12, 0.90/0.97, 1.07/0.95, 1.07/0.96; median ratio 0.98 over 6 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@1400 I [panel] tilt 15 (rock) at 4x (re-simulated): 1.06 mm at pixel 0.07 vs expected 1.12
+  OK   viewer_f_hr@1400 I [panel] depth 3 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.96/0.91, 0.83/0.91, 0.83/0.90, 0.96/0.90; median ratio 1.05 over 6 crossings (pixel 0.138 mm)
+  OK   viewer_f_hr@1400 I [panel] depth 8 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.97/0.91, 0.72/0.91, 0.97/0.90, 0.97/0.90; median ratio 1.07 over 6 crossings (pixel 0.242 mm)
+  OK   viewer_f_hr@1400 I [panel] CINE (live tier): drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.34/1.12, 0.81/0.97, 1.07/0.95, 1.07/0.96; median ratio 1.14 over 6 crossings (pixel 0.269 mm vs the still frame's 0.179)
+  OK   viewer_f_hr@1400 K [panel] linear: footprint 49.0 x 13 mm (expected 49.0 x 13), housing 125 mm, face on the skin (gap -0.006 mm, seat 0.01 mm), marker ridge on the image-left end (True, u -26.3 mm), drawn (1008 / 48 triangles)
+  OK   viewer_f_hr@1400 K [panel] convex: footprint 67.9 x 20 mm (expected 67.9 x 20), housing 142 mm, face on the skin (gap -0.074 mm, seat 0.07 mm), marker ridge on the image-left end (True, u -35.7 mm), drawn (1008 / 48 triangles)
+  OK   viewer_f_hr@1400 K [panel] sector: footprint 30.0 x 20 mm (expected 30.0 x 20), housing 116 mm, face on the skin (gap 0.214 mm, seat -0.21 mm), marker ridge on the image-left end (True, u -16.8 mm), drawn (840 / 48 triangles)
+  OK   viewer_f_hr@1400 L [panel] deltoid: 3 bundles ['spinal (posterior) part', 'acromial (middle) part', 'clavicular (anterior) part'] on ['deltoid_r']; axes pairwise [28, 44, 17] deg apart (['bundle centre to the insertion marker']); pennation [(20.26, 20.26), (21.16, 21.16), (16.63, 16.63)] (drawn, cited); image fibre vs bundle axis [20.26, 21.16, 16.63] deg; 3-D lines per bundle (count, max deviation) [(10, 0.0), (10, 0.0), (10, 0.0)]
+  OK   viewer_f_hr@1400 L [panel] pectoralis_major: 3 bundles ['abdominal head', 'sternocostal head', 'clavicular head'] on ['pectoralis_major_r']; axes pairwise [27, 55, 29] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0.0, 0.0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(3, 0.0), (18, 0.0), (8, 0.0)]
+  OK   viewer_f_hr@1400 L [panel] trapezius: 3 bundles ['ascending (lower) part', 'transverse (middle) part', 'descending (upper) part'] on ['trapezius_r']; axes pairwise [24, 61, 37] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0.0, 0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(15, 0.0), (4, 0.0), (11, 0.0)]
+  OK   viewer_f_hr@1400 L [panel] rectus_femoris: 2 bundles ['straight (direct) head', 'reflected (indirect) head'] on ['rectus_femoris_r', 'rectus_femoris_reflected_head_r']; axes pairwise [88] deg apart (['rule: origin side to insertion side']); pennation [(14, 14.0), (12, 12.0)] (drawn, cited); image fibre vs bundle axis [14.0, 12.0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0)]
+  OK   viewer_f_hr@1400 J [panel]: the probe is on the 3-D view ([433, 401]) and the pad shows (True)
+  OK   viewer_f_hr@1400 J [panel]: ONE mouse drag from the probe slides it 151.2 mm over the skin (11 live moves) to the skin under the release point (off by 0.00 mm), the axis on the skin normal (True), the face on the skin (gap -0.01 mm), the camera did not orbit (0.00 mm)
+  OK   viewer_f_hr@1400 J [panel]: pad taps (each one tap, uncovered: [True, True, True, True, True]): rotate 0 -> 345 deg; heel tilt -> 5 deg toward 90 (the star centre image's axis leans 5.00 deg); + marker-side tilt -> 7 deg toward 135; upright + rotate back -> tilt 0, rotation 0
+  steps [panel]: move the probe = 1 drag (before: 'Place on skin' + a tap, per move); rotate 15 deg = 1 tap (before: a slider / mode-only button); tilt 5 deg = 1 tap in any mode (before: mode 2 + a slider); history entries during the test: 0
+  OK   viewer_f_hr@1400 G [full-screen split]: 'Antebrachial (deep) fascia of the forearm' (drawn 0.90 mm thick) on the image: band 1.34 mm at 1x (pixel 0.179 mm) vs 1.18 mm at 4x (re-simulated: pixel 0.045 mm, 426 of 982 lines, 712 ms, shown True)
+  OK   viewer_f_hr@1400 J [full-screen split]: the probe is on the 3-D view ([210, 131]) and the pad shows (True)
+  OK   viewer_f_hr@1400 J [full-screen split]: ONE mouse drag from the probe slides it 29.7 mm over the skin (11 live moves) to the skin under the release point (off by 0.00 mm), the axis on the skin normal (True), the face on the skin (gap -0.01 mm), the camera did not orbit (0.00 mm)
+  OK   viewer_f_hr@1400 J [full-screen split]: pad taps (each one tap, uncovered: [True, True, True, True, True]): rotate 0 -> 345 deg; heel tilt -> 5 deg toward 90 (the star centre image's axis leans 5.00 deg); + marker-side tilt -> 7 deg toward 135; upright + rotate back -> tilt 0, rotation 0
+  steps [full-screen split]: move the probe = 1 drag (before: 'Place on skin' + a tap, per move); rotate 15 deg = 1 tap (before: a slider / mode-only button); tilt 5 deg = 1 tap in any mode (before: mode 2 + a slider); history entries during the test: 0
+  OK   viewer_f_hr@1400 E: CT pane: the four tap points lie on the pane, nothing covers them
+  OK   viewer_f_hr@1400 E: CT pane: taps at known pixel offsets -> [('dist', 414.11), ('ang3', 90), ('ang3', 36.87), ('cobb', 20.14)] vs [('dist', 414.11), ('ang3', 90.0), ('ang3', 36.87), ('cobb', 20.0)] (2.7607 mm/px; max error 0.136)
+  OK   viewer_f_hr@1400 H: 0 page errors ([])
+=== viewer_f_hr@390 ===
+  OK   viewer_f_hr@390 A: 14 real actions, each a new history entry ([] unchanged)
+  OK   viewer_f_hr@390 A: 12 undos each restore the exact recorded state (mismatch [])
+  OK   viewer_f_hr@390 A: 12 redos each restore the exact recorded state (mismatch []); history 15/15, redo empty
+  OK   viewer_f_hr@390 B: two list ticks tapped -> summary 'Marked 2 -> shown', 'Others -> shown', scene 'On screen: 535 shown · 494 hidden'
+  OK   viewer_f_hr@390 B: one tap 'Fade others' -> 'Others -> faded', scene 'On screen: 535 shown · 494 hidden · 532 faded'
+  OK   viewer_f_hr@390 B: one tap 'Only marked' -> 'Others -> hidden', scene 'On screen: 2 shown · 1027 hidden' (more hidden than before)
+  OK   viewer_f_hr@390 B: one tap 'Everything' -> both groups shown again, marks kept (2)
+  OK   viewer_f_hr@390 B: one-tap row 11 buttons >= 36 px tall ([['sel-markmode', 122, 38], ['sel-markcur', 98, 38], ['sel-clear', 96, 38], ['sel-undo', 34, 38]]), no horizontal scroll (390 <= 390); advanced parts folded [['ss-det-groups', False], ['ss-det-more', False], ['sel-saved', False], ['sel-share', False]]
+  OK   viewer_f_hr@390 C: no separate finger phalanges on this page -> the forearm segment (Forearm (R) (radius + ulna): ['radius_r', 'ulna_r', 'ulna_r_zfill', 'radius_r_zfill', 'ulna_r_zfill203s'])
+  OK   viewer_f_hr@390 C: 1 mm every 10 mm along 250.1 mm -> 25 slices (expected floor((L - 1) / 10) + 1 = 25), 50 faces (near + far each), built in 273 ms
+  OK   viewer_f_hr@390 C: interval 10.00-10.00 mm, thickness 1.00-1.00 mm
+  OK   viewer_f_hr@390 C: spread x3 draws the faces up to 240 mm apart ((t - mean) x 2 each) and every true position is unchanged (True)
+  OK   viewer_f_hr@390 D: tapping the label 'EO-R' opens the popup 'External oblique'
+  OK   viewer_f_hr@390 D: 13 help texts folded behind an 'i'
+  OK   viewer_f_hr@390 E: synthetic geometry: [['dist', 50], ['ang3', 90], ['ang3', 30.000727780827372], ['ang2', 34.978933982660365], ['cobb', 35.00157794298672]] vs [50.0, 90.0, 30.0, 35.0, 35.0] (max error 0.0211)
+  OK   viewer_f_hr@390 E: two taps on the model -> 35.4 mm vs |P1 - P2| = 35.39 mm of the tapped surface points
+  OK   viewer_f_hr@390 E: three taps on the model -> 60.8° vs 60.83 deg from the tapped surface points
+  OK   viewer_f_hr@390 E: Clear removes them (0 left), Undo brings them back (2)
+  OK   viewer_f_hr@390 F: changes in 6 places -> Reset -> the page-start state exactly (differs: [])
+  OK   viewer_f_hr@390 F: Undo after Reset brings every change back
+  OK   viewer_f_hr@390 I [US mode] rotation 0, tilt 0: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.90/0.91, 0.90/0.91, 0.90/0.90, 0.90/0.90; median ratio 0.99 over 6 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@390 I [US mode] rotation 0, tilt 0 at 4x (re-simulated): 0.92 mm at pixel 0.076 vs expected 0.91
+  OK   viewer_f_hr@390 I [US mode] rotation 45: drawn sheet thickness along the beam / expected t/|m.b| (mm): 2.51/2.49, 1.07/1.09, 0.90/0.90, 0.90/0.93; median ratio 0.99 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@390 I [US mode] rotation 90: drawn sheet thickness along the beam / expected t/|m.b| (mm): 2.15/2.17, 1.07/0.91, 0.90/0.90, 1.07/0.95; median ratio 0.99 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@390 I [US mode] rotation 90 at 4x (re-simulated): 2.14 mm at pixel 0.076 vs expected 2.17
+  OK   viewer_f_hr@390 I [US mode] tilt 15 (heel): drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.97/1.73, 1.25/1.38, 1.25/0.99, 0.90/0.90; median ratio 1.06 over 5 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@390 I [US mode] tilt 15 (rock): drawn sheet thickness along the beam / expected t/|m.b| (mm): 1.07/1.12, 0.90/0.97, 1.07/0.95, 1.07/0.96; median ratio 0.98 over 6 crossings (pixel 0.179 mm)
+  OK   viewer_f_hr@390 I [US mode] tilt 15 (rock) at 4x (re-simulated): 1.15 mm at pixel 0.076 vs expected 1.12
+  OK   viewer_f_hr@390 I [US mode] depth 3 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.96/0.91, 0.83/0.91, 0.83/0.90, 0.96/0.90; median ratio 1.05 over 6 crossings (pixel 0.138 mm)
+  OK   viewer_f_hr@390 I [US mode] depth 8 cm: drawn sheet thickness along the beam / expected t/|m.b| (mm): 0.97/0.91, 0.72/0.91, 0.97/0.90, 0.97/0.90; median ratio 1.07 over 6 crossings (pixel 0.242 mm)
+  OK   viewer_f_hr@390 K [US mode] linear: footprint 49.0 x 13 mm (expected 49.0 x 13), housing 125 mm, face on the skin (gap -0.006 mm, seat 0.01 mm), marker ridge on the image-left end (True, u -26.3 mm), drawn (1008 / 48 triangles)
+  OK   viewer_f_hr@390 K [US mode] convex: footprint 67.9 x 20 mm (expected 67.9 x 20), housing 142 mm, face on the skin (gap -0.074 mm, seat 0.07 mm), marker ridge on the image-left end (True, u -35.7 mm), drawn (1008 / 48 triangles)
+  OK   viewer_f_hr@390 K [US mode] sector: footprint 30.0 x 20 mm (expected 30.0 x 20), housing 116 mm, face on the skin (gap 0.214 mm, seat -0.21 mm), marker ridge on the image-left end (True, u -16.8 mm), drawn (840 / 48 triangles)
+  OK   viewer_f_hr@390 L [US mode] deltoid: 3 bundles ['spinal (posterior) part', 'acromial (middle) part', 'clavicular (anterior) part'] on ['deltoid_r']; axes pairwise [28, 44, 17] deg apart (['bundle centre to the insertion marker']); pennation [(20.26, 20.26), (21.16, 21.16), (16.63, 16.63)] (drawn, cited); image fibre vs bundle axis [20.26, 21.16, 16.63] deg; 3-D lines per bundle (count, max deviation) [(10, 0.0), (10, 0.0), (10, 0.0)]
+  OK   viewer_f_hr@390 L [US mode] pectoralis_major: 3 bundles ['abdominal head', 'sternocostal head', 'clavicular head'] on ['pectoralis_major_r']; axes pairwise [27, 55, 29] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0.0, 0.0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(3, 0.0), (18, 0.0), (8, 0.0)]
+  OK   viewer_f_hr@390 L [US mode] trapezius: 3 bundles ['ascending (lower) part', 'transverse (middle) part', 'descending (upper) part'] on ['trapezius_r']; axes pairwise [24, 61, 37] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0.0, 0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(15, 0.0), (4, 0.0), (11, 0.0)]
+  OK   viewer_f_hr@390 L [US mode] rectus_femoris: 2 bundles ['straight (direct) head', 'reflected (indirect) head'] on ['rectus_femoris_r', 'rectus_femoris_reflected_head_r']; axes pairwise [88] deg apart (['rule: origin side to insertion side']); pennation [(14, 14.0), (12, 12.0)] (drawn, cited); image fibre vs bundle axis [14.0, 12.0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0)]
+  OK   viewer_f_hr@390 J [US mode]: the 3-D thumbnail (88x88 px): ONE tap on its skin moves the probe 362.3 mm to the tapped skin point (off 0.00 mm), face on the skin (gap -0.01 mm); no pad over the thumbnail (True) -- the full-screen split (one tap) gives the drag + pad
+  OK   viewer_f_hr@390 G [US mode]: 'Antebrachial (deep) fascia of the forearm' (drawn 0.90 mm thick) on the image: band 1.34 mm at 1x (pixel 0.179 mm) vs 1.16 mm at 4x (re-simulated: pixel 0.076 mm, 287 of 576 lines, 206 ms, shown True)
+  OK   viewer_f_hr@390 J [US mode full-screen split]: the probe is on the 3-D view ([215, 163]) and the pad shows (True)
+  OK   viewer_f_hr@390 J [US mode full-screen split]: ONE touch drag from the probe slides it 24.7 mm over the skin (11 live moves) to the skin under the release point (off by 0.00 mm), the axis on the skin normal (True), the face on the skin (gap -0.01 mm), the camera did not orbit (0.00 mm)
+  OK   viewer_f_hr@390 J [US mode full-screen split]: pad taps (each one tap, uncovered: [True, True, True, True, True]): rotate 0 -> 345 deg; heel tilt -> 5 deg toward 90 (the star centre image's axis leans 5.00 deg); + marker-side tilt -> 7 deg toward 135; upright + rotate back -> tilt 0, rotation 0
+  steps [US mode full-screen split]: move the probe = 1 drag (before: 'Place on skin' + a tap, per move); rotate 15 deg = 1 tap (before: a slider / mode-only button); tilt 5 deg = 1 tap in any mode (before: mode 2 + a slider); history entries during the test: 0
+  OK   viewer_f_hr@390 F: in the US mode the bar's Reset restores the mode's controls (gain 7 -> 0) without leaving it (True)
+  OK   viewer_f_hr@390 H: 0 page errors ([])
+
+ALL OK
+
+# final pages (/dev/shm/q294, after the curated-architecture flag regen): K + L desktop re-check
+=== viewer_zan_atlas@1400 ===
+  OK   viewer_zan_atlas@1400 K [panel] linear: footprint 49.0 x 13 mm (expected 49.0 x 13), housing 125 mm, face on the skin (gap -0.006 mm, seat 0.01 mm), marker ridge on the image-left end (True, u -26.3 mm), drawn (1008 / 48 triangles)
+  OK   viewer_zan_atlas@1400 K [panel] convex: footprint 67.9 x 20 mm (expected 67.9 x 20), housing 142 mm, face on the skin (gap -0.074 mm, seat 0.07 mm), marker ridge on the image-left end (True, u -35.7 mm), drawn (1008 / 48 triangles)
+  OK   viewer_zan_atlas@1400 K [panel] sector: footprint 30.0 x 20 mm (expected 30.0 x 20), housing 116 mm, face on the skin (gap 0.214 mm, seat -0.21 mm), marker ridge on the image-left end (True, u -16.8 mm), drawn (840 / 48 triangles)
+  OK   viewer_zan_atlas@1400 L [panel] deltoid: 3 bundles ['acromial (middle) part', 'clavicular (anterior) part', 'spinal (posterior) part'] on ['zan_acromial_part_of_deltoid_muscle_r', 'zan_clavicular_part_of_deltoid_muscle_r', 'zan_scapular_spinal_part_of_deltoid_muscle_r']; axes pairwise [24, 31, 29] deg apart (['origin and insertion markers']); pennation [(21.16, 21.16), (16.63, 16.63), (20.26, 20.26)] (drawn, cited); image fibre vs bundle axis [21.16, 16.63, 20.26] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@1400 L [panel] pectoralis_major: 3 bundles ['abdominal head', 'clavicular head', 'sternocostal head'] on ['zan_abdominal_part_of_pectoralis_major_muscle_r', 'zan_clavicular_head_of_pectoralis_major_muscle_r', 'zan_sternocostal_head_of_pectoralis_major_muscle_r']; axes pairwise [69, 28, 42] deg apart (['bundle centre to the insertion marker']); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0, 0, 0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@1400 L [panel] trapezius: 3 bundles ['ascending (lower) part', 'transverse (middle) part', 'descending (upper) part'] on ['trapezius_r']; axes pairwise [45, 87, 43] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0, 0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(13, 0.0), (5, 0.0), (12, 0.0)]
+  OK   viewer_zan_atlas@1400 L [panel] rectus_femoris: 2 bundles ['straight (direct) head', 'reflected (indirect) head'] on ['rectus_femoris_r', 'rectus_femoris_reflected_head_r']; axes pairwise [86] deg apart (['rule: origin side to insertion side']); pennation [(14, 14.0), (12, 12.0)] (drawn, cited); image fibre vs bundle axis [14, 12.0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0)]
+  OK   viewer_zan_atlas@1400 H: 0 page errors ([])
+=== viewer_f_hr@1400 ===
+  OK   viewer_f_hr@1400 K [panel] linear: footprint 49.0 x 13 mm (expected 49.0 x 13), housing 125 mm, face on the skin (gap -0.006 mm, seat 0.01 mm), marker ridge on the image-left end (True, u -26.3 mm), drawn (1008 / 48 triangles)
+  OK   viewer_f_hr@1400 K [panel] convex: footprint 67.9 x 20 mm (expected 67.9 x 20), housing 142 mm, face on the skin (gap -0.074 mm, seat 0.07 mm), marker ridge on the image-left end (True, u -35.7 mm), drawn (1008 / 48 triangles)
+  OK   viewer_f_hr@1400 K [panel] sector: footprint 30.0 x 20 mm (expected 30.0 x 20), housing 116 mm, face on the skin (gap 0.214 mm, seat -0.21 mm), marker ridge on the image-left end (True, u -16.8 mm), drawn (840 / 48 triangles)
+  OK   viewer_f_hr@1400 L [panel] deltoid: 3 bundles ['spinal (posterior) part', 'acromial (middle) part', 'clavicular (anterior) part'] on ['deltoid_r']; axes pairwise [28, 44, 17] deg apart (['bundle centre to the insertion marker']); pennation [(20.26, 20.26), (21.16, 21.16), (16.63, 16.63)] (drawn, cited); image fibre vs bundle axis [20.26, 21.16, 16.63] deg; 3-D lines per bundle (count, max deviation) [(10, 0.0), (10, 0.0), (10, 0.0)]
+  OK   viewer_f_hr@1400 L [panel] pectoralis_major: 3 bundles ['abdominal head', 'sternocostal head', 'clavicular head'] on ['pectoralis_major_r']; axes pairwise [27, 55, 29] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0.0, 0.0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(3, 0.0), (18, 0.0), (8, 0.0)]
+  OK   viewer_f_hr@1400 L [panel] trapezius: 3 bundles ['ascending (lower) part', 'transverse (middle) part', 'descending (upper) part'] on ['trapezius_r']; axes pairwise [24, 61, 37] deg apart (["rule: the bundle's origin side to the muscle's insertion side"]); pennation [(0, 0.0), (0, 0.0), (0, 0.0)] (drawn, cited); image fibre vs bundle axis [0.0, 0, 0.0] deg; 3-D lines per bundle (count, max deviation) [(15, 0.0), (4, 0.0), (11, 0.0)]
+  OK   viewer_f_hr@1400 L [panel] rectus_femoris: 2 bundles ['straight (direct) head', 'reflected (indirect) head'] on ['rectus_femoris_r', 'rectus_femoris_reflected_head_r']; axes pairwise [88] deg apart (['rule: origin side to insertion side']); pennation [(14, 14.0), (12, 12.0)] (drawn, cited); image fibre vs bundle axis [14.0, 12.0] deg; 3-D lines per bundle (count, max deviation) [(30, 0.0), (30, 0.0)]
+  OK   viewer_f_hr@1400 H: 0 page errors ([])
+
+ALL OK

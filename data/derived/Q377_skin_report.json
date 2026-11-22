@@ -1,0 +1,8519 @@
+{
+ "schema": "nmsk.q377.skin.v1",
+ "round": "Q377",
+ "generated": "2026-11-18",
+ "page": "atlas_viewer_base_female",
+ "written": true,
+ "source_page": "atlas_viewer_zan_atlas",
+ "parameters": {
+  "weld_mm": 0.03,
+  "rim_mm": 1.0,
+  "cap_mm": 12.0,
+  "area_max_pct": 2.0,
+  "thick_tol_mm": 0.5,
+  "gain_tol": 0,
+  "local_map": "Q366 (k=64, t_hi=1, k_hi=10, patch_max=12) over all twin skin slabs together"
+ },
+ "totals": {
+  "slabs": 246,
+  "twins": 226,
+  "without_twin": [
+   "skin_perineum_rule_q358",
+   "skin_vulva_cvh",
+   "zan_skin_deltopectoral_triangle_l",
+   "zan_skin_deltopectoral_triangle_r",
+   "zan_skin_epigastric_region_l",
+   "zan_skin_epigastric_region_r",
+   "zan_skin_hypochondriac_region_l",
+   "zan_skin_hypochondriac_region_r",
+   "zan_skin_infraclavicular_fossa_l",
+   "zan_skin_infraclavicular_fossa_r",
+   "zan_skin_inframammary_region_l",
+   "zan_skin_inframammary_region_r",
+   "zan_skin_lateral_region_of_thorax_l",
+   "zan_skin_lateral_region_of_thorax_r",
+   "zan_skin_mammary_region_l",
+   "zan_skin_mammary_region_r",
+   "zan_skin_pectoral_region_l",
+   "zan_skin_pectoral_region_r",
+   "zan_skin_presternal_region_l",
+   "zan_skin_presternal_region_r"
+  ],
+  "vertices": 49648,
+  "residual": {
+   "max_mm": 43.67,
+   "p95_mm": 2.06,
+   "mean_mm": 0.46
+  },
+  "slabs_with_spikes": 27,
+  "spike_vertices": 100,
+  "spike_patches": 48,
+  "patches_rejected": {
+   "refitted map disagrees with the first-pass residual (unstable)": 2
+  },
+  "frozen_vertices": 400,
+  "borders": 600,
+  "coincident_pairs": 5011,
+  "coincident_separated": 2,
+  "rim_pairs": 2910,
+  "rim_broken": 47,
+  "borders_separated": 33,
+  "group_rules": {
+   "joined, not all spikes: frozen": 3,
+   "all spikes: mean": 2,
+   "separated, no spike: mean of predictions": 1
+  },
+  "corrected": 10,
+  "held": {
+   "zan_skin_auricular_region_l": [
+    "border_share",
+    "under_skin"
+   ],
+   "zan_skin_auricular_region_r": [
+    "border_share",
+    "under_skin"
+   ],
+   "zan_skin_buccal_region_l": [
+    "border_share",
+    "under_skin"
+   ],
+   "zan_skin_buccal_region_r": [
+    "border_share",
+    "under_skin"
+   ],
+   "zan_skin_mental_region_l": [
+    "under_skin"
+   ],
+   "zan_skin_mental_region_r": [
+    "under_skin"
+   ],
+   "zan_skin_mentolabial_sulcus_l": [
+    "under_skin"
+   ],
+   "zan_skin_mentolabial_sulcus_r": [
+    "under_skin"
+   ],
+   "zan_skin_nasal_region_l": [
+    "under_skin"
+   ],
+   "zan_skin_nasal_region_r": [
+    "under_skin"
+   ],
+   "zan_skin_parotideomasseteric_region_l": [
+    "under_skin"
+   ],
+   "zan_skin_posterior_auricular_groove_l": [
+    "border_share",
+    "under_skin"
+   ],
+   "zan_skin_posterior_auricular_groove_r": [
+    "border_share",
+    "under_skin"
+   ],
+   "zan_skin_submandibular_triangle_l": [
+    "under_skin"
+   ],
+   "zan_skin_submandibular_triangle_r": [
+    "border_share",
+    "under_skin"
+   ],
+   "zan_skin_submental_triangle_l": [
+    "under_skin"
+   ],
+   "zan_skin_submental_triangle_r": [
+    "under_skin"
+   ]
+  },
+  "vertices_moved": 27,
+  "move": {
+   "max_mm": 6.38,
+   "p95_mm": 6.35,
+   "mean_mm": 5.88
+  }
+ },
+ "borders_separated": [
+  {
+   "a": "zan_skin_mental_region_l",
+   "b": "zan_skin_submental_triangle_l",
+   "coincident": 7,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 3,
+   "rim_broken": 2,
+   "rim_max_mm": 6.775
+  },
+  {
+   "a": "zan_skin_mental_region_r",
+   "b": "zan_skin_submental_triangle_r",
+   "coincident": 7,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 3,
+   "rim_broken": 2,
+   "rim_max_mm": 6.698
+  },
+  {
+   "a": "zan_skin_eyebrow_l",
+   "b": "zan_skin_frontal_region_l",
+   "coincident": 11,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 10,
+   "rim_broken": 2,
+   "rim_max_mm": 6.593
+  },
+  {
+   "a": "zan_skin_eyebrow_r",
+   "b": "zan_skin_frontal_region_r",
+   "coincident": 11,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 10,
+   "rim_broken": 2,
+   "rim_max_mm": 6.591
+  },
+  {
+   "a": "zan_skin_mental_region_r",
+   "b": "zan_skin_oral_region_r",
+   "coincident": 5,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 3,
+   "rim_broken": 1,
+   "rim_max_mm": 4.716
+  },
+  {
+   "a": "zan_skin_buccal_region_l",
+   "b": "zan_skin_mental_region_l",
+   "coincident": 5,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 5,
+   "rim_broken": 1,
+   "rim_max_mm": 3.117
+  },
+  {
+   "a": "zan_skin_buccal_region_r",
+   "b": "zan_skin_mental_region_r",
+   "coincident": 5,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 5,
+   "rim_broken": 1,
+   "rim_max_mm": 3.117
+  },
+  {
+   "a": "zan_skin_buccal_region_r",
+   "b": "zan_skin_submandibular_triangle_r",
+   "coincident": 6,
+   "separated": 0,
+   "sep_max_mm": 0.001,
+   "rim_pairs": 3,
+   "rim_broken": 1,
+   "rim_max_mm": 2.742
+  },
+  {
+   "a": "zan_skin_nasal_region_l",
+   "b": "zan_skin_nasal_region_r",
+   "coincident": 21,
+   "separated": 2,
+   "sep_max_mm": 0.845,
+   "rim_pairs": 27,
+   "rim_broken": 1,
+   "rim_max_mm": 2.281
+  },
+  {
+   "a": "zan_skin_auricular_region_r",
+   "b": "zan_skin_posterior_auricular_groove_r",
+   "coincident": 0,
+   "separated": 0,
+   "sep_max_mm": 0.0,
+   "rim_pairs": 13,
+   "rim_broken": 1,
+   "rim_max_mm": 2.113
+  },
+  {
+   "a": "zan_skin_auricular_region_l",
+   "b": "zan_skin_posterior_auricular_groove_l",
+   "coincident": 0,
+   "separated": 0,
+   "sep_max_mm": 0.0,
+   "rim_pairs": 13,
+   "rim_broken": 1,
+   "rim_max_mm": 2.111
+  },
+  {
+   "a": "zan_skin_buccal_region_l",
+   "b": "zan_skin_submandibular_triangle_l",
+   "coincident": 6,
+   "separated": 0,
+   "sep_max_mm": 0.001,
+   "rim_pairs": 3,
+   "rim_broken": 1,
+   "rim_max_mm": 1.618
+  },
+  {
+   "a": "zan_skin_anterior_region_of_arm_r",
+   "b": "zan_skin_deltoid_region_r",
+   "coincident": 10,
+   "separated": 0,
+   "sep_max_mm": 0.003,
+   "rim_pairs": 7,
+   "rim_broken": 1,
+   "rim_max_mm": 1.597
+  },
+  {
+   "a": "zan_skin_anterior_region_of_arm_l",
+   "b": "zan_skin_deltoid_region_l",
+   "coincident": 10,
+   "separated": 0,
+   "sep_max_mm": 0.003,
+   "rim_pairs": 7,
+   "rim_broken": 1,
+   "rim_max_mm": 1.592
+  },
+  {
+   "a": "zan_skin_anterior_region_of_thigh_l",
+   "b": "zan_skin_lateral_region_of_abdomen_l",
+   "coincident": 9,
+   "separated": 0,
+   "sep_max_mm": 0.01,
+   "rim_pairs": 8,
+   "rim_broken": 3,
+   "rim_max_mm": 1.433
+  },
+  {
+   "a": "zan_skin_anterior_region_of_thigh_r",
+   "b": "zan_skin_lateral_region_of_abdomen_r",
+   "coincident": 9,
+   "separated": 0,
+   "sep_max_mm": 0.007,
+   "rim_pairs": 8,
+   "rim_broken": 3,
+   "rim_max_mm": 1.429
+  },
+  {
+   "a": "zan_skin_gluteal_region_l",
+   "b": "zan_skin_lumbar_region_l",
+   "coincident": 8,
+   "separated": 0,
+   "sep_max_mm": 0.005,
+   "rim_pairs": 8,
+   "rim_broken": 1,
+   "rim_max_mm": 1.287
+  },
+  {
+   "a": "zan_skin_gluteal_region_r",
+   "b": "zan_skin_lumbar_region_r",
+   "coincident": 8,
+   "separated": 0,
+   "sep_max_mm": 0.006,
+   "rim_pairs": 8,
+   "rim_broken": 1,
+   "rim_max_mm": 1.287
+  },
+  {
+   "a": "zan_skin_labial_commissure_l",
+   "b": "zan_skin_oral_region_l",
+   "coincident": 24,
+   "separated": 0,
+   "sep_max_mm": 0.019,
+   "rim_pairs": 16,
+   "rim_broken": 2,
+   "rim_max_mm": 1.247
+  },
+  {
+   "a": "zan_skin_labial_commissure_r",
+   "b": "zan_skin_oral_region_r",
+   "coincident": 24,
+   "separated": 0,
+   "sep_max_mm": 0.019,
+   "rim_pairs": 16,
+   "rim_broken": 2,
+   "rim_max_mm": 1.247
+  },
+  {
+   "a": "zan_skin_gluteal_fold_l",
+   "b": "zan_skin_posterior_region_of_thigh_l",
+   "coincident": 7,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 3,
+   "rim_broken": 2,
+   "rim_max_mm": 1.165
+  },
+  {
+   "a": "zan_skin_gluteal_fold_r",
+   "b": "zan_skin_posterior_region_of_thigh_r",
+   "coincident": 7,
+   "separated": 0,
+   "sep_max_mm": 0.004,
+   "rim_pairs": 3,
+   "rim_broken": 2,
+   "rim_max_mm": 1.165
+  },
+  {
+   "a": "zan_skin_popliteal_fossa_l",
+   "b": "zan_skin_posterior_region_of_knee_l",
+   "coincident": 16,
+   "separated": 0,
+   "sep_max_mm": 0.003,
+   "rim_pairs": 14,
+   "rim_broken": 1,
+   "rim_max_mm": 1.133
+  },
+  {
+   "a": "zan_skin_popliteal_fossa_r",
+   "b": "zan_skin_posterior_region_of_knee_r",
+   "coincident": 16,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 14,
+   "rim_broken": 1,
+   "rim_max_mm": 1.13
+  },
+  {
+   "a": "zan_skin_anterior_region_of_thigh_l",
+   "b": "zan_skin_gluteal_region_l",
+   "coincident": 10,
+   "separated": 0,
+   "sep_max_mm": 0.007,
+   "rim_pairs": 8,
+   "rim_broken": 1,
+   "rim_max_mm": 1.106
+  },
+  {
+   "a": "zan_skin_anterior_region_of_thigh_r",
+   "b": "zan_skin_gluteal_region_r",
+   "coincident": 10,
+   "separated": 0,
+   "sep_max_mm": 0.008,
+   "rim_pairs": 8,
+   "rim_broken": 1,
+   "rim_max_mm": 1.104
+  },
+  {
+   "a": "zan_skin_umbilical_region_l",
+   "b": "zan_skin_umbilicus_l",
+   "coincident": 5,
+   "separated": 0,
+   "sep_max_mm": 0.003,
+   "rim_pairs": 3,
+   "rim_broken": 1,
+   "rim_max_mm": 1.059
+  },
+  {
+   "a": "zan_skin_umbilical_region_r",
+   "b": "zan_skin_umbilicus_r",
+   "coincident": 5,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 3,
+   "rim_broken": 1,
+   "rim_max_mm": 1.058
+  },
+  {
+   "a": "zan_skin_infrascapular_region_r",
+   "b": "zan_skin_vertebral_region_r",
+   "coincident": 12,
+   "separated": 0,
+   "sep_max_mm": 0.005,
+   "rim_pairs": 10,
+   "rim_broken": 2,
+   "rim_max_mm": 1.055
+  },
+  {
+   "a": "zan_skin_infrascapular_region_l",
+   "b": "zan_skin_vertebral_region_l",
+   "coincident": 12,
+   "separated": 0,
+   "sep_max_mm": 0.008,
+   "rim_pairs": 10,
+   "rim_broken": 2,
+   "rim_max_mm": 1.054
+  },
+  {
+   "a": "zan_skin_anal_region_l",
+   "b": "zan_skin_gluteal_fold_l",
+   "coincident": 2,
+   "separated": 0,
+   "sep_max_mm": 0.002,
+   "rim_pairs": 2,
+   "rim_broken": 1,
+   "rim_max_mm": 1.026
+  },
+  {
+   "a": "zan_skin_anal_region_r",
+   "b": "zan_skin_gluteal_fold_r",
+   "coincident": 2,
+   "separated": 0,
+   "sep_max_mm": 0.001,
+   "rim_pairs": 2,
+   "rim_broken": 1,
+   "rim_max_mm": 1.025
+  },
+  {
+   "a": "zan_skin_posterior_region_of_neck_l",
+   "b": "zan_skin_posterior_region_of_neck_r",
+   "coincident": 14,
+   "separated": 0,
+   "sep_max_mm": 0.026,
+   "rim_pairs": 11,
+   "rim_broken": 1,
+   "rim_max_mm": 1.001
+  }
+ ],
+ "without_twin_borders": {
+  "zan_skin_deltopectoral_triangle_l|zan_skin_deltoid_region_l": {
+   "border": 12,
+   "shared": 12,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltoid_region_l|zan_skin_deltopectoral_triangle_l": {
+   "border": 13,
+   "shared": 13,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltopectoral_triangle_l|zan_skin_infraclavicular_fossa_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_l|zan_skin_deltopectoral_triangle_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltopectoral_triangle_l|zan_skin_lateral_region_of_thorax_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_deltopectoral_triangle_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_pectoral_region_l|zan_skin_deltopectoral_triangle_l": {
+   "border": 21,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 14,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltopectoral_triangle_r|zan_skin_deltoid_region_r": {
+   "border": 11,
+   "shared": 11,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltoid_region_r|zan_skin_deltopectoral_triangle_r": {
+   "border": 14,
+   "shared": 14,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltopectoral_triangle_r|zan_skin_infraclavicular_fossa_r": {
+   "border": 3,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_r|zan_skin_deltopectoral_triangle_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_pectoral_region_r|zan_skin_deltopectoral_triangle_r": {
+   "border": 19,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 12,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_epigastric_region_l|zan_skin_epigastric_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_epigastric_region_r|zan_skin_epigastric_region_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_epigastric_region_l|zan_skin_hypochondriac_region_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_l|zan_skin_epigastric_region_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_epigastric_region_l|zan_skin_lateral_region_of_abdomen_l": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.269
+  },
+  "zan_skin_lateral_region_of_abdomen_l|zan_skin_epigastric_region_l": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.269
+  },
+  "zan_skin_epigastric_region_l|zan_skin_umbilical_region_l": {
+   "border": 20,
+   "shared": 13,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 6,
+   "offset_max_mm": 0.13
+  },
+  "zan_skin_umbilical_region_l|zan_skin_epigastric_region_l": {
+   "border": 14,
+   "shared": 13,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.13
+  },
+  "zan_skin_epigastric_region_l|zan_skin_umbilical_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_umbilical_region_r|zan_skin_epigastric_region_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_epigastric_region_r|zan_skin_hypochondriac_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_r|zan_skin_epigastric_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_epigastric_region_r|zan_skin_lateral_region_of_abdomen_r": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.271
+  },
+  "zan_skin_lateral_region_of_abdomen_r|zan_skin_epigastric_region_r": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.271
+  },
+  "zan_skin_epigastric_region_r|zan_skin_umbilical_region_l": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.13
+  },
+  "zan_skin_umbilical_region_l|zan_skin_epigastric_region_r": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.13
+  },
+  "zan_skin_epigastric_region_r|zan_skin_umbilical_region_r": {
+   "border": 20,
+   "shared": 14,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 6,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_umbilical_region_r|zan_skin_epigastric_region_r": {
+   "border": 14,
+   "shared": 14,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_l|zan_skin_infrascapular_region_l": {
+   "border": 8,
+   "shared": 8,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infrascapular_region_l|zan_skin_hypochondriac_region_l": {
+   "border": 10,
+   "shared": 10,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_l|zan_skin_lateral_region_of_abdomen_l": {
+   "border": 22,
+   "shared": 18,
+   "tjunction": 0,
+   "rim_join": 2,
+   "unjoined": 2,
+   "offset_max_mm": 0.593
+  },
+  "zan_skin_lateral_region_of_abdomen_l|zan_skin_hypochondriac_region_l": {
+   "border": 24,
+   "shared": 22,
+   "tjunction": 0,
+   "rim_join": 2,
+   "unjoined": 0,
+   "offset_max_mm": 0.593
+  },
+  "zan_skin_hypochondriac_region_l|zan_skin_lateral_region_of_thorax_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_hypochondriac_region_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_l|zan_skin_lumbar_region_l": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.394
+  },
+  "zan_skin_lumbar_region_l|zan_skin_hypochondriac_region_l": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.394
+  },
+  "zan_skin_hypochondriac_region_l|zan_skin_umbilical_region_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_umbilical_region_l|zan_skin_hypochondriac_region_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_r|zan_skin_infrascapular_region_r": {
+   "border": 8,
+   "shared": 8,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infrascapular_region_r|zan_skin_hypochondriac_region_r": {
+   "border": 10,
+   "shared": 10,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_r|zan_skin_lateral_region_of_abdomen_r": {
+   "border": 21,
+   "shared": 17,
+   "tjunction": 0,
+   "rim_join": 2,
+   "unjoined": 2,
+   "offset_max_mm": 0.595
+  },
+  "zan_skin_lateral_region_of_abdomen_r|zan_skin_hypochondriac_region_r": {
+   "border": 24,
+   "shared": 22,
+   "tjunction": 0,
+   "rim_join": 2,
+   "unjoined": 0,
+   "offset_max_mm": 0.595
+  },
+  "zan_skin_hypochondriac_region_r|zan_skin_lateral_region_of_thorax_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_r|zan_skin_hypochondriac_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_hypochondriac_region_r|zan_skin_lumbar_region_r": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.395
+  },
+  "zan_skin_lumbar_region_r|zan_skin_hypochondriac_region_r": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.395
+  },
+  "zan_skin_hypochondriac_region_r|zan_skin_umbilical_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_umbilical_region_r|zan_skin_hypochondriac_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_l|zan_skin_deltoid_region_l": {
+   "border": 7,
+   "shared": 6,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltoid_region_l|zan_skin_infraclavicular_fossa_l": {
+   "border": 6,
+   "shared": 6,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_l|zan_skin_lateral_region_of_neck_l": {
+   "border": 17,
+   "shared": 11,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 5,
+   "offset_max_mm": 0.413
+  },
+  "zan_skin_lateral_region_of_neck_l|zan_skin_infraclavicular_fossa_l": {
+   "border": 9,
+   "shared": 8,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.413
+  },
+  "zan_skin_pectoral_region_l|zan_skin_infraclavicular_fossa_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_l|zan_skin_posterior_region_of_neck_l": {
+   "border": 8,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_posterior_region_of_neck_l|zan_skin_infraclavicular_fossa_l": {
+   "border": 8,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_l|zan_skin_sternocleidomastoid_region_l": {
+   "border": 11,
+   "shared": 11,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_sternocleidomastoid_region_l|zan_skin_infraclavicular_fossa_l": {
+   "border": 11,
+   "shared": 11,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_r|zan_skin_deltoid_region_r": {
+   "border": 8,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltoid_region_r|zan_skin_infraclavicular_fossa_r": {
+   "border": 6,
+   "shared": 6,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_r|zan_skin_lateral_region_of_neck_r": {
+   "border": 17,
+   "shared": 11,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 5,
+   "offset_max_mm": 0.41
+  },
+  "zan_skin_lateral_region_of_neck_r|zan_skin_infraclavicular_fossa_r": {
+   "border": 8,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.41
+  },
+  "zan_skin_pectoral_region_r|zan_skin_infraclavicular_fossa_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_r|zan_skin_posterior_region_of_neck_r": {
+   "border": 8,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_posterior_region_of_neck_r|zan_skin_infraclavicular_fossa_r": {
+   "border": 8,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_infraclavicular_fossa_r|zan_skin_sternocleidomastoid_region_r": {
+   "border": 10,
+   "shared": 10,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_sternocleidomastoid_region_r|zan_skin_infraclavicular_fossa_r": {
+   "border": 11,
+   "shared": 11,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_anterior_region_of_arm_l": {
+   "border": 14,
+   "shared": 14,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_anterior_region_of_arm_l|zan_skin_lateral_region_of_thorax_l": {
+   "border": 9,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 2,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_deltoid_region_l": {
+   "border": 6,
+   "shared": 6,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltoid_region_l|zan_skin_lateral_region_of_thorax_l": {
+   "border": 4,
+   "shared": 4,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_infrascapular_region_l": {
+   "border": 22,
+   "shared": 20,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 1,
+   "offset_max_mm": 0.088
+  },
+  "zan_skin_infrascapular_region_l|zan_skin_lateral_region_of_thorax_l": {
+   "border": 24,
+   "shared": 23,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.088
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_pectoral_region_l": {
+   "border": 5,
+   "shared": 3,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 2,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_posterior_region_of_arm_l": {
+   "border": 23,
+   "shared": 8,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 15,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_posterior_region_of_arm_l|zan_skin_lateral_region_of_thorax_l": {
+   "border": 15,
+   "shared": 10,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 5,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_l|zan_skin_scapular_region_l": {
+   "border": 18,
+   "shared": 14,
+   "tjunction": 1,
+   "rim_join": 0,
+   "unjoined": 3,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_scapular_region_l|zan_skin_lateral_region_of_thorax_l": {
+   "border": 16,
+   "shared": 15,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.315
+  },
+  "zan_skin_lateral_region_of_thorax_r|zan_skin_anterior_region_of_arm_r": {
+   "border": 14,
+   "shared": 14,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_anterior_region_of_arm_r|zan_skin_lateral_region_of_thorax_r": {
+   "border": 8,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 1,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_r|zan_skin_deltoid_region_r": {
+   "border": 6,
+   "shared": 6,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_deltoid_region_r|zan_skin_lateral_region_of_thorax_r": {
+   "border": 6,
+   "shared": 6,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_r|zan_skin_infrascapular_region_r": {
+   "border": 22,
+   "shared": 20,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 1,
+   "offset_max_mm": 0.089
+  },
+  "zan_skin_infrascapular_region_r|zan_skin_lateral_region_of_thorax_r": {
+   "border": 24,
+   "shared": 23,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.089
+  },
+  "zan_skin_lateral_region_of_thorax_r|zan_skin_posterior_region_of_arm_r": {
+   "border": 17,
+   "shared": 8,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 9,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_posterior_region_of_arm_r|zan_skin_lateral_region_of_thorax_r": {
+   "border": 12,
+   "shared": 10,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 2,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_lateral_region_of_thorax_r|zan_skin_scapular_region_r": {
+   "border": 18,
+   "shared": 14,
+   "tjunction": 1,
+   "rim_join": 0,
+   "unjoined": 3,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_scapular_region_r|zan_skin_lateral_region_of_thorax_r": {
+   "border": 16,
+   "shared": 15,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.316
+  },
+  "zan_skin_mammary_region_l|zan_skin_pectoral_region_l": {
+   "border": 14,
+   "shared": 8,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 6,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_mammary_region_r|zan_skin_pectoral_region_r": {
+   "border": 12,
+   "shared": 7,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 5,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_presternal_region_l|zan_skin_muscular_triangle_l": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_muscular_triangle_l|zan_skin_presternal_region_l": {
+   "border": 4,
+   "shared": 4,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_muscular_triangle_r|zan_skin_presternal_region_l": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.947
+  },
+  "zan_skin_presternal_region_l|zan_skin_sternocleidomastoid_region_l": {
+   "border": 3,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.22
+  },
+  "zan_skin_sternocleidomastoid_region_l|zan_skin_presternal_region_l": {
+   "border": 5,
+   "shared": 4,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.22
+  },
+  "zan_skin_muscular_triangle_l|zan_skin_presternal_region_r": {
+   "border": 2,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 0,
+   "unjoined": 0,
+   "offset_max_mm": 0.0
+  },
+  "zan_skin_presternal_region_r|zan_skin_muscular_triangle_r": {
+   "border": 2,
+   "shared": 1,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.947
+  },
+  "zan_skin_muscular_triangle_r|zan_skin_presternal_region_r": {
+   "border": 4,
+   "shared": 3,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.947
+  },
+  "zan_skin_presternal_region_r|zan_skin_sternocleidomastoid_region_r": {
+   "border": 3,
+   "shared": 2,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.215
+  },
+  "zan_skin_sternocleidomastoid_region_r|zan_skin_presternal_region_r": {
+   "border": 5,
+   "shared": 4,
+   "tjunction": 0,
+   "rim_join": 1,
+   "unjoined": 0,
+   "offset_max_mm": 0.215
+  }
+ },
+ "under_skin": {
+  "structures": 695,
+  "outside_before": 2287,
+  "outside_after": 2189,
+  "gained": {}
+ },
+ "slabs": {
+  "zan_skin_anal_region_l": {
+   "name": "Anal region (skin)",
+   "verts": 26,
+   "residual": {
+    "max_mm": 3.43,
+    "p95_mm": 3.15,
+    "mean_mm": 1.57
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anal_region_r": {
+   "name": "Anal region (skin)",
+   "verts": 26,
+   "residual": {
+    "max_mm": 3.43,
+    "p95_mm": 3.15,
+    "mean_mm": 1.57
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_angle_of_mouth_l": {
+   "name": "Angle of mouth (skin)",
+   "verts": 42,
+   "residual": {
+    "max_mm": 0.48,
+    "p95_mm": 0.25,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_angle_of_mouth_r": {
+   "name": "Angle of mouth (skin)",
+   "verts": 42,
+   "residual": {
+    "max_mm": 0.49,
+    "p95_mm": 0.26,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_notch_of_auricle_l": {
+   "name": "Anterior notch of auricle (skin)",
+   "verts": 38,
+   "residual": {
+    "max_mm": 0.06,
+    "p95_mm": 0.04,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_notch_of_auricle_r": {
+   "name": "Anterior notch of auricle (skin)",
+   "verts": 38,
+   "residual": {
+    "max_mm": 0.06,
+    "p95_mm": 0.04,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_ankle_l": {
+   "name": "Anterior region of ankle (skin)",
+   "verts": 274,
+   "residual": {
+    "max_mm": 0.65,
+    "p95_mm": 0.37,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_ankle_r": {
+   "name": "Anterior region of ankle (skin)",
+   "verts": 274,
+   "residual": {
+    "max_mm": 0.65,
+    "p95_mm": 0.37,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_arm_l": {
+   "name": "Anterior region of arm (skin)",
+   "verts": 514,
+   "residual": {
+    "max_mm": 16.17,
+    "p95_mm": 1.93,
+    "mean_mm": 0.83
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_arm_r": {
+   "name": "Anterior region of arm (skin)",
+   "verts": 514,
+   "residual": {
+    "max_mm": 43.67,
+    "p95_mm": 1.95,
+    "mean_mm": 1.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_elbow_l": {
+   "name": "Anterior region of elbow (skin)",
+   "verts": 216,
+   "residual": {
+    "max_mm": 7.75,
+    "p95_mm": 1.43,
+    "mean_mm": 0.55
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_elbow_r": {
+   "name": "Anterior region of elbow (skin)",
+   "verts": 216,
+   "residual": {
+    "max_mm": 7.75,
+    "p95_mm": 1.43,
+    "mean_mm": 0.55
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_forearm_l": {
+   "name": "Anterior region of forearm (skin)",
+   "verts": 586,
+   "residual": {
+    "max_mm": 3.3,
+    "p95_mm": 1.8,
+    "mean_mm": 0.6
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_forearm_r": {
+   "name": "Anterior region of forearm (skin)",
+   "verts": 586,
+   "residual": {
+    "max_mm": 3.3,
+    "p95_mm": 1.81,
+    "mean_mm": 0.6
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_knee_l": {
+   "name": "Anterior region of knee (skin)",
+   "verts": 376,
+   "residual": {
+    "max_mm": 2.16,
+    "p95_mm": 0.98,
+    "mean_mm": 0.31
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_knee_r": {
+   "name": "Anterior region of knee (skin)",
+   "verts": 376,
+   "residual": {
+    "max_mm": 2.16,
+    "p95_mm": 0.98,
+    "mean_mm": 0.31
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_leg_l": {
+   "name": "Anterior region of leg (skin)",
+   "verts": 628,
+   "residual": {
+    "max_mm": 2.67,
+    "p95_mm": 1.18,
+    "mean_mm": 0.38
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_leg_r": {
+   "name": "Anterior region of leg (skin)",
+   "verts": 628,
+   "residual": {
+    "max_mm": 2.67,
+    "p95_mm": 1.19,
+    "mean_mm": 0.38
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_thigh_l": {
+   "name": "Anterior region of thigh (skin)",
+   "verts": 946,
+   "residual": {
+    "max_mm": 7.13,
+    "p95_mm": 4.06,
+    "mean_mm": 1.35
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_thigh_r": {
+   "name": "Anterior region of thigh (skin)",
+   "verts": 946,
+   "residual": {
+    "max_mm": 7.12,
+    "p95_mm": 4.06,
+    "mean_mm": 1.35
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_wrist_l": {
+   "name": "Anterior region of wrist (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 0.91,
+    "p95_mm": 0.65,
+    "mean_mm": 0.17
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_anterior_region_of_wrist_r": {
+   "name": "Anterior region of wrist (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 0.91,
+    "p95_mm": 0.65,
+    "mean_mm": 0.17
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_antihelix_l": {
+   "name": "Antihelix (skin)",
+   "verts": 64,
+   "residual": {
+    "max_mm": 0.06,
+    "p95_mm": 0.04,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_antihelix_r": {
+   "name": "Antihelix (skin)",
+   "verts": 64,
+   "residual": {
+    "max_mm": 0.06,
+    "p95_mm": 0.04,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_antitragus_l": {
+   "name": "Antitragus (skin)",
+   "verts": 29,
+   "residual": {
+    "max_mm": 0.15,
+    "p95_mm": 0.14,
+    "mean_mm": 0.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_antitragus_r": {
+   "name": "Antitragus (skin)",
+   "verts": 29,
+   "residual": {
+    "max_mm": 0.15,
+    "p95_mm": 0.13,
+    "mean_mm": 0.05
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_apex_of_auricle_l": {
+   "name": "Apex of auricle (skin)",
+   "verts": 27,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.02,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_apex_of_auricle_r": {
+   "name": "Apex of auricle (skin)",
+   "verts": 27,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.02,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_auricular_region_l": {
+   "name": "Auricular region (skin)",
+   "verts": 148,
+   "residual": {
+    "max_mm": 5.0,
+    "p95_mm": 0.67,
+    "mean_mm": 0.26
+   },
+   "spikes": {
+    "vertices": 5,
+    "patches": [
+     {
+      "verts": 5,
+      "residual_max_mm": 5.0,
+      "on_rim": 5,
+      "where": "left (-x), height 699 mm, front 7 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: border_share, under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 4.88,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -2.96,
+     "off_source_before_pct": 2.88,
+     "off_source_after_pct": 0.16,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 6,
+     "before_err_max_mm": 4.84,
+     "after_err_max_mm": 0.31,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_anterior_notch_of_auricle_l": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_conchae_l": {
+       "before": [
+        1,
+        0
+       ],
+       "after": [
+        1,
+        0
+       ],
+       "border": [
+        4,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_fossae_triangularis_l": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        7,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_scaphae_l": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        3,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_helix_l": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        1,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_lobule_of_auricle_l": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        3,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_mastoid_region_l": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_parotideomasseteric_region_l": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_posterior_auricular_groove_l": {
+       "before": [
+        11,
+        13
+       ],
+       "after": [
+        11,
+        12
+       ],
+       "border": [
+        24,
+        42
+       ],
+       "ok": false
+      },
+      "zan_skin_sternocleidomastoid_region_l": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_temporal_region_l": {
+       "before": [
+        30,
+        30
+       ],
+       "after": [
+        30,
+        30
+       ],
+       "border": [
+        30,
+        30
+       ],
+       "ok": true
+      },
+      "zan_skin_tragus_l": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        3,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_l": {
+       "before": [
+        5,
+        6
+       ],
+       "after": [
+        5,
+        6
+       ],
+       "border": [
+        5,
+        6
+       ],
+       "ok": true
+      }
+     },
+     "ok": false
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "zan_inferior_alveolar_artery_l 0->3",
+      "zan_infra_auricular_nodes_l 16->33",
+      "zan_superficial_temporal_veins_l 3->6"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_auricular_region_r": {
+   "name": "Auricular region (skin)",
+   "verts": 148,
+   "residual": {
+    "max_mm": 5.0,
+    "p95_mm": 0.67,
+    "mean_mm": 0.26
+   },
+   "spikes": {
+    "vertices": 5,
+    "patches": [
+     {
+      "verts": 5,
+      "residual_max_mm": 5.0,
+      "on_rim": 5,
+      "where": "right (+x), height 699 mm, front 7 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: border_share, under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 4.88,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -2.97,
+     "off_source_before_pct": 2.88,
+     "off_source_after_pct": 0.17,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 6,
+     "before_err_max_mm": 4.86,
+     "after_err_max_mm": 0.32,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_anterior_notch_of_auricle_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_conchae_r": {
+       "before": [
+        1,
+        0
+       ],
+       "after": [
+        1,
+        0
+       ],
+       "border": [
+        4,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_fossae_triangularis_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        7,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_scaphae_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        3,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_helix_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        1,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_lobule_of_auricle_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        3,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_mastoid_region_r": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_parotideomasseteric_region_r": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_posterior_auricular_groove_r": {
+       "before": [
+        11,
+        14
+       ],
+       "after": [
+        11,
+        13
+       ],
+       "border": [
+        24,
+        42
+       ],
+       "ok": false
+      },
+      "zan_skin_sternocleidomastoid_region_r": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_temporal_region_r": {
+       "before": [
+        30,
+        30
+       ],
+       "after": [
+        30,
+        30
+       ],
+       "border": [
+        30,
+        30
+       ],
+       "ok": true
+      },
+      "zan_skin_tragus_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        3,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_r": {
+       "before": [
+        5,
+        6
+       ],
+       "after": [
+        5,
+        6
+       ],
+       "border": [
+        5,
+        6
+       ],
+       "ok": true
+      }
+     },
+     "ok": false
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "zan_inferior_alveolar_artery_r 0->3",
+      "zan_superficial_temporal_veins_r 3->6"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_auricular_tubercle_l": {
+   "name": "Auricular tubercle (skin)",
+   "verts": 20,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.02,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_auricular_tubercle_r": {
+   "name": "Auricular tubercle (skin)",
+   "verts": 20,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.02,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_buccal_region_l": {
+   "name": "Buccal region (skin)",
+   "verts": 216,
+   "residual": {
+    "max_mm": 6.07,
+    "p95_mm": 1.0,
+    "mean_mm": 0.5
+   },
+   "spikes": {
+    "vertices": 7,
+    "patches": [
+     {
+      "verts": 5,
+      "residual_max_mm": 6.07,
+      "on_rim": 2,
+      "where": "left (-x), height 643 mm, front 55 mm"
+     },
+     {
+      "verts": 2,
+      "residual_max_mm": 6.01,
+      "on_rim": 2,
+      "where": "left (-x), height 646 mm, front 78 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: border_share, under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 6.01,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -4.1,
+     "off_source_before_pct": 4.35,
+     "off_source_after_pct": 0.07,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 12,
+     "before_err_max_mm": 5.54,
+     "after_err_max_mm": 0.96,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_angle_of_mouth_l": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_infra_orbital_region_l": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_l": {
+       "before": [
+        9,
+        9
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        9,
+        9
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_l": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_nasolabial_sulcus_l": {
+       "before": [
+        15,
+        18
+       ],
+       "after": [
+        15,
+        18
+       ],
+       "border": [
+        15,
+        18
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_l": {
+       "before": [
+        12,
+        10
+       ],
+       "after": [
+        11,
+        9
+       ],
+       "border": [
+        13,
+        11
+       ],
+       "ok": false
+      },
+      "zan_skin_parotideomasseteric_region_l": {
+       "before": [
+        20,
+        19
+       ],
+       "after": [
+        20,
+        19
+       ],
+       "border": [
+        20,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_submandibular_triangle_l": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        11,
+        12
+       ],
+       "border": [
+        10,
+        11
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_l": {
+       "before": [
+        4,
+        4
+       ],
+       "after": [
+        4,
+        4
+       ],
+       "border": [
+        4,
+        4
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_l": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      }
+     },
+     "ok": false
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "trigeminal_n_v3_mental_branch_l 4->171",
+      "zan_inferior_alveolar_artery_l 0->3",
+      "zan_inferior_labial_artery_l 9->16",
+      "zan_inferior_labial_veins_l 7->20",
+      "zan_lower_first_premolar_l 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_buccal_region_r": {
+   "name": "Buccal region (skin)",
+   "verts": 216,
+   "residual": {
+    "max_mm": 6.73,
+    "p95_mm": 1.12,
+    "mean_mm": 0.53
+   },
+   "spikes": {
+    "vertices": 2,
+    "patches": [
+     {
+      "verts": 2,
+      "residual_max_mm": 5.94,
+      "on_rim": 2,
+      "where": "right (+x), height 646 mm, front 78 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: border_share, under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.94,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -1.58,
+     "off_source_before_pct": 4.67,
+     "off_source_after_pct": 3.01,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 4,
+     "before_err_max_mm": 5.5,
+     "after_err_max_mm": 0.96,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_angle_of_mouth_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_infra_orbital_region_r": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_r": {
+       "before": [
+        9,
+        7
+       ],
+       "after": [
+        10,
+        8
+       ],
+       "border": [
+        9,
+        7
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_r": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_nasolabial_sulcus_r": {
+       "before": [
+        15,
+        18
+       ],
+       "after": [
+        15,
+        18
+       ],
+       "border": [
+        15,
+        18
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_r": {
+       "before": [
+        12,
+        10
+       ],
+       "after": [
+        11,
+        9
+       ],
+       "border": [
+        13,
+        11
+       ],
+       "ok": false
+      },
+      "zan_skin_parotideomasseteric_region_r": {
+       "before": [
+        20,
+        19
+       ],
+       "after": [
+        20,
+        19
+       ],
+       "border": [
+        20,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_submandibular_triangle_r": {
+       "before": [
+        12,
+        11
+       ],
+       "after": [
+        9,
+        9
+       ],
+       "border": [
+        12,
+        11
+       ],
+       "ok": false
+      },
+      "zan_skin_submental_triangle_r": {
+       "before": [
+        4,
+        4
+       ],
+       "after": [
+        4,
+        4
+       ],
+       "border": [
+        4,
+        4
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_r": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      }
+     },
+     "ok": false
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "depressor_anguli_oris_r 5->9",
+      "mandible 10->21",
+      "platysma_r 0->1",
+      "trigeminal_n_v3_mental_branch_r 4->171",
+      "zan_inferior_alveolar_artery_r 0->3",
+      "zan_inferior_labial_artery_r 25->36",
+      "zan_inferior_labial_veins_r 0->20",
+      "zan_lower_first_premolar_r 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_carotid_triangle_l": {
+   "name": "Carotid triangle (skin)",
+   "verts": 44,
+   "residual": {
+    "max_mm": 0.71,
+    "p95_mm": 0.61,
+    "mean_mm": 0.36
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_carotid_triangle_r": {
+   "name": "Carotid triangle (skin)",
+   "verts": 44,
+   "residual": {
+    "max_mm": 0.71,
+    "p95_mm": 0.61,
+    "mean_mm": 0.37
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_cavity_of_concha_l": {
+   "name": "Cavity of concha (skin)",
+   "verts": 122,
+   "residual": {
+    "max_mm": 0.15,
+    "p95_mm": 0.09,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_cavity_of_concha_r": {
+   "name": "Cavity of concha (skin)",
+   "verts": 122,
+   "residual": {
+    "max_mm": 0.15,
+    "p95_mm": 0.09,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_concha_of_auricle_l": {
+   "name": "Concha of auricle (skin)",
+   "verts": 51,
+   "residual": {
+    "max_mm": 0.05,
+    "p95_mm": 0.03,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_concha_of_auricle_r": {
+   "name": "Concha of auricle (skin)",
+   "verts": 51,
+   "residual": {
+    "max_mm": 0.05,
+    "p95_mm": 0.03,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_crura_of_antihelix_l": {
+   "name": "Crura of antihelix (skin)",
+   "verts": 69,
+   "residual": {
+    "max_mm": 0.05,
+    "p95_mm": 0.03,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_crura_of_antihelix_r": {
+   "name": "Crura of antihelix (skin)",
+   "verts": 69,
+   "residual": {
+    "max_mm": 0.05,
+    "p95_mm": 0.02,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_cubital_fossa_l": {
+   "name": "Cubital fossa (skin)",
+   "verts": 70,
+   "residual": {
+    "max_mm": 1.0,
+    "p95_mm": 0.72,
+    "mean_mm": 0.4
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_cubital_fossa_r": {
+   "name": "Cubital fossa (skin)",
+   "verts": 70,
+   "residual": {
+    "max_mm": 1.0,
+    "p95_mm": 0.73,
+    "mean_mm": 0.41
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_cymba_conchae_l": {
+   "name": "Cymba conchae (skin)",
+   "verts": 59,
+   "residual": {
+    "max_mm": 0.1,
+    "p95_mm": 0.08,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_cymba_conchae_r": {
+   "name": "Cymba conchae (skin)",
+   "verts": 59,
+   "residual": {
+    "max_mm": 0.1,
+    "p95_mm": 0.08,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_deltoid_region_l": {
+   "name": "Deltoid region (skin)",
+   "verts": 314,
+   "residual": {
+    "max_mm": 8.63,
+    "p95_mm": 3.52,
+    "mean_mm": 1.18
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_deltoid_region_r": {
+   "name": "Deltoid region (skin)",
+   "verts": 314,
+   "residual": {
+    "max_mm": 7.99,
+    "p95_mm": 3.54,
+    "mean_mm": 1.17
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_distal_transverse_arch_of_foot_l": {
+   "name": "Distal transverse arch of foot (skin)",
+   "verts": 42,
+   "residual": {
+    "max_mm": 0.08,
+    "p95_mm": 0.07,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_distal_transverse_arch_of_foot_r": {
+   "name": "Distal transverse arch of foot (skin)",
+   "verts": 42,
+   "residual": {
+    "max_mm": 0.08,
+    "p95_mm": 0.07,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_dorsal_surfaces_of_digits_of_foot_l": {
+   "name": "Dorsal surfaces of digits of foot (skin)",
+   "verts": 648,
+   "residual": {
+    "max_mm": 0.12,
+    "p95_mm": 0.07,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_dorsal_surfaces_of_digits_of_foot_r": {
+   "name": "Dorsal surfaces of digits of foot (skin)",
+   "verts": 648,
+   "residual": {
+    "max_mm": 0.11,
+    "p95_mm": 0.07,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_dorsal_surfaces_of_digits_of_hand_l": {
+   "name": "Dorsal surfaces of digits of hand (skin)",
+   "verts": 2144,
+   "residual": {
+    "max_mm": 6.04,
+    "p95_mm": 0.1,
+    "mean_mm": 0.05
+   },
+   "spikes": {
+    "vertices": 2,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.04,
+      "on_rim": 0,
+      "where": "left (-x), height -4 mm, front 72 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 3.41,
+      "on_rim": 1,
+      "where": "left (-x), height -45 mm, front 77 mm"
+     }
+    ]
+   },
+   "moved": 2,
+   "move": {
+    "max_mm": 6.04,
+    "p95_mm": 5.91,
+    "mean_mm": 4.72
+   },
+   "residual_moved_max_mm": 6.04,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.04,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -0.19,
+     "off_source_before_pct": 0.34,
+     "off_source_after_pct": 0.14,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 4,
+     "before_err_max_mm": 1.39,
+     "after_err_max_mm": 0.06,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_dorsum_of_hand_l": {
+       "before": [
+        47,
+        45
+       ],
+       "after": [
+        47,
+        45
+       ],
+       "border": [
+        47,
+        45
+       ],
+       "ok": true
+      },
+      "zan_skin_palm_l": {
+       "before": [
+        5,
+        5
+       ],
+       "after": [
+        5,
+        5
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_palmar_surfaces_of_digits_of_hand_l": {
+       "before": [
+        340,
+        307
+       ],
+       "after": [
+        340,
+        307
+       ],
+       "border": [
+        475,
+        363
+       ],
+       "ok": true
+      },
+      "zan_skin_perionyx_l": {
+       "before": [
+        17,
+        53
+       ],
+       "after": [
+        17,
+        53
+       ],
+       "border": [
+        17,
+        128
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 96,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_dorsal_surfaces_of_digits_of_hand_r": {
+   "name": "Dorsal surfaces of digits of hand (skin)",
+   "verts": 2144,
+   "residual": {
+    "max_mm": 6.04,
+    "p95_mm": 0.1,
+    "mean_mm": 0.05
+   },
+   "spikes": {
+    "vertices": 2,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 3.41,
+      "on_rim": 1,
+      "where": "right (+x), height -45 mm, front 77 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.04,
+      "on_rim": 0,
+      "where": "right (+x), height -4 mm, front 72 mm"
+     }
+    ]
+   },
+   "moved": 2,
+   "move": {
+    "max_mm": 6.04,
+    "p95_mm": 5.91,
+    "mean_mm": 4.72
+   },
+   "residual_moved_max_mm": 6.04,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.04,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -0.19,
+     "off_source_before_pct": 0.34,
+     "off_source_after_pct": 0.14,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 4,
+     "before_err_max_mm": 1.39,
+     "after_err_max_mm": 0.06,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_dorsum_of_hand_r": {
+       "before": [
+        47,
+        45
+       ],
+       "after": [
+        47,
+        45
+       ],
+       "border": [
+        47,
+        45
+       ],
+       "ok": true
+      },
+      "zan_skin_palm_r": {
+       "before": [
+        5,
+        5
+       ],
+       "after": [
+        5,
+        5
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_palmar_surfaces_of_digits_of_hand_r": {
+       "before": [
+        340,
+        309
+       ],
+       "after": [
+        340,
+        309
+       ],
+       "border": [
+        475,
+        363
+       ],
+       "ok": true
+      },
+      "zan_skin_perionyx_r": {
+       "before": [
+        17,
+        53
+       ],
+       "after": [
+        17,
+        53
+       ],
+       "border": [
+        17,
+        128
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 96,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_dorsum_of_foot_l": {
+   "name": "Dorsum of foot (skin)",
+   "verts": 176,
+   "residual": {
+    "max_mm": 0.4,
+    "p95_mm": 0.25,
+    "mean_mm": 0.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_dorsum_of_foot_r": {
+   "name": "Dorsum of foot (skin)",
+   "verts": 176,
+   "residual": {
+    "max_mm": 0.4,
+    "p95_mm": 0.25,
+    "mean_mm": 0.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_dorsum_of_hand_l": {
+   "name": "Dorsum of hand (skin)",
+   "verts": 358,
+   "residual": {
+    "max_mm": 1.17,
+    "p95_mm": 0.57,
+    "mean_mm": 0.14
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_dorsum_of_hand_r": {
+   "name": "Dorsum of hand (skin)",
+   "verts": 358,
+   "residual": {
+    "max_mm": 1.17,
+    "p95_mm": 0.57,
+    "mean_mm": 0.14
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_eminentia_conchae_l": {
+   "name": "Eminentia conchae (skin)",
+   "verts": 44,
+   "residual": {
+    "max_mm": 0.21,
+    "p95_mm": 0.17,
+    "mean_mm": 0.07
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_eminentia_conchae_r": {
+   "name": "Eminentia conchae (skin)",
+   "verts": 44,
+   "residual": {
+    "max_mm": 0.22,
+    "p95_mm": 0.17,
+    "mean_mm": 0.07
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_eminentia_fossae_triangularis_l": {
+   "name": "Eminentia fossae triangularis (skin)",
+   "verts": 39,
+   "residual": {
+    "max_mm": 0.09,
+    "p95_mm": 0.08,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_eminentia_fossae_triangularis_r": {
+   "name": "Eminentia fossae triangularis (skin)",
+   "verts": 39,
+   "residual": {
+    "max_mm": 0.08,
+    "p95_mm": 0.08,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_eminentia_scaphae_l": {
+   "name": "Eminentia scaphae (skin)",
+   "verts": 72,
+   "residual": {
+    "max_mm": 0.09,
+    "p95_mm": 0.08,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_eminentia_scaphae_r": {
+   "name": "Eminentia scaphae (skin)",
+   "verts": 72,
+   "residual": {
+    "max_mm": 0.08,
+    "p95_mm": 0.08,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_eyebrow_l": {
+   "name": "Eyebrow (skin)",
+   "verts": 28,
+   "residual": {
+    "max_mm": 6.35,
+    "p95_mm": 4.05,
+    "mean_mm": 0.52
+   },
+   "spikes": {
+    "vertices": 2,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.14,
+      "on_rim": 1,
+      "where": "left (-x), height 750 mm, front 73 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.35,
+      "on_rim": 1,
+      "where": "left (-x), height 759 mm, front 80 mm"
+     }
+    ]
+   },
+   "moved": 2,
+   "move": {
+    "max_mm": 6.35,
+    "p95_mm": 6.34,
+    "mean_mm": 6.24
+   },
+   "residual_moved_max_mm": 6.35,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.35,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -19.17,
+     "off_source_before_pct": 22.33,
+     "off_source_after_pct": 1.12,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 4,
+     "before_err_max_mm": 6.02,
+     "after_err_max_mm": 0.14,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_frontal_region_l": {
+       "before": [
+        18,
+        18
+       ],
+       "after": [
+        22,
+        22
+       ],
+       "border": [
+        19,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_orbital_region_l": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_eyebrow_r": {
+   "name": "Eyebrow (skin)",
+   "verts": 28,
+   "residual": {
+    "max_mm": 6.35,
+    "p95_mm": 4.05,
+    "mean_mm": 0.52
+   },
+   "spikes": {
+    "vertices": 2,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.35,
+      "on_rim": 1,
+      "where": "right (+x), height 759 mm, front 80 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.14,
+      "on_rim": 1,
+      "where": "right (+x), height 750 mm, front 73 mm"
+     }
+    ]
+   },
+   "moved": 2,
+   "move": {
+    "max_mm": 6.35,
+    "p95_mm": 6.33,
+    "mean_mm": 6.24
+   },
+   "residual_moved_max_mm": 6.35,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.35,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -19.17,
+     "off_source_before_pct": 22.31,
+     "off_source_after_pct": 1.14,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 4,
+     "before_err_max_mm": 6.02,
+     "after_err_max_mm": 0.14,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_frontal_region_r": {
+       "before": [
+        18,
+        18
+       ],
+       "after": [
+        22,
+        22
+       ],
+       "border": [
+        19,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_orbital_region_r": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_femoral_triangle_l": {
+   "name": "Femoral triangle (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 2.21,
+    "p95_mm": 1.55,
+    "mean_mm": 0.76
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_femoral_triangle_r": {
+   "name": "Femoral triangle (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 2.21,
+    "p95_mm": 1.55,
+    "mean_mm": 0.76
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_fossa_antihelica_l": {
+   "name": "Fossa antihelica (skin)",
+   "verts": 42,
+   "residual": {
+    "max_mm": 0.07,
+    "p95_mm": 0.07,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_fossa_antihelica_r": {
+   "name": "Fossa antihelica (skin)",
+   "verts": 42,
+   "residual": {
+    "max_mm": 0.06,
+    "p95_mm": 0.06,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_frontal_region_l": {
+   "name": "Frontal region (skin)",
+   "verts": 278,
+   "residual": {
+    "max_mm": 6.34,
+    "p95_mm": 0.21,
+    "mean_mm": 0.22
+   },
+   "spikes": {
+    "vertices": 6,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.31,
+      "on_rim": 0,
+      "where": "left (-x), height 785 mm, front 37 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.34,
+      "on_rim": 0,
+      "where": "left (-x), height 776 mm, front 55 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.21,
+      "on_rim": 0,
+      "where": "left (-x), height 755 mm, front 54 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.22,
+      "on_rim": 0,
+      "where": "left (-x), height 797 mm, front 38 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.14,
+      "on_rim": 1,
+      "where": "left (-x), height 753 mm, front 73 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.33,
+      "on_rim": 1,
+      "where": "left (-x), height 754 mm, front 83 mm"
+     }
+    ]
+   },
+   "moved": 6,
+   "move": {
+    "max_mm": 6.34,
+    "p95_mm": 6.33,
+    "mean_mm": 6.26
+   },
+   "residual_moved_max_mm": 6.34,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.34,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -2.1,
+     "off_source_before_pct": 2.13,
+     "off_source_after_pct": 0.02,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 12,
+     "before_err_max_mm": 5.84,
+     "after_err_max_mm": 0.1,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_eyebrow_l": {
+       "before": [
+        18,
+        18
+       ],
+       "after": [
+        22,
+        22
+       ],
+       "border": [
+        19,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_r": {
+       "before": [
+        26,
+        26
+       ],
+       "after": [
+        26,
+        26
+       ],
+       "border": [
+        26,
+        26
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_l": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        6,
+        6
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_orbital_region_l": {
+       "before": [
+        15,
+        15
+       ],
+       "after": [
+        16,
+        16
+       ],
+       "border": [
+        15,
+        15
+       ],
+       "ok": true
+      },
+      "zan_skin_parietal_region_l": {
+       "before": [
+        20,
+        20
+       ],
+       "after": [
+        20,
+        20
+       ],
+       "border": [
+        22,
+        22
+       ],
+       "ok": true
+      },
+      "zan_skin_parietal_region_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_temporal_region_l": {
+       "before": [
+        14,
+        14
+       ],
+       "after": [
+        14,
+        14
+       ],
+       "border": [
+        14,
+        14
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_l": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_frontal_region_r": {
+   "name": "Frontal region (skin)",
+   "verts": 278,
+   "residual": {
+    "max_mm": 6.38,
+    "p95_mm": 0.21,
+    "mean_mm": 0.24
+   },
+   "spikes": {
+    "vertices": 7,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.33,
+      "on_rim": 1,
+      "where": "right (+x), height 754 mm, front 83 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.14,
+      "on_rim": 1,
+      "where": "right (+x), height 753 mm, front 73 mm"
+     },
+     {
+      "verts": 3,
+      "residual_max_mm": 6.38,
+      "on_rim": 0,
+      "where": "right (+x), height 790 mm, front 37 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.23,
+      "on_rim": 0,
+      "where": "right (+x), height 755 mm, front 54 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.35,
+      "on_rim": 0,
+      "where": "right (+x), height 776 mm, front 55 mm"
+     }
+    ]
+   },
+   "moved": 7,
+   "move": {
+    "max_mm": 6.38,
+    "p95_mm": 6.37,
+    "mean_mm": 6.28
+   },
+   "residual_moved_max_mm": 6.38,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.38,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -1.88,
+     "off_source_before_pct": 1.87,
+     "off_source_after_pct": 0.04,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 14,
+     "before_err_max_mm": 5.84,
+     "after_err_max_mm": 0.1,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_eyebrow_r": {
+       "before": [
+        18,
+        18
+       ],
+       "after": [
+        22,
+        22
+       ],
+       "border": [
+        19,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_l": {
+       "before": [
+        26,
+        26
+       ],
+       "after": [
+        26,
+        26
+       ],
+       "border": [
+        26,
+        26
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_r": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        6,
+        6
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_orbital_region_r": {
+       "before": [
+        15,
+        15
+       ],
+       "after": [
+        16,
+        16
+       ],
+       "border": [
+        15,
+        15
+       ],
+       "ok": true
+      },
+      "zan_skin_parietal_region_l": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_parietal_region_r": {
+       "before": [
+        20,
+        20
+       ],
+       "after": [
+        20,
+        20
+       ],
+       "border": [
+        22,
+        22
+       ],
+       "ok": true
+      },
+      "zan_skin_temporal_region_r": {
+       "before": [
+        14,
+        14
+       ],
+       "after": [
+        14,
+        14
+       ],
+       "border": [
+        14,
+        14
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_r": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_gluteal_fold_l": {
+   "name": "Gluteal fold (skin)",
+   "verts": 28,
+   "residual": {
+    "max_mm": 1.3,
+    "p95_mm": 1.25,
+    "mean_mm": 0.89
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_gluteal_fold_r": {
+   "name": "Gluteal fold (skin)",
+   "verts": 28,
+   "residual": {
+    "max_mm": 1.3,
+    "p95_mm": 1.25,
+    "mean_mm": 0.9
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_gluteal_region_l": {
+   "name": "Gluteal region (skin)",
+   "verts": 418,
+   "residual": {
+    "max_mm": 5.26,
+    "p95_mm": 3.16,
+    "mean_mm": 1.71
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_gluteal_region_r": {
+   "name": "Gluteal region (skin)",
+   "verts": 418,
+   "residual": {
+    "max_mm": 5.25,
+    "p95_mm": 3.16,
+    "mean_mm": 1.71
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_greater_supraclavicular_fossa_l": {
+   "name": "Greater supraclavicular fossa (skin)",
+   "verts": 102,
+   "residual": {
+    "max_mm": 3.89,
+    "p95_mm": 2.81,
+    "mean_mm": 1.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_greater_supraclavicular_fossa_r": {
+   "name": "Greater supraclavicular fossa (skin)",
+   "verts": 102,
+   "residual": {
+    "max_mm": 3.9,
+    "p95_mm": 2.8,
+    "mean_mm": 1.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_hallucial_eminence_l": {
+   "name": "Hallucial eminence (skin)",
+   "verts": 132,
+   "residual": {
+    "max_mm": 0.34,
+    "p95_mm": 0.27,
+    "mean_mm": 0.11
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_hallucial_eminence_r": {
+   "name": "Hallucial eminence (skin)",
+   "verts": 132,
+   "residual": {
+    "max_mm": 0.34,
+    "p95_mm": 0.27,
+    "mean_mm": 0.11
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_heel_region_l": {
+   "name": "Heel region (skin)",
+   "verts": 314,
+   "residual": {
+    "max_mm": 0.79,
+    "p95_mm": 0.45,
+    "mean_mm": 0.17
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_heel_region_r": {
+   "name": "Heel region (skin)",
+   "verts": 314,
+   "residual": {
+    "max_mm": 0.79,
+    "p95_mm": 0.45,
+    "mean_mm": 0.17
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_helix_l": {
+   "name": "Helix (skin)",
+   "verts": 289,
+   "residual": {
+    "max_mm": 0.09,
+    "p95_mm": 0.06,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_helix_r": {
+   "name": "Helix (skin)",
+   "verts": 289,
+   "residual": {
+    "max_mm": 0.09,
+    "p95_mm": 0.06,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_hip_region_l": {
+   "name": "Hip region (skin)",
+   "verts": 84,
+   "residual": {
+    "max_mm": 6.05,
+    "p95_mm": 4.64,
+    "mean_mm": 2.14
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_hip_region_r": {
+   "name": "Hip region (skin)",
+   "verts": 84,
+   "residual": {
+    "max_mm": 6.06,
+    "p95_mm": 4.64,
+    "mean_mm": 2.14
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_hypogastric_region_l": {
+   "name": "Hypogastric region (skin)",
+   "verts": 150,
+   "residual": {
+    "max_mm": 1.43,
+    "p95_mm": 1.15,
+    "mean_mm": 0.66
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_hypogastric_region_r": {
+   "name": "Hypogastric region (skin)",
+   "verts": 150,
+   "residual": {
+    "max_mm": 1.43,
+    "p95_mm": 1.15,
+    "mean_mm": 0.66
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_infra_orbital_region_l": {
+   "name": "Infra-orbital region (skin)",
+   "verts": 72,
+   "residual": {
+    "max_mm": 0.33,
+    "p95_mm": 0.26,
+    "mean_mm": 0.12
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_infra_orbital_region_r": {
+   "name": "Infra-orbital region (skin)",
+   "verts": 72,
+   "residual": {
+    "max_mm": 0.33,
+    "p95_mm": 0.26,
+    "mean_mm": 0.12
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_infrascapular_region_l": {
+   "name": "Infrascapular region (skin)",
+   "verts": 242,
+   "residual": {
+    "max_mm": 4.66,
+    "p95_mm": 3.75,
+    "mean_mm": 1.74
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_infrascapular_region_r": {
+   "name": "Infrascapular region (skin)",
+   "verts": 242,
+   "residual": {
+    "max_mm": 4.66,
+    "p95_mm": 3.75,
+    "mean_mm": 1.74
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_inguinal_region_l": {
+   "name": "Inguinal region (skin)",
+   "verts": 88,
+   "residual": {
+    "max_mm": 3.75,
+    "p95_mm": 3.08,
+    "mean_mm": 1.12
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_inguinal_region_r": {
+   "name": "Inguinal region (skin)",
+   "verts": 88,
+   "residual": {
+    "max_mm": 3.75,
+    "p95_mm": 3.08,
+    "mean_mm": 1.12
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_interscapular_region_l": {
+   "name": "Interscapular region (skin)",
+   "verts": 136,
+   "residual": {
+    "max_mm": 5.63,
+    "p95_mm": 3.64,
+    "mean_mm": 1.72
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_interscapular_region_r": {
+   "name": "Interscapular region (skin)",
+   "verts": 136,
+   "residual": {
+    "max_mm": 5.63,
+    "p95_mm": 3.63,
+    "mean_mm": 1.72
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_intertragic_incisure_l": {
+   "name": "Intertragic incisure (skin)",
+   "verts": 46,
+   "residual": {
+    "max_mm": 0.45,
+    "p95_mm": 0.13,
+    "mean_mm": 0.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_intertragic_incisure_r": {
+   "name": "Intertragic incisure (skin)",
+   "verts": 46,
+   "residual": {
+    "max_mm": 0.44,
+    "p95_mm": 0.13,
+    "mean_mm": 0.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_labial_commissure_l": {
+   "name": "Labial commissure (skin)",
+   "verts": 72,
+   "residual": {
+    "max_mm": 0.89,
+    "p95_mm": 0.4,
+    "mean_mm": 0.18
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_labial_commissure_r": {
+   "name": "Labial commissure (skin)",
+   "verts": 72,
+   "residual": {
+    "max_mm": 0.89,
+    "p95_mm": 0.4,
+    "mean_mm": 0.18
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_bicipital_groove_l": {
+   "name": "Lateral bicipital groove (skin)",
+   "verts": 52,
+   "residual": {
+    "max_mm": 0.94,
+    "p95_mm": 0.55,
+    "mean_mm": 0.32
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_bicipital_groove_r": {
+   "name": "Lateral bicipital groove (skin)",
+   "verts": 52,
+   "residual": {
+    "max_mm": 0.95,
+    "p95_mm": 0.55,
+    "mean_mm": 0.32
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_border_of_foot_l": {
+   "name": "Lateral border of foot (skin)",
+   "verts": 154,
+   "residual": {
+    "max_mm": 0.15,
+    "p95_mm": 0.07,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_border_of_foot_r": {
+   "name": "Lateral border of foot (skin)",
+   "verts": 154,
+   "residual": {
+    "max_mm": 0.15,
+    "p95_mm": 0.07,
+    "mean_mm": 0.03
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_border_of_forearm_l": {
+   "name": "Lateral border of forearm (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 0.71,
+    "p95_mm": 0.54,
+    "mean_mm": 0.27
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_border_of_forearm_r": {
+   "name": "Lateral border of forearm (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 0.71,
+    "p95_mm": 0.54,
+    "mean_mm": 0.27
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_malleolus_l": {
+   "name": "Lateral malleolus (skin)",
+   "verts": 98,
+   "residual": {
+    "max_mm": 0.23,
+    "p95_mm": 0.16,
+    "mean_mm": 0.09
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_malleolus_r": {
+   "name": "Lateral malleolus (skin)",
+   "verts": 98,
+   "residual": {
+    "max_mm": 0.23,
+    "p95_mm": 0.16,
+    "mean_mm": 0.09
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_part_of_longitudinal_arch_of_foot_l": {
+   "name": "Lateral part of longitudinal arch of foot (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 0.07,
+    "p95_mm": 0.05,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_part_of_longitudinal_arch_of_foot_r": {
+   "name": "Lateral part of longitudinal arch of foot (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 0.07,
+    "p95_mm": 0.05,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_region_of_abdomen_l": {
+   "name": "Lateral region of abdomen (skin)",
+   "verts": 182,
+   "residual": {
+    "max_mm": 5.89,
+    "p95_mm": 4.7,
+    "mean_mm": 2.38
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_region_of_abdomen_r": {
+   "name": "Lateral region of abdomen (skin)",
+   "verts": 182,
+   "residual": {
+    "max_mm": 5.88,
+    "p95_mm": 4.7,
+    "mean_mm": 2.38
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_region_of_neck_l": {
+   "name": "Lateral region of neck (skin)",
+   "verts": 232,
+   "residual": {
+    "max_mm": 5.05,
+    "p95_mm": 2.5,
+    "mean_mm": 0.79
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_region_of_neck_r": {
+   "name": "Lateral region of neck (skin)",
+   "verts": 232,
+   "residual": {
+    "max_mm": 5.05,
+    "p95_mm": 2.51,
+    "mean_mm": 0.8
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_retromalleolar_region_l": {
+   "name": "Lateral retromalleolar region (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 0.32,
+    "p95_mm": 0.25,
+    "mean_mm": 0.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lateral_retromalleolar_region_r": {
+   "name": "Lateral retromalleolar region (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 0.32,
+    "p95_mm": 0.25,
+    "mean_mm": 0.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lesser_supraclavicular_fossa_l": {
+   "name": "Lesser supraclavicular fossa (skin)",
+   "verts": 26,
+   "residual": {
+    "max_mm": 1.84,
+    "p95_mm": 1.78,
+    "mean_mm": 0.85
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lesser_supraclavicular_fossa_r": {
+   "name": "Lesser supraclavicular fossa (skin)",
+   "verts": 26,
+   "residual": {
+    "max_mm": 1.84,
+    "p95_mm": 1.76,
+    "mean_mm": 0.84
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lobule_of_auricle_l": {
+   "name": "Lobule of auricle (skin)",
+   "verts": 128,
+   "residual": {
+    "max_mm": 0.45,
+    "p95_mm": 0.15,
+    "mean_mm": 0.07
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lobule_of_auricle_r": {
+   "name": "Lobule of auricle (skin)",
+   "verts": 128,
+   "residual": {
+    "max_mm": 0.44,
+    "p95_mm": 0.15,
+    "mean_mm": 0.07
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lumbar_region_l": {
+   "name": "Lumbar region (skin)",
+   "verts": 194,
+   "residual": {
+    "max_mm": 4.77,
+    "p95_mm": 4.22,
+    "mean_mm": 2.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_lumbar_region_r": {
+   "name": "Lumbar region (skin)",
+   "verts": 194,
+   "residual": {
+    "max_mm": 4.78,
+    "p95_mm": 4.21,
+    "mean_mm": 2.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_mastoid_region_l": {
+   "name": "Mastoid region (skin)",
+   "verts": 60,
+   "residual": {
+    "max_mm": 0.42,
+    "p95_mm": 0.32,
+    "mean_mm": 0.15
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_mastoid_region_r": {
+   "name": "Mastoid region (skin)",
+   "verts": 60,
+   "residual": {
+    "max_mm": 0.42,
+    "p95_mm": 0.33,
+    "mean_mm": 0.16
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_bicipital_groove_l": {
+   "name": "Medial bicipital groove (skin)",
+   "verts": 40,
+   "residual": {
+    "max_mm": 2.16,
+    "p95_mm": 2.0,
+    "mean_mm": 0.94
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_bicipital_groove_r": {
+   "name": "Medial bicipital groove (skin)",
+   "verts": 40,
+   "residual": {
+    "max_mm": 2.16,
+    "p95_mm": 1.99,
+    "mean_mm": 0.94
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_border_of_foot_l": {
+   "name": "Medial border of foot (skin)",
+   "verts": 156,
+   "residual": {
+    "max_mm": 0.7,
+    "p95_mm": 0.5,
+    "mean_mm": 0.22
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_border_of_foot_r": {
+   "name": "Medial border of foot (skin)",
+   "verts": 156,
+   "residual": {
+    "max_mm": 0.7,
+    "p95_mm": 0.5,
+    "mean_mm": 0.22
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_border_of_forearm_l": {
+   "name": "Medial border of forearm (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 2.68,
+    "p95_mm": 2.26,
+    "mean_mm": 0.93
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_border_of_forearm_r": {
+   "name": "Medial border of forearm (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 2.68,
+    "p95_mm": 2.26,
+    "mean_mm": 0.93
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_malleolus_l": {
+   "name": "Medial malleolus (skin)",
+   "verts": 78,
+   "residual": {
+    "max_mm": 0.65,
+    "p95_mm": 0.55,
+    "mean_mm": 0.27
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_malleolus_r": {
+   "name": "Medial malleolus (skin)",
+   "verts": 78,
+   "residual": {
+    "max_mm": 0.65,
+    "p95_mm": 0.55,
+    "mean_mm": 0.27
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_part_of_longitudinal_arch_of_foot_l": {
+   "name": "Medial part of longitudinal arch of foot (skin)",
+   "verts": 56,
+   "residual": {
+    "max_mm": 0.42,
+    "p95_mm": 0.28,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_part_of_longitudinal_arch_of_foot_r": {
+   "name": "Medial part of longitudinal arch of foot (skin)",
+   "verts": 56,
+   "residual": {
+    "max_mm": 0.42,
+    "p95_mm": 0.28,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_retromalleolar_region_l": {
+   "name": "Medial retromalleolar region (skin)",
+   "verts": 118,
+   "residual": {
+    "max_mm": 0.61,
+    "p95_mm": 0.36,
+    "mean_mm": 0.16
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_medial_retromalleolar_region_r": {
+   "name": "Medial retromalleolar region (skin)",
+   "verts": 118,
+   "residual": {
+    "max_mm": 0.61,
+    "p95_mm": 0.37,
+    "mean_mm": 0.16
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_mental_region_l": {
+   "name": "Mental region (skin)",
+   "verts": 106,
+   "residual": {
+    "max_mm": 6.04,
+    "p95_mm": 0.81,
+    "mean_mm": 0.58
+   },
+   "spikes": {
+    "vertices": 5,
+    "patches": [
+     {
+      "verts": 2,
+      "residual_max_mm": 6.04,
+      "on_rim": 1,
+      "where": "left (-x), height 640 mm, front 79 mm"
+     },
+     {
+      "verts": 2,
+      "residual_max_mm": 5.95,
+      "on_rim": 0,
+      "where": "left (-x), height 633 mm, front 83 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 5.84,
+      "on_rim": 0,
+      "where": "left (-x), height 630 mm, front 84 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 6.04,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -8.81,
+     "off_source_before_pct": 7.43,
+     "off_source_after_pct": 2.04,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 9,
+     "before_err_max_mm": 5.26,
+     "after_err_max_mm": 0.8,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_l": {
+       "before": [
+        9,
+        9
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        9,
+        9
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_r": {
+       "before": [
+        13,
+        13
+       ],
+       "after": [
+        14,
+        14
+       ],
+       "border": [
+        14,
+        14
+       ],
+       "ok": true
+      },
+      "zan_skin_mentolabial_sulcus_l": {
+       "before": [
+        16,
+        17
+       ],
+       "after": [
+        16,
+        18
+       ],
+       "border": [
+        16,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_mentolabial_sulcus_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        3
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_l": {
+       "before": [
+        9,
+        10
+       ],
+       "after": [
+        9,
+        10
+       ],
+       "border": [
+        11,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_l": {
+       "before": [
+        12,
+        9
+       ],
+       "after": [
+        14,
+        11
+       ],
+       "border": [
+        13,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "platysma_r 0->1",
+      "trigeminal_n_v3_mental_branch_l 4->171",
+      "zan_inferior_alveolar_artery_l 0->3",
+      "zan_inferior_labial_artery_l 9->16",
+      "zan_inferior_labial_veins_l 7->20",
+      "zan_lower_first_premolar_l 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_mental_region_r": {
+   "name": "Mental region (skin)",
+   "verts": 106,
+   "residual": {
+    "max_mm": 6.3,
+    "p95_mm": 5.67,
+    "mean_mm": 0.69
+   },
+   "spikes": {
+    "vertices": 7,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 5.85,
+      "on_rim": 0,
+      "where": "midline, height 631 mm, front 85 mm"
+     },
+     {
+      "verts": 6,
+      "residual_max_mm": 6.3,
+      "on_rim": 1,
+      "where": "right (+x), height 636 mm, front 80 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 6.3,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -8.1,
+     "off_source_before_pct": 6.5,
+     "off_source_after_pct": 2.13,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 13,
+     "before_err_max_mm": 5.46,
+     "after_err_max_mm": 0.85,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_r": {
+       "before": [
+        7,
+        9
+       ],
+       "after": [
+        8,
+        10
+       ],
+       "border": [
+        7,
+        9
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_l": {
+       "before": [
+        13,
+        13
+       ],
+       "after": [
+        14,
+        14
+       ],
+       "border": [
+        14,
+        14
+       ],
+       "ok": true
+      },
+      "zan_skin_mentolabial_sulcus_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        3
+       ],
+       "ok": true
+      },
+      "zan_skin_mentolabial_sulcus_r": {
+       "before": [
+        15,
+        17
+       ],
+       "after": [
+        15,
+        18
+       ],
+       "border": [
+        15,
+        19
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_r": {
+       "before": [
+        8,
+        9
+       ],
+       "after": [
+        8,
+        9
+       ],
+       "border": [
+        10,
+        9
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_r": {
+       "before": [
+        11,
+        9
+       ],
+       "after": [
+        13,
+        11
+       ],
+       "border": [
+        12,
+        10
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "depressor_anguli_oris_r 5->9",
+      "mandible 10->21",
+      "platysma_r 0->1",
+      "trigeminal_n_v3_mental_branch_r 4->171",
+      "zan_inferior_alveolar_artery_r 0->3",
+      "zan_inferior_labial_artery_r 25->36",
+      "zan_inferior_labial_veins_l 7->20",
+      "zan_inferior_labial_veins_r 0->20",
+      "zan_lower_first_premolar_r 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_mentolabial_sulcus_l": {
+   "name": "Mentolabial sulcus (skin)",
+   "verts": 56,
+   "residual": {
+    "max_mm": 5.11,
+    "p95_mm": 0.66,
+    "mean_mm": 0.33
+   },
+   "spikes": {
+    "vertices": 1,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 5.11,
+      "on_rim": 0,
+      "where": "left (-x), height 650 mm, front 88 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.11,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -7.04,
+     "off_source_before_pct": 8.39,
+     "off_source_after_pct": 0.76,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 2,
+     "before_err_max_mm": 4.23,
+     "after_err_max_mm": 0.35,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_mental_region_l": {
+       "before": [
+        17,
+        16
+       ],
+       "after": [
+        18,
+        16
+       ],
+       "border": [
+        19,
+        16
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        3,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_mentolabial_sulcus_r": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_l": {
+       "before": [
+        10,
+        11
+       ],
+       "after": [
+        10,
+        11
+       ],
+       "border": [
+        13,
+        11
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "zan_inferior_alveolar_artery_l 0->3",
+      "zan_inferior_labial_artery_l 9->16",
+      "zan_inferior_labial_artery_r 25->36",
+      "zan_inferior_labial_veins_l 7->20",
+      "zan_inferior_labial_veins_r 0->20",
+      "zan_lower_first_premolar_l 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_mentolabial_sulcus_r": {
+   "name": "Mentolabial sulcus (skin)",
+   "verts": 56,
+   "residual": {
+    "max_mm": 5.11,
+    "p95_mm": 0.64,
+    "mean_mm": 0.33
+   },
+   "spikes": {
+    "vertices": 1,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 5.11,
+      "on_rim": 0,
+      "where": "right (+x), height 650 mm, front 88 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.11,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -7.05,
+     "off_source_before_pct": 8.38,
+     "off_source_after_pct": 0.74,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 2,
+     "before_err_max_mm": 4.22,
+     "after_err_max_mm": 0.36,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_mental_region_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        3,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_r": {
+       "before": [
+        17,
+        15
+       ],
+       "after": [
+        18,
+        15
+       ],
+       "border": [
+        19,
+        15
+       ],
+       "ok": true
+      },
+      "zan_skin_mentolabial_sulcus_l": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_r": {
+       "before": [
+        10,
+        11
+       ],
+       "after": [
+        10,
+        11
+       ],
+       "border": [
+        13,
+        11
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "depressor_anguli_oris_r 5->9",
+      "mandible 10->21",
+      "platysma_r 0->1",
+      "zan_inferior_alveolar_artery_r 0->3",
+      "zan_inferior_labial_artery_l 9->16",
+      "zan_inferior_labial_artery_r 25->36",
+      "zan_inferior_labial_veins_l 7->20",
+      "zan_inferior_labial_veins_r 0->20",
+      "zan_lower_first_premolar_r 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_metatarsal_region_l": {
+   "name": "Metatarsal region (skin)",
+   "verts": 248,
+   "residual": {
+    "max_mm": 0.51,
+    "p95_mm": 0.17,
+    "mean_mm": 0.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_metatarsal_region_r": {
+   "name": "Metatarsal region (skin)",
+   "verts": 248,
+   "residual": {
+    "max_mm": 0.51,
+    "p95_mm": 0.17,
+    "mean_mm": 0.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_muscular_triangle_l": {
+   "name": "Muscular triangle (skin)",
+   "verts": 132,
+   "residual": {
+    "max_mm": 1.11,
+    "p95_mm": 0.95,
+    "mean_mm": 0.38
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_muscular_triangle_r": {
+   "name": "Muscular triangle (skin)",
+   "verts": 132,
+   "residual": {
+    "max_mm": 1.11,
+    "p95_mm": 0.96,
+    "mean_mm": 0.38
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_nasal_region_l": {
+   "name": "Nasal region (skin)",
+   "verts": 304,
+   "residual": {
+    "max_mm": 3.23,
+    "p95_mm": 0.22,
+    "mean_mm": 0.14
+   },
+   "spikes": {
+    "vertices": 4,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 2.63,
+      "on_rim": 0,
+      "where": "left (-x), height 701 mm, front 94 mm"
+     },
+     {
+      "verts": 3,
+      "residual_max_mm": 3.23,
+      "on_rim": 3,
+      "where": "midline, height 729 mm, front 92 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 3.23,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -0.41,
+     "off_source_before_pct": 0.31,
+     "off_source_after_pct": 0.1,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 8,
+     "before_err_max_mm": 2.43,
+     "after_err_max_mm": 0.17,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_l": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_l": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        6,
+        6
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_infra_orbital_region_l": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        9,
+        9
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_r": {
+       "before": [
+        37,
+        36
+       ],
+       "after": [
+        41,
+        40
+       ],
+       "border": [
+        58,
+        57
+       ],
+       "ok": true
+      },
+      "zan_skin_nasolabial_sulcus_l": {
+       "before": [
+        3,
+        3
+       ],
+       "after": [
+        3,
+        3
+       ],
+       "border": [
+        3,
+        3
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_l": {
+       "before": [
+        5,
+        5
+       ],
+       "after": [
+        5,
+        5
+       ],
+       "border": [
+        8,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_orbital_region_l": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        13,
+        13
+       ],
+       "ok": true
+      },
+      "zan_skin_philtrum_l": {
+       "before": [
+        3,
+        3
+       ],
+       "after": [
+        3,
+        3
+       ],
+       "border": [
+        5,
+        4
+       ],
+       "ok": true
+      },
+      "zan_skin_philtrum_r": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "zan_lateral_process_of_nasal_septal_cartilage_r 15->18",
+      "zan_mucosa_of_nasal_cavity 10->11"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_nasal_region_r": {
+   "name": "Nasal region (skin)",
+   "verts": 304,
+   "residual": {
+    "max_mm": 3.23,
+    "p95_mm": 0.22,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 3,
+    "patches": [
+     {
+      "verts": 2,
+      "residual_max_mm": 3.23,
+      "on_rim": 2,
+      "where": "midline, height 730 mm, front 91 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 2.63,
+      "on_rim": 0,
+      "where": "right (+x), height 701 mm, front 94 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 3.23,
+     "ok": true
+    },
+    "area": {
+     "change_pct": 0.04,
+     "off_source_before_pct": 0.12,
+     "off_source_after_pct": 0.07,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 6,
+     "before_err_max_mm": 2.43,
+     "after_err_max_mm": 0.17,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_r": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_r": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        6,
+        6
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_infra_orbital_region_r": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        9,
+        9
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_l": {
+       "before": [
+        36,
+        37
+       ],
+       "after": [
+        40,
+        41
+       ],
+       "border": [
+        57,
+        58
+       ],
+       "ok": true
+      },
+      "zan_skin_nasolabial_sulcus_r": {
+       "before": [
+        3,
+        3
+       ],
+       "after": [
+        3,
+        3
+       ],
+       "border": [
+        3,
+        3
+       ],
+       "ok": true
+      },
+      "zan_skin_oral_region_r": {
+       "before": [
+        5,
+        5
+       ],
+       "after": [
+        5,
+        5
+       ],
+       "border": [
+        8,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_orbital_region_r": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        13,
+        13
+       ],
+       "ok": true
+      },
+      "zan_skin_philtrum_l": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_philtrum_r": {
+       "before": [
+        3,
+        3
+       ],
+       "after": [
+        3,
+        3
+       ],
+       "border": [
+        5,
+        4
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "zan_lateral_process_of_nasal_septal_cartilage_r 15->18",
+      "zan_mucosa_of_nasal_cavity 10->11"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_nasolabial_sulcus_l": {
+   "name": "Nasolabial sulcus (skin)",
+   "verts": 50,
+   "residual": {
+    "max_mm": 0.51,
+    "p95_mm": 0.35,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_nasolabial_sulcus_r": {
+   "name": "Nasolabial sulcus (skin)",
+   "verts": 50,
+   "residual": {
+    "max_mm": 0.51,
+    "p95_mm": 0.35,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_occipital_region_l": {
+   "name": "Occipital region (skin)",
+   "verts": 174,
+   "residual": {
+    "max_mm": 0.4,
+    "p95_mm": 0.29,
+    "mean_mm": 0.14
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_occipital_region_r": {
+   "name": "Occipital region (skin)",
+   "verts": 174,
+   "residual": {
+    "max_mm": 0.37,
+    "p95_mm": 0.29,
+    "mean_mm": 0.14
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_oral_region_l": {
+   "name": "Oral region (skin)",
+   "verts": 338,
+   "residual": {
+    "max_mm": 6.56,
+    "p95_mm": 0.8,
+    "mean_mm": 0.3
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_oral_region_r": {
+   "name": "Oral region (skin)",
+   "verts": 338,
+   "residual": {
+    "max_mm": 6.56,
+    "p95_mm": 0.82,
+    "mean_mm": 0.32
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_orbital_region_l": {
+   "name": "Orbital region (skin)",
+   "verts": 292,
+   "residual": {
+    "max_mm": 6.3,
+    "p95_mm": 0.19,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 2,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.26,
+      "on_rim": 0,
+      "where": "left (-x), height 746 mm, front 69 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.3,
+      "on_rim": 1,
+      "where": "left (-x), height 754 mm, front 83 mm"
+     }
+    ]
+   },
+   "moved": 2,
+   "move": {
+    "max_mm": 6.3,
+    "p95_mm": 6.3,
+    "mean_mm": 6.28
+   },
+   "residual_moved_max_mm": 6.3,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.3,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -3.88,
+     "off_source_before_pct": 4.01,
+     "off_source_after_pct": 0.03,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 4,
+     "before_err_max_mm": 6.18,
+     "after_err_max_mm": 0.15,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_eyebrow_l": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_l": {
+       "before": [
+        15,
+        15
+       ],
+       "after": [
+        16,
+        16
+       ],
+       "border": [
+        15,
+        15
+       ],
+       "ok": true
+      },
+      "zan_skin_infra_orbital_region_l": {
+       "before": [
+        14,
+        14
+       ],
+       "after": [
+        14,
+        14
+       ],
+       "border": [
+        14,
+        14
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_l": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        13,
+        13
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_l": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        6,
+        6
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_orbital_region_r": {
+   "name": "Orbital region (skin)",
+   "verts": 292,
+   "residual": {
+    "max_mm": 6.3,
+    "p95_mm": 0.19,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 2,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.3,
+      "on_rim": 1,
+      "where": "right (+x), height 754 mm, front 83 mm"
+     },
+     {
+      "verts": 1,
+      "residual_max_mm": 6.25,
+      "on_rim": 0,
+      "where": "right (+x), height 746 mm, front 69 mm"
+     }
+    ]
+   },
+   "moved": 2,
+   "move": {
+    "max_mm": 6.3,
+    "p95_mm": 6.3,
+    "mean_mm": 6.28
+   },
+   "residual_moved_max_mm": 6.3,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 6.3,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -3.88,
+     "off_source_before_pct": 4.01,
+     "off_source_after_pct": 0.03,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 4,
+     "before_err_max_mm": 6.17,
+     "after_err_max_mm": 0.16,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_eyebrow_r": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_r": {
+       "before": [
+        15,
+        15
+       ],
+       "after": [
+        16,
+        16
+       ],
+       "border": [
+        15,
+        15
+       ],
+       "ok": true
+      },
+      "zan_skin_infra_orbital_region_r": {
+       "before": [
+        14,
+        14
+       ],
+       "after": [
+        14,
+        14
+       ],
+       "border": [
+        14,
+        14
+       ],
+       "ok": true
+      },
+      "zan_skin_nasal_region_r": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        13,
+        13
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_r": {
+       "before": [
+        6,
+        6
+       ],
+       "after": [
+        6,
+        6
+       ],
+       "border": [
+        6,
+        6
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_palm_l": {
+   "name": "Palm (skin)",
+   "verts": 298,
+   "residual": {
+    "max_mm": 0.97,
+    "p95_mm": 0.41,
+    "mean_mm": 0.11
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_palm_r": {
+   "name": "Palm (skin)",
+   "verts": 298,
+   "residual": {
+    "max_mm": 0.97,
+    "p95_mm": 0.41,
+    "mean_mm": 0.11
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_palmar_surfaces_of_digits_of_hand_l": {
+   "name": "Palmar surfaces of digits of hand (skin)",
+   "verts": 1922,
+   "residual": {
+    "max_mm": 0.22,
+    "p95_mm": 0.07,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_palmar_surfaces_of_digits_of_hand_r": {
+   "name": "Palmar surfaces of digits of hand (skin)",
+   "verts": 1922,
+   "residual": {
+    "max_mm": 0.23,
+    "p95_mm": 0.07,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_parietal_region_l": {
+   "name": "Parietal region (skin)",
+   "verts": 254,
+   "residual": {
+    "max_mm": 4.12,
+    "p95_mm": 0.17,
+    "mean_mm": 0.1
+   },
+   "spikes": {
+    "vertices": 1,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 4.12,
+      "on_rim": 1,
+      "where": "midline, height 784 mm, back 86 mm"
+     }
+    ]
+   },
+   "moved": 1,
+   "move": {
+    "max_mm": 4.12,
+    "p95_mm": 4.12,
+    "mean_mm": 4.12
+   },
+   "residual_moved_max_mm": 4.12,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 4.12,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -0.18,
+     "off_source_before_pct": 0.15,
+     "off_source_after_pct": 0.03,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 2,
+     "before_err_max_mm": 4.08,
+     "after_err_max_mm": 0.01,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_frontal_region_l": {
+       "before": [
+        20,
+        20
+       ],
+       "after": [
+        20,
+        20
+       ],
+       "border": [
+        22,
+        22
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_mastoid_region_l": {
+       "before": [
+        4,
+        4
+       ],
+       "after": [
+        4,
+        4
+       ],
+       "border": [
+        4,
+        4
+       ],
+       "ok": true
+      },
+      "zan_skin_occipital_region_l": {
+       "before": [
+        20,
+        20
+       ],
+       "after": [
+        20,
+        20
+       ],
+       "border": [
+        20,
+        20
+       ],
+       "ok": true
+      },
+      "zan_skin_occipital_region_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_parietal_region_r": {
+       "before": [
+        26,
+        26
+       ],
+       "after": [
+        26,
+        26
+       ],
+       "border": [
+        26,
+        26
+       ],
+       "ok": true
+      },
+      "zan_skin_temporal_region_l": {
+       "before": [
+        22,
+        22
+       ],
+       "after": [
+        22,
+        22
+       ],
+       "border": [
+        22,
+        22
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_parietal_region_r": {
+   "name": "Parietal region (skin)",
+   "verts": 254,
+   "residual": {
+    "max_mm": 4.12,
+    "p95_mm": 0.19,
+    "mean_mm": 0.11
+   },
+   "spikes": {
+    "vertices": 1,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 4.12,
+      "on_rim": 1,
+      "where": "midline, height 784 mm, back 86 mm"
+     }
+    ]
+   },
+   "moved": 1,
+   "move": {
+    "max_mm": 4.12,
+    "p95_mm": 4.12,
+    "mean_mm": 4.12
+   },
+   "residual_moved_max_mm": 4.12,
+   "decision": "corrected",
+   "guards": {
+    "cap": {
+     "max_mm": 4.12,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -0.18,
+     "off_source_before_pct": 0.14,
+     "off_source_after_pct": 0.04,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 2,
+     "before_err_max_mm": 4.08,
+     "after_err_max_mm": 0.01,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_frontal_region_l": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_frontal_region_r": {
+       "before": [
+        20,
+        20
+       ],
+       "after": [
+        20,
+        20
+       ],
+       "border": [
+        22,
+        22
+       ],
+       "ok": true
+      },
+      "zan_skin_mastoid_region_r": {
+       "before": [
+        4,
+        4
+       ],
+       "after": [
+        4,
+        4
+       ],
+       "border": [
+        4,
+        4
+       ],
+       "ok": true
+      },
+      "zan_skin_occipital_region_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_occipital_region_r": {
+       "before": [
+        20,
+        20
+       ],
+       "after": [
+        20,
+        20
+       ],
+       "border": [
+        20,
+        20
+       ],
+       "ok": true
+      },
+      "zan_skin_parietal_region_l": {
+       "before": [
+        26,
+        26
+       ],
+       "after": [
+        26,
+        26
+       ],
+       "border": [
+        26,
+        26
+       ],
+       "ok": true
+      },
+      "zan_skin_temporal_region_r": {
+       "before": [
+        22,
+        22
+       ],
+       "after": [
+        22,
+        22
+       ],
+       "border": [
+        22,
+        22
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 503,
+     "gained": [],
+     "ok": true
+    }
+   }
+  },
+  "zan_skin_parotideomasseteric_region_l": {
+   "name": "Parotideomasseteric region (skin)",
+   "verts": 118,
+   "residual": {
+    "max_mm": 5.65,
+    "p95_mm": 0.84,
+    "mean_mm": 0.48
+   },
+   "spikes": {
+    "vertices": 1,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 5.65,
+      "on_rim": 1,
+      "where": "left (-x), height 647 mm, front 43 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.64,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -1.26,
+     "off_source_before_pct": 0.97,
+     "off_source_after_pct": 0.31,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 2,
+     "before_err_max_mm": 4.94,
+     "after_err_max_mm": 0.5,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_auricular_region_l": {
+       "before": [
+        12,
+        12
+       ],
+       "after": [
+        12,
+        12
+       ],
+       "border": [
+        12,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_buccal_region_l": {
+       "before": [
+        19,
+        20
+       ],
+       "after": [
+        19,
+        20
+       ],
+       "border": [
+        19,
+        20
+       ],
+       "ok": true
+      },
+      "zan_skin_sternocleidomastoid_region_l": {
+       "before": [
+        10,
+        8
+       ],
+       "after": [
+        10,
+        8
+       ],
+       "border": [
+        10,
+        8
+       ],
+       "ok": true
+      },
+      "zan_skin_submandibular_triangle_l": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_zygomatic_region_l": {
+       "before": [
+        14,
+        14
+       ],
+       "after": [
+        14,
+        14
+       ],
+       "border": [
+        14,
+        14
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "zan_inferior_alveolar_artery_l 0->3"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_parotideomasseteric_region_r": {
+   "name": "Parotideomasseteric region (skin)",
+   "verts": 118,
+   "residual": {
+    "max_mm": 5.5,
+    "p95_mm": 0.85,
+    "mean_mm": 0.49
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_perionyx_foot_l": {
+   "name": "Perionyx (foot)",
+   "verts": 930,
+   "residual": {
+    "max_mm": 0.02,
+    "p95_mm": 0.01,
+    "mean_mm": 0.0
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_perionyx_foot_r": {
+   "name": "Perionyx (foot)",
+   "verts": 930,
+   "residual": {
+    "max_mm": 0.01,
+    "p95_mm": 0.01,
+    "mean_mm": 0.0
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_perionyx_l": {
+   "name": "Perionyx",
+   "verts": 128,
+   "residual": {
+    "max_mm": 0.05,
+    "p95_mm": 0.04,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_perionyx_r": {
+   "name": "Perionyx",
+   "verts": 128,
+   "residual": {
+    "max_mm": 0.05,
+    "p95_mm": 0.04,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_philtrum_l": {
+   "name": "Philtrum (skin)",
+   "verts": 30,
+   "residual": {
+    "max_mm": 0.33,
+    "p95_mm": 0.26,
+    "mean_mm": 0.15
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_philtrum_r": {
+   "name": "Philtrum (skin)",
+   "verts": 30,
+   "residual": {
+    "max_mm": 0.33,
+    "p95_mm": 0.26,
+    "mean_mm": 0.15
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_plantar_surfaces_of_digits_of_foot_l": {
+   "name": "Plantar surfaces of digits of foot (skin)",
+   "verts": 1016,
+   "residual": {
+    "max_mm": 0.16,
+    "p95_mm": 0.09,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_plantar_surfaces_of_digits_of_foot_r": {
+   "name": "Plantar surfaces of digits of foot (skin)",
+   "verts": 1016,
+   "residual": {
+    "max_mm": 0.16,
+    "p95_mm": 0.09,
+    "mean_mm": 0.04
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_popliteal_fossa_l": {
+   "name": "Popliteal fossa (skin)",
+   "verts": 62,
+   "residual": {
+    "max_mm": 0.8,
+    "p95_mm": 0.77,
+    "mean_mm": 0.33
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_popliteal_fossa_r": {
+   "name": "Popliteal fossa (skin)",
+   "verts": 62,
+   "residual": {
+    "max_mm": 0.8,
+    "p95_mm": 0.77,
+    "mean_mm": 0.33
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_auricular_groove_l": {
+   "name": "Posterior auricular groove (skin)",
+   "verts": 94,
+   "residual": {
+    "max_mm": 5.49,
+    "p95_mm": 3.8,
+    "mean_mm": 0.39
+   },
+   "spikes": {
+    "vertices": 8,
+    "patches": [
+     {
+      "verts": 8,
+      "residual_max_mm": 5.49,
+      "on_rim": 8,
+      "where": "left (-x), height 700 mm, front 7 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: border_share, under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.33,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -6.6,
+     "off_source_before_pct": 8.7,
+     "off_source_after_pct": 1.52,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 11,
+     "before_err_max_mm": 4.01,
+     "after_err_max_mm": 0.28,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_auricular_region_l": {
+       "before": [
+        13,
+        11
+       ],
+       "after": [
+        12,
+        11
+       ],
+       "border": [
+        42,
+        24
+       ],
+       "ok": false
+      },
+      "zan_skin_eminentia_conchae_l": {
+       "before": [
+        12,
+        0
+       ],
+       "after": [
+        12,
+        0
+       ],
+       "border": [
+        14,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_fossae_triangularis_l": {
+       "before": [
+        1,
+        0
+       ],
+       "after": [
+        1,
+        0
+       ],
+       "border": [
+        2,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_scaphae_l": {
+       "before": [
+        6,
+        0
+       ],
+       "after": [
+        6,
+        0
+       ],
+       "border": [
+        6,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_fossa_antihelica_l": {
+       "before": [
+        1,
+        0
+       ],
+       "after": [
+        1,
+        0
+       ],
+       "border": [
+        2,
+        0
+       ],
+       "ok": true
+      }
+     },
+     "ok": false
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "zan_inferior_alveolar_artery_l 0->3",
+      "zan_infra_auricular_nodes_l 16->33",
+      "zan_superficial_temporal_veins_l 3->6"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_posterior_auricular_groove_r": {
+   "name": "Posterior auricular groove (skin)",
+   "verts": 94,
+   "residual": {
+    "max_mm": 5.5,
+    "p95_mm": 3.8,
+    "mean_mm": 0.39
+   },
+   "spikes": {
+    "vertices": 8,
+    "patches": [
+     {
+      "verts": 8,
+      "residual_max_mm": 5.5,
+      "on_rim": 8,
+      "where": "right (+x), height 700 mm, front 7 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: border_share, under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.33,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -6.6,
+     "off_source_before_pct": 8.71,
+     "off_source_after_pct": 1.53,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 11,
+     "before_err_max_mm": 4.03,
+     "after_err_max_mm": 0.29,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_auricular_region_r": {
+       "before": [
+        14,
+        11
+       ],
+       "after": [
+        13,
+        11
+       ],
+       "border": [
+        42,
+        24
+       ],
+       "ok": false
+      },
+      "zan_skin_eminentia_conchae_r": {
+       "before": [
+        12,
+        0
+       ],
+       "after": [
+        12,
+        0
+       ],
+       "border": [
+        14,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_fossae_triangularis_r": {
+       "before": [
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0
+       ],
+       "border": [
+        2,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_eminentia_scaphae_r": {
+       "before": [
+        6,
+        0
+       ],
+       "after": [
+        6,
+        0
+       ],
+       "border": [
+        6,
+        0
+       ],
+       "ok": true
+      },
+      "zan_skin_fossa_antihelica_r": {
+       "before": [
+        1,
+        0
+       ],
+       "after": [
+        1,
+        0
+       ],
+       "border": [
+        2,
+        0
+       ],
+       "ok": true
+      }
+     },
+     "ok": false
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "zan_inferior_alveolar_artery_r 0->3",
+      "zan_superficial_temporal_veins_r 3->6"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_posterior_region_of_arm_l": {
+   "name": "Posterior region of arm (skin)",
+   "verts": 458,
+   "residual": {
+    "max_mm": 3.26,
+    "p95_mm": 2.24,
+    "mean_mm": 0.93
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_arm_r": {
+   "name": "Posterior region of arm (skin)",
+   "verts": 458,
+   "residual": {
+    "max_mm": 3.27,
+    "p95_mm": 2.25,
+    "mean_mm": 0.93
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_elbow_l": {
+   "name": "Posterior region of elbow (skin)",
+   "verts": 242,
+   "residual": {
+    "max_mm": 7.7,
+    "p95_mm": 0.93,
+    "mean_mm": 0.54
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_elbow_r": {
+   "name": "Posterior region of elbow (skin)",
+   "verts": 242,
+   "residual": {
+    "max_mm": 7.7,
+    "p95_mm": 0.93,
+    "mean_mm": 0.54
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_forearm_l": {
+   "name": "Posterior region of forearm (skin)",
+   "verts": 668,
+   "residual": {
+    "max_mm": 2.32,
+    "p95_mm": 1.35,
+    "mean_mm": 0.56
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_forearm_r": {
+   "name": "Posterior region of forearm (skin)",
+   "verts": 668,
+   "residual": {
+    "max_mm": 2.32,
+    "p95_mm": 1.35,
+    "mean_mm": 0.56
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_knee_l": {
+   "name": "Posterior region of knee (skin)",
+   "verts": 324,
+   "residual": {
+    "max_mm": 2.14,
+    "p95_mm": 1.01,
+    "mean_mm": 0.31
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_knee_r": {
+   "name": "Posterior region of knee (skin)",
+   "verts": 324,
+   "residual": {
+    "max_mm": 2.14,
+    "p95_mm": 1.01,
+    "mean_mm": 0.31
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_leg_l": {
+   "name": "Posterior region of leg (skin)",
+   "verts": 612,
+   "residual": {
+    "max_mm": 1.14,
+    "p95_mm": 0.9,
+    "mean_mm": 0.26
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_leg_r": {
+   "name": "Posterior region of leg (skin)",
+   "verts": 612,
+   "residual": {
+    "max_mm": 1.13,
+    "p95_mm": 0.9,
+    "mean_mm": 0.26
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_neck_l": {
+   "name": "Posterior region of neck (skin)",
+   "verts": 344,
+   "residual": {
+    "max_mm": 3.28,
+    "p95_mm": 2.45,
+    "mean_mm": 0.96
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_neck_r": {
+   "name": "Posterior region of neck (skin)",
+   "verts": 344,
+   "residual": {
+    "max_mm": 3.28,
+    "p95_mm": 2.45,
+    "mean_mm": 0.96
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_thigh_l": {
+   "name": "Posterior region of thigh (skin)",
+   "verts": 502,
+   "residual": {
+    "max_mm": 4.73,
+    "p95_mm": 2.3,
+    "mean_mm": 0.96
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_thigh_r": {
+   "name": "Posterior region of thigh (skin)",
+   "verts": 502,
+   "residual": {
+    "max_mm": 4.73,
+    "p95_mm": 2.3,
+    "mean_mm": 0.96
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_wrist_l": {
+   "name": "Posterior region of wrist (skin)",
+   "verts": 124,
+   "residual": {
+    "max_mm": 0.95,
+    "p95_mm": 0.72,
+    "mean_mm": 0.24
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_posterior_region_of_wrist_r": {
+   "name": "Posterior region of wrist (skin)",
+   "verts": 124,
+   "residual": {
+    "max_mm": 0.95,
+    "p95_mm": 0.72,
+    "mean_mm": 0.24
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_proximal_transverse_arch_of_foot_l": {
+   "name": "Proximal transverse arch of foot (skin)",
+   "verts": 46,
+   "residual": {
+    "max_mm": 0.38,
+    "p95_mm": 0.25,
+    "mean_mm": 0.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_proximal_transverse_arch_of_foot_r": {
+   "name": "Proximal transverse arch of foot (skin)",
+   "verts": 46,
+   "residual": {
+    "max_mm": 0.38,
+    "p95_mm": 0.25,
+    "mean_mm": 0.1
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_radial_foveola_l": {
+   "name": "Radial foveola (skin)",
+   "verts": 30,
+   "residual": {
+    "max_mm": 0.2,
+    "p95_mm": 0.18,
+    "mean_mm": 0.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_radial_foveola_r": {
+   "name": "Radial foveola (skin)",
+   "verts": 30,
+   "residual": {
+    "max_mm": 0.2,
+    "p95_mm": 0.18,
+    "mean_mm": 0.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_sacral_region_l": {
+   "name": "Sacral region (skin)",
+   "verts": 88,
+   "residual": {
+    "max_mm": 3.47,
+    "p95_mm": 2.67,
+    "mean_mm": 1.18
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_sacral_region_r": {
+   "name": "Sacral region (skin)",
+   "verts": 88,
+   "residual": {
+    "max_mm": 3.49,
+    "p95_mm": 2.7,
+    "mean_mm": 1.19
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_scapha_l": {
+   "name": "Scapha (skin)",
+   "verts": 47,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.02,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_scapha_r": {
+   "name": "Scapha (skin)",
+   "verts": 47,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.02,
+    "mean_mm": 0.01
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_scapular_region_l": {
+   "name": "Scapular region (skin)",
+   "verts": 343,
+   "residual": {
+    "max_mm": 7.44,
+    "p95_mm": 4.9,
+    "mean_mm": 1.69
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_scapular_region_r": {
+   "name": "Scapular region (skin)",
+   "verts": 343,
+   "residual": {
+    "max_mm": 7.45,
+    "p95_mm": 4.9,
+    "mean_mm": 1.7
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_sole_l": {
+   "name": "Sole (skin)",
+   "verts": 90,
+   "residual": {
+    "max_mm": 0.22,
+    "p95_mm": 0.19,
+    "mean_mm": 0.08
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_sole_r": {
+   "name": "Sole (skin)",
+   "verts": 90,
+   "residual": {
+    "max_mm": 0.22,
+    "p95_mm": 0.19,
+    "mean_mm": 0.08
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_sternocleidomastoid_region_l": {
+   "name": "Sternocleidomastoid region (skin)",
+   "verts": 274,
+   "residual": {
+    "max_mm": 4.08,
+    "p95_mm": 1.54,
+    "mean_mm": 0.63
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_sternocleidomastoid_region_r": {
+   "name": "Sternocleidomastoid region (skin)",
+   "verts": 274,
+   "residual": {
+    "max_mm": 4.04,
+    "p95_mm": 1.52,
+    "mean_mm": 0.63
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_submandibular_triangle_l": {
+   "name": "Submandibular triangle (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 6.07,
+    "p95_mm": 5.11,
+    "mean_mm": 0.9
+   },
+   "spikes": {
+    "vertices": 6,
+    "patches": [
+     {
+      "verts": 6,
+      "residual_max_mm": 5.89,
+      "on_rim": 2,
+      "where": "left (-x), height 641 mm, front 54 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.88,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -7.09,
+     "off_source_before_pct": 7.53,
+     "off_source_after_pct": 0.08,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 10,
+     "before_err_max_mm": 5.25,
+     "after_err_max_mm": 0.67,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_l": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        12,
+        11
+       ],
+       "border": [
+        11,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_carotid_triangle_l": {
+       "before": [
+        9,
+        9
+       ],
+       "after": [
+        9,
+        9
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_muscular_triangle_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_parotideomasseteric_region_l": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        10,
+        10
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_sternocleidomastoid_region_l": {
+       "before": [
+        7,
+        6
+       ],
+       "after": [
+        7,
+        6
+       ],
+       "border": [
+        7,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_l": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "trigeminal_n_v3_mental_branch_l 4->171",
+      "zan_inferior_alveolar_artery_l 0->3",
+      "zan_inferior_labial_veins_l 7->20",
+      "zan_lower_first_premolar_l 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_submandibular_triangle_r": {
+   "name": "Submandibular triangle (skin)",
+   "verts": 80,
+   "residual": {
+    "max_mm": 6.73,
+    "p95_mm": 5.54,
+    "mean_mm": 0.98
+   },
+   "spikes": {
+    "vertices": 8,
+    "patches": [
+     {
+      "verts": 8,
+      "residual_max_mm": 6.73,
+      "on_rim": 4,
+      "where": "right (+x), height 641 mm, front 54 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: border_share, under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 5.77,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -6.47,
+     "off_source_before_pct": 9.07,
+     "off_source_after_pct": 2.01,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 10,
+     "before_err_max_mm": 5.08,
+     "after_err_max_mm": 0.77,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_r": {
+       "before": [
+        11,
+        12
+       ],
+       "after": [
+        9,
+        9
+       ],
+       "border": [
+        11,
+        12
+       ],
+       "ok": false
+      },
+      "zan_skin_carotid_triangle_r": {
+       "before": [
+        9,
+        9
+       ],
+       "after": [
+        9,
+        9
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": true
+      },
+      "zan_skin_muscular_triangle_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_parotideomasseteric_region_r": {
+       "before": [
+        10,
+        10
+       ],
+       "after": [
+        9,
+        9
+       ],
+       "border": [
+        10,
+        10
+       ],
+       "ok": false
+      },
+      "zan_skin_sternocleidomastoid_region_r": {
+       "before": [
+        7,
+        6
+       ],
+       "after": [
+        7,
+        6
+       ],
+       "border": [
+        7,
+        6
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_r": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      }
+     },
+     "ok": false
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "depressor_anguli_oris_r 5->9",
+      "mandible 10->21",
+      "platysma_r 0->1",
+      "trigeminal_n_v3_mental_branch_r 4->171",
+      "zan_facial_artery_r 9->13",
+      "zan_inferior_alveolar_artery_r 0->3",
+      "zan_inferior_labial_veins_r 0->20",
+      "zan_lower_first_premolar_r 0->12"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_submental_triangle_l": {
+   "name": "Submental triangle (skin)",
+   "verts": 64,
+   "residual": {
+    "max_mm": 6.26,
+    "p95_mm": 0.51,
+    "mean_mm": 0.35
+   },
+   "spikes": {
+    "vertices": 1,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.26,
+      "on_rim": 1,
+      "where": "left (-x), height 630 mm, front 83 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 6.26,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -3.71,
+     "off_source_before_pct": 3.84,
+     "off_source_after_pct": 0.01,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 2,
+     "before_err_max_mm": 6.3,
+     "after_err_max_mm": 0.07,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_l": {
+       "before": [
+        4,
+        4
+       ],
+       "after": [
+        4,
+        4
+       ],
+       "border": [
+        4,
+        4
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_l": {
+       "before": [
+        9,
+        12
+       ],
+       "after": [
+        11,
+        14
+       ],
+       "border": [
+        10,
+        13
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_r": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_muscular_triangle_l": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      },
+      "zan_skin_muscular_triangle_r": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_submandibular_triangle_l": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_r": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "mandible 10->21",
+      "platysma_r 0->1",
+      "zan_inferior_alveolar_artery_l 0->3",
+      "zan_inferior_labial_veins_l 7->20"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_submental_triangle_r": {
+   "name": "Submental triangle (skin)",
+   "verts": 64,
+   "residual": {
+    "max_mm": 6.15,
+    "p95_mm": 0.51,
+    "mean_mm": 0.34
+   },
+   "spikes": {
+    "vertices": 1,
+    "patches": [
+     {
+      "verts": 1,
+      "residual_max_mm": 6.15,
+      "on_rim": 1,
+      "where": "right (+x), height 630 mm, front 83 mm"
+     }
+    ]
+   },
+   "moved": 0,
+   "decision": "held: under_skin",
+   "guards": {
+    "cap": {
+     "max_mm": 6.15,
+     "ok": true
+    },
+    "area": {
+     "change_pct": -3.65,
+     "off_source_before_pct": 3.74,
+     "off_source_after_pct": 0.05,
+     "ok": true
+    },
+    "thickness": {
+     "checked": 2,
+     "before_err_max_mm": 6.16,
+     "after_err_max_mm": 0.03,
+     "worse": 0,
+     "ok": true
+    },
+    "border_share": {
+     "borders": {
+      "zan_skin_buccal_region_r": {
+       "before": [
+        4,
+        4
+       ],
+       "after": [
+        4,
+        4
+       ],
+       "border": [
+        4,
+        4
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_l": {
+       "before": [
+        2,
+        2
+       ],
+       "after": [
+        2,
+        2
+       ],
+       "border": [
+        2,
+        2
+       ],
+       "ok": true
+      },
+      "zan_skin_mental_region_r": {
+       "before": [
+        9,
+        11
+       ],
+       "after": [
+        11,
+        13
+       ],
+       "border": [
+        10,
+        12
+       ],
+       "ok": true
+      },
+      "zan_skin_muscular_triangle_l": {
+       "before": [
+        1,
+        1
+       ],
+       "after": [
+        1,
+        1
+       ],
+       "border": [
+        1,
+        1
+       ],
+       "ok": true
+      },
+      "zan_skin_muscular_triangle_r": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      },
+      "zan_skin_submandibular_triangle_r": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      },
+      "zan_skin_submental_triangle_l": {
+       "before": [
+        8,
+        8
+       ],
+       "after": [
+        8,
+        8
+       ],
+       "border": [
+        8,
+        8
+       ],
+       "ok": true
+      }
+     },
+     "ok": true
+    },
+    "under_skin": {
+     "structures": 837,
+     "gained": [
+      "depressor_anguli_oris_r 5->9",
+      "mandible 10->21",
+      "platysma_r 0->1",
+      "zan_inferior_alveolar_artery_r 0->3",
+      "zan_inferior_labial_veins_r 0->20"
+     ],
+     "ok": false
+    }
+   }
+  },
+  "zan_skin_temporal_region_l": {
+   "name": "Temporal region (skin)",
+   "verts": 220,
+   "residual": {
+    "max_mm": 0.63,
+    "p95_mm": 0.26,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_temporal_region_r": {
+   "name": "Temporal region (skin)",
+   "verts": 220,
+   "residual": {
+    "max_mm": 0.62,
+    "p95_mm": 0.25,
+    "mean_mm": 0.13
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_tragus_l": {
+   "name": "Tragus (skin)",
+   "verts": 50,
+   "residual": {
+    "max_mm": 0.54,
+    "p95_mm": 0.42,
+    "mean_mm": 0.09
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_tragus_r": {
+   "name": "Tragus (skin)",
+   "verts": 50,
+   "residual": {
+    "max_mm": 0.53,
+    "p95_mm": 0.41,
+    "mean_mm": 0.09
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_triangle_of_auscultation_l": {
+   "name": "Triangle of auscultation (skin)",
+   "verts": 12,
+   "residual": {
+    "max_mm": 1.44,
+    "p95_mm": 1.33,
+    "mean_mm": 0.93
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_triangle_of_auscultation_r": {
+   "name": "Triangle of auscultation (skin)",
+   "verts": 12,
+   "residual": {
+    "max_mm": 1.45,
+    "p95_mm": 1.33,
+    "mean_mm": 0.94
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_triangular_fossa_l": {
+   "name": "Triangular fossa (skin)",
+   "verts": 41,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.03,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_triangular_fossa_r": {
+   "name": "Triangular fossa (skin)",
+   "verts": 41,
+   "residual": {
+    "max_mm": 0.03,
+    "p95_mm": 0.03,
+    "mean_mm": 0.02
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_tubercle_of_upper_lip_l": {
+   "name": "Tubercle of upper lip (skin)",
+   "verts": 12,
+   "residual": {
+    "max_mm": 0.21,
+    "p95_mm": 0.2,
+    "mean_mm": 0.09
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_tubercle_of_upper_lip_r": {
+   "name": "Tubercle of upper lip (skin)",
+   "verts": 12,
+   "residual": {
+    "max_mm": 0.21,
+    "p95_mm": 0.2,
+    "mean_mm": 0.09
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_umbilical_region_l": {
+   "name": "Umbilical region (skin)",
+   "verts": 118,
+   "residual": {
+    "max_mm": 2.94,
+    "p95_mm": 2.21,
+    "mean_mm": 1.06
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_umbilical_region_r": {
+   "name": "Umbilical region (skin)",
+   "verts": 118,
+   "residual": {
+    "max_mm": 2.94,
+    "p95_mm": 2.21,
+    "mean_mm": 1.05
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_umbilicus_l": {
+   "name": "Umbilicus (skin)",
+   "verts": 22,
+   "residual": {
+    "max_mm": 1.48,
+    "p95_mm": 1.42,
+    "mean_mm": 0.53
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_umbilicus_r": {
+   "name": "Umbilicus (skin)",
+   "verts": 22,
+   "residual": {
+    "max_mm": 1.48,
+    "p95_mm": 1.42,
+    "mean_mm": 0.53
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_vertebral_region_l": {
+   "name": "Vertebral region (skin)",
+   "verts": 292,
+   "residual": {
+    "max_mm": 5.13,
+    "p95_mm": 4.02,
+    "mean_mm": 1.95
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_vertebral_region_r": {
+   "name": "Vertebral region (skin)",
+   "verts": 292,
+   "residual": {
+    "max_mm": 5.13,
+    "p95_mm": 4.02,
+    "mean_mm": 1.95
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_zygomatic_region_l": {
+   "name": "Zygomatic region (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 0.7,
+    "p95_mm": 0.59,
+    "mean_mm": 0.27
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  },
+  "zan_skin_zygomatic_region_r": {
+   "name": "Zygomatic region (skin)",
+   "verts": 108,
+   "residual": {
+    "max_mm": 0.7,
+    "p95_mm": 0.58,
+    "mean_mm": 0.27
+   },
+   "spikes": {
+    "vertices": 0,
+    "patches": []
+   },
+   "moved": 0
+  }
+ },
+ "files_changed": [
+  "atlas_viewer_base_female_geo_02.txt",
+  "atlas_viewer_base_female.html",
+  "index.html"
+ ],
+ "pose_rig": "vertex counts and order unchanged: the rig (data/anatomy/pose_rig_base_f.json) still matches; no re-encode"
+}

@@ -1,0 +1,90 @@
+{
+  "id": "fibularis_longus_r",
+  "name_ta": "Fibularis longus",
+  "name_common": "Fibularis (peroneus) longus",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "unipennate",
+  "attachments": {
+    "origin_bone": "fibula_r",
+    "origin_landmark": "fibular head, proximal lateral shaft",
+    "insertion_bone": "metatarsals_r",
+    "insertion_landmark": "1st metatarsal base, medial cuneiform (via a long plantar course)",
+    "via_points": [
+      {
+        "structure": "cuboid tendon groove -- the tendon turns sharply here, from the lateral ankle onto the plantar surface, before its long course across the sole to the 1st metatarsal base/medial cuneiform (Gray's Anatomy for Students, 4th ed.)",
+        "bone_frame": "tarsals_r",
+        "position_local_mm": [11.7, -80.3, 15.0],
+        "active_over_joint_range": "all ankle/subtalar positions -- a fixed fibro-osseous tunnel, not a joint-range-dependent wrap",
+        "notes": "Q138: reuses tarsals_r's own already-authored, mesh-checked landmark 'cuboid (peroneus longus tendon groove)' (data/skeleton/bones.json) -- peroneus longus is fibularis longus's older name, so this is literally this muscle's own named groove, not a borrowed or invented coordinate."
+      }
+    ]
+  },
+  "innervation": {
+    "nerve": "superficial_fibular_n",
+    "root_levels": "L5-S1"
+  },
+  "actions": [
+    "everts the ankle, assists plantarflexion, supports the transverse (metatarsal) arch"
+  ],
+  "functional_compartments": [
+    {
+      "id": "fibularis_longus_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 12,
+        "optimal_fascicle_length_mm": 50,
+        "physiological_cross_section_area_mm2": 500,
+        "max_isometric_force_N": 112.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          -20,
+          -5
+        ],
+        [
+          -20,
+          -400,
+          -30
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Its tendon crosses the entire plantar surface of the foot from lateral to medial (via the cuboid tunnel), the longest tendon course of any lower-limb muscle relative to its origin.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            20,
+            40
+          ],
+          "reference_line_from": "fibular head (most proximal point)",
+          "reference_line_to": "tip of the lateral malleolus",
+          "method": "cadaveric dissection of the superficial fibular nerve's motor entry point (MEP)",
+          "notes": "Mean reference line length 33.4 +/- 2.5 cm across 43 cadaveric legs. The nerve branch to fibularis longus itself leaves the superficial fibular nerve trunk at approximately 10% along this line, then enters the muscle within the 20-40% band reported here.",
+          "source": "Lee JH, Lee BN, An X, Chung RH, Kwon SO, Han SH (2011), Clinical Anatomy 24(2):232-236, doi:10.1002/ca.21076 (https://doi.org/10.1002/ca.21076) -- retrieved via PubMed"
+        }
+      ],
+      "innervation_branch_ids": [
+        "superficial_fibular_n",
+        "superficial_fibular_n_branch_to_fibularis_longus"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "trigger_points": [
+    {
+      "location_description": "Muscle belly over the proximal-to-middle third of the fibula, on the lateral aspect of the leg.",
+      "referred_pain_pattern": "Pain projecting around the lateral malleolus (above, behind and below it) and into the lateral aspect of the foot, with a band of pain also felt over the middle third of the lateral leg; associated paresthesia/numbness can extend into the third, fourth and great toes.",
+      "activation_perpetuating_factors": "Ankle sprain (especially inversion injury), prolonged immobilization (cast, plantarflexed sleeping posture), leg crossing, flat feet, and high heels -- all of which chronically load or compress the peroneal muscles.",
+      "notes": "Distinct from but often confused with lateral ankle ligament sprain or peroneal tendinopathy; usually discussed together with fibularis brevis given overlapping referral zones.",
+      "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 2 (Lower Extremities), 1999 -- as cited in secondary summaries (e.g. Morningside Acupuncture NYC 'Peroneus Longus Trigger Points', muscle-joint-pain.com peroneus longus/brevis/tertius reference) describing the lateral-leg trigger point site and lateral-malleolus/foot referral pattern with toe paresthesia"
+    }
+  ]
+}

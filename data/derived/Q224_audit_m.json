@@ -1,0 +1,805 @@
+{
+ "page": "own_m",
+ "q209": {
+  "structures_major_moderate_minor": {
+   "major": 28,
+   "moderate": 146,
+   "minor": 60,
+   "clean": 257
+  },
+  "q198_junction_severity_major_moderate_minor": [
+   18,
+   96,
+   82
+  ],
+  "elbow_L_R": [
+   "DEFECT",
+   "DEFECT"
+  ],
+  "verdict": "partly"
+ },
+ "before": {
+  "rows": 521,
+  "q198_junction_audit": {
+   "severity_major_moderate_minor": [
+    15,
+    82,
+    86
+   ],
+   "verdict": "partly",
+   "elbow_L_R": [
+    "DEFECT",
+    "DEFECT"
+   ],
+   "elbow_counts": {
+    "l": [
+     1,
+     2,
+     2
+    ],
+    "r": [
+     0,
+     9,
+     4
+    ]
+   },
+   "n_structures": 522
+  },
+  "q204_structures_major_moderate_minor": [
+   22,
+   153,
+   80
+  ],
+  "findings_by_type_major_moderate_minor": {
+   "gap": [
+    4,
+    11,
+    7
+   ],
+   "detached_piece": [
+    7,
+    12,
+    29
+   ],
+   "detached_end": [
+    0,
+    96,
+    53
+   ],
+   "flat_cut": [
+    9,
+    80,
+    0
+   ],
+   "outside_skin": [
+    0,
+    0,
+    0
+   ],
+   "bone_penetration": [
+    0,
+    6,
+    16
+   ],
+   "soft_in_bone": [
+    3,
+    19,
+    31
+   ],
+   "muscle_in_muscle": [
+    0,
+    16,
+    31
+   ],
+   "ragged_boundary": [
+    0,
+    0,
+    5
+   ]
+  },
+  "regions_13_structures_major_moderate_minor": {
+   "head_neck": [
+    7,
+    30,
+    20
+   ],
+   "shoulder": [
+    4,
+    14,
+    2
+   ],
+   "arm": [
+    1,
+    4,
+    7
+   ],
+   "elbow": [
+    0,
+    1,
+    3
+   ],
+   "forearm": [
+    0,
+    12,
+    15
+   ],
+   "wrist_hand": [
+    0,
+    11,
+    11
+   ],
+   "thorax": [
+    1,
+    21,
+    6
+   ],
+   "abdomen_pelvis": [
+    3,
+    17,
+    4
+   ],
+   "hip": [
+    1,
+    1,
+    4
+   ],
+   "thigh": [
+    2,
+    24,
+    2
+   ],
+   "knee": [
+    0,
+    1,
+    0
+   ],
+   "leg": [
+    1,
+    11,
+    1
+   ],
+   "ankle_foot": [
+    2,
+    6,
+    5
+   ]
+  },
+  "targeted": {
+   "tube_gap_findings": [
+    {
+     "id": "internal_carotid_a_l",
+     "gap_mm": 24.68,
+     "sev": 2
+    },
+    {
+     "id": "internal_carotid_a_r",
+     "gap_mm": 14.01,
+     "sev": 2
+    },
+    {
+     "id": "internal_jugular_v_l",
+     "gap_mm": 43.8,
+     "sev": 3
+    },
+    {
+     "id": "internal_jugular_v_r",
+     "gap_mm": 51.76,
+     "sev": 3
+    },
+    {
+     "id": "optic_n",
+     "gap_mm": 20.8,
+     "sev": 2
+    },
+    {
+     "id": "femoral_v_l",
+     "gap_mm": 35.03,
+     "sev": 3
+    },
+    {
+     "id": "femoral_v_r",
+     "gap_mm": 62.01,
+     "sev": 3
+    }
+   ],
+   "flat_cut_faces_over_100mm2_muscles": 79,
+   "detached_piece_findings_sev_ge1": 35,
+   "detached_piece_findings": [
+    {
+     "id": "coccygeus_l",
+     "area_share": 0.0516,
+     "sev": 1
+    },
+    {
+     "id": "obliquus_capitis_inferior_l",
+     "area_share": 0.0719,
+     "sev": 1
+    },
+    {
+     "id": "infraspinatus_r",
+     "area_share": 0.112,
+     "sev": 2
+    },
+    {
+     "id": "infraspinatus_l",
+     "area_share": 0.0537,
+     "sev": 1
+    },
+    {
+     "id": "trapezius_r",
+     "area_share": 0.4568,
+     "sev": 3
+    },
+    {
+     "id": "diaphragm",
+     "area_share": 0.1362,
+     "sev": 2
+    },
+    {
+     "id": "external_oblique_r",
+     "area_share": 0.0546,
+     "sev": 1
+    },
+    {
+     "id": "internal_oblique_l",
+     "area_share": 0.0742,
+     "sev": 1
+    },
+    {
+     "id": "rhomboid_minor_r",
+     "area_share": 0.2622,
+     "sev": 2
+    },
+    {
+     "id": "subscapularis_r",
+     "area_share": 0.0851,
+     "sev": 1
+    },
+    {
+     "id": "supraspinatus_l",
+     "area_share": 0.202,
+     "sev": 2
+    },
+    {
+     "id": "subscapularis_l",
+     "area_share": 0.0255,
+     "sev": 1
+    },
+    {
+     "id": "pectoralis_minor_r",
+     "area_share": 0.3595,
+     "sev": 3
+    },
+    {
+     "id": "spinalis_l",
+     "area_share": 0.0622,
+     "sev": 1
+    },
+    {
+     "id": "levator_scapulae_l",
+     "area_share": 0.0201,
+     "sev": 1
+    },
+    {
+     "id": "semispinalis_cervicis_r",
+     "area_share": 0.1062,
+     "sev": 2
+    },
+    {
+     "id": "rectus_capitis_posterior_minor_r",
+     "area_share": 0.3114,
+     "sev": 3
+    },
+    {
+     "id": "longus_colli_r",
+     "area_share": 0.3357,
+     "sev": 3
+    },
+    {
+     "id": "longus_capitis_r",
+     "area_share": 0.3713,
+     "sev": 3
+    },
+    {
+     "id": "longus_capitis_l",
+     "area_share": 0.0412,
+     "sev": 1
+    },
+    {
+     "id": "geniohyoid_r",
+     "area_share": 0.3794,
+     "sev": 3
+    },
+    {
+     "id": "geniohyoid_l",
+     "area_share": 0.0861,
+     "sev": 1
+    },
+    {
+     "id": "hyoglossus_l",
+     "area_share": 0.1246,
+     "sev": 2
+    },
+    {
+     "id": "coccygeus_r",
+     "area_share": 0.062,
+     "sev": 1
+    },
+    {
+     "id": "levator_ani_l",
+     "area_share": 0.0303,
+     "sev": 1
+    },
+    {
+     "id": "pectoralis_major_r",
+     "area_share": 0.0415,
+     "sev": 1
+    },
+    {
+     "id": "quadratus_lumborum_r",
+     "area_share": 0.0233,
+     "sev": 1
+    },
+    {
+     "id": "pronator_quadratus_r",
+     "area_share": 0.0304,
+     "sev": 1
+    },
+    {
+     "id": "dorsal_interossei_foot_l",
+     "area_share": 0.2069,
+     "sev": 2
+    },
+    {
+     "id": "dorsal_interossei_foot_r",
+     "area_share": 0.2218,
+     "sev": 2
+    },
+    {
+     "id": "dorsal_interossei_hand_l",
+     "area_share": 0.2398,
+     "sev": 2
+    },
+    {
+     "id": "dorsal_interossei_hand_r",
+     "area_share": 0.2219,
+     "sev": 2
+    },
+    {
+     "id": "extensor_carpi_ulnaris_r",
+     "area_share": 0.1607,
+     "sev": 2
+    },
+    {
+     "id": "plantar_interossei_l",
+     "area_share": 0.2744,
+     "sev": 2
+    },
+    {
+     "id": "plantar_interossei_r",
+     "area_share": 0.343,
+     "sev": 3
+    }
+   ],
+   "bone_pairs_penetrating_ge3mm": 11,
+   "duplicate_group_mesh_pairs_ge3mm": [
+    {
+     "a": "carpals_l",
+     "b": "carpals_l_q212",
+     "max_depth_mm": 9.8
+    },
+    {
+     "a": "carpals_r",
+     "b": "carpals_r_q212",
+     "max_depth_mm": 8.95
+    },
+    {
+     "a": "carpals_l",
+     "b": "ulna_l_distal_q212",
+     "max_depth_mm": 5.66
+    },
+    {
+     "a": "carpals_l",
+     "b": "radius_l_distal_q212",
+     "max_depth_mm": 5.66
+    },
+    {
+     "a": "carpals_r",
+     "b": "radius_r_distal_q212",
+     "max_depth_mm": 5.66
+    },
+    {
+     "a": "carpals_r",
+     "b": "ulna_r_distal_q212",
+     "max_depth_mm": 5.66
+    }
+   ],
+   "bone_pairs_top": [
+    {
+     "a": "humerus_l",
+     "b": "radius_l",
+     "max_depth_mm": 9.8
+    },
+    {
+     "a": "carpals_l",
+     "b": "carpals_l_q212",
+     "max_depth_mm": 9.8
+    },
+    {
+     "a": "carpals_r",
+     "b": "carpals_r_q212",
+     "max_depth_mm": 8.95
+    },
+    {
+     "a": "cuneiform_medial_l",
+     "b": "metatarsals_l",
+     "max_depth_mm": 6.32
+    },
+    {
+     "a": "humerus_l",
+     "b": "ulna_l",
+     "max_depth_mm": 6.0
+    },
+    {
+     "a": "radius_l",
+     "b": "ulna_l",
+     "max_depth_mm": 6.0
+    },
+    {
+     "a": "carpals_l",
+     "b": "ulna_l_distal_q212",
+     "max_depth_mm": 5.66
+    },
+    {
+     "a": "carpals_l",
+     "b": "radius_l_distal_q212",
+     "max_depth_mm": 5.66
+    }
+   ]
+  }
+ },
+ "after": {
+  "rows": 519,
+  "q198_junction_audit": {
+   "severity_major_moderate_minor": [
+    7,
+    50,
+    83
+   ],
+   "verdict": "partly",
+   "elbow_L_R": [
+    "OK",
+    "DEFECT"
+   ],
+   "elbow_counts": {
+    "l": [
+     0,
+     2,
+     2
+    ],
+    "r": [
+     0,
+     9,
+     5
+    ]
+   },
+   "n_structures": 520
+  },
+  "q204_structures_major_moderate_minor": [
+   12,
+   131,
+   79
+  ],
+  "findings_by_type_major_moderate_minor": {
+   "gap": [
+    0,
+    10,
+    6
+   ],
+   "detached_piece": [
+    7,
+    10,
+    26
+   ],
+   "detached_end": [
+    0,
+    97,
+    51
+   ],
+   "flat_cut": [
+    2,
+    26,
+    0
+   ],
+   "outside_skin": [
+    0,
+    0,
+    0
+   ],
+   "bone_penetration": [
+    0,
+    6,
+    2
+   ],
+   "soft_in_bone": [
+    3,
+    18,
+    30
+   ],
+   "muscle_in_muscle": [
+    0,
+    17,
+    28
+   ],
+   "ragged_boundary": [
+    0,
+    0,
+    5
+   ]
+  },
+  "regions_13_structures_major_moderate_minor": {
+   "head_neck": [
+    4,
+    26,
+    22
+   ],
+   "shoulder": [
+    0,
+    11,
+    6
+   ],
+   "arm": [
+    0,
+    4,
+    7
+   ],
+   "elbow": [
+    0,
+    1,
+    3
+   ],
+   "forearm": [
+    0,
+    12,
+    11
+   ],
+   "wrist_hand": [
+    0,
+    10,
+    7
+   ],
+   "thorax": [
+    2,
+    15,
+    6
+   ],
+   "abdomen_pelvis": [
+    3,
+    15,
+    6
+   ],
+   "hip": [
+    1,
+    0,
+    4
+   ],
+   "thigh": [
+    0,
+    22,
+    3
+   ],
+   "knee": [
+    0,
+    1,
+    0
+   ],
+   "leg": [
+    0,
+    8,
+    0
+   ],
+   "ankle_foot": [
+    2,
+    6,
+    4
+   ]
+  },
+  "targeted": {
+   "tube_gap_findings": [
+    {
+     "id": "internal_carotid_a_l",
+     "gap_mm": 24.68,
+     "sev": 2
+    },
+    {
+     "id": "internal_carotid_a_r",
+     "gap_mm": 14.01,
+     "sev": 2
+    },
+    {
+     "id": "optic_n",
+     "gap_mm": 20.8,
+     "sev": 2
+    }
+   ],
+   "flat_cut_faces_over_100mm2_muscles": 18,
+   "detached_piece_findings_sev_ge1": 30,
+   "detached_piece_findings": [
+    {
+     "id": "coccygeus_l",
+     "area_share": 0.0516,
+     "sev": 1
+    },
+    {
+     "id": "obliquus_capitis_inferior_l",
+     "area_share": 0.0719,
+     "sev": 1
+    },
+    {
+     "id": "infraspinatus_r",
+     "area_share": 0.112,
+     "sev": 2
+    },
+    {
+     "id": "infraspinatus_l",
+     "area_share": 0.0537,
+     "sev": 1
+    },
+    {
+     "id": "trapezius_r",
+     "area_share": 0.4561,
+     "sev": 3
+    },
+    {
+     "id": "diaphragm",
+     "area_share": 0.1361,
+     "sev": 2
+    },
+    {
+     "id": "internal_oblique_l",
+     "area_share": 0.0742,
+     "sev": 1
+    },
+    {
+     "id": "subscapularis_r",
+     "area_share": 0.0851,
+     "sev": 1
+    },
+    {
+     "id": "supraspinatus_l",
+     "area_share": 0.1983,
+     "sev": 2
+    },
+    {
+     "id": "subscapularis_l",
+     "area_share": 0.0255,
+     "sev": 1
+    },
+    {
+     "id": "pectoralis_minor_r",
+     "area_share": 0.36,
+     "sev": 3
+    },
+    {
+     "id": "spinalis_l",
+     "area_share": 0.0632,
+     "sev": 1
+    },
+    {
+     "id": "levator_scapulae_l",
+     "area_share": 0.0201,
+     "sev": 1
+    },
+    {
+     "id": "semispinalis_cervicis_r",
+     "area_share": 0.1062,
+     "sev": 2
+    },
+    {
+     "id": "rectus_capitis_posterior_minor_r",
+     "area_share": 0.3114,
+     "sev": 3
+    },
+    {
+     "id": "longus_colli_r",
+     "area_share": 0.3357,
+     "sev": 3
+    },
+    {
+     "id": "longus_capitis_r",
+     "area_share": 0.3713,
+     "sev": 3
+    },
+    {
+     "id": "geniohyoid_r",
+     "area_share": 0.3794,
+     "sev": 3
+    },
+    {
+     "id": "geniohyoid_l",
+     "area_share": 0.0861,
+     "sev": 1
+    },
+    {
+     "id": "coccygeus_r",
+     "area_share": 0.062,
+     "sev": 1
+    },
+    {
+     "id": "levator_ani_l",
+     "area_share": 0.0303,
+     "sev": 1
+    },
+    {
+     "id": "pectoralis_major_r",
+     "area_share": 0.0415,
+     "sev": 1
+    },
+    {
+     "id": "pronator_quadratus_r",
+     "area_share": 0.0304,
+     "sev": 1
+    },
+    {
+     "id": "dorsal_interossei_foot_l",
+     "area_share": 0.2069,
+     "sev": 2
+    },
+    {
+     "id": "dorsal_interossei_foot_r",
+     "area_share": 0.2218,
+     "sev": 2
+    },
+    {
+     "id": "dorsal_interossei_hand_l",
+     "area_share": 0.2398,
+     "sev": 2
+    },
+    {
+     "id": "dorsal_interossei_hand_r",
+     "area_share": 0.2219,
+     "sev": 2
+    },
+    {
+     "id": "extensor_carpi_ulnaris_r",
+     "area_share": 0.1607,
+     "sev": 2
+    },
+    {
+     "id": "plantar_interossei_l",
+     "area_share": 0.2744,
+     "sev": 2
+    },
+    {
+     "id": "plantar_interossei_r",
+     "area_share": 0.343,
+     "sev": 3
+    }
+   ],
+   "bone_pairs_penetrating_ge3mm": 4,
+   "duplicate_group_mesh_pairs_ge3mm": [],
+   "bone_pairs_top": [
+    {
+     "a": "humerus_l",
+     "b": "radius_l",
+     "max_depth_mm": 9.8
+    },
+    {
+     "a": "humerus_l",
+     "b": "ulna_l",
+     "max_depth_mm": 6.0
+    },
+    {
+     "a": "radius_l",
+     "b": "ulna_l",
+     "max_depth_mm": 6.0
+    },
+    {
+     "a": "humerus_r",
+     "b": "ulna_r",
+     "max_depth_mm": 4.0
+    }
+   ]
+  }
+ }
+}

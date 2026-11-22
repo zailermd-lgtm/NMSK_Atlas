@@ -1,0 +1,88 @@
+{
+ "page": "build/q210/viewer_zan_vhm",
+ "n_skin_patches": 250,
+ "n_forearm_elbow_patches": 18,
+ "crossings_page_decode": {
+  "candidates": 71,
+  "face_pairs": 9398,
+  "deep_gt2": 2632,
+  "deep_gt4": 1026,
+  "by_category_deep_gt2": {
+   "fore_fore": 686,
+   "fore_vs_arm_hand": 417,
+   "fore_vs_trunk_thigh": 0,
+   "other": 1529
+  }
+ },
+ "forearm_vs_trunk": {
+  "deep_pairs_gt2": 0,
+  "depth_mm": {
+   "median": null,
+   "p90": null,
+   "max": null
+  },
+  "deep_gt4": 0,
+  "deep_gt8": 0,
+  "deep_gt12": 0,
+  "patch_pairs": [],
+  "footprint_mm2": {
+   "trunk_thigh_faces": 0,
+   "trunk_thigh_area": 0.0,
+   "forearm_faces": 0,
+   "forearm_area": 0.0
+  },
+  "centroid_of_contact_mm": null
+ },
+ "tube_depth_of_trunk_skin_by_side": {
+  "l": {
+   "axis_len_mm": 284.07,
+   "forearm_outer_radius_median_mm": 35.55,
+   "trunk_skin_vertices_inside_forearm_tube": 0,
+   "gt5mm": 0,
+   "gt10mm": 0,
+   "gt15mm": 0,
+   "depth_mm": {
+    "median": null,
+    "p90": null,
+    "max": null
+   },
+   "by_patch": {}
+  },
+  "r": {
+   "axis_len_mm": 286.09,
+   "forearm_outer_radius_median_mm": 38.22,
+   "trunk_skin_vertices_inside_forearm_tube": 0,
+   "gt5mm": 0,
+   "gt10mm": 0,
+   "gt15mm": 0,
+   "depth_mm": {
+    "median": null,
+    "p90": null,
+    "max": null
+   },
+   "by_patch": {}
+  }
+ },
+ "deep_tissue_by_side": {
+  "l": {
+   "n_forearm_structures": 26,
+   "n_trunk_thigh_structures": 101,
+   "deep_overlap_mm3": 0,
+   "forearm_structures_in_trunk_tissue": {},
+   "trunk_structures_in_forearm_tissue": {},
+   "min_surface_gap_forearm_to_trunk_tissue_mm": 22.91,
+   "forearm_deep_points_within_5mm_of_trunk_tissue": 0,
+   "of": 58886
+  },
+  "r": {
+   "n_forearm_structures": 27,
+   "n_trunk_thigh_structures": 101,
+   "deep_overlap_mm3": 0,
+   "forearm_structures_in_trunk_tissue": {},
+   "trunk_structures_in_forearm_tissue": {},
+   "min_surface_gap_forearm_to_trunk_tissue_mm": 24.99,
+   "forearm_deep_points_within_5mm_of_trunk_tissue": 0,
+   "of": 56445
+  }
+ }
+}

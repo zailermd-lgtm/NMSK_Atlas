@@ -1,0 +1,1724 @@
+{
+ "atlas_facts": {
+  "perineum_interval": {
+   "fact": "the perineum occupies, externally, the interval between the upper medial thighs and the lower buttocks, limited in front by the mons pubis; one skin, continuous with the neighbouring regions",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, p. 343"
+  },
+  "outlet_diamond": {
+   "fact": "diamond-shaped outlet: pubic arch / inferior pubic ligament in front, tip of the coccyx behind, ischiopubic rami and ischial tuberosities anterolaterally, sacrotuberous ligaments posterolaterally; palpable landmarks pubic symphysis, ischial tuberosities, coccyx",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, pp. 343-344; Drake RL, Vogl AW, Mitchell AWM et al. Gray's Atlas of Anatomy, Churchill Livingstone / Elsevier (edition not in the owner's scan), p. 244"
+  },
+  "interischial_line": {
+   "fact": "the transverse line joining the two ischial tuberosities passes just in front of the anus (urogenital triangle in front, anal triangle behind)",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, pp. 344-345"
+  },
+  "labia_majora": {
+   "fact": "two thick skin folds (fat-filled) running down and back from the mons pubis, diminishing posteriorly; lateral surface convex; they meet in front (anterior commissure, continuous with the mons) and behind (posterior commissure) on either side of the median pudendal cleft, almost horizontal when erect",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, pp. 361-362"
+  },
+  "posterior_commissure": {
+   "fact": "the labia majora unite about an inch in front of the anus (posterior commissure), which overlies the perineal body",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, p. 361; Drake RL, Vogl AW, Mitchell AWM et al. Gray's Atlas of Anatomy, Churchill Livingstone / Elsevier (edition not in the owner's scan), p. 243"
+  },
+  "gyn_perineum": {
+   "fact": "the gynaecological perineum, between the posterior commissure and the anus, is about an inch long",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, p. 362"
+  },
+  "mons": {
+   "fact": "the mons pubis is the soft elevation over the pubic symphysis produced by a pad of fat",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, p. 361"
+  },
+  "vestibule": {
+   "fact": "labia minora, vestibule, urethral and vaginal openings lie within the pudendal cleft, medial to the labia majora",
+   "cite": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017, pp. 361-362; Drake RL, Vogl AW, Mitchell AWM et al. Gray's Atlas of Anatomy, Churchill Livingstone / Elsevier (edition not in the owner's scan), pp. 242-243"
+  }
+ },
+ "rim": {
+  "vertices": 36,
+  "perimeter_mm": 378.9,
+  "neighbours": [
+   "zan_skin_anal_region_l",
+   "zan_skin_anal_region_r",
+   "zan_skin_anterior_region_of_thigh_l",
+   "zan_skin_anterior_region_of_thigh_r",
+   "zan_skin_femoral_triangle_l",
+   "zan_skin_femoral_triangle_r",
+   "zan_skin_hypogastric_region_l",
+   "zan_skin_hypogastric_region_r",
+   "zan_skin_inguinal_region_l",
+   "zan_skin_inguinal_region_r",
+   "zan_skin_posterior_region_of_thigh_l",
+   "zan_skin_posterior_region_of_thigh_r"
+  ],
+  "outer_inner_gap_mm": {
+   "median": 2.45,
+   "p90": 4.05,
+   "max": 4.56,
+   "n": 36
+  }
+ },
+ "domain": {
+  "rows": 55,
+  "samples_per_row": 161,
+  "coons_area_mm2": null
+ },
+ "real_surface_cleaning": {
+  "id": "skin_vulva_cvh",
+  "published": {
+   "vertices": 2976,
+   "triangles": 6020,
+   "outer_area_mm2": 8150.6,
+   "outer_vertices_in_front_of_neighbour_skin": 217,
+   "max_in_front_mm": 14.38
+  },
+  "loose_pieces_removed": [
+   {
+    "faces": 10,
+    "area_mm2": 10.9,
+    "centroid": [
+     7.5,
+     -74.5,
+     69.7
+    ]
+   },
+   {
+    "faces": 10,
+    "area_mm2": 80.6,
+    "centroid": [
+     6.8,
+     -74.3,
+     70.1
+    ]
+   }
+  ],
+  "outer_faces_removed": {
+   "rule": "a face with a vertex over a neighbouring skin region and less than 0.3 mm under its outer surface (it showed through / stood in front of it), then every piece cut off from the main surface",
+   "proud_faces": 904,
+   "pieces_cut_off_faces": [
+    53,
+    5,
+    6,
+    2,
+    40,
+    11,
+    34,
+    10
+   ],
+   "total_outer_faces_removed": 1075,
+   "area_removed_mm2": 3847.1
+  },
+  "kept": {
+   "outer_triangles": 1621,
+   "outer_area_mm2": 4303.6,
+   "slab_vertices": 1784,
+   "slab_triangles": 3620,
+   "watertight": false
+  },
+  "vertices_moved": 703,
+  "staircase_smoothing": {
+   "method": "Taubin lambda 0.5 / mu -0.53, 6 rounds, border vertices pinned, per-vertex cap 1 mm",
+   "source_spacing": "not recoverable (the source mesh is decimated: vertex coordinates lie on no grid, median edge 5.2 mm); cap 1.0 mm as for an unknown spacing",
+   "vertices_moved": 703,
+   "pinned": 189,
+   "move_max_mm": 1.0,
+   "move_mean_mm": 0.527,
+   "outer_area_mm2": [
+    4548.7,
+    4303.6
+   ],
+   "volume_swept_by_outer_sheet_mm3": -110.3,
+   "slab_volume_change_pct": -0.808
+  }
+ },
+ "rule_surface": {
+  "id": "skin_perineum_rule_q358",
+  "vertices": 4294,
+  "triangles": 8584,
+  "thickness_mm": 3.0,
+  "outer_area_mm2": 7289.6,
+  "volume_cm3": 21.715,
+  "watertight": true,
+  "winding_consistent": true,
+  "height_along_row_normal_mm": {
+   "median": -0.16,
+   "p90": 25.62,
+   "max": 35.13,
+   "n": 8427
+  },
+  "samples_under_real_surface": 6541,
+  "samples_bounded_by_deeper_structures": 8365,
+  "deep_wins_over_real_surface_samples": 263,
+  "deep_wins_structures": [
+   "gracilis_l",
+   "gracilis_r",
+   "perineal_body"
+  ],
+  "vertices_in_front_of_real_surface": 110,
+  "faces_folded": 48,
+  "folded_area_mm2": 35.1,
+  "area_visible_estimate_mm2": 4664.0,
+  "longest_edge_mm": 15.32,
+  "aspect_p99_5": 63.2
+ },
+ "landmarks": {
+  "pubic_symphysis_lower_end": [
+   -4.8,
+   -41.2,
+   75.1
+  ],
+  "ischial_tuberosity_l": [
+   -63.5,
+   -74.1,
+   3.3
+  ],
+  "ischiopubic_ramus_l_lowest_medial": [
+   -39.6,
+   -67.4,
+   29.3
+  ],
+  "ischial_tuberosity_r": [
+   63.5,
+   -74.1,
+   3.3
+  ],
+  "ischiopubic_ramus_r_lowest_medial": [
+   39.6,
+   -67.4,
+   29.3
+  ],
+  "coccyx_tip": [
+   -0.9,
+   -7.0,
+   -40.1
+  ],
+  "perineal_body_lowest": [
+   2.5,
+   -84.8,
+   23.1
+  ]
+ },
+ "ring_open_slices_y_mm": {
+  "before": [
+   -126,
+   -125,
+   -123,
+   -122,
+   -120,
+   -119,
+   -117,
+   -116,
+   -114,
+   -113,
+   -111,
+   -110,
+   -108,
+   -107,
+   -105,
+   -104,
+   -102,
+   -101,
+   -99,
+   -98,
+   -68,
+   -66,
+   -65,
+   -63,
+   -62,
+   -60,
+   -59,
+   -57,
+   -39
+  ],
+  "after": [],
+  "range": [
+   -140,
+   -40
+  ]
+ },
+ "see_through_opening": {
+  "before": {
+   "rays": 2147,
+   "open": 443,
+   "open_share": 0.2063
+  },
+  "after": {
+   "rays": 2147,
+   "open": 0,
+   "open_share": 0.0
+  }
+ },
+ "anus_point": {
+  "sphincter_axis_low": [
+   5.8,
+   -77.5,
+   7.8
+  ],
+  "skin_point": [
+   5.8,
+   -111.3,
+   7.8
+  ]
+ },
+ "tuck": {
+  "rule": "Q353 tuck (scripts/anatomy/q353/conform_skin_q353.py run_tuck): move inward along the skin's inner normal to 0.3 mm under its inner sheet (fallback 0.5 mm under the outer surface), Lipschitz envelope, cap 8.0 mm; guards: flipped <= 0.5 % of moved faces, stretch, no new vertex in bone, volume <= 5.0 %, none left outside; mirror twins by the same try",
+  "structures": {
+   "adductor_longus_l": {
+    "before": {
+     "outside": 2,
+     "in_slab": 64,
+     "max_out_mm": 0.9,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 238,
+       "max_mm": 2.79,
+       "mean_moved_mm": 0.96
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.03
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 121101.1,
+       "volume_after_mm3": 119757.5
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": 1.11,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_inner_sheet",
+    "displacement": {
+     "vertices_moved": 238,
+     "max_mm": 2.79,
+     "mean_moved_mm": 0.96
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 0,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.03
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 121101.1,
+     "volume_after_mm3": 119757.5
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": 1.11,
+    "mirror_pair": [
+     "adductor_longus_l",
+     "adductor_longus_r"
+    ]
+   },
+   "adductor_longus_r": {
+    "before": {
+     "outside": 3,
+     "in_slab": 66,
+     "max_out_mm": 0.89,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 257,
+       "max_mm": 2.92,
+       "mean_moved_mm": 1.01
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.162,
+       "stretched_pct": [
+        0.0,
+        0.03
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 122019.7,
+       "volume_after_mm3": 120461.7
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": 1.28,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_inner_sheet",
+    "displacement": {
+     "vertices_moved": 257,
+     "max_mm": 2.92,
+     "mean_moved_mm": 1.01
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 0,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.162,
+     "stretched_pct": [
+      0.0,
+      0.03
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 122019.7,
+     "volume_after_mm3": 120461.7
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": 1.28,
+    "mirror_pair": [
+     "adductor_longus_l",
+     "adductor_longus_r"
+    ]
+   },
+   "clitoris_cavernous_body": {
+    "before": {
+     "outside": 5,
+     "in_slab": 21,
+     "max_out_mm": 1.25,
+     "beyond_border": 2
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 191,
+       "max_mm": 5.1,
+       "mean_moved_mm": 2.21
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 1,
+       "max_out_mm": 0.0,
+       "beyond_border": 2
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.0
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 2542.7,
+       "volume_after_mm3": 2413.8
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": 5.07,
+      "fails": [
+       "1 vertices still in the skin slab",
+       "volume change 5.1 %"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 189,
+       "max_mm": 5.33,
+       "mean_moved_mm": 2.32
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 2
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.0
+       ],
+       "closed_manifold": true,
+       "volume_before_mm3": 2542.7,
+       "volume_after_mm3": 2420.0
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": 4.83,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_inner_sheet",
+    "displacement": {
+     "vertices_moved": 189,
+     "max_mm": 5.33,
+     "mean_moved_mm": 2.32
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 0,
+     "max_out_mm": 0.0,
+     "beyond_border": 2
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.0
+     ],
+     "closed_manifold": true,
+     "volume_before_mm3": 2542.7,
+     "volume_after_mm3": 2420.0
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": 4.83,
+    "envelope_slope": 0.15
+   },
+   "genitofemoral_n_l": {
+    "before": {
+     "outside": 5,
+     "in_slab": 61,
+     "max_out_mm": 1.17,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 78,
+       "max_mm": 3.47,
+       "mean_moved_mm": 2.26
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 5.128,
+       "stretched_pct": [
+        0.0,
+        1.58
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 249.9,
+       "volume_after_mm3": 249.5
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 5.128 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 78,
+       "max_mm": 3.47,
+       "mean_moved_mm": 2.32
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.923,
+       "stretched_pct": [
+        0.0,
+        0.33
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 249.9,
+       "volume_after_mm3": 248.5
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 1.923 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 1000000.0,
+      "displacement": {
+       "vertices_moved": 78,
+       "max_mm": 3.48,
+       "mean_moved_mm": 2.31
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.923,
+       "stretched_pct": [
+        0.0,
+        0.25
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 249.9,
+       "volume_after_mm3": 247.8
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 1.923 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_outer_surface",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 47,
+       "max_mm": 1.67,
+       "mean_moved_mm": 0.55
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 65,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.653,
+       "stretched_pct": [
+        0.0,
+        0.58
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 249.9,
+       "volume_after_mm3": 255.4
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 1.653 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_outer_surface",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 47,
+       "max_mm": 1.67,
+       "mean_moved_mm": 0.55
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 65,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.653,
+       "stretched_pct": [
+        0.0,
+        0.33
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 249.9,
+       "volume_after_mm3": 254.6
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 1.653 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_outer_surface",
+      "direction_sigma_mm": 1000000.0,
+      "displacement": {
+       "vertices_moved": 47,
+       "max_mm": 1.67,
+       "mean_moved_mm": 0.55
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 65,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.25
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 249.9,
+       "volume_after_mm3": 252.5
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_outer_surface",
+    "displacement": {
+     "vertices_moved": 47,
+     "max_mm": 1.67,
+     "mean_moved_mm": 0.55
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 65,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.25
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": 249.9,
+     "volume_after_mm3": 252.5
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.15
+   },
+   "genitofemoral_n_r": {
+    "before": {
+     "outside": 4,
+     "in_slab": 64,
+     "max_out_mm": 0.31,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 78,
+       "max_mm": 3.68,
+       "mean_moved_mm": 2.45
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 5.732,
+       "stretched_pct": [
+        0.0,
+        1.58
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": -267.2,
+       "volume_after_mm3": -275.0
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 5.732 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 78,
+       "max_mm": 3.57,
+       "mean_moved_mm": 2.28
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.911,
+       "stretched_pct": [
+        0.0,
+        0.33
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": -267.2,
+       "volume_after_mm3": -264.2
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 1.911 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 1000000.0,
+      "displacement": {
+       "vertices_moved": 78,
+       "max_mm": 3.57,
+       "mean_moved_mm": 2.28
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.911,
+       "stretched_pct": [
+        0.0,
+        0.25
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": -267.2,
+       "volume_after_mm3": -263.6
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 1.911 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_outer_surface",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 35,
+       "max_mm": 0.81,
+       "mean_moved_mm": 0.36
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 67,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.17
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": -267.2,
+       "volume_after_mm3": -268.2
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_outer_surface",
+    "displacement": {
+     "vertices_moved": 35,
+     "max_mm": 0.81,
+     "mean_moved_mm": 0.36
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 67,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.17
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": -267.2,
+     "volume_after_mm3": -268.2
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.15
+   },
+   "gracilis_l": {
+    "before": {
+     "outside": 6,
+     "in_slab": 87,
+     "max_out_mm": 1.0,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 758,
+       "max_mm": 6.34,
+       "mean_moved_mm": 2.04
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.706,
+       "stretched_pct": [
+        0.0,
+        0.86
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 115860.0,
+       "volume_after_mm3": 112248.7
+      },
+      "inside_bone": [
+       18,
+       33
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 0.706 % of moved faces",
+       "moved vertices inside bone 18 -> 33"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 767,
+       "max_mm": 4.48,
+       "mean_moved_mm": 1.95
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.063,
+       "stretched_pct": [
+        0.0,
+        0.08
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 115860.0,
+       "volume_after_mm3": 112398.4
+      },
+      "inside_bone": [
+       18,
+       44
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "moved vertices inside bone 18 -> 44"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 1000000.0,
+      "displacement": {
+       "vertices_moved": 767,
+       "max_mm": 4.71,
+       "mean_moved_mm": 2.03
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.06
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 115860.0,
+       "volume_after_mm3": 113187.6
+      },
+      "inside_bone": [
+       18,
+       44
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "moved vertices inside bone 18 -> 44"
+      ]
+     },
+     {
+      "mode": "under_outer_surface",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 141,
+       "max_mm": 1.67,
+       "mean_moved_mm": 0.49
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 85,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.03
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 115860.0,
+       "volume_after_mm3": 115167.7
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_outer_surface",
+    "displacement": {
+     "vertices_moved": 141,
+     "max_mm": 1.67,
+     "mean_moved_mm": 0.49
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 85,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.03
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": 115860.0,
+     "volume_after_mm3": 115167.7
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.08,
+    "earlier": [
+     {
+      "envelope_slope": 0.15,
+      "reason": "flipped 0.629 % of moved faces"
+     }
+    ],
+    "independent_of_twin": true,
+    "mirror_pair": [
+     "gracilis_l",
+     "gracilis_r"
+    ]
+   },
+   "gracilis_r": {
+    "before": {
+     "outside": 13,
+     "in_slab": 86,
+     "max_out_mm": 1.26,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 556,
+       "max_mm": 5.32,
+       "mean_moved_mm": 1.34
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.131,
+       "stretched_pct": [
+        0.0,
+        0.86
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 118621.2,
+       "volume_after_mm3": 113685.7
+      },
+      "inside_bone": [
+       15,
+       23
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "flipped 1.131 % of moved faces",
+       "moved vertices inside bone 15 -> 23"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 556,
+       "max_mm": 4.35,
+       "mean_moved_mm": 1.29
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.242,
+       "stretched_pct": [
+        0.0,
+        0.06
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 118621.2,
+       "volume_after_mm3": 113661.0
+      },
+      "inside_bone": [
+       15,
+       32
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "moved vertices inside bone 15 -> 32"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 1000000.0,
+      "displacement": {
+       "vertices_moved": 556,
+       "max_mm": 4.63,
+       "mean_moved_mm": 1.31
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.323,
+       "stretched_pct": [
+        0.0,
+        0.19
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 118621.2,
+       "volume_after_mm3": 114030.7
+      },
+      "inside_bone": [
+       15,
+       37
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "moved vertices inside bone 15 -> 37"
+      ]
+     },
+     {
+      "mode": "under_outer_surface",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 73,
+       "max_mm": 1.84,
+       "mean_moved_mm": 0.63
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 97,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.481,
+       "stretched_pct": [
+        0.0,
+        0.0
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 118621.2,
+       "volume_after_mm3": 118167.8
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_outer_surface",
+    "displacement": {
+     "vertices_moved": 73,
+     "max_mm": 1.84,
+     "mean_moved_mm": 0.63
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 97,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.481,
+     "stretched_pct": [
+      0.0,
+      0.0
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": 118621.2,
+     "volume_after_mm3": 118167.8
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.15,
+    "independent_of_twin": true,
+    "mirror_pair": [
+     "gracilis_l",
+     "gracilis_r"
+    ]
+   },
+   "perineal_body": {
+    "before": {
+     "outside": 5,
+     "in_slab": 20,
+     "max_out_mm": 0.97,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 2371,
+       "max_mm": 3.76,
+       "mean_moved_mm": 1.38
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 1,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.551,
+       "stretched_pct": [
+        0.0,
+        1.33
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 4023.6,
+       "volume_after_mm3": 3791.2
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "1 vertices still in the skin slab",
+       "flipped 0.551 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 3282,
+       "max_mm": 3.97,
+       "mean_moved_mm": 1.15
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.02
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 4023.6,
+       "volume_after_mm3": 3735.9
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_inner_sheet",
+    "displacement": {
+     "vertices_moved": 3282,
+     "max_mm": 3.97,
+     "mean_moved_mm": 1.15
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 0,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.02
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": 4023.6,
+     "volume_after_mm3": 3735.9
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.05,
+    "earlier": [
+     {
+      "envelope_slope": 0.15,
+      "reason": "5 vertices still outside the skin"
+     },
+     {
+      "envelope_slope": 0.08,
+      "reason": "2 vertices still outside the skin; flipped 0.559 % of moved faces"
+     }
+    ]
+   },
+   "zan_external_pudendal_veins_l": {
+    "before": {
+     "outside": 15,
+     "in_slab": 144,
+     "max_out_mm": 0.74,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 344,
+       "max_mm": 7.34,
+       "mean_moved_mm": 2.12
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 5,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 1.297,
+       "stretched_pct": [
+        0.0,
+        5.87
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": -56.9,
+       "volume_after_mm3": -51.6
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": [
+       "5 vertices still in the skin slab",
+       "flipped 1.297 % of moved faces"
+      ]
+     },
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 10.0,
+      "displacement": {
+       "vertices_moved": 343,
+       "max_mm": 3.85,
+       "mean_moved_mm": 1.66
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.67
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": -56.9,
+       "volume_after_mm3": -50.2
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_inner_sheet",
+    "displacement": {
+     "vertices_moved": 343,
+     "max_mm": 3.85,
+     "mean_moved_mm": 1.66
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 0,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.67
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": -56.9,
+     "volume_after_mm3": -50.2
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.15
+   },
+   "zan_superficial_external_pudendal_artery_l": {
+    "before": {
+     "outside": 22,
+     "in_slab": 132,
+     "max_out_mm": 1.1,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 301,
+       "max_mm": 4.17,
+       "mean_moved_mm": 1.67
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.27
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": -79.1,
+       "volume_after_mm3": -69.9
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_inner_sheet",
+    "displacement": {
+     "vertices_moved": 301,
+     "max_mm": 4.17,
+     "mean_moved_mm": 1.67
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 0,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.27
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": -79.1,
+     "volume_after_mm3": -69.9
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.15
+   },
+   "zan_superficial_external_pudendal_artery_r": {
+    "before": {
+     "outside": 2,
+     "in_slab": 148,
+     "max_out_mm": 0.17,
+     "beyond_border": 0
+    },
+    "tries": [
+     {
+      "mode": "under_inner_sheet",
+      "direction_sigma_mm": 4.0,
+      "displacement": {
+       "vertices_moved": 271,
+       "max_mm": 3.2,
+       "mean_moved_mm": 1.44
+      },
+      "after": {
+       "outside": 0,
+       "in_slab": 0,
+       "max_out_mm": 0.0,
+       "beyond_border": 0
+      },
+      "guards": {
+       "flipped_pct_moved_faces": 0.0,
+       "stretched_pct": [
+        0.0,
+        0.27
+       ],
+       "closed_manifold": false,
+       "volume_before_mm3": 80.3,
+       "volume_after_mm3": 71.0
+      },
+      "inside_bone": [
+       0,
+       0
+      ],
+      "volume_change_pct": null,
+      "fails": []
+     }
+    ],
+    "ships": true,
+    "mode": "under_inner_sheet",
+    "displacement": {
+     "vertices_moved": 271,
+     "max_mm": 3.2,
+     "mean_moved_mm": 1.44
+    },
+    "after": {
+     "outside": 0,
+     "in_slab": 0,
+     "max_out_mm": 0.0,
+     "beyond_border": 0
+    },
+    "guards": {
+     "flipped_pct_moved_faces": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.27
+     ],
+     "closed_manifold": false,
+     "volume_before_mm3": 80.3,
+     "volume_after_mm3": 71.0
+    },
+    "inside_bone": [
+     0,
+     0
+    ],
+    "volume_change_pct": null,
+    "envelope_slope": 0.15
+   }
+  },
+  "outside_skin_vertices": {
+   "before_q358": {
+    "adductor_longus_l": 10,
+    "adductor_longus_r": 6,
+    "genitofemoral_n_l": 15,
+    "genitofemoral_n_r": 5,
+    "gracilis_l": 13,
+    "gracilis_r": 16,
+    "pectineus_r": 2,
+    "zan_external_pudendal_veins_l": 30,
+    "zan_external_pudendal_veins_r": 4,
+    "zan_superficial_external_pudendal_artery_l": 33,
+    "zan_superficial_external_pudendal_artery_r": 3,
+    "vagina": 1,
+    "superficial_transverse_perineal_cvh": 5,
+    "deep_perineal_muscle_cvh": 22,
+    "urethrovaginal_sphincter_cvh": 20,
+    "perineal_body": 21,
+    "clitoris_cavernous_body": 7,
+    "external_anal_sphincter_ct_vhf": 17
+   },
+   "after_closing_before_tuck": {
+    "adductor_longus_l": 2,
+    "adductor_longus_r": 3,
+    "genitofemoral_n_l": 5,
+    "genitofemoral_n_r": 4,
+    "gracilis_l": 6,
+    "gracilis_r": 13,
+    "zan_external_pudendal_veins_l": 15,
+    "zan_superficial_external_pudendal_artery_l": 22,
+    "zan_superficial_external_pudendal_artery_r": 2,
+    "perineal_body": 5,
+    "clitoris_cavernous_body": 5
+   },
+   "after": {},
+   "after_max_mm": {},
+   "gained_vs_before": []
+  }
+ },
+ "guards": {
+  "real_vertices_move_max_mm": 1.0004,
+  "real_move_cap_mm": 1.0,
+  "rule_watertight": true,
+  "rule_winding_consistent": true,
+  "rule_folded_faces": 48,
+  "rule_stretch_ok": true,
+  "ring_closed": true,
+  "no_structure_gains_outside_skin": true,
+  "pass": true
+ },
+ "schema": "nmsk.q358.perineum.v1",
+ "round": "Q358",
+ "generated": "2026-11-16",
+ "page_dir": "build/q309/viewer_base_female",
+ "parameters": {
+  "thick_mm": 3.0,
+  "row_mm": 3.0,
+  "cols": 36,
+  "tuck_mm": 2.0,
+  "ramp_slope": 1.0,
+  "ramp0_mm": 2.0,
+  "min_piece_faces": 200,
+  "rule_gap_mm": 1.0,
+  "depth_window_mm": 20.0,
+  "deep_gap_mm": 0.3,
+  "deep_hard_mm": 0.5,
+  "smooth_rounds": 1500,
+  "edge_max_mm": 25.0
+ },
+ "meshes_before": 3301,
+ "meshes_after": 3302,
+ "files_written": [
+  "atlas_viewer_base_female_geo_00.txt",
+  "atlas_viewer_base_female_geo_01.txt",
+  "atlas_viewer_base_female_geo_02.txt",
+  "atlas_viewer_base_female_geo_03.txt",
+  "atlas_viewer_base_female.html",
+  "index.html"
+ ],
+ "rig": {
+  "rig": "/home/user/NMSK_Atlas/data/anatomy/pose_rig_base_f.json",
+  "count_before": 3301,
+  "count_after": 3302,
+  "vulva_vertices": [
+   2976,
+   1784
+  ],
+  "written": true
+ },
+ "seconds": 36.6
+}

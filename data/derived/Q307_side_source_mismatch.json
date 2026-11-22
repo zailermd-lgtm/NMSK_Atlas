@@ -1,0 +1,281 @@
+{
+ "own_m": {
+  "page": "own_m",
+  "n_nerve": 272,
+  "n_groups": 144,
+  "offenders": [
+   {
+    "base": "femoral_n_branch_to_sartorius",
+    "why": "length ratio 2.1x",
+    "members": [
+     {
+      "id": "femoral_n_branch_to_sartorius_l",
+      "side": "l",
+      "src": "ct_vhm_rule_nerve_q304",
+      "n": 102,
+      "axis_len_mm": 6.7
+     },
+     {
+      "id": "femoral_n_branch_to_sartorius_r",
+      "side": "r",
+      "src": "ct_vhm_rule_nerve_q304",
+      "n": 102,
+      "axis_len_mm": 14.0
+     }
+    ],
+    "worst_ratio": 2.09,
+    "shortest_mm": 6.7,
+    "longest_mm": 14.0
+   },
+   {
+    "base": "sciatic_n",
+    "why": "sources differ; an unsided mesh coexists with sided ones",
+    "members": [
+     {
+      "id": "sciatic_n",
+      "side": "m",
+      "src": "ct_vhm_sciatic",
+      "n": 14970,
+      "axis_len_mm": 255.2
+     },
+     {
+      "id": "sciatic_n_l",
+      "side": "l",
+      "src": "xfer_zan2vhm_nerves_q304",
+      "n": 615,
+      "axis_len_mm": 475.5
+     },
+     {
+      "id": "sciatic_n_r",
+      "side": "r",
+      "src": "xfer_zan2vhm_nerves_q304",
+      "n": 613,
+      "axis_len_mm": 479.8
+     }
+    ],
+    "worst_ratio": 1.88,
+    "shortest_mm": 255.2,
+    "longest_mm": 479.8
+   },
+   {
+    "base": "sciatic_n_branch_to_semitendinosus",
+    "why": "sources differ; length ratio 3.6x",
+    "members": [
+     {
+      "id": "sciatic_n_branch_to_semitendinosus_l",
+      "side": "l",
+      "src": "ct_vhm_rule_nerve_q260",
+      "n": 102,
+      "axis_len_mm": 7.4
+     },
+     {
+      "id": "sciatic_n_branch_to_semitendinosus_r",
+      "side": "r",
+      "src": "ct_vhm_rule_nerve_q304",
+      "n": 172,
+      "axis_len_mm": 26.8
+     }
+    ],
+    "worst_ratio": 3.62,
+    "shortest_mm": 7.4,
+    "longest_mm": 26.8
+   },
+   {
+    "base": "tibial_n",
+    "why": "sources differ; length ratio 13.1x",
+    "members": [
+     {
+      "id": "tibial_n",
+      "side": "l",
+      "src": "ct_vhm_popliteal",
+      "n": 1877,
+      "axis_len_mm": 40.0
+     },
+     {
+      "id": "tibial_n_l",
+      "side": "l",
+      "src": "xfer_zan2vhm_nerves_q304",
+      "n": 606,
+      "axis_len_mm": 524.1
+     },
+     {
+      "id": "tibial_n_r",
+      "side": "r",
+      "src": "mirror_q237",
+      "n": 1877,
+      "axis_len_mm": 40.0
+     }
+    ],
+    "worst_ratio": 13.1,
+    "shortest_mm": 40.0,
+    "longest_mm": 524.1
+   }
+  ]
+ },
+ "own_f": {
+  "page": "own_f",
+  "n_nerve": 308,
+  "n_groups": 168,
+  "offenders": [
+   {
+    "base": "femoral_n",
+    "why": "sources differ; length ratio 17.3x",
+    "members": [
+     {
+      "id": "femoral_n",
+      "side": "r",
+      "src": "ct_vhf_femoral",
+      "n": 1877,
+      "axis_len_mm": 29.3
+     },
+     {
+      "id": "femoral_n_l",
+      "side": "l",
+      "src": "mirror_q237",
+      "n": 1877,
+      "axis_len_mm": 29.0
+     },
+     {
+      "id": "femoral_n_r",
+      "side": "r",
+      "src": "xfer_zan2vhf_nerves_q304",
+      "n": 616,
+      "axis_len_mm": 500.4
+     }
+    ],
+    "worst_ratio": 17.26,
+    "shortest_mm": 29.0,
+    "longest_mm": 500.4
+   },
+   {
+    "base": "lumbar_root_l4",
+    "why": "length ratio 2.7x",
+    "members": [
+     {
+      "id": "lumbar_root_L4_l",
+      "side": "l",
+      "src": "ct_vhf_rule_nerve_q260",
+      "n": 102,
+      "axis_len_mm": 6.5
+     },
+     {
+      "id": "lumbar_root_L4_r",
+      "side": "r",
+      "src": "ct_vhf_rule_nerve_q260",
+      "n": 102,
+      "axis_len_mm": 17.5
+     }
+    ],
+    "worst_ratio": 2.69,
+    "shortest_mm": 6.5,
+    "longest_mm": 17.5
+   },
+   {
+    "base": "sciatic_n",
+    "why": "sources differ; an unsided mesh coexists with sided ones",
+    "members": [
+     {
+      "id": "sciatic_n",
+      "side": "m",
+      "src": "ct_vhf_nerve",
+      "n": 14949,
+      "axis_len_mm": 260.3
+     },
+     {
+      "id": "sciatic_n_l",
+      "side": "l",
+      "src": "xfer_zan2vhf_nerves_q304",
+      "n": 620,
+      "axis_len_mm": 429.0
+     },
+     {
+      "id": "sciatic_n_r",
+      "side": "r",
+      "src": "xfer_zan2vhf_nerves_q304",
+      "n": 619,
+      "axis_len_mm": 429.1
+     }
+    ],
+    "worst_ratio": 1.65,
+    "shortest_mm": 260.3,
+    "longest_mm": 429.1
+   },
+   {
+    "base": "sciatic_n_branch_to_semimembranosus",
+    "why": "sources differ",
+    "members": [
+     {
+      "id": "sciatic_n_branch_to_semimembranosus_l",
+      "side": "l",
+      "src": "ct_vhf_rule_nerve_q260",
+      "n": 102,
+      "axis_len_mm": 3.7
+     },
+     {
+      "id": "sciatic_n_branch_to_semimembranosus_r",
+      "side": "r",
+      "src": "ct_vhf_rule_nerve_q304",
+      "n": 102,
+      "axis_len_mm": 6.9
+     }
+    ],
+    "worst_ratio": 1.86,
+    "shortest_mm": 3.7,
+    "longest_mm": 6.9
+   },
+   {
+    "base": "tibial_n",
+    "why": "sources differ; length ratio 12.1x",
+    "members": [
+     {
+      "id": "tibial_n",
+      "side": "r",
+      "src": "ct_vhf_popliteal",
+      "n": 1877,
+      "axis_len_mm": 37.6
+     },
+     {
+      "id": "tibial_n_l",
+      "side": "l",
+      "src": "mirror_q237",
+      "n": 1877,
+      "axis_len_mm": 37.2
+     },
+     {
+      "id": "tibial_n_r",
+      "side": "r",
+      "src": "xfer_zan2vhf_nerves_q304",
+      "n": 606,
+      "axis_len_mm": 451.4
+     }
+    ],
+    "worst_ratio": 12.13,
+    "shortest_mm": 37.2,
+    "longest_mm": 451.4
+   },
+   {
+    "base": "vagus_n_oesophageal_trunk",
+    "why": "length ratio 2.9x",
+    "members": [
+     {
+      "id": "vagus_n_oesophageal_trunk_l",
+      "side": "l",
+      "src": "ct_vhf_rule_nerve_q265",
+      "n": 592,
+      "axis_len_mm": 94.6
+     },
+     {
+      "id": "vagus_n_oesophageal_trunk_r",
+      "side": "r",
+      "src": "ct_vhf_rule_nerve_q265",
+      "n": 192,
+      "axis_len_mm": 32.2
+     }
+    ],
+    "worst_ratio": 2.94,
+    "shortest_mm": 32.2,
+    "longest_mm": 94.6
+   }
+  ]
+ }
+}

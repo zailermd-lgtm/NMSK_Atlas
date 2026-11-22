@@ -1,0 +1,45 @@
+{
+ "_README": [
+  "Female right forearm and hand bones from her torso CT (scripts/vhf_arm_bones_ct.py + vhf_arm_bones_ship.py); clipped by the field of view; hand grouped by planes. Derived data."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female 'Normal' CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 humerus label as the watershed marker.",
+ "volumes": {
+  "hand_len_mm": 151,
+  "radius_right": {
+   "cm3": 23.7,
+   "z_range": [
+    -759.0,
+    -584.0
+   ]
+  },
+  "ulna_right": {
+   "cm3": 11.9,
+   "z_range": [
+    -751.0,
+    -654.0
+   ]
+  },
+  "carpals_right": {
+   "cm3": 22.4,
+   "z_range": [
+    -792.0,
+    -733.0
+   ]
+  },
+  "metacarpals_right": {
+   "cm3": 27.4,
+   "z_range": [
+    -861.0,
+    -768.0
+   ]
+  },
+  "phalanges_right": {
+   "cm3": 11.4,
+   "z_range": [
+    -881.0,
+    -832.0
+   ]
+  }
+ },
+ "left_arm": "outside the CT field of view (not segmented)"
+}

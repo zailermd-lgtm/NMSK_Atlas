@@ -1,0 +1,132 @@
+{
+  "id": "masseter_r",
+  "name_ta": "Masseter",
+  "name_common": "Masseter",
+  "side": "right",
+  "region": "head",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "zygomatic_r",
+    "origin_landmark": "zygomatic arch",
+    "insertion_bone": "mandible",
+    "insertion_landmark": "angle and ramus of mandible",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "trigeminal_n_v3_masseteric_branch",
+    "root_levels": "CN V3"
+  },
+  "actions": [
+    "elevates mandible (bite force, especially molar region)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "masseter_r_superficial",
+      "name": "Superficial head",
+      "innervation_branch": "masseteric nerve, superficial distribution",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 25,
+        "physiological_cross_section_area_mm2": 400,
+        "max_isometric_force_N": 90.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          45,
+          -10,
+          30
+        ],
+        [
+          40,
+          -60,
+          20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Larger, more obliquely-oriented head arising from the zygomatic process of the maxilla and anterior 2/3 of the zygomatic arch.",
+      "source": "van Eijden TM, Korfage JA, Brugman P (1997) Anat Rec 248(3):464-474 -- architecture of the human jaw-closing and jaw-opening muscles (masseter, temporalis, medial/lateral pterygoid): fascicle length, pennation angle and PCSA by head/region",
+      "innervation_branch_ids": [
+        "trigeminal_n_v3_masseteric_branch"
+      ]
+    },
+    {
+      "id": "masseter_r_deep",
+      "name": "Deep head",
+      "innervation_branch": "masseteric nerve, deep distribution",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 20,
+        "physiological_cross_section_area_mm2": 250,
+        "max_isometric_force_N": 56.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          42,
+          5,
+          25
+        ],
+        [
+          38,
+          -40,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Smaller, more vertically-oriented head arising from the posterior 1/3 of the zygomatic arch, partly covered by the superficial head.",
+      "source": "van Eijden TM, Korfage JA, Brugman P (1997) Anat Rec 248(3):464-474 -- architecture of the human jaw-closing and jaw-opening muscles (masseter, temporalis, medial/lateral pterygoid): fascicle length, pennation angle and PCSA by head/region",
+      "innervation_branch_ids": [
+        "trigeminal_n_v3_masseteric_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); van Eijden TM, Korfage JA, Brugman P (1997) Anat Rec 248(3):464-474 -- architecture of the human jaw-closing and jaw-opening muscles (masseter, temporalis, medial/lateral pterygoid): fascicle length, pennation angle and PCSA by head/region",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse or longitudinal over the angle and ramus of the mandible, along the line from the zygomatic arch to the mandibular angle -- the classic 2-3-point injection strip for bruxism/masseteric hypertrophy sits in the lower, posterior two-thirds of this line.",
+    "depth_layer": "Two layers: a larger superficial layer running obliquely from the zygomatic arch to the angle/ramus, and a smaller deep layer from the deep surface of the arch to the upper ramus and coronoid process. The parotid gland and duct overlie its posterior/superior part.",
+    "identification_cues": "Bulges prominently on clenching -- the standard confirmation maneuver, and the reason masseteric hypertrophy from bruxism is so easily palpated before it is imaged.",
+    "structures_at_risk": [
+      "buccal branches of the facial nerve, running across the superficial surface just deep to the parotideomasseteric fascia -- the reason injections stay in the lower two-thirds and avoid the anterosuperior corner of the muscle",
+      "facial artery and vein, and the parotid duct (Stensen's), crossing the muscle's anterior border near the level of a line from the tragus to the midpoint of the upper lip"
+    ],
+    "notes": "The muscle most commonly injected for bruxism, masticatory myofascial pain and masseteric hypertrophy, almost always alongside temporalis. A published pediatric case used 2 points per side (10 U each) guided by palpation and surface landmarks alone, without ultrasound or a stated percentage-based zone -- consistent with how most published technique in this muscle is described (by anatomical region, not a measured reference line).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Mallaguti FI, Malaguti JG, de Paula Rodrigues Junior O, Cureus 18(2):e103108 (2026), doi:10.7759/cureus.103108 -- pediatric bruxism case, technique description (PubMed)"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Superficial layer, upper part.",
+      "referred_pain_pattern": "Upper molars and the maxilla.",
+      "activation_perpetuating_factors": "Bruxism and clenching, prolonged opening (dental work), gum chewing, occlusal instability, mouth breathing, emotional tension; satellite to sternocleidomastoid and upper trapezius trigger points.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019)"
+    },
+    {
+      "location_description": "Superficial layer, middle part.",
+      "referred_pain_pattern": "Mandible and lower molars.",
+      "activation_perpetuating_factors": "As above.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019)"
+    },
+    {
+      "location_description": "Superficial layer, lower part near the angle of the mandible.",
+      "referred_pain_pattern": "Across the eyebrow (supraorbital region) and the mandible.",
+      "activation_perpetuating_factors": "As above.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019)"
+    },
+    {
+      "location_description": "Deep layer, just below the temporomandibular joint.",
+      "referred_pain_pattern": "TMJ, deep ear, low-pitched tinnitus and a sense of ear fullness.",
+      "activation_perpetuating_factors": "As above.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ]
+}

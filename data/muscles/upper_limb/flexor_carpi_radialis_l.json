@@ -1,0 +1,205 @@
+{
+  "id": "flexor_carpi_radialis_l",
+  "name_ta": "Flexor carpi radialis",
+  "name_common": "Flexor carpi radialis",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "humerus_l",
+    "origin_landmark": "medial epicondyle (common flexor origin)",
+    "insertion_bone": "metacarpals_l",
+    "insertion_landmark": "base of 2nd metacarpal",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "median_n",
+    "root_levels": "C6-C7"
+  },
+  "actions": [
+    "flexes and radially deviates wrist"
+  ],
+  "functional_compartments": [
+    {
+      "id": "flexor_carpi_radialis_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 8,
+        "optimal_fascicle_length_mm": 50,
+        "physiological_cross_section_area_mm2": 180,
+        "max_isometric_force_N": 40.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          20,
+          -325,
+          5
+        ],
+        [
+          -5,
+          -240,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Runs in its own fibro-osseous tunnel through the flexor retinaculum, separate from the carpal tunnel proper.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            27.72,
+            49.35
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+          "notes": "A single rectangular nerve-dense region of about 5.95 cm2, entered by the median nerve branch in the proximal third. Highest spindle abundance in its middle third, at 38.53% of muscle length. One of only four anterior forearm muscles whose nerve-dense region actually sits near mid-belly, which is where the conventional mid-belly injection assumption would put it.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "injection_target_points": [
+        {
+          "label": "main",
+          "transverse_line_from": "medial epicondyle of the humerus",
+          "transverse_line_to": "lateral epicondyle of the humerus",
+          "transverse_percent": 41.2,
+          "longitudinal_line_from": "medial epicondyle of the humerus",
+          "longitudinal_line_to": "ulnar styloid process",
+          "longitudinal_percent": 28.83,
+          "depth_percent_of_limb_thickness": 23.76,
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "innervation_branch_ids": [
+        "median_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the volar forearm, 4-5 cm distal to the elbow crease, on the radial side, medial to the radial cortex.",
+    "depth_layer": "Superficial flexor layer, medial to pronator teres.",
+    "identification_cues": "Triangular in cross-section, against the oval pronator teres laterally.",
+    "structures_at_risk": [
+      "median nerve"
+    ],
+    "notes": "Targeted where spasticity limits wrist extension and blocks a functional hand position.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Muscle belly in the proximal third of the forearm, about two to four fingerbreadths distal to the medial epicondyle along the line toward the radial wrist crease.",
+      "referred_pain_pattern": "Radial side of the volar wrist crease, spilling into the radial mid-palm; pain on loaded wrist flexion, wringing and screwdriver use.",
+      "activation_perpetuating_factors": "Forceful repetitive wrist flexion with pronation (screwdriver, racquet forehand and serve, wrist curls), sustained gripping, direct trauma; part of the \"pseudo golfer's elbow\" flexor-pronator complex with pronator teres, palmaris longus, flexor carpi ulnaris and the finger flexors.",
+      "notes": "Non-myofascial differential per the source document: FCR tendinopathy, scaphotrapeziotrapezoid (STT) and basal-joint arthritis, scaphoid pathology, radial artery pathology, palmar cutaneous branch neuroma, carpal tunnel syndrome. (Pain referred INTO FCR territory from other muscles -- pronator teres, palmaris longus, opponens pollicis, pectoralis major, subscapularis, scalenes -- is the document's reverse-lookup table, not FCR's own trigger point, and is omitted here.)",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 38; Donnelly et al. (2019) 3rd ed., ch. 38, pp. 366-377 -- as cited in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "FCR flexes the wrist and, with ECRL, deviates it radially; the pair also stabilises the wrist during finger extension and power grip. Its elbow-flexion contribution is small. As part of the flexor–pronator mass it adds a minor component to dynamic valgus stability of the elbow. Repetitive wrist flexion with pronation (golf swing, throwing follow-through) overloads its epicondylar origin, making it, with pronator teres, the usual substrate of medial epicondylalgia.",
+      "adjacent_structures": "Adjacent bursae: None named; the trapezial tunnel has its own synovial sheath (site of FCR tendinopathy). Adjacent structures and relations: Radial artery lateral; median nerve and FDS deep and medial (the nerve emerges at the wrist between FCR and palmaris longus); pronator teres lateral; palmaris longus medial.",
+      "trigger_points": [
+        {
+          "location": "Mid-belly in the proximal half of the forearm, along a line from the medial epicondyle to the radial side of the wrist.",
+          "referred_pain": "the volar wrist crease on its radial half, with mild spill into the radial palm.",
+          "notes": "Symptoms / mimics: Volar-radial wrist pain on gripping, wringing or pushing up from a chair; misdiagnosed as carpal tunnel syndrome, FCR tendinopathy or scaphotrapezial arthritis. Entrapment: None attributed to FCR. Associated TrPs: Pronator teres, palmaris longus, FDS, FCU.",
+          "source": "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 38."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "pronator teres (deep volar-radial wrist)",
+        "palmaris longus (palm)",
+        "brachialis (thumb base)",
+        "infraspinatus and scalenes (radial hand)",
+        "C6 radiculopathy",
+        "carpal tunnel syndrome",
+        "FCR tendinopathy."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO this territory from elsewhere",
+      "notes": "FCR tendon is a graft source (SL reconstruction, CMC arthroplasty) and its tunnel a site of stenosing tendinopathy. Medial epicondylar debridement addresses the PT–FCR origin.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Gray's Anatomy, 42nd ed., 2021: flexor carpi radialis.",
+        "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 38.",
+        "Neumann, 3rd ed., 2017: ch. 7 (wrist) and ch. 6.",
+        "Park MC, Ahmad CS. J Bone Joint Surg Am 2004;86(10):2268–2274.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+      ],
+      "tests": [
+        {
+          "name": "Medial epicondylalgia provocation",
+          "performance": "Resisted wrist flexion and resisted pronation with the elbow extended; palpation of the PT–FCR origin",
+          "positive_finding": "Pain at the common flexor origin",
+          "structures_loaded": "Pronator teres, FCR",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No accuracy studies identified (Zwerus 2018: no eligible articles for medial epicondylitis)",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    },
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Wrist flexion (second to FCU in flexion capacity among the prime motors) [1, 10]. Minor: Radial deviation with ECRL and APL (during pure flexion it cancels the ulnar component of FCU); weak forearm pronation and elbow flexion, since it crosses both joints [1, 5, 6]. Strength: Flexor torque profiles are near-maximal across the wrist range, so FCR contributes flexion torque at every wrist angle [10]. Carpal stability: A dynamic scaphoid stabilizer: isometric loading flexes and (in neutral) supinates the scaphoid while pronating the triquetrum and capitate; it is classified as a carpal pronator at the distal row but is protective for the scapholunate joint through scaphoid supination [14, 15, 17]. This underlies FCR re-education in dynamic scapholunate instability and its use as the graft in FCR-based scapholunate reconstructions [4, 15]. Importance: Grip synergy, push-off and throwing; second phase of the dart-throwing motion [19]. Donor tendon for ligament reconstruction–tendon interposition at the thumb basal joint and for radial-nerve palsy transfers (FCR to EDC); harvest removes a wrist flexor and radial deviator [4].",
+      "adjacent_structures": "Bursae / sheaths: No named bursa. The sheathed trapezial tunnel is the relevant closed space (site of stenosing tenosynovitis) [24]. Relations: Radial artery lateral to the tendon (landmark for arterial cannulation and for the volar Henry/FCR approach to the distal radius, which opens the FCR sheath); the palmar cutaneous branch of the median nerve emerges ulnar to FCR about 5 cm proximal to the wrist and runs between FCR and PL; the median nerve lies ulnar and deep to the tendon at the wrist [1, 4]. Coupled structures: Scaphoid tubercle and trapezium (pulley and tunnel); radial artery; palmar cutaneous branch; 2nd–3rd carpometacarpal joints at the insertion. Trapeziometacarpal and scaphotrapeziotrapezoid arthritis, scaphoid nonunion and distal radius malunion irritate the tendon in its tunnel [24, 25].",
+      "trigger_points": [
+        {
+          "location": "Muscle belly in the proximal third of the forearm, about two to four fingerbreadths distal to the medial epicondyle along the line toward the radial wrist crease (Travell & Simons, chapter on wrist and finger flexors) [2, 3].",
+          "referred_pain": "Radial side of the volar wrist crease, spilling into the radial mid-palm; pain on loaded wrist flexion, wringing and screwdriver use [2, 3].",
+          "activation_perpetuating_factors": "Forceful repetitive wrist flexion with pronation (screwdriver, racquet forehand and serve, wrist curls), sustained gripping, direct trauma; part of the \"pseudo golfer's elbow\" flexor–pronator complex with PT, PL, FCU and the finger flexors [3].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Pronator teres (radial volar wrist and forearm)",
+        "palmaris longus (palm)",
+        "opponens pollicis (radial volar wrist and thumb)",
+        "pectoralis major (volar forearm and palm)",
+        "subscapularis (circumferential wrist band)",
+        "scalenes (radial forearm and thumb) [2, 3]."
+      ],
+      "pain_referred_into_territory": "Pain referred into FCR territory",
+      "non_myofascial_differential": "FCR tendinopathy, STT and basal-joint arthritis, scaphoid pathology, radial artery pathology, palmar cutaneous branch neuroma, carpal tunnel syndrome.",
+      "notes": "FCR tendinopathy and stenosing tenosynovitis present with radial volar wrist pain and tenderness over the tendon just proximal to the scaphoid tubercle, worsened by resisted flexion–radial deviation; the tight tunnel and associated basal-joint arthritis explain the entity and the results of tunnel release [24, 25]. The FCR sheath is the surgical plane of the volar approach to the distal radius; iatrogenic rupture is uncommon compared with FPL. Isolated spontaneous rupture is rare.",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50–51 [1].",
+        "Simons, Travell & Simons 1999, Trigger Point Manual 2e, vol. 1, ch. 38 [2]; Donnelly et al. 2019, 3e, ch. 38, pp. 366–377 [3].",
+        "Bishop, Gabel & Carmichael 1994, JBJS Am 76:1009–1014 [24]; Gabel, Bishop & Wood 1994, JBJS Am 76:1015–1018 [25].",
+        "Salvà-Coll et al. 2011, J Hand Surg Am 36:31–36 [15]; Salva-Coll et al. 2011, J Hand Surg Eur 36:553–559 [14]; Salva-Coll et al. 2023, J Hand Ther [17].",
+        "Loren et al. 1996, J Biomech 29:331–342 [10]; Moritomo et al. 2007 [19].",
+        "Wolfe et al. 2022, Green's Operative Hand Surgery 8e [4]; Neumann 2017 [5]; Kendall et al. 2005 [6]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[6] Kendall FP, McCreary EK, Provance PG, Rodgers MM, Romani WA. Muscles: Testing and Function with Posture and Pain. 5th ed. Lippincott Williams & Wilkins; 2005.",
+        "[10] Loren GJ, Shoemaker SD, Burkholder TJ, Jacobson MD, Fridén J, Lieber RL. Human wrist motors: biomechanical design and application to tendon transfers. J Biomech. 1996;29(3):331-342. PMID 8850639.",
+        "[14] Salva-Coll G, Garcia-Elias M, Leon-Lopez MT, Llusa-Perez M, Rodríguez-Baeza A. Effects of forearm muscles on carpal stability. J Hand Surg Eur Vol. 2011;36(7):553-559.",
+        "[15] Salvà-Coll G, Garcia-Elias M, Llusá-Pérez M, Rodríguez-Baeza A. The role of the flexor carpi radialis muscle in scapholunate instability. J Hand Surg Am. 2011;36(1):31-36. PMID 21093178.",
+        "[17] Salva-Coll G, Lluch A, Esplugas M, Carreño A, Scott-Tennent A, Larrea-Zabalo M, Garcia-Elias M. Scapholunate and lunotriquetral joint dynamic stabilizers and their role in wrist neuromuscular control and proprioception. J Hand Ther. 2023 (online; article S0894-1130(23)00138-2).",
+        "[19] Moritomo H, Apergis EP, Herzberg G, Werner FW, Wolfe SW, Garcia-Elias M. 2007 IFSSH committee report of wrist biomechanics committee: biomechanics of the so-called dart-throwing motion of the wrist. J Hand Surg Am. 2007;32(9):1447-1453.",
+        "[24] Bishop AT, Gabel G, Carmichael SW. Flexor carpi radialis tendinitis. Part I: operative anatomy. J Bone Joint Surg Am. 1994;76(7):1009-1014.",
+        "[25] Gabel G, Bishop AT, Wood MB. Flexor carpi radialis tendinitis. Part II: results of operative treatment. J Bone Joint Surg Am. 1994;76(7):1015-1018."
+      ]
+    }
+  ]
+}

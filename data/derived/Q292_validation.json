@@ -1,0 +1,351 @@
+{
+ "_README": [
+  "Q292 validation of the Base \u00b7 Female page; scripts/anatomy/q292/measure_q292.py"
+ ],
+ "breast": {
+  "sternal_notch_rule": "top of the sternum mesh, its most anterior point, x = 0",
+  "l": {
+   "volume_cm3": 639.2,
+   "apex_nipple_proxy": [
+    -85.1,
+    392.9,
+    118.1
+   ],
+   "apex_rule": "most anterior breast vertex (supine shape; no nipple object)",
+   "projection_max_above_rib_cage_mm": 53.5,
+   "footprint_rule": "breast vertices within 12 mm of the rib cage (ribs, cartilages, sternum, intercostal layers)",
+   "footprint_superior_y": 484.9,
+   "footprint_inferior_imf_y": 357.7,
+   "footprint_height_mm": 127.2,
+   "footprint_medial_from_midline_mm": 24.6,
+   "footprint_medial_from_sternal_edge_mm": 1.5,
+   "footprint_lateral_from_midline_mm": 147.5,
+   "base_width_mm": 123.0,
+   "superior_border_level": "between the second and third ribs",
+   "imf_level": "between the fifth and sixth ribs",
+   "rib_anterior_y_at_breast_centre": {
+    "second": 504.60585088883806,
+    "third": 480.6244603875791,
+    "fourth": 439.13274653238733,
+    "fifth": 397.38406292057675,
+    "sixth": 356.2209746700237,
+    "seventh": 320.19992446784164
+   },
+   "lateral_border_to_latissimus_mm": -13.6,
+   "pectoralis_major_width_over_breast_width": 0.98,
+   "sn_to_apex_mm": 184.8,
+   "apex_to_imf_mm": 46.2,
+   "imf_rule": "lowest breast vertex within 15 mm of the apex's x",
+   "fgt_volume_cm3": 11.7,
+   "volumetric_glandular_fraction_pct": 1.8
+  },
+  "r": {
+   "volume_cm3": 844.2,
+   "apex_nipple_proxy": [
+    80.4,
+    383.8,
+    123.8
+   ],
+   "apex_rule": "most anterior breast vertex (supine shape; no nipple object)",
+   "projection_max_above_rib_cage_mm": 57.1,
+   "footprint_rule": "breast vertices within 12 mm of the rib cage (ribs, cartilages, sternum, intercostal layers)",
+   "footprint_superior_y": 486.3,
+   "footprint_inferior_imf_y": 345.4,
+   "footprint_height_mm": 140.9,
+   "footprint_medial_from_midline_mm": 16.3,
+   "footprint_medial_from_sternal_edge_mm": -6.7,
+   "footprint_lateral_from_midline_mm": 146.7,
+   "base_width_mm": 130.4,
+   "superior_border_level": "above the third rib",
+   "imf_level": "between the sixth and seventh ribs",
+   "rib_anterior_y_at_breast_centre": {
+    "second": null,
+    "third": 480.93527333485923,
+    "fourth": 449.41446555275803,
+    "fifth": 408.1479060502022,
+    "sixth": 363.1435127107652,
+    "seventh": 320.5381865415427
+   },
+   "lateral_border_to_latissimus_mm": -13.7,
+   "pectoralis_major_width_over_breast_width": 0.92,
+   "sn_to_apex_mm": 192.3,
+   "apex_to_imf_mm": 59.8,
+   "imf_rule": "lowest breast vertex within 15 mm of the apex's x",
+   "fgt_volume_cm3": 15.7,
+   "volumetric_glandular_fraction_pct": 1.9
+  },
+  "apex_to_apex_mm": 165.8,
+  "sternal_notch": [
+   0.0,
+   534.3,
+   35.0
+  ]
+ },
+ "pelvis": {
+  "ap_conjugate_mm": 124.1,
+  "transverse_mm": 149.5,
+  "at_u": 0.3,
+  "inlet_index_ap_over_transverse_pct": 83.0,
+  "inlet_index_transverse_over_ap_pct": 120.5,
+  "intertuberous_mm": 127.1,
+  "subpubic_angle_deg": 85.1,
+  "subpubic_proxy_symphysis_to_tuberosities_deg": 87.1,
+  "interspinous_mm": 100.6,
+  "interspinous_rule": "most medial hip-bone vertex of its posterior half, 20-70 mm above the ischial tuberosity, each side",
+  "obstetric_conjugate_mm": 123.3,
+  "organs": {
+   "uterus_cryo_vhf": {
+    "volume_cm3": 41.48,
+    "long_axis_mm": 61.3,
+    "extent_mm": [
+     54.3,
+     43.5,
+     55.3
+    ]
+   },
+   "urinary_bladder": {
+    "volume_cm3": 44.98,
+    "long_axis_mm": 65.7,
+    "extent_mm": [
+     65.5,
+     40.4,
+     51.5
+    ]
+   },
+   "rectum": {
+    "volume_cm3": 160.87,
+    "long_axis_mm": 135.4,
+    "extent_mm": [
+     61.3,
+     126.4,
+     89.6
+    ]
+   },
+   "sigmoid_colon": {
+    "volume_cm3": 68.84,
+    "long_axis_mm": 104.7,
+    "extent_mm": [
+     88.1,
+     40.6,
+     84.5
+    ]
+   },
+   "vagina": {
+    "volume_cm3": 9.84,
+    "long_axis_mm": 76.3,
+    "extent_mm": [
+     42.2,
+     72.8,
+     31.8
+    ]
+   },
+   "ovary_l": {
+    "volume_cm3": 0.86,
+    "long_axis_mm": 24.1,
+    "extent_mm": [
+     11.6,
+     22.4,
+     10.4
+    ]
+   },
+   "ovary_r": {
+    "volume_cm3": 0.81,
+    "long_axis_mm": 24.2,
+    "extent_mm": [
+     11.0,
+     22.4,
+     10.4
+    ]
+   },
+   "urethra_female_lumen": {
+    "volume_cm3": 0.04,
+    "long_axis_mm": 30.2,
+    "extent_mm": [
+     17.5,
+     32.0,
+     23.0
+    ]
+   },
+   "perineal_body": {
+    "volume_cm3": 4.02,
+    "long_axis_mm": 47.3,
+    "extent_mm": [
+     41.7,
+     22.1,
+     45.6
+    ]
+   },
+   "cardinal_ligament_uterus_l": {
+    "volume_cm3": 1.38,
+    "long_axis_mm": 75.1,
+    "extent_mm": [
+     64.8,
+     27.7,
+     49.9
+    ]
+   },
+   "cardinal_ligament_uterus_r": {
+    "volume_cm3": 1.95,
+    "long_axis_mm": 70.3,
+    "extent_mm": [
+     62.7,
+     29.9,
+     53.0
+    ]
+   },
+   "uterosacral_ligament_l": {
+    "volume_cm3": 0.38,
+    "long_axis_mm": 88.5,
+    "extent_mm": [
+     7.1,
+     54.2,
+     76.2
+    ]
+   },
+   "uterosacral_ligament_r": {
+    "volume_cm3": 0.19,
+    "long_axis_mm": 88.0,
+    "extent_mm": [
+     13.4,
+     50.0,
+     76.4
+    ]
+   },
+   "external_anal_sphincter_ct_vhf": {
+    "volume_cm3": 16.79,
+    "long_axis_mm": 74.5,
+    "extent_mm": [
+     53.1,
+     29.4,
+     72.6
+    ]
+   }
+  }
+ },
+ "realness_dihedral": {
+  "cvh_reference": {
+   "22_Bartholin_s_gland.ply": {
+    "mean_deg": 31.7,
+    "std_deg": 36.2,
+    "faces": 1354
+   },
+   "37_Bulbospongiosus_muscle.ply": {
+    "mean_deg": 27.6,
+    "std_deg": 35.3,
+    "faces": 4958
+   },
+   "24_Perineal_body.ply": {
+    "mean_deg": 29.5,
+    "std_deg": 34.1,
+    "faces": 6668
+   }
+  },
+  "shipped": {
+   "anococcygeal_ligament_cvh": {
+    "mean_deg": 43.5,
+    "std_deg": 36.1,
+    "faces": 5000
+   },
+   "clitoris_cavernous_body": {
+    "mean_deg": 19.4,
+    "std_deg": 22.3,
+    "faces": 2344
+   },
+   "round_ligament_uterus_l": {
+    "mean_deg": 21.0,
+    "std_deg": 23.3,
+    "faces": 902
+   },
+   "round_ligament_uterus_r": {
+    "mean_deg": 21.0,
+    "std_deg": 22.0,
+    "faces": 1024
+   },
+   "superior_rectal_a": {
+    "mean_deg": 19.8,
+    "std_deg": 24.6,
+    "faces": 2100
+   },
+   "urinary_bladder": {
+    "mean_deg": 15.8,
+    "std_deg": 21.0,
+    "faces": 3750
+   },
+   "rectum": {
+    "mean_deg": 15.8,
+    "std_deg": 13.6,
+    "faces": 3750
+   },
+   "sigmoid_colon": {
+    "mean_deg": 15.1,
+    "std_deg": 14.2,
+    "faces": 3748
+   },
+   "uterus_cryo_vhf": {
+    "mean_deg": 13.2,
+    "std_deg": 14.6,
+    "faces": 12000
+   },
+   "external_anal_sphincter_ct_vhf": {
+    "mean_deg": 14.2,
+    "std_deg": 20.0,
+    "faces": 9446
+   },
+   "breast_ct_l": {
+    "mean_deg": 16.5,
+    "std_deg": 21.6,
+    "faces": 7998
+   },
+   "breast_fgt_ct_l": {
+    "mean_deg": 37.1,
+    "std_deg": 32.4,
+    "faces": 24000
+   },
+   "breast_ct_r": {
+    "mean_deg": 17.8,
+    "std_deg": 24.5,
+    "faces": 7998
+   },
+   "breast_fgt_ct_r": {
+    "mean_deg": 40.5,
+    "std_deg": 32.3,
+    "faces": 12000
+   },
+   "zan_skin_deltopectoral_triangle_l": {
+    "mean_deg": 10.3,
+    "std_deg": 25.2,
+    "faces": 1286
+   },
+   "zan_skin_deltopectoral_triangle_r": {
+    "mean_deg": 10.8,
+    "std_deg": 25.2,
+    "faces": 1286
+   },
+   "zan_skin_epigastric_region_l": {
+    "mean_deg": 5.9,
+    "std_deg": 16.8,
+    "faces": 9324
+   },
+   "zan_skin_epigastric_region_r": {
+    "mean_deg": 6.3,
+    "std_deg": 17.0,
+    "faces": 9356
+   },
+   "zan_skin_hypochondriac_region_l": {
+    "mean_deg": 4.1,
+    "std_deg": 15.6,
+    "faces": 8536
+   },
+   "zan_skin_hypochondriac_region_r": {
+    "mean_deg": 4.8,
+    "std_deg": 15.7,
+    "faces": 8536
+   },
+   "zan_sternocostal_head_of_pectoralis_major_muscle_l": {
+    "mean_deg": 27.9,
+    "std_deg": 30.6,
+    "faces": 3222
+   }
+  }
+ }
+}

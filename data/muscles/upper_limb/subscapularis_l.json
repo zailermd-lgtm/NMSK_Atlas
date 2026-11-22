@@ -1,0 +1,169 @@
+{
+ "id": "subscapularis_l",
+ "name_ta": "Musculus subscapularis",
+ "name_common": "Subscapularis",
+ "side": "left",
+ "region": "upper_limb",
+ "overall_architecture_type": "multipennate",
+ "attachments": {
+  "origin_bone": "scapula_l",
+  "origin_landmark": "subscapular fossa",
+  "insertion_bone": "humerus_l",
+  "insertion_landmark": "lesser tubercle",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "upper_subscapular_n",
+   "lower_subscapular_n"
+  ],
+  "root_levels": "C5-C6",
+  "was_packed_as": "upper_and_lower_subscapular_nerves"
+ },
+ "blood_supply": [
+  "subscapular_a_l"
+ ],
+ "actions": [
+  "internally rotates humerus",
+  "stabilizes humeral head in glenoid (rotator cuff force-couple, main anterior stabilizer)"
+ ],
+ "functional_compartments": [
+  {
+   "id": "subscapularis_l_superior",
+   "name": "Superior laminae (documented ~3 of the ~6-7 total tendinous laminae)",
+   "innervation_branch": "upper subscapular n.",
+   "fiber_architecture": {
+    "architecture_type": "multipennate",
+    "pennation_deg": 20,
+    "optimal_fascicle_length_mm": 45,
+    "physiological_cross_section_area_mm2": 1200.0,
+    "max_isometric_force_N": 300.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     20,
+     30,
+     40
+    ],
+    [
+     10,
+     40,
+     35
+    ],
+    [
+     5,
+     45,
+     30
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "along each lamina's central tendon",
+    "position_fraction_along_fascicle": 0.45,
+    "band_width_fraction": 0.15,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Superior partition, separately innervated by the upper subscapular nerve -- a clear anatomical/innervation-based functional split from the inferior partition.",
+   "source": "Gray's Anatomy for Students 4th ed. ch.7 (describes subscapularis as composed of multiple laminae converging on internal tendons); dual upper/lower subscapular nerve innervation is standard brachial-plexus anatomy",
+   "innervation_branch_ids": [
+    "upper_subscapular_n"
+   ]
+  },
+  {
+   "id": "subscapularis_l_inferior",
+   "name": "Inferior laminae",
+   "innervation_branch": "lower subscapular n.",
+   "fiber_architecture": {
+    "architecture_type": "multipennate",
+    "pennation_deg": 22,
+    "optimal_fascicle_length_mm": 42,
+    "physiological_cross_section_area_mm2": 1250.0,
+    "max_isometric_force_N": 312.5
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     25,
+     15,
+     45
+    ],
+    [
+     15,
+     10,
+     40
+    ],
+    [
+     10,
+     20,
+     35
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "along each lamina's central tendon",
+    "position_fraction_along_fascicle": 0.45,
+    "band_width_fraction": 0.15,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Inferior partition, separately innervated by the lower subscapular nerve (which also innervates teres major).",
+   "source": "Gray's Anatomy for Students 4th ed. ch.7",
+   "innervation_branch_ids": [
+    "lower_subscapular_n"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Posterior window, preferred: transverse on the posterior thoracic wall lateral to the lateral scapular edge, about 1 cm distal to the posterior axilla, shoulder in flexion, abduction and internal rotation. An anterior window exists -- transducer on the anterior arm about 2-3 cm from the clavicle, arm adducted and externally rotated, elbow at 90 degrees, palm up -- but is not used by the source.",
+  "depth_layer": "Deep to the scapula's lateral border from the posterior approach.",
+  "structures_at_risk": [
+   "pleura (pneumothorax)"
+  ],
+  "notes": "The structural finding matters more here than any percentage: an intramuscular fascial septum divides subscapularis into a superior and an inferior compartment with distinct innervation zones and fibre compositions, and the septum is a real barrier to diffusion of the injected toxin. Each compartment must therefore be injected separately. Under ultrasound the posterior window reaches the type I fibres of the superior compartment and the type II fibres of the inferior one; reaching the type II fibres of the superior compartment and the type I fibres of the inferior one requires a blind pass from the inferior angle of the scapula toward the medial third of its upper margin. The anterior window is avoided because of frequent anterior fibrosis, sarcomere loss and low motor endplate density, and because patients needing this injection often cannot reach the required passive external rotation. No motor_endplate_zones are recorded: the compartment study's numeric innervation zones sit in a list dropped by full-text extraction.",
+  "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+ },
+ "trigger_points": [
+  {
+   "location_description": "Point along the lateral (axillary-border) portion of the muscle belly, palpated in the axilla with the arm abducted and the scapula translated laterally; medial points are usually inaccessible to palpation.",
+   "referred_pain_pattern": "Severe deep pain over the posterior shoulder/posterior deltoid and scapula, extending down the posterior arm to the elbow, with a highly characteristic ‘strap-like’ band of pain/tenderness around the wrist (dorsum greater than volar).",
+   "activation_perpetuating_factors": "Progressive loss of abduction combined with external rotation (arm hugs the trunk); cannot reach up-and-back (throwing, fastening a zip).",
+   "notes": "Travell's classic driver of the stiffening, adhesive-capsulitis-like shoulder; trigger-point release may restore surprising range in a 'frozen shoulder'.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+  }
+ ],
+ "clinical": [
+  {
+   "document": "shoulder_muscles_reference_v1.html",
+   "compiled": "31/08/2026",
+   "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+   "function_biomechanics": "The strongest cuff muscle: ~53% of total cuff moment — its force-generating capacity roughly equals the other three combined. Primary internal rotator with the arm at the side; anterior half of the transverse-plane force couple (with infraspinatus/teres minor) centring the head; dynamic anterior stabiliser resisting anterior translation, especially in mid-abduction; upper fibres assist abduction, lower fibres depress the head; eccentric decelerator of external rotation in late cocking.",
+   "adjacent_structures": "Adjacent bursae: Subscapular (subtendinous) bursa between the tendon and the scapular neck — normally communicates with the glenohumeral joint between the superior and middle glenohumeral ligaments (a true joint recess; distends in synovitis). A separate subcoracoid bursa lies between the muscle and the coracoid/conjoint tendon and may communicate with the subacromial bursa but not the joint. Adjacent structures — mutual influence: Biceps pulley: upper-border tears destabilise the long head (medial subluxation into/over the tendon — arthroscopic “comma sign” context). Coracoid: a narrowed coracohumeral interval produces subcoracoid impingement of the tendon. Anterior dislocation stretches/avulses it; open stabilisation and arthroplasty approaches divide and must protect it; the axillary nerve hugs its inferior border (at-risk zone).",
+   "trigger_points": [
+    {
+     "location": "TrPs along the lateral (axillary-border) portion of the belly, palpated in the axilla with the arm abducted and the scapula translated laterally; medial points are usually inaccessible.",
+     "referred_pain": "Severe deep pain over the posterior shoulder/posterior deltoid and scapula, extending down the posterior arm to the elbow, with a highly characteristic “strap-like” band of pain/tenderness around the wrist (dorsum > volar). Travell’s classic driver of the stiffening, adhesive-capsulitis-like shoulder.",
+     "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+    }
+   ],
+   "pain_referred_into_this_muscle_from": [
+    "Into its felt territory (posterior shoulder/wrist band): infraspinatus and teres minor/major overlap posteriorly",
+    "C7 patterns and thoracic-outlet symptoms reach the wrist",
+    "true adhesive capsulitis, posterior capsule and glenohumeral arthritis produce overlapping deep posterior ache."
+   ],
+   "movement_restrictions_aggravators": "Progressive loss of abduction combined with external rotation (arm hugs the trunk); cannot reach up-and-back (throwing, fastening zip); the pattern precedes and accompanies frozen shoulder.",
+   "notes": "Examine in any “frozen shoulder”: TrP release may restore surprising range. Bear-hug/belly-press/lift-off weakness + biceps instability → think upper-subscapularis tear.",
+   "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+   "sources": [
+    "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+    "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+    "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+    "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+    "Keating JF, Waterworth P, Shaw-Dunn J, Crossan J. The relative strengths of the rotator cuff muscles. A cadaver study. J Bone Joint Surg Br. 1993;75(1):137–140. doi:10.1302/0301-620X.75B1.8421011. PMID 8421011. [retrieved 31/08/2026]",
+    "Gerber C, Terrier F, Ganz R. The role of the coracoid process in the chronic impingement syndrome. J Bone Joint Surg Br. 1985;67(5):703–708.",
+    "Jost B, Koch PP, Gerber C. Anatomy and functional aspects of the rotator interval. J Shoulder Elbow Surg. 2000;9(4):336–341.",
+    "Werner A, Mueller T, Boehm D, Gohlke F. The stabilizing sling for the long head of the biceps tendon in the rotator cuff interval. A histoanatomic study. Am J Sports Med. 2000;28(1):28–31.",
+    "Klapper RC, Jobe FW, Matsuura P. The subscapularis muscle and its glenohumeral ligament-like bands. A histomorphologic study. Am J Sports Med. 1992;20(3):307–310.",
+    "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+    "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+    "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+   ]
+  }
+ ]
+}

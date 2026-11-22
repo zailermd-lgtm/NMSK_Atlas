@@ -1,0 +1,578 @@
+{
+ "source": "Q172 option (d), owner-approved (2026-09-30). Builder scripts/cryo/vhm_pelvic_floor_from_cryo.py re-run on his re-streamed 1 mm legs cryosection frame (session scratch vh_cryo/cryo_legs_frame_*.npy) and TotalSegmentator labels data/ct_sources/task_outputs/vhm_legs_total.nii.gz (md5 82e80b52..., = scratch vhm_ts/legs_total.nii.gz); her side read-only: vhf_total.nii.gz and vhf_pelvic_floor_cryo_report.json. Evidence scripts in session scratch q172d/ (heads.py, reg1mm.py/reg1mm_b.py, meshcheck.py, montage_final.png, reg_diag.png) and q172/eval.py. Atlas: +X right, +Y superior, +Z anterior (mm), origin (-6.035,-895.476,4.787).",
+ "status": "SHIPPED in build/viewer_m_hr (not committed/published by this task)",
+ "changes": {
+  "label_flip": "legs_total labels row-flipped onto the photo grid (row 0 anterior; Q57 finding confirmed on reg_diag.png and q57/ts_overlay.png: femur, ischium, gluteus maximus, rectum only coincide when flipped). With the flip the whole frame has her sense (+row posterior): POST_ROW_SIGN = +1 (the unapplied q172 diff's -1 / +Y affine assumed the unflipped label grid and would have left the photographs mirrored against the labels).",
+  "affine": "x = 242.72 - c, y = 239.11 - r, z = -1671 + k: Q86's 240 - c / 240 - r follow the flip exactly (corner-aligned 512->480 zoom: 240 - 1.00013 r), plus the Stage-2 in-plane offset (+2.72, -0.89) mm",
+  "spine_rule": "ischial-spine level carried from the female by proportion of femoral-head-centre to ischial-tuberosity height (RULE-BASED, badged)",
+  "island_cleanup": "each named muscle keeps its largest 6-connected piece; cut-off pieces go to that side's sink (not shipped), listed in the report (levator_ani_left 5097+1660+29 voxels, levator_ani_right 250, superficial_transverse_perineal_right 110+16)",
+  "label_exclusion_after_hole_fill": "muscle &= ~(bone|organ) after fill_small_holes: the hole fill had re-admitted 17 prostate-apex voxels",
+  "smoothing": "levator_ani_r added to ct_vhm_pfloor_fix (--smooth 0.0; Q116 precedent): one voxel piece, but 3 surface components (main 0.763) at smooth 1.0, 1 at 0.0",
+  "constants": "LEV_REACH_MM 45 / COCC_SPAN_MM 6 kept. Her 18/18 tried in scratch (q172d/a2): levator 13.0/18.5 cm3 in 6+2 pieces (main 0.665 right), coccygeus 4 pieces -> rejected"
+ },
+ "spine_measurement": {
+  "note": "the brief's '~12 mm below her femoral-head centres' came from Q172's spine3d 'acetabulum centre' (a hip-label centroid ~14 mm above the true head centre); measured on sphere-fitted head centres her builder's spine level is 1.31 mm ABOVE them. The resulting male level (legs slice 777) equals Q172's k~777.",
+  "her": {
+   "file": "vhf_total.nii.gz",
+   "affine_z": [
+    1.0,
+    -1022.0
+   ],
+   "ischial_tuberosity_z": -950.0,
+   "femoral_head_right": {
+    "centre_ras": [
+     106.33,
+     12.79,
+     -885.94
+    ],
+    "radius_mm": 24.0,
+    "fit_rms_mm": 0.67,
+    "surface_points": 4983,
+    "apex_z": -862.0
+   },
+   "femoral_head_left": {
+    "centre_ras": [
+     -90.85,
+     15.21,
+     -884.68
+    ],
+    "radius_mm": 24.04,
+    "fit_rms_mm": 0.69,
+    "surface_points": 5180,
+    "apex_z": -861.0
+   },
+   "femoral_head_centre_z_mean": -885.31,
+   "head_to_tuberosity_mm": 64.69,
+   "builder_spine_z": -884.0,
+   "spine_below_head_mm": -1.31,
+   "spine_fraction_of_head_to_tuberosity": -0.0202
+  },
+  "him": {
+   "file": "vhm_legs_total.nii.gz",
+   "affine_z": [
+    1.0,
+    -978.0
+   ],
+   "ischial_tuberosity_z": -270.0,
+   "femoral_head_right": {
+    "centre_ras": [
+     79.84,
+     7.1,
+     -202.5
+    ],
+    "radius_mm": 25.59,
+    "fit_rms_mm": 0.74,
+    "surface_points": 5162,
+    "apex_z": -177.0
+   },
+   "femoral_head_left": {
+    "centre_ras": [
+     -97.36,
+     4.26,
+     -202.95
+    ],
+    "radius_mm": 25.36,
+    "fit_rms_mm": 0.74,
+    "surface_points": 4656,
+    "apex_z": -179.0
+   },
+   "femoral_head_centre_z_mean": -202.73,
+   "head_to_tuberosity_mm": 67.27,
+   "spine_z_by_her_fraction": -201.37,
+   "spine_z_by_her_mm": -201.42,
+   "k_spine_by_fraction": 777,
+   "k_spine_by_mm": 777
+  },
+  "used": {
+   "k": 777,
+   "legs_ct_slice": 777,
+   "z_ras": -894.0,
+   "rule": {
+    "method": "her builder's spine level carried by proportion of the femoral-head-centre to ischial-tuberosity height (owner decision Q172 option (d)); rule-based",
+    "female": {
+     "builder_spine_z": -884.0,
+     "femoral_head_centre_z_mean": -885.31,
+     "ischial_tuberosity_z": -950.0,
+     "spine_below_head_mm": -1.31,
+     "fraction_of_head_to_tuberosity": -0.0203
+    },
+    "male": {
+     "femoral_head_centre_z": {
+      "right": -202.5,
+      "left": -202.95
+     },
+     "femoral_head_radius_mm": {
+      "right": 25.59,
+      "left": 25.36
+     },
+     "femoral_head_centre_z_mean": -202.73,
+     "ischial_tuberosity_z": -270.0,
+     "head_to_tuberosity_mm": 67.27,
+     "spine_z_by_fraction": -201.36,
+     "spine_z_by_mm": -201.42,
+     "kk_spine_used": 777,
+     "kk_spine_by_mm": 777,
+     "kk_spine_per_slice_minimum_not_used": 738
+    },
+    "z_note": "legs_total's own RAS z (frame z = this - 693.0, the Stage-2 block offset)"
+   }
+  }
+ },
+ "registration_1mm_frame": {
+  "method": "bone-edge brightness contrast (mean v inside minus 2-4 px ring), shift of the model in 1 mm px, levels k 560-780 step 10; atlas = vhm_both femur+hip_bone meshes through the builder's affine; labels = legs_total femur+hip flipped onto the frame. dr > 0 = model moved posterior; dc > 0 = toward his left.",
+  "summary": {
+   "atlas_right": {
+    "n": 23,
+    "median_dr": -1.0,
+    "median_dc": 0.0,
+    "contrast_best_med": 78.1,
+    "contrast_at0_med": 76.6
+   },
+   "atlas_left": {
+    "n": 23,
+    "median_dr": -1.0,
+    "median_dc": -3.0,
+    "contrast_best_med": 71.1,
+    "contrast_at0_med": 55.1
+   },
+   "labels_right": {
+    "n": 23,
+    "median_dr": -3.0,
+    "median_dc": -5.0,
+    "contrast_best_med": 80.7,
+    "contrast_at0_med": 44.2
+   },
+   "labels_left": {
+    "n": 23,
+    "median_dr": 0.0,
+    "median_dc": -1.0,
+    "contrast_best_med": 73.8,
+    "contrast_at0_med": 70.1
+   }
+  },
+  "decision": "NOT applied. Photograph vs atlas meshes in this frame: right (-1, 0) px, left (-1, -3) px = photographed anatomy ~1 mm anterior of the atlas (both sides; same direction as Q173's 2.35 mm on the 0.33 mm crops but under half of it and within one voxel) and left-side ~3 mm medial (Q173: 2.4-2.5 mm, same direction). The only above-voxel component is left-only and cannot be applied as one affine to a volume with midline structures (EAS, levator sheets meeting at the midline) without tearing them; the builder stays label-consistent (0 voxels in his bone/organ labels). Also found: legs_total's labels vs the photographs after the flip are off by right (-3,-5) / left (0,-1) px (a ~1.7 % scale + ~0.8 deg misfit of the frame calibration), so exclusions carry a few-mm misfit on his right side -- not corrected here (open)."
+ },
+ "volumes": {
+  "levator_ani_r": {
+   "before_cm3": 14.4,
+   "after_cm3": 44.0,
+   "shipped_before": true,
+   "shipped_after": true
+  },
+  "levator_ani_l": {
+   "before_cm3": 16.3,
+   "after_cm3": 40.3,
+   "shipped_before": true,
+   "shipped_after": true
+  },
+  "coccygeus_r": {
+   "before_cm3": 7.9,
+   "after_cm3": 2.5,
+   "shipped_before": true,
+   "shipped_after": true
+  },
+  "coccygeus_l": {
+   "before_cm3": 8.9,
+   "after_cm3": 4.2,
+   "shipped_before": true,
+   "shipped_after": true
+  },
+  "deep_transverse_perineal_r": {
+   "before_cm3": 1.6,
+   "after_cm3": 6.0,
+   "shipped_before": true,
+   "shipped_after": true
+  },
+  "deep_transverse_perineal_l": {
+   "before_cm3": 1.6,
+   "after_cm3": 6.4,
+   "shipped_before": true,
+   "shipped_after": true
+  },
+  "external_anal_sphincter": {
+   "before_cm3": 1.1,
+   "after_cm3": 3.5,
+   "shipped_before": true,
+   "shipped_after": true
+  },
+  "bulbospongiosus_r": {
+   "before_cm3": 0.5,
+   "after_cm3": 4.9,
+   "shipped_before": false,
+   "shipped_after": true
+  },
+  "bulbospongiosus_l": {
+   "before_cm3": 0.0,
+   "after_cm3": 5.4,
+   "shipped_before": false,
+   "shipped_after": true
+  },
+  "ischiocavernosus_r": {
+   "before_cm3": 0.2,
+   "after_cm3": 7.5,
+   "shipped_before": false,
+   "shipped_after": true
+  },
+  "ischiocavernosus_l": {
+   "before_cm3": 0.6,
+   "after_cm3": 6.4,
+   "shipped_before": false,
+   "shipped_after": true
+  },
+  "superficial_transverse_perineal_r": {
+   "before_cm3": 1.0,
+   "after_cm3": 0.9,
+   "shipped_before": false,
+   "shipped_after": false
+  },
+  "superficial_transverse_perineal_l": {
+   "before_cm3": 0.1,
+   "after_cm3": 0.7,
+   "shipped_before": false,
+   "shipped_after": false
+  }
+ },
+ "published_male_ranges": "none confirmed: PubMed searched 2026-09-30 ('levator ani volume men magnetic resonance imaging' -> 2 hits, neither reports a volume, PMID 35181284 doi 10.1016/j.euf.2022.01.015, PMID 17507719 doi 10.1148/radiol.2441060398; sex-difference volume query -> 0 hits). Female context only (her report): levator ani 19.8-46.6 cm3 bilateral (Hoyte 2005 PMID 16325611; Fielding 2000 PMID 10701604) -- his 84.3 cm3 bilateral is ~1.8x the female upper figure (it holds the whole funnel within 45 mm of the viscera, the three parts unseparated). Male levator thickness 5.1 mm (Tienza 2015, PMID 26049974) not compared (no robust thickness measure at 1 mm).",
+ "checks": {
+  "frame_label_overlap_voxels": {
+   "bone": 0,
+   "organ": 0
+  },
+  "native_legs_ct_grid_backprojection": {
+   "line": "TOTAL bone 0 organ 1 voxels 312670",
+   "before": "TOTAL bone 10139 organ 406 voxels 208731",
+   "note": "1 organ voxel = 480<->512 resampling at the prostate interface (0.94 mm inside)"
+  },
+  "anal_check_Q170": {
+   "pelvic_floor_subjects": [
+    "ct_vhm_pfloor_fix",
+    "ct_vhm_pfloor"
+   ],
+   "rectum_lowest_point_atlas_mm": [
+    -0.5,
+    -47.2,
+    -47.9
+   ],
+   "rectum_lowest_5mm_cap_centroid_atlas_mm": [
+    0.0,
+    -44.6,
+    -47.2
+   ],
+   "external_anal_sphincter_y_range_mm": [
+    -48.0,
+    -38.0
+   ],
+   "external_anal_sphincter_centroid_atlas_mm": [
+    0.8,
+    -42.9,
+    -47.1
+   ],
+   "external_anal_sphincter_radius_about_its_axis_mm": [
+    2.4,
+    10.7,
+    16.1
+   ],
+   "external_anal_sphincter_watertight": true,
+   "gap_rectum_lowest_to_sphincter_top_mm": -9.1,
+   "gap_rectum_lowest_to_sphincter_bottom_mm": 0.9,
+   "rectum_vertices_within_sphincter_height": 490,
+   "min_distance_rectum_to_sphincter_mm": 0.6,
+   "distance_rectum_lowest_point_to_sphincter_mm": 3.2,
+   "horizontal_offset_rectum_cap_to_sphincter_axis_mm": 0.7,
+   "rectum_vertices_inside_sphincter": 0,
+   "sphincter_vertices_inside_rectum": 0,
+   "levator_ani_y_range_mm": [
+    -38.0,
+    2.0
+   ],
+   "gap_rectum_lowest_to_levator_lowest_mm": -9.1,
+   "min_distance_rectum_to_levator_ani_mm": 0.8
+  },
+  "mesh_checks": {
+   "structures": {
+    "bulbospongiosus_l": {
+     "vertices": 2744,
+     "triangles": 5484,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      -10.8,
+      -54.1,
+      -17.5
+     ],
+     "y_range": [
+      -63.5,
+      -48.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "centroid_minus_anal_end_Z_mm (pos = anterior)": 29.7,
+     "centroid_abs_dx_from_anal_axis_mm": 10.8,
+     "min_Z_minus_anal_end_Z_mm": 13.6
+    },
+    "bulbospongiosus_r": {
+     "vertices": 3280,
+     "triangles": 6560,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      7.3,
+      -54.5,
+      -17.2
+     ],
+     "y_range": [
+      -64.8,
+      -48.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "centroid_minus_anal_end_Z_mm (pos = anterior)": 29.9,
+     "centroid_abs_dx_from_anal_axis_mm": 7.2,
+     "min_Z_minus_anal_end_Z_mm": 12.5
+    },
+    "coccygeus_l": {
+     "vertices": 3758,
+     "triangles": 7512,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      -23.2,
+      -1.4,
+      -84.2
+     ],
+     "y_range": [
+      -5.0,
+      2.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "min_dist_to_ischial_spine_point_mm": 10.6,
+     "min_dist_to_coccyx_mesh_mm": 2.2,
+     "min_dist_to_lower_25mm_of_sacrum_mesh_mm": 12.1,
+     "centroid_minus_anal_end_Z_mm (neg = posterior)": -37.1
+    },
+    "coccygeus_r": {
+     "vertices": 1788,
+     "triangles": 3572,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      31.0,
+      -1.0,
+      -74.1
+     ],
+     "y_range": [
+      -5.0,
+      2.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "min_dist_to_ischial_spine_point_mm": 12.1,
+     "min_dist_to_coccyx_mesh_mm": 14.3,
+     "min_dist_to_lower_25mm_of_sacrum_mesh_mm": 19.8,
+     "centroid_minus_anal_end_Z_mm (neg = posterior)": -26.9
+    },
+    "deep_transverse_perineal_l": {
+     "vertices": 3328,
+     "triangles": 6652,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      -14.9,
+      -42.4,
+      -23.0
+     ],
+     "y_range": [
+      -48.0,
+      -38.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "centroid_minus_anal_end_Z_mm (pos = anterior)": 24.2,
+     "centroid_abs_dx_from_anal_axis_mm": 14.9,
+     "min_Z_minus_anal_end_Z_mm": 5.0
+    },
+    "deep_transverse_perineal_r": {
+     "vertices": 3254,
+     "triangles": 6504,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      14.6,
+      -42.3,
+      -23.1
+     ],
+     "y_range": [
+      -48.0,
+      -38.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "centroid_minus_anal_end_Z_mm (pos = anterior)": 24.1,
+     "centroid_abs_dx_from_anal_axis_mm": 14.6,
+     "min_Z_minus_anal_end_Z_mm": 4.5
+    },
+    "external_anal_sphincter": {
+     "vertices": 2566,
+     "triangles": 5132,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      0.8,
+      -42.9,
+      -47.1
+     ],
+     "y_range": [
+      -48.0,
+      -38.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "centroid_minus_anal_end_mm": [
+      0.7,
+      1.7,
+      0.0
+     ]
+    },
+    "ischiocavernosus_l": {
+     "vertices": 4697,
+     "triangles": 9394,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      -27.5,
+      -47.1,
+      -20.2
+     ],
+     "y_range": [
+      -63.0,
+      -38.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "dist_to_hip_bone_mesh_mm_median_p90": [
+      7.0,
+      11.0
+     ]
+    },
+    "ischiocavernosus_r": {
+     "vertices": 5406,
+     "triangles": 10812,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      27.8,
+      -47.6,
+      -20.0
+     ],
+     "y_range": [
+      -62.0,
+      -38.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "dist_to_hip_bone_mesh_mm_median_p90": [
+      6.8,
+      12.5
+     ]
+    },
+    "levator_ani_l": {
+     "vertices": 17716,
+     "triangles": 35432,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      -18.8,
+      -18.9,
+      -27.0
+     ],
+     "y_range": [
+      -38.0,
+      2.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "min_dist_to_rectum_mm": 0.9,
+     "min_dist_to_prostate_mm": 0.4,
+     "min_dist_to_bladder_mm": 0.3,
+     "centroid_minus_bladder_centroid_Y_mm": -17.9,
+     "centroid_minus_prostate_centroid_Y_mm": 0.2,
+     "centroid_minus_prostate_centroid_Z_mm": -3.8
+    },
+    "levator_ani_r": {
+     "vertices": 30398,
+     "triangles": 60972,
+     "components": 1,
+     "largest_area_fraction": 1.0,
+     "centroid": [
+      24.3,
+      -18.6,
+      -36.7
+     ],
+     "y_range": [
+      -38.0,
+      2.0
+     ],
+     "vertices_inside_bone_meshes": {},
+     "min_dist_to_rectum_mm": 0.8,
+     "min_dist_to_prostate_mm": 0.1,
+     "min_dist_to_bladder_mm": 0.2,
+     "centroid_minus_bladder_centroid_Y_mm": -17.6,
+     "centroid_minus_prostate_centroid_Y_mm": 0.5,
+     "centroid_minus_prostate_centroid_Z_mm": -13.6
+    }
+   },
+   "anal_end_atlas": [
+    0.0,
+    -44.6,
+    -47.2
+   ],
+   "ischial_spine_points_atlas (most medial posterior hip-label voxel, legs k 770-784)": {
+    "r": [
+     50.0,
+     2.5,
+     -54.4
+    ],
+    "l": [
+     -51.2,
+     0.5,
+     -57.2
+    ]
+   }
+  }
+ },
+ "bundle": {
+  "old_structures": 402,
+  "new_structures": 406,
+  "added": [
+   "bulbospongiosus_l",
+   "bulbospongiosus_r",
+   "ischiocavernosus_l",
+   "ischiocavernosus_r"
+  ],
+  "geometry_changed": [
+   "coccygeus_l",
+   "coccygeus_r",
+   "deep_transverse_perineal_l",
+   "deep_transverse_perineal_r",
+   "external_anal_sphincter",
+   "levator_ani_l",
+   "levator_ani_r"
+  ],
+  "metadata_changed": "the same 7 ids (procedural_badge + tris) and nothing else; all other 395 ids identical in geometry hash and metadata",
+  "order": "levator_ani_r now first (claimed by ct_vhm_pfloor_fix, listed first); every other common id keeps its relative order",
+  "triangles": {
+   "before": 2214085,
+   "after": 2249013
+  },
+  "source_triangles": 21174308,
+  "main_area_fraction_in_bundle": ">= 0.999 for all 11 pelvic-floor ids (old: external_anal_sphincter 0.68, deep_transverse_perineal_l 0.898)",
+  "files_bytes": {
+   "atlas_viewer_male.html": 1198856,
+   "atlas_viewer_male_geo_00.txt": 14666664,
+   "atlas_viewer_male_geo_01.txt": 12177504,
+   "bundle.bin": 20133126,
+   "bundle.json": 1123143
+  },
+  "chromium": "headless (swiftshader), served build/ on 127.0.0.1:8472 with three*.js routed to scratch three.min.js: 0 page errors (1 console cert error from an external font host, as in Q173); pelvic-floor ids present with badges",
+  "female": "build/viewer_f_hr, vhf_pelvic_floor_cryo.*, ct_vhf_pfloor*, vhf builder: md5 unchanged (17/17)"
+ },
+ "badge": "RULE-BASED (Q172) text per id in mappings/subjects/ct_vhm_pfloor_volume_mapping.json entries[].procedural_badge, stamped by vhm_pelvic_floor_from_cryo.py --stamp-badges (wired into vhm_rebuild_bundle.sh)",
+ "tests": "tests/test_vhm_pelvic_floor_q172.py (new, 10) + related pelvic/male-bundle tests: 107 passed",
+ "open": [
+  "legs_total label-vs-photograph misfit after the flip (right ~3/5 mm) -- a per-frame similarity registration of the labels would tighten exclusions",
+  "left levator lost 6.8 cm3 of posterior pieces to the sink (cut off by the watershed) -> left/right asymmetry (40.3 vs 44.0 cm3; left centroid 3.8 vs right 13.6 mm behind the prostate)",
+  "external anal sphincter exists only where the colon label does (k728-737); the lower anal canal sits in perineal_other",
+  "superficial transverse perineal still under 1 cm3 per side (not shipped, as before)"
+ ]
+}

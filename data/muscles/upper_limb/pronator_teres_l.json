@@ -1,0 +1,234 @@
+{
+  "id": "pronator_teres_l",
+  "name_ta": "Pronator teres",
+  "name_common": "Pronator teres",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "humerus_l",
+    "origin_landmark": "medial epicondyle (+ ulnar head at coronoid)",
+    "insertion_bone": "radius_l",
+    "insertion_landmark": "lateral mid-shaft of radius",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "median_n",
+    "root_levels": "C6-C7"
+  },
+  "actions": [
+    "pronates forearm, assists elbow flexion"
+  ],
+  "functional_compartments": [
+    {
+      "id": "pronator_teres_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 50,
+        "physiological_cross_section_area_mm2": 430,
+        "max_isometric_force_N": 96.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          20,
+          -325,
+          5
+        ],
+        [
+          -5,
+          -120,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Two heads (humeral, larger; ulnar, smaller) sandwich the median nerve between them -- pronator teres syndrome's classic entrapment site.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            25.53,
+            55.31
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+          "notes": "Nerve-dense region of the ulnar head. Its centre of highest muscle-spindle abundance sits in the UPPER third of that region, at 31.23% of muscle length. The source recommends prioritising the radial nerve-dense region when only one site is injected. The atlas models pronator teres as a single compartment; the source maps its ulnar and humeral heads separately, so both sets are recorded here and distinguished by label.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        },
+        {
+          "zone_percent_range": [
+            12.52,
+            37.69
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+          "notes": "Nerve-dense region of the humeral head, which begins more proximally than the ulnar head's. Its centre of highest spindle abundance sits in the LOWER third, at 30.13% of muscle length -- so the two heads' optimal points nearly coincide in level even though their nerve-dense regions do not. The atlas models pronator teres as a single compartment; the source maps its ulnar and humeral heads separately, so both sets are recorded here and distinguished by label.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "injection_target_points": [
+        {
+          "label": "ulnar head",
+          "transverse_line_from": "medial epicondyle of the humerus",
+          "transverse_line_to": "lateral epicondyle of the humerus",
+          "transverse_percent": 42.48,
+          "longitudinal_line_from": "medial epicondyle of the humerus",
+          "longitudinal_line_to": "ulnar styloid process",
+          "longitudinal_percent": 18.38,
+          "depth_percent_of_limb_thickness": 21.92,
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        },
+        {
+          "label": "humeral head",
+          "transverse_line_from": "medial epicondyle of the humerus",
+          "transverse_line_to": "lateral epicondyle of the humerus",
+          "transverse_percent": 45.52,
+          "longitudinal_line_from": "medial epicondyle of the humerus",
+          "longitudinal_line_to": "ulnar styloid process",
+          "longitudinal_percent": 12.54,
+          "depth_percent_of_limb_thickness": 27.25,
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "innervation_branch_ids": [
+        "median_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the volar forearm, 2-3 cm distal to the elbow crease, on the radial side; the muscle lies medial to the radial cortex.",
+    "depth_layer": "Superficial flexor layer, with flexor carpi radialis immediately medial to it.",
+    "identification_cues": "Pronator teres appears round -- a 'ball' -- with flexor carpi radialis alongside it shaped like a 'shark', the pair described as a shark eating a ball. Two heads, humeral and ulnar, are separated by an intramuscular fascia.",
+    "structures_at_risk": [
+      "median nerve (passes between the two heads)",
+      "brachial artery"
+    ],
+    "notes": "Injected to restore supination in the triple-flexion pattern. The paper's strategy deliberately spares biceps brachii and brachioradialis, which supinate, and injects brachialis instead as the only pure elbow flexor.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Proximal belly, one to two fingerbreadths distal to the elbow crease on the line from the medial epicondyle toward the middle of the radial forearm.",
+      "referred_pain_pattern": "Deep in the radial volar wrist and radial volar forearm, occasionally spilling toward the base of the thumb; a frequent hidden source of \"wrist pain\" after forearm fracture immobilization in pronation.",
+      "activation_perpetuating_factors": "Forceful or repetitive pronation (screwdriving, pouring, topspin strokes), immobilization in pronation; associated trigger points in flexor carpi radialis, palmaris longus and the finger flexors. Travell and Simons describe median-nerve irritation by the taut pronator teres band (\"myofascial pronator syndrome\").",
+      "notes": "Non-myofascial differential: pronator syndrome, medial epicondyle tendinopathy, FCR tendinopathy, carpal tunnel syndrome, C6-C7 radiculopathy.",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 38; Donnelly et al. (2019) 3rd ed., ch. 38 -- as cited in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "Pronator quadratus is the prime pronator in slow unresisted movement in any elbow position; pronator teres is added for speed and force. As a two-joint muscle it is shortened by elbow flexion, so its pronation force potential is greatest with the elbow extended. It is also a weak elbow flexor and a minor contributor to dynamic valgus stability (the least of the flexor–pronator mass in cadaver loading). Pronation torque is about 86% of supination torque. Rapid alternating pronation (hammering, screwing, tennis forehand) and pronator hypertrophy are the recognised provocations for pronator syndrome.",
+      "adjacent_structures": "Adjacent bursae: None named. Adjacent structures and relations: Median nerve (between the heads), ulnar artery (deep), brachial artery and biceps tendon (lateral in the fossa), radial artery (crosses the insertion), FDS arch immediately distal, anterior band of the ulnar collateral ligament deep-medial.",
+      "trigger_points": [
+        {
+          "location": "Proximal part of the muscle belly, a few centimetres distal to the medial epicondyle along the muscle's oblique course toward the radius.",
+          "referred_pain": "deep into the volar-radial forearm and radial side of the wrist, with spill toward the antecubital region and thenar base.",
+          "notes": "Symptoms / mimics: Deep volar wrist pain on turning the hand palm-up, weak or painful supination against resistance; confused with carpal tunnel syndrome, FCR tendinopathy or scaphoid/radial wrist pathology. Entrapment: Median nerve between the heads or under the lacertus fibrosus: pronator syndrome: proximal volar forearm ache, paraesthesia in the median distribution including the thenar palm (palmar cutaneous branch, spared in carpal tunnel syndrome), provoked by resisted pronation with the elbow extended, resisted flexion–supination (lacertus) or resisted middle-finger PIP flexion (FDS arch). Associated TrPs: FCR, palmaris longus, FDS, brachialis, supinator (antagonist).",
+          "source": "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 38, Hand and finger flexors in the forearm (includes pronator teres)."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "FCR (radial wrist crease), brachialis (thumb base), infraspinatus and scalenes (radial forearm and hand), subclavius (radial forearm), C6 radiculopathy",
+        "medial epicondylalgia, ulnar collateral ligament injury, anterior interosseous nerve syndrome."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO this territory from elsewhere",
+      "notes": "Medial epicondylalgia (\"golfer's elbow\") is a tendinosis of the common flexor origin, chiefly PT and FCR. The five classic median-nerve compression sites in this region are the supracondylar process/ligament of Struthers, lacertus fibrosus, the two heads of PT, the FDS arch and an accessory FPL head (Gantzer). Pronator teres transfer to ECRB restores wrist extension in radial palsy.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Gray's Anatomy, 42nd ed., 2021: pronator teres; median nerve.",
+        "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 38, Hand and finger flexors in the forearm (includes pronator teres).",
+        "Neumann, 3rd ed., 2017: ch. 6 (pronation mechanics).",
+        "Johnson RK, Spinner M, Shrewsbury MM. Median nerve entrapment syndrome in the proximal forearm. J Hand Surg Am 1979;4(1):48–51.",
+        "Park MC, Ahmad CS. Dynamic contributions of the flexor-pronator mass to elbow valgus stability. J Bone Joint Surg Am 2004;86(10):2268–2274.",
+        "Askew LJ, et al. Clin Orthop Relat Res 1987;(222):261–266.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260.",
+        "Johnson RK, Spinner M, Shrewsbury MM. Median nerve entrapment syndrome in the proximal forearm. J Hand Surg Am. 1979;4(1):48–51."
+      ],
+      "tests": [
+        {
+          "name": "Medial epicondylalgia provocation",
+          "performance": "Resisted wrist flexion and resisted pronation with the elbow extended; palpation of the PT–FCR origin",
+          "positive_finding": "Pain at the common flexor origin",
+          "structures_loaded": "Pronator teres, FCR",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No accuracy studies identified (Zwerus 2018: no eligible articles for medial epicondylitis)",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Resisted pronation with the elbow extending (pronator syndrome provocation)",
+          "performance": "Site-specific provocation: resisted pronation with the elbow extending loads the pronator teres heads; resisted elbow flexion–supination loads the lacertus fibrosus; resisted middle-finger PIP flexion loads the FDS arch (Johnson, Spinner & Shrewsbury 1979). Thenar-palm numbness (palmar cutaneous branch) and absence of nocturnal predominance separate it from carpal tunnel syndrome. No validated sensitivity/specificity data have been published for these manoeuvres; this is stated rather than estimated.",
+          "positive_finding": "",
+          "structures_loaded": "pronator teres heads",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No validated sensitivity/specificity data have been published for these manoeuvres; this is stated rather than estimated.",
+          "source": "Johnson RK, Spinner M, Shrewsbury MM. Median nerve entrapment syndrome in the proximal forearm. J Hand Surg Am. 1979;4(1):48–51."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    },
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Forearm pronation, together with pronator quadratus: PQ is active in all pronation, while PT is recruited as speed and resistance increase [57, 58, 60]. Minor: Weak elbow flexion [1, 5]. Wrist: No wrist crossing and no direct wrist action; by pronating the radius it changes the working position of the wrist motors (for example the ECU extension moment arm collapses in pronation) [12]. Importance: The standard donor to ECRB in radial-nerve palsy; PT rerouting converts it toward a supinator in spastic pronation deformity [4].",
+      "adjacent_structures": "Bursae / sheaths: None. The bicipitoradial bursa lies nearby at the biceps insertion but does not belong to PT [1]. Coupled structures: Median nerve (between the heads and beneath the FDS arch just distal to it), lacertus fibrosus, ulnar artery, common flexor origin [1, 42].",
+      "trigger_points": [
+        {
+          "location": "Proximal belly, one to two fingerbreadths distal to the elbow crease on the line from the medial epicondyle toward the middle of the radial forearm [2, 3].",
+          "referred_pain": "Deep in the radial volar wrist and radial volar forearm, occasionally spilling toward the base of the thumb; a frequent hidden source of \"wrist pain\" after forearm fracture immobilization in pronation [2, 3].",
+          "activation_perpetuating_factors": "Forceful or repetitive pronation (screwdriving, pouring, topspin strokes), immobilization in pronation; associated TrPs in FCR, PL and the finger flexors. Travell and Simons describe median-nerve irritation by the taut PT band (\"myofascial pronator syndrome\") [grade B] [2, 3].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "FCR",
+        "opponens pollicis",
+        "pectoralis major",
+        "subscapularis (band)",
+        "scalenes [2, 3]."
+      ],
+      "pain_referred_into_territory": "Pain referred into PT territory (radial volar wrist and forearm)",
+      "non_myofascial_differential": "Pronator syndrome, medial epicondyle tendinopathy, FCR tendinopathy, carpal tunnel syndrome, C6–C7 radiculopathy.",
+      "notes": "Pronator syndrome is median-nerve compression at four possible sites: the ligament of Struthers, the lacertus fibrosus, between the two PT heads, and the FDS arch; it produces aching of the proximal volar forearm with median sensory symptoms that, unlike carpal tunnel syndrome, include the palmar cutaneous territory and worsen with resisted pronation [42]. The muscle is divided or stepped in radial-nerve palsy transfers and pronation-deformity surgery [4].",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50 [1].",
+        "Simons, Travell & Simons 1999, 2e, ch. 38 [2]; Donnelly et al. 2019, 3e, ch. 38 [3].",
+        "Hartz et al. 1981, JBJS Am 63:885–890 [42].",
+        "Stuart 1996 [57]; Johnson & Shrewsbury 1976 [58]; Basmajian & Travill 1961 [60].",
+        "Green's 8e [4]; Neumann 2017 [5]; Kendall et al. 2005 [6]; Fridén & Lieber 2024 [12]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[6] Kendall FP, McCreary EK, Provance PG, Rodgers MM, Romani WA. Muscles: Testing and Function with Posture and Pain. 5th ed. Lippincott Williams & Wilkins; 2005.",
+        "[12] Fridén J, Lieber RL. Wrist extensor pathomechanics: implications for tendon and nerve transfer. J Hand Surg Eur Vol. 2024;49(8):1047-1050. PMID 38190974.",
+        "[42] Hartz CR, Linscheid RL, Gramse RR, Daube JR. The pronator teres syndrome: compressive neuropathy of the median nerve. J Bone Joint Surg Am. 1981;63(6):885-890.",
+        "[57] Stuart PR. Pronator quadratus revisited. J Hand Surg Br. 1996;21(6):714-722. PMID 8982912.",
+        "[58] Johnson RK, Shrewsbury MM. The pronator quadratus in motions and in stabilization of the radius and ulna at the distal radioulnar joint. J Hand Surg Am. 1976;1(3):205-209.",
+        "[60] Basmajian JV, Travill A. Electromyography of the pronator muscles in the forearm. Anat Rec. 1961;139(1). doi:10.1002/ar.1091390107 (page range not re-verified)."
+      ]
+    }
+  ]
+}

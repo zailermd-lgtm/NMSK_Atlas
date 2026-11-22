@@ -1,0 +1,203 @@
+<title>Forearm Muscle Seeds</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a working tool — section tabs on top, the cross-section photograph left, the muscle checklist right; stacks on phones */
+:root {
+  --bg: #f1f3f2; --panel: #ffffff; --ink: #1b2320; --muted: #5d6a65; --rule: #d5dcd9;
+  --accent: #1f6f5c; --accent-ink: #ffffff; --done: #1f7a4d; --done-bg: #e1f1e8; --skip: #7a6420; --skip-bg: #f6efd8;
+  --stage: #0b0d0c;
+  --f-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121615; --panel: #1a201e; --ink: #e4ebe8; --muted: #9aa8a2; --rule: #2d3633;
+  --accent: #6cc3a9; --accent-ink: #0b1a15; --done: #73d3a2; --done-bg: #16302a; --skip: #e5c46b; --skip-bg: #332b14; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #121615; --panel: #1a201e; --ink: #e4ebe8; --muted: #9aa8a2; --rule: #2d3633;
+  --accent: #6cc3a9; --accent-ink: #0b1a15; --done: #73d3a2; --done-bg: #16302a; --skip: #e5c46b; --skip-bg: #332b14; color-scheme: dark; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.45 var(--f-body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 40px; display: grid; gap: 14px; }
+h1 { margin: 0; font-size: 1.4rem; font-weight: 600; }
+.lede { margin: 0; color: var(--muted); max-width: 80ch; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tab { font: 500 0.85rem var(--f-data); padding: 7px 11px; border: 1px solid var(--rule); border-radius: 4px; background: var(--panel); color: var(--ink); cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.tab .n { opacity: .75; margin-left: 4px; }
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 14px; align-items: start; }
+.stage { background: var(--stage); border-radius: 6px; padding: 8px; display: grid; gap: 8px; min-width: 0; }
+.imgbox { position: relative; display: inline-block; max-width: 100%; justify-self: center; line-height: 0; }
+.imgbox img { display: block; max-width: 100%; max-height: 78vh; width: auto; height: auto; user-select: none; -webkit-user-drag: none; cursor: crosshair; }
+.imgbox svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: #cfd8d4; font: 0.8rem var(--f-data); }
+.bar label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px; display: grid; gap: 10px; min-width: 0; }
+.cur { font-size: 0.9rem; }
+.cur b { font-weight: 600; }
+.list { display: grid; gap: 4px; max-height: 60vh; overflow-y: auto; }
+.m { display: grid; grid-template-columns: 14px minmax(0,1fr) auto; gap: 8px; align-items: center; padding: 6px 8px; border: 1px solid var(--rule); border-radius: 4px; cursor: pointer; background: transparent; color: var(--ink); text-align: left; font: inherit; }
+.m[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: -1px; }
+.m .dot { width: 12px; height: 12px; border-radius: 50%; }
+.m .nm { font-size: 0.9rem; min-width: 0; }
+.m .sub { display: block; font: 0.72rem var(--f-data); color: var(--muted); }
+.st { font: 500 0.7rem var(--f-data); padding: 3px 6px; border-radius: 3px; white-space: nowrap; }
+.st.done { color: var(--done); background: var(--done-bg); }
+.st.skip { color: var(--skip); background: var(--skip-bg); }
+.st.todo { color: var(--muted); border: 1px solid var(--rule); }
+.acts { display: flex; flex-wrap: wrap; gap: 6px; }
+button.b { font: 500 0.82rem var(--f-body); padding: 7px 10px; border-radius: 4px; border: 1px solid var(--rule); background: var(--panel); color: var(--ink); cursor: pointer; }
+button.b.pri { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button:focus-visible, .tab:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.status { font: 0.8rem var(--f-data); color: var(--muted); min-height: 1.2em; }
+textarea { width: 100%; box-sizing: border-box; min-height: 60px; font: 0.85rem var(--f-body); color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 6px; }
+.help { font-size: 0.82rem; color: var(--muted); margin: 0; }
+@media (max-width: 820px) { .main { grid-template-columns: 1fr; } .list { max-height: none; } }
+</style>
+
+<div class="wrap">
+  <h1>Forearm Muscle Seeds</h1>
+  <p class="lede">Visible Human male, right forearm. Five cross-sections from elbow to wrist, viewed from below (distal), front (flexor side) up, radius on the left. Pick a muscle in the list, then click inside its belly on the photograph. One click per muscle per section is enough. If a muscle is not visible at this level, or only as a tendon, mark it "not seen". Clicks save as you go and can be moved by clicking again.</p>
+  <div class="tabs" id="tabs" role="tablist" aria-label="Sections"></div>
+  <div class="main">
+    <div class="stage">
+      <div class="imgbox" id="imgbox"><img id="img" alt="Cross-section photograph"><svg id="ov" aria-hidden="true"></svg></div>
+      <div class="bar">
+        <label><input type="checkbox" id="sep"> show dividing walls (Q166) and bone outlines</label>
+        <span id="meta"></span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="cur" id="cur">Pick a muscle below.</div>
+      <div class="acts">
+        <button class="b" id="skip" type="button">Not seen at this level</button>
+        <button class="b" id="clear" type="button">Clear this muscle</button>
+      </div>
+      <div class="list" id="list"></div>
+      <div>
+        <p class="help">Notes for this section (anything that looks wrong, extra muscles, anomalies):</p>
+        <textarea id="note" aria-label="Notes for this section"></textarea>
+      </div>
+      <div class="status" id="status" role="status">Connecting to storage…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SECTIONS = __SECTIONS__;
+const state = { sec: 0, sel: null, seeds: {}, notes: {}, canWrite: true };
+let db = null, me = null;
+const $ = id => document.getElementById(id);
+const key = (s, m) => s + "__" + m;
+function colour(i, n) { return `hsl(${Math.round(360 * i / n)} 85% 58%)`; }
+function setStatus(t) { $("status").textContent = t; }
+
+function renderTabs() {
+  $("tabs").innerHTML = "";
+  SECTIONS.forEach((s, i) => {
+    const done = s.muscles.filter(m => state.seeds[key(s.id, m.id)]).length;
+    const b = document.createElement("button");
+    b.className = "tab"; b.type = "button"; b.setAttribute("role", "tab");
+    b.setAttribute("aria-selected", i === state.sec ? "true" : "false");
+    b.innerHTML = `${s.id} · ${s.pct}%<span class="n">${done}/${s.muscles.length}</span>`;
+    b.onclick = () => { state.sec = i; state.sel = null; render(); };
+    $("tabs").appendChild(b);
+  });
+}
+function renderImage() {
+  const s = SECTIONS[state.sec];
+  $("img").src = $("sep").checked ? s.sep : s.img;
+  $("ov").setAttribute("viewBox", `0 0 ${s.w} ${s.h}`);
+  $("meta").textContent = `${s.id}: ${s.pct}% of radius length · atlas y ≈ ${s.y} mm · ${s.px} mm/pixel`;
+  const n = s.muscles.length;
+  let g = "";
+  s.muscles.forEach((m, i) => {
+    const d = state.seeds[key(s.id, m.id)];
+    if (!d || d.status !== "placed") return;
+    const sel = state.sel === m.id;
+    g += `<circle cx="${d.x}" cy="${d.y}" r="${sel ? 9 : 7}" fill="${colour(i, n)}" stroke="#000" stroke-width="2"/>`;
+    g += `<text x="${d.x + 11}" y="${d.y + 4}" font-size="13" font-family="IBM Plex Mono, monospace" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke">${abbr(m.name)}</text>`;
+  });
+  $("ov").innerHTML = g;
+}
+function abbr(n) { return n.split(" ").map(w => w[0].toUpperCase()).join(""); }
+function renderList() {
+  const s = SECTIONS[state.sec], n = s.muscles.length;
+  $("list").innerHTML = "";
+  s.muscles.forEach((m, i) => {
+    const d = state.seeds[key(s.id, m.id)];
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "m"; b.setAttribute("aria-pressed", state.sel === m.id ? "true" : "false");
+    const st = !d ? '<span class="st todo">to do</span>' : d.status === "placed" ? '<span class="st done">placed</span>' : '<span class="st skip">not seen</span>';
+    const sub = [m.comp, m.layer, m.tb && m.tb !== "belly" ? "textbook: " + m.tb : ""].filter(Boolean).join(" · ");
+    b.innerHTML = `<span class="dot" style="background:${colour(i, n)}"></span><span class="nm">${m.name} (${abbr(m.name)})<span class="sub">${sub}</span></span>${st}`;
+    b.onclick = () => { state.sel = m.id; render(); };
+    $("list").appendChild(b);
+  });
+  const cur = s.muscles.find(m => m.id === state.sel);
+  $("cur").innerHTML = cur ? `Now placing: <b>${cur.name}</b>${cur.note ? " — " + cur.note : ""}. Click its belly on the photograph.` : "Pick a muscle below.";
+  $("note").value = state.notes[s.id] || "";
+  $("note").disabled = !state.canWrite;
+}
+function render() { renderTabs(); renderImage(); renderList(); }
+
+async function save(sid, mid, body) {
+  const k = key(sid, mid);
+  if (body) state.seeds[k] = body; else delete state.seeds[k];
+  render();
+  if (!db) { setStatus("Storage unavailable: clicks are not being saved."); return; }
+  try {
+    const ref = db.doc("seeds/" + k);
+    if (body) await ref.set({ section: sid, muscle: mid, ...body, by: me || null, t: new Date().toISOString() });
+    else await ref.delete();
+    setStatus("Saved.");
+  } catch (e) {
+    if (e && e.code === "invalid_argument") { state.canWrite = false; setStatus("You can view this page but not save to it."); }
+    else setStatus("Not saved (" + (e && e.code || "error") + "). Try again.");
+  }
+}
+
+$("img").addEventListener("click", ev => {
+  if (!state.canWrite) return;
+  const s = SECTIONS[state.sec];
+  if (!state.sel) { setStatus("Pick a muscle in the list first."); return; }
+  const r = $("img").getBoundingClientRect();
+  const x = Math.round((ev.clientX - r.left) / r.width * s.w), y = Math.round((ev.clientY - r.top) / r.height * s.h);
+  save(s.id, state.sel, { status: "placed", x, y });
+  const i = s.muscles.findIndex(m => m.id === state.sel);
+  const nxt = s.muscles.slice(i + 1).find(m => !state.seeds[key(s.id, m.id)]);
+  if (nxt) state.sel = nxt.id;
+  render();
+});
+$("skip").onclick = () => { const s = SECTIONS[state.sec]; if (state.sel && state.canWrite) save(s.id, state.sel, { status: "absent" }); };
+$("clear").onclick = () => { const s = SECTIONS[state.sec]; if (state.sel && state.canWrite) save(s.id, state.sel, null); };
+$("sep").onchange = renderImage;
+let noteTimer = null;
+$("note").addEventListener("input", () => {
+  const sid = SECTIONS[state.sec].id; state.notes[sid] = $("note").value;
+  clearTimeout(noteTimer);
+  noteTimer = setTimeout(async () => {
+    if (!db) return;
+    try { await db.doc("notes/" + sid).set({ section: sid, text: state.notes[sid], by: me || null, t: new Date().toISOString() }); setStatus("Note saved."); }
+    catch (e) { setStatus("Note not saved (" + (e && e.code || "error") + ")."); }
+  }, 900);
+});
+
+render();
+(async () => {
+  try {
+    const user = await window.claude?.use?.("user");
+    if (user) { me = await user.id(); const cw = await user.can("data.write"); if (cw === false) state.canWrite = false; }
+    db = await window.claude?.use?.("db");
+  } catch (e) { db = null; }
+  if (!db) { setStatus("Storage unavailable in this view: you can look, but clicks are not saved."); return; }
+  setStatus(state.canWrite ? "Connected. Clicks save automatically." : "View only: you can look but not save.");
+  db.collection("seeds").onSnapshot(snap => {
+    const next = {};
+    snap.docs.forEach(d => { const v = d.data(); if (v && v.section && v.muscle) next[key(v.section, v.muscle)] = { status: v.status, x: v.x, y: v.y }; });
+    state.seeds = next; render();
+  }, e => setStatus("Live updates stopped (" + e.code + "). Reload the page."));
+  db.collection("notes").onSnapshot(snap => {
+    snap.docs.forEach(d => { const v = d.data(); if (v && v.section && document.activeElement !== $("note")) state.notes[v.section] = v.text || ""; });
+    renderList();
+  }, () => {});
+})();
+</script>

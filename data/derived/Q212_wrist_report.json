@@ -1,0 +1,318 @@
+{
+ "his_wrist": {
+  "r": {
+   "segmentation": {
+    "old_carp_cm3": 23.64,
+    "radius_new_cm3": 8.43,
+    "ulna_new_cm3": 3.04,
+    "carpals_new_cm3": 23.52,
+    "old_radius_label_cm3": 6.39,
+    "carp_label_to_radius": 3.97,
+    "carp_label_to_ulna": 1.26,
+    "carp_label_to_carpals": 18.37,
+    "carp_label_to_mc": 0.03,
+    "radius_t_range_mm": [
+     -14.4,
+     30.0
+    ],
+    "carpal_t_range_mm": [
+     -48.0,
+     -3.2
+    ],
+    "seeds": {
+     "z_radius_seeds": 32992,
+     "ulna_head_seeds": 4049
+    },
+    "axis": [
+     0.4480000138282776,
+     0.6320000290870667,
+     -0.6320000290870667
+    ],
+    "origin": [
+     148.8000030517578,
+     100.33999633789062,
+     114.58000183105469
+    ]
+   },
+   "meshes": {
+    "radius_distal": {
+     "volume_cm3": 3.79,
+     "components": 1,
+     "n_vertices": 456,
+     "n_triangles": 908,
+     "photo": {
+      "in_photo_box": 0.93,
+      "within_1p5mm": 0.781,
+      "n_voxels_in_box": 28053
+     },
+     "bbox_min": [
+      120.3,
+      92.9,
+      101.5
+     ],
+     "bbox_max": [
+      154.8,
+      119.3,
+      127.1
+     ]
+    },
+    "ulna_distal": {
+     "volume_cm3": 1.24,
+     "components": 1,
+     "n_vertices": 202,
+     "n_triangles": 400,
+     "photo": {
+      "in_photo_box": 1.0,
+      "within_1p5mm": 0.989,
+      "n_voxels_in_box": 9913
+     },
+     "bbox_min": [
+      146.0,
+      78.8,
+      100.7
+     ],
+     "bbox_max": [
+      160.8,
+      99.5,
+      115.1
+     ]
+    },
+    "carpals": {
+     "volume_cm3": 18.22,
+     "components": 1,
+     "n_vertices": 2188,
+     "n_triangles": 4372,
+     "photo": {
+      "in_photo_box": 1.0,
+      "within_1p5mm": 0.979,
+      "n_voxels_in_box": 145543
+     },
+     "bbox_min": [
+      115.2,
+      54.1,
+      96.6
+     ],
+     "bbox_max": [
+      148.2,
+      107.7,
+      145.5
+     ]
+    }
+   }
+  },
+  "l": {
+   "segmentation": {
+    "old_carp_cm3": 32.49,
+    "radius_new_cm3": 8.77,
+    "ulna_new_cm3": 2.78,
+    "carpals_new_cm3": 28.88,
+    "old_radius_label_cm3": 5.81,
+    "carp_label_to_radius": 4.87,
+    "carp_label_to_ulna": 1.45,
+    "carp_label_to_carpals": 25.67,
+    "carp_label_to_mc": 0.14,
+    "radius_t_range_mm": [
+     -13.1,
+     30.0
+    ],
+    "carpal_t_range_mm": [
+     -45.1,
+     -0.8
+    ],
+    "seeds": {
+     "z_radius_seeds": 32141,
+     "ulna_head_seeds": 3922
+    },
+    "axis": [
+     -0.3409999907016754,
+     0.6840000152587891,
+     -0.6449999809265137
+    ],
+    "origin": [
+     -166.19000244140625,
+     108.61000061035156,
+     105.9000015258789
+    ]
+   },
+   "meshes": {
+    "radius_distal": {
+     "volume_cm3": 4.68,
+     "components": 1,
+     "n_vertices": 564,
+     "n_triangles": 1124,
+     "photo": {
+      "in_photo_box": 0.42,
+      "within_1p5mm": 0.645,
+      "n_voxels_in_box": 15721
+     },
+     "bbox_min": [
+      -176.1,
+      101.8,
+      92.7
+     ],
+     "bbox_max": [
+      -141.0,
+      126.3,
+      122.0
+     ]
+    },
+    "ulna_distal": {
+     "volume_cm3": 1.42,
+     "components": 1,
+     "n_vertices": 202,
+     "n_triangles": 400,
+     "photo": {
+      "in_photo_box": 0.55,
+      "within_1p5mm": 0.847,
+      "n_voxels_in_box": 6265
+     },
+     "bbox_min": [
+      -183.0,
+      90.5,
+      92.4
+     ],
+     "bbox_max": [
+      -164.6,
+      111.2,
+      105.9
+     ]
+    },
+    "carpals": {
+     "volume_cm3": 25.46,
+     "components": 1,
+     "n_vertices": 3053,
+     "n_triangles": 6110,
+     "photo": {
+      "in_photo_box": 0.99,
+      "within_1p5mm": 0.931,
+      "n_voxels_in_box": 201557
+     },
+     "bbox_min": [
+      -172.6,
+      64.0,
+      89.4
+     ],
+     "bbox_max": [
+      -116.5,
+      115.1,
+      140.7
+     ]
+    }
+   }
+  },
+  "junction_audit": {
+   "before_q203": {
+    "l": {
+     "gap_mm": 0.36,
+     "penetration_mm3": 151.9,
+     "pairs": [
+      [
+       "radius_l",
+       "carpals_l",
+       121.5,
+       1.5
+      ],
+      [
+       "ulna_l",
+       "carpals_l",
+       30.4,
+       1.5
+      ]
+     ]
+    },
+    "r": {
+     "gap_mm": 0.15,
+     "penetration_mm3": 580.6,
+     "pairs": [
+      [
+       "radius_r",
+       "carpals_r",
+       168.8,
+       1.5
+      ],
+      [
+       "ulna_r",
+       "carpals_r",
+       411.8,
+       2.12
+      ]
+     ]
+    }
+   },
+   "after_q212": {
+    "l": {
+     "gap_mm": 0.09,
+     "penetration_mm3": 357.8,
+     "pairs": [
+      [
+       "radius_l",
+       "carpals_l",
+       357.8,
+       1.5
+      ]
+     ]
+    },
+    "r": {
+     "gap_mm": 0.19,
+     "penetration_mm3": 307.1,
+     "pairs": [
+      [
+       "radius_r",
+       "carpals_r",
+       307.1,
+       2.12
+      ]
+     ]
+    }
+   }
+  },
+  "truncation_vs_Z_page": {
+   "radius_r": {
+    "old_distal_end_mm": -114.6,
+    "with_ct_end_mm": -128.6,
+    "z_page_end_mm": -132.4,
+    "gained_mm": 14.0,
+    "z_beyond_old": 17.8,
+    "z_beyond_new": 3.8
+   },
+   "ulna_r": {
+    "old_distal_end_mm": -155.6,
+    "with_ct_end_mm": -164.8,
+    "z_page_end_mm": -172.0,
+    "gained_mm": 9.3,
+    "z_beyond_old": 16.4,
+    "z_beyond_new": 7.1
+   },
+   "radius_l": {
+    "old_distal_end_mm": -90.8,
+    "with_ct_end_mm": -105.1,
+    "z_page_end_mm": -106.2,
+    "gained_mm": 14.3,
+    "z_beyond_old": 15.4,
+    "z_beyond_new": 1.1
+   },
+   "ulna_l": {
+    "old_distal_end_mm": -130.0,
+    "with_ct_end_mm": -138.6,
+    "z_page_end_mm": -150.9,
+    "gained_mm": 8.6,
+    "z_beyond_old": 20.9,
+    "z_beyond_new": 12.4
+   }
+  }
+ },
+ "her_left_wrist": {
+  "radius": {
+   "evidence_gap_min_mm": 5.74,
+   "evidence_gap_p1_mm": 8.01,
+   "mesh_gap_min_mm": 10.3
+  },
+  "ulna": {
+   "evidence_gap_min_mm": 6.23,
+   "evidence_gap_p1_mm": 9.8,
+   "mesh_gap_min_mm": 9.12
+  },
+  "carpal_evidence_to_carpals_mesh_median_mm": 1.24,
+  "registration_error_note": "Q192: photograph frame +-3 mm, bones verified at 1-4 mm; evidence precision ~50 %, thin cream edges missing"
+ }
+}
