@@ -298,14 +298,15 @@ def part_d_touch(pl, d, shots=None, tag="", part="d"):
         touch("touchStart", pts[m][0], pts[m][1])
         for k in range(1, 7):
             p = pts[min(len(pts) - 1, m + k)]; touch("touchMove", p[0], p[1]); pg.wait_for_timeout(30)
+        qa = pose_of(pg, "knee_l")[0]      # along the handle; a bar (E2) reads the finger's way ALONG it, so the wander below may take the angle back
         Hp = dots["hip_l"]
         for k in range(1, 7):
             touch("touchMove", p[0] + (Hp[0] - p[0]) * k / 6, p[1] + (Hp[1] - p[1]) * k / 6); pg.wait_for_timeout(30)
-        q1 = pose_of(pg, "knee_l")[0]
+        q1 = pose_of(pg, "knee_l")[0]; dragging = ring_state(pg)["dragging"]
         touch("touchEnd"); pg.wait_for_timeout(500)
         s = ring_state(pg)
-        check("touch: a finger on the ring turns the knee (%.0f -> %.0f) also when it wanders over the hip; hip unchanged; still held" % (q0, q1),
-              abs(q1 - q0) > 5 and pose_of(pg, "hip_l") == hq0 and s.get("held") == "knee_l")
+        check("touch: a finger on the %s turns the knee (%.0f -> %.0f) and the knee stays the one being turned while the finger wanders over the hip (-> %.0f, dragging %s); hip unchanged; still held" % (
+            "bar" if g.get("bar") else "ring", q0, qa, q1, dragging), abs(qa - q0) > 5 and dragging and pose_of(pg, "hip_l") == hq0 and s.get("held") == "knee_l")
         dots = {x[0]: x[1:] for x in s.get("dots", [])}
         if check("touch: the other joints keep their dots while one is held (hip %s)" % ("hip_l" in dots), "hip_l" in dots):
             pg.touchscreen.tap(*dots["hip_l"]); pg.wait_for_timeout(500)

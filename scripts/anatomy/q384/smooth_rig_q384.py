@@ -77,7 +77,7 @@ AXIS_SIGMA, AXIS_RATIO = 30.0, 2.5
 LIMB_R = {"leg": (120.0, 170.0), "arm": (60.0, 85.0)}      # deep tissue is the limb's within this distance of the limb axis (full, none): the chest wall beside the arm is not the arm
 import os as _os
 MUSCLE_MODE = _os.environ.get("Q384_MUSCLE", "field")      # field | ends | axis (how a muscle follows; see run())
-PIN_RAMP = 40.0                     # E3: a muscle's placed footprint on a bone goes with that bone exactly; over the next PIN_RAMP mm the muscle's own weights take over
+PIN_RAMP = float(__import__("os").environ.get("Q384_PIN_RAMP", 40.0))      # (15 and 25 were measured too: the footprints hold either way, the biceps' turn next to its radial insertion at 120 degrees of elbow flexion goes from +78 to +63 / +70 degrees, the rectus femoris' changes side; 40 kept)                     # E3: a muscle's placed footprint on a bone goes with that bone exactly; over the next PIN_RAMP mm the muscle's own weights take over
 END_MM = 60.0                       # a muscle keeps its stored (attachment) weights at its two ends and follows the limb field beyond END_MM from them
 SMOOTH_ITERS, SMOOTH_ALPHA = 4, 0.5      # 12 held the medial thigh skin back at the perineum for 30-40 mm while the adductors under it went with the thigh
 REFINE = 0.02
