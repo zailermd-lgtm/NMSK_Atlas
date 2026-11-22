@@ -33,6 +33,8 @@ ROI[0] mm, none beyond ROI[1]); everything outside keeps its stored entry byte f
     rules tried and measured are kept behind Q384_MUSCLE: "axis" (stored attachment weights, only smoothed along the
     muscle: the hamstrings then stay stretched straight from the ischium to the knee and come out through the skin under
     the flexed thigh) and "ends" (stored weights within END_MM of the two ends, the field between).
+  * E3: every muscle's placed origin / insertion footprint (data/derived/Q220_parts_z*.json) goes with the bone it is on,
+    whole; the muscle's own weights return over PIN_RAMP mm from the footprint. Measured by attach_q384.py.
   * bones, cartilage, joints, ligaments: untouched (rigid as before).
 The rig gets `blend:"dq"`: the viewer then blends the segments' motions as dual quaternions (viewer/pose/pose.js skinDQ), a
 rotation part way about the joint instead of a straight line between two rotated copies, so a tube keeps its width in a bend.
@@ -75,6 +77,7 @@ AXIS_SIGMA, AXIS_RATIO = 30.0, 2.5
 LIMB_R = {"leg": (120.0, 170.0), "arm": (60.0, 85.0)}      # deep tissue is the limb's within this distance of the limb axis (full, none): the chest wall beside the arm is not the arm
 import os as _os
 MUSCLE_MODE = _os.environ.get("Q384_MUSCLE", "field")      # field | ends | axis (how a muscle follows; see run())
+PIN_RAMP = 40.0                     # E3: a muscle's placed footprint on a bone goes with that bone exactly; over the next PIN_RAMP mm the muscle's own weights take over
 END_MM = 60.0                       # a muscle keeps its stored (attachment) weights at its two ends and follows the limb field beyond END_MM from them
 SMOOTH_ITERS, SMOOTH_ALPHA = 4, 0.5      # 12 held the medial thigh skin back at the perineum for 30-40 mm while the adductors under it went with the thigh
 REFINE = 0.02
@@ -445,6 +448,33 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
             W = rho[:, None] * W + (1 - rho[:, None]) * E
             n_axis += 1
         new[i] = (quant(W.astype(np.float32)), None)
+    # ---------------------------------------------------------------- E3: origins and insertions stay on their bones
+    # Owner, 2026-11-22: "latissimus dorsi loses its hold when the hand is abducted -- make sure origin + insertion are always
+    # kept." Measured (attach_q384.py, Base Male): before this round 38 of 488 placed bony ends came more than 5 mm off their
+    # bone in some pose (deltoid origin 24 mm, latissimus insertion 9 mm); with the limb field above and nothing else, 89 did
+    # (the hamstrings' origins left the ischium by 82 mm at 90 degrees of hip flexion). So: the vertices of a muscle within
+    # the footprint radius of one of its placed sites take the segment of the bone the site is on, whole; from there the
+    # muscle's own weights return over PIN_RAMP mm. The sites are this project's placed sites (data/derived/Q220_parts_z*.json),
+    # not new anatomy. Hands and feet keep the weights of Q338.
+    import attach_q384 as AT
+    n_pin = 0
+    by_m = {}
+    for st_ in AT.sites(key, S, old):
+        if not fine[st_["seg"]]:
+            by_m.setdefault(st_["muscle"], []).append(st_)
+    for mi, lst in by_m.items():
+        v = V[mi]
+        Wm = (new[mi][0] if mi in new else quant(E_of(mi))).astype(np.float64)
+        es = np.stack([1.0 - sstep((np.linalg.norm(v - st_["pos"], axis=1) - st_["r"]) / PIN_RAMP) for st_ in lst], 1)
+        keep = np.prod(1.0 - es, axis=1)
+        if (keep < 1).sum() == 0:
+            continue
+        share = es / np.maximum(es.sum(1, keepdims=True), 1e-12) * (1.0 - keep)[:, None]
+        Wp = keep[:, None] * Wm
+        for k_, st_ in enumerate(lst):
+            Wp[:, st_["seg"]] += share[:, k_]
+        new[mi] = (quant(Wp.astype(np.float32)), None)
+        n_pin += 1
     # ---------------------------------------------------------------- splice
     rigid, skin_l, chunks, o_ = {}, [], [], 0
     changed = 0
@@ -466,15 +496,15 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
     payload["rigid"] = [[s, v] for s, v in sorted(rigid.items())]
     payload["skin"] = skin_l
     payload["blend"] = "dq"
-    payload["q384"] = dict(muscles=MUSCLE_MODE, zones=ZONES, zone_r=[ZONE_R, ZONE_RMAX], zone_in=ZONE_IN, roi=ROI, pat_mm=PAT_MM, changed=changed,
+    payload["q384"] = dict(muscles=MUSCLE_MODE, pinned_muscles=n_pin, pin_ramp=PIN_RAMP, zones=ZONES, zone_r=[ZONE_R, ZONE_RMAX], zone_in=ZONE_IN, roi=ROI, pat_mm=PAT_MM, changed=changed,
                            note="display rule, not anatomy: limb-axis blend zones and their widths are conventions (scripts/anatomy/q384/smooth_rig_q384.py)")
     payload["notes"] = re.sub(r"\d+ skinned structures", "%d skinned structures" % len(skin_l), old["notes"]) + \
         "; Q384: soft tissue around hip, knee, shoulder and elbow re-weighted (%d structures; limb-axis blend zones = display convention), dual-quaternion blend" % changed
     nb = b"".join(chunks)
     p, nj, nw = MK.pack(payload, nb)
     if verbose:
-        print("%s: skin pieces %d (welded nodes %d of %d vertices), field structures %d, muscles re-weighted (%s) %d; re-encoded %d; skinned %d -> %d, rigid %d -> %d; weights %.0f -> %.0f KB zlib" % (
-            key, len(skin), nn, nvs, n_field, MUSCLE_MODE, n_axis, changed, len(old["skin"]), len(skin_l), sum(len(g[1]) for g in old["rigid"]), sum(len(g[1]) for g in payload["rigid"]),
+        print("%s: skin pieces %d (welded nodes %d of %d vertices), field structures %d, muscles re-weighted (%s) %d, with pinned attachment sites %d; re-encoded %d; skinned %d -> %d, rigid %d -> %d; weights %.0f -> %.0f KB zlib" % (
+            key, len(skin), nn, nvs, n_field, MUSCLE_MODE, n_axis, n_pin, changed, len(old["skin"]), len(skin_l), sum(len(g[1]) for g in old["rigid"]), sum(len(g[1]) for g in payload["rigid"]),
             len(S0["weights_zlib_b64"]) * 0.75 / 1024, nw / 1024), flush=True)
     if not dry:
         od = Path(out_dir) if out_dir else DATA

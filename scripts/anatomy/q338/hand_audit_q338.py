@@ -125,6 +125,11 @@ class Page:
     def posed(self, i, Ms):
         v = self.M.S[i]["v"]
         sg, w = self.weights(i)
+        if self.rig.get("blend") == "dq" and sg.shape[1] > 1:      # Q384: a rig that says blend:"dq" is blended as dual quaternions by the viewer (pose.js skinDQ)
+            import sys as _sys
+            _sys.path.insert(0, str(HERE.parent / "q384"))
+            import pose_replica_q384 as _PR
+            return _PR.dqs(np.asarray(v, float), sg, np.asarray(w, float), Ms)
         out = np.zeros_like(v)
         for k in range(sg.shape[1]):
             for s_ in np.unique(sg[:, k]):
