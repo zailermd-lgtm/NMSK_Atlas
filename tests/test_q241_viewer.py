@@ -163,3 +163,33 @@ def test_q384_the_dual_quaternion_blend_is_used_only_where_the_rig_asks_for_it()
         rig = _json.loads((REPO / "data/anatomy" / ("pose_rig_%s.json" % key)).read_text())["rig"]
         assert rig.get("blend") == want, key
         assert bool(rig.get("q384")) == (want == "dq"), key
+
+
+def test_q384_addendum_rings_reach_every_axis_and_the_hand_has_its_other_motions():
+    """Q384 addendum (owner, 2026-11-22). E2: "at the shoulder the rings are very far away ... it must be possible, in every pose,
+       to rotate on the permitted axes" -- the scale at a joint is read from all three world axes (it was read along one
+       in-plane direction of the ring, which blew the ring up or lost it when that direction pointed at the eye), the ring size
+       follows the room the joint has on the screen, and a ring seen edge-on is a bar. E4: the panel's "This joint only" view
+       and its tile. E5: finger abduction / adduction, thumb axial rotation, the Opposition control.
+       Verified in a browser by scripts/anatomy/q384/verify_pose_q384.py --part rph."""
+    js = (FR / "pose.js").read_text()
+    assert re.search(r"function mmPerPx\(c\)\{\s*var a = scr\(c\), s = 0, k, p, b;", js), "the scale must not depend on one direction"
+    assert "function ringPx(" in js and "function drawBar(" in js and "grab.dataset.bar" in js
+    assert "function viewSync(" in js and 'id="pz-solo"' in (FR / "pose.html").read_text() and 'id="pz-min"' in (FR / "pose.html").read_text()
+    assert "function setCouple(" in js and "function cplCell(" in js
+    import json as _json
+    for key in ("base_m", "base_f"):
+        rig = _json.loads((REPO / "data/anatomy" / ("pose_rig_%s.json" % key)).read_text())["rig"]
+        J = {j["id"]: j for j in rig["joints"]}
+        for s in "lr":
+            for k in (2, 3, 4, 5):
+                d = J["f%d_mcp_%s" % (k, s)]["dof"]
+                assert [x["k"] for x in d] == ["flex", "abd"] and d[1]["rk"] == "finger_mcp_abd" and d[1]["q0"] == 0.0, (key, k, s)
+                assert [d[1]["lo"], d[1]["hi"]] == rig["rom"]["finger_mcp_abd"][:2]
+            t = J["thumb_cmc_" + s]
+            assert [x["k"] for x in t["dof"]] == ["flex", "abd", "rot"] and t["dof"][2]["rk"] == "thumb_cmc_rot"
+            c = t["couple"][0]
+            assert c["id"] == "opp" and c["convention"] is True and [p[0] for p in c["parts"]] == ["flex", "abd", "rot"]
+            assert all([p[1], p[2]] == [x["lo"], x["hi"]] for p, x in zip(c["parts"], t["dof"]))
+        assert "ASSUMPTION" in rig["rom"]["finger_mcp_abd"][3], "the finger abduction range is an assumption and must say so"
+        assert rig["q384"]["pinned_muscles"] > 200, "E3: the muscles' placed origins and insertions are pinned to their bones"

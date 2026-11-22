@@ -80,11 +80,11 @@ def measure(site, rest, posed, M, bone_tree=None, bone_rest_gap=None):
     return out
 
 
-def table(key, rigfile=None, poses=None, S=None, verbose=True):
+def table(key, rigfile=None, poses=None, S=None, verbose=True, rig_blob=None):
     import model as MD
     if S is None:
         S = MD.Model(key).S
-    rig, blob = PR.load_rig(rigfile or REPO / "data/anatomy" / ("pose_rig_%s.json" % key))
+    rig, blob = rig_blob or PR.load_rig(rigfile or REPO / "data/anatomy" / ("pose_rig_%s.json" % key))
     W = PR.decode_all(rig, blob, S)
     blend = PR.blend_of(rig)
     st = sites(key, S, rig)

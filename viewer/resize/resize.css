@@ -1,6 +1,7 @@
 /* Q386: resize and text size for the boxes (see resize.js) */
 .q386-s{width:var(--q386-w) !important;height:var(--q386-h) !important;min-width:0 !important;min-height:0 !important;box-sizing:border-box !important}
 .q386-s,.q386-f{overflow:auto !important;max-width:var(--q386-mw,none) !important;max-height:var(--q386-mh,none) !important;overscroll-behavior:contain}
+.q386-f:not(.q386-s){min-width:var(--q386-w0,0px) !important}
 .q386-f > :not(.nm-grip):not(.nm-dots){zoom:var(--q386-z,1)}
 .q386-ov{position:fixed;display:flex;align-items:center;gap:3px;padding:1px;pointer-events:none;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
 .q386-ov[hidden]{display:none}

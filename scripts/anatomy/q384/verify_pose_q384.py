@@ -17,6 +17,11 @@ B  reads the POSED vertices back from the page (window.__poseLive) in five poses
 C  the elbow: the panel's "Elbow - Flexion (+) / extension (0)" slider and the ring both turn the forearm through
    0..150 degrees (docs/pose_rom_table.md `elbow_flex`), both sides; the rings at the elbow offer flexion wherever the
    pointer comes from.
+R  (E1 + E2) every permitted axis of every joint has a handle in every view; ring size by the joint's room on the screen;
+   real drags of the knee's bar and the elbow's flexion handle from the front, the back and an oblique view; touch.
+P  (E4) the panel's "This joint only" view and the tile.
+H  (E5) finger abduction / adduction, thumb axial rotation and the Opposition control: part_h_q384.py.
+E  (E3) every placed origin / insertion of a muscle stays on its bone: part_e_q384.py, attach_q384.py.
 D  a click on a joint holds it; the rings stay while the pointer wanders over other joints and a drag that wanders still
    turns the held joint; a second click lets go, a click on another joint switches, Escape lets go; with a mouse at
    1400x900 and with touch at 390x844; one held drag = one undo step.
@@ -239,7 +244,7 @@ def part_d_mouse(pg, shots=None, tag=""):
     pg.evaluate("() => window.__poseApi.reset()"); pg.wait_for_timeout(300)
 
 
-def part_d_touch(pl, d, shots=None, tag=""):
+def part_d_touch(pl, d, shots=None, tag="", part="d"):
     print("D. the held joint, touch 390x844", flush=True)
     srv, port = V.serve(d)
     b = pl.chromium.launch(args=V.ARGS, executable_path="/opt/pw-browsers/chromium")
@@ -257,6 +262,16 @@ def part_d_touch(pl, d, shots=None, tag=""):
             pg.wait_for_timeout(2500)
         except Exception:
             pass
+        open_pose(pg, panel=False)
+        cdp = ctx.new_cdp_session(pg)
+
+        def touch(kind, x=None, y=None):
+            cdp.send("Input.dispatchTouchEvent", {"type": kind, "touchPoints": [] if x is None else [{"x": x, "y": y}]})
+        if "r" in part or "p" in part:
+            import part_r_q384 as PRR
+            PRR.part_touch(pg, check, frame, touch)
+        if "d" not in part:
+            ctx.close(); return
         open_pose(pg, panel=False)
         frame(pg, [-80.0, -250.0, 0.0], 2300.0, az=-1.1)
         pg.wait_for_timeout(500)
@@ -276,9 +291,6 @@ def part_d_touch(pl, d, shots=None, tag=""):
         # a touch drag along the ring, then on over the hip
         g = pg.evaluate("() => window.__q384.grab(0)")
         pts = g["pts"]; m = len(pts) // 3; q0 = pose_of(pg, "knee_l")[0]; hq0 = pose_of(pg, "hip_l")[:]
-        cdp = ctx.new_cdp_session(pg)
-        def touch(kind, x=None, y=None):
-            cdp.send("Input.dispatchTouchEvent", {"type": kind, "touchPoints": [] if x is None else [{"x": x, "y": y}]})
         touch("touchStart", pts[m][0], pts[m][1])
         for k in range(1, 7):
             p = pts[min(len(pts) - 1, m + k)]; touch("touchMove", p[0], p[1]); pg.wait_for_timeout(30)
@@ -309,7 +321,7 @@ def main() -> int:
     d = Path(args[0]) if args and not args[0].startswith("--") else REPO / "build/q309/viewer_zan_atlas"
     if not d.is_absolute():
         d = REPO / d
-    part = args[args.index("--part") + 1] if "--part" in args else "bcd"
+    part = args[args.index("--part") + 1] if "--part" in args else "bcdeprh"
     shots = args[args.index("--shots") + 1] if "--shots" in args else None
     jf = args[args.index("--json") + 1] if "--json" in args else None
     tag = "F" if "female" in d.name else "M"
@@ -330,10 +342,26 @@ def main() -> int:
                 if "b" in part:
                     import part_b_q384 as PB
                     out["b"] = PB.run(pg, d, check, shots, tag)
+                if "r" in part or "p" in part:
+                    import part_r_q384 as PRR
+                    open_pose(pg, panel=False)
+                    if "r" in part:
+                        out["r"] = PRR.part_r(pg, check, frame)
+                    if "p" in part:
+                        PRR.part_p(pg, check, frame)
+                if "h" in part:
+                    import part_h_q384 as PH5
+                    open_pose(pg, panel=False)
+                    PH5.run(pg, check)
+                if "e" in part:
+                    import part_e_q384 as PE
+                    pg.wait_for_function("window.__poseApi && __poseApi.ready()", timeout=180000)
+                    pg.evaluate(JS_LIB)
+                    out["e"] = PE.run(pg, d, check)
             finally:
                 b.close(); srv.terminate()
-            if "d" in part:
-                part_d_touch(pl, copy, shots, tag)
+            if "d" in part or "r" in part or "p" in part:
+                part_d_touch(pl, copy, shots, tag, part)
     finally:
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)

@@ -448,6 +448,9 @@ html.pose-on #pm-layer{display:none!important}
 #pz-rings .pz-dot{fill:#fff;fill-opacity:.9;stroke:#2f7fd1;stroke-width:1.6}
 #pz-rings .pz-dlab{font-weight:500}
 #pz-rings.pz-holding .pz-rom{stroke-width:3.4}
+/* Q384 / E2: a ring seen edge-on is a straight bar with a knob */
+#pz-rings .pz-bar{stroke-linecap:round}
+#pz-rings .pz-knob{stroke:#fff;stroke-width:1.6}
 #pose-panel .pz-head .pz-hsp{flex:1 1 auto}
 #pose-panel .pz-head #pz-rings-btn{font-size:11px;min-height:24px;min-width:0;padding:2px 7px;border:1px solid #8a93a0;border-radius:6px}
 #pose-panel .pz-head #pz-rings-btn[aria-pressed="true"]{background:#2f7fd1;border-color:#2f7fd1;color:#fff}
@@ -458,6 +461,28 @@ html.pose-on #pm-layer{display:none!important}
   #pz-rings .pz-dot{fill:#0c1016}
   #pz-rings .pz-hub{fill:#0c1016;stroke:#eef2f7}
 }
+/* Q384 / E4, owner: "the POSE window takes half the screen: it must be possible to see only the joint I am pointing at and
+   changing, as one of the options, and to shrink it right down to a small tile without closing POSE." */
+#pose-panel .pz-head{flex-wrap:wrap;gap:3px 4px}
+#pose-panel .pz-head #pz-solo{font-size:11px;min-height:24px;min-width:0;padding:2px 7px;border:1px solid #8a93a0;border-radius:6px}
+#pose-panel .pz-head #pz-solo[aria-pressed="true"]{background:#2f7fd1;border-color:#2f7fd1;color:#fff}
+#pose-panel .pz-tname{display:none;font-size:11.5px;margin-left:7px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+#pose-panel .pz-solo-hint{display:none;font-size:11.5px;opacity:.85;margin:4px 0 8px}
+#pose-panel.pz-solo:not(.pz-focus) .pz-solo-hint{display:block}
+#pose-panel.pz-solo .pz-presets,#pose-panel.pz-solo .pz-help,#pose-panel.pz-solo .pz-gb,#pose-panel.pz-solo .pz-g:not(.pz-has),
+#pose-panel.pz-solo .pz-row:not(.pz-on),#pose-panel.pz-solo .pz-cell:not(.pz-on){display:none !important}
+#pose-panel.pz-solo .pz-g.pz-has .pz-rows{display:block !important}
+#pose-panel.pz-solo{max-height:min(46vh,calc(100vh - 150px))}
+#pose-panel.pz-tile{width:auto;min-width:0;max-width:min(300px,calc(100vw - 20px));max-height:none}
+#pose-panel.pz-tile .pz-badge,#pose-panel.pz-tile .pz-body,#pose-panel.pz-tile .pz-status,#pose-panel.pz-tile #pz-rings-btn,#pose-panel.pz-tile #pz-solo,#pose-panel.pz-tile .q344-tg{display:none !important}
+#pose-panel.pz-tile .pz-head{padding:5px 8px;flex-wrap:nowrap;cursor:pointer}
+#pose-panel.pz-tile .pz-tname{display:inline-block}
+@media (max-width:900px){
+  #pose-panel.pz-tile,#pose-panel.pz-tile.pz-phone{left:auto;right:8px;bottom:calc(70px + env(safe-area-inset-bottom,0px));width:auto;max-height:none !important;border-radius:12px;border-width:1px;padding-bottom:0}
+  #pose-panel.pz-solo,#pose-panel.pz-solo.pz-phone{max-height:38vh}
+}
+/* Q384 / E5: a coupled control (thumb opposition) and the line that says what it is */
+#pose-panel .pz-cnote{flex:1 1 100%;font-size:10.5px;opacity:.8;margin:1px 0 4px}
 /* POSE css end */
 /* PARTS-UI css begin */
 #pm-layer,#pm-card,#pm-panel,#pm-att,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
@@ -1326,7 +1351,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 <!-- SYMVIEW html end -->
 <!-- POSE html begin -->
 <div id="pose-panel" role="dialog" aria-label="Pose controls" hidden>
-  <div class="pz-head"><b>Pose</b><span class="pz-hsp"></span><button type="button" id="pz-rings-btn" class="pz-mini" aria-pressed="false" title="Show the rotation rings on whichever joint the pointer is over, and turn the joint by dragging one of them. Click a joint (or start turning it) to hold it: its rings stay until you click the joint again or press Esc. They stay on when this panel is closed.">Rings on the model</button><button type="button" id="pz-close" aria-label="Close the pose panel">&times;</button></div>
+  <div class="pz-head"><b id="pz-title">Pose</b><span id="pz-tile-name" class="pz-tname"></span><span class="pz-hsp"></span><button type="button" id="pz-rings-btn" class="pz-mini" aria-pressed="false" title="Show the rotation rings on whichever joint the pointer is over, and turn the joint by dragging one of them. Click a joint (or start turning it) to hold it: its rings stay until you click the joint again or press Esc. They stay on when this panel is closed.">Rings on the model</button><button type="button" id="pz-solo" class="pz-mini" aria-pressed="false" title="Show only the joint the pointer is over, or the joint that is held: its sliders and nothing else. Press again for the whole list.">This joint only</button><button type="button" id="pz-min" aria-expanded="true" aria-label="Shrink the pose panel to a small tile; Pose stays on" title="Shrink to a small tile. Pose stays on and the pose is kept; press the tile to open the panel again.">&#8211;</button><button type="button" id="pz-close" aria-label="Close the pose panel">&times;</button></div>
   <div class="pz-badge" role="note"><b>Pose preview:</b> kinematic approximation, soft tissue not simulated (no collision / volume preservation). Normal ranges are population averages.</div>
   <div id="pz-body" class="pz-body"></div>
   <div id="pz-status" class="pz-status" aria-live="polite"></div>
@@ -7203,7 +7228,7 @@ var NMSKMove = (function(){
      Owner (translated): "just as every window has a drag mark, there should also be a three-dots mark that opens a menu
      relevant to that window." One helper, here, because this module owns the grips: a box gets its "⋮" the moment it
      gets its grip, inline beside an inline grip and in the next corner slot beside a corner grip. */
-  var MENUS = {}, menuEl = null, menuFor = null;
+  var MENUS = {}, menuEl = null, menuFor = null, EXTRA = null;
   function dots(b){
     var g = b._grip; if (!g) return null;
     if (b._dots && b._dots.isConnected) return b._dots;
@@ -7248,7 +7273,10 @@ var NMSKMove = (function(){
     if (cl) out.push({label:"Close", key:"close", run:cl});
     var extra = [];
     try { extra = S.items ? (S.items() || []) : []; } catch (err){ extra = []; }
-    return out.concat(extra);
+    /* Q386: items every box's menu gets from another module (text size, reset size), by box key */
+    var more = [];
+    try { more = EXTRA ? (EXTRA(b.key) || []) : []; } catch (err9){ more = []; }
+    return out.concat(extra, more);
   }
   function openMenu(b){
     closeMenu(false);
@@ -7429,6 +7457,10 @@ var NMSKMove = (function(){
     },
     restore:restore, lock:setLocked, locked:function(){ return locked; },
     menu:function(k, s){ if (k) MENUS[k] = s || {}; return api; },
+    extraItems:function(fn){ EXTRA = typeof fn === "function" ? fn : null; return api; },
+    /* Q386: a resize changed the box's own rectangle; move the stored offset by (dx, dy) so its top-left stays where the user had it */
+    shift:function(k, dx, dy){ var b = byKey[k]; if (!b || phone() || b.slot) return false; b.dx = (b.dx || 0) + dx; b.dy = (b.dy || 0) + dy; if (el(b)) apply(b, false); return true; },
+    keep:function(){ save(); return true; },
     openMenu:function(k){ var b = byKey[k]; return b ? openMenu(b) : null; },
     closeMenu:function(){ return closeMenu(false); },
     menuOpen:function(){ return menuFor ? menuFor.key : null; },
@@ -7737,19 +7769,46 @@ var NMSKLayout = (function(){
       '<label><input type="radio" name="q382-chip" value="timed" id="q382-timed"> Show it after each zoom for <input type="number" id="q382-secs" min="1" max="600" step="1" aria-label="seconds"> seconds</label>' +
       '<label><input type="radio" name="q382-chip" value="always" id="q382-always"> Always visible while zoomed</label>' +
       '<p>Hovering or touching the chip keeps it. Double-tap empty space (touch) or use <b>Zoom 1:1</b> below to return to 1:1 while it is hidden.</p>' +
+      '<h4>Text size</h4>' +
+      '<label>All boxes <select id="q386-g" aria-label="Text size of all boxes"></select></label>' +
+      '<div class="q386-rows" id="q386-rows" role="group" aria-label="Text size of one box"></div>' +
+      '<p>Each box can also have its own: the A&minus; / A+ buttons at its lower-right corner while the pointer is over it, or its three-dots menu. Text never goes under 10 px.</p>' +
       '<h4>Boxes</h4>' +
-      '<label><input type="checkbox" id="q382-lock"> Lock panels (no dragging)</label>' +
+      '<label><input type="checkbox" id="q382-lock"> Lock panels (no dragging or resizing)</label>' +
       '<div class="q382-row"><button type="button" id="q382-reset">Reset layout</button><button type="button" id="q382-show">Show zoom chip</button><button type="button" id="q382-one">Zoom 1:1</button></div>' +
-      '<p>Boxes move by their handle or by their title row. Positions are kept in this browser, separately for a desktop-width and a phone-width window.</p>';
+      '<p>Boxes move by their handle or by their title row, and change size by the grip at their lower-right corner (double-click it: back to the box&rsquo;s own size). Positions and sizes are kept in this browser, separately for a desktop-width and a phone-width window.</p>';
     function $(id){ return sec.querySelector("#" + id); }
     function paint(){
       var P = window.NMSKPinch ? NMSKPinch.prefs() : {always:false, secs:10};
       $("q382-always").checked = !!P.always; $("q382-timed").checked = !P.always; $("q382-secs").value = P.secs;
       $("q382-lock").checked = !!(window.NMSKMove && NMSKMove.locked());
+      fonts();
+    }
+    /* Q386: the all-boxes text size and one row per box that is on the screen now (a row's value "" = the all-boxes size) */
+    function opts(sel, withDefault, cur){
+      var R = window.NMSKResize, h = withDefault ? '<option value="">Default</option>' : "";
+      (R ? R.steps() : [100]).forEach(function(p){ h += '<option value="' + p + '"' + (cur === p ? " selected" : "") + ">" + p + " %</option>"; });
+      return h;
+    }
+    function fonts(){
+      var R = window.NMSKResize, g = $("q386-g"), rows = $("q386-rows"); if (!R || !g || !rows) return;
+      if (document.activeElement !== g) g.innerHTML = opts(g, false, R.global());
+      var bs = R.boxes().filter(function(b){ return b.present; }), sig = bs.map(function(b){ return b.key + ":" + (b.own ? b.pct : ""); }).join(",") + "|" + R.global();
+      if (rows.getAttribute("data-sig") === sig) return;
+      if (rows.contains(document.activeElement) && rows.getAttribute("data-sig") != null) return;
+      rows.setAttribute("data-sig", sig);
+      rows.innerHTML = "";
+      bs.forEach(function(b){
+        var l = document.createElement("label"), s = document.createElement("select");
+        l.appendChild(document.createTextNode(b.label)); s.setAttribute("data-k", b.key); s.setAttribute("aria-label", "Text size of " + b.label);
+        s.innerHTML = opts(s, true, b.own ? b.pct : -1); l.appendChild(s); rows.appendChild(l);
+      });
     }
     sec.addEventListener("change", function(e){
       var P = window.NMSKPinch, t = e.target;
       if (t.id === "q382-lock"){ if (window.NMSKMove) NMSKMove.lock(t.checked); }
+      else if (t.id === "q386-g"){ if (window.NMSKResize) NMSKResize.setGlobal(+t.value); }
+      else if (t.getAttribute && t.getAttribute("data-k")){ if (window.NMSKResize) NMSKResize.setBox(t.getAttribute("data-k"), t.value === "" ? null : +t.value); }
       else if (P){
         if (t.name === "q382-chip") P.setPrefs({always:$("q382-always").checked});
         if (t.id === "q382-secs"){ var v = Math.round(+t.value); if (v > 0) P.setPrefs({secs:v, always:false}); }
@@ -7775,7 +7834,11 @@ var NMSKLayout = (function(){
     start:function(){ if (ready || timer) return api; boot(); if (!ready) timer = setInterval(boot, 250); return api; },
     open:function(){ var p = panel(); p.hidden = false; if (window.NMSKInfo && NMSKInfo.close) NMSKInfo.close(); var s = section(); if (s.paint) s.paint(); },
     close:function(){ if (pan) pan.hidden = true; },
-    reset:function(){ return window.NMSKMove ? NMSKMove.restore() : false; },
+    reset:function(){
+      var a = window.NMSKMove ? NMSKMove.restore() : false, b = window.NMSKResize ? NMSKResize.reset() : false;
+      if (sec && sec.paint) sec.paint();
+      return !!(a || b);
+    },
     ready:function(){ return ready; },
     state:function(){ return {ready:ready, locked:!!(window.NMSKMove && NMSKMove.locked()), chip:window.NMSKPinch ? NMSKPinch.prefs() : null, boxes:SPEC.map(function(s){ return s.key; })}; }
   };
@@ -7785,6 +7848,344 @@ var NMSKLayout = (function(){
 if (typeof module !== "undefined" && module.exports) module.exports = NMSKLayout;
 </script>
 <!-- Q382 html end -->
+<!-- Q386 html begin -->
+<style>
+/* Q386: resize and text size for the boxes (see resize.js) */
+.q386-s{width:var(--q386-w) !important;height:var(--q386-h) !important;min-width:0 !important;min-height:0 !important;box-sizing:border-box !important}
+.q386-s,.q386-f{overflow:auto !important;max-width:var(--q386-mw,none) !important;max-height:var(--q386-mh,none) !important;overscroll-behavior:contain}
+.q386-f:not(.q386-s){min-width:var(--q386-w0,0px) !important}
+.q386-f > :not(.nm-grip):not(.nm-dots){zoom:var(--q386-z,1)}
+.q386-ov{position:fixed;display:flex;align-items:center;gap:3px;padding:1px;pointer-events:none;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+.q386-ov[hidden]{display:none}
+.q386-ov button,.q386-ov .q386-rz{pointer-events:auto}
+.q386-fa,.q386-fb{display:none;min-width:22px;height:20px;padding:0 4px;border-radius:5px;border:1px solid #C9CED6;background:rgba(255,255,255,.92);color:#20242B;font:600 11px/1 system-ui,sans-serif;cursor:pointer}
+.q386-ov.q386-hot .q386-fa,.q386-ov.q386-hot .q386-fb{display:inline-block}
+.q386-rz{width:16px;height:16px;border-radius:4px;cursor:nwse-resize;touch-action:none;color:#5A6270;background:rgba(255,255,255,.7);display:flex;align-items:flex-end;justify-content:flex-end;opacity:.55}
+.q386-ov.q386-hot .q386-rz,.q386-rz:hover{opacity:1}
+.q386-rz svg{display:block}
+.q386-resizing,.q386-resizing *{user-select:none !important;cursor:nwse-resize !important}
+.q386-rows{display:flex;flex-direction:column;gap:4px}
+.q386-rows label{min-height:28px;justify-content:space-between}
+.q386-rows select,.q386-set select{min-height:30px}
+</style>
+<script>
+/* Q386: owner (translated from Hebrew): "All the windows must also be allowed to shrink or grow in screen area, and scroll as needed,
+   and control of the font size."
+   Added from the outside, on top of the box machinery of Q305 / Q382 (viewer/q305/move.js knows every box; this module reads its list):
+     - SIZE: a grip at the lower-right corner of every box (a small fixed overlay that follows the box, so it is never clipped or scrolled
+       away with the box's content) drags the box's width and height, within a minimum and the viewport. A box that has been resized
+       (or has a text size) scrolls inside (overflow:auto) -- nothing is cut off without a way to reach it. Double-click the grip: back to
+       the box's own size. Desktop only: on a phone the boxes are docked sheets.
+     - TEXT SIZE: the pages' text is px-based, so a size is a CSS `zoom` on the box's direct children (text, padding and icons together, the
+       layout inside keeps its proportions; the engine canvas is never touched). A box takes the GLOBAL size (Settings) unless it has its own
+       (A- / A+ beside the grip, the box's three-dots menu, or Settings). Steps of 10 %, 80-160 %. Nothing is shown under the 10 px floor
+       of Q344: a box whose smallest text is already near it cannot shrink below the factor that keeps it at 10 px.
+     - a box that would reach past the screen at its size / text size is held to the viewport (--q386-mh / --q386-mw), and scrolls.
+   Saved per screen class in localStorage (try / catch; the page works without it). Lock (NMSKMove.lock) stops resizing as well; Reset layout
+   (NMSKLayout.reset) puts sizes and the per-box text sizes back. Nothing here names a clinical box: the list comes from NMSKMove.
+     NMSKResize.global()  .setGlobal(p)  .box(k)  .setBox(k, p|null)  .boxes()  .resetSizes()  .reset()  .state() */
+var NMSKResize = (function(){
+  "use strict";
+  var SKEY = "nmsk.q386.size", FKEY = "nmsk.q386.font", STEPS = [80, 90, 100, 110, 120, 130, 140, 150, 160];
+  var FLOOR = 10, MINW = 150, MINH = 90, PADV = 12;
+  /* bars and rows are not windows: they keep their own size and text */
+  var NOT = {control:1, hidden:1, pills:1, "m-dock":1};
+  /* windows the box registry does not list: the open group sheet (it travels with the control bar, so it only gets a text size) */
+  var EXTRA = [{key:"sheet", label:"the open group sheet", sel:"#q301-sheet", fontOnly:true}];
+  function extra(k){ for (var i = 0; i < EXTRA.length; i++) if (EXTRA[i].key === k) return EXTRA[i]; return null; }
+  var sizes = {}, fonts = {g:100, b:{}}, ov = {}, drag = null, ready = false, timer = 0, ptr = null, lastCls = null;
+
+  function M(){ return window.NMSKMove && NMSKMove.state && NMSKMove.state().on ? window.NMSKMove : null; }
+  function vw(){ return Math.max(1, window.innerWidth || document.documentElement.clientWidth || 1); }
+  function vh(){ return Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1); }
+  function phone(){ var m = M(); return !!(m && m.phone()); }
+  function sKey(){ return phone() ? SKEY + ".phone" : SKEY; }
+  function rd(k){ try { var t = localStorage.getItem(k); if (t){ var j = JSON.parse(t); if (j && typeof j === "object") return j; } } catch (e){} return null; }
+  function wr(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch (e){} }
+  function loadSizes(){ sizes = rd(sKey()) || {}; }
+  function loadFonts(){
+    var j = rd(FKEY) || {}; fonts = {g:100, b:{}};
+    if (STEPS.indexOf(+j.g) >= 0) fonts.g = +j.g;
+    if (j.b && typeof j.b === "object") Object.keys(j.b).forEach(function(k){ if (STEPS.indexOf(+j.b[k]) >= 0) fonts.b[k] = +j.b[k]; });
+  }
+  function saveSizes(){ wr(sKey(), sizes); }
+  function saveFonts(){ wr(FKEY, fonts); }
+
+  function elOf(k){
+    var x = extra(k); if (x) return document.querySelector(x.sel);
+    var m = M(), b = m && m.box(k); if (!b) return null;
+    return typeof b.el === "function" ? b.el() : document.getElementById(b.el);
+  }
+  function labelOf(k){ var x = extra(k); if (x) return x.label; var m = M(), b = m && m.box(k); return b ? (b.label || k) : k; }
+  function keys(){ var m = M(); return m ? m.keys().filter(function(k){ return !NOT[k]; }).concat(EXTRA.map(function(x){ return x.key; })) : []; }
+  function sizable(k){ var x = extra(k); return !(x && x.fontOnly); }
+  function shown(e){
+    if (!e || !e.getBoundingClientRect) return false;
+    var r = e.getBoundingClientRect();
+    return r.width > 8 && r.height > 8 && r.right > 0 && r.bottom > 0 && r.left < vw() && r.top < vh();
+  }
+  function pctOf(k){ return fonts.b[k] || fonts.g; }
+
+  /* the smallest text in a box at factor 1, so the 10 px floor can be kept at any factor */
+  function minText(e){
+    if (e._q386m && Date.now() - e._q386m.t < 2500) return e._q386m.v;
+    var m = 99, all = e.querySelectorAll("*"), n = 0, i, x, f;
+    for (i = 0; i < all.length && n < 3000; i++, n++){
+      x = all[i];
+      if (x.children.length > 0 && !x.firstChild) continue;
+      if (!/\S/.test(x.textContent || "") || /^(SCRIPT|STYLE|SVG|PATH|CANVAS)$/i.test(x.tagName)) continue;
+      f = parseFloat(getComputedStyle(x).fontSize);
+      if (f && f < m) m = f;
+    }
+    if (m === 99) m = 12;
+    e._q386m = {t:Date.now(), v:m};
+    return m;
+  }
+  function factorOf(k, e){
+    var f = pctOf(k) / 100;
+    if (f < 1){ var m = Math.max(FLOOR, minText(e)); f = Math.max(f, FLOOR / m); if (f > 1) f = 1; }
+    return f;
+  }
+
+  /* hold the box to the screen: clear our limit, measure, tighten */
+  function fit(e){
+    e.style.removeProperty("--q386-mh"); e.style.removeProperty("--q386-mw");
+    /* larger text makes the box as much wider as the text is larger (so what wrapped at 100 % wraps the same), up to the screen */
+    if (e._q386want) e.style.setProperty("--q386-w0", Math.round(Math.min(e._q386want, vw() - 2 * PADV)) + "px"); else e.style.removeProperty("--q386-w0");
+    var r = e.getBoundingClientRect();
+    if (!(r.width > 0)) return;
+    var pd = phone() ? 0 : PADV;                               /* docked sheets are full-bleed on a phone: held to the edge, not inset from it */
+    var ex = r.bottom - (vh() - pd), ey = pd - r.top;
+    if (ex > 0 && r.top < vh()) e.style.setProperty("--q386-mh", Math.max(MINH, Math.round(r.height - ex)) + "px");
+    else if (ey > 0) e.style.setProperty("--q386-mh", Math.max(MINH, Math.round(r.height - ey)) + "px");
+    var rx = r.right - (vw() - pd), lx = pd - r.left, ex2 = Math.max(rx, lx), nw;
+    if (!(ex2 > 0)) return;
+    nw = Math.max(MINW, Math.round(r.width - ex2));
+    e.style.setProperty("--q386-mw", nw + "px");
+    if (e._q386want) e.style.setProperty("--q386-w0", Math.min(Math.round(e._q386want), nw) + "px");
+  }
+
+  function applyBox(k, nofit){
+    var e = elOf(k); if (!e) return;
+    var s = (phone() || !sizable(k)) ? null : sizes[k], f = factorOf(k, e), z = Math.abs(f - 1) > 0.001;
+    var key = (s ? s.w + "x" + s.h : "-") + "|" + (z ? f.toFixed(3) : "-") + "|" + vw() + "x" + vh();
+    var was = e._q386k, needW = false;
+    if (was === key && !(z || s)) return;
+    if (s){
+      e.classList.add("q386-s");
+      e.style.setProperty("--q386-w", Math.round(s.w) + "px"); e.style.setProperty("--q386-h", Math.round(s.h) + "px");
+    } else {
+      e.classList.remove("q386-s"); e.style.removeProperty("--q386-w"); e.style.removeProperty("--q386-h");
+    }
+    if (was !== key){
+      /* the box's width at 100 % text, measured with the scaling off */
+      var w0 = 0; needW = z && f > 1 && !s && !phone();
+      if (needW){
+        e.classList.remove("q386-f"); e.style.removeProperty("--q386-w0"); e.style.removeProperty("--q386-mw");
+        w0 = e.getBoundingClientRect().width * f;
+      }
+      e._q386want = w0 > 0 ? w0 : 0;
+    }
+    if (z){ e.classList.add("q386-f"); e.style.setProperty("--q386-z", f.toFixed(3)); }
+    else { e.classList.remove("q386-f"); e.style.removeProperty("--q386-z"); }
+    if (nofit){}
+    else if (s || z){ if (was !== key || (shown(e) && !drag)) fit(e); }
+    else { e.style.removeProperty("--q386-mh"); e.style.removeProperty("--q386-mw"); }
+    e._q386k = (needW && !e._q386want) ? undefined : key;      /* a box that is not on the screen yet is measured when it comes */
+  }
+  function applyAll(){ keys().forEach(function(k){ applyBox(k); }); }
+
+  /* ---- the overlay: text size buttons and the resize grip, lower-right ---- */
+  var GRIPSVG = '<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M11 3L3 11M11 7L7 11M11 10.5L10.5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>';
+  function overlay(k){
+    if (ov[k] && ov[k].isConnected) return ov[k];
+    var d = document.createElement("div"); d.className = "q386-ov"; d.setAttribute("data-q386", k); d.hidden = true;
+    var lab = labelOf(k);
+    d.innerHTML = '<button type="button" class="q386-fa" aria-label="Smaller text in ' + lab + '" title="Smaller text">A&minus;</button>' +
+                  '<button type="button" class="q386-fb" aria-label="Larger text in ' + lab + '" title="Larger text">A+</button>' +
+                  '<div class="q386-rz" role="separator" aria-label="Resize ' + lab + '" title="Drag to resize ' + lab + ' (double-click: its own size)">' + GRIPSVG + '</div>';
+    d.querySelector(".q386-fa").addEventListener("click", function(ev){ ev.stopPropagation(); step(k, -1); });
+    d.querySelector(".q386-fb").addEventListener("click", function(ev){ ev.stopPropagation(); step(k, 1); });
+    var g = d.querySelector(".q386-rz");
+    g.addEventListener("pointerdown", function(ev){ down(k, g, ev); });
+    g.addEventListener("pointermove", move);
+    g.addEventListener("pointerup", up); g.addEventListener("pointercancel", up);
+    g.addEventListener("lostpointercapture", up);
+    g.addEventListener("dblclick", function(ev){ ev.preventDefault(); resetSize(k); });
+    document.body.appendChild(d); ov[k] = d;
+    return d;
+  }
+  function placeOverlays(){
+    var m = M(); if (!m) return;
+    var ph = phone(), lk = m.locked(), live = keys().filter(sizable);
+    live.forEach(function(k){
+      var e = elOf(k), d = ov[k];
+      var ok = e && !ph && shown(e) && !(e.parentNode && e.parentNode.closest && e.parentNode.closest("[data-nm-hosted]"));
+      if (!ok){ if (d) d.hidden = true; return; }
+      d = overlay(k);
+      var r = e.getBoundingClientRect();
+      /* hidden when another box lies over this corner */
+      var x = Math.min(vw() - 4, Math.max(2, r.right - 8)), y = Math.min(vh() - 4, Math.max(2, r.bottom - 8)), top = null, i, l;
+      try { l = document.elementsFromPoint(x, y); } catch (er){ l = []; }
+      for (i = 0; i < l.length; i++){ if (l[i].classList && l[i].classList.contains("q386-ov") || (l[i].closest && l[i].closest(".q386-ov"))) continue; top = l[i]; break; }
+      var covered = !(top && (top === e || e.contains(top)));
+      d.hidden = covered;
+      if (covered) return;
+      var rz = d.querySelector(".q386-rz"); rz.style.display = lk ? "none" : "";
+      /* anchored by its lower-right corner, so the grip stays on the box's corner whether the A- / A+ buttons are showing or not */
+      var zi = 30, n = e, q;                                     /* above the whole stacking context the box lives in */
+      while (n && n.nodeType === 1){ q = parseInt(getComputedStyle(n).zIndex, 10); if (!isNaN(q) && q > zi) zi = q; n = n.parentNode; }
+      d.style.zIndex = String(Math.min(2147483000, zi + 1));
+      var hot = !!(ptr && ptr.x >= r.left - 4 && ptr.x <= r.right + 4 && ptr.y >= r.top - 4 && ptr.y <= r.bottom + 4) || (drag && drag.k === k);
+      d.classList.toggle("q386-hot", hot);
+      d.style.left = "auto"; d.style.top = "auto";
+      d.style.right = Math.round(vw() - Math.min(vw() - 2, r.right - 3)) + "px";
+      d.style.bottom = Math.round(vh() - Math.min(vh() - 2, r.bottom - 3)) + "px";
+    });
+    Object.keys(ov).forEach(function(k){ if (live.indexOf(k) < 0 && ov[k]) ov[k].hidden = true; });
+  }
+
+  /* ---- the resize drag ---- */
+  function down(k, g, ev){
+    var m = M(); if (!m || m.locked() || phone()) return;
+    if (ev.button != null && ev.button !== 0) return;
+    var e = elOf(k); if (!e) return;
+    var r = e.getBoundingClientRect();
+    drag = {k:k, g:g, id:ev.pointerId, x:ev.clientX, y:ev.clientY, w0:r.width, h0:r.height, l0:r.left, t0:r.top, moved:false};
+    try { g.setPointerCapture(ev.pointerId); } catch (er){}
+    document.documentElement.classList.add("q386-resizing");
+    ev.preventDefault(); ev.stopPropagation();
+  }
+  function move(ev){
+    if (!drag || drag.id !== ev.pointerId) return;
+    var dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
+    if (!drag.moved && Math.abs(dx) < 3 && Math.abs(dy) < 3) return;
+    drag.moved = true;
+    var w = Math.max(MINW, Math.min(vw() - 2 * PADV, drag.w0 + dx)), h = Math.max(MINH, Math.min(vh() - 2 * PADV, drag.h0 + dy));
+    var o = sizes[drag.k] || {};
+    sizes[drag.k] = {w:Math.round(w), h:Math.round(h), sx:o.sx || 0, sy:o.sy || 0};
+    var e = elOf(drag.k); if (!e) return;
+    applyBox(drag.k, true);
+    /* keep the top-left corner where the user had it (a box the page anchors from the right or the bottom would otherwise grow the other way),
+       and the whole box on the screen */
+    var m = M(), r = e.getBoundingClientRect();
+    var tl = Math.max(PADV, Math.min(drag.l0, vw() - PADV - r.width)), tt = Math.max(PADV, Math.min(drag.t0, vh() - PADV - r.height));
+    if (m && (Math.abs(tl - r.left) > 0.5 || Math.abs(tt - r.top) > 0.5) && m.shift(drag.k, tl - r.left, tt - r.top)){
+      /* what the box was shifted by to keep its corner, kept with the size so "its own size" can undo it */
+      sizes[drag.k].sx += tl - r.left; sizes[drag.k].sy += tt - r.top;
+    }
+    fit(e);
+    ev.preventDefault(); ev.stopPropagation();
+    placeOverlays();
+  }
+  function up(ev){
+    if (!drag || (ev && drag.id !== ev.pointerId)) return;
+    var d = drag; drag = null;
+    document.documentElement.classList.remove("q386-resizing");
+    try { d.g.releasePointerCapture(d.id); } catch (er){}
+    if (d.moved){ saveSizes(); var m = M(); if (m && m.keep) m.keep(); }
+    placeOverlays();
+  }
+  document.addEventListener("pointerup", function(ev){ if (drag && drag.id === ev.pointerId) up(ev); }, true);
+  document.addEventListener("pointercancel", function(ev){ if (drag && drag.id === ev.pointerId) up(ev); }, true);
+  window.addEventListener("blur", function(){ if (drag) up(null); });
+
+  /* ---- text size ---- */
+  function step(k, dir){
+    var i = STEPS.indexOf(pctOf(k)); if (i < 0) i = STEPS.indexOf(100);
+    i = Math.max(0, Math.min(STEPS.length - 1, i + dir));
+    api.setBox(k, STEPS[i]);
+  }
+  function resetSize(k){
+    var s = sizes[k], m = M();
+    if (s && m && (s.sx || s.sy)) m.shift(k, -s.sx, -s.sy);
+    if (m && m.keep) m.keep();
+    delete sizes[k]; saveSizes();
+    var e = elOf(k); if (e){ delete e._q386k; applyBox(k); }
+    var m = M(); if (m && m.apply) m.apply(k);
+    placeOverlays();
+  }
+  function menuItems(k){
+    if (phone() && false) return [];
+    var cur = pctOf(k), own = fonts.b[k] != null;
+    var out = [{head:"Text size: " + cur + " %" + (own ? "" : " (all boxes)")},
+      {label:"Larger text", key:"font-up", run:function(){ step(k, 1); }},
+      {label:"Smaller text", key:"font-down", run:function(){ step(k, -1); }}];
+    if (own) out.push({label:"Use the all-boxes text size", key:"font-default", run:function(){ api.setBox(k, null); }});
+    if (!phone() && sizes[k]) out.push({label:"Reset size", key:"size-reset", run:function(){ resetSize(k); }});
+    return out;
+  }
+
+  function tick(){
+    var m = M(); if (!m) return;
+    var c = phone();
+    if (lastCls !== c){ lastCls = c; loadSizes(); keys().forEach(function(k){ var e = elOf(k); if (e) delete e._q386k; }); }
+    if (!drag) applyAll();
+    placeOverlays();
+  }
+  function boot(){
+    var m = M(); if (!m) return false;
+    loadSizes(); loadFonts(); lastCls = phone();
+    if (m.extraItems) m.extraItems(menuItems);
+    applyAll();
+    document.addEventListener("pointermove", function(ev){ ptr = {x:ev.clientX, y:ev.clientY, t:Date.now()}; }, {passive:true, capture:true});
+    window.addEventListener("resize", function(){ keys().forEach(function(k){ var e = elOf(k); if (e) delete e._q386k; }); setTimeout(tick, 30); });
+    timer = setInterval(tick, 400);
+    ready = true; return true;
+  }
+
+  var api = {
+    start:function(){
+      if (ready) return api;
+      var tries = 0, t = setInterval(function(){ if (boot() || ++tries > 600) clearInterval(t); }, 250);
+      if (boot()) clearInterval(t);
+      return api;
+    },
+    steps:function(){ return STEPS.slice(); },
+    global:function(){ return fonts.g; },
+    setGlobal:function(p){
+      p = +p; if (STEPS.indexOf(p) < 0) return false;
+      fonts.g = p; saveFonts();
+      keys().forEach(function(k){ var e = elOf(k); if (e) delete e._q386k; });
+      applyAll(); placeOverlays(); return true;
+    },
+    box:function(k){ return pctOf(k); },
+    setBox:function(k, p){
+      if (p == null){ delete fonts.b[k]; }
+      else { p = +p; if (STEPS.indexOf(p) < 0) return false; fonts.b[k] = p; }
+      saveFonts();
+      var e = elOf(k); if (e) delete e._q386k;
+      applyBox(k); placeOverlays(); return true;
+    },
+    factor:function(k){ var e = elOf(k); return e ? factorOf(k, e) : 1; },
+    own:function(k){ return fonts.b[k] != null; },
+    size:function(k){ return sizes[k] ? {w:sizes[k].w, h:sizes[k].h} : null; },
+    sizedKeys:function(){ return Object.keys(sizes); },
+    boxes:function(){
+      return keys().map(function(k){ var e = elOf(k); return {key:k, label:labelOf(k), present:shown(e), pct:pctOf(k), own:fonts.b[k] != null, sized:!!sizes[k]}; });
+    },
+    resetSizes:function(){
+      sizes = {}; saveSizes();
+      keys().forEach(function(k){ var e = elOf(k); if (e) delete e._q386k; });
+      applyAll(); placeOverlays(); return true;
+    },
+    /* Reset layout: sizes and the per-box text sizes (the all-boxes text size is a setting of its own and stays) */
+    reset:function(){
+      var any = Object.keys(sizes).length || Object.keys(fonts.b).length;
+      sizes = {}; fonts.b = {}; saveSizes(); saveFonts();
+      keys().forEach(function(k){ var e = elOf(k); if (e) delete e._q386k; });
+      applyAll(); placeOverlays(); return !!any;
+    },
+    tick:tick,
+    ready:function(){ return ready; },
+    state:function(){ return {ready:ready, phone:phone(), global:fonts.g, own:JSON.parse(JSON.stringify(fonts.b)), sizes:JSON.parse(JSON.stringify(sizes)), resizing:!!drag}; }
+  };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function(){ api.start(); }); else api.start();
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKResize;
+</script>
+<!-- Q386 html end -->
 <!-- Q306 html begin -->
 <style>
 /* Q306: the words the search needed, and nothing else.
@@ -13199,6 +13600,24 @@ function NMSKPose(E){
     }
     return false;
   }
+  /* Q384 / E5: a COUPLED control -- one value that sets several axes of one joint together (thumb opposition = CMC flexion +
+     palmar abduction + axial rotation, each from one end of its own range to the other). The rig names the parts and their
+     ends; that they run in step is a display convention and the panel says so. */
+  function coupleOf(id, cid){ var j = jointOf(id), L = j && j.couple ? j.couple.filter(function(c){ return c.id === cid; }) : []; return L[0] || null; }
+  function coupleValue(id, cid){
+    var j = jointOf(id), c = coupleOf(id, cid); if (!c) return null;
+    var s = 0, n = 0;
+    c.parts.forEach(function(p){
+      for (var x = 0; x < j.dof.length; x++) if (j.dof[x].k === p[0]){ s += C.clamp((st.pose.j[id][x] - p[1]) / Math.max(1e-9, p[2] - p[1]), 0, 1); n++; }
+    });
+    return n ? c.lo + (c.hi - c.lo) * s / n : null;
+  }
+  function setCouple(id, cid, v){
+    var c = coupleOf(id, cid); if (!c) return false;
+    var u = C.clamp((+v - c.lo) / Math.max(1e-9, c.hi - c.lo), 0, 1);
+    c.parts.forEach(function(p){ setJoint(id, p[0], p[1] + (p[2] - p[1]) * u); });
+    return true;
+  }
   function setRegion(id, k, v){
     var r = st.P.rig.regions.filter(function(g){ return g.id === id; })[0]; if (!r) return false;
     for (var x = 0; x < r.dof.length; x++) if (r.dof[x].k === k){ st.pose.r[id][x] = C.clamp(+v, r.dof[x].lo, r.dof[x].hi); sync(); schedule(); return true; }
@@ -13264,7 +13683,7 @@ function NMSKPose(E){
   }
   function apply(d){
     var P = JSON.parse(JSON.stringify(st.rest));
-    st.rig.joints.forEach(function(j){ if (j.driven) return; var v = d.j && d.j[j.id]; if (v && v.length === j.dof.length) P.j[j.id] = j.dof.map(function(x, i){ var n = +v[i]; return !isFinite(n) || Math.abs(n - x.q0) < 1e-6 ? x.q0 : C.clamp(n, x.lo, x.hi); }); });      /* Q384: the model's own angle is kept as it is even where it lies outside the normal range (a knee built 3 degrees hyperextended), so Undo of a turn returns to the model pose */
+    st.rig.joints.forEach(function(j){ if (j.driven) return; var v = d.j && d.j[j.id]; if (v && v.length && v.length <= j.dof.length) P.j[j.id] = j.dof.map(function(x, i){ var n = i < v.length ? +v[i] : NaN; return !isFinite(n) || Math.abs(n - x.q0) < 1e-6 ? x.q0 : C.clamp(n, x.lo, x.hi); }); });      /* E5: a pose saved before a joint got another axis (finger abduction, thumb rotation) keeps the axes it has */      /* Q384: the model's own angle is kept as it is even where it lies outside the normal range (a knee built 3 degrees hyperextended), so Undo of a turn returns to the model pose */
     st.rig.regions.forEach(function(r){
       var v = d.r && d.r[r.id];
       if (v && v.length === r.dof.length) P.r[r.id] = r.dof.map(function(x, i){ var n = +v[i]; return isFinite(n) ? C.clamp(n, x.lo, x.hi) : 0; });
@@ -13307,8 +13726,20 @@ function NMSKPose(E){
     c.appendChild(tag); c.appendChild(w); c.appendChild(nm); c.appendChild(el("span", "pz-deg", "°"));
     rg.addEventListener("input", function(){ setJoint(j.id, d.k, rg.value); });
     nm.addEventListener("change", function(){ setJoint(j.id, d.k, nm.value); });
-    cells.push({j:j.id, x:x, rg:rg, nm:nm, lo:d.lo, hi:d.hi});
+    cells.push({j:j.id, x:x, rg:rg, nm:nm, lo:d.lo, hi:d.hi, el:c});
     return c;
+  }
+  function cplCell(j, c, side){
+    var e = el("div", "pz-cell pz-cpl"), tag = el("span", "pz-sd", side === "m" ? "" : side.toUpperCase()), w = el("div", "pz-sl"), band = el("i", "pz-band");
+    band.style.left = "0%"; band.style.width = "100%";
+    var rg_ = el("input"); rg_.type = "range"; rg_.min = c.lo; rg_.max = c.hi; rg_.step = 1; rg_.setAttribute("aria-label", j.name + " " + c.l + (side === "m" ? "" : " " + side));
+    var nm = el("input", "pz-num"); nm.type = "number"; nm.min = c.lo; nm.max = c.hi; nm.step = 1; nm.setAttribute("aria-label", "value in " + (c.unit === "%" ? "percent" : "degrees"));
+    w.appendChild(band); w.appendChild(rg_);
+    e.appendChild(tag); e.appendChild(w); e.appendChild(nm); e.appendChild(el("span", "pz-deg", c.unit || "°"));
+    rg_.addEventListener("input", function(){ setCouple(j.id, c.id, rg_.value); });
+    nm.addEventListener("change", function(){ setCouple(j.id, c.id, nm.value); });
+    cells.push({j:j.id, cpl:c.id, rg:rg_, nm:nm, lo:c.lo, hi:c.hi, el:e});
+    return e;
   }
   /* Q319: one vertebra, one degree of freedom. The slider's ends ARE the level's share of the region's
      range -- the same numbers levelRange() gives setLevel -- so the control cannot ask for a motion the
@@ -13347,6 +13778,7 @@ function NMSKPose(E){
          offset -- because that is the angle the vertebra is actually at, and the only number a reader
          can check against the model. Moving the segment therefore moves all of these too. */
       var v = c.reg ? C.levelTotal(st.pose, c.reg, c.lv, c.x)
+                    : c.cpl ? coupleValue(c.j, c.cpl)
                     : c.j ? st.pose.j[c.j][c.x] : st.pose.r[c.r][c.x];
       c.rg.value = v; c.nm.value = Math.round(v);
     });
@@ -13369,6 +13801,7 @@ function NMSKPose(E){
     var sv = el("div", "pz-save");
     [["Save pose", save], ["Load pose", loadSaved]].forEach(function(p){ var b = el("button", "pz-btn", p[0]); b.type = "button"; b.addEventListener("click", p[1]); sv.appendChild(b); });
     pr.appendChild(sv);
+    body.appendChild(el("p", "pz-solo-hint", "Point at a joint on the model, or click it to hold it: its sliders appear here. The spine, the presets and the whole list are in the full view (press \u201cThis joint only\u201d again)."));
     body.appendChild(pr);
     var ord = GROUP_ORDER.filter(function(g){ return order.indexOf(g) >= 0 }).concat(order.filter(function(g){ return GROUP_ORDER.indexOf(g) < 0; }));
     var first = true;
@@ -13393,8 +13826,20 @@ function NMSKPose(E){
           lab.title = (d.lo + " to " + d.hi + "°. " + hu(rm) + (j.note ? "  " + hu(j.note) : "")).trim();
           row.appendChild(lab);
           var cs = el("div", "pz-cells");
-          if (jr) cs.appendChild(cell(jr, x, "r")); if (jl) cs.appendChild(cell(jl, x, "l"));
+          if (jr){ cs.appendChild(cell(jr, x, "r")); cells[cells.length - 1].row = row; cells[cells.length - 1].sec = sec; }
+          if (jl){ cs.appendChild(cell(jl, x, "l")); cells[cells.length - 1].row = row; cells[cells.length - 1].sec = sec; }
           row.appendChild(cs); rows.appendChild(row);
+        });
+        (j.couple || []).forEach(function(c){
+          var key = base + "|cpl|" + c.id; if (seen[key]) return; seen[key] = 1;
+          var jr = jointOf(base + "_r"), jl = jointOf(base + "_l"), hu = window.NMSKHuman ? NMSKHuman.text : String;
+          var row = el("div", "pz-row"), lab = el("div", "pz-lab", j.name + " – " + c.l + (c.convention ? " *" : ""));
+          lab.title = hu(c.note || "");
+          row.appendChild(lab);
+          var cs = el("div", "pz-cells");
+          [[jr, "r"], [jl, "l"]].forEach(function(p){ if (p[0] && p[0].couple){ cs.appendChild(cplCell(p[0], c, p[1])); cells[cells.length - 1].row = row; cells[cells.length - 1].sec = sec; } });
+          row.appendChild(cs); rows.appendChild(row);
+          if (c.convention){ var nt = el("div", "pz-lab pz-cnote", "* " + hu(c.note || "display convention")); row.appendChild(nt); }
         });
       });
       sec.appendChild(rows); body.appendChild(sec);
@@ -13446,12 +13891,48 @@ function NMSKPose(E){
     if (rig.notes){ var p3 = el("p", "", "Rig for this page: " + hum(rig.notes)); help.appendChild(p3); }
     body.appendChild(help);
     sync();
+    view.key = ""; viewSync();
+  }
+  /* Q384 / E4: two ways to make the panel small without closing Pose. "This joint only": the list is cut down to the joint
+     under the pointer / the held joint (the last one pointed at stays while the pointer is elsewhere). The tile: only the
+     title row, with the joint's name. Both are remembered in this browser (their own key: the layout module keeps a box's
+     place, it has no store for what a box shows). Neither touches the pose or the rings. */
+  var view = {solo:false, mini:false, last:null, key:""}, VKEY = "nmsk.pose.panel.v1";
+  try { var vd = JSON.parse(localStorage.getItem(VKEY) || "null"); if (vd){ view.solo = !!vd.solo; view.mini = !!vd.mini; } } catch (err){}
+  function viewSet(o){
+    if (o && o.solo != null) view.solo = !!o.solo;
+    if (o && o.mini != null) view.mini = !!o.mini;
+    if (o && o.forget) view.last = null;
+    try { localStorage.setItem(VKEY, JSON.stringify({solo:view.solo, mini:view.mini})); } catch (err){}
+    view.key = ""; viewSync();
+    return {solo:view.solo, mini:view.mini};
+  }
+  function viewSync(){
+    if (!panel || !st.ready) return;
+    if (rg.held || rg.jid) view.last = rg.held || rg.jid;
+    var fid = rg.held || rg.jid || view.last, J = fid ? jointOf(fid) : null, k = [view.solo, view.mini, fid, rg.held].join("|");
+    if (k === view.key) return;
+    view.key = k;
+    panel.classList.toggle("pz-solo", view.solo); panel.classList.toggle("pz-tile", view.mini); panel.classList.toggle("pz-focus", !!J);
+    var sb = $("pz-solo"), mb = $("pz-min"), tn = $("pz-tile-name");
+    if (sb) sb.setAttribute("aria-pressed", String(view.solo));
+    if (mb){ mb.setAttribute("aria-expanded", String(!view.mini)); mb.textContent = view.mini ? "\u25a2" : "\u2013"; mb.setAttribute("aria-label", view.mini ? "Open the pose panel again" : "Shrink the pose panel to a small tile; Pose stays on"); }
+    if (tn) tn.textContent = J ? handleName(J) + (rg.held ? " \u2013 held" : "") : "no joint chosen";
+    var ids = J ? mates(J).map(function(o){ return o.id; }) : [], rows = [], secs = [];
+    cells.forEach(function(c){
+      if (!c.el || !c.j) return;
+      var on = ids.indexOf(c.j) >= 0;
+      c.el.classList.toggle("pz-on", on);
+      if (c.row){ if (rows.indexOf(c.row) < 0){ rows.push(c.row); c.row.classList.remove("pz-on"); } if (on) c.row.classList.add("pz-on"); }
+      if (c.sec){ if (secs.indexOf(c.sec) < 0){ secs.push(c.sec); c.sec.classList.remove("pz-has"); } if (on) c.sec.classList.add("pz-has"); }
+    });
   }
   function open(on){
     st.open = on == null ? !st.open : !!on;
     if (panel){ panel.hidden = !st.open; panel.classList.toggle("pz-phone", !!(E.isPhone && E.isPhone())); }
     if (btn) btn.setAttribute("aria-expanded", String(st.open));
     if (st.open && !body.firstChild && st.ready) buildBody();
+    if (st.open) viewSync();
     /* Q318: pressing Pose is what "marking POSE" means, so the rings come on with it -- and STAY on when the
        panel is closed again, which is the owner's "with or without the detailed window". */
     if (st.open && st.ready) ringsOn(true);
@@ -13514,10 +13995,19 @@ function NMSKPose(E){
     return {z:z, u:u, v:cross(z, u)};
   }
   function scr(p){ try { return E.toScreen ? E.toScreen(p) : null; } catch (e){ return null; } }
-  function mmPerPx(c, u){
-    var a = scr(c), b = scr([c[0] + u[0]*10, c[1] + u[1]*10, c[2] + u[2]*10]);
-    if (!a || !b) return null;
-    var d = Math.hypot(b[0] - a[0], b[1] - a[1]);
+  /* Q384 / E2: the scale of the picture AT the joint, whichever way anything points. It used to be read along one in-plane
+     direction of the ring: when that direction pointed at the eye, 10 mm of it covered almost no pixels, the "scale" came
+     out many times too large and so did the ring (the elbow's, seen from behind: 150-460 px out instead of 52) -- or there
+     was no ring at all. The three world axes together always cover the screen plane twice. */
+  function mmPerPx(c){
+    var a = scr(c), s = 0, k, p, b;
+    if (!a) return null;
+    for (k = 0; k < 3; k++){
+      p = [c[0], c[1], c[2]]; p[k] += 10; b = scr(p);
+      if (!b) return null;
+      s += (b[0] - a[0]) * (b[0] - a[0]) + (b[1] - a[1]) * (b[1] - a[1]);
+    }
+    var d = Math.sqrt(s / 2);
     return d > 0.05 ? 10 / d : null;
   }
   function svgEl(tag, at){
@@ -13536,6 +14026,7 @@ function NMSKPose(E){
     if (was && statusEl) statusEl.dataset.msg = "";
     rg.jid = null; rg.sig = ""; rg.held = null; rg.peek = null;
     if (was) chrome();      /* the status line says "Holding ..." no longer */
+    viewSync();
     if (rg.raf){ cancelAnimationFrame(rg.raf); rg.raf = 0; }
     if (rg.svg) rg.svg.textContent = "";
   }
@@ -13544,6 +14035,22 @@ function NMSKPose(E){
      for a ring 84 px out from the shoulder handed the rings to the elbow on the way, and the drag then
      started on a joint that was no longer the one under the rings. */
   var REACH = RPX[RPX.length - 1] + 26, PEEK = 30, HUB = 13;
+  /* Q384 / E2, owner: "at the shoulder the rings are very far away and, to reach them, the pointer passes over other
+     joints' rings, and the shoulder rings disappear ... it must be possible, in every pose, to rotate on the permitted axes."
+     The rings were 52 / 68 / 84 px whatever the zoom: with the whole figure on the screen that is further than the next
+     joint. Now the inner ring is 0.42 of the distance on the screen to the nearest other joint handle, between 20 and 52 px
+     (the old size, reached when zoomed in), the others in the old proportion -- so the way from a joint's hub to its own
+     rings does not cross another joint. And a ring seen edge-on (the knee's from the front) has no angle to read: it is
+     drawn as a straight BAR through the hub instead, dragged along its length, so every permitted axis can be turned from
+     every direction of view. */
+  var EDGE = 0.18;
+  function ringPx(J, c0){
+    var near = 1e9;
+    handles().forEach(function(h){ if (h.j !== J){ var d = Math.hypot(h.a[0] - c0[0], h.a[1] - c0[1]); if (d > 1 && d < near) near = d; } });
+    var b = Math.max(20, Math.min(RPX[0], 0.42 * near));
+    return [b, b * RPX[1] / RPX[0], b * RPX[2] / RPX[0]];
+  }
+  function reachOf(J, c0){ return ringPx(J, c0)[2] + 26; }
   function handles(){      /* every handle with where it is on the screen now */
     var out = [];
     st.rig.joints.forEach(function(j){
@@ -13566,10 +14073,11 @@ function NMSKPose(E){
     if (!st.ready || !E.toScreen) return null;
     var cur = rg.jid ? jointOf(rg.jid) : null;
     if (cur){
-      var cf = jointFrame(cur), ca = cf ? scr(cf.c) : null;
-      if (ca && Math.hypot(ca[0] - x, ca[1] - y) <= REACH) return cur;
+      var cf = jointFrame(cur), ca = cf ? scr(cf.c) : null, REACH = ca ? reachOf(cur, ca) : 0;      /* E2: as far as this joint's own rings reach on the screen now */
+      if (ca && Math.hypot(ca[0] - x, ca[1] - y) <= REACH) return cur;      /* inside its own rings the joint keeps them */
     }
-    return nearest(x, y, REACH);
+    var j = nearest(x, y, RPX[2] + 26), jf = j ? jointFrame(j) : null, ja = jf ? scr(jf.c) : null;
+    return ja && Math.hypot(ja[0] - x, ja[1] - y) <= reachOf(j, ja) ? j : null;
   }
   /* Q384, owner: "when a joint is chosen for moving -- stay moving its parts until another click on the joint, then it lets
      go." A click on a joint's hub (or the start of a turn on one of its rings) HOLDS that joint: its rings stay wherever the
@@ -13614,26 +14122,71 @@ function NMSKPose(E){
     }
     return out;
   }
+  /* how open a ring looks from here: the two in-plane directions on the screen, the ratio of the ellipse's axes (0 = edge-on)
+     and the direction of its long axis */
+  function openness(c, B, r){
+    var o = scr(c), pu = scr([c[0] + B.u[0]*r, c[1] + B.u[1]*r, c[2] + B.u[2]*r]), pv = scr([c[0] + B.v[0]*r, c[1] + B.v[1]*r, c[2] + B.v[2]*r]);
+    if (!o || !pu || !pv) return null;
+    var a = pu[0] - o[0], b = pv[0] - o[0], cc = pu[1] - o[1], d = pv[1] - o[1];
+    var s1 = a*a + b*b + cc*cc + d*d, det = a*d - b*cc, disc = Math.sqrt(Math.max(0, s1*s1 - 4*det*det));
+    var big = Math.sqrt((s1 + disc) / 2), small = Math.sqrt(Math.max(0, (s1 - disc) / 2));
+    /* the long axis: the eigenvector of M M^T for the larger eigenvalue */
+    var m00 = a*a + b*b, m01 = a*cc + b*d, m11 = cc*cc + d*d, l = (s1 + disc) / 2, ex = m01, ey = l - m00;
+    if (Math.abs(ex) + Math.abs(ey) < 1e-9){ ex = l - m11; ey = m01; }
+    if (Math.abs(ex) + Math.abs(ey) < 1e-9){ ex = 1; ey = 0; }
+    var n = Math.hypot(ex, ey);
+    return {ratio:big > 1e-9 ? small / big : 0, dir:[ex / n, ey / n]};
+  }
+  /* which way along the bar is "more": the way the part beyond the joint moves on the screen when the angle grows */
+  function barSign(R, dir){
+    var j = R.j, f = jointFrame(j), kids = st.rig.joints.filter(function(o){ return st.rig.segs[o.seg][1] === j.seg && !o.driven; });
+    var kf = kids.length ? jointFrame(kids[0]) : null;
+    if (!f || !kf) return 1;
+    var p = [kf.c[0] - f.c[0], kf.c[1] - f.c[1], kf.c[2] - f.c[2]], a = f.ax[R.x], v = cross(a, p);
+    var s0 = scr(kf.c), s1 = scr([kf.c[0] + v[0] * 0.2, kf.c[1] + v[1] * 0.2, kf.c[2] + v[2] * 0.2]);
+    if (!s0 || !s1) return 1;
+    return (s1[0] - s0[0]) * dir[0] + (s1[1] - s0[1]) * dir[1] < 0 ? -1 : 1;
+  }
+  function drawBar(svg, R, k, jc, open, px, qv){
+    var d = R.d, sg = barSign(R, open.dir), dx = open.dir[0] * sg, dy = open.dir[1] * sg, off = (k - 1) * 9, nx = -dy * off, ny = dx * off;
+    var L = Math.max(px, 34), x0 = jc[0] - dx * L + nx, y0 = jc[1] - dy * L + ny, x1 = jc[0] + dx * L + nx, y1 = jc[1] + dy * L + ny;
+    var tt = (qv - d.lo) / Math.max(1e-9, d.hi - d.lo); tt = tt < 0 ? 0 : tt > 1 ? 1 : tt;
+    var kx = x0 + (x1 - x0) * tt, ky = y0 + (y1 - y0) * tt;
+    svg.appendChild(svgEl("line", {x1:x0.toFixed(1), y1:y0.toFixed(1), x2:x1.toFixed(1), y2:y1.toFixed(1), class:"pz-rom pz-bar", stroke:RCOL[k]}));
+    svg.appendChild(svgEl("circle", {cx:kx.toFixed(1), cy:ky.toFixed(1), r:5, class:"pz-knob", fill:RCOL[k]}));
+    var tx = svgEl("text", {x:(x1 + 6).toFixed(1), y:(y1 - 4).toFixed(1), class:"pz-rlab", fill:RCOL[k]});
+    tx.textContent = (d.l || d.k) + " " + Math.round(qv) + "°";
+    svg.appendChild(tx);
+    var grab = svgEl("line", {x1:x0.toFixed(1), y1:y0.toFixed(1), x2:x1.toFixed(1), y2:y1.toFixed(1), class:"pz-grab pz-bargrab", stroke:RCOL[k]});
+    grab.dataset.k = k; grab.dataset.x = R.x; grab.dataset.j = R.j.id; grab.dataset.bar = [dx, dy, 2 * L].join(",");
+    grab.addEventListener("pointerdown", startDrag);
+    svg.appendChild(grab);
+  }
   function drawRings(){
     rg.raf = 0;
+    viewSync();
     var J = rg.jid ? jointOf(rg.jid) : null, F = J ? jointFrame(J) : null, c0 = F ? scr(F.c) : null;
     if (!rg.on){ if (rg.svg) rg.svg.textContent = ""; return; }
     var svg = ringSvg(), dots = dotList(c0 ? J.id : null);
     if (!c0 && !dots.length){ svg.textContent = ""; rg.sig = ""; return; }
     var set = c0 ? ringSet(J) : [], mpp0 = c0 ? mmPerPx(F.c, F.ax[0].length ? basis(F.ax[0]).u : [1, 0, 0]) : 1;
     if (c0 && !mpp0){ svg.textContent = ""; rg.sig = ""; return; }
-    var sig = (c0 ? [Math.round(c0[0]), Math.round(c0[1]), Math.round(1000 * mpp0), rg.jid, rg.held || ""].concat(set.map(function(R){ return Math.round(st.pose.j[R.j.id][R.x] * 10); })) : ["-"])
+    var sig = (c0 ? [Math.round(c0[0]), Math.round(c0[1]), Math.round(1000 * mpp0), rg.jid, rg.held || "", Math.round(ringPx(J, c0)[0]), lastMvpSig()].concat(set.map(function(R){ return Math.round(st.pose.j[R.j.id][R.x] * 10); })) : ["-"])
       .concat(dots.map(function(h){ return h.j.id + ":" + Math.round(h.a[0]) + ":" + Math.round(h.a[1]); })).join(",");
     if (sig === rg.sig) return;                   /* the camera has not moved and nothing has turned */
     rg.sig = sig;
     svg.textContent = "";
     svg.setAttribute("class", rg.held ? "pz-holding" : "");
+    var PX = c0 ? ringPx(J, c0) : RPX;
+    rg.px = PX;
     set.slice(0, 3).forEach(function(R, k){
       var j = R.j, d = R.d, f = j === J ? F : jointFrame(j), q = st.pose.j[j.id], i;
       if (!f) return;
       var jc = scr(f.c), B = basis(f.ax[R.x]), mpp = j === J ? mpp0 : mmPerPx(f.c, B.u);
       if (!jc || !mpp) return;
-      var r = RPX[k] * mpp, pts = [], arc = [];
+      var r = PX[k] * mpp, pts = [], arc = [];
+      var open = openness(f.c, B, r);
+      if (open && open.ratio < EDGE){ drawBar(svg, R, k, jc, open, PX[k], q[R.x]); return; }
       var at = function(deg){
         var t = deg * Math.PI / 180, w = [f.c[0] + r*(B.u[0]*Math.cos(t) + B.v[0]*Math.sin(t)),
                                           f.c[1] + r*(B.u[1]*Math.cos(t) + B.v[1]*Math.sin(t)),
@@ -13648,7 +14201,7 @@ function NMSKPose(E){
       if (arc.length > 1) svg.appendChild(svgEl("polyline", {points:arc.join(" "), class:"pz-rom", stroke:RCOL[k]}));
       /* the grab line is the allowed part only: you cannot start a turn from outside the range */
       var grab = svgEl("polyline", {points:(arc.length > 1 ? arc : pts).join(" "), class:"pz-grab", stroke:RCOL[k]});
-      grab.dataset.k = k; grab.dataset.x = R.x;
+      grab.dataset.k = k; grab.dataset.x = R.x; grab.dataset.r = PX[k];
       grab.dataset.j = j.id;        /* the drag starts on the joint these rings were DRAWN for */
       grab.addEventListener("pointerdown", startDrag);
       svg.appendChild(grab);
@@ -13680,6 +14233,10 @@ function NMSKPose(E){
     var tt = svgEl("title", {}); tt.textContent = held ? "Click to let go of this joint (Esc)" : "Click to hold this joint: its rings stay until you click it again";
     hh.appendChild(tt); svg.appendChild(hh);
   }
+  function lastMvpSig(){      /* the direction of view, coarsely: a ring turns into a bar (and back) without its centre moving */
+    var a = scr([0, 0, 0]), b = scr([0, 100, 0]), c = scr([100, 0, 0]);
+    return a && b && c ? [Math.round(b[0] - a[0]), Math.round(b[1] - a[1]), Math.round(c[0] - a[0]), Math.round(c[1] - a[1])].join("/") : "";
+  }
   function needDraw(){ if (rg.on && (rg.jid || rg.touch) && !rg.raf) rg.raf = requestAnimationFrame(drawRings); }
   function startDrag(e){
     var jid = e.currentTarget.dataset.j || rg.jid;
@@ -13690,11 +14247,17 @@ function NMSKPose(E){
     var k = +e.currentTarget.dataset.k, x = e.currentTarget.dataset.x == null ? k : +e.currentTarget.dataset.x, d = j.dof[x];
     if (!d) return;
     e.preventDefault(); e.stopPropagation();
-    var B = basis(f.ax[x]), mpp = mmPerPx(f.c, B.u);
-    if (!mpp) return;
-    var r = RPX[k] * mpp, a0 = plane(f.c, B, r, e.clientX, e.clientY);
-    if (a0 == null) return;
-    rg.drag = {id:j.id, k:x, key:d.k, c:f.c, B:B, r:r, a0:a0, q0:st.pose.j[j.id][x]};
+    var bar = e.currentTarget.dataset.bar;
+    if (bar){      /* a ring seen edge-on: the drag runs along the bar, its whole length = the whole allowed range */
+      var bb = bar.split(",").map(Number);
+      rg.drag = {id:j.id, k:x, key:d.k, bar:[bb[0], bb[1]], len:bb[2], x0:e.clientX, y0:e.clientY, span:d.hi - d.lo, q0:st.pose.j[j.id][x]};
+    } else {
+      var B = basis(f.ax[x]), mpp = mmPerPx(f.c, B.u);
+      if (!mpp) return;
+      var r = (+e.currentTarget.dataset.r || RPX[k]) * mpp, a0 = plane(f.c, B, r, e.clientX, e.clientY);
+      if (a0 == null) return;
+      rg.drag = {id:j.id, k:x, key:d.k, c:f.c, B:B, r:r, a0:a0, q0:st.pose.j[j.id][x]};
+    }
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err){}
     if (rg.held !== hid){ rg.held = hid; rg.peek = null; rg.sig = ""; showGroup(j.group); }      /* Q384: a turn takes hold of the joint, as a click on its hub does */
     if (statusEl) statusEl.dataset.msg = "1";
@@ -13713,6 +14276,10 @@ function NMSKPose(E){
   }
   function moveDrag(e){
     var D = rg.drag; if (!D) return;
+    if (D.bar){
+      setJoint(D.id, D.key, D.q0 + ((e.clientX - D.x0) * D.bar[0] + (e.clientY - D.y0) * D.bar[1]) / D.len * D.span);
+      rg.sig = ""; needDraw(); return;
+    }
     var a = plane(D.c, D.B, D.r, e.clientX, e.clientY);
     if (a == null) return;
     var dd = a - D.a0;
@@ -13778,6 +14345,16 @@ function NMSKPose(E){
     var rb = $("pz-rings-btn");
     if (rb) rb.addEventListener("click", function(){ ringsOn(); });
     var x = $("pz-close"); if (x) x.addEventListener("click", function(){ open(false); });
+    var sb = $("pz-solo"); if (sb) sb.addEventListener("click", function(){ viewSet({solo:!view.solo}); });
+    var mb = $("pz-min"); if (mb) mb.addEventListener("click", function(e){ e.stopPropagation(); viewSet({mini:!view.mini}); });
+    if (panel){      /* the tile opens on a press of itself -- not at the end of dragging it somewhere */
+      var px0 = 0, py0 = 0;
+      panel.addEventListener("pointerdown", function(e){ px0 = e.clientX; py0 = e.clientY; });
+      panel.addEventListener("click", function(e){
+        if (!view.mini || (e.target.closest && e.target.closest("button"))) return;
+        if (Math.hypot(e.clientX - px0, e.clientY - py0) < 6) viewSet({mini:false});
+      });
+    }
     var ph = panel && panel.querySelector(".pz-head"); if (ph && window.nmskDrag) nmskDrag(panel, ph);
     var bo = $("pose-banner-reset"); if (bo) bo.addEventListener("click", reset);
     var bp = $("pose-banner-open"); if (bp) bp.addEventListener("click", function(){ open(true); });
@@ -13799,12 +14376,15 @@ function NMSKPose(E){
       return {on:rg.on, joint:rg.jid, dragging:!!rg.drag, paths:rg.svg ? rg.svg.querySelectorAll(".pz-grab").length : 0,
               centre:f && E.toScreen ? scr(f.c) : null, axes:set.length,
               range:j ? set.map(function(R){ return [R.d.k, R.d.lo, R.d.hi]; }) : null,
-              held:rg.held, peek:rg.peek, touch:rg.touch, rings:set.map(function(R){ return [R.j.id, R.d.k]; }),
+              held:rg.held, peek:rg.peek, touch:rg.touch, rings:set.map(function(R){ return [R.j.id, R.d.k]; }), px:rg.px || null,
+              handles:rg.svg ? Array.prototype.map.call(rg.svg.querySelectorAll(".pz-grab"), function(g){ return {j:g.dataset.j, k:+g.dataset.k, x:+g.dataset.x, bar:!!g.dataset.bar}; }) : [],
               dots:rg.svg ? Array.prototype.map.call(rg.svg.querySelectorAll(".pz-hit"), function(h){ return [h.dataset.j, +h.getAttribute("cx"), +h.getAttribute("cy")]; }) : []};
     },
     /* the pointer over a joint, without a pointer. A held joint is not let go by it (Q384). */
     ringHover:function(x, y){ if (rg.held){ drawRings(); return rg.jid; } var j = jointNear(x, y); rg.jid = j ? j.id : null; rg.sig = ""; if (rg.jid) drawRings(); else hideRings(); return rg.jid; },
     ringHold:function(id){ return hold(id || null); },
+    setCouple:function(id, cid, v){ var ok = setCouple(id, cid, v); flush(); return ok; }, coupleValue:coupleValue,
+    panelView:function(o){ return o ? viewSet(o) : {solo:view.solo, mini:view.mini, focus:rg.held || rg.jid || view.last || null}; },
     ringTurn:function(k, deg){        /* what a drag does, without a pointer: the same clamp, the same door */
       var j = rg.jid ? jointOf(rg.jid) : null, R = j ? ringSet(j)[k] : null; if (!R) return false;
       var ok = setJoint(R.j.id, R.d.k, st.pose.j[R.j.id][R.x] + deg);

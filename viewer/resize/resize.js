@@ -79,22 +79,26 @@ var NMSKResize = (function(){
   /* hold the box to the screen: clear our limit, measure, tighten */
   function fit(e){
     e.style.removeProperty("--q386-mh"); e.style.removeProperty("--q386-mw");
+    /* larger text makes the box as much wider as the text is larger (so what wrapped at 100 % wraps the same), up to the screen */
+    if (e._q386want) e.style.setProperty("--q386-w0", Math.round(Math.min(e._q386want, vw() - 2 * PADV)) + "px"); else e.style.removeProperty("--q386-w0");
     var r = e.getBoundingClientRect();
     if (!(r.width > 0)) return;
-    var ex = r.bottom - (vh() - PADV), ey = PADV - r.top;
+    var pd = phone() ? 0 : PADV;                               /* docked sheets are full-bleed on a phone: held to the edge, not inset from it */
+    var ex = r.bottom - (vh() - pd), ey = pd - r.top;
     if (ex > 0 && r.top < vh()) e.style.setProperty("--q386-mh", Math.max(MINH, Math.round(r.height - ex)) + "px");
     else if (ey > 0) e.style.setProperty("--q386-mh", Math.max(MINH, Math.round(r.height - ey)) + "px");
-    var rx = r.right - (vw() - PADV), lx = PADV - r.left;
-    if (phone()){}                                             /* docked sheets are full-bleed on a phone */
-    else if (rx > 0) e.style.setProperty("--q386-mw", Math.max(MINW, Math.round(r.width - rx)) + "px");
-    else if (lx > 0) e.style.setProperty("--q386-mw", Math.max(MINW, Math.round(r.width - lx)) + "px");
+    var rx = r.right - (vw() - pd), lx = pd - r.left, ex2 = Math.max(rx, lx), nw;
+    if (!(ex2 > 0)) return;
+    nw = Math.max(MINW, Math.round(r.width - ex2));
+    e.style.setProperty("--q386-mw", nw + "px");
+    if (e._q386want) e.style.setProperty("--q386-w0", Math.min(Math.round(e._q386want), nw) + "px");
   }
 
   function applyBox(k, nofit){
     var e = elOf(k); if (!e) return;
     var s = (phone() || !sizable(k)) ? null : sizes[k], f = factorOf(k, e), z = Math.abs(f - 1) > 0.001;
     var key = (s ? s.w + "x" + s.h : "-") + "|" + (z ? f.toFixed(3) : "-") + "|" + vw() + "x" + vh();
-    var was = e._q386k;
+    var was = e._q386k, needW = false;
     if (was === key && !(z || s)) return;
     if (s){
       e.classList.add("q386-s");
@@ -102,14 +106,23 @@ var NMSKResize = (function(){
     } else {
       e.classList.remove("q386-s"); e.style.removeProperty("--q386-w"); e.style.removeProperty("--q386-h");
     }
+    if (was !== key){
+      /* the box's width at 100 % text, measured with the scaling off */
+      var w0 = 0; needW = z && f > 1 && !s && !phone();
+      if (needW){
+        e.classList.remove("q386-f"); e.style.removeProperty("--q386-w0"); e.style.removeProperty("--q386-mw");
+        w0 = e.getBoundingClientRect().width * f;
+      }
+      e._q386want = w0 > 0 ? w0 : 0;
+    }
     if (z){ e.classList.add("q386-f"); e.style.setProperty("--q386-z", f.toFixed(3)); }
     else { e.classList.remove("q386-f"); e.style.removeProperty("--q386-z"); }
     if (nofit){}
     else if (s || z){ if (was !== key || (shown(e) && !drag)) fit(e); }
     else { e.style.removeProperty("--q386-mh"); e.style.removeProperty("--q386-mw"); }
-    e._q386k = key;
+    e._q386k = (needW && !e._q386want) ? undefined : key;      /* a box that is not on the screen yet is measured when it comes */
   }
-  function applyAll(){ keys().forEach(applyBox); }
+  function applyAll(){ keys().forEach(function(k){ applyBox(k); }); }
 
   /* ---- the overlay: text size buttons and the resize grip, lower-right ---- */
   var GRIPSVG = '<svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M11 3L3 11M11 7L7 11M11 10.5L10.5 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>';

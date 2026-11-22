@@ -80,6 +80,9 @@ html.pose-on #pm-layer{display:none!important}
 #pz-rings .pz-dot{fill:#fff;fill-opacity:.9;stroke:#2f7fd1;stroke-width:1.6}
 #pz-rings .pz-dlab{font-weight:500}
 #pz-rings.pz-holding .pz-rom{stroke-width:3.4}
+/* Q384 / E2: a ring seen edge-on is a straight bar with a knob */
+#pz-rings .pz-bar{stroke-linecap:round}
+#pz-rings .pz-knob{stroke:#fff;stroke-width:1.6}
 #pose-panel .pz-head .pz-hsp{flex:1 1 auto}
 #pose-panel .pz-head #pz-rings-btn{font-size:11px;min-height:24px;min-width:0;padding:2px 7px;border:1px solid #8a93a0;border-radius:6px}
 #pose-panel .pz-head #pz-rings-btn[aria-pressed="true"]{background:#2f7fd1;border-color:#2f7fd1;color:#fff}
@@ -90,3 +93,25 @@ html.pose-on #pm-layer{display:none!important}
   #pz-rings .pz-dot{fill:#0c1016}
   #pz-rings .pz-hub{fill:#0c1016;stroke:#eef2f7}
 }
+/* Q384 / E4, owner: "the POSE window takes half the screen: it must be possible to see only the joint I am pointing at and
+   changing, as one of the options, and to shrink it right down to a small tile without closing POSE." */
+#pose-panel .pz-head{flex-wrap:wrap;gap:3px 4px}
+#pose-panel .pz-head #pz-solo{font-size:11px;min-height:24px;min-width:0;padding:2px 7px;border:1px solid #8a93a0;border-radius:6px}
+#pose-panel .pz-head #pz-solo[aria-pressed="true"]{background:#2f7fd1;border-color:#2f7fd1;color:#fff}
+#pose-panel .pz-tname{display:none;font-size:11.5px;margin-left:7px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+#pose-panel .pz-solo-hint{display:none;font-size:11.5px;opacity:.85;margin:4px 0 8px}
+#pose-panel.pz-solo:not(.pz-focus) .pz-solo-hint{display:block}
+#pose-panel.pz-solo .pz-presets,#pose-panel.pz-solo .pz-help,#pose-panel.pz-solo .pz-gb,#pose-panel.pz-solo .pz-g:not(.pz-has),
+#pose-panel.pz-solo .pz-row:not(.pz-on),#pose-panel.pz-solo .pz-cell:not(.pz-on){display:none !important}
+#pose-panel.pz-solo .pz-g.pz-has .pz-rows{display:block !important}
+#pose-panel.pz-solo{max-height:min(46vh,calc(100vh - 150px))}
+#pose-panel.pz-tile{width:auto;min-width:0;max-width:min(300px,calc(100vw - 20px));max-height:none}
+#pose-panel.pz-tile .pz-badge,#pose-panel.pz-tile .pz-body,#pose-panel.pz-tile .pz-status,#pose-panel.pz-tile #pz-rings-btn,#pose-panel.pz-tile #pz-solo,#pose-panel.pz-tile .q344-tg{display:none !important}
+#pose-panel.pz-tile .pz-head{padding:5px 8px;flex-wrap:nowrap;cursor:pointer}
+#pose-panel.pz-tile .pz-tname{display:inline-block}
+@media (max-width:900px){
+  #pose-panel.pz-tile,#pose-panel.pz-tile.pz-phone{left:auto;right:8px;bottom:calc(70px + env(safe-area-inset-bottom,0px));width:auto;max-height:none !important;border-radius:12px;border-width:1px;padding-bottom:0}
+  #pose-panel.pz-solo,#pose-panel.pz-solo.pz-phone{max-height:38vh}
+}
+/* Q384 / E5: a coupled control (thumb opposition) and the line that says what it is */
+#pose-panel .pz-cnote{flex:1 1 100%;font-size:10.5px;opacity:.8;margin:1px 0 4px}
