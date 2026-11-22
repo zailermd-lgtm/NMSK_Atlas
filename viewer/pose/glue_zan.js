@@ -61,7 +61,7 @@ poseCtl = NMSKPose({
     var m = lastMVP, w = m[3]*p[0] + m[7]*p[1] + m[11]*p[2] + m[15];
     if (!(w > 1e-6)) return null;
     var cx = m[0]*p[0] + m[4]*p[1] + m[8]*p[2] + m[12], cy = m[1]*p[0] + m[5]*p[1] + m[9]*p[2] + m[13], r = canvas.getBoundingClientRect();
-    return [r.left + (cx / w * 0.5 + 0.5) * r.width, r.top + (1 - (cy / w * 0.5 + 0.5)) * r.height];
+    return [r.left + (cx / w * 0.5 + 0.5) * r.width, r.top + (1 - (cy / w * 0.5 + 0.5)) * r.height, w];      /* [2] = depth (Q384: of two joints on one spot the nearer is offered) */
   },
   canvasRect:function(){ return canvas.getBoundingClientRect(); },
   toolbar:document.getElementById("topright"), toolClass:"pill",

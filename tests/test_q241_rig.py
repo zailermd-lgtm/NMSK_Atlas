@@ -40,7 +40,10 @@ def test_structure_coverage_and_weight_blob(key):
         assert all(0 <= s < nseg for s in pal) and len(pal) <= 255
     assert end == len(blob)
     kb = (len(zlib.compress(json.dumps(rig, separators=(",", ":")).encode(), 9)) + len(base64.b64decode(d["weights_zlib_b64"]))) / 1024
-    assert kb < (520 if key.startswith("own") else 560), kb      # embedded size stays modest (KB per page, before base64)
+    # Q384: the Base rigs carry per-vertex weights for the skin pieces that used to be rigid and exact (control) weights on every
+    # welded skin border around hip, knee, shoulder and elbow: 525 -> 758 KB (Base Male), 609 -> 850 KB (Base Female, which was
+    # already over the old 560 before that round)
+    assert kb < (520 if key.startswith("own") else 900 if key.startswith("base") else 560), kb      # embedded size stays modest (KB per page, before base64)
 
 
 @pytest.mark.parametrize("key", KEYS)

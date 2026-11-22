@@ -129,3 +129,37 @@ def test_the_z_engine_uploads_every_structure_whatever_its_system():
     assert "if (perLayer[layer] === undefined){ UNKNOWN_SYS[sys] = (UNKNOWN_SYS[sys] || 0) + 1; layer = \"bone\"; }" in ZAN
     assert "window.__layerAudit = function()" in ZAN, "the hole must be visible if it ever reopens"
     assert "var NOBATCH = OBJ.filter(function (o) { return !o.batch; })" in ZAN
+
+
+# ---------------------------------------------------------------- Q384: the held joint, the elbow's rings, the blend ------------------
+def test_q384_a_joint_is_held_until_it_is_clicked_again_and_the_elbow_has_its_flexion_ring():
+    """Q384, owner: "when a joint is chosen for moving -- stay moving its parts until another click on the joint, then it
+       lets go"; "the elbow lacks extension-flexion" (the rig and the panel had it, 0..150; the rings could not reach it,
+       because the elbow hinge and the forearm rotation are two joints 3 cm apart and the nearer one kept the rings).
+       Verified in a browser by scripts/anatomy/q384/verify_pose_q384.py --part cd."""
+    js = (FR / "pose.js").read_text()
+    assert "function hold(" in js and "rg.held" in js and "function hubClick(" in js
+    assert re.search(r"if \(rg\.held\)\{[^\n]*\n\s*var pk = ", js), "a held joint must keep its rings while the pointer is over another joint"
+    assert 'e.key === "Escape" && rg.held' in js, "Escape lets go"
+    assert "function mates(" in js and "function ringSet(" in js, "elbow + forearm (and ankle + subtalar) are one ring set"
+    # nothing of the hold stops an event in the capture phase: the page history listens there
+    esc = [ln for ln in js.splitlines() if 'e.key === "Escape" && rg.held' in ln]
+    assert len(esc) == 1 and "stopPropagation" not in esc[0] and "preventDefault" not in esc[0]
+    assert js.count("{capture:true, passive:true}") == 1, "the one pointer listener in the capture phase is passive"
+    css = (FR / "pose.css").read_text()
+    assert ".pz-hit" in css and ".pz-halo" in css
+
+
+def test_q384_the_dual_quaternion_blend_is_used_only_where_the_rig_asks_for_it():
+    """Q384: the Base rigs re-weighted by scripts/anatomy/q384/smooth_rig_q384.py say blend:"dq"; every other rig keeps the
+       linear blend it was made and verified with (the four frozen pages)."""
+    js = (FR / "pose.js").read_text()
+    assert "function skinDQ(" in js and "function dqPalette(" in js
+    assert 'rig.blend === "dq" ? new Float64Array(8 * pal.length) : null' in js
+    assert "else if (o.DQ){ C.dqPalette(o.PM, o.pal.length, o.DQ); C.skinDQ(" in js and "else C.skin(o, o.PM" in js
+    assert "if (home){ l2.pos.set(r2.pos); l2.nrm.set(r2.nrm); }" in js, "the model pose is the built geometry, copied"
+    import json as _json
+    for key, want in (("base_m", "dq"), ("base_f", "dq"), ("comb_m", None), ("own_m", None)):
+        rig = _json.loads((REPO / "data/anatomy" / ("pose_rig_%s.json" % key)).read_text())["rig"]
+        assert rig.get("blend") == want, key
+        assert bool(rig.get("q384")) == (want == "dq"), key

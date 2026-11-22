@@ -464,12 +464,23 @@ html.pose-on #pm-layer{display:none!important}
 #pz-rings .pz-hub{fill:#fff;stroke:#1c2430;stroke-width:1.2}
 #pz-rings .pz-rlab,#pz-rings .pz-jlab{font:11px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:2.6px;stroke-linejoin:round}
 #pz-rings .pz-jlab{fill:#1c2430;font-weight:600}
+/* Q384: a joint that is HELD (clicked, or being turned) keeps its rings until it is clicked again. The hub and the dots
+   are the only other parts of the overlay that take the pointer. */
+#pz-rings .pz-hit{fill:#000;fill-opacity:0;stroke:none;pointer-events:all;cursor:pointer;touch-action:manipulation}
+#pz-rings .pz-halo{fill:rgba(47,127,209,.22);stroke:#2f7fd1;stroke-width:2}
+#pz-rings .pz-hub-held{fill:#2f7fd1;stroke:#fff;stroke-width:1.6}
+#pz-rings .pz-jheld{fill:#1a5fa8}
+#pz-rings .pz-dot{fill:#fff;fill-opacity:.9;stroke:#2f7fd1;stroke-width:1.6}
+#pz-rings .pz-dlab{font-weight:500}
+#pz-rings.pz-holding .pz-rom{stroke-width:3.4}
 #pose-panel .pz-head .pz-hsp{flex:1 1 auto}
 #pose-panel .pz-head #pz-rings-btn{font-size:11px;min-height:24px;min-width:0;padding:2px 7px;border:1px solid #8a93a0;border-radius:6px}
 #pose-panel .pz-head #pz-rings-btn[aria-pressed="true"]{background:#2f7fd1;border-color:#2f7fd1;color:#fff}
 @media (prefers-color-scheme:dark){
   #pz-rings .pz-rlab,#pz-rings .pz-jlab{stroke:rgba(12,16,22,.85)}
   #pz-rings .pz-jlab{fill:#eef2f7}
+  #pz-rings .pz-jheld{fill:#8ec3ff}
+  #pz-rings .pz-dot{fill:#0c1016}
   #pz-rings .pz-hub{fill:#0c1016;stroke:#eef2f7}
 }
 /* POSE css end */
@@ -1282,7 +1293,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 <!-- SYMVIEW html end -->
 <!-- POSE html begin -->
 <div id="pose-panel" role="dialog" aria-label="Pose controls" hidden>
-  <div class="pz-head"><b>Pose</b><span class="pz-hsp"></span><button type="button" id="pz-rings-btn" class="pz-mini" aria-pressed="false" title="Show the three rotation rings on whichever joint the pointer is over, and turn the joint by dragging one of them. They stay on when this panel is closed.">Rings on the model</button><button type="button" id="pz-close" aria-label="Close the pose panel">&times;</button></div>
+  <div class="pz-head"><b>Pose</b><span class="pz-hsp"></span><button type="button" id="pz-rings-btn" class="pz-mini" aria-pressed="false" title="Show the rotation rings on whichever joint the pointer is over, and turn the joint by dragging one of them. Click a joint (or start turning it) to hold it: its rings stay until you click the joint again or press Esc. They stay on when this panel is closed.">Rings on the model</button><button type="button" id="pz-close" aria-label="Close the pose panel">&times;</button></div>
   <div class="pz-badge" role="note"><b>Pose preview:</b> kinematic approximation, soft tissue not simulated (no collision / volume preservation). Normal ranges are population averages.</div>
   <div id="pz-body" class="pz-body"></div>
   <div id="pz-status" class="pz-status" aria-live="polite"></div>
@@ -13263,6 +13274,51 @@ var NMSKPoseCore = (function(){
       if (rn){ l = Math.hypot(nx, ny, nz) || 1; on[3*v] = nx / l; on[3*v+1] = ny / l; on[3*v+2] = nz / l; }
     }
   }
+  /* Q384: the same weights, blended as DUAL QUATERNIONS. Owner: "make sure that when a joint's position changes the tissues
+     glide over one another and give a rounder and straighter look". The linear blend above puts a vertex on the straight
+     line between its two rotated copies: half way through a 90 degree bend it has moved 29% towards the joint axis, half
+     way through a 180 degree twist it is ON the axis -- a tube loses its width exactly where it bends. Here each segment's
+     motion is a unit dual quaternion (rotation + translation), the weighted sum is normalised, and the vertex gets that one
+     rigid motion: for two segments hinged at a joint it is a rotation part of the way about the SAME joint centre, so
+     tissue at the surface goes round the outside of the bend at its own radius. Used when the rig says blend:"dq" (the rigs
+     re-weighted by scripts/anatomy/q384/smooth_rig_q384.py); other rigs keep the linear blend they were made for. A display
+     rule: still no collision, no volume preservation, no soft tissue simulation.
+     dqPalette: PM (12 per segment, row-major 3x4, rigid) -> DQ (8 per segment: w x y z of the rotation, then the dual part) */
+  function dqPalette(PM, n, DQ){
+    for (var q = 0; q < n; q++){
+      var a = 12 * q, o = 8 * q, r00 = PM[a], r01 = PM[a+1], r02 = PM[a+2], r10 = PM[a+4], r11 = PM[a+5], r12 = PM[a+6], r20 = PM[a+8], r21 = PM[a+9], r22 = PM[a+10];
+      var tx = PM[a+3], ty = PM[a+7], tz = PM[a+11], tr = r00 + r11 + r22, s, w, x, y, z;
+      if (tr > 0){ s = Math.sqrt(tr + 1) * 2; w = 0.25 * s; x = (r21 - r12) / s; y = (r02 - r20) / s; z = (r10 - r01) / s; }
+      else if (r00 > r11 && r00 > r22){ s = Math.sqrt(1 + r00 - r11 - r22) * 2; w = (r21 - r12) / s; x = 0.25 * s; y = (r01 + r10) / s; z = (r02 + r20) / s; }
+      else if (r11 > r22){ s = Math.sqrt(1 + r11 - r00 - r22) * 2; w = (r02 - r20) / s; x = (r01 + r10) / s; y = 0.25 * s; z = (r12 + r21) / s; }
+      else { s = Math.sqrt(1 + r22 - r00 - r11) * 2; w = (r10 - r01) / s; x = (r02 + r20) / s; y = (r12 + r21) / s; z = 0.25 * s; }
+      DQ[o] = w; DQ[o+1] = x; DQ[o+2] = y; DQ[o+3] = z;
+      DQ[o+4] = 0.5 * (-tx*x - ty*y - tz*z); DQ[o+5] = 0.5 * (tx*w + ty*z - tz*y); DQ[o+6] = 0.5 * (-tx*z + ty*w + tz*x); DQ[o+7] = 0.5 * (tx*y - ty*x + tz*w);
+    }
+  }
+  function skinDQ(sk, DQ, rp, rn, op, on){
+    var nv = rp.length / 3, K = sk.k, v, q, s, s0, w, f;
+    var I0 = sk.idx[0], I1 = K > 1 ? sk.idx[1] : null, I2 = K > 2 ? sk.idx[2] : null, I3_ = K > 3 ? sk.idx[3] : null, W1 = K > 1 ? sk.w[0] : null, W2 = K > 2 ? sk.w[1] : null, W3 = K > 3 ? sk.w[2] : null;
+    for (v = 0; v < nv; v++){
+      var w1 = W1 ? W1[v] : 0, w2 = W2 ? W2[v] : 0, w3 = W3 ? W3[v] : 0, w0 = 255 - w1 - w2 - w3;
+      s0 = I0[v] * 8;
+      var b0 = w0 * DQ[s0], b1 = w0 * DQ[s0+1], b2 = w0 * DQ[s0+2], b3 = w0 * DQ[s0+3], b4 = w0 * DQ[s0+4], b5 = w0 * DQ[s0+5], b6 = w0 * DQ[s0+6], b7 = w0 * DQ[s0+7];
+      for (q = 1; q < K; q++){
+        w = q === 1 ? w1 : q === 2 ? w2 : w3;
+        if (w <= 0) continue;
+        s = (q === 1 ? I1 : q === 2 ? I2 : I3_)[v] * 8;
+        f = DQ[s]*DQ[s0] + DQ[s+1]*DQ[s0+1] + DQ[s+2]*DQ[s0+2] + DQ[s+3]*DQ[s0+3] < 0 ? -w : w;      /* q and -q are the same rotation: take the one on the first influence's side */
+        b0 += f * DQ[s]; b1 += f * DQ[s+1]; b2 += f * DQ[s+2]; b3 += f * DQ[s+3]; b4 += f * DQ[s+4]; b5 += f * DQ[s+5]; b6 += f * DQ[s+6]; b7 += f * DQ[s+7];
+      }
+      var n = Math.sqrt(b0*b0 + b1*b1 + b2*b2 + b3*b3) || 1;
+      var qw = b0 / n, qx = b1 / n, qy = b2 / n, qz = b3 / n, dw = b4 / n, dx = b5 / n, dy = b6 / n, dz = b7 / n;
+      var tx = 2 * (-dw*qx + dx*qw - dy*qz + dz*qy), ty = 2 * (-dw*qy + dx*qz + dy*qw - dz*qx), tz = 2 * (-dw*qz - dx*qy + dy*qx + dz*qw);
+      var m00 = 1 - 2*(qy*qy + qz*qz), m01 = 2*(qx*qy - qw*qz), m02 = 2*(qx*qz + qw*qy), m10 = 2*(qx*qy + qw*qz), m11 = 1 - 2*(qx*qx + qz*qz), m12 = 2*(qy*qz - qw*qx), m20 = 2*(qx*qz - qw*qy), m21 = 2*(qy*qz + qw*qx), m22 = 1 - 2*(qx*qx + qy*qy);
+      var x = rp[3*v], y = rp[3*v+1], z = rp[3*v+2];
+      op[3*v] = m00*x + m01*y + m02*z + tx; op[3*v+1] = m10*x + m11*y + m12*z + ty; op[3*v+2] = m20*x + m21*y + m22*z + tz;
+      if (rn){ x = rn[3*v]; y = rn[3*v+1]; z = rn[3*v+2]; on[3*v] = m00*x + m01*y + m02*z; on[3*v+1] = m10*x + m11*y + m12*z; on[3*v+2] = m20*x + m21*y + m22*z; }
+    }
+  }
   /* (decodeSkin below) */
   /* control vertices -> per-vertex weights: inverse-square-distance average of the KNN=4 nearest control vertices (control vertices keep their own), 3 largest influences renormalised.
      Same maths as scripts/anatomy/q241/make_pose_rig.py decode_weights (tests/test_q241_rig.py compares them). Done lazily, the first time a structure has to be skinned. */
@@ -13326,7 +13382,7 @@ var NMSKPoseCore = (function(){
     o.idx = I; o.w = Wb; o.k = 3; o.ready = true; o.blob = null;
   }
 
-  return {decodeSkin:decodeSkin, rotM:rotM, mul3:mul3, tr3:tr3, mv3:mv3, prepare:prepare, jointR:jointR, elevation:elevation, defaultPose:defaultPose, anatomicalPose:anatomicalPose, fk:fk, sameM:sameM, rigid:rigid, skin:skin, clamp:clamp, levelRange:levelRange, levelTotal:levelTotal};
+  return {decodeSkin:decodeSkin, dqPalette:dqPalette, skinDQ:skinDQ, rotM:rotM, mul3:mul3, tr3:tr3, mv3:mv3, prepare:prepare, jointR:jointR, elevation:elevation, defaultPose:defaultPose, anatomicalPose:anatomicalPose, fk:fk, sameM:sameM, rigid:rigid, skin:skin, clamp:clamp, levelRange:levelRange, levelTotal:levelTotal};
 })();
 
 /* Q316, owner: "RENDER and other panels should be movable on screen too". Left alone on a narrow screen, where the
@@ -13385,7 +13441,7 @@ function NMSKPose(E){
     rig.skin.forEach(function(s){
       var si = s[0], nv = s[1], K = s[2], pal = s[3], off = s[4], nc = s[5];
       if (E.nverts(si) !== nv) bad++;
-      var o = {i:si, kc:K, nc:nc, pal:Int16Array.from(pal), off:off, nv:nv, blob:blob, ready:false, k:3, idx:null, w:null, PM:new Float64Array(12 * pal.length)};
+      var o = {i:si, kc:K, nc:nc, pal:Int16Array.from(pal), off:off, nv:nv, blob:blob, ready:false, k:3, idx:null, w:null, PM:new Float64Array(12 * pal.length), DQ:rig.blend === "dq" ? new Float64Array(8 * pal.length) : null};
       st.skins.push(o); st.skinOf[si] = o; st.verts.skin += nv;
     });
     if (bad){ st.failed = "The pose rig does not match this page's geometry (" + bad + " structures differ). Pose is off."; return false; }
@@ -13410,15 +13466,24 @@ function NMSKPose(E){
     if (!st.ready) return;
     var t0 = performance.now(), n = st.rig.segs.length, s, i, q;
     C.fk(st.P, st.pose, st.M);
+    /* Q384: a segment that has not moved is the identity EXACTLY, not the identity plus the 1e-16 a product of rotations
+       leaves behind -- so a limb put back while another joint stays posed is the built geometry again, bit for bit */
+    for (s = 0; s < n; s++){
+      var ms = st.M[s];
+      if (Math.abs(ms[0] - 1) < 1e-11 && Math.abs(ms[5] - 1) < 1e-11 && Math.abs(ms[10] - 1) < 1e-11 && Math.abs(ms[1]) < 1e-11 && Math.abs(ms[2]) < 1e-11 && Math.abs(ms[4]) < 1e-11 &&
+          Math.abs(ms[6]) < 1e-11 && Math.abs(ms[8]) < 1e-11 && Math.abs(ms[9]) < 1e-11 && Math.abs(ms[3]) < 1e-9 && Math.abs(ms[7]) < 1e-9 && Math.abs(ms[11]) < 1e-9)
+        ms.set([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0]);
+    }
     var dirty = new Uint8Array(n);
     for (s = 0; s < n; s++) if (!C.sameM(st.M[s], st.last[s])) dirty[s] = 1;
-    var changed = [];
+    var changed = [], home = isRest();      /* Q384: back at the model pose a structure gets its REST arrays back, copied, so the model pose is the built geometry bit for bit whatever the blend */
     for (s = 0; s < n; s++){
       if (!dirty[s]) continue;
       var L = st.rigidBy[s];
       for (i = 0; i < L.length; i++){
         var si = L[i], r = E.rest(si), l = E.live(si);
-        C.rigid(st.M[s], r.pos, r.nrm, l.pos, l.nrm); E.touch(si); changed.push(si);
+        if (home){ l.pos.set(r.pos); l.nrm.set(r.nrm); } else C.rigid(st.M[s], r.pos, r.nrm, l.pos, l.nrm);
+        E.touch(si); changed.push(si);
       }
     }
     for (i = 0; i < st.skins.length; i++){
@@ -13428,7 +13493,10 @@ function NMSKPose(E){
       for (q = 0; q < o.pal.length; q++) o.PM.set(st.M[o.pal[q]], 12 * q);
       if (!o.ready) C.decodeSkin(o, E.rest(o.i).pos);
       var r2 = E.rest(o.i), l2 = E.live(o.i);
-      C.skin(o, o.PM, r2.pos, r2.nrm, l2.pos, l2.nrm); E.touch(o.i); changed.push(o.i);
+      if (home){ l2.pos.set(r2.pos); l2.nrm.set(r2.nrm); }
+      else if (o.DQ){ C.dqPalette(o.PM, o.pal.length, o.DQ); C.skinDQ(o, o.DQ, r2.pos, r2.nrm, l2.pos, l2.nrm); }
+      else C.skin(o, o.PM, r2.pos, r2.nrm, l2.pos, l2.nrm);
+      E.touch(o.i); changed.push(o.i);
     }
     for (s = 0; s < n; s++) if (dirty[s]) st.last[s].set(st.M[s]);
     st.ms = performance.now() - t0; st.lastChanged = changed.length; st.updates++;
@@ -13525,7 +13593,7 @@ function NMSKPose(E){
   }
   function apply(d){
     var P = JSON.parse(JSON.stringify(st.rest));
-    st.rig.joints.forEach(function(j){ if (j.driven) return; var v = d.j && d.j[j.id]; if (v && v.length === j.dof.length) P.j[j.id] = j.dof.map(function(x, i){ var n = +v[i]; return isFinite(n) ? C.clamp(n, x.lo, x.hi) : x.q0; }); });
+    st.rig.joints.forEach(function(j){ if (j.driven) return; var v = d.j && d.j[j.id]; if (v && v.length === j.dof.length) P.j[j.id] = j.dof.map(function(x, i){ var n = +v[i]; return !isFinite(n) || Math.abs(n - x.q0) < 1e-6 ? x.q0 : C.clamp(n, x.lo, x.hi); }); });      /* Q384: the model's own angle is kept as it is even where it lies outside the normal range (a knee built 3 degrees hyperextended), so Undo of a turn returns to the model pose */
     st.rig.regions.forEach(function(r){
       var v = d.r && d.r[r.id];
       if (v && v.length === r.dof.length) P.r[r.id] = r.dof.map(function(x, i){ var n = +v[i]; return isFinite(n) ? C.clamp(n, x.lo, x.hi) : 0; });
@@ -13698,7 +13766,8 @@ function NMSKPose(E){
       "values quoted from the standard references as remembered, several are assumptions). The shaded band on a slider is the normal range, the tick is the model's own pose, the faint line is 0. " +
       "An individual's range differs with age, sex and method. A model pose outside the normal range (e.g. a slightly hyperextended knee) is shown as it is and can only be moved into the range.");
     var p2 = el("p", "", "How it works: joint centres and axes are fitted to THIS page's own bones (hip and shoulder: femoral / humeral head spheres; elbow and knee: transepicondylar axis; ankle: malleoli; ...). Bones move rigidly with their segment; " +
-      "muscles, vessels, nerves, ligaments, organs and skin follow by linear-blend skinning, weights from the distance to each segment's bones (smooth near joints), so a muscle stretches between its origin and insertion on the moving bones. " +
+      "muscles, vessels, nerves, ligaments, organs and skin follow by skinning weights (from the distance to each segment's bones), so a muscle stretches between its origin and insertion on the moving bones. " +
+      (rig.blend === "dq" ? "Around the hip, knee, shoulder and elbow the skin, vessels and nerves follow a blend zone along the limb through the joint centre, and the skin is treated as one surface: where the zone lies and how long it is are display conventions of this viewer, not anatomy - a posed vein or nerve is not where it would lie in a living flexed limb. " : "") +
       "Clavicle and scapula follow the shoulder with a fixed 3:1 scapulohumeral rhythm. Pose preview: kinematic approximation, soft tissue not simulated (no collision, no volume preservation) - expect tissue to pass through bone and to stretch or crumple near extreme angles. " +
       "The clinical add-on tools (imaging, needle and the like) use the rest-pose meshes: reset the pose before using them.");
     help.appendChild(p1); help.appendChild(p2);
@@ -13727,7 +13796,28 @@ function NMSKPose(E){
      it stands now. Dragging a ring turns that one axis through setJoint(), the same door the slider uses, so
      the clamp to the range and the left/right link apply identically and the panel cannot disagree with it. */
   var RCOL = ["#d6453c", "#2f9e44", "#2f7fd1"], RPX = [52, 68, 84], I3R = [1, 0, 0, 0, 1, 0, 0, 0, 1];
-  var rg = {on:false, svg:null, jid:null, drag:null, raf:0, sig:""};
+  var rg = {on:false, svg:null, jid:null, drag:null, raf:0, sig:"", held:null, peek:null, touch:false};
+  /* Q384, owner: "the elbow lacks extension-flexion". It did not lack it in the rig or in the panel (Elbow - Flexion (+) /
+     extension (0), 0 to 150 degrees, docs/pose_rom_table.md `elbow_flex`, Zwerus 2019): the RINGS could not reach it. The
+     elbow hinge and the forearm rotation are two joints whose centres lie ~3 cm apart, the pointer met whichever was nearer
+     first and that one then kept the rings -- from the hand side that is the forearm, whose only ring is supination. The
+     same held for the ankle and the subtalar joint (9 mm apart). So: the joints of one group and side that together have at
+     most three axes and lie within 60 mm are ONE handle, drawn as one ring set (each ring about its own joint's centre and
+     axis) and picked at the first joint's centre. Every other joint is a handle of its own, as before. */
+  var MATES = {};
+  function mates(j){
+    var L = MATES[j.id];
+    if (L) return L;
+    L = st.rig.joints.filter(function(o){ return !o.driven && o.dof && o.dof.length && o.group === j.group && o.side === j.side; });
+    var n = 0, far = false;
+    L.forEach(function(o){ n += o.dof.length; if (Math.hypot(o.c[0] - L[0].c[0], o.c[1] - L[0].c[1], o.c[2] - L[0].c[2]) > 60) far = true; });
+    if (L.length < 2 || n > 3 || far || L.indexOf(j) < 0) L = [j];
+    L.forEach(function(o){ MATES[o.id] = L; });
+    return L;
+  }
+  function lead(j){ return mates(j)[0]; }
+  function ringSet(j){ var out = []; mates(j).forEach(function(o){ o.dof.forEach(function(d, x){ out.push({j:o, x:x, d:d}); }); }); return out; }
+  function handleName(j){ return (mates(j).length > 1 ? j.group : j.name) + (j.side === "l" || j.side === "r" ? " (" + j.side.toUpperCase() + ")" : ""); }
   function m12p(m, v){ return [m[0]*v[0] + m[1]*v[1] + m[2]*v[2] + m[3], m[4]*v[0] + m[5]*v[1] + m[6]*v[2] + m[7], m[8]*v[0] + m[9]*v[1] + m[10]*v[2] + m[11]]; }
   function m12r(m, v){ return [m[0]*v[0] + m[1]*v[1] + m[2]*v[2], m[4]*v[0] + m[5]*v[1] + m[6]*v[2], m[8]*v[0] + m[9]*v[1] + m[10]*v[2]]; }
   function unit(a){ var n = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/n, a[1]/n, a[2]/n]; }
@@ -13771,7 +13861,8 @@ function NMSKPose(E){
     return rg.svg;
   }
   function hideRings(){
-    rg.jid = null; rg.sig = "";
+    if (rg.held && statusEl) statusEl.dataset.msg = "";
+    rg.jid = null; rg.sig = ""; rg.held = null; rg.peek = null;
     if (rg.raf){ cancelAnimationFrame(rg.raf); rg.raf = 0; }
     if (rg.svg) rg.svg.textContent = "";
   }
@@ -13779,38 +13870,97 @@ function NMSKPose(E){
      already showing its rings KEEPS them while the pointer is anywhere inside them -- without that, reaching
      for a ring 84 px out from the shoulder handed the rings to the elbow on the way, and the drag then
      started on a joint that was no longer the one under the rings. */
-  var REACH = RPX[RPX.length - 1] + 26;
+  var REACH = RPX[RPX.length - 1] + 26, PEEK = 30, HUB = 13;
+  function handles(){      /* every handle with where it is on the screen now */
+    var out = [];
+    st.rig.joints.forEach(function(j){
+      if (j.driven || !j.dof || !j.dof.length || lead(j) !== j) return;
+      var f = jointFrame(j); if (!f) return;
+      var a = scr(f.c); if (a) out.push({j:j, a:a});
+    });
+    return out;
+  }
+  function nearest(x, y, reach){
+    var best = null, bd = 1e9;
+    var bw = 0;
+    handles().forEach(function(h){      /* two joints that project onto (almost) the same spot -- left and right seen from the side: the one nearer the eye */
+      var d = Math.hypot(h.a[0] - x, h.a[1] - y), w = h.a[2] || 0;
+      if (d < bd - 10 || (Math.abs(d - bd) <= 10 && (w && bw ? w < bw : d < bd))){ bd = d; best = h.j; bw = w; }
+    });
+    return bd <= reach ? best : null;
+  }
   function jointNear(x, y){
     if (!st.ready || !E.toScreen) return null;
-    var best = null, bd = 1e9, cur = rg.jid ? jointOf(rg.jid) : null;
+    var cur = rg.jid ? jointOf(rg.jid) : null;
     if (cur){
       var cf = jointFrame(cur), ca = cf ? scr(cf.c) : null;
       if (ca && Math.hypot(ca[0] - x, ca[1] - y) <= REACH) return cur;
     }
-    st.rig.joints.forEach(function(j){
-      if (j.driven || !j.dof || !j.dof.length) return;
-      var f = jointFrame(j); if (!f) return;
-      var a = scr(f.c); if (!a) return;
-      var d = Math.hypot(a[0] - x, a[1] - y);
-      if (d < bd){ bd = d; best = j; }
+    return nearest(x, y, REACH);
+  }
+  /* Q384, owner: "when a joint is chosen for moving -- stay moving its parts until another click on the joint, then it lets
+     go." A click on a joint's hub (or the start of a turn on one of its rings) HOLDS that joint: its rings stay wherever the
+     pointer goes, so a drag that wanders over the neighbouring joint still turns the one that was chosen. A second click
+     on the hub lets go, a click on another joint's dot takes that one instead, Escape lets go. The hub and the dots are
+     SVG targets of their own: the click never reaches the canvas, so it neither selects a structure nor turns the camera,
+     and nothing here stops an event on its way down (the page history listens in the capture phase). */
+  function hold(id){
+    var j = id ? jointOf(id) : null;
+    rg.held = j ? lead(j).id : null; rg.peek = null; rg.sig = "";
+    if (rg.held){
+      rg.jid = rg.held;
+      holdMsg();
+      showGroup(jointOf(rg.held).group);
+    } else { if (statusEl) statusEl.dataset.msg = ""; if (rg.touch) rg.jid = null; chrome(); }
+    if (rg.on){ if (rg.raf){ cancelAnimationFrame(rg.raf); rg.raf = 0; } drawRings(); }
+    return rg.held;
+  }
+  function showGroup(g){      /* the held joint's own sliders are opened in the panel, when the panel has been built */
+    if (!body) return;
+    Array.prototype.forEach.call(body.querySelectorAll(".pz-g"), function(sec){
+      var hb = sec.querySelector(".pz-gh"), rows = sec.querySelector(".pz-rows");
+      if (hb && rows && hb.textContent === g && rows.hidden){ rows.hidden = false; hb.setAttribute("aria-expanded", "true"); }
     });
-    return bd <= REACH ? best : null;
+  }
+  function hubClick(e){
+    var id = e.currentTarget.dataset.j;
+    e.preventDefault(); e.stopPropagation();
+    hold(rg.held === id ? null : id);
+  }
+  function dotList(skip){      /* the joints offered as a dot to click: on a touch screen (no hover) every handle that has room, with a mouse only the one the pointer is near while another is held */
+    var out = [];
+    if (rg.touch){
+      handles().sort(function(p, q){ return (p.a[2] || 0) - (q.a[2] || 0); }).forEach(function(h){      /* nearest the eye first: it keeps its dot where two coincide */
+        if (h.j.id === skip) return;
+        for (var i = 0; i < out.length; i++) if (Math.hypot(out[i].a[0] - h.a[0], out[i].a[1] - h.a[1]) < 30) return;
+        out.push(h);
+      });
+    } else if (rg.peek && rg.peek !== skip){
+      var pj = jointOf(rg.peek), pf = pj ? jointFrame(pj) : null, pa = pf ? scr(pf.c) : null;
+      if (pa) out.push({j:pj, a:pa});
+    }
+    return out;
   }
   function drawRings(){
     rg.raf = 0;
-    var j = rg.jid ? jointOf(rg.jid) : null, f = j ? jointFrame(j) : null, c0 = f ? scr(f.c) : null;
-    if (!rg.on || !c0){ if (rg.svg) rg.svg.textContent = ""; return; }
-    var mpp = mmPerPx(f.c, f.ax[0].length ? basis(f.ax[0]).u : [1, 0, 0]);
-    if (!mpp){ rg.svg.textContent = ""; return; }
-    var q = st.pose.j[j.id];
-    var sig = [Math.round(c0[0]), Math.round(c0[1]), Math.round(1000 * mpp), rg.jid].concat(q.map(function(v){ return Math.round(v * 10); })).join(",");
+    var J = rg.jid ? jointOf(rg.jid) : null, F = J ? jointFrame(J) : null, c0 = F ? scr(F.c) : null;
+    if (!rg.on){ if (rg.svg) rg.svg.textContent = ""; return; }
+    var svg = ringSvg(), dots = dotList(c0 ? J.id : null);
+    if (!c0 && !dots.length){ svg.textContent = ""; rg.sig = ""; return; }
+    var set = c0 ? ringSet(J) : [], mpp0 = c0 ? mmPerPx(F.c, F.ax[0].length ? basis(F.ax[0]).u : [1, 0, 0]) : 1;
+    if (c0 && !mpp0){ svg.textContent = ""; rg.sig = ""; return; }
+    var sig = (c0 ? [Math.round(c0[0]), Math.round(c0[1]), Math.round(1000 * mpp0), rg.jid, rg.held || ""].concat(set.map(function(R){ return Math.round(st.pose.j[R.j.id][R.x] * 10); })) : ["-"])
+      .concat(dots.map(function(h){ return h.j.id + ":" + Math.round(h.a[0]) + ":" + Math.round(h.a[1]); })).join(",");
     if (sig === rg.sig) return;                   /* the camera has not moved and nothing has turned */
     rg.sig = sig;
-    var svg = ringSvg();
     svg.textContent = "";
-    var n = Math.min(3, j.dof.length), k, i;
-    for (k = 0; k < n; k++){
-      var d = j.dof[k], B = basis(f.ax[k]), r = RPX[k] * mpp, pts = [], arc = [];
+    svg.setAttribute("class", rg.held ? "pz-holding" : "");
+    set.slice(0, 3).forEach(function(R, k){
+      var j = R.j, d = R.d, f = j === J ? F : jointFrame(j), q = st.pose.j[j.id], i;
+      if (!f) return;
+      var jc = scr(f.c), B = basis(f.ax[R.x]), mpp = j === J ? mpp0 : mmPerPx(f.c, B.u);
+      if (!jc || !mpp) return;
+      var r = RPX[k] * mpp, pts = [], arc = [];
       var at = function(deg){
         var t = deg * Math.PI / 180, w = [f.c[0] + r*(B.u[0]*Math.cos(t) + B.v[0]*Math.sin(t)),
                                           f.c[1] + r*(B.u[1]*Math.cos(t) + B.v[1]*Math.sin(t)),
@@ -13818,44 +13968,63 @@ function NMSKPose(E){
         return scr(w);
       };
       for (i = 0; i <= 64; i++){ var pp = at(i * 360 / 64); if (pp) pts.push(pp[0].toFixed(1) + "," + pp[1].toFixed(1)); }
-      var lo = d.lo - q[k], hi = d.hi - q[k], steps = Math.max(2, Math.round(Math.abs(hi - lo) / 4));
+      var lo = d.lo - q[R.x], hi = d.hi - q[R.x], steps = Math.max(2, Math.round(Math.abs(hi - lo) / 4));
       for (i = 0; i <= steps; i++){ var ap = at(lo + (hi - lo) * i / steps); if (ap) arc.push(ap[0].toFixed(1) + "," + ap[1].toFixed(1)); }
-      if (pts.length < 8) continue;
+      if (pts.length < 8) return;
       svg.appendChild(svgEl("polyline", {points:pts.join(" "), class:"pz-ring", stroke:RCOL[k]}));
       if (arc.length > 1) svg.appendChild(svgEl("polyline", {points:arc.join(" "), class:"pz-rom", stroke:RCOL[k]}));
       /* the grab line is the allowed part only: you cannot start a turn from outside the range */
       var grab = svgEl("polyline", {points:(arc.length > 1 ? arc : pts).join(" "), class:"pz-grab", stroke:RCOL[k]});
-      grab.dataset.k = k; grab.dataset.j = j.id;        /* the drag starts on the joint these rings were DRAWN for */
+      grab.dataset.k = k; grab.dataset.x = R.x;
+      grab.dataset.j = j.id;        /* the drag starts on the joint these rings were DRAWN for */
       grab.addEventListener("pointerdown", startDrag);
       svg.appendChild(grab);
       var now = at(0);
       if (now){
-        svg.appendChild(svgEl("line", {x1:c0[0].toFixed(1), y1:c0[1].toFixed(1), x2:now[0].toFixed(1), y2:now[1].toFixed(1), class:"pz-spoke", stroke:RCOL[k]}));
+        svg.appendChild(svgEl("line", {x1:jc[0].toFixed(1), y1:jc[1].toFixed(1), x2:now[0].toFixed(1), y2:now[1].toFixed(1), class:"pz-spoke", stroke:RCOL[k]}));
         var tx = svgEl("text", {x:(now[0] + 6).toFixed(1), y:(now[1] - 4).toFixed(1), class:"pz-rlab", fill:RCOL[k]});
-        tx.textContent = (d.l || d.k) + " " + Math.round(q[k]) + "°";
+        tx.textContent = (d.l || d.k) + " " + Math.round(q[R.x]) + "°";
         svg.appendChild(tx);
       }
-    }
-    svg.appendChild(svgEl("circle", {cx:c0[0].toFixed(1), cy:c0[1].toFixed(1), r:3.2, class:"pz-hub"}));
-    var nm = svgEl("text", {x:(c0[0] + 7).toFixed(1), y:(c0[1] + 14).toFixed(1), class:"pz-jlab"});
-    nm.textContent = j.name + (j.side === "l" || j.side === "r" ? " (" + j.side.toUpperCase() + ")" : "");
+    });
+    dots.forEach(function(h){
+      var g = svgEl("circle", {cx:h.a[0].toFixed(1), cy:h.a[1].toFixed(1), r:5, class:"pz-dot"});
+      svg.appendChild(g);
+      if (!rg.touch){ var dl = svgEl("text", {x:(h.a[0] + 9).toFixed(1), y:(h.a[1] + 4).toFixed(1), class:"pz-jlab pz-dlab"}); dl.textContent = handleName(h.j) + " – click to take"; svg.appendChild(dl); }
+      var hit = svgEl("circle", {cx:h.a[0].toFixed(1), cy:h.a[1].toFixed(1), r:rg.touch ? 15 : HUB, class:"pz-hit"});
+      hit.dataset.j = h.j.id; hit.addEventListener("click", hubClick); hit.addEventListener("pointerdown", function(e){ e.stopPropagation(); });
+      svg.appendChild(hit);
+    });
+    if (!c0) return;
+    var held = rg.held === J.id;
+    if (held) svg.appendChild(svgEl("circle", {cx:c0[0].toFixed(1), cy:c0[1].toFixed(1), r:10, class:"pz-halo"}));
+    svg.appendChild(svgEl("circle", {cx:c0[0].toFixed(1), cy:c0[1].toFixed(1), r:held ? 5.5 : 3.2, class:"pz-hub" + (held ? " pz-hub-held" : "")}));
+    var nm = svgEl("text", {x:(c0[0] + (held ? 14 : 7)).toFixed(1), y:(c0[1] + 14).toFixed(1), class:"pz-jlab" + (held ? " pz-jheld" : "")});
+    nm.textContent = handleName(J) + (held ? " – held" : "");
     svg.appendChild(nm);
+    var hh = svgEl("circle", {cx:c0[0].toFixed(1), cy:c0[1].toFixed(1), r:rg.touch ? 15 : HUB, class:"pz-hit"});
+    hh.dataset.j = J.id; hh.addEventListener("click", hubClick); hh.addEventListener("pointerdown", function(e){ e.stopPropagation(); });
+    var tt = svgEl("title", {}); tt.textContent = held ? "Click to let go of this joint (Esc)" : "Click to hold this joint: its rings stay until you click it again";
+    hh.appendChild(tt); svg.appendChild(hh);
   }
-  function needDraw(){ if (rg.on && rg.jid && !rg.raf) rg.raf = requestAnimationFrame(drawRings); }
+  function needDraw(){ if (rg.on && (rg.jid || rg.touch) && !rg.raf) rg.raf = requestAnimationFrame(drawRings); }
   function startDrag(e){
     var jid = e.currentTarget.dataset.j || rg.jid;
-    if (jid !== rg.jid){ rg.jid = jid; rg.sig = ""; }
     var j = jid ? jointOf(jid) : null, f = j ? jointFrame(j) : null;
     if (!f) return;
-    var k = +e.currentTarget.dataset.k, d = j.dof[k];
+    var hid = lead(j).id;
+    if (hid !== rg.jid){ rg.jid = hid; rg.sig = ""; }
+    var k = +e.currentTarget.dataset.k, x = e.currentTarget.dataset.x == null ? k : +e.currentTarget.dataset.x, d = j.dof[x];
     if (!d) return;
     e.preventDefault(); e.stopPropagation();
-    var B = basis(f.ax[k]), mpp = mmPerPx(f.c, B.u);
+    var B = basis(f.ax[x]), mpp = mmPerPx(f.c, B.u);
     if (!mpp) return;
     var r = RPX[k] * mpp, a0 = plane(f.c, B, r, e.clientX, e.clientY);
     if (a0 == null) return;
-    rg.drag = {id:j.id, k:k, key:d.k, c:f.c, B:B, r:r, a0:a0, q0:st.pose.j[j.id][k]};
+    rg.drag = {id:j.id, k:x, key:d.k, c:f.c, B:B, r:r, a0:a0, q0:st.pose.j[j.id][x]};
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err){}
+    if (rg.held !== hid){ rg.held = hid; rg.peek = null; rg.sig = ""; showGroup(j.group); }      /* Q384: a turn takes hold of the joint, as a click on its hub does */
+    if (statusEl) statusEl.dataset.msg = "1";
     status("Turning " + (d.l || d.k) + " of " + j.name + " on the model. " + d.lo + "° to " + d.hi + "°.");
   }
   /* where the pointer is, as an angle in the ring's own plane: the two in-plane directions are projected and
@@ -13885,6 +14054,12 @@ function NMSKPose(E){
     rg.drag = null; flush();
     if (statusEl) statusEl.dataset.msg = "";
     chrome();
+    if (rg.held){ holdMsg(); rg.sig = ""; needDraw(); }
+  }
+  function holdMsg(){
+    if (!statusEl || !rg.held) return;
+    statusEl.dataset.msg = "1";
+    status("Holding " + handleName(jointOf(rg.held)) + ": drag a ring to turn it. Click the joint again, or press Esc, to let go.");
   }
   function ringsOn(on){
     rg.on = on == null ? !rg.on : !!on;
@@ -13897,14 +14072,29 @@ function NMSKPose(E){
     if (rg.drag){ moveDrag(e); return; }
     if (!rg.on || !st.ready) return;
     if (e.target && e.target.closest && e.target.closest("#pz-rings")) return;      /* reaching for a ring must not hand the rings to a neighbour */
-    if (e.target && e.target.closest && e.target.closest("#pose-panel,#q301-bar,#q301-sheet,.overlay,#tools,#topright")) return;
+    var ui = e.target && e.target.closest && e.target.closest("#pose-panel,#q301-bar,#q301-sheet,.overlay,#tools,#topright");
+    if (rg.held){      /* Q384: a held joint keeps its rings wherever the pointer goes; another joint under the pointer only offers its dot */
+      var pk = ui || e.pointerType === "touch" ? null : nearest(e.clientX, e.clientY, PEEK);
+      pk = pk && pk.id !== rg.held ? pk.id : null;
+      if (pk !== rg.peek){ rg.peek = pk; rg.sig = ""; }
+      needDraw(); return;
+    }
+    if (ui || rg.touch) return;      /* on a touch screen there is no pointer to be "over" a joint: the dots are tapped instead */
     var j = jointNear(e.clientX, e.clientY), id = j ? j.id : null;
     if (id !== rg.jid){ rg.jid = id; rg.sig = ""; if (!id) hideRings(); }
     needDraw();
   }, {passive:true});
   window.addEventListener("pointerup", endDrag);
   window.addEventListener("pointercancel", endDrag);
-  setInterval(function(){ if (rg.on && rg.jid && !rg.drag) needDraw(); }, 120);   /* follow the camera and any pose change from elsewhere */
+  /* which kind of pointer is in use decides how a joint is offered (hover with a mouse, dots under a finger); read in the
+     capture phase and passively, so nothing is taken from the listeners that come after */
+  try { rg.touch = !window.matchMedia("(hover:hover)").matches; } catch (err){}
+  window.addEventListener("pointerdown", function(e){
+    var t = e.pointerType === "touch";
+    if (t !== rg.touch && (t || e.pointerType === "mouse")){ rg.touch = t; rg.sig = ""; if (!rg.held) rg.jid = null; if (rg.on && !rg.raf) rg.raf = requestAnimationFrame(drawRings); }
+  }, {capture:true, passive:true});
+  window.addEventListener("keydown", function(e){ if (e.key === "Escape" && rg.held && !rg.drag) hold(null); }, true);      /* capture: seen before a handler further in can end the event; it stops nothing itself */
+  setInterval(function(){ if (rg.on && (rg.jid || rg.touch) && !rg.drag) needDraw(); }, 120);   /* follow the camera and any pose change from elsewhere */
 
   function ui(){
     if (E.toolbar){
@@ -13932,15 +14122,19 @@ function NMSKPose(E){
     /* Q318, for the browser check as much as for the page: the rings' own state, and the two steps a drag is */
     rings:ringsOn, screen:function(p){ return scr(p); },
     ringState:function(){
-      var j = rg.jid ? jointOf(rg.jid) : null, f = j ? jointFrame(j) : null;
+      var j = rg.jid ? jointOf(rg.jid) : null, f = j ? jointFrame(j) : null, set = j ? ringSet(j) : [];
       return {on:rg.on, joint:rg.jid, dragging:!!rg.drag, paths:rg.svg ? rg.svg.querySelectorAll(".pz-grab").length : 0,
-              centre:f && E.toScreen ? scr(f.c) : null, axes:f ? f.ax.length : 0,
-              range:j ? j.dof.map(function(d){ return [d.k, d.lo, d.hi]; }) : null};
+              centre:f && E.toScreen ? scr(f.c) : null, axes:set.length,
+              range:j ? set.map(function(R){ return [R.d.k, R.d.lo, R.d.hi]; }) : null,
+              held:rg.held, peek:rg.peek, touch:rg.touch, rings:set.map(function(R){ return [R.j.id, R.d.k]; }),
+              dots:rg.svg ? Array.prototype.map.call(rg.svg.querySelectorAll(".pz-hit"), function(h){ return [h.dataset.j, +h.getAttribute("cx"), +h.getAttribute("cy")]; }) : []};
     },
-    ringHover:function(x, y){ var j = jointNear(x, y); rg.jid = j ? j.id : null; rg.sig = ""; if (rg.jid) drawRings(); else hideRings(); return rg.jid; },
+    /* the pointer over a joint, without a pointer. A held joint is not let go by it (Q384). */
+    ringHover:function(x, y){ if (rg.held){ drawRings(); return rg.jid; } var j = jointNear(x, y); rg.jid = j ? j.id : null; rg.sig = ""; if (rg.jid) drawRings(); else hideRings(); return rg.jid; },
+    ringHold:function(id){ return hold(id || null); },
     ringTurn:function(k, deg){        /* what a drag does, without a pointer: the same clamp, the same door */
-      var j = rg.jid ? jointOf(rg.jid) : null; if (!j || !j.dof[k]) return false;
-      var ok = setJoint(j.id, j.dof[k].k, st.pose.j[j.id][k] + deg);
+      var j = rg.jid ? jointOf(rg.jid) : null, R = j ? ringSet(j)[k] : null; if (!R) return false;
+      var ok = setJoint(R.j.id, R.d.k, st.pose.j[R.j.id][R.x] + deg);
       flush(); rg.sig = ""; drawRings(); return ok;
     }
   };
@@ -18873,7 +19067,7 @@ poseCtl = NMSKPose({
     var m = lastMVP, w = m[3]*p[0] + m[7]*p[1] + m[11]*p[2] + m[15];
     if (!(w > 1e-6)) return null;
     var cx = m[0]*p[0] + m[4]*p[1] + m[8]*p[2] + m[12], cy = m[1]*p[0] + m[5]*p[1] + m[9]*p[2] + m[13], r = canvas.getBoundingClientRect();
-    return [r.left + (cx / w * 0.5 + 0.5) * r.width, r.top + (1 - (cy / w * 0.5 + 0.5)) * r.height];
+    return [r.left + (cx / w * 0.5 + 0.5) * r.width, r.top + (1 - (cy / w * 0.5 + 0.5)) * r.height, w];      /* [2] = depth (Q384: of two joints on one spot the nearer is offered) */
   },
   canvasRect:function(){ return canvas.getBoundingClientRect(); },
   toolbar:document.getElementById("topright"), toolClass:"pill",

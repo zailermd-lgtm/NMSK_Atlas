@@ -71,11 +71,22 @@ html.pose-on #pm-layer{display:none!important}
 #pz-rings .pz-hub{fill:#fff;stroke:#1c2430;stroke-width:1.2}
 #pz-rings .pz-rlab,#pz-rings .pz-jlab{font:11px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:2.6px;stroke-linejoin:round}
 #pz-rings .pz-jlab{fill:#1c2430;font-weight:600}
+/* Q384: a joint that is HELD (clicked, or being turned) keeps its rings until it is clicked again. The hub and the dots
+   are the only other parts of the overlay that take the pointer. */
+#pz-rings .pz-hit{fill:#000;fill-opacity:0;stroke:none;pointer-events:all;cursor:pointer;touch-action:manipulation}
+#pz-rings .pz-halo{fill:rgba(47,127,209,.22);stroke:#2f7fd1;stroke-width:2}
+#pz-rings .pz-hub-held{fill:#2f7fd1;stroke:#fff;stroke-width:1.6}
+#pz-rings .pz-jheld{fill:#1a5fa8}
+#pz-rings .pz-dot{fill:#fff;fill-opacity:.9;stroke:#2f7fd1;stroke-width:1.6}
+#pz-rings .pz-dlab{font-weight:500}
+#pz-rings.pz-holding .pz-rom{stroke-width:3.4}
 #pose-panel .pz-head .pz-hsp{flex:1 1 auto}
 #pose-panel .pz-head #pz-rings-btn{font-size:11px;min-height:24px;min-width:0;padding:2px 7px;border:1px solid #8a93a0;border-radius:6px}
 #pose-panel .pz-head #pz-rings-btn[aria-pressed="true"]{background:#2f7fd1;border-color:#2f7fd1;color:#fff}
 @media (prefers-color-scheme:dark){
   #pz-rings .pz-rlab,#pz-rings .pz-jlab{stroke:rgba(12,16,22,.85)}
   #pz-rings .pz-jlab{fill:#eef2f7}
+  #pz-rings .pz-jheld{fill:#8ec3ff}
+  #pz-rings .pz-dot{fill:#0c1016}
   #pz-rings .pz-hub{fill:#0c1016;stroke:#eef2f7}
 }
