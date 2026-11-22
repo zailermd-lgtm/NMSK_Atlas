@@ -409,8 +409,11 @@ function NMSKSelect(E){
       barBtn.title = "Unmark every marked structure (Undo brings the marks back)";
       barBtn.innerHTML = '<span class="ss-cb-x" aria-hidden="true">&times;</span><span class="ss-cb-t"></span>';
       barBtn.addEventListener("click", function(){ clearMarks(); });
-      host.appendChild(barBtn);
     }
+    /* a phone's bar (<= 560 px) is one row that scrolls sideways: there the button goes first and stays at the left edge */
+    var bar = document.getElementById("q301-bar"), hist = document.getElementById("q301-hist"), first = !!bar && window.innerWidth <= 560;
+    if (first && barBtn.parentNode !== bar){ barBtn.classList.add("ss-cb-first"); bar.insertBefore(barBtn, bar.firstChild); }
+    else if (!first && hist && barBtn.parentNode !== hist){ barBtn.classList.remove("ss-cb-first"); hist.appendChild(barBtn); }
     barBtn.hidden = !n;
     var t = barBtn.lastChild; if (t) t.textContent = "Clear " + n;
     barBtn.setAttribute("aria-label", "Clear all " + n + " marks");

@@ -759,6 +759,7 @@ body.ss-marking canvas{cursor:copy!important}
 #sel-clear-bar{border-color:var(--ss-mark,#F0B429);color:#FFE7A8}
 #sel-clear-bar .ss-cb-x{font-size:17px;line-height:1;font-weight:700}
 #sel-clear-bar .ss-cb-t{font-size:10.5px;line-height:1.1;white-space:nowrap}
+#sel-clear-bar.ss-cb-first{position:sticky;left:0;z-index:3;flex:0 0 auto;margin-right:3px;background:#22303d}
 /* SELECTION css end */
 /* NERVE-GROUPS css begin */
 /* Q262: the "Nerve groups" button itself now lives inside the Nerves system row (host markup, see sync_nerve_groups_q256.py's
@@ -15854,8 +15855,11 @@ function NMSKSelect(E){
       barBtn.title = "Unmark every marked structure (Undo brings the marks back)";
       barBtn.innerHTML = '<span class="ss-cb-x" aria-hidden="true">&times;</span><span class="ss-cb-t"></span>';
       barBtn.addEventListener("click", function(){ clearMarks(); });
-      host.appendChild(barBtn);
     }
+    /* a phone's bar (<= 560 px) is one row that scrolls sideways: there the button goes first and stays at the left edge */
+    var bar = document.getElementById("q301-bar"), hist = document.getElementById("q301-hist"), first = !!bar && window.innerWidth <= 560;
+    if (first && barBtn.parentNode !== bar){ barBtn.classList.add("ss-cb-first"); bar.insertBefore(barBtn, bar.firstChild); }
+    else if (!first && hist && barBtn.parentNode !== hist){ barBtn.classList.remove("ss-cb-first"); hist.appendChild(barBtn); }
     barBtn.hidden = !n;
     var t = barBtn.lastChild; if (t) t.textContent = "Clear " + n;
     barBtn.setAttribute("aria-label", "Clear all " + n + " marks");
