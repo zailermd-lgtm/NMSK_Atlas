@@ -1,0 +1,632 @@
+[
+  {
+    "id": "glenohumeral_ligament_complex_r",
+    "name_ta": "Ligamenta glenohumeralia",
+    "name_common": "Glenohumeral ligaments",
+    "side": "right",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "scapula_r",
+      "landmark_a": "anterior/inferior glenoid rim",
+      "bone_b": "humerus_r",
+      "landmark_b": "anatomical/surgical neck"
+    },
+    "bands": [
+      {
+        "id": "sglhl_r",
+        "name": "Superior glenohumeral ligament",
+        "attachments": {
+          "bone_a": "scapula_r",
+          "landmark_a": "supraglenoid tubercle (near biceps origin)",
+          "bone_b": "humerus_r",
+          "landmark_b": "lesser tubercle, superior margin"
+        },
+        "mechanical_role": "resists inferior translation and external rotation with the arm adducted",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The most consistently present but mechanically least significant of the three glenohumeral ligaments in the adducted position.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      },
+      {
+        "id": "mglhl_r",
+        "name": "Middle glenohumeral ligament",
+        "attachments": {
+          "bone_a": "scapula_r",
+          "landmark_a": "anterosuperior glenoid rim, beneath SGHL",
+          "bone_b": "humerus_r",
+          "landmark_b": "lesser tubercle, medial to bicipital groove"
+        },
+        "mechanical_role": "resists anterior translation and external rotation with the arm at ~45 degrees abduction",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Highly variable in size and presence (absent in a documented minority of shoulders); a well-known source of anatomical variation.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      },
+      {
+        "id": "ighl_aband_r",
+        "name": "Inferior glenohumeral ligament, anterior band",
+        "attachments": {
+          "bone_a": "scapula_r",
+          "landmark_a": "anteroinferior glenoid labrum (2-4 o'clock)",
+          "bone_b": "humerus_r",
+          "landmark_b": "inferior anatomical neck, anterior"
+        },
+        "mechanical_role": "primary restraint to anterior/inferior dislocation with the arm abducted and externally rotated",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "function_note": "Tightens with abduction+external rotation while the posterior band slackens -- the classic hammock/pouch mechanism.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      },
+      {
+        "id": "ighl_pband_r",
+        "name": "Inferior glenohumeral ligament, posterior band",
+        "attachments": {
+          "bone_a": "scapula_r",
+          "landmark_a": "posteroinferior glenoid labrum",
+          "bone_b": "humerus_r",
+          "landmark_b": "inferior anatomical neck, posterior"
+        },
+        "mechanical_role": "primary restraint to posterior dislocation with the arm abducted and internally rotated",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "function_note": "Tightens with abduction+internal rotation while the anterior band slackens, together with the axillary pouch forming the sling that cradles the humeral head in abduction.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      }
+    ],
+    "function": "The three glenohumeral ligaments are capsular thickenings (not free-standing cords) that provide the shoulder's primary static restraint against dislocation, complementing the rotator cuff's dynamic stabilization.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position.",
+    "joint": "glenohumeral_r"
+  },
+  {
+    "id": "coracohumeral_ligament_r",
+    "name_ta": "Ligamentum coracohumerale",
+    "name_common": "Coracohumeral ligament",
+    "side": "right",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "scapula_r",
+      "landmark_a": "lateral border of coracoid process",
+      "bone_b": "humerus_r",
+      "landmark_b": "greater and lesser tubercles (forms the roof of the biceps tendon sheath/rotator interval)"
+    },
+    "bands": [
+      {
+        "id": "chl_r_main",
+        "name": "Coracohumeral ligament",
+        "attachments": {
+          "bone_a": "scapula_r",
+          "landmark_a": "lateral border of coracoid process",
+          "bone_b": "humerus_r",
+          "landmark_b": "greater and lesser tubercles"
+        },
+        "mechanical_role": "reinforces the rotator interval and resists inferior translation with the arm adducted; restrains external rotation",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Bridges the rotator interval between supraspinatus and subscapularis, alongside the superior glenohumeral ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Reinforces the rotator-interval capsule and helps suspend the humeral head, especially with the arm at the side.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "glenohumeral_r"
+  },
+  {
+    "id": "coracoacromial_ligament_r",
+    "name_ta": "Ligamentum coracoacromiale",
+    "name_common": "Coracoacromial ligament",
+    "side": "right",
+    "region": "shoulder",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "scapula_r",
+      "landmark_a": "coracoid process",
+      "bone_b": "scapula_r",
+      "landmark_b": "acromion (anterior undersurface)"
+    },
+    "bands": [
+      {
+        "id": "cal_r_main",
+        "name": "Coracoacromial ligament",
+        "attachments": {
+          "bone_a": "scapula_r",
+          "landmark_a": "coracoid process",
+          "bone_b": "scapula_r",
+          "landmark_b": "acromion, anterior undersurface"
+        },
+        "mechanical_role": "forms the coracoacromial arch, a protective roof over the rotator cuff and subacromial bursa",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Uniquely a bone-to-bone ligament spanning two processes of the SAME bone (scapula) rather than bridging two separate bones; clinically important in subacromial impingement.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Together with the coracoid and acromion forms the coracoacromial arch protecting the underlying supraspinatus tendon and subacromial bursa.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "coracoclavicular_ligament_r",
+    "name_ta": "Ligamentum coracoclaviculare",
+    "name_common": "Coracoclavicular ligament",
+    "side": "right",
+    "region": "shoulder",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "clavicle_r",
+      "landmark_a": "conoid tubercle / trapezoid line, inferior clavicle",
+      "bone_b": "scapula_r",
+      "landmark_b": "coracoid process"
+    },
+    "bands": [
+      {
+        "id": "conoid_r",
+        "name": "Conoid ligament",
+        "attachments": {
+          "bone_a": "clavicle_r",
+          "landmark_a": "conoid tubercle, posteromedial inferior clavicle",
+          "bone_b": "scapula_r",
+          "landmark_b": "base of coracoid process (posteromedial)"
+        },
+        "mechanical_role": "primary restraint against superior/anterior displacement of the clavicle at the AC joint; primary vertical stabilizer",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The stronger, more vertically-oriented of the two CC ligament bands.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "trapezoid_r",
+        "name": "Trapezoid ligament",
+        "attachments": {
+          "bone_a": "clavicle_r",
+          "landmark_a": "trapezoid line, anterolateral inferior clavicle",
+          "bone_b": "scapula_r",
+          "landmark_b": "upper surface of coracoid process"
+        },
+        "mechanical_role": "resists axial/horizontal compression forces at the AC joint, secondary to the conoid",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The more horizontally-oriented, quadrilateral band, lateral to the conoid ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The principal vertical stabilizer of the acromioclavicular joint -- its rupture (not just the weaker AC ligament's) defines the higher grades of AC joint separation (Rockwood III+).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "acromioclavicular_r"
+  },
+  {
+    "id": "acromioclavicular_ligament_r",
+    "name_ta": "Ligamentum acromioclaviculare",
+    "name_common": "Acromioclavicular ligament",
+    "side": "right",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "clavicle_r",
+      "landmark_a": "lateral (acromial) end of clavicle",
+      "bone_b": "scapula_r",
+      "landmark_b": "acromion"
+    },
+    "bands": [
+      {
+        "id": "acl_r_main",
+        "name": "Acromioclavicular ligament",
+        "attachments": {
+          "bone_a": "clavicle_r",
+          "landmark_a": "lateral end of clavicle",
+          "bone_b": "scapula_r",
+          "landmark_b": "acromion"
+        },
+        "mechanical_role": "primary restraint against posterior and horizontal displacement of the clavicle at the AC joint",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "A capsular thickening (superior part is the strongest) distinct from and weaker than the coracoclavicular ligament, which is the joint's primary vertical stabilizer.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Provides horizontal/posterior stability at the small, often-injured acromioclavicular joint; the primary structure disrupted in low-grade AC separations.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "acromioclavicular_r"
+  },
+  {
+    "id": "sternoclavicular_ligament_r",
+    "name_ta": "Ligamenta sternoclavicularia",
+    "name_common": "Sternoclavicular ligaments",
+    "side": "right",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "sternum",
+      "landmark_a": "manubrium, clavicular notch",
+      "bone_b": "clavicle_r",
+      "landmark_b": "medial (sternal) end of clavicle"
+    },
+    "bands": [
+      {
+        "id": "scl_ant_r",
+        "name": "Anterior sternoclavicular ligament",
+        "attachments": {
+          "bone_a": "sternum",
+          "landmark_a": "anterior manubrium",
+          "bone_b": "clavicle_r",
+          "landmark_b": "anterior medial clavicle"
+        },
+        "mechanical_role": "resists anterior translation of the medial clavicle",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Broad, flat capsular band on the anterior joint surface.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "scl_post_r",
+        "name": "Posterior sternoclavicular ligament",
+        "attachments": {
+          "bone_a": "sternum",
+          "landmark_a": "posterior manubrium",
+          "bone_b": "clavicle_r",
+          "landmark_b": "posterior medial clavicle"
+        },
+        "mechanical_role": "resists posterior translation of the medial clavicle; considered the strongest single restraint at this joint",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Posterior displacement of the medial clavicle (a rare but dangerous injury given the retrosternal great vessels) is resisted primarily by this band.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The sternoclavicular joint's main capsular ligaments; together with the costoclavicular and interclavicular ligaments they make traumatic SC dislocation rare relative to the anatomically small, incongruent joint surfaces.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "sternoclavicular_r"
+  },
+  {
+    "id": "costoclavicular_ligament_r",
+    "name_ta": "Ligamentum costoclaviculare",
+    "name_common": "Costoclavicular ligament",
+    "side": "right",
+    "region": "shoulder",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "ribs_r",
+      "landmark_a": "1st rib, superior surface near costal cartilage",
+      "bone_b": "clavicle_r",
+      "landmark_b": "costal tuberosity, inferior medial clavicle"
+    },
+    "bands": [
+      {
+        "id": "ccl_r_main",
+        "name": "Costoclavicular ligament",
+        "attachments": {
+          "bone_a": "ribs_r",
+          "landmark_a": "1st rib",
+          "bone_b": "clavicle_r",
+          "landmark_b": "costal tuberosity"
+        },
+        "mechanical_role": "primary restraint limiting clavicular elevation and acting as the pivot for clavicular rotation during arm elevation",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Short, strong, rhomboid-shaped ligament that functions as the fulcrum around which the clavicle rotates during scapulohumeral rhythm.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Anchors the clavicle to the first rib and functions as the mechanical pivot for clavicular elevation/rotation during arm movement.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "glenohumeral_ligament_complex_l",
+    "name_ta": "Ligamenta glenohumeralia",
+    "name_common": "Glenohumeral ligaments",
+    "side": "left",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "scapula_l",
+      "landmark_a": "anterior/inferior glenoid rim",
+      "bone_b": "humerus_l",
+      "landmark_b": "anatomical/surgical neck"
+    },
+    "bands": [
+      {
+        "id": "sglhl_l",
+        "name": "Superior glenohumeral ligament",
+        "attachments": {
+          "bone_a": "scapula_l",
+          "landmark_a": "supraglenoid tubercle (near biceps origin)",
+          "bone_b": "humerus_l",
+          "landmark_b": "lesser tubercle, superior margin"
+        },
+        "mechanical_role": "resists inferior translation and external rotation with the arm adducted",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The most consistently present but mechanically least significant of the three glenohumeral ligaments in the adducted position.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      },
+      {
+        "id": "mglhl_l",
+        "name": "Middle glenohumeral ligament",
+        "attachments": {
+          "bone_a": "scapula_l",
+          "landmark_a": "anterosuperior glenoid rim, beneath SGHL",
+          "bone_b": "humerus_l",
+          "landmark_b": "lesser tubercle, medial to bicipital groove"
+        },
+        "mechanical_role": "resists anterior translation and external rotation with the arm at ~45 degrees abduction",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Highly variable in size and presence (absent in a documented minority of shoulders); a well-known source of anatomical variation.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      },
+      {
+        "id": "ighl_aband_l",
+        "name": "Inferior glenohumeral ligament, anterior band",
+        "attachments": {
+          "bone_a": "scapula_l",
+          "landmark_a": "anteroinferior glenoid labrum (2-4 o'clock)",
+          "bone_b": "humerus_l",
+          "landmark_b": "inferior anatomical neck, anterior"
+        },
+        "mechanical_role": "primary restraint to anterior/inferior dislocation with the arm abducted and externally rotated",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "function_note": "Tightens with abduction+external rotation while the posterior band slackens -- the classic hammock/pouch mechanism.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      },
+      {
+        "id": "ighl_pband_l",
+        "name": "Inferior glenohumeral ligament, posterior band",
+        "attachments": {
+          "bone_a": "scapula_l",
+          "landmark_a": "posteroinferior glenoid labrum",
+          "bone_b": "humerus_l",
+          "landmark_b": "inferior anatomical neck, posterior"
+        },
+        "mechanical_role": "primary restraint to posterior dislocation with the arm abducted and internally rotated",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "function_note": "Tightens with abduction+internal rotation while the anterior band slackens, together with the axillary pouch forming the sling that cradles the humeral head in abduction.",
+        "source": "Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position."
+      }
+    ],
+    "function": "The three glenohumeral ligaments are capsular thickenings (not free-standing cords) that provide the shoulder's primary static restraint against dislocation, complementing the rotator cuff's dynamic stabilization.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) 'Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint.' J Bone Joint Surg Am 63(8):1208-1217 -- classic description of the inferior glenohumeral ligament's anterior band/axillary pouch/posterior band and their reciprocal tensioning with arm position.",
+    "joint": "glenohumeral_l"
+  },
+  {
+    "id": "coracohumeral_ligament_l",
+    "name_ta": "Ligamentum coracohumerale",
+    "name_common": "Coracohumeral ligament",
+    "side": "left",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "scapula_l",
+      "landmark_a": "lateral border of coracoid process",
+      "bone_b": "humerus_l",
+      "landmark_b": "greater and lesser tubercles (forms the roof of the biceps tendon sheath/rotator interval)"
+    },
+    "bands": [
+      {
+        "id": "chl_l_main",
+        "name": "Coracohumeral ligament",
+        "attachments": {
+          "bone_a": "scapula_l",
+          "landmark_a": "lateral border of coracoid process",
+          "bone_b": "humerus_l",
+          "landmark_b": "greater and lesser tubercles"
+        },
+        "mechanical_role": "reinforces the rotator interval and resists inferior translation with the arm adducted; restrains external rotation",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Bridges the rotator interval between supraspinatus and subscapularis, alongside the superior glenohumeral ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Reinforces the rotator-interval capsule and helps suspend the humeral head, especially with the arm at the side.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "glenohumeral_l"
+  },
+  {
+    "id": "coracoacromial_ligament_l",
+    "name_ta": "Ligamentum coracoacromiale",
+    "name_common": "Coracoacromial ligament",
+    "side": "left",
+    "region": "shoulder",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "scapula_l",
+      "landmark_a": "coracoid process",
+      "bone_b": "scapula_l",
+      "landmark_b": "acromion (anterior undersurface)"
+    },
+    "bands": [
+      {
+        "id": "cal_l_main",
+        "name": "Coracoacromial ligament",
+        "attachments": {
+          "bone_a": "scapula_l",
+          "landmark_a": "coracoid process",
+          "bone_b": "scapula_l",
+          "landmark_b": "acromion, anterior undersurface"
+        },
+        "mechanical_role": "forms the coracoacromial arch, a protective roof over the rotator cuff and subacromial bursa",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Uniquely a bone-to-bone ligament spanning two processes of the SAME bone (scapula) rather than bridging two separate bones; clinically important in subacromial impingement.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Together with the coracoid and acromion forms the coracoacromial arch protecting the underlying supraspinatus tendon and subacromial bursa.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "coracoclavicular_ligament_l",
+    "name_ta": "Ligamentum coracoclaviculare",
+    "name_common": "Coracoclavicular ligament",
+    "side": "left",
+    "region": "shoulder",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "clavicle_l",
+      "landmark_a": "conoid tubercle / trapezoid line, inferior clavicle",
+      "bone_b": "scapula_l",
+      "landmark_b": "coracoid process"
+    },
+    "bands": [
+      {
+        "id": "conoid_l",
+        "name": "Conoid ligament",
+        "attachments": {
+          "bone_a": "clavicle_l",
+          "landmark_a": "conoid tubercle, posteromedial inferior clavicle",
+          "bone_b": "scapula_l",
+          "landmark_b": "base of coracoid process (posteromedial)"
+        },
+        "mechanical_role": "primary restraint against superior/anterior displacement of the clavicle at the AC joint; primary vertical stabilizer",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The stronger, more vertically-oriented of the two CC ligament bands.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "trapezoid_l",
+        "name": "Trapezoid ligament",
+        "attachments": {
+          "bone_a": "clavicle_l",
+          "landmark_a": "trapezoid line, anterolateral inferior clavicle",
+          "bone_b": "scapula_l",
+          "landmark_b": "upper surface of coracoid process"
+        },
+        "mechanical_role": "resists axial/horizontal compression forces at the AC joint, secondary to the conoid",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The more horizontally-oriented, quadrilateral band, lateral to the conoid ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The principal vertical stabilizer of the acromioclavicular joint -- its rupture (not just the weaker AC ligament's) defines the higher grades of AC joint separation (Rockwood III+).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "acromioclavicular_l"
+  },
+  {
+    "id": "acromioclavicular_ligament_l",
+    "name_ta": "Ligamentum acromioclaviculare",
+    "name_common": "Acromioclavicular ligament",
+    "side": "left",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "clavicle_l",
+      "landmark_a": "lateral (acromial) end of clavicle",
+      "bone_b": "scapula_l",
+      "landmark_b": "acromion"
+    },
+    "bands": [
+      {
+        "id": "acl_l_main",
+        "name": "Acromioclavicular ligament",
+        "attachments": {
+          "bone_a": "clavicle_l",
+          "landmark_a": "lateral end of clavicle",
+          "bone_b": "scapula_l",
+          "landmark_b": "acromion"
+        },
+        "mechanical_role": "primary restraint against posterior and horizontal displacement of the clavicle at the AC joint",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "A capsular thickening (superior part is the strongest) distinct from and weaker than the coracoclavicular ligament, which is the joint's primary vertical stabilizer.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Provides horizontal/posterior stability at the small, often-injured acromioclavicular joint; the primary structure disrupted in low-grade AC separations.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "acromioclavicular_l"
+  },
+  {
+    "id": "sternoclavicular_ligament_l",
+    "name_ta": "Ligamenta sternoclavicularia",
+    "name_common": "Sternoclavicular ligaments",
+    "side": "left",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "sternum",
+      "landmark_a": "manubrium, clavicular notch",
+      "bone_b": "clavicle_l",
+      "landmark_b": "medial (sternal) end of clavicle"
+    },
+    "bands": [
+      {
+        "id": "scl_ant_l",
+        "name": "Anterior sternoclavicular ligament",
+        "attachments": {
+          "bone_a": "sternum",
+          "landmark_a": "anterior manubrium",
+          "bone_b": "clavicle_l",
+          "landmark_b": "anterior medial clavicle"
+        },
+        "mechanical_role": "resists anterior translation of the medial clavicle",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Broad, flat capsular band on the anterior joint surface.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "scl_post_l",
+        "name": "Posterior sternoclavicular ligament",
+        "attachments": {
+          "bone_a": "sternum",
+          "landmark_a": "posterior manubrium",
+          "bone_b": "clavicle_l",
+          "landmark_b": "posterior medial clavicle"
+        },
+        "mechanical_role": "resists posterior translation of the medial clavicle; considered the strongest single restraint at this joint",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Posterior displacement of the medial clavicle (a rare but dangerous injury given the retrosternal great vessels) is resisted primarily by this band.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The sternoclavicular joint's main capsular ligaments; together with the costoclavicular and interclavicular ligaments they make traumatic SC dislocation rare relative to the anatomically small, incongruent joint surfaces.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "sternoclavicular_l"
+  },
+  {
+    "id": "costoclavicular_ligament_l",
+    "name_ta": "Ligamentum costoclaviculare",
+    "name_common": "Costoclavicular ligament",
+    "side": "left",
+    "region": "shoulder",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "ribs_l",
+      "landmark_a": "1st rib, superior surface near costal cartilage",
+      "bone_b": "clavicle_l",
+      "landmark_b": "costal tuberosity, inferior medial clavicle"
+    },
+    "bands": [
+      {
+        "id": "ccl_l_main",
+        "name": "Costoclavicular ligament",
+        "attachments": {
+          "bone_a": "ribs_l",
+          "landmark_a": "1st rib",
+          "bone_b": "clavicle_l",
+          "landmark_b": "costal tuberosity"
+        },
+        "mechanical_role": "primary restraint limiting clavicular elevation and acting as the pivot for clavicular rotation during arm elevation",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Short, strong, rhomboid-shaped ligament that functions as the fulcrum around which the clavicle rotates during scapulohumeral rhythm.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Anchors the clavicle to the first rib and functions as the mechanical pivot for clavicular elevation/rotation during arm movement.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "interclavicular_ligament",
+    "name_ta": "Ligamentum interclaviculare",
+    "name_common": "Interclavicular ligament",
+    "side": "midline",
+    "region": "shoulder",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "clavicle_r",
+      "landmark_a": "medial (sternal) end",
+      "bone_b": "clavicle_l",
+      "landmark_b": "medial (sternal) end"
+    },
+    "bands": [
+      {
+        "id": "icl_main",
+        "name": "Interclavicular ligament",
+        "attachments": {
+          "bone_a": "clavicle_r",
+          "landmark_a": "medial end, superior aspect",
+          "bone_b": "clavicle_l",
+          "landmark_b": "medial end, superior aspect"
+        },
+        "mechanical_role": "connects both sternoclavicular joint capsules across the jugular (suprasternal) notch, resisting downward displacement of the shoulder girdle",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "A single unpaired band spanning both clavicles over the top of the manubrium -- unusual among ligaments in bridging two mirror-image bones directly rather than a bone to its neighbor.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Links the two sternoclavicular joints, helping suspend the shoulder girdle and limiting excessive depression of either shoulder.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  }
+]

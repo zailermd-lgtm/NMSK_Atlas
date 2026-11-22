@@ -1,0 +1,95 @@
+{
+  "id": "flexor_pollicis_longus_l",
+  "name_ta": "Flexor pollicis longus",
+  "name_common": "Flexor pollicis longus",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "unipennate",
+  "attachments": {
+    "origin_bone": "radius_l",
+    "origin_landmark": "anterior radius, interosseous membrane",
+    "insertion_bone": "phalanges_hand_l",
+    "insertion_landmark": "distal phalanx of thumb",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "anterior_interosseous_n",
+    "root_levels": "C8-T1"
+  },
+  "actions": [
+    "flexes thumb IP joint"
+  ],
+  "functional_compartments": [
+    {
+      "id": "flexor_pollicis_longus_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 160,
+        "max_isometric_force_N": 36.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -10,
+          -100,
+          10
+        ],
+        [
+          -5,
+          -260,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "The only long flexor of the thumb; innervated by the anterior interosseous nerve (a pure motor branch of median n., classically tested via the 'OK sign' pinch).",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            41.87,
+            68.37
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+          "notes": "Nerve-dense region of about 3.32 cm2, supplied by the anterior interosseous nerve. Highest spindle abundance in its LOWER third, at 63.67% of muscle length -- distinctly distal to mid-belly.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "injection_target_points": [
+        {
+          "label": "main",
+          "transverse_line_from": "medial epicondyle of the humerus",
+          "transverse_line_to": "lateral epicondyle of the humerus",
+          "transverse_percent": 53.47,
+          "longitudinal_line_from": "medial epicondyle of the humerus",
+          "longitudinal_line_to": "ulnar styloid process",
+          "longitudinal_percent": 64.12,
+          "depth_percent_of_limb_thickness": 41.28,
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the volar forearm, radial side of the distal third, medial to the radial cortex.",
+    "depth_layer": "Deep layer of the anterior compartment.",
+    "identification_cues": "Distinctive 'shark fin' shape.",
+    "structures_at_risk": [
+      "radial artery",
+      "median nerve"
+    ],
+    "notes": "The narrowest safety margin in the distal upper limb: the radial artery and median nerve are often less than 1 cm from the target, so ultrasound guidance is not optional here. Injected for the thumb-in-hand deformity, which can otherwise cause palmar ulceration.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+  }
+}

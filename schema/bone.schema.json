@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/bone.schema.json",
+  "title": "Bone",
+  "description": "One skeletal element. Geometry itself is not hand-authored here — bones carry a local reference frame plus a landmark set; actual 1mm-resolution surface geometry is either imported from a licensed source mesh (see docs/SOURCES.md) or, where unavailable, procedurally lofted from the landmark/cross-section description in engine/geometry.py.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "stable snake_case identifier, e.g. 'humerus'" },
+    "name_ta": { "type": "string", "description": "Terminologia Anatomica official Latin name" },
+    "name_common": { "type": "string" },
+    "region": { "type": "string", "enum": ["cranium_face", "hyoid", "vertebral_column", "thoracic_cage", "pectoral_girdle", "upper_limb", "pelvic_girdle", "lower_limb", "sesamoid"] },
+    "side": { "$ref": "common.schema.json#/definitions/side" },
+    "count_in_body": { "type": "integer", "minimum": 1 },
+    "parent_in_kinematic_chain": { "type": ["string", "null"], "description": "id of the proximal bone this one articulates with in the rig hierarchy (null for the root, e.g. sacrum/pelvis)" },
+    "local_frame": { "$ref": "common.schema.json#/definitions/local_frame" },
+    "landmarks": {
+      "type": "array",
+      "description": "Named bony landmarks (processes, tuberosities, epicondyles, foramina) used as muscle/ligament attachment anchors, nerve/vessel passage points, or frame axis definitions.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "kind": { "type": "string", "enum": ["muscle_attachment", "ligament_attachment", "joint_surface", "foramen_or_canal", "palpable_landmark", "axis_reference"] },
+          "position_local_mm": { "$ref": "common.schema.json#/definitions/vec3_mm" },
+          "notes": { "type": "string" }
+        },
+        "required": ["name", "kind"]
+      }
+    },
+    "articulates_with": { "type": "array", "items": { "type": "string" } },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "name_ta", "region", "local_frame", "source"]
+}

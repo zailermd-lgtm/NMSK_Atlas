@@ -1,0 +1,16 @@
+{
+  "model": "claude-sonnet-5",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/filter_verbose_output.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

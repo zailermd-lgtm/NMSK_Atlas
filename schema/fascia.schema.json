@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/fascia.schema.json",
+  "title": "FasciaCompartment / FasciaStructure",
+  "description": "Deep fascial sheets, intermuscular septa, retinacula and aponeuroses, and the osteofascial compartments they bound. Modeled per Stecco's fascial-continuity framework: every entry records what it physically attaches to (bone via Sharpey's fibers, adjacent fascia, epimysium of enclosed muscles) so the rig can treat fascia as a connective mesh riding between its attachment anchors rather than a free-floating shell.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "region": { "type": "string" },
+    "kind": { "type": "string", "enum": ["deep_fascia_sheet", "intermuscular_septum", "retinaculum", "aponeurosis", "interosseous_membrane", "fibrous_sheath_pulley", "compartment_definition"] },
+    "bony_attachments": {
+      "type": "array",
+      "items": { "type": "object", "properties": { "bone": { "type": "string" }, "landmark": { "type": "string" } } },
+      "description": "Enthesis-like fixation points (Sharpey's fibers) binding this fascial structure rigidly to a bone's local frame — these become rig anchors identical in kind to tendon entheses."
+    },
+    "adjacent_fascia": { "type": "array", "items": { "type": "string" }, "description": "ids of continuous/blending neighboring fascial structures" },
+    "compartment_contents": { "type": "array", "items": { "type": "string" }, "description": "muscle/nerve/vessel ids enclosed, if this entry defines an osteofascial compartment" },
+    "function": { "type": "string" },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "name", "region", "kind", "source"]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "semitendinosus_l",
+  "name_ta": "Musculus semitendinosus",
+  "name_common": "Semitendinosus",
+  "side": "left",
+  "region": "lower_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "hip_bone_l",
+    "origin_landmark": "ischial tuberosity (conjoint tendon with biceps femoris long head)",
+    "insertion_bone": "tibia_l",
+    "insertion_landmark": "pes anserinus (medial proximal tibia, with sartorius and gracilis)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "sciatic_n",
+    "root_levels": "L5-S2"
+  },
+  "blood_supply": [
+    "perforating_branches_of_profunda_femoris_a_l"
+  ],
+  "actions": [
+    "extends hip",
+    "flexes and internally rotates knee"
+  ],
+  "functional_compartments": [
+    {
+      "id": "semitendinosus_l_main",
+      "name": "Single fiber population, notable for a distinctive tendinous inscription mid-belly",
+      "innervation_branch": "tibial division of sciatic n.",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 5,
+        "optimal_fascicle_length_mm": 200,
+        "physiological_cross_section_area_mm2": 350.0,
+        "max_isometric_force_N": 87.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          20,
+          -60,
+          -25
+        ],
+        [
+          25,
+          -180,
+          -15
+        ],
+        [
+          20,
+          -300,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "dual endplate bands, one on each side of the mid-belly tendinous inscription -- an architectural distinctive feature of this muscle -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.35,
+        "band_width_fraction": 0.1,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Unusually long fascicles (near-full muscle length either side of the inscription) give large excursion for its size.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes the semitendinosus tendinous inscription)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            25,
+            40
+          ],
+          "reference_line_from": "the medial and lateral femoral condyles",
+          "reference_line_to": "ischial tuberosity",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Distal of two zones on this line, which runs distal to proximal.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+        },
+        {
+          "zone_percent_range": [
+            60,
+            80
+          ],
+          "reference_line_from": "the medial and lateral femoral condyles",
+          "reference_line_to": "ischial tuberosity",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Proximal of two zones.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+        }
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the proximal third of the posterior thigh, medial portion, and again on the distal third -- two sites matching the muscle's two arborization zones.",
+    "depth_layer": "Superficial to adductor magnus; at the proximal third three masses are seen, with semimembranosus medial and semitendinosus lateral.",
+    "notes": "Two injection points follow from the zones at 25-40% and 60-80%.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+  }
+}
