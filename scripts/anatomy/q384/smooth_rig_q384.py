@@ -23,12 +23,14 @@ ROI[0] mm, none beyond ROI[1]); everything outside keeps its stored entry byte f
     of the limb, harmonic over the welded skin surface between the limb's own skin pieces (1) and the trunk's (0), so the
     limb field ends where the limb does (the perineum and the chest wall do not follow the thigh and the arm): 1 on the
     limb's own pieces and on the pieces over the joint, 0 on the trunk's. The zone is longer for tissue far from the limb
-    axis (ZONE_R), because tissue on the inside of a bend folds back on itself when the zone is short. Soft tissue within
-    PAT_MM of the patella follows the patella. A vessel or nerve is the limb's when it reaches into the limb.
+    axis (ZONE_R), because tissue on the inside of a bend folds back on itself when the zone is short. A vessel, a nerve
+    or a lymph vessel reads that distance at its own centreline, so its whole cross-section turns by the same amount.
+    Soft tissue within PAT_MM of the patella follows the patella. A vessel or nerve is the limb's when it reaches into the limb.
   * the skin is then one surface: vertices of different pieces that coincide at rest (the border welds of Q334/Q372/Q375)
     are one node, weights are smoothed over the welded surface, each node's weights are stored for all its vertices and
     those vertices are control vertices, so the viewer reconstructs them identically on both pieces.
-  * a muscle of the limb follows the same limb field as the skin over it. This costs the attachments inside a blend zone
+  * a muscle of the limb follows the limb field too, with the joint's own zone only (MUSCLE_ZONE "plain": no lengthening
+    with the distance from the axis), so its belly stays whole on its bone and it turns at the joint. This costs the attachments inside a blend zone
     (an origin that lies in the zone turns part of the way with the limb instead of staying on its bone); the two other
     rules tried and measured are kept behind Q384_MUSCLE: "axis" (stored attachment weights, only smoothed along the
     muscle: the hamstrings then stay stretched straight from the ischium to the knee and come out through the skin under
@@ -68,7 +70,16 @@ DATA = REPO / "data/anatomy"
 ZONES = {"hip": (-40.0, 90.0), "knee": (-60.0, 60.0), "shoulder": (-30.0, 70.0), "elbow": (-55.0, 55.0)}
 ROI = {"leg": (200.0, 260.0), "arm": (170.0, 230.0)}
 ZONE_R, ZONE_RMAX = 0.8, 80.0      # the zone is longer for tissue far from the limb axis: each end moves out by ZONE_R x (distance from the axis, at most ZONE_RMAX)
-ZONE_IN = 1.6                       # and, on the side the joint folds towards, the PROXIMAL end moves out further by ZONE_IN x (offset to that side): the tissue above a crease starts to turn early (it bulges), the tissue below stays on its bones
+# ZONE_IN: on the side the joint folds towards, the PROXIMAL end of the zone moved out further by ZONE_IN x (offset to that
+# side). It was 1.6 at every joint in the first build of this round and is now 0: with it the zone of the elbow reached 250 mm
+# up the front of the arm, the skin there sank up to 26 mm towards the humerus at 120 degrees of flexion, and whatever followed
+# the skin was sheared (biceps cross-section 0.44; an injection target on it left its surface by 11.5 mm at 60 degrees, Q347)
+# while whatever did not came out through it (the raised, flexed arm; the groin at 90 degrees of hip flexion). Without it:
+# skin still gap-free, biceps 0.84..0.88, femoral artery +26 instead of +34 degrees, no muscle through the groin skin.
+# Kept as a per-joint setting (Q384_ZONE_IN="hip=1.6,..." to measure another value).
+ZONE_IN = {"hip": 0.0, "knee": 0.0, "shoulder": 0.0, "elbow": 0.0}
+for _kv in filter(None, __import__("os").environ.get("Q384_ZONE_IN", "").split(",")):
+    ZONE_IN[_kv.split("=")[0]] = float(_kv.split("=")[1])
 PAT_MM = 12.0
 FIELD_SYS = ("skin", "fat", "fascia", "vessel", "nerve", "lymph")
 AXIS_SYS = ("muscle",)
@@ -77,6 +88,11 @@ AXIS_SIGMA, AXIS_RATIO = 30.0, 2.5
 LIMB_R = {"leg": (120.0, 170.0), "arm": (60.0, 85.0)}      # deep tissue is the limb's within this distance of the limb axis (full, none): the chest wall beside the arm is not the arm
 import os as _os
 MUSCLE_MODE = _os.environ.get("Q384_MUSCLE", "field")      # field | ends | axis (how a muscle follows; see run())
+# where a muscle reads the zone's radial term (Limb._step): "plain" = not at all, its belly stays whole on its bone and it turns
+# only inside the joint's own zone; "centre" = at its own centreline (the same through its thickness); "self" = per vertex like
+# the skin (the first build of this round: sheared bellies). Measured at 120 degrees of elbow flexion, biceps cross-section
+# M / F: self 0.44 / 0.51, centre 0.84 / 0.76, plain 0.90 / 0.87; the Q347 injection target rides the muscle exactly with plain.
+MUSCLE_ZONE = _os.environ.get("Q384_MUSCLE_ZONE", "plain")
 PIN_RAMP = float(__import__("os").environ.get("Q384_PIN_RAMP", 20.0))      # (15 and 25 were measured too: the footprints hold either way, the biceps' turn next to its radial insertion at 120 degrees of elbow flexion goes from +78 to +63 / +70 degrees, the rectus femoris' changes side; 40 kept)                     # E3: a muscle's placed footprint on a bone goes with that bone exactly; over the next PIN_RAMP mm the muscle's own weights take over
 END_MM = 60.0                       # a muscle keeps its stored (attachment) weights at its two ends and follows the limb field beyond END_MM from them
 SMOOTH_ITERS, SMOOTH_ALPHA = 4, 0.5      # 12 held the medial thigh skin back at the perineum for 30-40 mm while the adductors under it went with the thigh
@@ -134,13 +150,20 @@ class Limb:
         return 1.0 - sstep((d - r0) / (r1 - r0))
 
     @staticmethod
-    def _step(x, c, ax, zone, inside=None):
+    def _step(x, c, ax, zone, inside=None, xr=None, zin=0.0):
         """Tissue on the inside of a bend, r mm from the axis, folds back on itself when the joint turns by more than
         (zone length) / (1.5 r) radians: the great saphenous vein lies 55 mm in front of the hip centre, and a 130 mm zone
         folds it at exactly 90 degrees. So the zone grows with the distance from the limb axis."""
         d = x - c; s = d @ ax
-        r = np.minimum(np.linalg.norm(d - np.outer(s, ax), axis=1), ZONE_RMAX) * ZONE_R
-        rin = np.clip(d @ inside, 0.0, ZONE_RMAX) * ZONE_IN if inside is not None else 0.0
+        # xr: where the two radial terms are read. For the skin it is the vertex itself. For a muscle, a vessel or a nerve
+        # it is the structure's own centreline (or None = no radial terms): read per vertex, the front of a belly turned
+        # several degrees further than its back, which sheared it -- the biceps lost 56% of its cross-section at 120
+        # degrees of elbow flexion, and an injection target anchored to its surface no longer rode the muscle (Q347).
+        if xr is None:
+            return sstep((s - zone[0]) / (zone[1] - zone[0]))
+        dr = xr - c; sr = dr @ ax
+        r = np.minimum(np.linalg.norm(dr - np.outer(sr, ax), axis=1), ZONE_RMAX) * ZONE_R
+        rin = np.clip(dr @ inside, 0.0, ZONE_RMAX) * zin if inside is not None else 0.0
         return sstep((s - (zone[0] - r - rin)) / (zone[1] - zone[0] + 2 * r + rin))
 
     def member(self, x):
@@ -154,11 +177,11 @@ class Limb:
         r0, r1 = LIMB_R[self.kind]
         return 1.0 - sstep((r - r0) / (r1 - r0))
 
-    def t_a(self, x):
-        return self._step(x, self.ca, self.ax_a, ZONES[self.ja], self.in_a)
+    def t_a(self, x, xr="self", rin=True):
+        return self._step(x, self.ca, self.ax_a, ZONES[self.ja], self.in_a if rin else None, x if isinstance(xr, str) else xr, ZONE_IN[self.ja])
 
-    def t_b(self, x):
-        return self._step(x, self.cb, self.ax_b, ZONES[self.jb], self.in_b)
+    def t_b(self, x, xr="self", rin=True):
+        return self._step(x, self.cb, self.ax_b, ZONES[self.jb], self.in_b if rin else None, x if isinstance(xr, str) else xr, ZONE_IN[self.jb])
 
 
 def dense_of(e, nv, nseg, blob_decode):
@@ -242,7 +265,23 @@ def restrict(E, cols, default):
     return out, m
 
 
-def apply_field(L, x, E, mu, donor=None):
+def centreline(v):
+    """per vertex, the point of the structure's own centreline at its level (positions averaged along the long axis, sigma 10 mm),
+    or None for a structure that is not elongated"""
+    c = v.mean(0); u, s_, vt = np.linalg.svd(v - c, full_matrices=False)
+    if s_[0] < AXIS_RATIO * s_[1]:
+        return None
+    t = (v - c) @ vt[0]
+    o = np.argsort(t); ts = t[o]; vo = v[o]
+    lo = np.searchsorted(ts, t - 30.0); hi = np.searchsorted(ts, t + 30.0)
+    out = np.empty_like(v)
+    for n_ in range(len(v)):
+        kk = np.exp(-0.5 * ((ts[lo[n_]:hi[n_]] - t[n_]) / 10.0) ** 2)
+        out[n_] = kk @ vo[lo[n_]:hi[n_]] / kk.sum()
+    return out
+
+
+def apply_field(L, x, E, mu, donor=None, xr="self", rin=True):
     """the limb rule at rest positions x for stored weights E -> new weights (before the ROI blend)"""
     nseg = E.shape[1]
     rest = np.setdiff1d(np.arange(nseg), L.sub_mid)
@@ -253,8 +292,8 @@ def apply_field(L, x, E, mu, donor=None):
         if need.any() and donor[0] is not None:
             _, nn = donor[0].query(x[need])
             Dd[need] = donor[1][nn]
-    H = mu * L.t_a(x)
-    tb = L.t_b(x)
+    H = mu * L.t_a(x, xr, rin)
+    tb = L.t_b(x, xr, rin)
     q = np.zeros(len(x))
     if L.pat >= 0 and L.pat_tree is not None:
         d, _ = L.pat_tree.query(x, distance_upper_bound=4 * PAT_MM)
@@ -392,6 +431,10 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
         E = E_of(i).astype(np.float64)
         if x["sys"] in FIELD_SYS:
             W = E.copy(); touched = False
+            xr_field = "self"
+            if x["sys"] in ("vessel", "nerve", "lymph"):
+                cl = centreline(v)
+                xr_field = cl if cl is not None else "self"
             for L, rho in zip(limbs, rr):
                 if rho.max() <= 0 or (E[:, L.sub_mid].sum(1) >= 0.5).mean() < 0.05:
                     continue
@@ -403,7 +446,7 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
                 if len(don):
                     dd = W[don].copy(); keep = np.zeros(nseg, bool); keep[L.sub_dist] = True; dd[:, ~keep] = 0; dd /= np.maximum(dd.sum(1, keepdims=True), 1e-9)
                     donor = (cKDTree(v[don]), dd)
-                N = apply_field(L, v, W, mu, donor)
+                N = apply_field(L, v, W, mu, donor, xr_field)
                 W = rho[:, None] * N + (1 - rho[:, None]) * W
                 touched = True
             if not touched:
@@ -431,13 +474,14 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
                     W[n_] = kk @ Eo[lo[n_]:hi[n_]] / kk.sum()
             if MUSCLE_MODE != "axis":
                 F = W.copy()
+                xr_m = None if MUSCLE_ZONE == "plain" else "self" if MUSCLE_ZONE == "self" else centreline(v)
                 for L, rho_l in gated:
                     dm = F[:, L.sub_dist].sum(1); don = np.where(dm >= 0.5)[0]
                     donor = (None, None)
                     if len(don):
                         dd = F[don].copy(); keep = np.zeros(nseg, bool); keep[L.sub_dist] = True; dd[:, ~keep] = 0; dd /= np.maximum(dd.sum(1, keepdims=True), 1e-9)
                         donor = (cKDTree(v[don]), dd)
-                    N = apply_field(L, v, F, L.member(v), donor)
+                    N = apply_field(L, v, F, L.member(v), donor, xr_m, MUSCLE_ZONE != "centre_r")
                     F = rho_l[:, None] * N + (1 - rho_l[:, None]) * F
                 if MUSCLE_MODE == "ends":
                     ends = sstep(np.minimum(t - t.min(), t.max() - t) / END_MM)
@@ -499,7 +543,7 @@ def run(key, src=None, out_dir=None, dry=False, verbose=True):
     payload["rigid"] = [[s, v] for s, v in sorted(rigid.items())]
     payload["skin"] = skin_l
     payload["blend"] = "dq"
-    payload["q384"] = dict(muscles=MUSCLE_MODE, pinned_muscles=n_pin, pin_ramp=PIN_RAMP, zones=ZONES, zone_r=[ZONE_R, ZONE_RMAX], zone_in=ZONE_IN, roi=ROI, pat_mm=PAT_MM, changed=changed,
+    payload["q384"] = dict(muscles=MUSCLE_MODE, pinned_muscles=n_pin, pin_ramp=PIN_RAMP, zones=ZONES, zone_r=[ZONE_R, ZONE_RMAX], zone_in=ZONE_IN, muscle_zone=MUSCLE_ZONE, roi=ROI, pat_mm=PAT_MM, changed=changed,
                            note="display rule, not anatomy: limb-axis blend zones and their widths are conventions (scripts/anatomy/q384/smooth_rig_q384.py)")
     payload["notes"] = re.sub(r"\d+ skinned structures", "%d skinned structures" % len(skin_l), old["notes"]) + \
         "; Q384: soft tissue around hip, knee, shoulder and elbow re-weighted (%d structures; limb-axis blend zones = display convention), dual-quaternion blend" % changed
