@@ -14706,3 +14706,20 @@ vessels up to 8.5 mm) — a body-wide guarded de-spike of Base·F, after Q360 an
   lines. Possible follow-up, low value: Base·F chest WITH walls (`chest_skin_q360.py --chest-walls`, seamless
   with this weld; hiding one chest region then shows a real edge). It refits from the page state, so it needs
   its own round on a private copy (it was last run before Q366) and a rig re-encode — not done.
+
+## 2026-11-19 — rounds Q377, Q378, Q380 (archived from PROJECT_STATE §9 on 2026-11-22)
+Live as Base·M v104 / Base·F v100 (scratchpad `regen/q380`, build/q309 at commit 7aef5c2). Verdict sets: `v378/`, `v380/`,
+the Q378 agent's `q378/v/`, the Q377 agent's `q377/v/`.
+- **Q377 — live (Base·F v99):** `scripts/anatomy/q377/skin_q377.py`, `docs/Q377_skin.md`: 10 head / finger
+  skin slabs, 27 vertices de-spiked (forehead streaks gone); 17 slabs held (lower face, nose, ear). The 4 q334
+  FAILs are NOT movable geometry: the trunk camera frames both hands on Base·F (without hand / wrist borders
+  1.70 / 1.55 / 0.98), the rebuilt chest's borders (→ Q379), and the knee line is the translucent skin's edge.
+  Axillary step R: 6 arm-skin vertices wrap `breast_ct_r` — needs a re-fit with the chest, not done.
+- **Q378 — live (v103 / v99):** Hide → Undo lost the name card for EVERY structure when the button was pressed
+  before the click's debounced history commit (320 ms; on these pages still pending 0.7–0.9 s after a click).
+  `viewer/quickcard/quickcard.js` `step()`: seal the pending step, act, commit (card buttons, palette, Add).
+  `verify_quickcard_q321.py` tests it on 6 named ids; `tests/test_q378_card_step.py`.
+- **Q380 — live (v104 / v100):** the same fold for any OTHER control pressed after a click (click → "mark
+  current" → Undo deselected and closed the card, up to ~1.5 s after the click). `viewer/q294/history.js`: a
+  pointerdown on another element seals the pending step; repeated presses on the same control still merge.
+  Verifier `scripts/anatomy/q380/verify_step_q380.py`.
