@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v105 (… Q381 plan, Q382 layout, Q383 scan image, Q385 Clear) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v101 (same rounds) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v106 (… Q381 plan, Q382 layout, Q383 scan image, Q385 Clear, origin/insertion wording) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v102 (same rounds) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -85,7 +85,10 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v105** (1795319936-f06d), Base·F **v101** (1795319938-bd60) = scratchpad `regen/q386` (regen of
+**Live:** Base·M **v106** (1795348134-6f38), Base·F **v102** (1795348137-0d76) = `regen/q386` + only `clinical_needle_tool.js`
+of `regen/q387` (owner 2026-11-22: "origin = proximal attachment, insertion = distal attachment" — the tip options and the
+"no data" line say so; the placed data follow that convention: no limb muscle has its origin distal to its insertion;
+trunk / scapular ones are origin = axial end). v105/v101 was `regen/q386` (regen of
 build/q309 at commit d941be4; sent `pub18/<dir>`: index.html + clinical_needle_tool.js, clinical_ultrasound_tool.js,
 clinical_ultrasound_tissues.json). Verdicts, all run by the main thread: `v386/` (26 runs, all OK: q385 ×4, q344 ui
 both pages both sizes + clinical ui, q382 layout F 390, q380, q329, q367, q347, q325, q368 both pages, q343 M, q321
@@ -137,7 +140,7 @@ Q372 skin wall pass, Q377 Base·F head skin de-spike, Q378 + Q380 undo steps.
   still too clean. **The owner's fascia reference picture never arrived — ask again; a second image round waits
   for it.** **Q385** (`viewer/selection`): "Clear N" in the bar's second row while anything is marked (first and
   sticky on a phone); verifier `q385/verify_clear_q385.py`.
-- ★ **Q384 pose — RUNNING since 2026-11-22 ~04:05 UTC** (one agent, brief `$S/q384/brief.md`, notes
+- ★ **Q384 pose — STOPPED 2026-11-22 ~10:00 UTC by the Fable limit (resets 13:00 UTC); WIP committed 5a7b5c9 + later uncommitted edits (smooth_rig_q384.py, pose.js, rigs); resume agent a08e7b033759c23c5 with SendMessage after 13:00; started 04:05 UTC** (one agent, brief `$S/q384/brief.md`, notes
   `$S/q384/notes.md`): hip then knee flexion distorts soft tissue (great saphenous vein); skin "tears" at a moved
   joint and must stretch; elbow lacks flexion–extension; a joint picked for moving stays held until a second click.
   Order: D sticky grab, C elbow, then A measure / B skinning. On hand-back: commit by file, regen from build,
