@@ -135,12 +135,15 @@ def winding(V, F, P):
     V = np.asarray(V, float); P = np.atleast_2d(np.asarray(P, float))
     A, B, Cc = V[F[:, 0]], V[F[:, 1]], V[F[:, 2]]
     out = np.empty(len(P))
-    for i, p in enumerate(P):
-        a, b, c = A - p, B - p, Cc - p
-        la, lb, lc = (np.linalg.norm(x, axis=1) for x in (a, b, c))
-        det = np.einsum("ij,ij->i", a, np.cross(b, c))
-        den = la * lb * lc + np.einsum("ij,ij->i", a, b) * lc + np.einsum("ij,ij->i", b, c) * la + np.einsum("ij,ij->i", c, a) * lb
-        out[i] = np.arctan2(det, den).sum() * 2.0 / (4 * np.pi)
+    step = max(1, int(4e6 // max(len(F), 1)))
+    for s0 in range(0, len(P), step):
+        p = P[s0:s0 + step, None, :]
+        a, b, c = A[None] - p, B[None] - p, Cc[None] - p
+        la, lb, lc = (np.linalg.norm(x, axis=2) for x in (a, b, c))
+        det = np.einsum("pij,pij->pi", a, np.cross(b, c))
+        den = (la * lb * lc + np.einsum("pij,pij->pi", a, b) * lc + np.einsum("pij,pij->pi", b, c) * la
+               + np.einsum("pij,pij->pi", c, a) * lb)
+        out[s0:s0 + step] = np.arctan2(det, den).sum(1) * 2.0 / (4 * np.pi)
     return out
 
 
