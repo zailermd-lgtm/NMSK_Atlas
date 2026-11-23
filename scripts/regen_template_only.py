@@ -152,6 +152,8 @@ def build(p: str, src_root: Path, out: Path):
         run(["python3", "scripts/clinical/build_vessel_calibre_q367.py", p, str(dst)])
     if p in ("base_m", "base_f"):   # Q364: per-structure display colours (eye parts, dura...) from committed data, resolved against the page's ids
         run(["python3", "scripts/anatomy/q364/colours_q364.py", "--inject", str(dst)])
+    if p in ("base_m", "base_f"):   # Q389: the optional display covering ("underwear"), derived from the page's own skin mesh (after every geometry / manifest step)
+        run(["python3", "scripts/anatomy/q389/make_cover_q389.py", "--inject", str(dst)])
     (dst / "index.html").write_bytes(html.read_bytes())
     after = tracked_data_status()
     if after != before:

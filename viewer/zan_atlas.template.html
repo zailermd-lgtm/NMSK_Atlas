@@ -1398,6 +1398,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 <!-- NMSK-Q309-LAYERS begin --><script type="application/json" id="nmsk-q309-layers">{"schema":"nmsk.system_layers.v1","round":"Q309","doc":"The SYSTEMS the viewer offers as one on/off control each, and the DEPTH STRATA inside each system that the per-system / shown-systems depth peel walks. A system is a set of the pages' own tissue categories; a stratum is a predicate over those categories and over the structures' OWN NAMES, so every count below is measured on the page rather than stated here. A system present on a page with no stratum of its own gets ONLY an on/off button, and the control says so in as many words. `basis` is the honest provenance of the ORDER: `literature` = a textbook settles it; `data` = this project's own records or the structures' own names settle it; `mixed` = the strata come from the literature and from this project's own superficial/deep group pairs; `none` = the remainder, which carries no sourced depth and is named that way on the screen. A stratum whose `re` is absent takes whatever is left of its categories. A stratum with `rest: true` takes everything still unassigned in the system. The regexes are matched case-insensitively against the structure's displayed name and are valid in both Python and JavaScript (no lookbehind).","he_note":"קובץ זה מגדיר את המערכות (systems) שהצפיין מציג עם מתג on/off אחד לכל מערכת, ואת שכבות העומק (depth strata) בתוך כל מערכת, שעליהן עובד הקילוף לפי מערכת אחת או לפי המערכות המוצגות. מערכת = קבוצת קטגוריות רקמה של העמוד עצמו. שכבה = תנאי על הקטגוריה ועל שם המבנה עצמו, כך שכל המספרים נמדדים על העמוד ולא נרשמים כאן. מערכת ללא שכבות מקבלת רק on/off, והבקרה אומרת זאת במפורש.","rule_peel_offered":"A system is offered a depth peel only when at least half of its structures ON THAT PAGE fall into a stratum whose basis is not `none`. Below that the system gets on/off only -- measured, per page, at load. This is why the two Imaging pages get no fascial peel (5 of their 6 fascial structures are retinacula, an interosseous membrane and `Integumentum commune`, none of which the investing-fascia / septa classification reaches) while the four Z pages do (137 of 175).","sources":{"gray":"Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell), Elsevier 2019.","standring":"Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. (Standring, ed.), Elsevier 2020.","moore":"Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.","ta":"Terminologia Anatomica, FICAT 1998 -- the classification of bursae as subcutaneous / subfascial / subtendinous / submuscular.","project":"data/anatomy/muscle_groups_q283.json and data/anatomy/muscle_groups_q306.json -- THIS project's own superficial/deep group pairs: `gluteal` (Gluteal group (superficial)) vs `deep_gluteal`, `leg_posterior_superficial` vs `leg_posterior_deep`, and `erector_spinae` vs `transversospinalis` / `multifidus_group`.","q301":"viewer/q301/peel.js and PROJECT_STATE.md Q301 G -- the whole-body order, and the finding that 17 of the 51 fat meshes carry the Latin name `Panniculus adiposus (tela subcutanea)`, i.e. the superficial fascia in the modern sense.","names":"the structures' own displayed names on the shipped pages. No external source is needed for these: the predicate is the stratum's own `re`, and every count is measured on the page."},"conventions":["skeletal / cartilage -> bone: anatomy for the ARTICULAR cartilages, which cover the bone ends; OUR CONVENTION for the costal, laryngeal and tracheal cartilages on these pages, which lie beside bone rather than over it.","muscular: `superficial / intermediate / deep` mean the layer of the muscle's OWN REGION, not a depth measured across the whole body -- which is how the two products that ship a per-system layer control describe theirs. So the superficial step holds trapezius and the superficial perineal pouch alike.","fascial: putting the subcutaneous bursae BEFORE the investing deep fascia follows their TA class (they lie between skin and the deep fascia); the remaining bursae carry no depth word in their name and fall in the unsourced remainder.","nervous: the CNS is taken as the deepest stratum of the nervous system because it lies inside the skull and the vertebral canal. The ordering of plexus, root and named trunk among themselves is NOT sourced per structure and is not offered.","vascular: step 2 is `the rest`, read as deep. The split rests on the structures' own names; a vessel whose name says nothing is treated as deep, which Gray's supports for veins (superficial or deep, the deep accompanying the arteries) but which is still an inference, not a per-structure datum.","lymphatic, visceral and integument get NO peel: only 21 of 162 lymphatic structures carry `superficial` or `deep` in their name, and the organs and the skin regions carry no depth word at all."],"systems":[{"key":"skeletal","label":"Skeleton & joints","he":"שלד ומפרקים","cats":["bone","cartilage","joint","ligament"],"strata":[{"key":"capsule","label":"Joint capsules & ligaments","he":"קופסיות מפרק ורצועות","cats":["joint","ligament"],"basis":"literature","cite":"standring,gray"},{"key":"cartilage","label":"Cartilage","he":"סחוס","cats":["cartilage"],"basis":"mixed","cite":"standring"},{"key":"bone","label":"Bone","he":"עצם","cats":["bone"],"basis":"literature","cite":"standring"}]},{"key":"muscular","label":"Muscles","he":"שרירים","cats":["muscle","tendon","insertion"],"strata":[{"key":"sup","label":"Superficial layer of its region","he":"השכבה השטחית של האזור","re":"\\b(?:trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior|platysma|sternocleidomastoid|sternohyoid|omohyoid|sternothyroid|thyrohyoideus|digastric|stylohyoideus|geniohyoid|mylohyoid|pronator teres|flexor carpi radialis|palmaris longus|flexor carpi ulnaris|brachioradialis|extensor carpi radialis (?:longus|brevis)|extensor digitorum(?! longus| brevis)|extensor digiti minimi|extensor carpi ulnaris|anconeus|deltoid|pectoralis major|biceps brachii|triceps brachii|gastrocnemius|soleus|plantaris|gluteus (?:maximus|medius|minimus)|tensor fasciae latae|sartorius|external oblique|rectus abdominis|pyramidalis|external intercostals?|abductor hallucis|flexor digitorum brevis|abductor digiti minimi|abductor pollicis brevis|flexor pollicis brevis|opponens pollicis|flexor digiti minimi brevis|opponens digiti minimi|occipitalis|frontalis|temporoparietalis|orbicularis (?:oculi|oris)|zygomaticus|risorius|mentalis|nasalis|procerus|corrugator|depressor (?:anguli oris|labii inferioris|septi nasi)|levator (?:labii superioris|anguli oris|nasolabialis)|bucinator|superficial transverse perineal|bulbospongiosus|ischiocavernosus|sphincter ani|external anal sphincter|epicranial)(?![a-z])","basis":"mixed","cite":"gray,project"},{"key":"int","label":"Intermediate layer","he":"השכבה הבינונית","re":"\\b(?:flexor digitorum superficialis|iliocostalis|longissimus|spinalis(?!is)|splenius|internal oblique|internal intercostals?|levatores costarum|masseter|temporalis(?! fascia)|quadratus plantae|lumbrical muscles|lumbricals|serratus anterior|pectoralis minor|subclavius|vastus (?:lateralis|medialis|intermedius)|rectus femoris|quadriceps femoris tendon|biceps femoris|semitendinosus|semimembranosus|gracilis|adductor (?:longus|brevis|magnus|minimus)|pectineus|tibialis anterior|extensor (?:digitorum|hallucis) longus|fibularis \\(peroneus\\) (?:longus|brevis|tertius)|infraspinatus|supraspinatus|subscapularis|teres (?:major|minor)|coracobrachialis|brachialis(?!is))(?![a-z])","basis":"mixed","cite":"gray,project"},{"key":"deep","label":"Deep layer","he":"השכבה העמוקה","re":"\\b(?:aryten|crico|thyro-?aryten)|\\b(?:semispinalis|multifidus|rotatores|interspinales|intertransversarii|obliquus capitis|rectus capitis|(?:anterior|middle|posterior) scalene|longus (?:capitis|colli)|flexor digitorum profundus|flexor pollicis longus|pronator quadratus|supinator|abductor pollicis longus|extensor pollicis (?:longus|brevis)|extensor indicis|popliteus|tibialis posterior|flexor digitorum longus|flexor hallucis longus|calcaneal tendon|piriformis|gemellus|obturator (?:internus|externus)|quadratus femoris|transversus (?:abdominis|thoracis|perinei)|quadratus lumborum|psoas|iliacus|iliopsoas|iliopectineal|innermost intercostals?|diaphragm|flexor hallucis brevis|adductor hallucis|extensor (?:digitorum|hallucis) brevis|(?:dorsal|palmar|plantar) interossei|adductor pollicis|(?:lateral|medial) pterygoid|levator ani|coccygeus|iliococcygeus|pubococcygeus|pubo-analis|compressor urethrae|urethral sphincter|urethrovaginal sphincter|raphe of the urethral|genioglossus|hyoglossus|styloglossus|palatopharyngeus|stylopharyngeus|constrictor pharyngis|superior pharyngeal constrictor|vocalis|stapedius|longitudinal tongue|transverse (?:and vertical )?tongue|(?:superior|inferior|lateral|medial) rectus|(?:superior|inferior) oblique|levator palpebrae|common tendinous ring|trochlea of superior oblique|(?:superior|inferior) tarsus|cruciform part of fibrous sheath)(?![a-z])","basis":"mixed","cite":"gray,project"},{"key":"rest","label":"No sourced stratum","he":"ללא שכבה ממוקרת","rest":true,"basis":"none"}]},{"key":"fascial","label":"Fascia & bursae","he":"פאסציות וכיסים","cats":["fascia","bursa"],"strata":[{"key":"subcut","label":"Subcutaneous bursae","he":"כיסים תת-עוריים","cats":["bursa"],"re":"\\bsubcutaneous","basis":"literature","cite":"ta,standring"},{"key":"investing","label":"Investing deep fascia & aponeuroses","he":"פאסציה עמוקה עוטפת ואפונאורוזות","cats":["fascia"],"re":"\\b(?:fascia lata|brachial|antebrachial|crural|pectoral|deltoid|masseteric|temporal|cervical|investing|epicranial|palmar aponeurosis|plantar aponeurosis|dorsal fascia of hand|popliteal|linea alba|iliotibial|thoracolumbar)","basis":"literature","cite":"gray,standring"},{"key":"septa","label":"Intermuscular septa","he":"מחיצות בין-שריריות","cats":["fascia"],"re":"\\bsept","basis":"literature","cite":"gray"},{"key":"deepbursa","label":"Subfascial, subtendinous & submuscular bursae, tendon sheaths","he":"כיסים תת-פאסציאליים/תת-גידיים ומעטפות גידים","cats":["bursa"],"re":"\\b(?:subfa|subtendinous|submuscular|sheath|intertubercular|intermuscular)","basis":"literature","cite":"ta,standring"},{"key":"rest","label":"No sourced stratum","he":"ללא שכבה ממוקרת","rest":true,"basis":"none"}]},{"key":"nervous","label":"Nerves & CNS","he":"עצבים ומערכת העצבים המרכזית","cats":["nerve","cns"],"strata":[{"key":"cut","label":"Cutaneous nerves","he":"עצבים עוריים","cats":["nerve"],"re":"cutaneous","basis":"literature","cite":"gray,standring"},{"key":"deep","label":"Nerves deep to the deep fascia","he":"עצבים מתחת לפאסציה העמוקה","cats":["nerve"],"basis":"literature","cite":"gray"},{"key":"cns","label":"Central nervous system","he":"מערכת העצבים המרכזית","cats":["cns"],"basis":"literature","cite":"standring"}]},{"key":"vascular","label":"Vessels","he":"כלי דם","cats":["vessel"],"strata":[{"key":"sup","label":"Superficial vessels","he":"כלי דם שטחיים","cats":["vessel"],"re":"\\b(?:saphenous|cephalic vein|basilic|median cubital|median antebrachial|dorsal venous|external jugular|anterior jugular|thoracoepigastric|superficial)","basis":"data","cite":"gray,names"},{"key":"deep","label":"Deep vessels","he":"כלי דם עמוקים","cats":["vessel"],"basis":"literature","cite":"gray"}]},{"key":"lymphatic","label":"Lymphatics","he":"מערכת הלימפה","cats":["lymph"],"strata":[]},{"key":"visceral","label":"Organs","he":"איברים","cats":["viscera","organ"],"strata":[]},{"key":"integument","label":"Skin","he":"עור","cats":["skin"],"strata":[]},{"key":"adipose","label":"Fat","he":"שומן","cats":["fat"],"strata":[{"key":"subcut","label":"Subcutaneous fat / superficial fascia","he":"שומן תת-עורי / פאסציה שטחית","cats":["fat"],"re":"^subcutaneous","basis":"data","cite":"q301,standring,names"},{"key":"inter","label":"Intermuscular fat","he":"שומן בין-שרירי","cats":["fat"],"re":"^intermuscular","basis":"data","cite":"names"},{"key":"deep","label":"Deep & visceral fat","he":"שומן עמוק וויסצרלי","cats":["fat"],"re":"^deep","basis":"data","cite":"names"},{"key":"rest","label":"No sourced stratum","he":"ללא שכבה ממוקרת","rest":true,"basis":"none"}]}]}</script><!-- NMSK-Q309-LAYERS end -->
 <!-- NMSK-CALIBRE begin --><script type="application/json" id="nmsk-calibre">{}</script><!-- NMSK-CALIBRE end -->
 <!-- NMSK-COLOURS begin --><script type="application/json" id="nmsk-colours">{}</script><!-- NMSK-COLOURS end -->
+<!-- NMSK-COVER begin --><script type="application/json" id="nmsk-cover">{}</script><!-- NMSK-COVER end -->
 
 <aside id="rail">
   <div class="rail-body">
@@ -8294,6 +8295,197 @@ var NMSKResize = (function(){
 if (typeof module !== "undefined" && module.exports) module.exports = NMSKResize;
 </script>
 <!-- Q386 html end -->
+<!-- Q389 html begin -->
+<style>
+/* Q389: the optional display covering ("underwear") -- its control in the Systems group and its section in the circled i */
+.cv-box{display:flex;flex-direction:column;gap:4px;padding:6px 8px;border:1px solid var(--line,#8884);border-radius:8px;font-size:12px;max-width:340px}
+.cv-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cv-badge{font-size:10px;line-height:1.2;padding:1px 6px;border-radius:9px;border:1px dashed currentColor;opacity:.85;white-space:nowrap}
+.cv-rows{display:flex;gap:12px;flex-wrap:wrap}
+.cv-rows label{display:inline-flex;align-items:center;gap:4px;cursor:pointer;min-height:24px}
+.cv-note{margin:0;font-size:11px;opacity:.8;line-height:1.35}
+.cv-info p{margin:0 0 6px}
+</style>
+<script>
+/* Q389: an optional DISPLAY COVERING ("underwear") on the figure.  Owner: "allow the figures to wear underwear by choice" (so that
+   results can be shown to children).
+   It is NOT an anatomical structure and comes from no scan or atlas: the page's build step (scripts/anatomy/q389/make_cover_q389.py)
+   derives it from the page's own skin mesh and writes it into the #nmsk-cover block --
+     bound vertices   a point of ONE skin triangle (source piece k, vertices a b c, weights wa wb) lifted along the skin's normal by h.
+                      They are recomputed here from the skin's current vertices and normals, so the covering follows the pose with
+                      the skin's own weights; nothing of it is skinned separately.
+     fixed vertices   the pouch: a second layer over the shell where it covers the external genital skin (a rounded hull of those skin
+                      pieces, so that their shape does not read through). The pelvis is the root of the pose rig and does not move, so
+                      these are constants; the shell under the pouch is bound like the rest and keeps the skin covered in a pose.
+   What it does and does not do (decided in Q389, and said on the control):
+     - off by default; "Briefs" on both bodies, a band "Top" as well where the page carries one (Base Female);
+     - it is DRAWN only.  It is not in the picking / label / depth passes, so a click, a label, a measurement, the cut face and a
+       planned needle all act on the anatomy under it exactly as if it were not there (a pick passes through it);
+     - it takes the cut plane and the isolation box like everything else, stays opaque whatever the skin's own opacity, and stays on
+       while the skin is peeled or hidden (what lies under it stays covered; switch it off to dissect the region);
+     - the choice is an Undo step, part of a saved view, and remembered per page in this browser.
+     NMSKCover.start(E)   E = engine adaptor {page, count, id(i), nverts(i), geo(i) -> {pos, nrm}, make(key, g), redraw()}
+     .state()  .set({briefs, top})  .toggle(key)  .isOn(key)  .garment(key)  .refresh(key)  .compute(g, geo)  .decode(doc)  .ready() */
+var NMSKCover = (function(){
+  "use strict";
+  var E = null, G = {}, ORDER = [], st = {}, ready = false, failed = "", KEY = "nmsk.cover.v1:", box = null, mounted = false, tries = 0, timer = 0, promise = null;
+  function b64(s){ var bin = atob(s), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u; }
+  function inflate(u8){
+    if (typeof DecompressionStream === "undefined") return Promise.reject(new Error("this browser has no DecompressionStream"));
+    return new Response(new Blob([u8]).stream().pipeThrough(new DecompressionStream("deflate"))).arrayBuffer();
+  }
+  function field(s, T){ return s ? inflate(b64(s)).then(function(b){ return new T(b); }) : Promise.resolve(new T(0)); }
+  /* the page block -> typed arrays */
+  function decode(doc){
+    if (!doc || doc.schema !== "nmsk.cover.v1" || !doc.garments) return Promise.resolve(null);
+    var keys = Object.keys(doc.garments).sort(function(a, b){ return a === "briefs" ? -1 : b === "briefs" ? 1 : a < b ? -1 : 1; });
+    return Promise.all(keys.map(function(k){
+      var g = doc.garments[k];
+      return Promise.all([field(g.bind, Uint16Array), field(g.fix, Float32Array), field(g.body, Uint16Array), field(g.rim, Uint16Array)]).then(function(r){
+        var o = {key:k, label:g.label || k, nb:g.nb | 0, nf:g.nf | 0, bind:r[0], fix:r[1], body:r[2], rim:r[3], band:g.band_mm || null};
+        if (o.bind.length !== 7 * o.nb || o.fix.length !== 6 * o.nf) throw new Error("cover: garment " + k + " does not match its counts");
+        o.n = o.nb + o.nf; o.pos = new Float32Array(3 * o.n); o.nrm = new Float32Array(3 * o.n);
+        var used = {}, i; for (i = 0; i < o.nb; i++) used[o.bind[7 * i]] = 1;
+        o.src = Object.keys(used).map(Number);
+        return o;
+      });
+    })).then(function(list){ return {src:doc.src || [], garments:list, what:doc.what || ""}; });
+  }
+  /* positions and normals of one garment from the skin as it is now.  geo(k) -> {pos, nrm} of source piece k (Float32Array xyz) */
+  function compute(g, geo){
+    var B = g.bind, P = g.pos, N = g.nrm, cache = {}, v, o, k, s;
+    for (v = 0; v < g.nb; v++){
+      o = 7 * v; k = B[o]; s = cache[k] || (cache[k] = geo(k));
+      var a = 3 * B[o + 1], b = 3 * B[o + 2], c = 3 * B[o + 3], wa = B[o + 4] / 65535, wb = B[o + 5] / 65535, wc = 1 - wa - wb, h = B[o + 6] / 100;
+      var sp = s.pos, sn = s.nrm;
+      var nx = wa * sn[a] + wb * sn[b] + wc * sn[c], ny = wa * sn[a + 1] + wb * sn[b + 1] + wc * sn[c + 1], nz = wa * sn[a + 2] + wb * sn[b + 2] + wc * sn[c + 2];
+      var L = Math.sqrt(nx * nx + ny * ny + nz * nz) || 1; nx /= L; ny /= L; nz /= L;
+      P[3 * v] = wa * sp[a] + wb * sp[b] + wc * sp[c] + h * nx;
+      P[3 * v + 1] = wa * sp[a + 1] + wb * sp[b + 1] + wc * sp[c + 1] + h * ny;
+      P[3 * v + 2] = wa * sp[a + 2] + wb * sp[b + 2] + wc * sp[c + 2] + h * nz;
+      N[3 * v] = nx; N[3 * v + 1] = ny; N[3 * v + 2] = nz;
+    }
+    for (v = 0; v < g.nf; v++){
+      o = 6 * v; k = 3 * (g.nb + v);
+      P[k] = g.fix[o]; P[k + 1] = g.fix[o + 1]; P[k + 2] = g.fix[o + 2]; N[k] = g.fix[o + 3]; N[k + 1] = g.fix[o + 4]; N[k + 2] = g.fix[o + 5];
+    }
+    return g;
+  }
+
+  /* ---------------------------------------------------------------- state */
+  function load(){ try { var s = localStorage.getItem(KEY + (E && E.page ? E.page : "page")); return s ? JSON.parse(s) : null; } catch (e){ return null; } }
+  function save(){ try { localStorage.setItem(KEY + (E && E.page ? E.page : "page"), JSON.stringify(st)); } catch (e){} }
+  function get(){ var o = {}; ORDER.forEach(function(k){ o[k] = !!st[k]; }); return o; }
+  function apply(v, quiet){
+    var ch = false;
+    ORDER.forEach(function(k){ var w = !!(v && v[k]); if (w !== !!st[k]){ st[k] = w; ch = true; if (w && G[k]) G[k].dirty = true; } });
+    if (ch){ if (!quiet) save(); paint(); if (E && E.redraw) E.redraw(); }
+    return ch;
+  }
+
+  /* ---------------------------------------------------------------- the control and its section in the circled i */
+  var WHAT = "A display covering, not an anatomical structure.";
+  var NOTE = WHAT + " It is drawn over the skin from the skin's own surface and hides nothing from measurements: picking, labels, measuring, the cut and needle planning act on the anatomy under it.";
+  function el(tag, cls, txt){ var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function build(){
+    if (box) return box;
+    box = el("div", "cv-box"); box.id = "cv-box"; box.setAttribute("role", "group"); box.setAttribute("aria-label", "Underwear: a display covering, not an anatomical structure");
+    var h = el("div", "cv-head"); h.appendChild(el("b", null, "Underwear"));
+    var bd = el("span", "cv-badge", "display covering · not anatomy"); bd.id = "cv-badge"; bd.title = NOTE; h.appendChild(bd); box.appendChild(h);
+    var rows = el("div", "cv-rows");
+    ORDER.forEach(function(k){
+      var l = el("label"), c = el("input"); c.type = "checkbox"; c.id = "cv-" + k; c.setAttribute("data-k", k);
+      c.title = G[k].label + ": a display covering over the skin (not anatomy)";
+      l.appendChild(c); l.appendChild(document.createTextNode(" " + G[k].label)); rows.appendChild(l);
+    });
+    box.appendChild(rows);
+    var n = el("p", "cv-note", NOTE); n.id = "cv-note"; box.appendChild(n);
+    box.addEventListener("change", function(e){
+      var t = e.target, k = t && t.getAttribute ? t.getAttribute("data-k") : null; if (!k) return;
+      var v = get(); v[k] = !!t.checked; apply(v);
+      if (window.NMSKHistory && NMSKHistory.commit) NMSKHistory.commit();
+    });
+    return box;
+  }
+  function paint(){
+    if (!box) return;
+    ORDER.forEach(function(k){ var c = box.querySelector("#cv-" + k); if (c) c.checked = !!st[k]; });
+    if (window.NMSKGroups && NMSKGroups.refresh){ try { NMSKGroups.refresh(); } catch (e){} }
+  }
+  function infoEl(){
+    var d = el("div", "cv-info");
+    d.innerHTML = "<p><b>" + WHAT + "</b> Off by default; switch it on under <b>Systems &rarr; Underwear</b> (" + ORDER.map(function(k){ return G[k].label; }).join(", ") + ").</p>" +
+      "<p>It is made from this model's own skin surface at build time: the outer skin triangles inside a band, lifted a few millimetres along the skin's normal and kept taut, " +
+      "and a smooth rounded hull over the external genital skin. The band's edges are a display convention of this viewer, not anatomy, and no scan or atlas is its source.</p>" +
+      "<p>It is only drawn. A click passes through it to the structure under it, and labels, measurements, the cut face and needle planning use the anatomy as if it were not there. " +
+      "It follows the pose with the skin, takes the cut plane, and stays on while the skin is faded, peeled or hidden. It is not a cloth simulation: in a large pose it can stretch or let the skin show at a fold.</p>";
+    return d;
+  }
+  function mount(){
+    if (mounted || !ready || !ORDER.length) return mounted;
+    var Gp = window.NMSKGroups, I = window.NMSKInfo;
+    if (!Gp || !Gp.addTo || !Gp.state || !Gp.state().on) return false;
+    build();
+    if (!Gp.addTo("systems", {el:box, active:function(){ return ORDER.some(function(k){ return !!st[k]; }); }})) return false;
+    if (I && I.add) I.add({key:"cover", title:"Underwear: a display covering", order:46, el:infoEl()});
+    mounted = true; paint();
+    return true;
+  }
+  function boot(){ if (mount() || ++tries > 480){ clearInterval(timer); timer = 0; } }
+
+  var api = {
+    decode:decode, compute:compute,
+    start:function(engine){
+      if (promise) return promise;
+      E = engine; var doc = null;
+      try { var e = document.getElementById("nmsk-cover"); doc = e && e.textContent.trim().length > 2 ? JSON.parse(e.textContent) : null; } catch (err){ doc = null; }
+      promise = decode(doc).then(function(d){
+        if (!d || !d.garments.length) return false;
+        /* the block was made for THIS geometry: every source piece must be the same structure with the same vertex count */
+        var bad = 0; d.src.forEach(function(s){ if (!(s[0] < E.count) || E.id(s[0]) !== s[1] || E.nverts(s[0]) !== s[2]) bad++; });
+        if (bad){ failed = "The display covering was made for another geometry (" + bad + " skin pieces differ). It is off."; if (window.console) console.warn("nmsk cover: " + failed); return false; }
+        d.garments.forEach(function(g){
+          g.srcIdx = g.src.map(function(k){ return d.src[k][0]; }); g.dirty = true;
+          g.geo = function(k){ return E.geo(d.src[k][0]); };
+          G[g.key] = g; ORDER.push(g.key); st[g.key] = false;
+          if (E.make) E.make(g.key, g);
+        });
+        ready = true;
+        var saved = load(); if (saved) apply(saved, true);
+        if (window.NMSKHistory && NMSKHistory.register) NMSKHistory.register("cover", {get:get, set:function(v){ apply(v); }, reset:function(){ apply({}); }});
+        boot(); if (!mounted) timer = setInterval(boot, 250);
+        if (E.redraw) E.redraw();
+        return true;
+      }).catch(function(err){ failed = String(err && err.message || err); if (window.console) console.warn("nmsk cover: " + failed); return false; });
+      return promise;
+    },
+    ready:function(){ return ready; },
+    keys:function(){ return ORDER.slice(); },
+    isOn:function(k){ return !!st[k]; },
+    garment:function(k){ return G[k] || null; },
+    /* the garment's arrays for the skin as it is now (recomputed only after the skin moved) */
+    refresh:function(k){ var g = G[k]; if (!g) return null; if (g.dirty){ compute(g, g.geo); g.dirty = false; g.rev = (g.rev || 0) + 1; } return g; },
+    /* the engine says which structures moved (indices); a garment whose skin pieces are among them is recomputed at the next draw */
+    moved:function(ids){
+      var any = false, set = null;
+      ORDER.forEach(function(k){
+        var g = G[k], i; if (g.dirty) return;
+        if (!ids){ g.dirty = true; any = true; return; }
+        if (!set){ set = {}; for (i = 0; i < ids.length; i++) set[ids[i]] = 1; }
+        for (i = 0; i < g.srcIdx.length; i++) if (set[g.srcIdx[i]]){ g.dirty = true; any = true; break; }
+      });
+      return any;
+    },
+    set:function(v){ var o = get(), k; for (k in v) if (k in o) o[k] = !!v[k]; var ch = apply(o); if (ch && window.NMSKHistory && NMSKHistory.commit) NMSKHistory.commit(); return get(); },
+    toggle:function(k){ var o = {}; o[k] = !st[k]; return api.set(o); },
+    element:function(){ return ready ? build() : null; },
+    state:function(){ return {ready:ready, failed:failed, mounted:mounted, on:get(), garments:ORDER.map(function(k){ var g = G[k]; return {key:k, label:g.label, bound:g.nb, pouch:g.nf, tris:(g.body.length + g.rim.length) / 3, pieces:g.srcIdx.length, band:g.band}; })}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKCover;
+</script>
+<!-- Q389 html end -->
 <!-- Q306 html begin -->
 <style>
 /* Q306: the words the search needed, and nothing else.
@@ -12926,6 +13118,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
       gl.disable(gl.BLEND); gl.depthMask(true);
       opa.forEach(function(B){ paint(B,1,solid); });
+      if (coverZ) coverZ.draw();      /* Q389: the display covering (not a structure: no picking, no labels) */
       if (selCtl && selCtl.active()) opa.concat(tra).forEach(function(B){ paint(B,1,hlOnly); });     // Q232: a highlighted structure is solid whatever its layer opacity
 
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
@@ -19691,6 +19884,70 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
   return out;
 };
 /* POSE glue end */
+/* COVER glue begin */
+/* Q389 display covering ("underwear"), WebGL engine. The module (viewer/cover/cover.js) owns the state, the control and the maths; this is
+   only the GL side: one small dynamic vertex / normal buffer per garment plus two index buffers (body, rim), drawn with the scene's own
+   program right after the opaque pass -- so it takes the cut plane, the isolation box and the Symmetric mirror like every structure, writes
+   depth (the translucent skin behind it is hidden, translucent structures in front of it still blend over it) and is opaque whatever the
+   skin's opacity. It is NOT in the ID / depth / label passes: a pick passes through it. Its vertices are recomputed from the posed skin
+   (poseLiveZ, else the welded rest geometry) when the pose moved one of its skin pieces. Not drawn in the projection-radiograph style
+   (a covering casts no such shadow) or while one layer other than the skin is soloed. */
+var coverZ = null;
+(function(){
+  if (typeof NMSKCover === "undefined") return;
+  var H = {}, drawn = 0, BODY = [0.86, 0.89, 0.93], RIM = [0.47, 0.55, 0.68], GREY = [0.66, 0.66, 0.66], GREY2 = [0.45, 0.45, 0.45];
+  function buf(target, data, usage){ var b = gl.createBuffer(); gl.bindBuffer(target, b); gl.bufferData(target, data, usage); return b; }
+  NMSKCover.start({
+    page:"zan:" + ((MAN && MAN.variant) || "base_male") + ":" + OBJ.length,
+    count:OBJ.length,
+    id:function(i){ return OBJ[i].id; },
+    nverts:function(i){ return OBJ[i].vc; },
+    geo:function(i){ return poseLiveZ[i] || poseRestOfZ(i); },
+    make:function(key, g){
+      H[key] = {pb:buf(gl.ARRAY_BUFFER, g.pos, gl.DYNAMIC_DRAW), nb:buf(gl.ARRAY_BUFFER, g.nrm, gl.DYNAMIC_DRAW),
+                body:buf(gl.ELEMENT_ARRAY_BUFFER, g.body, gl.STATIC_DRAW), rim:buf(gl.ELEMENT_ARRAY_BUFFER, g.rim, gl.STATIC_DRAW), rev:-1};
+    },
+    redraw:function(){ need = true; }
+  });
+  window.addEventListener("nmsk-pose-rev", function(e){ if (NMSKCover.moved(e && e.detail ? e.detail.ids : null)) need = true; });
+  coverZ = {
+    draw:function(){
+      if (!NMSKCover.ready() || q301.mode === "xray" || (soloLayer && soloLayer !== "skin")) return 0;
+      var n = 0, plain = q301.mode === "colour";
+      NMSKCover.keys().forEach(function(k){
+        if (!NMSKCover.isOn(k)) return;
+        var g = NMSKCover.refresh(k), h = H[k]; if (!g || !h) return;
+        gl.bindBuffer(gl.ARRAY_BUFFER, h.pb); if (h.rev !== g.rev) gl.bufferSubData(gl.ARRAY_BUFFER, 0, g.pos);
+        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, h.nb); if (h.rev !== g.rev) gl.bufferSubData(gl.ARRAY_BUFFER, 0, g.nrm);
+        gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+        h.rev = g.rev;
+        gl.uniform1f(U.uAlpha, 1); gl.uniform1f(U.uHL, 0);
+        var c = plain ? BODY : GREY; gl.uniform3f(U.uColor, c[0], c[1], c[2]);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, h.body); gl.drawElements(gl.TRIANGLES, g.body.length, gl.UNSIGNED_SHORT, 0);
+        c = plain ? RIM : GREY2; gl.uniform3f(U.uColor, c[0], c[1], c[2]);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, h.rim); gl.drawElements(gl.TRIANGLES, g.rim.length, gl.UNSIGNED_SHORT, 0);
+        n++;
+      });
+      drawn = n;
+      return n;
+    }
+  };
+  /* test hook (verify_cover_q389.py): what was drawn last, and a garment's current vertices */
+  window.__coverDebug = function(key){
+    var s = NMSKCover.state(); s.drawn = drawn; s.clip = clip.on ? clipPlane() : null; s.style = q301.mode; s.solo = soloLayer;
+    if (key && NMSKCover.garment(key)){
+      var g = NMSKCover.refresh(key), lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9], i, j, bad = 0;
+      for (i = 0; i < g.pos.length; i += 3) for (j = 0; j < 3; j++){ var v = g.pos[i + j]; if (v !== v) bad++; if (v < lo[j]) lo[j] = v; if (v > hi[j]) hi[j] = v; }
+      s.box = [lo, hi]; s.nan = bad; s.n = g.n; s.nb = g.nb;
+      s.at = function(v){ return [g.pos[3 * v], g.pos[3 * v + 1], g.pos[3 * v + 2]]; };
+      s.bindOf = function(v){ return Array.prototype.slice.call(g.bind, 7 * v, 7 * v + 7); };
+      s.srcIndex = g.srcIdx.slice();
+    }
+    return s;
+  };
+})();
+/* COVER glue end */
     window.__selState = function(){ return selCtl.state(); };
     /* Q321 quick card glue begin */
     if (window.NMSKQuickCard) window.NMSKQuick = NMSKQuickCard.start({
