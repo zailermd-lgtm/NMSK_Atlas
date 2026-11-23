@@ -29,7 +29,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 TEMPLATES = [REPO / "viewer" / "atlas_viewer.template.html", REPO / "viewer" / "zan_atlas.template.html"]
 D = REPO / "viewer" / "q309"
-JS = ["sysmap.js", "systoggle.js", "syspeel.js", "q309.js"]
+JS = ["sysmap.js", "systoggle.js", "syspeel.js", "mushide.js", "q309.js"]
 TABLE = REPO / "data" / "anatomy" / "system_layers_q309.json"
 BEGIN, END = "<!-- Q309 html begin -->", "<!-- Q309 html end -->"
 AFTER = "<!-- Q306 html end -->"

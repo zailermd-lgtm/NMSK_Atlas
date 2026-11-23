@@ -2,7 +2,7 @@
    its type and spacing; only what is new is styled here. The [hidden] guard is Q301's lesson (H2 ii): the HTML
    `hidden` attribute is only `display:none` from the UA stylesheet, so any author `display` rule beats it. */
 .sy-box, .sp-box { display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px; width:100%; }
-.sy-box[hidden], .sp-box[hidden], .sy-row[hidden], .sp-sc[hidden], .sp-sy[hidden], .sp-why[hidden], .sp-all[hidden], #sp-whole[hidden] { display:none !important; }
+.sy-box[hidden], .sp-box[hidden], .sy-row[hidden], .sp-sc[hidden], .sp-sy[hidden], .sp-why[hidden], .sp-all[hidden], #sp-whole[hidden], .mh-box[hidden], .mh-row[hidden], .mh-list[hidden], .mh-card[hidden], .mh-side[hidden], #mh-all[hidden], .mh-body[hidden] { display:none !important; }
 .sy-l, .sp-l { font-size:11px; letter-spacing:.06em; text-transform:uppercase; opacity:.7; width:100%; }
 .sy-row { display:flex; flex-wrap:wrap; gap:4px; width:100%; }
 .sy-b { display:inline-flex; align-items:center; gap:5px; }
@@ -14,7 +14,20 @@
 .sp-s { font-size:11.5px; }
 .sp-why { width:100%; margin:2px 0 0; font-size:11px; opacity:.8; font-style:italic; }
 .sy-note, .sp-note { width:100%; }
+/* Q391: muscle by muscle, inside the depth control */
+.mh-box { display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px; width:100%; margin-top:6px; padding-top:6px; border-top:1px solid rgba(127,127,127,.25); }
+.mh-body { display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px; width:100%; }
+.mh-row { display:flex; flex-wrap:wrap; align-items:center; gap:4px; width:100%; }
+.mh-sel { max-width:100%; min-width:0; flex:1 1 180px; font:inherit; font-size:12px; padding:3px 4px; }
+.mh-side { display:inline-flex; gap:2px; }
+.mh-o { width:100%; font-size:11.5px; opacity:.85; overflow-wrap:anywhere; }
+.mh-list { display:flex; flex-wrap:wrap; gap:3px; width:100%; max-height:58px; overflow:auto; }
+.mh-chip { font:inherit; font-size:11px; padding:2px 6px; border-radius:10px; border:1px solid rgba(127,127,127,.45); background:transparent; color:inherit; cursor:pointer; }
+.mh-note { width:100%; }
+.mh-card { display:flex; flex-wrap:wrap; align-items:center; gap:4px 8px; font-size:11.5px; }
+.mh-card-l { opacity:.8; }
 @media (max-width:430px){
   .sy-b, .sp-b, .sp-s { font-size:11px; padding:4px 6px; }
   .sy-b .sy-st { display:none; }      /* the strike-through and aria-pressed already say it; the phone needs the room */
+  .mh-b { font-size:11px; padding:4px 6px; }
 }

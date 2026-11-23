@@ -21,7 +21,7 @@ var NMSKQ309 = (function(){
   function push(){
     if (!E || !E.off) return;
     var out = [], seen = {};
-    [window.NMSKSysToggle, window.NMSKSysPeel].forEach(function(m){
+    [window.NMSKSysToggle, window.NMSKSysPeel, window.NMSKMusHide].forEach(function(m){   /* Q391: the muscles hidden one by one are a third component */
       if (!m || !m.ids) return;
       try { m.ids().forEach(function(i){ if (!seen[i]){ seen[i] = 1; out.push(i); } }); } catch (e){}
     });
@@ -47,10 +47,11 @@ var NMSKQ309 = (function(){
           (s.peel ? s.strata.map(function(t){
              return t.basis === "none" ? "<b>no source</b>"
                : t.basis === "data" ? "this project's own data"
-               : t.basis === "mixed" ? "literature + this project's own groups" : "literature"; })
+               : t.basis === "mixed" ? "literature, a few placements our convention" : "literature"; })
              .filter(function(v, i, a){ return a.indexOf(v) === i; }).join(", ") : "&mdash;") + "</td></tr>";
       });
-      out += "</table><p><b>What in it is ours, not anatomy.</b></p><ul>" +
+      out += "</table>" + regionTable(T);
+      out += "<p><b>What in it is ours, not anatomy.</b></p><ul>" +
         conv.map(function(c){ return "<li>" + esc(c) + "</li>"; }).join("") + "</ul>" +
         "<p><b>Sources.</b></p><ul>" + Object.keys(src).sort().map(function(k){
           return "<li><b>" + esc(k) + "</b> &mdash; " + esc(src[k]) + "</li>"; }).join("") + "</ul>" +
@@ -58,6 +59,28 @@ var NMSKQ309 = (function(){
         "viewer retypes a stratum or a count, and a stratum that matches nothing on this page is not offered.</p>";
       return out;
     }});
+  }
+  /* Q391: a system layered BY REGION lists every region, every layer, how many structures of THIS page it holds and the
+     page it rests on -- read from the table and counted by NMSKSysMap, never retyped here */
+  function regionTable(T){
+    var M = window.NMSKSysMap, out = "";
+    (T.systems || []).forEach(function(sp){
+      if (!sp.regions || !M.regions) return;
+      var got = {}; M.regions(sp.key).forEach(function(R){ got[R.key] = R; });
+      out += "<p><b>" + esc(sp.label) + ", layer by layer in each region</b> (outermost first). " + esc(sp.region_rule || "") + "</p>" +
+        "<table><tr><th>region</th><th>layer</th><th>on this page</th><th>source</th></tr>";
+      sp.regions.forEach(function(r){
+        var R = got[r.key]; if (!R) return;
+        (r.layers || []).forEach(function(l, i){
+          var n = R.layers[i] ? R.layers[i].ids.length : 0;
+          out += "<tr><td>" + (i ? "" : esc(r.label)) + "</td><td>" + (i + 1) + ". " + esc(l.label) + "</td><td class=mono>" + n + "</td><td>" +
+            (l.groups || []).map(function(g){ return (g.basis === "convention" ? "<b>our convention</b>: " : "") + esc(g.cite) + (g.note ? " <i>" + esc(g.note) + "</i>" : ""); }).join("<br>") +
+            "</td></tr>";
+        });
+      });
+      out += "</table>";
+    });
+    return out;
   }
   var api = {
     start:function(opt){
@@ -73,25 +96,33 @@ var NMSKQ309 = (function(){
       if (window.NMSKSysToggle) NMSKSysToggle.start(E, {map:NMSKSysMap, history:hist, push:push});
       if (window.NMSKSysPeel) NMSKSysPeel.start(E, {map:NMSKSysMap, toggle:window.NMSKSysToggle,
         peel:opt.peel || window.NMSKPeel, history:hist, push:push});
+      /* Q391: hide gently, muscle by muscle -- inside the depth control, not a button of its own */
+      if (window.NMSKMusHide) NMSKMusHide.start(E, {map:NMSKSysMap, history:hist, push:push});
+      if (window.NMSKMusHide && NMSKMusHide.element() && window.NMSKSysPeel && NMSKSysPeel.element())
+        NMSKSysPeel.element().appendChild(NMSKMusHide.element());
       /* ONE provider for the whole round: a change to a system switch or to the scoped peel is one undo step */
       if (hist && hist.register) hist.register("q309", {
         get:function(){
           return ((window.NMSKSysToggle && NMSKSysToggle.get) ? NMSKSysToggle.get() : "") + ";" +
-                 ((window.NMSKSysPeel && NMSKSysPeel.get) ? NMSKSysPeel.get() : "");
+                 ((window.NMSKSysPeel && NMSKSysPeel.get) ? NMSKSysPeel.get() : "") + ";" +
+                 ((window.NMSKMusHide && NMSKMusHide.get) ? NMSKMusHide.get() : "");
         },
         set:function(v){
           var p = String(v == null ? ";" : v).split(";");
           if (window.NMSKSysToggle && NMSKSysToggle.put) NMSKSysToggle.put(p[0] || "");
           if (window.NMSKSysPeel && NMSKSysPeel.put) NMSKSysPeel.put(p[1] || "body||0");
+          if (window.NMSKMusHide && NMSKMusHide.put) NMSKMusHide.put(p[2] || "");
         },
         reset:function(){
           if (window.NMSKSysToggle && NMSKSysToggle.put) NMSKSysToggle.put("");
           if (window.NMSKSysPeel && NMSKSysPeel.put) NMSKSysPeel.put("body||0");
+          if (window.NMSKMusHide && NMSKMusHide.put) NMSKMusHide.put("");
         }
       });
       if (sa && sa.add){
         if (window.NMSKSysToggle && NMSKSysToggle.state().on) sa.add(NMSKSysToggle.source());
         if (window.NMSKSysPeel && NMSKSysPeel.state().on) sa.add(NMSKSysPeel.source());
+        if (window.NMSKMusHide && NMSKMusHide.state().on) sa.add(NMSKMusHide.source());
       }
       var C = window.NMSKCombos;
       if (C && C.addPair){
@@ -114,6 +145,8 @@ var NMSKQ309 = (function(){
     ready:function(){ return on; },
     push:push,
     systems:function(){ return window.NMSKSysMap ? NMSKSysMap.systems() : []; },
+    /* verification only (Q391): how many of these exact ids the engine draws right now */
+    drawnOf:function(ids){ return (E && E.drawnOf) ? E.drawnOf(ids || []) : -1; },
     /* verification only: the measured counts this round's claims rest on */
     measure:function(){
       var M = window.NMSKSysMap;
@@ -132,6 +165,7 @@ var NMSKQ309 = (function(){
       map:window.NMSKSysMap ? NMSKSysMap.state() : null,
       toggle:window.NMSKSysToggle ? NMSKSysToggle.state() : null,
       peel:window.NMSKSysPeel ? NMSKSysPeel.state() : null,
+      mushide:window.NMSKMusHide ? NMSKMusHide.state() : null,
       wholebody:window.NMSKPeel ? NMSKPeel.state() : null}; }
   };
   return api;

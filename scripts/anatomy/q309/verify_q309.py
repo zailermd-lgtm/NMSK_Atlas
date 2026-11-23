@@ -99,7 +99,7 @@ def open_layers(pg):
     # round's boxes in Q301's hidden parking node, where they have no size and no control is reachable. The
     # first run of this script did exactly that and reported 30 collision failures that were one wrong call.
     pg.evaluate("""() => { if (!window.NMSKGroups) return;
-        if (NMSKGroups.isOpen() !== 'layers') NMSKGroups.open('layers'); }""")
+        if (NMSKGroups.isOpen() !== 'systems')   /* Q318 renamed Q301's "layers" group to "systems" */ NMSKGroups.open('systems'); }""")
     pg.wait_for_timeout(500)
     pg.evaluate("() => { const e = document.getElementById('sy-box'); if (e) e.scrollIntoView({block:'center'}); }")
     pg.wait_for_timeout(250)

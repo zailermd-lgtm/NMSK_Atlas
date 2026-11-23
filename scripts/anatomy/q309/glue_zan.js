@@ -44,6 +44,15 @@
             OBJ.forEach(function(o){ var id = o.id || o.name; if (!S[id] || seen[id] || !vis(o)) return; seen[id] = 1; n++; });
             return n;
           },
+          /* Q391: the gentle hide. {id: factor} for the structures fading right now (0 < factor < 1); an empty map ends
+             it. The patch scripts/anatomy/q391/patch_engines_q391.py makes the scene pass draw them at that opacity. */
+          fade:function(m){
+            if (typeof q391Fade === "undefined") return false;
+            q391Fade = new Map();
+            Object.keys(m || {}).forEach(function(k){ var v = +m[k]; if (v > 0 && v < 1) q391Fade.set(k, v); });
+            need = true;
+            return true;
+          },
           redraw:function(){ need = true; }
         }
       });

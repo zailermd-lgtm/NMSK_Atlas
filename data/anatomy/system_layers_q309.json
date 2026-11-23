@@ -9,13 +9,16 @@
   "standring": "Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. (Standring, ed.), Elsevier 2020.",
   "moore": "Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.",
   "ta": "Terminologia Anatomica, FICAT 1998 -- the classification of bursae as subcutaneous / subfascial / subtendinous / submuscular.",
-  "project": "data/anatomy/muscle_groups_q283.json and data/anatomy/muscle_groups_q306.json -- THIS project's own superficial/deep group pairs: `gluteal` (Gluteal group (superficial)) vs `deep_gluteal`, `leg_posterior_superficial` vs `leg_posterior_deep`, and `erector_spinae` vs `transversospinalis` / `multifidus_group`.",
   "q301": "viewer/q301/peel.js and PROJECT_STATE.md Q301 G -- the whole-body order, and the finding that 17 of the 51 fat meshes carry the Latin name `Panniculus adiposus (tela subcutanea)`, i.e. the superficial fascia in the modern sense.",
-  "names": "the structures' own displayed names on the shipped pages. No external source is needed for these: the predicate is the stratum's own `re`, and every count is measured on the page."
+  "names": "the structures' own displayed names on the shipped pages. No external source is needed for these: the predicate is the stratum's own `re`, and every count is measured on the page.",
+  "sontakke2023": "Sontakke YA. Textbook of Human Anatomy with Color Atlas and Clinical Integration, Vol. 5: Head, Neck and Face (bound with Vol. 6: Brain). CBS Publishers & Distributors, New Delhi, 1st e-book ed. 2023. Owner-supplied PDF with a text layer; printed page numbers. Facts and page citations only.",
+  "mannan2017": "Noor MA. Mannan's Regional Dissection and Surface Anatomy. 14th ed. Jaypee Brothers Medical Publishers, New Delhi, 2017. ISBN 978-93-86322-11-1. Owner-supplied PDF with a text layer; printed page numbers (PDF page = printed + 18). Facts and page citations only.",
+  "grays_atlas": "Gray's Atlas of Anatomy (Drake RL, Vogl AW, Mitchell AWM et al.), Churchill Livingstone / Elsevier; edition and year not in the owner's scan. Printed page numbers of the labelled plates (their titles: superficial / intermediate / deep, first to fourth layer). Facts and page citations only.",
+  "freilinger1987": "Freilinger G, Gruber H, Happak W, Pechmann U. Surgical anatomy of the mimic muscle system and the facial nerve: importance for reconstructive and aesthetic surgery. Plast Reconstr Surg 1987;80(5):686-690. doi:10.1097/00006534-198711000-00005 (PubMed 3671560). Only the abstract was read: the mimic muscles lie in four layers; it names no muscle, so it settles no placement here."
  },
  "conventions": [
   "skeletal / cartilage -> bone: anatomy for the ARTICULAR cartilages, which cover the bone ends; OUR CONVENTION for the costal, laryngeal and tracheal cartilages on these pages, which lie beside bone rather than over it.",
-  "muscular: `superficial / intermediate / deep` mean the layer of the muscle's OWN REGION, not a depth measured across the whole body -- which is how the two products that ship a per-system layer control describe theirs. So the superficial step holds trapezius and the superficial perineal pouch alike.",
+  "muscular (Q391): a muscle's layer is the textbook layer of its OWN REGION -- the back's seven, the sole's four, the forearm's superficial / intermediate / deep -- read region by region from the books named on each group, with the page. Step n of the muscle peel takes off layer n of EVERY region at once; that alignment across regions, and the order the regions are listed in, are OUR CONVENTION (the books order the layers within a region, never one region against another). So are: the front of the neck putting the suprahyoid and the infrahyoid layers side by side by number; the few placements whose group is badged `convention` (buccinator, serratus anterior, the tarsi, the tendinous ring, the trochlea, the iliopectineal arch, the calcaneal tendon, the digital fibrous sheath, opponens digiti minimi of the foot); and a region with one layer only (orbit, prevertebral muscles, posterior abdominal wall, dorsum of the foot), where no book we hold orders the muscles among themselves. The project's own superficial / deep GROUP names (muscle_groups_q283 / q306, e.g. 'gluteal (superficial)') are classifications, not depths, and are no longer used for depth: gluteus minimus lies under cover of gluteus medius (Mannan 2017 pp. 226-227) although both are in the 'superficial' gluteal group.",
   "fascial: putting the subcutaneous bursae BEFORE the investing deep fascia follows their TA class (they lie between skin and the deep fascia); the remaining bursae carry no depth word in their name and fall in the unsourced remainder.",
   "nervous: the CNS is taken as the deepest stratum of the nervous system because it lies inside the skull and the vertebral canal. The ordering of plexus, root and named trunk among themselves is NOT sourced per structure and is not offered.",
   "vascular: step 2 is `the rest`, read as deep. The split rests on the structures' own names; a vessel whose name says nothing is treated as deep, which Gray's supports for veins (superficial or deep, the deep accompanying the arteries) but which is still an inference, not a per-structure datum.",
@@ -75,37 +78,1099 @@
     "tendon",
     "insertion"
    ],
-   "strata": [
+   "region_rule": "Q391. The muscles are layered BY REGION. Each region lists its layers outermost first; each layer is one or more groups, and a group is a regex over the structure's displayed name (anchored at the start), with its basis (`literature` = the cited page settles it, `convention` = ours, said why in `note`) and its citation. A muscle takes the FIRST group it matches, region by region in the order below; a muscle no group matches is `no sourced layer`, named that way on the screen. The viewer builds the system's depth strata from this: stratum n = layer n of every region.",
+   "regions": [
     {
-     "key": "sup",
-     "label": "Superficial layer of its region",
-     "he": "השכבה השטחית של האזור",
-     "re": "\\b(?:trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior|platysma|sternocleidomastoid|sternohyoid|omohyoid|sternothyroid|thyrohyoideus|digastric|stylohyoideus|geniohyoid|mylohyoid|pronator teres|flexor carpi radialis|palmaris longus|flexor carpi ulnaris|brachioradialis|extensor carpi radialis (?:longus|brevis)|extensor digitorum(?! longus| brevis)|extensor digiti minimi|extensor carpi ulnaris|anconeus|deltoid|pectoralis major|biceps brachii|triceps brachii|gastrocnemius|soleus|plantaris|gluteus (?:maximus|medius|minimus)|tensor fasciae latae|sartorius|external oblique|rectus abdominis|pyramidalis|external intercostals?|abductor hallucis|flexor digitorum brevis|abductor digiti minimi|abductor pollicis brevis|flexor pollicis brevis|opponens pollicis|flexor digiti minimi brevis|opponens digiti minimi|occipitalis|frontalis|temporoparietalis|orbicularis (?:oculi|oris)|zygomaticus|risorius|mentalis|nasalis|procerus|corrugator|depressor (?:anguli oris|labii inferioris|septi nasi)|levator (?:labii superioris|anguli oris|nasolabialis)|bucinator|superficial transverse perineal|bulbospongiosus|ischiocavernosus|sphincter ani|external anal sphincter|epicranial)(?![a-z])",
-     "basis": "mixed",
-     "cite": "gray,project"
+     "key": "face",
+     "label": "Face and scalp",
+     "he": "פנים וקרקפת",
+     "layers": [
+      {
+       "label": "Muscles of facial expression and of the scalp, in the superficial fascia",
+       "he": "שרירי ההבעה והקרקפת, בפסציה השטחית",
+       "groups": [
+        {
+         "re": "^(?:frontalis|occipitalis muscle|temporoparietalis muscle|orbicularis oculi|orbicularis oris|procerus|nasalis|depressor septi nasi|levator labii superioris|levator nasolabialis|zygomaticus major|zygomaticus minor|risorius|depressor anguli oris|depressor labii inferioris|mentalis)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 pp. 51-52, 56-57 (scalp: occipitofrontalis inserts into the epicranial aponeurosis; face: no deep fascia, the muscles of facial expression lie in the superficial fascia)"
+        }
+       ]
+      },
+      {
+       "label": "Deeper muscles of facial expression",
+       "he": "שרירי הבעה עמוקים",
+       "groups": [
+        {
+         "re": "^(?:corrugator supercilii)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 57 (corrugator supercilii lies deep to the medial part of orbicularis oculi)"
+        },
+        {
+         "re": "^(?:levator anguli oris \\(caninus\\)|levator anguli oris)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 59, Fig. 6.4 (levator anguli oris lies in a deeper plane)"
+        },
+        {
+         "re": "^(?:bucinator|buccinator)(?![a-z])",
+         "basis": "convention",
+         "cite": "sontakke2023 p. 56 (the buccinator is the one facial muscle with a deep fascia of its own)",
+         "note": "Placing it in the deeper of the two layers is our inference from its own fascia; the page cited gives no depth word. Freilinger et al. 1987 put the mimic muscles in four layers with the buccinator in the deepest, but only the abstract was read, which names no muscle."
+        }
+       ]
+      },
+      {
+       "label": "Superior and inferior tarsus (eyelid plates)",
+       "he": "לוחיות העפעף",
+       "groups": [
+        {
+         "re": "^(?:superior tarsus|inferior tarsus)(?![a-z])",
+         "basis": "convention",
+         "cite": "sontakke2023 pp. 258-259 (levator palpebrae superioris inserts into the superior tarsus)",
+         "note": "Fibrous plates, not muscles; placed under the facial muscles because the orbicularis oculi covers them -- our convention."
+        }
+       ]
+      }
+     ]
     },
     {
-     "key": "int",
-     "label": "Intermediate layer",
-     "he": "השכבה הבינונית",
-     "re": "\\b(?:flexor digitorum superficialis|iliocostalis|longissimus|spinalis(?!is)|splenius|internal oblique|internal intercostals?|levatores costarum|masseter|temporalis(?! fascia)|quadratus plantae|lumbrical muscles|lumbricals|serratus anterior|pectoralis minor|subclavius|vastus (?:lateralis|medialis|intermedius)|rectus femoris|quadriceps femoris tendon|biceps femoris|semitendinosus|semimembranosus|gracilis|adductor (?:longus|brevis|magnus|minimus)|pectineus|tibialis anterior|extensor (?:digitorum|hallucis) longus|fibularis \\(peroneus\\) (?:longus|brevis|tertius)|infraspinatus|supraspinatus|subscapularis|teres (?:major|minor)|coracobrachialis|brachialis(?!is))(?![a-z])",
-     "basis": "mixed",
-     "cite": "gray,project"
+     "key": "mastication",
+     "label": "Temporal and infratemporal regions (mastication)",
+     "he": "האזור הרקתי והתת-רקתי (לעיסה)",
+     "layers": [
+      {
+       "label": "Masseter and temporalis, under their own deep fascia",
+       "he": "מסטר וטמפורליס",
+       "groups": [
+        {
+         "re": "^(?:masseter|temporalis muscle|temporalis)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 pp. 52, 56, 124-126 (temporal fascia covers temporalis; deep fascia over the masseter; both lie lateral to the ramus / above the arch)"
+        }
+       ]
+      },
+      {
+       "label": "Pterygoids, in the infratemporal fossa deep to the ramus",
+       "he": "שרירי הפטריגואיד",
+       "groups": [
+        {
+         "re": "^(?:lateral pterygoid|medial pterygoid)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 125 (the infratemporal fossa lies deep to the ramus; to reach it the parotid, the masseter and the ramus are removed)"
+        }
+       ]
+      }
+     ]
     },
     {
-     "key": "deep",
-     "label": "Deep layer",
-     "he": "השכבה העמוקה",
-     "re": "\\b(?:aryten|crico|thyro-?aryten)|\\b(?:semispinalis|multifidus|rotatores|interspinales|intertransversarii|obliquus capitis|rectus capitis|(?:anterior|middle|posterior) scalene|longus (?:capitis|colli)|flexor digitorum profundus|flexor pollicis longus|pronator quadratus|supinator|abductor pollicis longus|extensor pollicis (?:longus|brevis)|extensor indicis|popliteus|tibialis posterior|flexor digitorum longus|flexor hallucis longus|calcaneal tendon|piriformis|gemellus|obturator (?:internus|externus)|quadratus femoris|transversus (?:abdominis|thoracis|perinei)|quadratus lumborum|psoas|iliacus|iliopsoas|iliopectineal|innermost intercostals?|diaphragm|flexor hallucis brevis|adductor hallucis|extensor (?:digitorum|hallucis) brevis|(?:dorsal|palmar|plantar) interossei|adductor pollicis|(?:lateral|medial) pterygoid|levator ani|coccygeus|iliococcygeus|pubococcygeus|pubo-analis|compressor urethrae|urethral sphincter|urethrovaginal sphincter|raphe of the urethral|genioglossus|hyoglossus|styloglossus|palatopharyngeus|stylopharyngeus|constrictor pharyngis|superior pharyngeal constrictor|vocalis|stapedius|longitudinal tongue|transverse (?:and vertical )?tongue|(?:superior|inferior|lateral|medial) rectus|(?:superior|inferior) oblique|levator palpebrae|common tendinous ring|trochlea of superior oblique|(?:superior|inferior) tarsus|cruciform part of fibrous sheath)(?![a-z])",
-     "basis": "mixed",
-     "cite": "gray,project"
+     "key": "orbit",
+     "label": "Orbit",
+     "he": "ארובת העין",
+     "layers": [
+      {
+       "label": "Extraocular muscles and levator palpebrae superioris",
+       "he": "שרירי העין החיצוניים",
+       "groups": [
+        {
+         "re": "^(?:levator palpebrae superioris|superior rectus|inferior rectus|medial rectus|lateral rectus|superior oblique|inferior oblique)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 pp. 257-260 (one group; no depth order among them is given)"
+        },
+        {
+         "re": "^(?:common tendinous ring|trochlea of superior oblique muscle)(?![a-z])",
+         "basis": "convention",
+         "cite": "sontakke2023 pp. 258-259",
+         "note": "an attached structure, not a muscle: it takes the layer of the muscle it belongs to (our convention)"
+        }
+       ]
+      }
+     ]
     },
     {
-     "key": "rest",
-     "label": "No sourced stratum",
-     "he": "ללא שכבה ממוקרת",
-     "rest": true,
-     "basis": "none"
+     "key": "ear",
+     "label": "Middle ear",
+     "he": "האוזן התיכונה",
+     "layers": [
+      {
+       "label": "Stapedius",
+       "he": "סטפדיוס",
+       "groups": [
+        {
+         "re": "^(?:stapedius)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 360 (the only muscle of its region on these pages)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "neck",
+     "label": "Front of the neck",
+     "he": "צוואר קדמי",
+     "layers": [
+      {
+       "label": "Platysma, in the superficial fascia",
+       "he": "פלטיסמה",
+       "groups": [
+        {
+         "re": "^(?:platysma)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 81 (a thin sheet of muscle in the superficial fascia)"
+        }
+       ]
+      },
+      {
+       "label": "Sternocleidomastoid, in the investing layer",
+       "he": "סטרנוקליידומסטואיד",
+       "groups": [
+        {
+         "re": "^(?:sternocleidomastoid)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 pp. 84-85 (the investing layer of deep cervical fascia lies deep to platysma and splits to enclose sternocleidomastoid)"
+        }
+       ]
+      },
+      {
+       "label": "Suprahyoid 1st layer and infrahyoid superficial layer",
+       "he": "על-לשוני 1 ותת-לשוני שטחי",
+       "groups": [
+        {
+         "re": "^(?:digastric|intermediate tendon of digastric|stylohyoideus)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 145 (suprahyoid muscles, four layers: 1st digastric, stylohyoid)"
+        },
+        {
+         "re": "^(?:sternohyoid|omohyoid)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 110 (infrahyoid muscles: superficial layer sternohyoid and omohyoid)"
+        }
+       ]
+      },
+      {
+       "label": "Suprahyoid 2nd layer and infrahyoid deep layer",
+       "he": "על-לשוני 2 ותת-לשוני עמוק",
+       "groups": [
+        {
+         "re": "^(?:mylohyoid)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 145 (2nd layer: mylohyoid)"
+        },
+        {
+         "re": "^(?:sternothyroid|thyrohyoideus)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 110 (deep layer: sternothyroid and thyrohyoid)"
+        }
+       ]
+      },
+      {
+       "label": "Suprahyoid 3rd layer",
+       "he": "על-לשוני 3",
+       "groups": [
+        {
+         "re": "^(?:geniohyoid|hyoglossus)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 145 (3rd layer: geniohyoid, hyoglossus)"
+        }
+       ]
+      },
+      {
+       "label": "Suprahyoid 4th layer",
+       "he": "על-לשוני 4",
+       "groups": [
+        {
+         "re": "^(?:genioglossus)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 145 (4th layer: genioglossus)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "prevertebral",
+     "label": "Prevertebral and paravertebral regions of the neck",
+     "he": "השרירים הפרה-ורטברליים והסקלניים",
+     "layers": [
+      {
+       "label": "Prevertebral and scalene muscles",
+       "he": "פרה-ורטברליים וסקלניים",
+       "groups": [
+        {
+         "re": "^(?:longus colli|longus capitis|rectus capitis anterior|rectus capitis lateralis|anterior scalene|middle scalene|posterior scalene)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 205 (four prevertebral muscles; three scalenes in the paravertebral region; no depth order between the two groups is given)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "larynx",
+     "label": "Larynx",
+     "he": "גרון (לרינקס)",
+     "layers": [
+      {
+       "label": "Cricothyroid, on the outer surface",
+       "he": "קריקותירואיד",
+       "groups": [
+        {
+         "re": "^(?:cricothyroideus)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 349 (cricothyroid is the only muscle of the larynx on its external surface)"
+        }
+       ]
+      },
+      {
+       "label": "The other intrinsic muscles",
+       "he": "שאר השרירים הפנימיים",
+       "groups": [
+        {
+         "re": "^(?:posterior crico-arytenoid muscle|lateral crico-arytenoid muscle|arytenoideus transversus|ary-epiglottic part of oblique arytenoid muscle|external part of thyro-arytenoid muscle|thyro-epiglottic part of thyro-arytenoid muscle)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 pp. 347-349"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "pharynx",
+     "label": "Pharynx",
+     "he": "לוע",
+     "layers": [
+      {
+       "label": "Outer circular layer: the constrictors",
+       "he": "השכבה המעגלית החיצונית",
+       "groups": [
+        {
+         "re": "^(?:superior pharyngeal constrictor|constrictor pharyngis medius|constrictor pharyngis inferior)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 309 (outer circular layer: three pairs of constrictors)"
+        }
+       ]
+      },
+      {
+       "label": "Inner longitudinal layer",
+       "he": "השכבה האורכית הפנימית",
+       "groups": [
+        {
+         "re": "^(?:stylopharyngeus|palatopharyngeus)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 309 (inner longitudinal layer: stylopharyngeus, palatopharyngeus, salpingopharyngeus)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "back",
+     "label": "Back and back of the neck",
+     "he": "הגב ועורף",
+     "layers": [
+      {
+       "label": "1st layer: trapezius, latissimus dorsi",
+       "he": "שכבה 1",
+       "groups": [
+        {
+         "re": "^(?:trapezius|latissimus dorsi)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 217 (extrinsic muscles, first layer)"
+        }
+       ]
+      },
+      {
+       "label": "2nd layer: levator scapulae, rhomboids",
+       "he": "שכבה 2",
+       "groups": [
+        {
+         "re": "^(?:levator scapulae|rhomboid minor|rhomboid major)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 217 (second layer)"
+        }
+       ]
+      },
+      {
+       "label": "3rd layer: serratus posterior",
+       "he": "שכבה 3",
+       "groups": [
+        {
+         "re": "^(?:serratus posterior superior|serratus posterior inferior)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 217 (third layer); mannan2017 p. 195 (serratus posterior inferior, a thin muscle deep to latissimus dorsi)"
+        }
+       ]
+      },
+      {
+       "label": "Intrinsic 1st layer: splenius",
+       "he": "שכבה פנימית 1: ספלניוס",
+       "groups": [
+        {
+         "re": "^(?:splenius capitis|splenius colli muscle)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 218 (intrinsic muscles, first or external layer)"
+        }
+       ]
+      },
+      {
+       "label": "Intrinsic 2nd layer: erector spinae",
+       "he": "שכבה פנימית 2: זוקפי הגו",
+       "groups": [
+        {
+         "re": "^(?:iliocostalis|longissimus|spinalis)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 pp. 218-219 (second or intermediate layer: iliocostalis, longissimus, spinalis); grays_atlas p. 40 (deep group: erector spinae)"
+        }
+       ]
+      },
+      {
+       "label": "Intrinsic 3rd layer: transversospinales",
+       "he": "שכבה פנימית 3: טרנסברסוספינליס",
+       "groups": [
+        {
+         "re": "^(?:semispinalis|multifidus|rotatores)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 p. 219 (third or deep layer: semispinalis, multifidus, rotatores); grays_atlas p. 41 (transversospinales)"
+        }
+       ]
+      },
+      {
+       "label": "Intrinsic 4th layer: segmental and suboccipital",
+       "he": "שכבה פנימית 4: סגמנטליים ותת-עורפיים",
+       "groups": [
+        {
+         "re": "^(?:levatores costarum|interspinales|dorsal parts of lateral intertransversarii|ventral parts of lateral intertransversarii|rectus capitis posterior major|rectus capitis posterior minor|obliquus capitis superior|obliquus capitis inferior)(?![a-z])",
+         "basis": "literature",
+         "cite": "sontakke2023 pp. 219, 222 (fourth or deepest layer: levatores costarum, interspinales, intertransversarii, suboccipital muscles); grays_atlas pp. 41, 43"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "thoraxwall",
+     "label": "Thoracic wall",
+     "he": "דופן בית החזה",
+     "layers": [
+      {
+       "label": "External intercostals",
+       "he": "בין-צלעיים חיצוניים",
+       "groups": [
+        {
+         "re": "^(?:external intercostal)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 398 (intercostal muscles named by their layers: externus, internus, transversus thoracis)"
+        }
+       ]
+      },
+      {
+       "label": "Internal intercostals",
+       "he": "בין-צלעיים פנימיים",
+       "groups": [
+        {
+         "re": "^(?:internal intercostal)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 398"
+        }
+       ]
+      },
+      {
+       "label": "Innermost layer: intercostales intimi, transversus thoracis",
+       "he": "השכבה הפנימית ביותר",
+       "groups": [
+        {
+         "re": "^(?:innermost intercostal|transversus thoracis)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 398, 406 (the third layer, transversus thoracis, has three parts: intercostalis intimus, sternocostalis, subcostalis)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "diaphragm",
+     "label": "Diaphragm",
+     "he": "סרעפת",
+     "layers": [
+      {
+       "label": "Diaphragm",
+       "he": "סרעפת",
+       "groups": [
+        {
+         "re": "^(?:diaphragm)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 431 (the only muscle of its region)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "pectoral",
+     "label": "Pectoral region and axilla",
+     "he": "אזור החזה ובית השחי",
+     "layers": [
+      {
+       "label": "Pectoralis major",
+       "he": "החזה הגדול",
+       "groups": [
+        {
+         "re": "^(?:clavicular head of pectoralis major muscle|sternocostal head of pectoralis major muscle|\\(abdominal part of pectoralis major muscle\\))(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 360 (pectoral region)"
+        }
+       ]
+      },
+      {
+       "label": "Deep pectoral layer: pectoralis minor, subclavius",
+       "he": "השכבה העמוקה: החזה הקטן, סאבקלביוס",
+       "groups": [
+        {
+         "re": "^(?:pectoralis minor|subclavius)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 361 (deep pectoral region); mannan2017 p. 102 (clavipectoral fascia)"
+        }
+       ]
+      },
+      {
+       "label": "Serratus anterior, on the chest wall",
+       "he": "המשורי הקדמי",
+       "groups": [
+        {
+         "re": "^(?:serratus anterior)(?![a-z])",
+         "basis": "convention",
+         "cite": "mannan2017 p. 121 (it lies on the side of the chest, in the medial wall of the axilla); grays_atlas p. 362",
+         "note": "Its depth below the deep pectoral layer is our reading of 'on the side of the chest'; no page says 'deep to pectoralis minor'."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "shoulder",
+     "label": "Shoulder (scapular region)",
+     "he": "הכתף (אזור השכמה)",
+     "layers": [
+      {
+       "label": "Deltoid",
+       "he": "דלטואיד",
+       "groups": [
+        {
+         "re": "^(?:clavicular part of deltoid muscle|acromial part of deltoid muscle|scapular spinal part of deltoid muscle)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 191, 193 (the deltoid is cut from the spine to reach the scapular muscles; the lateral part of infraspinatus lies under cover of the deltoid)"
+        }
+       ]
+      },
+      {
+       "label": "Rotator cuff and teres major",
+       "he": "שרוול המסובבים וטרס מייג'ור",
+       "groups": [
+        {
+         "re": "^(?:supraspinatus|infraspinatus|teres minor|subscapularis|teres major)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 364 (the four rotator cuff muscles, with teres major); mannan2017 p. 193"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "arm",
+     "label": "Arm",
+     "he": "זרוע",
+     "layers": [
+      {
+       "label": "Superficial: biceps brachii; long and lateral heads of triceps",
+       "he": "שטחי: דו-ראשי; ראש ארוך וצידי של התלת-ראשי",
+       "groups": [
+        {
+         "re": "^(?:biceps brachii)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas pp. 374-375 (anterior compartment; brachialis and coracobrachialis shown as its deep muscles)"
+        },
+        {
+         "re": "^(?:long head of triceps brachii|lateral head of triceps brachii)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 379 (long and lateral heads cut to show the medial head)"
+        }
+       ]
+      },
+      {
+       "label": "Deep: brachialis, coracobrachialis; medial head of triceps",
+       "he": "עמוק: ברכיאליס, קורקוברכיאליס; הראש המדיאלי",
+       "groups": [
+        {
+         "re": "^(?:brachialis|coracobrachialis)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 375 (deep muscles of the anterior compartment)"
+        },
+        {
+         "re": "^(?:medial head of triceps brachii)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 379"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "forearm_ant",
+     "label": "Forearm, front (flexor compartment)",
+     "he": "האמה, קדמי",
+     "layers": [
+      {
+       "label": "Superficial layer",
+       "he": "שכבה שטחית",
+       "groups": [
+        {
+         "re": "^(?:pronator teres|flexor carpi radialis|palmaris longus muscle|palmaris longus|flexor carpi ulnaris)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 397 (superficial layer); mannan2017 p. 143"
+        }
+       ]
+      },
+      {
+       "label": "Intermediate layer: flexor digitorum superficialis",
+       "he": "שכבת ביניים",
+       "groups": [
+        {
+         "re": "^(?:flexor digitorum superficialis|humero-ulnar head of flexor digitorum superficialis)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 399 (intermediate layer); mannan2017 p. 144 (its muscular part lies under cover of the superficial group)"
+        }
+       ]
+      },
+      {
+       "label": "Deep layer",
+       "he": "שכבה עמוקה",
+       "groups": [
+        {
+         "re": "^(?:flexor digitorum profundus|flexor pollicis longus|pronator quadratus)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 399 (deep layer); mannan2017 pp. 144-146"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "forearm_post",
+     "label": "Forearm, back (extensor compartment)",
+     "he": "האמה, אחורי",
+     "layers": [
+      {
+       "label": "Superficial group",
+       "he": "קבוצה שטחית",
+       "groups": [
+        {
+         "re": "^(?:brachioradialis|extensor carpi radialis longus|extensor carpi radialis brevis|extensor digitorum(?! longus| brevis)|extensor digiti minimi|extensor carpi ulnaris|anconeus)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 154-155 (superficial group of the posterior antebrachial muscles, seven named); grays_atlas p. 401"
+        }
+       ]
+      },
+      {
+       "label": "Deep group",
+       "he": "קבוצה עמוקה",
+       "groups": [
+        {
+         "re": "^(?:supinator|abductor pollicis longus|extensor pollicis brevis|extensor pollicis longus|extensor indicis)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 155-158 (deep group); grays_atlas p. 402"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "hand",
+     "label": "Hand (palm)",
+     "he": "כף היד",
+     "layers": [
+      {
+       "label": "Superficial muscles of the palm",
+       "he": "שרירי כף היד השטחיים",
+       "groups": [
+        {
+         "re": "^(?:abductor pollicis brevis|flexor pollicis brevis|abductor digiti minimi \\(hand\\)|flexor digiti minimi brevis \\(hand\\)|lumbrical muscles of hand)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas pp. 410-411 (superficial muscles of the hand, palmar view; lumbricals)"
+        },
+        {
+         "re": "^(?:cruciform part of fibrous sheath of digit of hand)(?![a-z])",
+         "basis": "convention",
+         "cite": "grays_atlas p. 410 (tendon sheaths of the hand)",
+         "note": "an attached structure, not a muscle: it takes the layer of the muscle it belongs to (our convention)"
+        }
+       ]
+      },
+      {
+       "label": "Deep: opponens muscles, adductor pollicis",
+       "he": "עמוק: האופוננסים והמקרב",
+       "groups": [
+        {
+         "re": "^(?:opponens pollicis|opponens digiti minimi(?! \\(foot\\))|adductor pollicis)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 412 (deep muscles of the hand, palmar view, with the short abductors and flexors cut)"
+        }
+       ]
+      },
+      {
+       "label": "Deepest: interossei",
+       "he": "העמוק ביותר: בין-גרמיים",
+       "groups": [
+        {
+         "re": "^(?:palmar interossei|dorsal interossei \\(hand\\))(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas pp. 412-413"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "abdomen",
+     "label": "Anterolateral abdominal wall",
+     "he": "דופן הבטן הקדמית-צידית",
+     "layers": [
+      {
+       "label": "External oblique",
+       "he": "האלכסוני החיצוני",
+       "groups": [
+        {
+         "re": "^(?:external oblique)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 128; mannan2017 p. 328"
+        }
+       ]
+      },
+      {
+       "label": "Internal oblique",
+       "he": "האלכסוני הפנימי",
+       "groups": [
+        {
+         "re": "^(?:internal oblique)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas pp. 128-129"
+        }
+       ]
+      },
+      {
+       "label": "Transversus abdominis",
+       "he": "הרוחבי",
+       "groups": [
+        {
+         "re": "^(?:transversus abdominis)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 129 (internal oblique and transversus abdominis)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "rectus",
+     "label": "Rectus sheath",
+     "he": "נדן הישר",
+     "layers": [
+      {
+       "label": "Rectus abdominis and pyramidalis",
+       "he": "הישר והפירמידלי",
+       "groups": [
+        {
+         "re": "^(?:rectus abdominis|pyramidalis)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas pp. 130-131 (one group inside the rectus sheath)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "postabd",
+     "label": "Posterior abdominal wall",
+     "he": "דופן הבטן האחורית",
+     "layers": [
+      {
+       "label": "Psoas, iliacus, quadratus lumborum",
+       "he": "פסואס, איליאקוס, ריבועי המותני",
+       "groups": [
+        {
+         "re": "^(?:psoas major|psoas minor|iliacus muscle|quadratus lumborum)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 173 (posterior wall; no depth order among them is given)"
+        },
+        {
+         "re": "^(?:iliopectineal arch)(?![a-z])",
+         "basis": "convention",
+         "cite": "grays_atlas p. 173",
+         "note": "an attached structure, not a muscle: it takes the layer of the muscle it belongs to (our convention)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "perineum",
+     "label": "Perineum and pelvic floor",
+     "he": "חיץ הנקבים ורצפת האגן",
+     "layers": [
+      {
+       "label": "Superficial perineal pouch and the external anal sphincter",
+       "he": "הכיס השטחי והסוגר החיצוני",
+       "groups": [
+        {
+         "re": "^(?:superficial transverse perineal muscle|bulbospongiosus|ischiocavernosus)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 355-357 (superficial perineal muscles, below the perineal membrane); grays_atlas p. 246"
+        },
+        {
+         "re": "^(?:sphincter ani externus|external anal sphincter)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 345, 347 (the external sphincter surrounds the anal canal, medial wall of the ischioanal fossa with levator ani above it)"
+        }
+       ]
+      },
+      {
+       "label": "Deep perineal pouch",
+       "he": "הכיס העמוק",
+       "groups": [
+        {
+         "re": "^(?:deep transverse perineal muscle|compressor urethrae|urethrovaginal sphincter|external urethral sphincter proper|raphe of the urethral sphincter)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 357-358 (the perineal membrane separates the superficial from the deep pouch); grays_atlas p. 245"
+        }
+       ]
+      },
+      {
+       "label": "Pelvic diaphragm (the perineum's ceiling)",
+       "he": "הסרעפת האגנית",
+       "groups": [
+        {
+         "re": "^(?:levator ani|iliococcygeus muscle|pubococcygeus muscle|pubo-analis muscle|coccygeus)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas pp. 214, 244 (pelvic diaphragm; borders and ceiling of the perineum)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "gluteal",
+     "label": "Gluteal region",
+     "he": "אזור העכוז",
+     "layers": [
+      {
+       "label": "Gluteus maximus, tensor fasciae latae",
+       "he": "העכוז הגדול, מותח הפסציה",
+       "groups": [
+        {
+         "re": "^(?:gluteus maximus|tensor fasciae latae)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 281 (superficial muscles of the gluteal region)"
+        }
+       ]
+      },
+      {
+       "label": "Deep to gluteus maximus",
+       "he": "מתחת לעכוז הגדול",
+       "groups": [
+        {
+         "re": "^(?:gluteus medius|piriformis|superior gemellus|inferior gemellus|obturator internus|quadratus femoris)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 226-227 (structures deep to the gluteus maximus); grays_atlas p. 281 (deep muscles)"
+        }
+       ]
+      },
+      {
+       "label": "Deepest: gluteus minimus, obturator externus",
+       "he": "העמוק ביותר",
+       "groups": [
+        {
+         "re": "^(?:gluteus minimus|obturator externus)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 226-227 (gluteus minimus lies under cover of gluteus medius; the obturator externus tendon under cover of quadratus femoris)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "thigh_ant",
+     "label": "Thigh, front",
+     "he": "ירך, קדמי",
+     "layers": [
+      {
+       "label": "Superficial",
+       "he": "שטחי",
+       "groups": [
+        {
+         "re": "^(?:sartorius|rectus femoris|rectus femoris, reflected \\(indirect\\) head|vastus lateralis|vastus medialis)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 288 (superficial muscles of the anterior compartment)"
+        }
+       ]
+      },
+      {
+       "label": "Deep: vastus intermedius",
+       "he": "עמוק",
+       "groups": [
+        {
+         "re": "^(?:vastus intermedius)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 288 (deep muscles of the anterior compartment)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "thigh_med",
+     "label": "Thigh, medial (adductors)",
+     "he": "ירך, מדיאלי",
+     "layers": [
+      {
+       "label": "Superficial: pectineus, adductor longus, gracilis",
+       "he": "שטחי",
+       "groups": [
+        {
+         "re": "^(?:pectineus|adductor longus|gracilis)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 289 (superficial muscles of the medial compartment); mannan2017 p. 205 (the fascia lata covers adductor longus and pectineus)"
+        }
+       ]
+      },
+      {
+       "label": "Deep: adductor brevis, adductor magnus",
+       "he": "עמוק",
+       "groups": [
+        {
+         "re": "^(?:adductor brevis|adductor magnus|\\(adductor minimus\\))(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 289 (deep muscles of the medial compartment)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "thigh_post",
+     "label": "Thigh, back (hamstrings)",
+     "he": "ירך, אחורי",
+     "layers": [
+      {
+       "label": "Biceps femoris, semitendinosus",
+       "he": "דו-ראשי, חצי-גידי",
+       "groups": [
+        {
+         "re": "^(?:biceps femoris|semitendinosus)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 227; grays_atlas p. 293"
+        }
+       ]
+      },
+      {
+       "label": "Semimembranosus",
+       "he": "חצי-קרומי",
+       "groups": [
+        {
+         "re": "^(?:semimembranosus)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 227 (semimembranosus lies under cover of the other two, which arise by a common tendon)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "leg_ant",
+     "label": "Leg, front",
+     "he": "שוק, קדמי",
+     "layers": [
+      {
+       "label": "Superficial",
+       "he": "שטחי",
+       "groups": [
+        {
+         "re": "^(?:tibialis anterior|extensor digitorum longus|fibularis \\(peroneus\\) tertius)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 325 (superficial muscles of the anterior compartment); mannan2017 pp. 255-256"
+        }
+       ]
+      },
+      {
+       "label": "Deep: extensor hallucis longus",
+       "he": "עמוק",
+       "groups": [
+        {
+         "re": "^(?:extensor hallucis longus)(?![a-z])",
+         "basis": "literature",
+         "cite": "grays_atlas p. 325 (deep muscles of the anterior compartment); mannan2017 p. 256 (it lies between tibialis anterior and extensor digitorum longus)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "leg_lat",
+     "label": "Leg, lateral",
+     "he": "שוק, צידי",
+     "layers": [
+      {
+       "label": "Fibularis longus",
+       "he": "פיבולריס לונגוס",
+       "groups": [
+        {
+         "re": "^(?:fibularis \\(peroneus\\) longus)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 259"
+        }
+       ]
+      },
+      {
+       "label": "Fibularis brevis",
+       "he": "פיבולריס ברוויס",
+       "groups": [
+        {
+         "re": "^(?:fibularis \\(peroneus\\) brevis)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 259 (it lies deep to the peroneus longus)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "leg_post",
+     "label": "Leg, back (calf)",
+     "he": "שוק, אחורי",
+     "layers": [
+      {
+       "label": "Gastrocnemius",
+       "he": "גסטרוקנמיוס",
+       "groups": [
+        {
+         "re": "^(?:gastrocnemius)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 263 (it lies most superficially and forms the greater part of the calf)"
+        },
+        {
+         "re": "^(?:calcaneal tendon)(?![a-z])",
+         "basis": "convention",
+         "cite": "mannan2017 p. 263",
+         "note": "an attached structure, not a muscle: it takes the layer of the muscle it belongs to (our convention); the tendon of gastrocnemius and soleus is placed with the outer of the two"
+        }
+       ]
+      },
+      {
+       "label": "Soleus, plantaris",
+       "he": "סולאוס, פלנטריס",
+       "groups": [
+        {
+         "re": "^(?:soleus|plantaris)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 263-264 (soleus lies just under cover of the gastrocnemius; plantaris between gastrocnemius and soleus)"
+        }
+       ]
+      },
+      {
+       "label": "Deep group",
+       "he": "קבוצה עמוקה",
+       "groups": [
+        {
+         "re": "^(?:popliteus|flexor digitorum longus|flexor hallucis longus)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 264-266 (deep group of the posterior crural muscles); grays_atlas p. 321"
+        }
+       ]
+      },
+      {
+       "label": "Deepest: tibialis posterior",
+       "he": "העמוק ביותר",
+       "groups": [
+        {
+         "re": "^(?:tibialis posterior muscle|tibialis posterior)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 266 (it lies at the deepest part on the back of the leg)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "foot_dors",
+     "label": "Dorsum of the foot",
+     "he": "גב כף הרגל",
+     "layers": [
+      {
+       "label": "Extensor digitorum brevis, extensor hallucis brevis",
+       "he": "המיישרים הקצרים",
+       "groups": [
+        {
+         "re": "^(?:extensor digitorum brevis|extensor hallucis brevis)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 pp. 255, 273 (under the long extensor tendons and the extensor retinaculum; the only muscles of the dorsum)"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "key": "sole",
+     "label": "Sole of the foot",
+     "he": "כף הרגל",
+     "layers": [
+      {
+       "label": "1st layer",
+       "he": "שכבה 1",
+       "groups": [
+        {
+         "re": "^(?:abductor hallucis|flexor digitorum brevis|abductor digiti minimi \\(foot\\))(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 281 (muscles of the 1st layer); grays_atlas p. 337"
+        }
+       ]
+      },
+      {
+       "label": "2nd layer",
+       "he": "שכבה 2",
+       "groups": [
+        {
+         "re": "^(?:quadratus plantae|lumbrical muscles of foot)(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 286 (muscles and tendons of the 2nd layer); grays_atlas p. 338"
+        }
+       ]
+      },
+      {
+       "label": "3rd layer",
+       "he": "שכבה 3",
+       "groups": [
+        {
+         "re": "^(?:flexor hallucis brevis|adductor hallucis|flexor digiti minimi brevis \\(foot\\))(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 288 (muscles of the 3rd layer); grays_atlas p. 339"
+        },
+        {
+         "re": "^(?:opponens digiti minimi \\(foot\\))(?![a-z])",
+         "basis": "convention",
+         "cite": "grays_atlas p. 339",
+         "note": "An inconstant slip of flexor digiti minimi brevis; it takes that muscle's layer (our convention)."
+        }
+       ]
+      },
+      {
+       "label": "4th layer: interossei",
+       "he": "שכבה 4",
+       "groups": [
+        {
+         "re": "^(?:plantar interossei|dorsal interossei \\(foot\\))(?![a-z])",
+         "basis": "literature",
+         "cite": "mannan2017 p. 291 (4th layer: plantar and dorsal interossei); grays_atlas p. 340"
+        }
+       ]
+      }
+     ]
     }
    ]
   },
