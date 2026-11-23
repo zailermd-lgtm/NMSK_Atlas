@@ -141,6 +141,7 @@ Q372 skin wall pass, Q377 Base·F head skin de-spike, Q378 + Q380 undo steps.
   anatomy"; picks pass through; limits: anatomy shows at groin in big hip poses, crude pouch, not verified with measure/scan/planning modes)
   merged 27d247b, not yet published. **Q387** unlimited camera rotation not started (camera assumed, unconfirmed). Q379 waits.
   Owner chose the recommended order: publish Q384+Q386 (done) → sciatic (done) → Q389/Q391 → other nerves.
+- ★ **Owner 2026-11-23 (late):** camera = Q387 (agent running, worktree `$S/wt387`, brief `$S/q387/brief.md`; joint ROM untouched). **Q393** UI round (agent running, worktree `$S/wt393`, brief `$S/q393/brief.md`): Labels display "gone" (the button is adopted into the Search sheet by q301, parked 0x0 when closed — check if more is broken), Settings tree + Settings search, imaging sim panels less text + collapsed titled sections, stray needle mark at screen centre, figure keeps >= 60 % of the screen when menus open. Both agents share the browser lock; merge by `git merge-file` (both edit zan template). Q379 waits for a free slot.
 - **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; reset 2026-11-22 13:00 UTC):** join the
   rebuilt Base·F chest to its neighbours. Findings in the scratchpad `q379/notes.md`; WIP `scripts/anatomy/q379/`.
   Resume the same agent with SendMessage after Q384 (never two heavy agents at once), or re-brief from the notes.
