@@ -4,8 +4,12 @@
     python3 scripts/anatomy/q388/verify_nerve_course_q388.py                         # both Base pages in build/q309
     python3 scripts/anatomy/q388/verify_nerve_course_q388.py --page-dir DIR [--page-dir DIR2] [--json OUT] [--only sciatic]
 
-One line per (page, nerve, side, check):  Q388_NERVES_OK | Q388_NERVES_FAIL | Q388_NERVES_NA  <page> <nerve>_<side> <check>:
-<measured> (literature tolerance; source). NA = the page has no mesh to measure (said, never passed). The last line is
+One line per (page, nerve, side, check):  Q388_NERVES_OK | Q388_NERVES_FAIL | Q388_NERVES_NA | Q388_NERVES_CONV  <page> <nerve>_<side>
+<check>: <measured> (literature tolerance; source). NA = the page has no mesh to measure (said, never passed). CONV (Q392) = a
+check against our own convention with no published number behind it: reported with its value, not counted as a failure.
+Q392 added: musculocutaneous exit / intramuscular length / course below coracobrachialis, the arm bundle inside biceps
+(brachial artery, ulnar, medial antebrachial cutaneous), the lateral femoral cutaneous nerve (passage vs the ASIS, emergence,
+on iliacus, abdominal course), the obturator nerve (centre in muscle), the axillary nerve's Cetik index. The last line is
 Q388_NERVES_OK when no check FAILs, else Q388_NERVES_FAIL with the count. Frame: mm, +y up, +z anterior, +x body right.
 Tolerances are the cited mean +/- 2 SD, or the cited range, or (relations) a stated geometric rule; every one names its
 source. Books are cited as knowledge only (facts + page), PubMed sources by DOI.
@@ -40,6 +44,9 @@ SRC = {
     "macchi": "Macchi V et al. 2007, Clin Anat 20:400-406, doi:10.1002/ca.20402 (MCN enters coracobrachialis 7.7 +/- 2.5 cm from the coracoid); Clavert P et al. 2009, Surg Radiol Anat 31:49-53, doi:10.1007/s00276-008-0426-2 (55.7 mm from the coracoid tip)",
     "cetik": "Cetik O et al. 2006, J Bone Joint Surg Am 88:2395-2399, doi:10.2106/JBJS.E.01375 (axillary n. in deltoid 6.08 cm (anterior) / 4.87 cm (posterior) below the acromion); Samart 2014 J Med Assoc Thai 97 S8:S27 (57.9 mm, arm adducted 30 deg)",
     "punja": "Punja R et al. 2022, Ann Med Surg 74:103259, doi:10.1016/j.amsu.2022.103259 (ulnar n. divides 8.9 +/- 2.5 mm from the pisiform)",
+    "uzel": "Uzel M et al. 2011, Clin Orthop Relat Res 469:2605-2611, doi:10.1007/s11999-011-1858-2 (LFCN emerges from the lateral border of psoas 12.39 +/- 2.67 cm from the ASIS)",
+    "mandal": "Mandal P et al. 2022, Plast Reconstr Surg 149:1147-1151, doi:10.1097/PRS.0000000000009034 (LFCN medial border 2.1 +/- 1.3 cm medial to the ASIS at the inguinal ligament); Hospodar PP et al. 1999, J Orthop Trauma 13:17-19, doi:10.1097/00005131-199901000-00005 (20.4 mm, range 3-46, never lateral)",
+    "cetik_idx": "Cetik O et al. 2006, doi:10.2106/JBJS.E.01375 (distance acromion -> axillary n. / arm length: anterior index 0.20, posterior 0.16; arm 30.4 cm; no SD in the abstract -- tolerance +/- 0.03 is our convention, ~ +/- 10 mm)",
     "gray_rel": "Gray's Anatomy (relations; knowledge only): ulnar n. behind the medial epicondyle; femoral n. lateral to the femoral artery under the inguinal ligament; tibial n. superficial (posterior) to the popliteal vessels; deep fibular n. with the anterior tibial artery; trunks of the brachial plexus between scalenus anterior and medius; saphenous n. with the femoral artery in the adductor canal",
 }
 
@@ -224,8 +231,24 @@ def musculocutaneous(cx):
         dmin = float(cKDTree(cx.D[cb]["V"]).query(C)[0].min())
         return [res("pierces_coracobrachialis", False, "enters CB", False, SRC["macchi"], f"never inside CB; closest {dmin:.1f} mm")]
     i = int(np.argmax(w)); dd = float(np.linalg.norm(C[i] - tip))
-    return [res("CB_entry_from_coracoid_mm", dd, [27, 127], 27 <= dd <= 127, SRC["macchi"],
-                f"first centreline point inside coracobrachialis, 3-D distance to the coracoid tip (most anterior scapula vertex)")]
+    out = [res("CB_entry_from_coracoid_mm", dd, [27, 127], 27 <= dd <= 127, SRC["macchi"],
+               f"first centreline point inside coracobrachialis, 3-D distance to the coracoid tip (most anterior scapula vertex)")]
+    j = int(len(w) - 1 - np.argmax(w[::-1])); de = float(np.linalg.norm(C[j] - tip))
+    out.append(res("CB_exit_from_coracoid_mm", de, [100, 132], 100 <= de <= 132, SRC["macchi"],
+                   "last centreline point inside coracobrachialis (Macchi 11.6 +/- 0.8 cm, mean +/- 2 SD)"))
+    li = float(L.arclen(C[i:j + 1])[-1]) if j > i else 0.0
+    out.append(res("CB_intramuscular_mm", li, [6, 82], 6 <= li <= 82, SRC["macchi"], "centreline length inside coracobrachialis (Macchi 4.4 +/- 1.9 cm, +/- 2 SD)"))
+    bad = []
+    S = L.arclen(C)
+    for k in range(j + 2, len(C)):
+        if S[-1] - S[k] < 8 or k % 2:
+            continue
+        dep, ins = depth_in(cx.sc, C[k])
+        if dep > 1.5:
+            bad.append((round(float(C[k, 1])), ins, round(dep, 1)))
+    out.append(res("below_CB_centre_in_muscle_stations", len(bad), "<= 1 station deeper than 1.5 mm (between biceps and brachialis)",
+                   len(bad) <= 1, SRC["gray_rel"], f"{bad[:6]}"))
+    return out
 
 
 def axillary(cx):
@@ -241,8 +264,16 @@ def axillary(cx):
     if not ins.any():
         return [res("in_deltoid_below_acromion_mm", None, [40, 70], False, SRC["cetik"], "no axillary-nerve vertex inside the deltoid parts")]
     dy = float(acr[1] - np.median(N[ins, 1]))
-    return [res("in_deltoid_below_acromion_mm", dy, [40, 70], 40 <= dy <= 70, SRC["cetik"],
-                "median height of the nerve's intra-deltoid part below the most lateral acromion vertex (+/- 10 mm around 49-61)")]
+    hum = cx.V("humerus"); le, _ = epicondyles(hum, cx.sg)
+    arm = float(acr[1] - le[1]); idx = dy / arm
+    absl = res("in_deltoid_below_acromion_mm", dy, [40, 70], 40 <= dy <= 70, SRC["cetik"],
+               "median height of the nerve's intra-deltoid part below the most lateral acromion vertex (+/- 10 mm around 49-61); "
+               "Q392: reported, not counted -- the +/- 10 mm is our convention and Cetik found the distance proportional to arm "
+               "length (r = 0.79 anterior), so the counted line is the index below")
+    absl["conv"] = True
+    return [absl,
+            res("in_deltoid_index", round(idx, 3), [0.13, 0.23], 0.13 <= idx <= 0.23, SRC["cetik_idx"],
+                f"the same height / arm length (acromion -> lateral epicondyle {arm:.0f} mm); humeral head top {float(acr[1] - hum[:, 1].max()):.0f} mm below the acromion vertex")]
 
 
 def femoral(cx):
@@ -297,8 +328,11 @@ def deep_fibular(cx):
         return [res("present", None, None, None, "", "missing mesh")]
     y = 0.5 * (tib[:, 1].max() + tib[:, 1].min())
     d = near_dist(N, A, y)
-    return [res("with_ant_tibial_artery_mm", d, "<= 6 (surface to surface, mid-leg +/- 15 mm)", d is not None and d <= 6,
-                SRC["gray_rel"], f"y {y:.0f}; 6 mm is our convention for 'accompanies'")]
+    r = res("with_ant_tibial_artery_mm", d, "<= 6 (surface to surface, mid-leg +/- 15 mm)", d is not None and d <= 6,
+            SRC["gray_rel"], f"y {y:.0f}; CONVENTION ONLY: no published nerve-artery distance was found (Q388, Q392 searches); "
+            f"6 mm is our own rule for 'accompanies', so this line is reported, not counted as a failure, and not 'fixed' to it")
+    r["conv"] = True
+    return [r]
 
 
 def saphenous(cx):
@@ -372,9 +406,82 @@ def median(cx):
     return out
 
 
+def arm_bundle(cx):
+    """brachial artery, ulnar and medial antebrachial cutaneous nerves: arm stretch with the centre inside biceps brachii (3-D
+    winding > 0.5), as the median line; the artery is a vessel and is listed because it shows whether the muscle or the nerve
+    is the cause (Q392)."""
+    bb = sid("biceps_brachii", cx.s); hum = cx.V("humerus")
+    if bb not in cx.D or hum is None:
+        return [res("present", None, None, None, "", "missing mesh")]
+    le, me = epicondyles(hum, cx.sg); yie = 0.5 * (le[1] + me[1])
+    out = []
+    for base in ("zan_brachial_artery", "ulnar_n", "zan_medial_antebrachial_cutaneous_nerve"):
+        C = cx.C(base, 120)
+        if C is None:
+            continue
+        arm = C[(C[:, 1] > yie + 40) & (C[:, 1] < hum[:, 1].max() - 40)]
+        if len(arm) < 2:
+            continue
+        w = np.abs(L.winding(cx.D[bb]["V"], cx.D[bb]["F"], arm)) > 0.5
+        seg = float(np.linalg.norm(np.diff(arm, axis=0), axis=1).mean())
+        out.append(res(f"{base}_arm_centre_inside_biceps_mm", round(w.sum() * seg, 1), "0 (outside the muscle)", w.sum() <= 1,
+                       SRC["gray_rel"], "medial bicipital groove / superficial; centreline stations inside biceps x station length"))
+    return out
+
+
+def lfcn(cx):
+    C = cx.C("lateral_femoral_cutaneous_n", 160); hip = cx.V("hip_bone")
+    lig = cx.V("inguinal_ligament") if sid("inguinal_ligament", cx.s) in cx.D else cx.V("zan_inguinal_ligament")
+    ia = sid("zan_iliacus_muscle", cx.s); ps = cx.V("zan_psoas_major")
+    if C is None or lig is None or ia not in cx.D or ps is None:
+        return [res("present", None, None, None, "", "missing mesh")]
+    sg = cx.sg
+    up = hip[(hip[:, 1] > np.percentile(hip[:, 1], 60)) & (sg * hip[:, 0] > np.median(sg * hip[:, 0]))]
+    asis = up[np.argmax(up[:, 2])]
+    i = int(np.argmin(cKDTree(lig).query(C)[0]))
+    N = cx.V("lateral_femoral_cutaneous_n"); near = N[np.abs(N[:, 1] - C[i, 1]) < 4]
+    med = float(sg * (asis[0] - near[np.argmin(sg * near[:, 0])][0]))
+    out = [res("passage_medial_edge_from_ASIS_mm", med, [0, 47], 0 <= med <= 47, SRC["mandal"],
+               f"nerve's medial edge medial to the ASIS (most anterior upper-lateral hip-bone vertex) where the nerve meets the inguinal ligament (y {C[i, 1]:.0f}); Mandal mean +/- 2 SD -0.5..4.7 cm, Hospodar range 3-46 mm")]
+    dps = cKDTree(ps).query(C[:i])[0]
+    e = int(np.where(dps <= 6.0)[0].max()) if (dps <= 6.0).any() else None
+    if e is None:
+        out.append(res("emergence_from_ASIS_mm", None, [70, 177], False, SRC["uzel"], "never within 6 mm of psoas major"))
+    else:
+        de = float(np.linalg.norm(C[e] - asis))
+        out.append(res("emergence_from_ASIS_mm", de, [70, 177], 70 <= de <= 177, SRC["uzel"],
+                       f"last point within 6 mm of psoas major (its lateral border), y {C[e, 1]:.0f} (Uzel 12.39 +/- 2.67 cm, +/- 2 SD)"))
+        da = cKDTree(cx.D[ia]["V"]).query(C[e:i])[0] if i > e + 2 else np.array([np.inf])
+        md = float(np.median(da))
+        out.append(res("on_iliacus_median_mm", md, "<= 5 (centre to iliacus surface, emergence -> ligament)", md <= 5,
+                       SRC["gray_rel"].replace("Gray's Anatomy (relations; knowledge only)", "Gray's Anatomy (relations; knowledge only): LFCN crosses iliacus;") ,
+                       "5 mm is our convention for 'on the muscle'"))
+    bad = []
+    for k in range(0, i, 3):
+        dep, ins = depth_in(cx.sc, C[k])
+        if dep > 1.5:
+            bad.append((round(float(C[k, 1])), ins, round(dep, 1)))
+    out.append(res("abdominal_centre_in_muscle_stations", len(bad), "<= 1 station deeper than 1.5 mm", len(bad) <= 1, SRC["gray_rel"], f"{bad[:6]}"))
+    return out
+
+
+def obturator(cx):
+    C = cx.C("obturator_n", 120)
+    if C is None:
+        return [res("present", None, None, None, "", "missing mesh")]
+    bad = []
+    for k in range(0, len(C), 2):
+        dep, ins = depth_in(cx.sc, C[k])
+        if dep > 1.5:
+            bad.append((round(float(C[k, 1])), ins, round(dep, 1)))
+    return [res("thigh_centre_in_muscle_stations", len(bad), "<= 1 station deeper than 1.5 mm", len(bad) <= 1, SRC["gray_rel"].replace("Gray's Anatomy (relations; knowledge only)", "Gray's Anatomy (relations; knowledge only): obturator anterior division behind adductor longus / pectineus on adductor brevis, posterior division between brevis and magnus;"),
+                f"{bad[:6]} (no published position number found: not re-routed, Q392)")]
+
+
 NERVES = {"sciatic": sciatic, "common_fibular": common_fibular, "radial": radial, "ulnar": ulnar,
           "musculocutaneous": musculocutaneous, "axillary": axillary, "femoral": femoral, "tibial": tibial,
-          "deep_fibular": deep_fibular, "saphenous": saphenous, "brachial_plexus_roots": brachial_roots, "median": median}
+          "deep_fibular": deep_fibular, "saphenous": saphenous, "brachial_plexus_roots": brachial_roots, "median": median,
+          "arm_bundle": arm_bundle, "lateral_femoral_cutaneous": lfcn, "obturator": obturator}
 
 
 def run(page_dir, only=None):
@@ -398,7 +505,7 @@ def run(page_dir, only=None):
 
 def fmt(v):
     if isinstance(v, float):
-        return f"{v:.1f}"
+        return f"{v:.3f}" if abs(v) < 1 else f"{v:.1f}"
     return json.dumps(v) if isinstance(v, (dict, list)) else str(v)
 
 
@@ -413,8 +520,11 @@ def main(argv=None):
     for d in dirs:
         for r in run(d, a.only):
             rows.append(r)
-            tag = "Q388_NERVES_NA" if r["ok"] is None else ("Q388_NERVES_OK" if r["ok"] else "Q388_NERVES_FAIL")
-            nfail += r["ok"] is False
+            if r.get("conv"):
+                tag = "Q388_NERVES_CONV"          # our own convention, no published number: reported, not counted
+            else:
+                tag = "Q388_NERVES_NA" if r["ok"] is None else ("Q388_NERVES_OK" if r["ok"] else "Q388_NERVES_FAIL")
+                nfail += r["ok"] is not None and not r["ok"]     # Q392: `is False` missed numpy bools (Q388 under-counted 21 as 17)
             print(f"{tag} {r['page']} {r['nerve']}_{r['side']} {r['check']}: {fmt(r['measured'])} (tol {fmt(r['tol'])}) "
                   f"{r['note']}".rstrip())
     if a.json:

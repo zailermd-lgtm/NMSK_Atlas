@@ -145,3 +145,68 @@ Carlan D et al. 2007, doi:10.1016/j.jhsa.2006.07.001 · Punja R et al. 2022, doi
 doi:10.1007/s00276-008-0426-2 · Cetik O et al. 2006, doi:10.2106/JBJS.E.01375 · Samart et al. 2014, J Med Assoc Thai 97 S8:S27
 (PMID 25518290) · Gurbuz 2025, doi:10.1186/s12871-025-03020-2 · Valisena S et al. 2021, doi:10.1177/10711007211002508.
 Books (knowledge only): Mannan, *Regional Dissection and Surface Anatomy*, p. 228–229, 539; Gray's Anatomy relations.
+
+## Q392 — second nerve round (2026-11-23)
+
+Owner, 2026-11-22: *"it is very important to verify where the nerves run: which muscles they pass between, at what level, and
+how close they are to the bones."* Started from the CURRENT `build/q309` Base pages (Q388 sciatic in them); same rules as
+Q388 (real sources only; rule-based moves only where a published number supports them, badged with sources and error on the
+card). Patch: `scripts/anatomy/q392/patch_nerves_q392.py` (deterministic: two runs byte-identical); pose weights:
+`scripts/anatomy/q392/rig_weights_q392.py`; verifier extended (`verify_nerve_course_q388.py`). Patched data in the
+scratchpad (`$S/q392n/patched/<dir>/` + `pose_rig_base_{m,f}.json` + `SOURCE_SHA256.txt`) until the main thread applies it.
+
+**Verifier.** The Q388 counter used `ok is False`, which misses numpy booleans: "17 FAIL" was really **21** failing lines.
+Fixed. Old checks on the current pages: 21 FAIL. Extended verifier: before **38 FAIL**, after **13 FAIL** + 8 `CONV` lines
+(a new tag: our own convention with no published number — reported with its value, not counted).
+
+### What was decided, from measurements (values Base·M R/L, Base·F R/L)
+
+1. **Arm bundle inside biceps — the muscle is the cause, not the nerves.** Slice depth (2-D winding) of the tube centres
+   inside biceps: brachial artery 1.5 (max 2.1) mm, brachial veins 1.5–1.8 (max 5.5), median 1.7–2.5 (max 5.4), ulnar 1.0–1.4
+   (max 2.5): the "123–140 mm inside" of Q388 is a long *shallow* overlap along the muscle's medial border. Five independent
+   bundle structures overlap the same border, and the bundle sits where it should: medial to the humerus, on
+   coracobrachialis / brachialis, anterior to triceps, 10–25 mm under the medial skin. Biceps volume 202 / 155 cm³ against
+   163 cm³ by MRI in unimpaired arms (Adkins 2021, doi:10.1073/pnas.2008597118): not oversized; its medial border's shape is
+   wrong. **Fix (contact correction, badged):** biceps, coracobrachialis and brachialis yield — surface moved ≤ 8 mm towards
+   the muscle's section centroid so each tube's surface lies 0.5 mm outside (window 6 mm across the tube, because the
+   Z muscle triangles are coarse). Cost: volume biceps 202→182 / 155→139 cm³ (−10 %), coracobrachialis −12 %, brachialis −7 %.
+   Result: brachial artery, ulnar 0 mm inside (were 6–61 mm); median 10 / 21 mm (M), 0 / 5 mm (F) (was 123–140).
+   The medial antebrachial cutaneous nerve lay deeper (4–12 mm, a thin superficial nerve inside the short head): moved
+   instead, by the least displacement out of the muscles (≤ 16 mm, posteromedially, beside the bundle): 0 mm inside (was 125–138).
+2. **Musculocutaneous — re-routed (Macchi 2007 doi:10.1002/ca.20402; Clavert 2009).** The Z nerve only begins 93 mm (M) /
+   83 mm (F) below the coracoid tip (real origin 2.9 cm) — already inside Macchi's entry range. Rule: enter coracobrachialis
+   at once, leave it at 124 mm from the coracoid tip (exit 11.6 ± 0.8 cm; +1 SD so the intramuscular length stays near
+   4.4 ± 1.9 cm despite the late origin), then between biceps and brachialis (biceps yields). After: entry 111 / 108 / 96 / 97
+   mm, exit 118 / 118 / 119 / 119 mm, inside CB 7 / 10 / 24 / 22 mm (Macchi ±2 SD: 6–82 — **M only just inside**), 0 stations
+   inside a muscle below CB. Max move 17 mm; length +2 to +3 %.
+3. **Lateral femoral cutaneous — re-routed (Üzel 2011 doi:10.1007/s11999-011-1858-2; Mandal 2022
+   doi:10.1097/PRS.0000000000009034; Hospodar 1999).** Source: never within 8 mm of iliacus, 19–80 mm away, running through
+   transversus abdominis; its passage under the inguinal ligament was already right (11 / 11 / 5 / 5 mm medial to the ASIS).
+   Rule: top fixed until it descends 6 mm; along the lateral border of psoas to 10 mm below the iliac crest (Üzel −0.98 ±
+   5.57 cm); then on the anterior face of iliacus straight to the unchanged passage. After: emergence 96 / 96 / 132 / 135 mm
+   from the ASIS (Üzel 124 ± 27), on iliacus (median 3.8–4.5 mm centre–surface), 0 stations inside a muscle, passage 10.5 /
+   14 / 6.5 / 6.7 mm. Max move 59–61 mm; length ±0.3 % (M), +3 % (F). The ilio-inguinal nerve, which runs in the
+   abdominal wall, is NOT moved (a first run dragged it and the median trunk as "attached" nerves — now only nerves that END
+   on a moved stretch follow).
+4. **Obturator — NOT re-routed.** Centre 1.5–10 mm inside pectineus / adductor longus / sartorius over ~180 mm. PubMed gave
+   only branching / innervation studies (Anagnostopoulou 2009 doi:10.1097/AAP.0b013e3181933b51; Iwanaga 2023), no position
+   number; a least-displacement correction moved it up to 25 mm ANTERIOR to adductor longus (the wrong side) and was rejected.
+5. **Axillary (Base·F) — not re-routed; cause is the shoulder.** The nerve lies 32 mm (F) vs 35 mm (M) below the humeral head
+   top — the same place on the bone — but the F acromion vertex is only 1 mm above the head top (M 8 mm; Q250 deformation)
+   and the F arm is shorter (266 vs 299 mm). Cetik 2006 found the distance proportional to arm length (index 0.20 anterior /
+   0.16 posterior): F index 0.136 / 0.133, M 0.156 / 0.152 → inside ±0.03 (our convention; no SD in the abstract). The
+   absolute 40–70 mm line is now `CONV` (36 / 35 mm on F).
+6. **Deep fibular – anterior tibial artery 10.7–11.2 mm:** no published distance found; the ≤ 6 mm rule is ours → `CONV`, not
+   "fixed".
+7. **Brachial plexus lower roots — not re-routed.** No published position number found; 4–6 of 21–22 levels in the groove.
+8. **Sciatic leftovers — left.** Femur distance at the lesser trochanter 26.0 / 26.9 / 25.9 mm (Leite 11 ± 7, limit 25; F L
+   23.4 OK); ≤ 1.5 mm into semimembranosus mid-thigh (no free space there).
+
+**Pose rig.** The live rig is `data/anatomy/pose_rig_base_{m,f}.json` (Q384; the copy inside the `build/q309` html is an older
+one that regen replaces). Moved nerve vertices — Q392's musculocutaneous, LFCN, medial antebrachial cutaneous AND the Q388
+sciatic, whose weights were stale — now take the inverse-square average (KNN 4) of the decoded weights of the nearest UNMOVED
+nerve vertices; those structures are re-encoded with every vertex a control (round trip exact). Weight change (half L1):
+sciatic 0.04 mean, MCN 0.02–0.03, MABC 0.08–0.11, LFCN 0.28–0.62 (it moved out of the abdominal wall). The Q388 stubs are
+rigid in the rig (one segment), so nothing to do; the yielded muscles (≤ 8 mm) keep their stored weights.
+
+**Not verified:** nothing in a browser; no regen; the pose rig re-weighting is not checked posed.
