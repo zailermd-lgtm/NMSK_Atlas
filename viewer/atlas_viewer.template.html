@@ -16512,6 +16512,7 @@ function NMSKSelect(E){
   function setTint(v){ tintOn = !!v; changed(); }
   /* Q319: the colour of the selected. scope "all" = every structure marked NOW (the rest keep theirs); scope "next" = the colour that
      structures marked AFTER this point receive, those already marked are left alone. hex = null puts back the structure's own colour. */
+  function pickHex(){ return ucolNext ? parseInt(ucolNext.slice(1), 16) : null; }      // Q390: the tint a single click gives the picked structure (the "From now on" colour, else the engine default)
   function userHex(id){ var c = colOf(id); return c ? parseInt(c.slice(1), 16) : null; }
   function setModeColours(map){
     var m = null;
@@ -16922,7 +16923,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    userHex:userHex, setUserColour:setUserColour, palette:function(){ return PALETTE.map(function(p){ return p.slice(); }); }, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
+    userHex:userHex, pickHex:pickHex, setUserColour:setUserColour, palette:function(){ return PALETTE.map(function(p){ return p.slice(); }); }, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
     snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,

@@ -12512,7 +12512,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
              "varying vec3 vN;varying vec3 vP;" +
              "void main(){vec3 p=aPos;vec3 q=aNrm;if(uSymOn>0.5){float s=dot(p,uSym.xyz)-uSym.w;p=p-2.0*s*uSym.xyz;q=q-2.0*dot(q,uSym.xyz)*uSym.xyz;}vN=uN*q;vP=p;gl_Position=uMVP*vec4(p,1.0);}";
     var FS = "precision mediump float;varying vec3 vN;varying vec3 vP;" +
-      "uniform vec3 uColor;uniform float uAlpha;uniform float uHL;" +
+      "uniform vec3 uColor;uniform float uAlpha;uniform float uHL;uniform vec3 uHLc;" +
       "uniform float uXr;uniform float uMu;uniform float uD0;uniform float uFlat;" +      // Q301: the radiographic style
 
       "uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
@@ -12524,7 +12524,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       " float f=max(dot(n,normalize(vec3(-0.55,0.05,-0.5))),0.0)*0.32;" +
       " float rim=pow(1.0-abs(n.z),2.5)*0.26;" +
       " vec3 c=uColor*(0.34+d*0.74+f)+rim*uColor;" +
-      " c=mix(c,vec3(0.35,0.80,0.96),uHL*0.6);" +
+      " c=mix(c,uHLc,uHL*0.6);" +
       " if(uFlat>0.0) c=uColor*mix(0.34+d*0.74+f,1.0,uFlat)+rim*uColor*(1.0-uFlat);" +   // Q301: in CT / MRI the grey IS the datum, so the shading must not swamp it
       " if(uXr>0.5){gl_FragColor=vec4(1.0,1.0,1.0,clamp(1.0-exp(-uMu*uD0),0.004,0.995));}" +   // Q301: a DRR
       " else gl_FragColor=vec4(c,uAlpha);}";
@@ -12541,7 +12541,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     gl.useProgram(prog);
     var U = {};
-    ["uMVP","uN","uColor","uAlpha","uHL","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn","uSymOn","uSym"].forEach(function (n) {
+    ["uMVP","uN","uColor","uAlpha","uHL","uHLc","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn","uSymOn","uSym"].forEach(function (n) {
       U[n] = gl.getUniformLocation(prog, n);
     });
     ["uXr","uMu","uD0","uFlat"].forEach(function (n) {      // Q301: the radiographic styles, kept apart so no earlier round's anchor moves
@@ -12638,6 +12638,15 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       return (o.q364 = ent);
     }
     function q364A(o) { var e = q364Ent(o); return e ? e.a : 1; }
+    /* Q390: a single click tints the picked structure at once, subtly. The colour is the "from now on" colour of the existing
+       Settings control (selCtl.pickHex) or a soft default; the shader mixes it in at PICK_HL * 0.6, so the real colour stays readable. */
+    var PICK_HL = 1, PICK_HOV = 0.5, PICK_A = 0.75, PICK_AH = 0.4, PICK_DEF = [0.35, 0.80, 0.96], pickKey = null, pickArr = PICK_DEF;
+    function pickRGB(){
+      var h = null; try { h = selCtl && selCtl.pickHex ? selCtl.pickHex() : null; } catch (e) { h = null; }
+      if (h !== pickKey){ pickKey = h; pickArr = h == null ? PICK_DEF : [((h >> 16) & 255) / 255, ((h >> 8) & 255) / 255, (h & 255) / 255]; }
+      return pickArr;
+    }
+    function pickMix(c){ var p = pickRGB(), k = PICK_HL * 0.6; return [c[0] * (1 - k) + p[0] * k, c[1] * (1 - k) + p[1] * k, c[2] * (1 - k) + p[2] * k]; }
     function colOf(o) {
       if (q301.grey){                                   // Q301: a radiographic style paints greys, not tissue colours
         var g = Math.round(Math.max(0, Math.min(1, q301.grey(o))) * 64) / 64, a = q301Grey.get(g);
@@ -12697,7 +12706,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     /* Q334: a piece's wall toward a neighbour is drawn only while that neighbour is not drawn (hidden, switched off, cut
        away, other side): then it is the piece's real boundary. Drawn with the piece's own colour and opacity, after the scene. */
     function q334Look(o){
-      if (o === selected || o === hovered) return {a:1, hl:selected === o ? 1 : 0.6};
+      if (o === selected || o === hovered) return {a:1, hl:selected === o ? PICK_HL : PICK_HOV};
       if (faded.has(o)) return {a:Math.min(0.18, alphaFor[o.layer]), hl:0};
       var lk = selLook(o);
       if (lk === "") return {a:layerAlpha(o.layer), hl:0};
@@ -12724,7 +12733,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
             }
             if (!lk){
               lk = q334Look(o); var c = colOf(o);
-              gl.uniform3f(U.uColor, c[0], c[1], c[2]); gl.uniform1f(U.uAlpha, lk.a); gl.uniform1f(U.uHL, lk.hl);
+              gl.uniform3f(U.uColor, c[0], c[1], c[2]); gl.uniform1f(U.uAlpha, lk.a); gl.uniform1f(U.uHL, lk.hl); gl.uniform3fv(U.uHLc, pickRGB());
               gl.uniform1f(U.uMu, q301.mu ? q301.mu(o) : 1);
               if (lk.a >= 0.999){ gl.disable(gl.BLEND); gl.depthMask(true); }
               else { gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false); }
@@ -12899,7 +12908,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       }
       function paint(B, alpha, test, hl) {
         gl.uniform1f(U.uAlpha,alpha);
-        gl.uniform1f(U.uHL,hl||0);
+        gl.uniform1f(U.uHL,hl||0); gl.uniform3fv(U.uHLc,pickRGB());
         bind(B); runs(B,test);
       }
       function scenePass(){      // Q237: the whole scene is painted once, and once more (mirrored) when the Symmetric view is on
@@ -12963,9 +12972,14 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       if (hi2 && hi2.batch && vis(hi2)) {
         var cc=colOf(hi2);
         gl.uniform3f(U.uColor,cc[0],cc[1],cc[2]);
-        gl.uniform1f(U.uAlpha,1); gl.uniform1f(U.uHL,selected===hi2?1:0.6);
+        /* Q390: this pass sat on the same depth as the structure's own draw and failed the default LESS test, so a click tinted
+           nothing (and a muscle under the skin never showed it). LEQUAL + a blend over what is on screen gives a soft tint at once,
+           through translucent skin too, and the structure's real colour stays readable under it. */
+        gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false); gl.depthFunc(gl.LEQUAL);
+        gl.uniform1f(U.uAlpha,selected===hi2?PICK_A:PICK_AH); gl.uniform1f(U.uHL,selected===hi2?PICK_HL:PICK_HOV); gl.uniform3fv(U.uHLc,pickRGB());
         bind(hi2.batch);
         gl.drawElements(gl.TRIANGLES,hi2.iCount,gl.UNSIGNED_SHORT,hi2.iStart*2);
+        gl.depthFunc(gl.LESS); gl.depthMask(true); gl.disable(gl.BLEND);
       }
       drawCap(mvp);                                  // Q227: the filled cut face (and its contour lines)
       drawPartDots(mvp, eye);
@@ -16841,6 +16855,7 @@ function NMSKSelect(E){
   function setTint(v){ tintOn = !!v; changed(); }
   /* Q319: the colour of the selected. scope "all" = every structure marked NOW (the rest keep theirs); scope "next" = the colour that
      structures marked AFTER this point receive, those already marked are left alone. hex = null puts back the structure's own colour. */
+  function pickHex(){ return ucolNext ? parseInt(ucolNext.slice(1), 16) : null; }      // Q390: the tint a single click gives the picked structure (the "From now on" colour, else the engine default)
   function userHex(id){ var c = colOf(id); return c ? parseInt(c.slice(1), 16) : null; }
   function setModeColours(map){
     var m = null;
@@ -17251,7 +17266,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    userHex:userHex, setUserColour:setUserColour, palette:function(){ return PALETTE.map(function(p){ return p.slice(); }); }, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
+    userHex:userHex, pickHex:pickHex, setUserColour:setUserColour, palette:function(){ return PALETTE.map(function(p){ return p.slice(); }); }, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
     snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
@@ -19390,7 +19405,7 @@ function NMSKLearn(api){
             return;
           }
           var lk = selLook(o), a = faded.has(o) ? Math.min(0.18, alphaFor[o.layer]) : (lk === "ghost" || lk === "fade" || lk === "xray" ? selAlpha(lk, o.layer, lk === "ghost" ? alphaFor[o.layer] : layerAlpha(o.layer)) : (lk === "hl" ? 1 : layerAlpha(o.layer))), c = colOf(o);     // a faded structure fades its cut face too (< 20 %: no face)
-          if (selected === o) c = [c[0] * 0.4 + 0.21, c[1] * 0.4 + 0.48, c[2] * 0.4 + 0.576];     // the shader mixes the selected structure toward light blue
+          if (selected === o) c = pickMix(c);     // the shader mixes the selected structure toward light blue
           out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});
         });
         symCap(out);          // Q237: mirrored copies of the Symmetric view
@@ -19429,7 +19444,7 @@ function NMSKLearn(api){
             return;
           }
           var lk = selLook(o), a = faded.has(o) ? Math.min(0.18, alphaFor[o.layer]) : (lk === "ghost" || lk === "fade" || lk === "xray" ? selAlpha(lk, o.layer, lk === "ghost" ? alphaFor[o.layer] : layerAlpha(o.layer)) : (lk === "hl" ? 1 : layerAlpha(o.layer))), c = colOf(o);
-          if (selected === o) c = [c[0] * 0.4 + 0.21, c[1] * 0.4 + 0.48, c[2] * 0.4 + 0.576];
+          if (selected === o) c = pickMix(c);
           out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});
         });
         symCap(out);
