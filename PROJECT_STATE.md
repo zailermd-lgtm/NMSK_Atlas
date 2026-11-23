@@ -85,7 +85,7 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v107**, Base·F **v103** = `regen/q389` index.html (since 2026-11-23); before that v106/v102 (1795348134-6f38 / 1795348137-0d76) = `regen/q386` + only `clinical_needle_tool.js`
+**Live:** Base·M **v108**, Base·F **v104** = `regen/q392` (Q388 sciatic reroute + Q390 tint; published 2026-11-23, files: index.html, geo_00/02, parts_data, symmetry); v107/v103 = Q384 + Q386 (`regen/q389`); before that v106/v102 (1795348134-6f38 / 1795348137-0d76) = `regen/q386` + only `clinical_needle_tool.js`
 of `regen/q387` (owner 2026-11-22: "origin = proximal attachment, insertion = distal attachment" — the tip options and the
 "no data" line say so; the placed data follow that convention: no limb muscle has its origin distal to its insertion;
 trunk / scapular ones are origin = axial end). v105/v101 was `regen/q386` (regen of
@@ -133,16 +133,15 @@ Q372 skin wall pass, Q377 Base·F head skin de-spike, Q378 + Q380 undo steps.
   → `smooth_rig_q384.py` → `hand_dofs_q384.py`. Verdicts `$S/v389/` (flaky under load: q382 layout chip/double-tap, q344 phone
   Labels, q347 FHL start-scan; each passes on rerun / fails the same on the live page). **Q386 windows** (resize grip, inner scroll,
   text size global + per box, `viewer/resize`) in the same publish.
-- ★ **Queued/running (owner 2026-11-22/23):** **Q388** nerve audit DONE (docs/Q388_nerve_course_audit.md): sciatic hugs the
-  ischial tuberosity (3.7–4 mm, 8 mm medial / 2 mm lateral vs 12±2 mm; inside biceps femoris ~200 mm); rule-based reroute
-  patched copies in `$S/q388n/patched/<dir>/` (SOURCE_SHA256.txt; apply by copying over `build/q309/<dir>` after backup, then
-  regen + `verify_nerve_course_q388.py`) — NOT applied yet; other wrong nerves not fixed (median/ulnar/MABC inside biceps,
-  musculocutaneous, plexus roots, obturator, LFCN, axillary F). **Q390** tint on click: done in worktree `$S/wt390`
-  (zan template highlight pass LEQUAL + `uHLc`, selection.js `pickHex`; verifier OK; q385 rerun pending) — merge by hand.
-  **Q391** (Opus, running): muscle layers by textbook layers + gentle hide muscle by muscle. **Q389** (Fable, running):
-  optional underwear display cover. **Q387** unlimited camera rotation (elevation ±1.45 rad clamp; up-vector flip; assumed
-  camera, not joint ranges — unconfirmed) not started. Reminder: owner's "what you recommend" = publish Q384+Q386 first, then
-  sciatic patch, then other nerves.
+- ★ **Owner 2026-11-22/23 requests (all built; combined regen `regen/q394` = Q388+Q389+Q390+Q391 verifying, queue `$S/run394.sh` → `$S/v394/_summary.txt`; then publish v109/v105):**
+  **Q388** sciatic/all-nerve audit (docs/Q388_nerve_course_audit.md) — sciatic reroute APPLIED to `build/q309` (originals in `$S/q388n/orig/`, hashes
+  in `$S/q388n/patched/SOURCE_SHA256.txt`) and live in v108; other wrong nerves NOT fixed (median/ulnar/MABC inside biceps, musculocutaneous,
+  plexus roots, obturator, LFCN, Base·F axillary) = next nerve round. **Q390** tint on click (merged, live v108). **Q391** muscle layers by 30
+  textbook regions (cited, conventions badged) + gentle muscle-by-muscle hide (`viewer/q309/mushide.js`) merged, committed 7d57848, not yet
+  published. **Q389** optional underwear display cover (`viewer/cover`, regen block `nmsk-cover`, off by default, badged "display covering, not
+  anatomy"; picks pass through; limits: anatomy shows at groin in big hip poses, crude pouch, not verified with measure/scan/planning modes)
+  merged 27d247b, not yet published. **Q387** unlimited camera rotation not started (camera assumed, unconfirmed). Q379 waits.
+  Owner chose the recommended order: publish Q384+Q386 (done) → sciatic (done) → Q389/Q391 → other nerves.
 - **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; reset 2026-11-22 13:00 UTC):** join the
   rebuilt Base·F chest to its neighbours. Findings in the scratchpad `q379/notes.md`; WIP `scripts/anatomy/q379/`.
   Resume the same agent with SendMessage after Q384 (never two heavy agents at once), or re-brief from the notes.
