@@ -14723,3 +14723,24 @@ the Q378 agent's `q378/v/`, the Q377 agent's `q377/v/`.
   current" → Undo deselected and closed the card, up to ~1.5 s after the click). `viewer/q294/history.js`: a
   pointerdown on another element seals the pending step; repeated presses on the same control still merge.
   Verifier `scripts/anatomy/q380/verify_step_q380.py`.
+
+## 2026-11-19 requests, archived 2026-11-23
+
+- ★ **Owner's requests of 2026-11-19 — live in v105 / v101** (his screenshot `$S/owner_2026-11-19_plan.webp`):
+  **Q381** planning (`clinical/needle_tool.js`, engine `anatomyApi`, `viewer/modes/modes.js`): no path or suggestion
+  crosses bone (old suggestions: tibialis posterior 49/49 through bone); the default tip is inside its mesh (was
+  outside for 241/434 muscles, 47 in a bone) and the pin carries a depth tag + silhouette; origin / insertion offered
+  wherever a placed site exists (266 / 259 of 434 muscles; the rest are text-only and say so); skin look opaque /
+  translucent / as anatomy mode; Safety is its own plan subsection (none → only vessel distances). Also fixed: a
+  window / pane resize in a mode left the picture stretched and the pins off. Verifier `q381/verify_plan_q381.py
+  --part abcde`. **Q382** (`viewer/pinch`, `viewer/q305/move.js`, new `viewer/layout` + `sync_layout_q382.py`):
+  zoom chip shows 10 s then fades (Settings: always / seconds), sits on a free spot; boxes drag by their title row,
+  layout saved per class, reset and lock in Settings (gear; hidden on a phone, where sheets stay docked);
+  double-tap on empty space = 1:1 also when a tool takes the tap. Verifier `q382/verify_layout_q382.py`.
+  **Q383** scan tool (`clinical/ultrasound_tool.js`, tissues json, `docs/Q383_scan_image_audit.md`): array beam
+  model, tissue-following TGC, sheath interfaces, perimysial septa, fat lobules (muscle|muscle line found 97–100 %,
+  was 14–37 %); one `#us-menu` with six groups; a held press on the transducer moves it over the skin, a press
+  elsewhere moves everything. Verifiers `q383/verify_{image,menu,drag}_q383.py`. The agent's own judgement: lines
+  still too clean. **The owner's fascia reference picture never arrived — ask again; a second image round waits
+  for it.** **Q385** (`viewer/selection`): "Clear N" in the bar's second row while anything is marked (first and
+  sticky on a phone); verifier `q385/verify_clear_q385.py`.

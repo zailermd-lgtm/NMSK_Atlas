@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v106 (… Q381 plan, Q382 layout, Q383 scan image, Q385 Clear, origin/insertion wording) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v102 (same rounds) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v107 (… Q384 pose smoothing + E1–E5, Q386 windows, Q381 plan, Q382 layout, Q383 scan image, Q385 Clear, origin/insertion wording) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v103 (same rounds) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -85,7 +85,7 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v106** (1795348134-6f38), Base·F **v102** (1795348137-0d76) = `regen/q386` + only `clinical_needle_tool.js`
+**Live:** Base·M **v107**, Base·F **v103** = `regen/q389` index.html (since 2026-11-23); before that v106/v102 (1795348134-6f38 / 1795348137-0d76) = `regen/q386` + only `clinical_needle_tool.js`
 of `regen/q387` (owner 2026-11-22: "origin = proximal attachment, insertion = distal attachment" — the tip options and the
 "no data" line say so; the placed data follow that convention: no limb muscle has its origin distal to its insertion;
 trunk / scapular ones are origin = axial end). v105/v101 was `regen/q386` (regen of
@@ -122,39 +122,27 @@ Q372 skin wall pass, Q377 Base·F head skin de-spike, Q378 + Q380 undo steps.
 - **Closed and live, detail in docs/PROJECT_HISTORY.md ("2026-11-18", "2026-11-19"):** Q362, Q366, Q372 + Q375
   (skin weld, source `scripts/anatomy/q334/seams_weld_q334.js`), Q377, Q378, Q380. Left from them: dorsal
   toe-base line (faint), faint Base·F philtrum / lower-lip lines, chest WITH walls not re-applied, axillary step R.
-- ★ **Owner's requests of 2026-11-19 — live in v105 / v101** (his screenshot `$S/owner_2026-11-19_plan.webp`):
-  **Q381** planning (`clinical/needle_tool.js`, engine `anatomyApi`, `viewer/modes/modes.js`): no path or suggestion
-  crosses bone (old suggestions: tibialis posterior 49/49 through bone); the default tip is inside its mesh (was
-  outside for 241/434 muscles, 47 in a bone) and the pin carries a depth tag + silhouette; origin / insertion offered
-  wherever a placed site exists (266 / 259 of 434 muscles; the rest are text-only and say so); skin look opaque /
-  translucent / as anatomy mode; Safety is its own plan subsection (none → only vessel distances). Also fixed: a
-  window / pane resize in a mode left the picture stretched and the pins off. Verifier `q381/verify_plan_q381.py
-  --part abcde`. **Q382** (`viewer/pinch`, `viewer/q305/move.js`, new `viewer/layout` + `sync_layout_q382.py`):
-  zoom chip shows 10 s then fades (Settings: always / seconds), sits on a free spot; boxes drag by their title row,
-  layout saved per class, reset and lock in Settings (gear; hidden on a phone, where sheets stay docked);
-  double-tap on empty space = 1:1 also when a tool takes the tap. Verifier `q382/verify_layout_q382.py`.
-  **Q383** scan tool (`clinical/ultrasound_tool.js`, tissues json, `docs/Q383_scan_image_audit.md`): array beam
-  model, tissue-following TGC, sheath interfaces, perimysial septa, fat lobules (muscle|muscle line found 97–100 %,
-  was 14–37 %); one `#us-menu` with six groups; a held press on the transducer moves it over the skin, a press
-  elsewhere moves everything. Verifiers `q383/verify_{image,menu,drag}_q383.py`. The agent's own judgement: lines
-  still too clean. **The owner's fascia reference picture never arrived — ask again; a second image round waits
-  for it.** **Q385** (`viewer/selection`): "Clear N" in the bar's second row while anything is marked (first and
-  sticky on a phone); verifier `q385/verify_clear_q385.py`.
-- ★ **Q384 pose — STOPPED 2026-11-22 ~10:00 UTC by the Fable limit (resets 13:00 UTC); WIP committed 5a7b5c9 + later uncommitted edits (smooth_rig_q384.py, pose.js, rigs); resume agent a08e7b033759c23c5 with SendMessage after 13:00; started 04:05 UTC** (one agent, brief `$S/q384/brief.md`, notes
-  `$S/q384/notes.md`): hip then knee flexion distorts soft tissue (great saphenous vein); skin "tears" at a moved
-  joint and must stretch; elbow lacks flexion–extension; a joint picked for moving stays held until a second click.
-  Order: D sticky grab, C elbow, then A measure / B skinning. On hand-back: commit by file, regen from build,
-  cmp, my own queue (q384 verifier, q318, q319, q338, q353, q356, q329, q344, q382 layout), publish.
-- ★ **Owner, 2026-11-22 (after testing v106) — queued / running:** pose: elbow flexion–extension (his live page still
-  lacks the rings), shoulder rings far away / hidden by other joints' rings / vanish when the figure is rotated
-  (every permitted axis must be rotatable in every pose), latissimus dorsi loses origin + insertion when the arm is
-  abducted (always keep both), Pose window takes half the screen (add "this joint only" + minimize to a tile),
-  fingers abduction/adduction, thumb opposition → added to **Q384** (`$S/q384/addendum_2026-11-22.md`; resume agent
-  a08e7b033759c23c5 at 13:03 UTC, reminder set). **Q386** (Sonnet, running since ~12:00 UTC, brief `$S/q386/brief.md`):
-  every window resizable + scrollable + font size (extends viewer/layout, q305/move.js). **Q387** (not started):
-  camera rotation "360° and more without limit" — elevation is clamped ±1.45 rad (zan template ~19427, 18822;
-  azimuth is free); needs the up vector to flip past the pole wherever a lookAt/axes is built; Fable high after
-  Q384; assumed he means the camera, not joint ranges — ask.
+- Owner's requests of 2026-11-19 (Q381 planning, Q382 layout, Q383 scan image, Q385 Clear) are live since v105/v101; detail in docs/PROJECT_HISTORY.md ("2026-11-19 requests, archived 2026-11-23").
+- **Q384 pose — PUBLISHED v107/v103 (2026-11-23), index.html of `regen/q389` (= agent's regen_7, cmp identical).** Dual-quaternion
+  blend + `smooth_rig_q384.py` (ZONE_IN 0, muscles "plain" zone; skin gaps ≤0.5 mm, rest bit-exact), E1 elbow ring reachable,
+  E2 rings sized per view / edge-on ring = bar, E3 attachments kept (0 of ~490 ends lost incl. latissimus), E4 Pose panel
+  "This joint only" + tile (own localStorage key `nmsk.pose.panel.v1`), E5 finger MCP abd/add (ASSUMPTION row ±20°) + thumb
+  CMC opposition (Cooney 1981, Hamann 2014). **Known limits (told to owner):** part b FAIL: biceps kink +144…156° at elbow 120°,
+  cephalic +47…53°, brachial a. +38…40°, sciatic length +19…21 %, Base·M femoral v. −13 % / a. −12 %; muscle patches in the
+  cubital crease, behind the knee and the lat/pectoral "curtain" under the abducted arm. Rig rebuild: pre-round rig `$S/q384/rig0`
+  → `smooth_rig_q384.py` → `hand_dofs_q384.py`. Verdicts `$S/v389/` (flaky under load: q382 layout chip/double-tap, q344 phone
+  Labels, q347 FHL start-scan; each passes on rerun / fails the same on the live page). **Q386 windows** (resize grip, inner scroll,
+  text size global + per box, `viewer/resize`) in the same publish.
+- ★ **Queued/running (owner 2026-11-22/23):** **Q388** nerve audit DONE (docs/Q388_nerve_course_audit.md): sciatic hugs the
+  ischial tuberosity (3.7–4 mm, 8 mm medial / 2 mm lateral vs 12±2 mm; inside biceps femoris ~200 mm); rule-based reroute
+  patched copies in `$S/q388n/patched/<dir>/` (SOURCE_SHA256.txt; apply by copying over `build/q309/<dir>` after backup, then
+  regen + `verify_nerve_course_q388.py`) — NOT applied yet; other wrong nerves not fixed (median/ulnar/MABC inside biceps,
+  musculocutaneous, plexus roots, obturator, LFCN, axillary F). **Q390** tint on click: done in worktree `$S/wt390`
+  (zan template highlight pass LEQUAL + `uHLc`, selection.js `pickHex`; verifier OK; q385 rerun pending) — merge by hand.
+  **Q391** (Opus, running): muscle layers by textbook layers + gentle hide muscle by muscle. **Q389** (Fable, running):
+  optional underwear display cover. **Q387** unlimited camera rotation (elevation ±1.45 rad clamp; up-vector flip; assumed
+  camera, not joint ranges — unconfirmed) not started. Reminder: owner's "what you recommend" = publish Q384+Q386 first, then
+  sciatic patch, then other nerves.
 - **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; reset 2026-11-22 13:00 UTC):** join the
   rebuilt Base·F chest to its neighbours. Findings in the scratchpad `q379/notes.md`; WIP `scripts/anatomy/q379/`.
   Resume the same agent with SendMessage after Q384 (never two heavy agents at once), or re-brief from the notes.
