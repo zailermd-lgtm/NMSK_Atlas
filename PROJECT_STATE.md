@@ -85,7 +85,7 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v109**, Base·F **v105** = `regen/q394` (Q389 cover + Q391 layers on top of v108; only index.html changed; published 2026-11-23; verified: cover/layers/q309/tint/clear/pose cd+rph/ui/undo/q380/plan/q381/q347/cards/resize OK; q382 layout verifier flaky on timing: chip-timer and chooser race, same race reproduces on v108); v108/v104 = `regen/q392` (Q388 sciatic reroute + Q390 tint; files: index.html, geo_00/02, parts_data, symmetry); v107/v103 = Q384 + Q386 (`regen/q389`); before that v106/v102 (1795348134-6f38 / 1795348137-0d76) = `regen/q386` + only `clinical_needle_tool.js`
+**Live:** Base·M **v110**, Base·F **v106** = `regen/q395` (Q392 second nerve round: index.html + geo_00/01 changed; verified nerves q319, pose cd/e/rph, q347, cover, layers, q309, cards, ui, undo, plan, resize, layout OK; pose part b has the known limits: femoral a/v −12/−13 %, sciatic +15 % length, biceps/cephalic/brachial at elbow; obturator, roots, sciatic LT, median M inside biceps remain in `verify_nerve_course_q388` 8 FAIL M / 5 F); v109/v105 = `regen/q394` (Q389 cover + Q391 layers on top of v108; only index.html changed; published 2026-11-23; verified: cover/layers/q309/tint/clear/pose cd+rph/ui/undo/q380/plan/q381/q347/cards/resize OK; q382 layout verifier flaky on timing: chip-timer and chooser race, same race reproduces on v108); v108/v104 = `regen/q392` (Q388 sciatic reroute + Q390 tint; files: index.html, geo_00/02, parts_data, symmetry); v107/v103 = Q384 + Q386 (`regen/q389`); before that v106/v102 (1795348134-6f38 / 1795348137-0d76) = `regen/q386` + only `clinical_needle_tool.js`
 of `regen/q387` (owner 2026-11-22: "origin = proximal attachment, insertion = distal attachment" — the tip options and the
 "no data" line say so; the placed data follow that convention: no limb muscle has its origin distal to its insertion;
 trunk / scapular ones are origin = axial end). v105/v101 was `regen/q386` (regen of
@@ -133,7 +133,7 @@ Q372 skin wall pass, Q377 Base·F head skin de-spike, Q378 + Q380 undo steps.
   → `smooth_rig_q384.py` → `hand_dofs_q384.py`. Verdicts `$S/v389/` (flaky under load: q382 layout chip/double-tap, q344 phone
   Labels, q347 FHL start-scan; each passes on rerun / fails the same on the live page). **Q386 windows** (resize grip, inner scroll,
   text size global + per box, `viewer/resize`) in the same publish.
-- ★ **Owner 2026-11-22/23 requests (all built and published: Q388+Q390 in v108/v104, Q389+Q391 in v109/v105; next = Q392 nerve patch apply):**
+- ★ **Owner 2026-11-22/23 requests (all built and published: Q388+Q390 in v108/v104, Q389+Q391 in v109/v105; Q392 nerve patch applied and live v110/v106; originals in `$S/q392n/orig/`; next = Q387 camera, Q379):**
   **Q388** sciatic/all-nerve audit (docs/Q388_nerve_course_audit.md) — sciatic reroute APPLIED to `build/q309` (originals in `$S/q388n/orig/`, hashes
   in `$S/q388n/patched/SOURCE_SHA256.txt`) and live in v108; other wrong nerves NOT fixed (median/ulnar/MABC inside biceps, musculocutaneous,
   plexus roots, obturator, LFCN, Base·F axillary) = next nerve round. **Q390** tint on click (merged, live v108). **Q391** muscle layers by 30
