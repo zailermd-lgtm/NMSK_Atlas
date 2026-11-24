@@ -8,7 +8,7 @@ NMSKModes.init({
   selectedId:function(){ return selected ? (selected.id || selected.name) : null; },
   select:function(id){ select(id && objsById[id] ? objsById[id][0] : null, false); },
   snapshot:function(){
-    return {sel:selected ? (selected.id || selected.name) : null, cam:{az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}, sheet:!!sheetOpen};
+    return {sel:selected ? (selected.id || selected.name) : null, cam:camStore(), sheet:!!sheetOpen};      /* Q387: wrapped to (-pi, pi] */
   },
   restore:function(s){
     cam.az = s.cam.az; cam.el = s.cam.el; cam.dist = s.cam.dist; cam.tgt = s.cam.tgt.slice();

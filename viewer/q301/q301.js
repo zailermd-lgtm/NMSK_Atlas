@@ -121,6 +121,13 @@ var NMSKQ301 = (function(){
            about the structure you have just found, so they belong with finding it. */
         {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
       ]},
+      /* Q393, owner: "the LABELS display disappeared". It had not: Q318 folded the Labels button into the Search sheet, so with the sheet
+         closed nothing on the bar said Labels. Labels gets its own entry again -- one tap opens the labels panel, beside the figure --
+         and the button stays in the Search sheet as well (the entry presses that same button: one behaviour, two ways in). */
+      {key:"labels", label:"Labels", title:"Names on the structures: open the Labels panel (L cycles Off / Selected / Visible / All)", members:[],
+        run:function(){ var b = document.getElementById("t-labels"); if (b) b.click(); },
+        avail:function(){ return !!document.getElementById("t-labels"); },
+        active:function(){ var p = document.getElementById("lab-panel"); return !!(p && !p.hidden); }},
       {key:"systems", label:"Systems", title:"Which systems are shown, how deep to peel into them, and the fat", members:[
         {el:P && P.state().on ? document.getElementById("pl-box") : null, combo:"peel"},
         {el:F && F.state().on ? document.getElementById("ft-box") : null, combo:"fat"},
@@ -179,7 +186,7 @@ var NMSKQ301 = (function(){
         {adopt:["t-reset", "t-lay3", "t-layout", "sym-select"]},
         {combo:"spin", adopt:"btn-spin"}
       ]}
-    ].map(function(g){ g.members = g.members.filter(function(m){ return m.el || m.adopt || m.label; }); return g; });
+    ].map(function(g){ g.members = g.members.filter(function(m){ return m.el || m.adopt || m.adoptSel || m.label; }); return g; });   /* Q393: adoptSel kept (the scan buttons) */
   }
   var api = {
     start:function(opt){

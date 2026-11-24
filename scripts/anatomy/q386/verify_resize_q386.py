@@ -89,7 +89,13 @@ def main() -> int:
         pg.evaluate("() => { const s = document.getElementById('q301-sheet'); const g = document.querySelector('#q301-groups .qg-g.qg-on, #q301-groups .qg-g[aria-expanded=true]'); if (s && !s.hidden && g) g.click(); }")
 
     def open_qcard(pg):
-        for x, y in (((195, 200), (190, 300), (150, 250), (230, 350)) if phone else ((700, 300), (690, 420), (660, 250), (720, 360), (700, 520))):
+        pts = ((195, 200), (190, 300), (150, 250), (230, 350)) if phone else ((700, 300), (690, 420), (660, 250), (720, 360), (700, 520))
+        # Q393: with panels open the figure is drawn in the free part of the screen, so aim at the figure itself when it is offset
+        bx = pg.evaluate("() => { try { return document.querySelector('canvas[data-q393]') ? NMSKQuick.box() : null; } catch (e) { return null; } }")
+        if bx:
+            cx = (bx["l"] + bx["r"]) / 2; h = bx["b"] - bx["t"]
+            pts = tuple((cx + dx, bx["t"] + h * f) for dx, f in ((0, 0.25), (-10, 0.38), (10, 0.18), (0, 0.5), (-20, 0.6)))
+        for x, y in pts:
             pg.mouse.click(x, y); pg.wait_for_timeout(1100)
             if pg.evaluate("() => NMSKMove.present().includes('qcard')"):
                 return True

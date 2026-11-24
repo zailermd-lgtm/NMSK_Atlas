@@ -15,6 +15,7 @@
    with their one-line reason shown underneath, not in a tooltip the phone never displays.
      NMSKGroups.start({anchor, history, modelreset, info, combos, groups:[{key,label,title,members:[...]}]})
    member := {adopt:"id"|["id",...]} | {el:node} | {label, run, active, combo, title}
+   a group may instead carry run (+ avail, active): a direct entry, one tap runs it (Q393)
      .open(key)  .close()  .isOpen()  .groups()  .members(key)  .state() */
 var NMSKGroups = (function(){
   "use strict";
@@ -35,6 +36,7 @@ var NMSKGroups = (function(){
     return out;
   }
   function anyMembers(g){
+    if (typeof g.run === "function"){ try { return g.avail ? !!g.avail() : true; } catch (e0){ return false; } }   /* Q393: a direct entry */
     return (g.members || []).some(function(m){
       if (m.el) return true;
       if (m.adopt || m.adoptSel) return nodesOf(m).length > 0;
@@ -76,6 +78,7 @@ var NMSKGroups = (function(){
     }
   }
   function anyActive(g){
+    if (typeof g.active === "function"){ try { if (g.active()) return true; } catch (e0){} }        /* Q393 */
     return (g.members || []).some(function(m){
       if (typeof m.active === "function"){ try { return !!m.active(); } catch (e){ return false; } }
       if (m.combo && combos){ try { return !!combos.verdict(m.combo).active; } catch (e2){ return false; } }
@@ -114,6 +117,9 @@ var NMSKGroups = (function(){
     var g = null;
     G.forEach(function(q){ if (q.key === key) g = q; });
     if (!g) return false;
+    /* Q393, owner: "the LABELS display disappeared". A group with `run` is a direct entry on the bar: one tap does the thing (opens its
+       panel beside the figure), no sheet in between, while the same control stays inside its own group's sheet too. */
+    if (typeof g.run === "function"){ closeSheet(); try { g.run(); } catch (e5){} paint(); return true; }
     if (cur === key){ closeSheet(); return false; }
     var only = soleButton(g);
     if (only){ closeSheet(); try { only.click(); } catch (e){} return true; }
@@ -176,6 +182,7 @@ var NMSKGroups = (function(){
       var d = b.querySelector(".qg-dot");
       if (d) d.hidden = !hot;
       b.setAttribute("aria-label", g.label + (hot ? " (something in this group is active)" : ""));
+      if (typeof g.run === "function") b.setAttribute("aria-pressed", String(!!hot));
     });
     if (!cur || !combos) return;
     var g = null; G.forEach(function(q){ if (q.key === cur) g = q; });
@@ -223,6 +230,9 @@ var NMSKGroups = (function(){
   function place(){
     if (!anchor || !anchor.getBoundingClientRect || !bar) return;
     var r = anchor.getBoundingClientRect();
+    /* Q393: while the canvas is laid over the free part of the screen (NMSKLayout), the bar keeps its place over the WHOLE screen:
+       following the narrowed canvas it moved under and away from the boxes that are placed against it */
+    if (anchor.hasAttribute && anchor.hasAttribute("data-q393")) r = {left:0, top:r.top, width:window.innerWidth, height:window.innerHeight - r.top};
     if (!(r.width > 40 && r.height > 40)) return;
     var w = Math.max(220, Math.min(r.width - 16, 760));
     bar.style.width = w + "px";
@@ -246,8 +256,22 @@ var NMSKGroups = (function(){
       var vw = window.innerWidth, vh = window.innerHeight, phone = vw <= 460, mb = null;
       try { mb = window.NMSKQuick && NMSKQuick.box && NMSKQuick.box(); } catch (e0){}
       var topPx = top + (bar.offsetHeight || 0) + 4;
+      /* Q393, owner: "the main part of the screen must always be the figure". Phone: a bottom sheet, at most 45 % of the height, the
+         figure above it (NMSKLayout lays the canvas over the free part). Desktop: docked to the left edge and narrow -- at most what
+         keeps 60 % of the width free next to the panels already open on the right -- and the figure moves into the free part. */
+      var Lq = window.NMSKLayout;
       if (phone){
-        sheet.style.maxHeight = Math.round(Math.max(150, Math.min(r.height * 0.55, vh * 0.36))) + "px";
+        sheet.style.top = "auto"; sheet.style.bottom = "6px"; sheet.style.left = "4px"; sheet.style.width = (vw - 8) + "px";
+        sheet.style.maxHeight = Math.round(vh * 0.45 - 8) + "px";
+      } else if (Lq && Lq.fit && Lq.state && Lq.state().fit){
+        var rr = 0;
+        ["#lab-panel", "#pose-panel", "#q382-panel", "#needle-panel", "#lab-legend"].forEach(function(s){
+          var e = document.querySelector(s); if (!e || e.hidden || !e.getClientRects().length) return;
+          var q = e.getBoundingClientRect(); if (q.left > vw / 2) rr = Math.max(rr, vw - q.left + 6);
+        });
+        var cw = Math.max(260, Math.min(sw, 420, Math.round(vw * 0.4 - rr - 14)));
+        sheet.style.width = cw + "px"; sheet.style.left = "8px"; sheet.style.bottom = "auto";
+        sheet.style.maxHeight = Math.round(Math.max(160, vh - topPx - 12)) + "px";
       } else if (mb && mb.r > mb.l){
         var freeL = mb.l - 16, freeR = vw - mb.r - 16, side = freeL >= freeR ? "l" : "r", free = Math.max(freeL, freeR);
         if (free >= 300){
@@ -288,9 +312,10 @@ var NMSKGroups = (function(){
           if (!m) return false;
           if (m.el) return true;
           if (m.label) return true;
+          if (m.adoptSel) return true;      /* Q393: claimed by class, mounted by the add-ons later -- kept (it was dropped here, so the scan buttons stayed in the corner) */
           return [].concat(m.adopt || []).some(function(id){ return !!document.getElementById(id); });
         });
-        return g.members.length > 0;
+        return g.members.length > 0 || typeof g.run === "function";
       });
       bar = el("div", "qg-bar"); bar.id = "q301-bar";
       bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "The controls: groups of tools, and undo / redo / reset");

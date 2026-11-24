@@ -845,7 +845,11 @@ function NMSKLabels(E){
     return ov;
   }
   function bestCorner(w, h, skip, prefer, withWins){
-    var cr0 = E.canvasRect ? E.canvasRect() : {left:0, top:0, width:vw(), height:vh()}, cr = {left:cr0.left, top:cr0.top, right:cr0.left + cr0.width, bottom:cr0.top + cr0.height}, ob = obstRects(skip, withWins), best = null;
+    var cr0 = E.canvasRect ? E.canvasRect() : {left:0, top:0, width:vw(), height:vh()};
+    /* Q393: while the canvas is laid over the part of the screen the open panels leave free (NMSKLayout), a window is placed against the
+       SCREEN's corners -- placed against the narrowed canvas it landed in the middle of the screen and narrowed the canvas further */
+    if (document.querySelector("canvas[data-q393]")) cr0 = {left:0, top:0, width:vw(), height:vh()};
+    var cr = {left:cr0.left, top:cr0.top, right:cr0.left + cr0.width, bottom:cr0.top + cr0.height}, ob = obstRects(skip, withWins), best = null;
     var c = [{x:cr.right - w - 12, y:cr.top + 54}, {x:cr.left + 12, y:cr.top + 54}, {x:cr.right - w - 12, y:cr.bottom - h - 12}, {x:cr.left + 12, y:cr.bottom - h - 12}];
     if (prefer === "bottom") c = [c[3], c[2], c[1], c[0]];
     var pref = c[0], x, y;

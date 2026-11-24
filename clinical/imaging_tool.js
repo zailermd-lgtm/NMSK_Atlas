@@ -1135,6 +1135,7 @@
       "#img-root.ctl-tabs .sectabs{display:flex}",
       "#img-root.ctl-tabs .sec{display:grid;gap:6px}",
       "#img-root.ctl-tabs .sec:not(.act){display:none}",
+      ".img-ctl.q393-img{grid-template-columns:1fr}#img-root .img-ctl.q393-img .sec{display:contents}#img-root .img-ctl.q393-img .sectabs{display:none}",   /* Q393: headings instead of tabs */
       /* Q264: overscroll-behavior:contain -- a touch-drag that scrolls this panel to its own boundary must not chain
          into the page/canvas beneath it (see PROJECT_STATE.md Q264). */
       ".img-ctl{flex:0 0 auto;max-height:46%;overflow:auto;overscroll-behavior:contain;padding:6px 8px 8px;border-top:1px solid var(--line);display:grid;gap:6px 14px;background:var(--bg);grid-template-columns:repeat(auto-fit,minmax(380px,1fr));align-content:start}",
@@ -1228,6 +1229,23 @@
       ui.read = ui.readout = el("div", {class: "img-read", text: "Move over an image: tissue class, structure, HU / signal, atlas position."});
       var ctl = ui.ctl = el("div", {class: "img-ctl"});
       buildControls(ctl);
+      /* Q393, owner: "less explanatory text, and the change options under clear headings, collapsed, opening by topic as needed". Always
+         on top: CT / MRI and the contrast (window and level, or the sequence); below, titled sections that open one at a time (the last
+         one is remembered); long notes become one line with the rest under "More". The section tabs give way to the headings. */
+      try {
+        var L393 = window.NMSKLayout;
+        if (L393 && L393.accordion) {
+          ctl.classList.add("q393-img");
+          L393.accordion(ctl, {key: "img", wrap: [
+            {title: "Sequence timing (TR, TE, TI, flip angle)", nodes: [ui.tr && ui.tr.parentNode]},
+            {title: "Slab: thickness and projection", nodes: [ui.slabRow]},
+            {title: "Views and field of view", nodes: [ui.lay1 && ui.lay1.parentNode, ui.fovRow]},
+            {title: "Oblique plane", nodes: [ui.oblRow]},
+            {title: "Cine through the slices", nodes: [ui.cineRow]},
+            {title: "Noise, blur, crosshair, labels", nodes: [ui.optRow]}]});
+          L393.terse(ctl, ".img-status", 110);
+        }
+      } catch (e393) {}
       var div = el("div", {id: "img-div", title: "Drag to resize"});
       div.addEventListener("pointerdown", function (e) {
         div.setPointerCapture(e.pointerId); div.classList.add("drag");
@@ -1639,6 +1657,10 @@
       } else {
         S.open = false; clearInterval(polling); polling = null; setCine(false); applyLayout();
         if (ui.btn) ui.btn.setAttribute("aria-pressed", "false");
+        /* Q393, owner: "a mark in the centre of the screen that does not go away". The cut this tool created for itself (its plane and the
+           red "removed" arrow, drawn across the middle of the model) stayed after the tool was closed. It leaves with the tool; a cut the
+           user had set before opening the tool is theirs and stays. */
+        if (S.autoCut) { S.autoCut = false; try { var cx = document.getElementById("cut-exit"); if (cx && cutPlane()) cx.click(); } catch (eC) {} }
       }
     }
     var built2 = false;
@@ -1653,8 +1675,9 @@
         geoState = "ready"; geoErr = ""; mappingReport(); setDiag();
         var hadCut = !!cutPlane();
         ensureCut(); lastCut = null;
-        if (!hadCut && cutPlane()) { showHint("No cut was set, so an axial cut through the upper abdomen was created for you. Click or drag in any image to move it, or use the Cut panel of the 3D view, or the View → Oblique dial below for a tilted plane without orbiting the camera.", true); toast("CT / MRI: no cut was set – an axial cut through the upper abdomen was created.", 7000); }
-        else showHint("Simulated CT / MRI of the cut plane (not a scan). Click or drag in an image to move the cut; Contrast, Slab (MIP / MinIP / thickness) and View (MPR / single / split, an Oblique tilt dial, and a cine ▶ with an fps speed control) are under the image.", false);
+        S.autoCut = !hadCut && !!cutPlane();                                   // Q393: this tool made the cut, so closing the tool takes it away again
+        if (!hadCut && cutPlane()) { showHint("No cut was set, so an axial cut through the upper abdomen was made for this view (it goes when CT / MRI closes). Drag in an image to move it.", true); toast("CT / MRI: no cut was set – an axial cut through the upper abdomen was created.", 7000); }
+        else showHint("Simulated CT / MRI of the cut plane (not a scan). Drag in an image to move the cut; the options are under the image, by topic.", false);
         var c = api.cut(); lastPlaneKey = c ? c.map(function (x) { return x.toFixed(4); }).join(",") : "off"; lastSlab = api.cutSlab ? api.cutSlab() : 0;
         if (!S.P) S.P = pickAnchor();
         movePointToPlane();

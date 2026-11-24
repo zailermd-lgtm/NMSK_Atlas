@@ -224,7 +224,8 @@ var NMSKModes = (function(){
   function resetCurrent(){ if (curP && typeof curP.reset === "function"){ try { curP.reset(); } catch (err){} return true; } return false; }
   return {init:init, register:register, enter:enter, exit:function(){ exit(); }, show:showSwitcher, hide:hideSwitcher, current:function(){ return cur; }, resetCurrent:resetCurrent,
           state:function(){ var sid = null; try { sid = host ? host.selectedId() : null; } catch (err){} return {cur:cur, registered:Object.keys(providers), switcherOpen:!!(switcher() && !switcher().hidden), queued:queued, docks:docks.length, selected:sid}; },
-          el:el};
+          el:el,
+          resized:function(){ if (host && host.resized){ try { host.resized(); } catch (err){} } }};   /* Q393: the engine takes its canvas's new size, without a window "resize" event */
 })();
 
 window.NMSKModes = NMSKModes;   /* the optional add-ons (separate files) register their providers through the window object */

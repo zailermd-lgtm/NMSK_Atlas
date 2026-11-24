@@ -797,7 +797,9 @@ function GLOverlay(api) {
     gl.bindBuffer(gl.ARRAY_BUFFER, b.nb); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, b.ib); gl.drawElements(gl.TRIANGLES, b.count, gl.UNSIGNED_SHORT, 0);
   }
+  var selfOv = this;
   api.webgl.onAfterDraw(function (ctx) {
+    if (selfOv.gate && !selfOv.gate()) return;   // Q393: nothing of the tool's is drawn while the tool is closed
     var all = [];
     Object.keys(items).forEach(function (k) { all = all.concat(items[k]); });
     if (!all.length && !halos.length && !ghosts.length) return;
@@ -847,7 +849,7 @@ var CSS = [
    being misread as "cancel the tool"; see PROJECT_STATE.md Q264). Stopped at this layer so it applies with or without
    a page-root guard. */
 "  overflow-y:auto;overscroll-behavior:contain;z-index:26;border:1px solid var(--ncl-line);border-radius:12px;box-shadow:0 10px 34px rgba(22,32,42,.18)}",
-"@media (max-width:900px){.ncl.ncl-float{left:.6rem;right:.6rem;width:auto;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom,0px));max-height:40vh}}",   /* Q344: capped at 40 % of the screen, scrolls inside */
+"@media (max-width:900px){.ncl.ncl-float{left:.6rem;right:.6rem;width:auto;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom,0px));max-height:calc(45vh - 4.2rem)}}",   /* Q344: capped, scrolls inside; Q393: top to screen bottom <= 45 % */
 ".ncl.ncl-stage{position:absolute;left:12px;top:12px;width:330px;max-height:calc(100% - 150px);overflow-y:auto;overscroll-behavior:contain;z-index:5;",
 "  border:1px solid var(--ncl-line);border-radius:10px;box-shadow:0 8px 26px rgba(15,21,26,.16)}",
 /* a clip-path keeps Chromium from leaving the scrolled-out panel content as a hole over the WebGL canvas */
@@ -956,6 +958,12 @@ function Tool(api) {
   this.cls = this.recs.map(classify);
   this.skin = this.recs.filter(function (r) { return /^skin(_|$)/.test(r.id); }).map(function (r) { return r.i; });
   this.ov = api.kind === "three" ? new ThreeOverlay(api) : new GLOverlay(api);
+  /* Q393, owner: "a needle sign or something else in the centre of the screen that does not go away". The saved points (tip and entry
+     markers, drawn THROUGH the body) and the plan's plane / ghost stayed on the model after the needle tool was closed and after Clear,
+     and "Zoom to target" had put them at the centre. The tool's 3-D marks now exist only while it is in use: the needle panel open, the
+     planning workspace, or the scan workspace showing the planned path. The saved points themselves are kept (the user's record). */
+  var selfT = this;
+  this.ov.gate = function () { var b = document.body; return !!(selfT.active || (b && (b.classList.contains("mode-inj") || b.classList.contains("us-clip-on")))); };
   this.P = JSON.parse(JSON.stringify(HALO_DEFAULTS));
   this.active = false; this.mode = "two"; this.entry = null; this.target = null;
   this.savedPts = [];   // Q276: 2+ saved injection points on the same (or any) target -- each an independent {entry,target} snapshot, own marker, own distance readout
@@ -1433,6 +1441,19 @@ TP.buildUI = function () {
     'around the structure\'s current (posed) surface.</p></details>';
   if (api.panelHost) api.panelHost.insertBefore(el, api.panelBefore || null); else document.body.appendChild(el);
   this.el = el;
+  /* Q393, owner: "less explanatory text, and the options under clear headings, collapsed and opening by topic". Always on top: the
+     method, the status, the length, the shortest entry / zoom / cut row, the report and the distance readout. Below: titled sections,
+     one open at a time (the last one opened is remembered); the long notes become one line with the rest under "More". Nothing removed. */
+  try {
+    var L393 = global.NMSKLayout;
+    if (L393 && L393.accordion) {
+      var q1 = function (s) { return el.querySelector(s); };
+      L393.accordion(el, {key: "needle", wrap: [
+        {title: "Suggested entries", nodes: [q1("#ncl-sugg") && q1("#ncl-sugg").parentNode, q1("#ncl-sugg-out")]},
+        {title: "Saved points", nodes: [q1("#ncl-save-add") && q1("#ncl-save-add").parentNode, q1("#ncl-save-out")]}]});
+      L393.terse(el, "p.cite", 110);
+    }
+  } catch (e393) {}
   var tip = document.createElement("div"); tip.className = "ncl-tip"; tip.hidden = true; document.body.appendChild(tip); this.tip = tip;
   function $(id) { return el.querySelector("#" + id); }
   this.$ = $;
@@ -4159,6 +4180,14 @@ function injectionMode(tool, api) {
   }
   function build(c) {
     ctx = c;
+    /* Q393: a long hint in the cards becomes one line, the rest one tap away ("עוד"); a line that states a limit stays the visible one */
+    try {
+      var L393 = global.NMSKLayout;
+      if (L393 && L393.terse && global.MutationObserver && c.main && !c.main.__q393) {
+        c.main.__q393 = 1; var tq = 0;
+        new MutationObserver(function () { if (tq) return; tq = setTimeout(function () { tq = 0; L393.terse(c.main, "p.mc-hint", 120, "עוד"); }, 60); }).observe(c.main, {childList: true, subtree: true});
+      }
+    } catch (e393) {}
     if (!document.getElementById("inj-mode-css")) {   // the tool's own panel stays alive (its state, its 3-D overlays) but is not shown in the mode: the cards re-skin it
       var st = document.createElement("style"); st.id = "inj-mode-css"; st.textContent = "body.mode-inj #needle-panel,body.mode-inj .ncl-tip{display:none!important}" +
         "body.mode-inj.nmsk-us.us-clip-on .mc-right,body.mode-inj.nmsk-us.us-clip-on .mc-pick{display:none!important}" +

@@ -4356,6 +4356,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKFavori
    with their one-line reason shown underneath, not in a tooltip the phone never displays.
      NMSKGroups.start({anchor, history, modelreset, info, combos, groups:[{key,label,title,members:[...]}]})
    member := {adopt:"id"|["id",...]} | {el:node} | {label, run, active, combo, title}
+   a group may instead carry run (+ avail, active): a direct entry, one tap runs it (Q393)
      .open(key)  .close()  .isOpen()  .groups()  .members(key)  .state() */
 var NMSKGroups = (function(){
   "use strict";
@@ -4376,6 +4377,7 @@ var NMSKGroups = (function(){
     return out;
   }
   function anyMembers(g){
+    if (typeof g.run === "function"){ try { return g.avail ? !!g.avail() : true; } catch (e0){ return false; } }   /* Q393: a direct entry */
     return (g.members || []).some(function(m){
       if (m.el) return true;
       if (m.adopt || m.adoptSel) return nodesOf(m).length > 0;
@@ -4417,6 +4419,7 @@ var NMSKGroups = (function(){
     }
   }
   function anyActive(g){
+    if (typeof g.active === "function"){ try { if (g.active()) return true; } catch (e0){} }        /* Q393 */
     return (g.members || []).some(function(m){
       if (typeof m.active === "function"){ try { return !!m.active(); } catch (e){ return false; } }
       if (m.combo && combos){ try { return !!combos.verdict(m.combo).active; } catch (e2){ return false; } }
@@ -4455,6 +4458,9 @@ var NMSKGroups = (function(){
     var g = null;
     G.forEach(function(q){ if (q.key === key) g = q; });
     if (!g) return false;
+    /* Q393, owner: "the LABELS display disappeared". A group with `run` is a direct entry on the bar: one tap does the thing (opens its
+       panel beside the figure), no sheet in between, while the same control stays inside its own group's sheet too. */
+    if (typeof g.run === "function"){ closeSheet(); try { g.run(); } catch (e5){} paint(); return true; }
     if (cur === key){ closeSheet(); return false; }
     var only = soleButton(g);
     if (only){ closeSheet(); try { only.click(); } catch (e){} return true; }
@@ -4517,6 +4523,7 @@ var NMSKGroups = (function(){
       var d = b.querySelector(".qg-dot");
       if (d) d.hidden = !hot;
       b.setAttribute("aria-label", g.label + (hot ? " (something in this group is active)" : ""));
+      if (typeof g.run === "function") b.setAttribute("aria-pressed", String(!!hot));
     });
     if (!cur || !combos) return;
     var g = null; G.forEach(function(q){ if (q.key === cur) g = q; });
@@ -4564,6 +4571,9 @@ var NMSKGroups = (function(){
   function place(){
     if (!anchor || !anchor.getBoundingClientRect || !bar) return;
     var r = anchor.getBoundingClientRect();
+    /* Q393: while the canvas is laid over the free part of the screen (NMSKLayout), the bar keeps its place over the WHOLE screen:
+       following the narrowed canvas it moved under and away from the boxes that are placed against it */
+    if (anchor.hasAttribute && anchor.hasAttribute("data-q393")) r = {left:0, top:r.top, width:window.innerWidth, height:window.innerHeight - r.top};
     if (!(r.width > 40 && r.height > 40)) return;
     var w = Math.max(220, Math.min(r.width - 16, 760));
     bar.style.width = w + "px";
@@ -4587,8 +4597,22 @@ var NMSKGroups = (function(){
       var vw = window.innerWidth, vh = window.innerHeight, phone = vw <= 460, mb = null;
       try { mb = window.NMSKQuick && NMSKQuick.box && NMSKQuick.box(); } catch (e0){}
       var topPx = top + (bar.offsetHeight || 0) + 4;
+      /* Q393, owner: "the main part of the screen must always be the figure". Phone: a bottom sheet, at most 45 % of the height, the
+         figure above it (NMSKLayout lays the canvas over the free part). Desktop: docked to the left edge and narrow -- at most what
+         keeps 60 % of the width free next to the panels already open on the right -- and the figure moves into the free part. */
+      var Lq = window.NMSKLayout;
       if (phone){
-        sheet.style.maxHeight = Math.round(Math.max(150, Math.min(r.height * 0.55, vh * 0.36))) + "px";
+        sheet.style.top = "auto"; sheet.style.bottom = "6px"; sheet.style.left = "4px"; sheet.style.width = (vw - 8) + "px";
+        sheet.style.maxHeight = Math.round(vh * 0.45 - 8) + "px";
+      } else if (Lq && Lq.fit && Lq.state && Lq.state().fit){
+        var rr = 0;
+        ["#lab-panel", "#pose-panel", "#q382-panel", "#needle-panel", "#lab-legend"].forEach(function(s){
+          var e = document.querySelector(s); if (!e || e.hidden || !e.getClientRects().length) return;
+          var q = e.getBoundingClientRect(); if (q.left > vw / 2) rr = Math.max(rr, vw - q.left + 6);
+        });
+        var cw = Math.max(260, Math.min(sw, 420, Math.round(vw * 0.4 - rr - 14)));
+        sheet.style.width = cw + "px"; sheet.style.left = "8px"; sheet.style.bottom = "auto";
+        sheet.style.maxHeight = Math.round(Math.max(160, vh - topPx - 12)) + "px";
       } else if (mb && mb.r > mb.l){
         var freeL = mb.l - 16, freeR = vw - mb.r - 16, side = freeL >= freeR ? "l" : "r", free = Math.max(freeL, freeR);
         if (free >= 300){
@@ -4629,9 +4653,10 @@ var NMSKGroups = (function(){
           if (!m) return false;
           if (m.el) return true;
           if (m.label) return true;
+          if (m.adoptSel) return true;      /* Q393: claimed by class, mounted by the add-ons later -- kept (it was dropped here, so the scan buttons stayed in the corner) */
           return [].concat(m.adopt || []).some(function(id){ return !!document.getElementById(id); });
         });
-        return g.members.length > 0;
+        return g.members.length > 0 || typeof g.run === "function";
       });
       bar = el("div", "qg-bar"); bar.id = "q301-bar";
       bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "The controls: groups of tools, and undo / redo / reset");
@@ -4833,6 +4858,13 @@ var NMSKQ301 = (function(){
            about the structure you have just found, so they belong with finding it. */
         {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
       ]},
+      /* Q393, owner: "the LABELS display disappeared". It had not: Q318 folded the Labels button into the Search sheet, so with the sheet
+         closed nothing on the bar said Labels. Labels gets its own entry again -- one tap opens the labels panel, beside the figure --
+         and the button stays in the Search sheet as well (the entry presses that same button: one behaviour, two ways in). */
+      {key:"labels", label:"Labels", title:"Names on the structures: open the Labels panel (L cycles Off / Selected / Visible / All)", members:[],
+        run:function(){ var b = document.getElementById("t-labels"); if (b) b.click(); },
+        avail:function(){ return !!document.getElementById("t-labels"); },
+        active:function(){ var p = document.getElementById("lab-panel"); return !!(p && !p.hidden); }},
       {key:"systems", label:"Systems", title:"Which systems are shown, how deep to peel into them, and the fat", members:[
         {el:P && P.state().on ? document.getElementById("pl-box") : null, combo:"peel"},
         {el:F && F.state().on ? document.getElementById("ft-box") : null, combo:"fat"},
@@ -4891,7 +4923,7 @@ var NMSKQ301 = (function(){
         {adopt:["t-reset", "t-lay3", "t-layout", "sym-select"]},
         {combo:"spin", adopt:"btn-spin"}
       ]}
-    ].map(function(g){ g.members = g.members.filter(function(m){ return m.el || m.adopt || m.label; }); return g; });
+    ].map(function(g){ g.members = g.members.filter(function(m){ return m.el || m.adopt || m.adoptSel || m.label; }); return g; });   /* Q393: adoptSel kept (the scan buttons) */
   }
   var api = {
     start:function(opt){
@@ -7798,6 +7830,48 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ305;
 .q382-ph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:14px}
 .q382-ph button{width:34px;height:34px;border-radius:50%;border:1px solid #D5D9DF;background:#F3F4F6;color:#20242B;font-size:20px;line-height:1;cursor:pointer}
 .q382-gear{display:inline-flex;align-items:center;justify-content:center}
+/* Q393: the settings search and tree (above the layout section), the mark on the control a leaf goes to, the phone bottom sheet */
+.q393-find{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;font-size:13px}
+.q393-find input[type=search]{width:100%;box-sizing:border-box;min-height:36px;padding:5px 10px;border:1px solid #B9C0C9;border-radius:8px;font:inherit;font-size:14px}
+.q393-tb{display:flex;align-items:center;gap:6px}
+.q393-tb button{min-height:28px;padding:2px 10px;font-size:12px;cursor:pointer}
+.q393-n{margin-left:auto;font-size:11.5px;opacity:.7}
+.q393-tree{display:flex;flex-direction:column;gap:2px}
+.q393-t[hidden],.q393-tree li[hidden],.q393-empty[hidden]{display:none}
+.q393-t>summary{cursor:pointer;min-height:30px;display:flex;align-items:center;gap:6px;padding:2px 4px;border-radius:6px;list-style-position:inside}
+.q393-t>summary:hover{background:#F0F3F6}
+.q393-he{font-size:11.5px;opacity:.6}
+.q393-c{margin-left:auto;font-size:11px;opacity:.55}
+.q393-t ul{list-style:none;margin:0 0 4px;padding:0 0 0 18px;border-left:1px solid #E1E5EA}
+.q393-leaf{display:block;width:100%;text-align:left;min-height:30px;padding:3px 8px;border:0;border-radius:6px;background:none;color:inherit;font:inherit;font-size:12.5px;cursor:pointer}
+.q393-leaf:hover,.q393-leaf:focus{background:#E8F1F6}
+.q393-empty{margin:0;font-size:12px;opacity:.75}
+.q393-lz{border-top:1px solid #E1E5EA;padding-top:6px}
+.q393-lz>summary{cursor:pointer;min-height:30px;font-weight:600;font-size:13px}
+.q393-flash{outline:3px solid #F2B705 !important;outline-offset:2px;transition:outline-color .3s}
+@media (max-width:560px){
+  .q382-panel{top:auto;bottom:8px;left:8px;right:8px;width:auto;max-height:calc(45vh - 12px)}
+}
+/* Q393: on a phone every bottom sheet stays within 45 % of the height, so the figure keeps the upper part of the screen */
+@media (max-width:900px){
+  body #pose-panel{max-height:calc(45vh - 4px)}
+  body #lab-panel.lb-phone{max-height:calc(45vh - 72px)}
+}
+/* Q393: the add-on panels' titled sections (one open at a time) and the folded notes */
+.q393-acc{border-top:1px solid rgba(127,127,127,.28);margin:0}
+.q393-acc>summary{cursor:pointer;min-height:30px;display:flex;align-items:center;font-weight:600;padding:3px 2px;list-style-position:inside}
+.q393-acc>summary::before{content:"\25B8";display:inline-block;width:1.1em;transition:transform .12s}
+.q393-acc[open]>summary::before{transform:rotate(90deg)}
+.q393-acc>summary::-webkit-details-marker{display:none}
+.q393-acc>summary{list-style:none}
+.q393-more{margin:0 0 4px}
+details.q393-more>summary{cursor:pointer;font-size:11.5px;font-weight:600;color:inherit!important;opacity:1;display:inline-block;text-decoration:underline}   /* contrast: no muted grey */
+.q393-one{margin:2px 0;font-size:11.5px;line-height:1.4}
+/* Q393: a tool opening the Split layout (the needle panel) no longer brings the layer table along on the left: like Model-only, the side
+   rail shows when it is asked for (Systems > the layer table), so the figure keeps the screen */
+body.q301-on.lay-split #rail:not(.open){display:none!important}
+/* Q393: the labels panel never runs off the bottom of a desktop screen (it was 884 px tall from 46 px down: 23 px cut off) */
+body #lab-panel:not(.lb-phone){max-height:calc(100vh - 64px)}
 </style>
 <script>
 /* Q382: what the owner asked for after testing the live page --
@@ -7839,15 +7913,21 @@ var NMSKLayout = (function(){
        and the View group only open it, and the mode bar gets a gear (Hebrew label: that bar is Hebrew) */
     if (I && I.add){
       var st = document.createElement("div"); st.className = "q382-set";
-      st.innerHTML = '<p>Zoom chip delay, locking the boxes, resetting the layout.</p><div class="q382-row"><button type="button" id="q382-open">Open the settings</button></div>';
-      st.querySelector("button").addEventListener("click", function(){ api.open(); });
-      I.add({key:"settings", title:"Settings: layout and zoom", order:44, el:st});
+      st.innerHTML = '<p>Every setting of the page, by topic, and a search for a setting by name.</p><div class="q382-row"><button type="button" id="q382-open">Settings tree</button><button type="button" id="q393-open-find">Search settings</button></div>';
+      st.querySelector("#q382-open").addEventListener("click", function(){ api.open(); });
+      st.querySelector("#q393-open-find").addEventListener("click", function(){ api.find(); });
+      I.add({key:"settings", title:"Settings", order:44, el:st});
     }
     gear();
     var G = window.NMSKGroups;
-    if (G && G.addTo) G.addTo("view", {label:"Settings", id:"q382-settings", title:"Zoom chip, lock the boxes, reset the layout",
-      run:function(){ api.open(); }, label2:"Zoom chip delay, lock the boxes, reset the layout."});
-    setInterval(gear, 1500);                                  /* the mode bar is built by the modes module, maybe later or again */
+    if (G && G.addTo){
+      G.addTo("view", {label:"Settings", id:"q382-settings", title:"All the settings, by topic (a tree)",
+        run:function(){ api.open(); }, label2:"All the settings, by topic: open a topic, tap a setting to go to it."});
+      G.addTo("view", {label:"Search settings", id:"q393-settings-find", title:"Find a setting by name (not a structure: that is Search)",
+        run:function(){ api.find(); }});
+    }
+    setInterval(gear, 1500);
+    fitStart();                                  /* the mode bar is built by the modes module, maybe later or again */
     ready = true; return true;
   }
   function gear(){
@@ -7865,11 +7945,14 @@ var NMSKLayout = (function(){
   function panel(){
     if (pan) return pan;
     pan = document.createElement("div"); pan.id = "q382-panel"; pan.className = "q382-panel"; pan.hidden = true;
-    pan.setAttribute("role", "dialog"); pan.setAttribute("aria-label", "Settings: layout and zoom");
+    pan.setAttribute("role", "dialog"); pan.setAttribute("aria-label", "Settings");
     var h = document.createElement("div"); h.className = "q382-ph";
-    h.innerHTML = '<b>Settings: layout and zoom</b><button type="button" id="q382-x" aria-label="Close" title="Close">&times;</button>';
+    h.innerHTML = '<b>Settings</b><button type="button" id="q382-x" aria-label="Close" title="Close">&times;</button>';
     h.querySelector("button").addEventListener("click", function(){ api.close(); });
-    pan.appendChild(h); pan.appendChild(section());
+    pan.appendChild(h); pan.appendChild(finder());
+    var lz = document.createElement("details"); lz.className = "q393-lz"; lz.id = "q393-lz";
+    lz.open = true; lz.innerHTML = '<summary>Layout, zoom chip and text size</summary>'; lz.appendChild(section());
+    pan.appendChild(lz);
     document.body.appendChild(pan);
     window.addEventListener("keydown", function(e){ if (e.key === "Escape" && !pan.hidden){ api.close(); e.stopPropagation(); } }, true);
     return pan;
@@ -7888,6 +7971,7 @@ var NMSKLayout = (function(){
       '<p>Each box can also have its own: the A&minus; / A+ buttons at its lower-right corner while the pointer is over it, or its three-dots menu. Text never goes under 10 px.</p>' +
       '<h4>Boxes</h4>' +
       '<label><input type="checkbox" id="q382-lock"> Lock panels (no dragging or resizing)</label>' +
+      '<label><input type="checkbox" id="q393-fit"> Keep the figure in the free part of the screen (open panels push it aside)</label>' +
       '<div class="q382-row"><button type="button" id="q382-reset">Reset layout</button><button type="button" id="q382-show">Show zoom chip</button><button type="button" id="q382-one">Zoom 1:1</button></div>' +
       '<p>Boxes move by their handle or by their title row, and change size by the grip at their lower-right corner (double-click it: back to the box&rsquo;s own size). Positions and sizes are kept in this browser, separately for a desktop-width and a phone-width window.</p>';
     function $(id){ return sec.querySelector("#" + id); }
@@ -7895,6 +7979,7 @@ var NMSKLayout = (function(){
       var P = window.NMSKPinch ? NMSKPinch.prefs() : {always:false, secs:10};
       $("q382-always").checked = !!P.always; $("q382-timed").checked = !P.always; $("q382-secs").value = P.secs;
       $("q382-lock").checked = !!(window.NMSKMove && NMSKMove.locked());
+      $("q393-fit").checked = fitOn();
       fonts();
     }
     /* Q386: the all-boxes text size and one row per box that is on the screen now (a row's value "" = the all-boxes size) */
@@ -7920,6 +8005,7 @@ var NMSKLayout = (function(){
     sec.addEventListener("change", function(e){
       var P = window.NMSKPinch, t = e.target;
       if (t.id === "q382-lock"){ if (window.NMSKMove) NMSKMove.lock(t.checked); }
+      else if (t.id === "q393-fit"){ fitSet(t.checked); }
       else if (t.id === "q386-g"){ if (window.NMSKResize) NMSKResize.setGlobal(+t.value); }
       else if (t.getAttribute && t.getAttribute("data-k")){ if (window.NMSKResize) NMSKResize.setBox(t.getAttribute("data-k"), t.value === "" ? null : +t.value); }
       else if (P){
@@ -7938,6 +8024,264 @@ var NMSKLayout = (function(){
     sec.paint = paint; paint();
     return sec;
   }
+  /* ---- Q393, owner: "SETTINGS needs an option to open a SETTINGS TREE, and an option to open a SETTINGS search [different from the
+     structure search]". One registry of the settings that EXIST on the page -- each row names a real control by its id (or a class the
+     add-ons put on theirs) and where it lives; a row whose control is not on this page is simply not listed. The tree groups them by
+     topic; the search filters the same rows by name, topic and synonyms (English, and the Hebrew words the mode bar already uses).
+     A leaf goes to the real control: it opens the panel or group that holds it, scrolls it into view and marks it for a moment. */
+  var SELF = "self";
+  var TOPICS = [
+    ["display", "Display", "תצוגה"], ["labels", "Labels", "תוויות"], ["layout", "Layout and windows", "פריסה וחלונות"],
+    ["text", "Text size", "גודל טקסט"], ["pose", "Pose", "תנוחה"], ["imaging", "Imaging / scan", "הדמיה"],
+    ["needle", "Needle / planning", "מחט / תכנון"], ["cover", "Cover", "כיסוי"], ["colour", "Selection colour", "צבע הבחירה"],
+    ["safety", "Safety", "בטיחות"]];
+  var REG0 = [
+    {t:"display", l:"Zoom chip: shown for some seconds, or always", s:"#q382-timed", h:SELF, k:"zoom chip delay seconds timer scale magnification", he:"זום"},
+    {t:"display", l:"Show the zoom chip now", s:"#q382-show", h:SELF, k:"zoom chip reveal", he:"זום"},
+    {t:"display", l:"Zoom 1:1", s:"#q382-one", h:SELF, k:"zoom reset actual size one to one", he:"זום"},
+    {t:"display", l:"Colour by source", s:"#src-colour", h:"systems", k:"source colours provenance facet"},
+    {t:"display", l:"Model only / split / compare", s:"#t-lay3", h:"view", k:"layout panes split compare model only"},
+    {t:"display", l:"Spin the model", s:"#btn-spin", h:"view", k:"rotate turntable auto rotate"},
+    {t:"labels", l:"Labels on / off (Off, Selected, Visible, All)", s:"#lab-show", h:"labels", k:"names callouts show hide", he:"תוויות שמות"},
+    {t:"labels", l:"Full name or abbreviation", s:"#lab-text", h:"labels", k:"abbreviation short code name", he:"קיצור"},
+    {t:"labels", l:"Callouts: auto, outside, inline", s:"#lab-callout", h:"labels", k:"leader lines callout"},
+    {t:"labels", l:"Maximum number of labels", s:"#lab-dens", h:"labels", k:"density count how many max"},
+    {t:"labels", l:"Label font size", s:"#lab-font", h:"labels", k:"text size font bigger smaller", he:"גודל"},
+    {t:"labels", l:"Label colour", s:"#lab-colour", h:"labels", k:"colour color neutral"},
+    {t:"labels", l:"Vessel and nerve labels", s:"#lab-groups", h:"labels", k:"arteries veins nerves vessels hide", he:"עצבים כלי דם"},
+    {t:"labels", l:"Artery / vein level", s:"#lab-lva", h:"labels", k:"artery vein level calibre diameter"},
+    {t:"labels", l:"Nerve level", s:"#lab-lvn", h:"labels", k:"nerve level branches calibre", he:"עצבים"},
+    {t:"labels", l:"R / L marks on names", s:"#lab-side", h:"labels", k:"right left side"},
+    {t:"labels", l:"Hide labels of hidden-behind structures", s:"#lab-occl", h:"labels", k:"occluded behind hidden"},
+    {t:"labels", l:"Abbreviation list", s:"#lab-legend-btn", h:"labels", k:"legend abbreviations list", he:"קיצורים"},
+    {t:"layout", l:"Lock panels (no dragging or resizing)", s:"#q382-lock", h:SELF, k:"lock drag move freeze boxes windows panels"},
+    {t:"layout", l:"Keep the figure in the free part of the screen", s:"#q393-fit", h:SELF, k:"figure room centre center free space push aside"},
+    {t:"layout", l:"Reset layout (positions and sizes)", s:"#q382-reset", h:SELF, k:"reset restore positions sizes boxes windows"},
+    {t:"text", l:"Text size of all boxes", s:"#q386-g", h:SELF, k:"text font size bigger smaller all boxes", he:"גודל טקסט"},
+    {t:"text", l:"Text size of one box", s:"#q386-rows", h:SELF, k:"text font size one box per box"},
+    {t:"pose", l:"Pose panel (joints and their ranges)", s:"#pose-panel", h:"pose", k:"joints range of motion rom pose posture", he:"תנוחה"},
+    {t:"pose", l:"Rings on the model", s:"#pz-rings-btn", h:"pose", k:"rotation rings joints drag"},
+    {t:"pose", l:"This joint only", s:"#pz-solo", h:"pose", k:"one joint solo sliders"},
+    {t:"imaging", l:"How the model is drawn (radiographic styles)", s:"#rs-box", h:"imaging", k:"render style x-ray ct mri film grey radiograph", he:"הדמיה"},
+    {t:"imaging", l:"Bone reading", s:"#br-box", h:"imaging", k:"bone density reading"},
+    {t:"imaging", l:"See-through (older x-ray preset)", s:"#t-xray", h:"imaging", k:"transparent see through xray"},
+    {t:"imaging", dyn:".q301-scan", h:"imaging", k:"scan image simulation probe", he:"הדמיה סריקה"},
+    {t:"needle", l:"Needle panel (plan a path)", s:"#needle-panel", h:"needle", k:"needle injection path entry target plan", he:"מחט הזרקה"},
+    {t:"needle", l:"Workspaces (planning, scan, compare)", s:"#t-mode", h:"page", k:"mode workspace planning injection", he:"מצב תכנון"},
+    {t:"cover", l:"Underwear display cover", s:"#cv-box", h:"systems", k:"cover underwear garment modesty", he:"כיסוי"},
+    {t:"colour", l:"Colour of the selected", s:"#ss-col", h:"mark", k:"colour color selected marked tint", he:"צבע"},
+    {t:"colour", l:"Highlight the selected", s:"#sel-p-hlsel", h:"mark", k:"highlight selected"},
+    {t:"colour", l:"Fade the others", s:"#sel-p-fadeoth", h:"mark", k:"fade others ghost"},
+    {t:"safety", l:"Risk halos and safer pathways (needle)", s:"#ncl-risk", h:"needle", k:"risk halo safety margin vessels nerves safer", he:"בטיחות סיכון"}];
+  function REG(){
+    var out = [];
+    REG0.forEach(function(r){
+      if (!r.dyn){ out.push(r); return; }
+      Array.prototype.forEach.call(document.querySelectorAll(r.dyn), function(b, i){
+        var txt = (b.textContent || "").replace(/\s+/g, " ").trim(); if (!txt) return;
+        if (!b.id) b.id = "q393-dyn-" + i;
+        out.push({t:r.t, l:"Open " + txt, s:"#" + b.id, h:r.h, k:r.k + " " + txt.toLowerCase(), he:r.he, press:true});
+      });
+    });
+    return out;
+  }
+  function resolve(r){ try { return document.querySelector(r.s); } catch (e){ return null; } }
+  function shownEl(e){ if (!e || e.hidden) return false; var s = getComputedStyle(e); return s.display !== "none" && s.visibility !== "hidden" && e.getClientRects().length > 0; }
+  function host(r){
+    var G = window.NMSKGroups;
+    if (r.h === SELF){ var lz = document.getElementById("q393-lz"); if (lz) lz.open = true; return; }
+    api.close();
+    if (r.h === "labels"){ var lc = window.__labCtl, lp = document.getElementById("lab-panel"); if (lp && lp.hidden){ if (lc && lc.openPanel) lc.openPanel(true); else { var tb = document.getElementById("t-labels"); if (tb) tb.click(); } } return; }
+    if (r.h === "pose"){ var pp = document.getElementById("pose-panel"), bp = document.getElementById("btn-pose"); if (pp && !shownEl(pp) && bp) bp.click(); return; }
+    if (r.h === "needle"){ var np = document.getElementById("needle-panel"), bn = document.getElementById("t-needle"); if (np && np.hidden && bn) bn.click(); return; }
+    if (G && G.open && G.isOpen() !== r.h) G.open(r.h);
+  }
+  function go(r){
+    var e = resolve(r); if (!e) return false;
+    if (r.press){ api.close(); e.click(); return true; }
+    host(r);
+    setTimeout(function(){
+      var x = resolve(r); if (!x) return;
+      for (var d = x.parentNode; d && d !== document.body; d = d.parentNode) if (d.tagName === "DETAILS" && !d.open) d.open = true;
+      try { x.scrollIntoView({block:"nearest", inline:"nearest"}); } catch (e1){}
+      x.classList.add("q393-flash"); setTimeout(function(){ x.classList.remove("q393-flash"); }, 1800);
+      var f = /^(INPUT|SELECT|BUTTON|TEXTAREA)$/.test(x.tagName) ? x : x.querySelector("input,select,button");
+      if (f){ try { f.focus({preventScroll:true}); } catch (e2){} }
+    }, 160);
+    return true;
+  }
+  var fnd = null;
+  function finder(){
+    if (fnd) return fnd;
+    fnd = document.createElement("div"); fnd.className = "q393-find"; fnd.id = "q393-find";
+    fnd.innerHTML = '<input type="search" id="q393-sq" placeholder="Search settings (not structures)" autocomplete="off" aria-label="Search the settings by name">' +
+      '<div class="q393-tb"><button type="button" id="q393-all">Open all</button><button type="button" id="q393-none-b">Close all</button><span id="q393-n" class="q393-n"></span></div>' +
+      '<div class="q393-tree" id="q393-tree" role="tree" aria-label="Settings by topic"></div><p class="q393-empty" id="q393-empty" hidden>No setting with that name. The structure search is under Search.</p>';
+    fnd.querySelector("#q393-sq").addEventListener("input", function(){ filter(this.value); });
+    fnd.querySelector("#q393-sq").addEventListener("keydown", function(e){
+      if (e.key === "Enter"){ var b = fnd.querySelector(".q393-leaf:not([hidden])"); if (b){ e.preventDefault(); b.click(); } }
+    });
+    fnd.querySelector("#q393-all").addEventListener("click", function(){ fnd.querySelectorAll(".q393-t").forEach(function(d){ d.open = true; }); });
+    fnd.querySelector("#q393-none-b").addEventListener("click", function(){ fnd.querySelectorAll(".q393-t").forEach(function(d){ d.open = false; }); });
+    fnd.addEventListener("click", function(e){
+      var b = e.target.closest ? e.target.closest(".q393-leaf") : null; if (!b) return;
+      var R = REG(), r = R[+b.getAttribute("data-i")]; if (r) go(r);
+    });
+    return fnd;
+  }
+  function norm(s){ return String(s || "").toLowerCase().replace(/[\u0591-\u05C7]/g, "").replace(/[^a-z0-9\u05d0-\u05ea]+/g, " ").trim(); }
+  var treeSig = "";
+  function buildTree(){
+    var tree = fnd && fnd.querySelector("#q393-tree"); if (!tree) return [];
+    var R = REG(), live = R.map(function(r, i){ return resolve(r) ? i : -1; }).filter(function(i){ return i >= 0; });
+    var sig = live.map(function(i){ return R[i].s + R[i].l; }).join("|");
+    if (sig === treeSig) return R;
+    var open = {}; tree.querySelectorAll(".q393-t").forEach(function(d){ open[d.getAttribute("data-t")] = d.open; });
+    treeSig = sig; tree.innerHTML = "";
+    TOPICS.forEach(function(T){
+      var mine = live.filter(function(i){ return R[i].t === T[0]; }); if (!mine.length) return;
+      var d = document.createElement("details"); d.className = "q393-t"; d.setAttribute("data-t", T[0]); d.setAttribute("role", "treeitem"); d.open = !!open[T[0]];
+      var s = document.createElement("summary"); s.innerHTML = "<b></b> <span class=\"q393-he\" dir=\"rtl\"></span> <span class=\"q393-c\"></span>";
+      s.querySelector("b").textContent = T[1]; s.querySelector(".q393-he").textContent = T[2]; s.querySelector(".q393-c").textContent = mine.length;
+      d.appendChild(s);
+      var ul = document.createElement("ul"); ul.setAttribute("role", "group");
+      mine.forEach(function(i){
+        var li = document.createElement("li"), b = document.createElement("button"); b.type = "button"; b.className = "q393-leaf"; b.setAttribute("data-i", i);
+        b.setAttribute("data-key", norm([R[i].l, T[1], T[2], R[i].k, R[i].he].join(" "))); b.textContent = R[i].l; b.title = "Go to: " + R[i].l;
+        li.appendChild(b); ul.appendChild(li);
+      });
+      d.appendChild(ul); tree.appendChild(d);
+    });
+    return R;
+  }
+  function filter(q){
+    if (!fnd) return 0;
+    buildTree();
+    var words = norm(q).split(" ").filter(Boolean), n = 0;
+    fnd.querySelectorAll(".q393-t").forEach(function(d){
+      var k = 0;
+      d.querySelectorAll(".q393-leaf").forEach(function(b){
+        var key = b.getAttribute("data-key"), hit = words.every(function(w){ return key.indexOf(w) >= 0; });
+        b.parentNode.hidden = !hit; if (hit) k++;
+      });
+      d.hidden = k === 0; if (words.length) d.open = k > 0;
+      n += k;
+    });
+    var em = fnd.querySelector("#q393-empty"); if (em) em.hidden = n > 0;
+    var c = fnd.querySelector("#q393-n"); if (c) c.textContent = words.length ? n + " found" : n + " settings";
+    return n;
+  }
+
+  /* ---- Q393, owner: "also when menus and the like are open, the main part of the screen must always be the figure". The panels that open
+     beside the model (the group sheet, labels, legend, pose, settings, cut, measure) are measured; the 3-D canvas is then laid over the
+     part of the screen they leave free, so the figure is drawn centred in that part instead of behind a panel. Desktop: panels count by
+     the side they sit on (left / right); phone: the bottom sheet's height. With nothing open the canvas is the whole screen, as before.
+     Only in the Model-only / Split layouts without an image pane, and outside the workspace modes (those dock the canvas themselves). Can be switched off in Settings. */
+  var FIT_KEY = "nmsk.q393.fit", fitPref = null, lastRoom = null, fitT = 0, applied = false;
+  var ROOM = ["#q301-sheet", "#lab-panel", "#lab-legend", "#pose-panel", "#q382-panel", "#needle-panel", "#cut-panel", "#ms-bar", "#rail"];
+  function fitOn(){ if (fitPref == null){ try { fitPref = localStorage.getItem(FIT_KEY) !== "0"; } catch (e){ fitPref = true; } } return fitPref; }
+  function fitSet(on){ fitPref = !!on; try { localStorage.setItem(FIT_KEY, on ? "1" : "0"); } catch (e){} fitNow(); }
+  function fitSoon(){ clearTimeout(fitT); fitT = setTimeout(fitNow, 60); }
+  function room(){
+    var vw = window.innerWidth, vh = window.innerHeight, phone = vw <= 560, L = 0, R = 0, T = 0, B = 0, who = [];
+    ROOM.forEach(function(sel){
+      var e = document.querySelector(sel); if (!shownEl(e)) return;
+      var r = e.getBoundingClientRect(); if (r.width < 40 || r.height < 40 || r.right < 0 || r.left > vw || r.bottom < 0 || r.top > vh) return;
+      if (phone){
+        if (r.width < vw * 0.6) return;                            /* a small box at a side does not take the figure's height */
+        if ((r.top + r.bottom) / 2 > vh * 0.5){ B = Math.max(B, vh - r.top + 4); who.push(sel + ":b"); }
+        /* a box at the top of a phone (the measure bar under the control bar) is left alone: moving the canvas down would carry the
+           control bar (anchored to it) down over that box */
+        return;
+      }
+      if (r.height < vh * 0.18) return;                          /* a short bar along an edge does not take the figure's room */
+      var c = (r.left + r.right) / 2;
+      if (r.left < vw * 0.3 && r.right > vw * 0.7) return;        /* a panel across the middle: nothing to push aside */
+      if (c < vw / 2){ L = Math.max(L, r.right + 6); who.push(sel + ":l"); } else { R = Math.max(R, vw - r.left + 6); who.push(sel + ":r"); }
+    });
+    if (L + R > vw * 0.6){ var k = vw * 0.6 / (L + R); L *= k; R *= k; }
+    if (T + B > vh * 0.62){ var k2 = vh * 0.62 / (T + B); T *= k2; B *= k2; }
+    return {l:Math.round(L), r:Math.round(R), t:Math.round(T), b:Math.round(B), who:who, vw:vw, vh:vh};
+  }
+  var PROPS = ["left", "top", "width", "height", "right", "bottom"];
+  function fitNow(){
+    var cv = document.getElementById("view"), b = document.body; if (!cv || !b) return null;
+    /* the Model-only layout, or Split while no image pane is docked (the image panes size the canvas themselves); never in a workspace mode */
+    var can = fitOn() && cv.tagName === "CANVAS" && !b.classList.contains("mode-on") && !b.classList.contains("nmsk-us") && !b.classList.contains("nmsk-img") &&
+      (b.classList.contains("lay-model") || b.classList.contains("lay-split"));
+    var rm = can ? room() : null, any = !!(rm && (rm.l || rm.r || rm.t || rm.b));
+    lastRoom = rm;
+    if (!any){
+      if (applied){ PROPS.forEach(function(p){ cv.style.removeProperty(p); }); applied = false; cv.removeAttribute("data-q393"); engineResize(); }
+      return rm;
+    }
+    var sig = [rm.l, rm.r, rm.t, rm.b, rm.vw, rm.vh].join(",");
+    if (applied && cv.getAttribute("data-q393") === sig) return rm;
+    cv.style.setProperty("left", rm.l + "px"); cv.style.setProperty("top", rm.t + "px");
+    cv.style.setProperty("width", (rm.vw - rm.l - rm.r) + "px"); cv.style.setProperty("height", (rm.vh - rm.t - rm.b) + "px");
+    cv.style.setProperty("right", "auto"); cv.style.setProperty("bottom", "auto");
+    applied = true; cv.setAttribute("data-q393", sig);
+    engineResize();
+    return rm;
+  }
+  /* the engine is told directly: a window "resize" event would also make every box re-place and re-size itself (Q386 / Q305) */
+  function engineResize(){
+    var M = window.NMSKModes;
+    if (M && M.resized){ M.resized(); return; }
+    try { window.dispatchEvent(new Event("resize")); } catch (e){}
+  }
+  function fitStart(){
+    setInterval(fitNow, 400);
+    document.addEventListener("click", function(){ setTimeout(fitNow, 80); setTimeout(fitNow, 400); }, true);
+  }
+  /* ---- Q393, owner: "the imaging simulations too need less explanatory text, and their options under clear headings, collapsed and
+     opening by topic as needed". Two generic helpers the add-on panels call on their own nodes (this public file names none of them):
+       accordion(root, {key, wrap:[{title, nodes:[...], id}], sel})  the titled sections of a panel open one at a time; the open one is
+         remembered per panel (localStorage, in try / catch); `wrap` first gathers loose rows under a new title; nothing is removed;
+       terse(root, sel, max, more)  a long note becomes its first sentence (or the sentence that states a limit or a safety point, which is
+         never folded away) with the whole text one tap away under "More". */
+  var SAFE = /not (a |an )?(validated|clinical|a scan|patient)|not clinical|safety|limit|education aid|simulat|heuristic|assum|בטיחות|לא ממקור|לא המלצה|מוסכמה|לעולם לא/i;
+  function accStore(k, v){ try { if (v === undefined) return localStorage.getItem("nmsk.q393.acc." + k); localStorage.setItem("nmsk.q393.acc." + k, v); } catch (e){ return null; } return null; }
+  function accordion(root, opt){
+    if (!root) return null; opt = opt || {};
+    (opt.wrap || []).forEach(function(w){
+      var ns = (w.nodes || []).filter(function(n){ return n && n.parentNode; }); if (!ns.length) return;
+      var d = document.createElement("details"); d.className = "q393-acc"; if (w.id) d.id = w.id;
+      var s = document.createElement("summary"); s.textContent = w.title; d.appendChild(s);
+      ns[0].parentNode.insertBefore(d, ns[0]);
+      ns.forEach(function(n){ d.appendChild(n); });
+    });
+    var list = Array.prototype.filter.call(root.querySelectorAll(opt.sel || "details"), function(d){
+      var p = d.parentNode; while (p && p !== root){ if (p.tagName === "DETAILS") return false; p = p.parentNode; } return true;   /* top level only */
+    });
+    function name(d){ return d.id || (d.querySelector("summary") ? d.querySelector("summary").textContent.trim() : ""); }
+    list.forEach(function(d){
+      d.classList.add("q393-acc"); d.open = false;
+      d.addEventListener("toggle", function(){
+        if (!d.open) { if (accStore(opt.key || "x") === name(d)) accStore(opt.key || "x", ""); return; }
+        list.forEach(function(o){ if (o !== d && o.open) o.open = false; });
+        accStore(opt.key || "x", name(d));
+      });
+    });
+    var keep = accStore(opt.key || "x");
+    list.forEach(function(d){ if (keep && name(d) === keep) d.open = true; });
+    root.classList.add("q393-acc-root");
+    return list;
+  }
+  function terse(root, sel, max, more){
+    if (!root) return 0; max = max || 110; var n = 0;
+    Array.prototype.forEach.call(root.querySelectorAll(sel), function(p){
+      if (p.id || p.getAttribute("data-q393t") || (p.parentNode && p.parentNode.classList && p.parentNode.classList.contains("q393-more"))) return;   /* a live message (it has an id) is never folded */
+      var t = (p.textContent || "").replace(/\s+/g, " ").trim(); if (t.length <= max) return;
+      var ss = t.match(/[^.!?]+[.!?]+/g) || [t], keep = ss.filter(function(s){ return SAFE.test(s); })[0] || ss[0];
+      if (keep.length > 160) keep = keep.slice(0, 150).replace(/\s+\S*$/, "") + " ...";
+      var one = document.createElement(p.tagName === "P" ? "p" : "div"); one.className = "q393-one"; one.textContent = keep.trim();
+      var d = document.createElement("details"); d.className = "q393-more"; var s = document.createElement("summary"); s.textContent = more || "More"; d.appendChild(s);
+      p.parentNode.insertBefore(one, p); p.parentNode.insertBefore(d, p); d.appendChild(p);
+      p.setAttribute("data-q393t", "1"); n++;
+    });
+    return n;
+  }
   function boot(){
     if (ready) return;
     if (mount()){ clearInterval(timer); timer = 0; return; }
@@ -7945,15 +8289,21 @@ var NMSKLayout = (function(){
   }
   var api = {
     start:function(){ if (ready || timer) return api; boot(); if (!ready) timer = setInterval(boot, 250); return api; },
-    open:function(){ var p = panel(); p.hidden = false; if (window.NMSKInfo && NMSKInfo.close) NMSKInfo.close(); var s = section(); if (s.paint) s.paint(); },
-    close:function(){ if (pan) pan.hidden = true; },
+    open:function(){ var p = panel(); p.hidden = false; if (window.NMSKInfo && NMSKInfo.close) NMSKInfo.close(); var s = section(); if (s.paint) s.paint(); filter(""); fitSoon(); },
+    /* Q393: the settings search -- the same panel, the cursor in its own search field (never the structure search) */
+    find:function(q){ api.open(); var f = document.getElementById("q393-sq"); if (f){ if (q != null){ f.value = q; filter(q); } try { f.focus(); } catch (e){} } },
+    registry:function(){ return REG().map(function(r){ return {topic:r.t, label:r.l, on:!!resolve(r)}; }); },
+    go:function(i){ var R = REG(); return R[i] ? go(R[i]) : false; },
+    fit:function(){ return fitNow(); },
+    accordion:accordion, terse:terse,
+    close:function(){ if (pan) pan.hidden = true; fitSoon(); },
     reset:function(){
       var a = window.NMSKMove ? NMSKMove.restore() : false, b = window.NMSKResize ? NMSKResize.reset() : false;
       if (sec && sec.paint) sec.paint();
       return !!(a || b);
     },
     ready:function(){ return ready; },
-    state:function(){ return {ready:ready, locked:!!(window.NMSKMove && NMSKMove.locked()), chip:window.NMSKPinch ? NMSKPinch.prefs() : null, boxes:SPEC.map(function(s){ return s.key; })}; }
+    state:function(){ return {ready:ready, fit:fitOn(), room:lastRoom, locked:!!(window.NMSKMove && NMSKMove.locked()), chip:window.NMSKPinch ? NMSKPinch.prefs() : null, boxes:SPEC.map(function(s){ return s.key; })}; }
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function(){ api.start(); }); else api.start();
   return api;
@@ -13166,6 +13516,14 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,
         -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]),-(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]),-(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]),1]);
     }
+    /* Q387: the orbit is unlimited in both angles. The camera's up vector is d(eye direction)/d(el): while |el| < pi/2 it is
+       world +Y projected on the view plane (the picture is exactly what [0,1,0] gave), it is defined at the poles (no flicker)
+       and continuous through them, and past them (cos el < 0) the picture is upside-down, like a trackball going over the top.
+       Every view built from cam (draw, the pan / pinch axes, lookAt) takes its up from here; az / el are wrapped to (-pi, pi]
+       only where a camera is stored (an angle already in range is returned untouched, so presets stay exact). */
+    function camUp(az,el){ var se=Math.sin(el); return [-se*Math.sin(az),Math.cos(el),-se*Math.cos(az)]; }
+    function wrapPi(a){ var T=2*Math.PI; if(!isFinite(a)) return a; if(a>Math.PI) a-=T*Math.ceil((a-Math.PI)/T); if(a<=-Math.PI) a+=T*Math.ceil((-Math.PI-a)/T); return a; }
+    function camStore(){ return {az:wrapPi(cam.az), el:wrapPi(cam.el), dist:cam.dist, tgt:cam.tgt.slice()}; }
 
     var ctrAll = [(bbMin[0]+bbMax[0])/2,(bbMin[1]+bbMax[1])/2,(bbMin[2]+bbMax[2])/2];
     var HGT = bbMax[1]-bbMin[1];
@@ -13469,7 +13827,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
       var ce=Math.cos(cam.el), se=Math.sin(cam.el);
       var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)];
-      var view=mL(eye,cam.tgt,[0,1,0]);
+      var view=mL(eye,cam.tgt,camUp(cam.az,cam.el));   /* Q387 */
       var mvp=mMul(mP(0.85,q303aspect(),HGT*0.02,HGT*14),view);   /* Q303: the pane's own aspect */
       lastMVP=mvp; lastEye=eye;
       lastRight=[view[0],view[4],view[8]]; lastUp=[view[1],view[5],view[9]]; lastFwd=[-view[2],-view[6],-view[10]];
@@ -16962,7 +17320,11 @@ function NMSKLabels(E){
     return ov;
   }
   function bestCorner(w, h, skip, prefer, withWins){
-    var cr0 = E.canvasRect ? E.canvasRect() : {left:0, top:0, width:vw(), height:vh()}, cr = {left:cr0.left, top:cr0.top, right:cr0.left + cr0.width, bottom:cr0.top + cr0.height}, ob = obstRects(skip, withWins), best = null;
+    var cr0 = E.canvasRect ? E.canvasRect() : {left:0, top:0, width:vw(), height:vh()};
+    /* Q393: while the canvas is laid over the part of the screen the open panels leave free (NMSKLayout), a window is placed against the
+       SCREEN's corners -- placed against the narrowed canvas it landed in the middle of the screen and narrowed the canvas further */
+    if (document.querySelector("canvas[data-q393]")) cr0 = {left:0, top:0, width:vw(), height:vh()};
+    var cr = {left:cr0.left, top:cr0.top, right:cr0.left + cr0.width, bottom:cr0.top + cr0.height}, ob = obstRects(skip, withWins), best = null;
     var c = [{x:cr.right - w - 12, y:cr.top + 54}, {x:cr.left + 12, y:cr.top + 54}, {x:cr.right - w - 12, y:cr.bottom - h - 12}, {x:cr.left + 12, y:cr.bottom - h - 12}];
     if (prefer === "bottom") c = [c[3], c[2], c[1], c[0]];
     var pref = c[0], x, y;
@@ -18259,7 +18621,8 @@ var NMSKModes = (function(){
   function resetCurrent(){ if (curP && typeof curP.reset === "function"){ try { curP.reset(); } catch (err){} return true; } return false; }
   return {init:init, register:register, enter:enter, exit:function(){ exit(); }, show:showSwitcher, hide:hideSwitcher, current:function(){ return cur; }, resetCurrent:resetCurrent,
           state:function(){ var sid = null; try { sid = host ? host.selectedId() : null; } catch (err){} return {cur:cur, registered:Object.keys(providers), switcherOpen:!!(switcher() && !switcher().hidden), queued:queued, docks:docks.length, selected:sid}; },
-          el:el};
+          el:el,
+          resized:function(){ if (host && host.resized){ try { host.resized(); } catch (err){} } }};   /* Q393: the engine takes its canvas's new size, without a window "resize" event */
 })();
 
 window.NMSKModes = NMSKModes;   /* the optional add-ons (separate files) register their providers through the window object */
@@ -20039,10 +20402,11 @@ function NMSKLearn(api){
         fr = fr || {cx:0.5, cy:0.5, w:1, h:1};
         cam.tgt = tgt.slice();
         cam.az = Math.abs(dir[1]) > 0.98 ? Math.PI : Math.atan2(dir[0], dir[2]);      // looking straight down / up: anterior at the top of the screen
-        cam.el = Math.max(-1.55, Math.min(1.55, Math.asin(Math.max(-1, Math.min(1, dir[1])))));
+        cam.el = Math.asin(Math.max(-1, Math.min(1, dir[1])));      // Q387: the up vector is defined at the poles (camUp), no clamp needed
         var as = W / Math.max(1, H), tv = Math.tan(0.85 / 2), tw = tv * as;
         if (ext > 0) cam.dist = Math.max(HGT * 0.02, Math.min(HGT * 4, ext * 0.5 / Math.min(tv * fr.h, tw * fr.w) * 1.15));
-        var ce = Math.cos(cam.el), z = [ce * Math.sin(cam.az), Math.sin(cam.el), ce * Math.cos(cam.az)], xl = Math.hypot(z[2], z[0]) || 1, x = [z[2] / xl, 0, -z[0] / xl];
+        var ce = Math.cos(cam.el), z = [ce * Math.sin(cam.az), Math.sin(cam.el), ce * Math.cos(cam.az)], u = camUp(cam.az, cam.el);
+        var x = [u[1]*z[2] - u[2]*z[1], u[2]*z[0] - u[0]*z[2], u[0]*z[1] - u[1]*z[0]], xl = Math.hypot(x[0], x[1], x[2]) || 1; x = [x[0] / xl, x[1] / xl, x[2] / xl];   /* Q387: same basis as mL(eye, tgt, camUp) */
         var y = [z[1]*x[2] - z[2]*x[1], z[2]*x[0] - z[0]*x[2], z[0]*x[1] - z[1]*x[0]], hw = 2 * cam.dist * tv, ww = hw * as;      // centre the face in the free part of the canvas
         for (var k = 0; k < 3; k++) cam.tgt[k] -= -x[k] * (fr.cx - 0.5) * ww + y[k] * (0.5 - fr.cy) * hw;      // Q339: x is the old camera right; the screen's right is -x
         stopSpin(); need = true;
@@ -20211,7 +20575,7 @@ NMSKModes.init({
   selectedId:function(){ return selected ? (selected.id || selected.name) : null; },
   select:function(id){ select(id && objsById[id] ? objsById[id][0] : null, false); },
   snapshot:function(){
-    return {sel:selected ? (selected.id || selected.name) : null, cam:{az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}, sheet:!!sheetOpen};
+    return {sel:selected ? (selected.id || selected.name) : null, cam:camStore(), sheet:!!sheetOpen};      /* Q387: wrapped to (-pi, pi] */
   },
   restore:function(s){
     cam.az = s.cam.az; cam.el = s.cam.el; cam.dist = s.cam.dist; cam.tgt = s.cam.tgt.slice();
@@ -20669,7 +21033,7 @@ var coverZ = null;
     }
 
     // ================= input: orbit / PAN / zoom =================
-    var ptrs=new Map(), lastD=0, lastMid=null, moved=0, downT=0, panMode=false;
+    var ptrs=new Map(), lastD=0, lastMid=null, moved=0, downT=0, panMode=false, orbSg=1;   /* Q387: orbSg = -1 while upside-down, read when a drag starts */
     function stopSpin(){ if(spinning){spinning=false;var b=document.getElementById("btn-spin");if(b)b.classList.remove("on");} }
     function panBy(dx,dy){
       // move the camera target in the view plane; scale with distance so it feels 1:1
@@ -20683,7 +21047,7 @@ var coverZ = null;
     canvas.addEventListener("pointerdown",function(e){
       canvas.setPointerCapture(e.pointerId);
       ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
-      if(ptrs.size===1){ moved=0; downT=Date.now(); stopSpin();
+      if(ptrs.size===1){ moved=0; downT=Date.now(); stopSpin(); orbSg=Math.cos(cam.el)<0?-1:1;
         panMode = (e.button===1||e.button===2||e.shiftKey||panToggle); }
       if(ptrs.size===2){
         var p=Array.from(ptrs.values());
@@ -20708,7 +21072,7 @@ var coverZ = null;
         var dx=e.clientX-pv.x, dy=e.clientY-pv.y;
         moved+=Math.abs(dx)+Math.abs(dy);
         if(panMode) panBy(dx,dy);
-        else { cam.az+=dx*0.0065; /* Q339: re-signed for the true (non-mirrored) view, so a drag to the right still carries the surface right */ cam.el=Math.max(-1.45,Math.min(1.45,cam.el+dy*0.0065)); need=true; }
+        else { cam.az+=orbSg*dx*0.0065; /* Q339: re-signed for the true (non-mirrored) view, so a drag to the right still carries the surface right; Q387: also upside-down (orbSg) */ cam.el+=dy*0.0065; /* Q387: no clamp -- over the pole and on round */ need=true; }
       } else if(ptrs.size===2){
         var p=Array.from(ptrs.values());
         var d=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
@@ -20729,6 +21093,7 @@ var coverZ = null;
         ptrs.delete(e.pointerId);
       }
       if(ptrs.size<2){lastD=0;lastMid=null;}
+      if(ptrs.size===1) orbSg=Math.cos(cam.el)<0?-1:1;   // Q387: one finger left of a pinch orbits from here
       if(ptrs.size===0) panMode=false;
     }
     canvas.addEventListener("pointerup",up); canvas.addEventListener("pointercancel",up);
@@ -20747,7 +21112,7 @@ var coverZ = null;
     var pzB=null, pzChip=null, pzTap=window.NMSKPinch?NMSKPinch.dbl():function(){ return false; };
     function pzAxes(){
       var ce=Math.cos(cam.el), se=Math.sin(cam.el);
-      var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)], v=mL(eye,cam.tgt,[0,1,0]);
+      var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)], v=mL(eye,cam.tgt,camUp(cam.az,cam.el));   /* Q387: the pinch / two-finger pan follow the screen upside-down too */
       return [[v[0],v[4],v[8]],[v[1],v[5],v[9]]];
     }
     function pzPxWorld(){ var r=canvas.getBoundingClientRect(); return 2*cam.dist*Math.tan(0.425)/Math.max(1,r.height*q303ph()); }   /* Q303: a pane is the view now */
@@ -21356,7 +21721,7 @@ var coverZ = null;
           has:function(id){ return !!q303byId[id]; }
         },
         autofocus:{
-          cam:{get:function(){ return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}; },
+          cam:{get:function(){ return camStore(); },      /* Q387: saved views, the four panes and their undo store az / el in (-pi, pi] */
                set:function(c){ cam.az = c.az; cam.el = c.el; cam.dist = c.dist; cam.tgt = c.tgt.slice(); stopSpin(); need = true; },
                fit:q303fit, redraw:function(){ need = true; }},
           view:function(){ var e = q303eye(), t = cam.tgt; return {eye:e, dir:[t[0] - e[0], t[1] - e[1], t[2] - e[2]]}; },
@@ -21371,7 +21736,7 @@ var coverZ = null;
           redraw:function(){ need = true; }
         },
         views:{
-          cam:{get:function(){ return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}; },
+          cam:{get:function(){ return camStore(); },      /* Q387: saved views, the four panes and their undo store az / el in (-pi, pi] */
                set:function(c){ cam.az = c.az; cam.el = c.el; cam.dist = c.dist; cam.tgt = c.tgt.slice(); stopSpin(); need = true; },
                fit:q303fit, redraw:function(){ need = true; }},
           axesOf:function(ids){

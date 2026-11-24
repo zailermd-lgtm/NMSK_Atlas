@@ -12,3 +12,45 @@
 .q382-ph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:14px}
 .q382-ph button{width:34px;height:34px;border-radius:50%;border:1px solid #D5D9DF;background:#F3F4F6;color:#20242B;font-size:20px;line-height:1;cursor:pointer}
 .q382-gear{display:inline-flex;align-items:center;justify-content:center}
+/* Q393: the settings search and tree (above the layout section), the mark on the control a leaf goes to, the phone bottom sheet */
+.q393-find{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;font-size:13px}
+.q393-find input[type=search]{width:100%;box-sizing:border-box;min-height:36px;padding:5px 10px;border:1px solid #B9C0C9;border-radius:8px;font:inherit;font-size:14px}
+.q393-tb{display:flex;align-items:center;gap:6px}
+.q393-tb button{min-height:28px;padding:2px 10px;font-size:12px;cursor:pointer}
+.q393-n{margin-left:auto;font-size:11.5px;opacity:.7}
+.q393-tree{display:flex;flex-direction:column;gap:2px}
+.q393-t[hidden],.q393-tree li[hidden],.q393-empty[hidden]{display:none}
+.q393-t>summary{cursor:pointer;min-height:30px;display:flex;align-items:center;gap:6px;padding:2px 4px;border-radius:6px;list-style-position:inside}
+.q393-t>summary:hover{background:#F0F3F6}
+.q393-he{font-size:11.5px;opacity:.6}
+.q393-c{margin-left:auto;font-size:11px;opacity:.55}
+.q393-t ul{list-style:none;margin:0 0 4px;padding:0 0 0 18px;border-left:1px solid #E1E5EA}
+.q393-leaf{display:block;width:100%;text-align:left;min-height:30px;padding:3px 8px;border:0;border-radius:6px;background:none;color:inherit;font:inherit;font-size:12.5px;cursor:pointer}
+.q393-leaf:hover,.q393-leaf:focus{background:#E8F1F6}
+.q393-empty{margin:0;font-size:12px;opacity:.75}
+.q393-lz{border-top:1px solid #E1E5EA;padding-top:6px}
+.q393-lz>summary{cursor:pointer;min-height:30px;font-weight:600;font-size:13px}
+.q393-flash{outline:3px solid #F2B705 !important;outline-offset:2px;transition:outline-color .3s}
+@media (max-width:560px){
+  .q382-panel{top:auto;bottom:8px;left:8px;right:8px;width:auto;max-height:calc(45vh - 12px)}
+}
+/* Q393: on a phone every bottom sheet stays within 45 % of the height, so the figure keeps the upper part of the screen */
+@media (max-width:900px){
+  body #pose-panel{max-height:calc(45vh - 4px)}
+  body #lab-panel.lb-phone{max-height:calc(45vh - 72px)}
+}
+/* Q393: the add-on panels' titled sections (one open at a time) and the folded notes */
+.q393-acc{border-top:1px solid rgba(127,127,127,.28);margin:0}
+.q393-acc>summary{cursor:pointer;min-height:30px;display:flex;align-items:center;font-weight:600;padding:3px 2px;list-style-position:inside}
+.q393-acc>summary::before{content:"\25B8";display:inline-block;width:1.1em;transition:transform .12s}
+.q393-acc[open]>summary::before{transform:rotate(90deg)}
+.q393-acc>summary::-webkit-details-marker{display:none}
+.q393-acc>summary{list-style:none}
+.q393-more{margin:0 0 4px}
+details.q393-more>summary{cursor:pointer;font-size:11.5px;font-weight:600;color:inherit!important;opacity:1;display:inline-block;text-decoration:underline}   /* contrast: no muted grey */
+.q393-one{margin:2px 0;font-size:11.5px;line-height:1.4}
+/* Q393: a tool opening the Split layout (the needle panel) no longer brings the layer table along on the left: like Model-only, the side
+   rail shows when it is asked for (Systems > the layer table), so the figure keeps the screen */
+body.q301-on.lay-split #rail:not(.open){display:none!important}
+/* Q393: the labels panel never runs off the bottom of a desktop screen (it was 884 px tall from 46 px down: 23 px cut off) */
+body #lab-panel:not(.lb-phone){max-height:calc(100vh - 64px)}

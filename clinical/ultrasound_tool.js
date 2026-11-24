@@ -2479,6 +2479,7 @@
       "#us-root.ctl-tabs .sectabs{display:flex}",
       "#us-root.ctl-tabs .sec{display:grid;gap:6px}",
       "#us-root.ctl-tabs .sec:not(.us-act){display:none}",
+      ".us-ctl.q393-us{grid-template-columns:1fr}#us-root .us-ctl.q393-us .sec{display:contents}#us-root .us-ctl.q393-us .sectabs{display:none}",   /* Q393: headings instead of tabs */
       /* Q264: overscroll-behavior:contain -- a touch-drag that scrolls this panel to its own boundary must not chain
          into the page/canvas beneath it (see PROJECT_STATE.md Q264). */
       ".us-ctl{flex:0 0 auto;max-height:46%;overflow:auto;overscroll-behavior:contain;padding:6px 8px 8px;border-top:1px solid var(--line);display:grid;gap:6px 14px;background:var(--bg);grid-template-columns:repeat(auto-fit,minmax(380px,1fr));align-content:start}",
@@ -2644,6 +2645,29 @@
       /* Q267 (6): opt-in, off by default (S.thickness) -- see tog("thickness", ...) in buildControls() */
       ui.thick = el("div", {class: "us-thick", hidden: true});
       ui.ctl = el("div", {class: "us-ctl"}); buildControls(ui.ctl);
+      /* Q393, owner: "less explanatory text, and the change options under clear headings, collapsed, opening by topic as needed". Always
+         on top: the method (1 / 2), the probe, the frequency, the depth and the gain; below, titled sections that open one at a time (the
+         last one is remembered); long notes become one line with the rest under "More". The section tabs give way to the headings. */
+      try {
+        var L393 = G.NMSKLayout;
+        if (L393 && L393.accordion) {
+          var c393 = ui.ctl, rowOf = function (x) { return x && x.closest ? x.closest(".us-row") : null; };
+          var dep = rowOf(ui.depth), gain = rowOf(ui.gain);
+          if (dep && gain && dep.parentNode) dep.parentNode.insertBefore(gain, dep.nextSibling);
+          c393.classList.add("q393-us");
+          var pk = Object.keys(ui).filter(function (k) { return k.indexOf("presetBtn_") === 0; })[0];
+          L393.accordion(c393, {key: "us", wrap: [
+            {title: "Presets", nodes: [pk ? rowOf(ui[pk]) : null]},
+            {title: "Placement and orientation", nodes: [rowOf(ui.placeBtn), rowOf(ui.rot)]},
+            {title: "A / B compare", nodes: [rowOf(ui.abBtn)]},
+            {title: "Tilt and sweep", nodes: [ui.starBox, ui.sweepBox]},
+            {title: "Cine and frames", nodes: [ui.playBox]},
+            {title: "Image: TGC, focus, dynamic range", nodes: [rowOf(ui.tgc), rowOf(ui.focus), rowOf(ui.dr)]},
+            {title: "Simulation layers", nodes: [rowOf(ui.togs && ui.togs.speckle)]},
+            {title: "More", nodes: [rowOf(ui.togs && ui.togs.hidden)]}]});
+          L393.terse(c393, ".us-status", 110);
+        }
+      } catch (e393) {}
       var div = el("div", {id: "us-div", title: "Drag to resize"});
       div.addEventListener("pointerdown", function (e) {
         div.setPointerCapture(e.pointerId); div.classList.add("drag");
@@ -3209,7 +3233,7 @@
     function showUsHint() {                                                    // first-use hint, once per browser
       var seen = false; try { seen = localStorage.getItem("nmsk-ultrasound-hint") === "1"; } catch (e) {}
       if (seen || !ui.hint) return;
-      ui.hint.textContent = "Simulated B-mode from the meshes (not a scan). The probe was put on the skin automatically; use \u201CPlace probe\u201D and tap the skin to move it. Probe type, tilt and the sweep matrix (3 to 9 frames) are under the images. ";
+      ui.hint.textContent = "Simulated B-mode from the meshes (not a scan). The probe was placed for you: \u201CPlace probe\u201D, then a tap on the skin, moves it. ";
       ui.hint.appendChild(el("button", {type: "button", text: "OK", onclick: function () { ui.hint.style.display = "none"; try { localStorage.setItem("nmsk-ultrasound-hint", "1"); } catch (e) {} }}));
       ui.hint.style.display = "";
     }
