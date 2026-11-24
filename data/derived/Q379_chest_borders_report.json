@@ -1,0 +1,3010 @@
+{
+ "schema": "nmsk.q379.chest_borders.v1",
+ "round": "Q379",
+ "generated": "2026-11-24",
+ "page": "atlas_viewer_base_female",
+ "written": true,
+ "parameters": {
+  "weld_mm": 0.03,
+  "cap_mm": 4.0,
+  "t_min": 0.03,
+  "residual_max_mm": 0.01,
+  "path_ratio": 1.6,
+  "area_max_pct": 1.0,
+  "turn_cos": 0.5,
+  "thick_min": 0.5,
+  "bridge_mm": 1.5,
+  "face_mm": 3.5
+ },
+ "totals": {
+  "runs": 2,
+  "slabs": 2,
+  "vertices_moved": 48,
+  "vertex_copies_moved": 48,
+  "to_vertex": 8,
+  "to_edge": 40,
+  "on_bridge": 0,
+  "move": {
+   "max_mm": 3.809,
+   "p95_mm": 2.714,
+   "p50_mm": 1.665
+  },
+  "residual_after_round_trip": {
+   "max_mm": 0.002,
+   "p95_mm": 0.00152,
+   "p50_mm": 0.0006
+  },
+  "open_facing_neighbour": {
+   "before": 110,
+   "after": 62
+  }
+ },
+ "open_facing_neighbour": {
+  "before": {
+   "deltopectoral_triangle_r|deltoid_region_r": 2,
+   "infraclavicular_fossa_l|deltoid_region_l": 2,
+   "infraclavicular_fossa_r|deltoid_region_r": 2,
+   "lateral_region_of_thorax_l|anterior_region_of_arm_l": 5,
+   "lateral_region_of_thorax_l|posterior_region_of_arm_l": 55,
+   "lateral_region_of_thorax_l|deltoid_region_l": 1,
+   "lateral_region_of_thorax_r|posterior_region_of_arm_r": 40,
+   "lateral_region_of_thorax_r|anterior_region_of_arm_r": 3
+  },
+  "after": {
+   "deltopectoral_triangle_r|deltoid_region_r": 2,
+   "infraclavicular_fossa_l|deltoid_region_l": 2,
+   "infraclavicular_fossa_r|deltoid_region_r": 2,
+   "lateral_region_of_thorax_l|deltoid_region_l": 1,
+   "lateral_region_of_thorax_l|anterior_region_of_arm_l": 4,
+   "lateral_region_of_thorax_l|posterior_region_of_arm_l": 28,
+   "lateral_region_of_thorax_r|anterior_region_of_arm_r": 3,
+   "lateral_region_of_thorax_r|posterior_region_of_arm_r": 20
+  }
+ },
+ "refused_runs": [
+  {
+   "sheet": "outer",
+   "slabs": [
+    "zan_skin_deltopectoral_triangle_l",
+    "zan_skin_infraclavicular_fossa_l"
+   ],
+   "n": 2,
+   "corner_vertices": 1,
+   "free": [
+    [
+     [
+      "zan_skin_deltopectoral_triangle_l",
+      13
+     ],
+     [
+      "zan_skin_infraclavicular_fossa_l",
+      1
+     ]
+    ],
+    [
+     [
+      "zan_skin_infraclavicular_fossa_l",
+      54
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_deltoid_region_l",
+    "zan_skin_deltoid_region_l"
+   ],
+   "path_len_mm": 3.58,
+   "run_len_mm": 10.73,
+   "neighbours": [
+    "zan_skin_deltoid_region_l"
+   ],
+   "off_mm": [
+    4.741,
+    2.369
+   ],
+   "status": "cap",
+   "max_off_mm": 4.741
+  },
+  {
+   "sheet": "outer",
+   "slabs": [
+    "zan_skin_deltopectoral_triangle_r",
+    "zan_skin_infraclavicular_fossa_r"
+   ],
+   "n": 3,
+   "corner_vertices": 1,
+   "free": [
+    [
+     [
+      "zan_skin_infraclavicular_fossa_r",
+      67
+     ]
+    ],
+    [
+     [
+      "zan_skin_deltopectoral_triangle_r",
+      7
+     ],
+     [
+      "zan_skin_infraclavicular_fossa_r",
+      4
+     ]
+    ],
+    [
+     [
+      "zan_skin_deltopectoral_triangle_r",
+      129
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_deltoid_region_r",
+    "zan_skin_deltoid_region_r"
+   ],
+   "path_len_mm": 3.57,
+   "run_len_mm": 10.7,
+   "neighbours": [
+    "zan_skin_deltoid_region_r"
+   ],
+   "off_mm": [
+    2.395,
+    4.788,
+    2.394
+   ],
+   "status": "cap",
+   "max_off_mm": 4.788
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_deltopectoral_triangle_l",
+    "zan_skin_infraclavicular_fossa_l"
+   ],
+   "n": 2,
+   "corner_vertices": 1,
+   "free": [
+    [
+     [
+      "zan_skin_deltopectoral_triangle_l",
+      178
+     ],
+     [
+      "zan_skin_infraclavicular_fossa_l",
+      708
+     ]
+    ],
+    [
+     [
+      "zan_skin_infraclavicular_fossa_l",
+      761
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_deltoid_region_l",
+    "zan_skin_deltoid_region_l"
+   ],
+   "path_len_mm": 3.56,
+   "run_len_mm": 11.38,
+   "neighbours": [
+    "zan_skin_deltoid_region_l"
+   ],
+   "off_mm": [
+    5.116,
+    2.695
+   ],
+   "status": "cap",
+   "max_off_mm": 5.116
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_deltopectoral_triangle_r",
+    "zan_skin_infraclavicular_fossa_r"
+   ],
+   "n": 3,
+   "corner_vertices": 1,
+   "free": [
+    [
+     [
+      "zan_skin_infraclavicular_fossa_r",
+      791
+     ]
+    ],
+    [
+     [
+      "zan_skin_deltopectoral_triangle_r",
+      172
+     ],
+     [
+      "zan_skin_infraclavicular_fossa_r",
+      728
+     ]
+    ],
+    [
+     [
+      "zan_skin_deltopectoral_triangle_r",
+      294
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_deltoid_region_r",
+    "zan_skin_deltoid_region_r"
+   ],
+   "path_len_mm": 3.54,
+   "run_len_mm": 11.26,
+   "neighbours": [
+    "zan_skin_deltoid_region_r"
+   ],
+   "off_mm": [
+    2.723,
+    5.118,
+    2.822
+   ],
+   "status": "cap",
+   "max_off_mm": 5.118
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_r"
+   ],
+   "n": 2,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4282
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4235
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_anterior_region_of_arm_r",
+    "zan_skin_anterior_region_of_arm_r"
+   ],
+   "gap_mm": 20.38,
+   "status": "no neighbour path"
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_r"
+   ],
+   "n": 1,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4250
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_anterior_region_of_arm_r",
+    "zan_skin_anterior_region_of_arm_r"
+   ],
+   "gap_mm": 17.11,
+   "status": "no neighbour path"
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_r"
+   ],
+   "n": 21,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4261
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4671
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4268
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      5541
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4681
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      5570
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4274
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      6435
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      5573
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      7711
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4689
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      7713
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      5577
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      6438
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4277
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      6439
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      5578
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      7715
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      4690
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      7716
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      5581
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_anterior_region_of_arm_r",
+    "zan_skin_posterior_region_of_arm_r"
+   ],
+   "path_len_mm": 89.86,
+   "run_len_mm": 91.69,
+   "neighbours": [
+    "zan_skin_anterior_region_of_arm_r",
+    "zan_skin_posterior_region_of_arm_r"
+   ],
+   "off_mm": [
+    2.992,
+    2.388,
+    2.348,
+    2.334,
+    2.427,
+    2.574,
+    2.728,
+    2.618,
+    2.669,
+    2.757,
+    2.894,
+    3.045,
+    3.191,
+    3.327,
+    3.385,
+    2.881,
+    3.027,
+    3.024,
+    3.021,
+    3.014,
+    3.008
+   ],
+   "min_face_cos": 0.433,
+   "min_thickness_share": 0.0,
+   "status": "face turned (cos 0.43)",
+   "max_off_mm": 3.385
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_l"
+   ],
+   "n": 30,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5633
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7826
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5152
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7827
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5636
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7144
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4917
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7145
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5637
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7831
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5158
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7833
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5643
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7148
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4920
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7150
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5646
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7859
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5166
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7861
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5677
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7172
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4926
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7175
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5681
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      7942
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5185
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      5721
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4933
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4928
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_posterior_region_of_arm_l",
+    "zan_skin_anterior_region_of_arm_l"
+   ],
+   "gap_mm": 41.36,
+   "status": "no neighbour path"
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_l"
+   ],
+   "n": 2,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4959
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4912
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_anterior_region_of_arm_l",
+    "zan_skin_anterior_region_of_arm_l"
+   ],
+   "path_len_mm": 56.43,
+   "run_len_mm": 60.35,
+   "neighbours": [
+    "zan_skin_anterior_region_of_arm_l"
+   ],
+   "off_mm": [
+    2.993,
+    21.225
+   ],
+   "status": "cap",
+   "max_off_mm": 21.225
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_l"
+   ],
+   "n": 1,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4910
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_anterior_region_of_arm_l",
+    "zan_skin_deltoid_region_l"
+   ],
+   "path_len_mm": 29.94,
+   "run_len_mm": 29.64,
+   "neighbours": [
+    "zan_skin_deltoid_region_l"
+   ],
+   "off_mm": [
+    2.915
+   ],
+   "min_face_cos": 0.771,
+   "min_thickness_share": 0.225,
+   "status": "sheets closer (thickness share 0.22)",
+   "max_off_mm": 2.915
+  },
+  {
+   "sheet": "inner",
+   "slabs": [
+    "zan_skin_deltopectoral_triangle_l",
+    "zan_skin_lateral_region_of_thorax_l"
+   ],
+   "n": 1,
+   "corner_vertices": 1,
+   "free": [
+    [
+     [
+      "zan_skin_deltopectoral_triangle_l",
+      165
+     ],
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      4889
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_deltoid_region_l",
+    "zan_skin_deltoid_region_l"
+   ],
+   "path_len_mm": 773.65,
+   "run_len_mm": 39.59,
+   "neighbours": [
+    "zan_skin_deltoid_region_l",
+    "zan_skin_lateral_region_of_neck_l",
+    "zan_skin_mastoid_region_l",
+    "zan_skin_posterior_region_of_neck_l",
+    "zan_skin_sternocleidomastoid_region_l"
+   ],
+   "status": "path too long"
+  }
+ ],
+ "slabs": {
+  "zan_skin_lateral_region_of_thorax_r": {
+   "moved": 20,
+   "area_change_pct": 0.1041,
+   "faces_touched": 49,
+   "min_face_cos": 0.947,
+   "ok": true
+  },
+  "zan_skin_lateral_region_of_thorax_l": {
+   "moved": 28,
+   "area_change_pct": 0.1153,
+   "faces_touched": 64,
+   "min_face_cos": 0.823,
+   "ok": true
+  }
+ },
+ "runs": [
+  {
+   "sheet": "outer",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_r"
+   ],
+   "n": 20,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      583
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      180
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      1453
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      593
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      1482
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      186
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      2347
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      1485
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      3623
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      601
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      3625
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      1489
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      2350
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      189
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      2351
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      1490
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      3627
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      602
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      3628
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_r",
+      1493
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_anterior_region_of_arm_r",
+    "zan_skin_posterior_region_of_arm_r"
+   ],
+   "path_len_mm": 76.04,
+   "run_len_mm": 76.43,
+   "neighbours": [
+    "zan_skin_posterior_region_of_arm_r"
+   ],
+   "off_mm": [
+    1.181,
+    1.659,
+    1.819,
+    1.942,
+    1.903,
+    1.856,
+    1.702,
+    1.558,
+    1.464,
+    1.495,
+    1.545,
+    1.605,
+    1.671,
+    1.74,
+    1.074,
+    0.751,
+    0.647,
+    0.536,
+    0.414,
+    0.284
+   ],
+   "min_face_cos": 0.947,
+   "min_thickness_share": 0.78,
+   "snapped": true,
+   "status": "ok",
+   "moves_mm": [
+    3.809,
+    1.659,
+    1.819,
+    2.046,
+    1.903,
+    1.856,
+    1.702,
+    1.558,
+    1.626,
+    1.495,
+    1.545,
+    1.605,
+    1.671,
+    1.74,
+    1.452,
+    0.751,
+    0.647,
+    0.536,
+    0.414,
+    0.284
+   ],
+   "kinds": [
+    "vertex",
+    "edge",
+    "edge",
+    "vertex",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "vertex",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "vertex",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge"
+   ],
+   "residual_mm": [
+    0.0006,
+    0.0004,
+    0.0004,
+    0.0017,
+    0.0007,
+    0.0006,
+    0.0007,
+    0.0007,
+    0.0007,
+    0.0004,
+    0.0007,
+    0.0002,
+    0.0004,
+    0.0005,
+    0.002,
+    0.0002,
+    0.0004,
+    0.0006,
+    0.0009,
+    0.0
+   ]
+  },
+  {
+   "sheet": "outer",
+   "slabs": [
+    "zan_skin_lateral_region_of_thorax_l"
+   ],
+   "n": 28,
+   "corner_vertices": 0,
+   "free": [
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      744
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2937
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      263
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2938
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      747
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2255
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      28
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2256
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      748
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2942
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      269
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2944
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      754
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2259
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      31
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2261
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      757
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2970
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      277
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2972
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      788
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2283
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      37
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      2286
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      792
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      3053
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      296
+     ]
+    ],
+    [
+     [
+      "zan_skin_lateral_region_of_thorax_l",
+      832
+     ]
+    ]
+   ],
+   "lock_pieces": [
+    "zan_skin_posterior_region_of_arm_l",
+    "zan_skin_anterior_region_of_arm_l"
+   ],
+   "path_len_mm": 75.99,
+   "run_len_mm": 76.52,
+   "neighbours": [
+    "zan_skin_posterior_region_of_arm_l"
+   ],
+   "off_mm": [
+    0.305,
+    0.443,
+    0.567,
+    0.683,
+    0.791,
+    1.105,
+    1.764,
+    1.684,
+    1.607,
+    1.536,
+    1.477,
+    1.453,
+    1.559,
+    1.753,
+    1.971,
+    2.102,
+    2.261,
+    2.436,
+    2.611,
+    2.715,
+    2.712,
+    2.651,
+    2.494,
+    2.385,
+    2.227,
+    1.963,
+    1.62,
+    0.94
+   ],
+   "min_face_cos": 0.823,
+   "min_thickness_share": 0.59,
+   "snapped": true,
+   "status": "ok",
+   "moves_mm": [
+    0.305,
+    0.443,
+    0.567,
+    0.683,
+    0.791,
+    1.461,
+    1.764,
+    1.684,
+    1.607,
+    1.536,
+    1.477,
+    1.677,
+    1.559,
+    1.753,
+    1.971,
+    2.102,
+    2.261,
+    2.436,
+    2.737,
+    2.715,
+    2.712,
+    2.651,
+    2.494,
+    2.385,
+    2.227,
+    2.367,
+    1.62,
+    0.94
+   ],
+   "kinds": [
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "vertex",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "vertex",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "vertex",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "edge",
+    "vertex",
+    "edge",
+    "edge"
+   ],
+   "residual_mm": [
+    0.0008,
+    0.0012,
+    0.0011,
+    0.0009,
+    0.0007,
+    0.0012,
+    0.0002,
+    0.0006,
+    0.0005,
+    0.0004,
+    0.0004,
+    0.001,
+    0.0004,
+    0.0008,
+    0.0007,
+    0.0002,
+    0.0005,
+    0.0006,
+    0.001,
+    0.0006,
+    0.0004,
+    0.0006,
+    0.0006,
+    0.0006,
+    0.0006,
+    0.0018,
+    0.0004,
+    0.0004
+   ]
+  }
+ ],
+ "borders": {
+  "anterior_region_of_arm_l|lateral_region_of_thorax_l": {
+   "before": [
+    7,
+    9
+   ],
+   "after": [
+    7,
+    9
+   ]
+  },
+  "anterior_region_of_arm_r|lateral_region_of_thorax_r": {
+   "before": [
+    7,
+    8
+   ],
+   "after": [
+    7,
+    8
+   ]
+  },
+  "deltoid_region_l|deltopectoral_triangle_l": {
+   "before": [
+    13,
+    13
+   ],
+   "after": [
+    13,
+    13
+   ]
+  },
+  "deltoid_region_l|infraclavicular_fossa_l": {
+   "before": [
+    6,
+    6
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "deltoid_region_l|lateral_region_of_thorax_l": {
+   "before": [
+    4,
+    4
+   ],
+   "after": [
+    4,
+    4
+   ]
+  },
+  "deltoid_region_r|deltopectoral_triangle_r": {
+   "before": [
+    14,
+    14
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "deltoid_region_r|infraclavicular_fossa_r": {
+   "before": [
+    6,
+    6
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "deltoid_region_r|lateral_region_of_thorax_r": {
+   "before": [
+    6,
+    6
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "deltopectoral_triangle_l|deltoid_region_l": {
+   "before": [
+    12,
+    12
+   ],
+   "after": [
+    12,
+    12
+   ]
+  },
+  "deltopectoral_triangle_l|infraclavicular_fossa_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    29,
+    29
+   ]
+  },
+  "deltopectoral_triangle_l|lateral_region_of_thorax_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "deltopectoral_triangle_l|pectoral_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    23,
+    23
+   ]
+  },
+  "deltopectoral_triangle_r|deltoid_region_r": {
+   "before": [
+    11,
+    11
+   ],
+   "after": [
+    12,
+    12
+   ]
+  },
+  "deltopectoral_triangle_r|infraclavicular_fossa_r": {
+   "before": [
+    2,
+    3
+   ],
+   "after": [
+    28,
+    29
+   ]
+  },
+  "deltopectoral_triangle_r|lateral_region_of_thorax_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "deltopectoral_triangle_r|pectoral_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    22,
+    22
+   ]
+  },
+  "epigastric_region_l|epigastric_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    112,
+    112
+   ]
+  },
+  "epigastric_region_l|hypochondriac_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    78,
+    78
+   ]
+  },
+  "epigastric_region_l|inframammary_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    73,
+    73
+   ]
+  },
+  "epigastric_region_l|lateral_region_of_abdomen_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_l|lateral_region_of_thorax_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_l|presternal_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "epigastric_region_l|presternal_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_l|umbilical_region_l": {
+   "before": [
+    14,
+    20
+   ],
+   "after": [
+    14,
+    20
+   ]
+  },
+  "epigastric_region_l|umbilical_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_r|epigastric_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    112,
+    112
+   ]
+  },
+  "epigastric_region_r|hypochondriac_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    77,
+    77
+   ]
+  },
+  "epigastric_region_r|inframammary_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    73,
+    73
+   ]
+  },
+  "epigastric_region_r|lateral_region_of_abdomen_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_r|lateral_region_of_thorax_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_r|presternal_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_r|presternal_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "epigastric_region_r|umbilical_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "epigastric_region_r|umbilical_region_r": {
+   "before": [
+    14,
+    20
+   ],
+   "after": [
+    14,
+    20
+   ]
+  },
+  "hypochondriac_region_l|epigastric_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    78,
+    78
+   ]
+  },
+  "hypochondriac_region_l|inframammary_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "hypochondriac_region_l|infrascapular_region_l": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "hypochondriac_region_l|lateral_region_of_abdomen_l": {
+   "before": [
+    20,
+    22
+   ],
+   "after": [
+    20,
+    22
+   ]
+  },
+  "hypochondriac_region_l|lateral_region_of_thorax_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    125,
+    125
+   ]
+  },
+  "hypochondriac_region_l|lumbar_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "hypochondriac_region_l|umbilical_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "hypochondriac_region_r|epigastric_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    76,
+    76
+   ]
+  },
+  "hypochondriac_region_r|inframammary_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "hypochondriac_region_r|infrascapular_region_r": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "hypochondriac_region_r|lateral_region_of_abdomen_r": {
+   "before": [
+    19,
+    21
+   ],
+   "after": [
+    19,
+    21
+   ]
+  },
+  "hypochondriac_region_r|lateral_region_of_thorax_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    119,
+    119
+   ]
+  },
+  "hypochondriac_region_r|lumbar_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "hypochondriac_region_r|umbilical_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "infraclavicular_fossa_l|deltoid_region_l": {
+   "before": [
+    7,
+    7
+   ],
+   "after": [
+    7,
+    7
+   ]
+  },
+  "infraclavicular_fossa_l|deltopectoral_triangle_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    29,
+    29
+   ]
+  },
+  "infraclavicular_fossa_l|lateral_region_of_neck_l": {
+   "before": [
+    13,
+    17
+   ],
+   "after": [
+    13,
+    17
+   ]
+  },
+  "infraclavicular_fossa_l|pectoral_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    72,
+    72
+   ]
+  },
+  "infraclavicular_fossa_l|posterior_region_of_neck_l": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "infraclavicular_fossa_l|presternal_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "infraclavicular_fossa_l|sternocleidomastoid_region_l": {
+   "before": [
+    11,
+    11
+   ],
+   "after": [
+    12,
+    12
+   ]
+  },
+  "infraclavicular_fossa_r|deltoid_region_r": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "infraclavicular_fossa_r|deltopectoral_triangle_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    29,
+    29
+   ]
+  },
+  "infraclavicular_fossa_r|lateral_region_of_neck_r": {
+   "before": [
+    13,
+    17
+   ],
+   "after": [
+    13,
+    17
+   ]
+  },
+  "infraclavicular_fossa_r|pectoral_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    68,
+    68
+   ]
+  },
+  "infraclavicular_fossa_r|posterior_region_of_neck_r": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "infraclavicular_fossa_r|presternal_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "infraclavicular_fossa_r|sternocleidomastoid_region_r": {
+   "before": [
+    10,
+    10
+   ],
+   "after": [
+    11,
+    11
+   ]
+  },
+  "inframammary_region_l|epigastric_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    71,
+    71
+   ]
+  },
+  "inframammary_region_l|hypochondriac_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "inframammary_region_l|lateral_region_of_thorax_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    34,
+    34
+   ]
+  },
+  "inframammary_region_l|pectoral_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    55,
+    55
+   ]
+  },
+  "inframammary_region_l|presternal_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    13,
+    13
+   ]
+  },
+  "inframammary_region_r|epigastric_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    67,
+    67
+   ]
+  },
+  "inframammary_region_r|hypochondriac_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "inframammary_region_r|lateral_region_of_thorax_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    32,
+    32
+   ]
+  },
+  "inframammary_region_r|pectoral_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    58,
+    58
+   ]
+  },
+  "inframammary_region_r|presternal_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "infrascapular_region_l|hypochondriac_region_l": {
+   "before": [
+    10,
+    10
+   ],
+   "after": [
+    10,
+    10
+   ]
+  },
+  "infrascapular_region_l|lateral_region_of_thorax_l": {
+   "before": [
+    24,
+    24
+   ],
+   "after": [
+    24,
+    24
+   ]
+  },
+  "infrascapular_region_r|hypochondriac_region_r": {
+   "before": [
+    10,
+    10
+   ],
+   "after": [
+    10,
+    10
+   ]
+  },
+  "infrascapular_region_r|lateral_region_of_thorax_r": {
+   "before": [
+    24,
+    24
+   ],
+   "after": [
+    24,
+    24
+   ]
+  },
+  "lateral_region_of_abdomen_l|epigastric_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "lateral_region_of_abdomen_l|hypochondriac_region_l": {
+   "before": [
+    24,
+    24
+   ],
+   "after": [
+    24,
+    24
+   ]
+  },
+  "lateral_region_of_abdomen_r|epigastric_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "lateral_region_of_abdomen_r|hypochondriac_region_r": {
+   "before": [
+    24,
+    24
+   ],
+   "after": [
+    24,
+    24
+   ]
+  },
+  "lateral_region_of_neck_l|infraclavicular_fossa_l": {
+   "before": [
+    9,
+    9
+   ],
+   "after": [
+    9,
+    9
+   ]
+  },
+  "lateral_region_of_neck_r|infraclavicular_fossa_r": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "lateral_region_of_thorax_l|anterior_region_of_arm_l": {
+   "before": [
+    14,
+    14
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "lateral_region_of_thorax_l|deltoid_region_l": {
+   "before": [
+    6,
+    6
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "lateral_region_of_thorax_l|deltopectoral_triangle_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "lateral_region_of_thorax_l|epigastric_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "lateral_region_of_thorax_l|hypochondriac_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    125,
+    125
+   ]
+  },
+  "lateral_region_of_thorax_l|inframammary_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    33,
+    33
+   ]
+  },
+  "lateral_region_of_thorax_l|infrascapular_region_l": {
+   "before": [
+    21,
+    22
+   ],
+   "after": [
+    21,
+    22
+   ]
+  },
+  "lateral_region_of_thorax_l|pectoral_region_l": {
+   "before": [
+    3,
+    5
+   ],
+   "after": [
+    132,
+    134
+   ]
+  },
+  "lateral_region_of_thorax_l|posterior_region_of_arm_l": {
+   "before": [
+    8,
+    23
+   ],
+   "after": [
+    36,
+    36
+   ]
+  },
+  "lateral_region_of_thorax_l|scapular_region_l": {
+   "before": [
+    15,
+    18
+   ],
+   "after": [
+    15,
+    18
+   ]
+  },
+  "lateral_region_of_thorax_r|anterior_region_of_arm_r": {
+   "before": [
+    14,
+    14
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "lateral_region_of_thorax_r|deltoid_region_r": {
+   "before": [
+    6,
+    6
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "lateral_region_of_thorax_r|deltopectoral_triangle_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    5,
+    5
+   ]
+  },
+  "lateral_region_of_thorax_r|epigastric_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "lateral_region_of_thorax_r|hypochondriac_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    124,
+    124
+   ]
+  },
+  "lateral_region_of_thorax_r|inframammary_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    33,
+    33
+   ]
+  },
+  "lateral_region_of_thorax_r|infrascapular_region_r": {
+   "before": [
+    21,
+    22
+   ],
+   "after": [
+    21,
+    22
+   ]
+  },
+  "lateral_region_of_thorax_r|pectoral_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    82,
+    82
+   ]
+  },
+  "lateral_region_of_thorax_r|posterior_region_of_arm_r": {
+   "before": [
+    8,
+    17
+   ],
+   "after": [
+    28,
+    28
+   ]
+  },
+  "lateral_region_of_thorax_r|scapular_region_r": {
+   "before": [
+    15,
+    18
+   ],
+   "after": [
+    15,
+    18
+   ]
+  },
+  "lumbar_region_l|hypochondriac_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "lumbar_region_r|hypochondriac_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "mammary_region_l|pectoral_region_l": {
+   "before": [
+    8,
+    14
+   ],
+   "after": [
+    167,
+    172
+   ]
+  },
+  "mammary_region_r|pectoral_region_r": {
+   "before": [
+    7,
+    12
+   ],
+   "after": [
+    138,
+    141
+   ]
+  },
+  "muscular_triangle_l|presternal_region_l": {
+   "before": [
+    4,
+    4
+   ],
+   "after": [
+    4,
+    4
+   ]
+  },
+  "muscular_triangle_l|presternal_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "muscular_triangle_r|presternal_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "muscular_triangle_r|presternal_region_r": {
+   "before": [
+    4,
+    4
+   ],
+   "after": [
+    4,
+    4
+   ]
+  },
+  "pectoral_region_l|deltopectoral_triangle_l": {
+   "before": [
+    7,
+    21
+   ],
+   "after": [
+    20,
+    34
+   ]
+  },
+  "pectoral_region_l|infraclavicular_fossa_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    66,
+    66
+   ]
+  },
+  "pectoral_region_l|inframammary_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    50,
+    50
+   ]
+  },
+  "pectoral_region_l|lateral_region_of_thorax_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    127,
+    128
+   ]
+  },
+  "pectoral_region_l|mammary_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    169,
+    169
+   ]
+  },
+  "pectoral_region_l|presternal_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    88,
+    88
+   ]
+  },
+  "pectoral_region_r|deltopectoral_triangle_r": {
+   "before": [
+    7,
+    19
+   ],
+   "after": [
+    20,
+    31
+   ]
+  },
+  "pectoral_region_r|infraclavicular_fossa_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    69,
+    69
+   ]
+  },
+  "pectoral_region_r|inframammary_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    53,
+    53
+   ]
+  },
+  "pectoral_region_r|lateral_region_of_thorax_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    84,
+    84
+   ]
+  },
+  "pectoral_region_r|mammary_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    137,
+    137
+   ]
+  },
+  "pectoral_region_r|presternal_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    87,
+    87
+   ]
+  },
+  "posterior_region_of_arm_l|lateral_region_of_thorax_l": {
+   "before": [
+    10,
+    15
+   ],
+   "after": [
+    14,
+    15
+   ]
+  },
+  "posterior_region_of_arm_r|lateral_region_of_thorax_r": {
+   "before": [
+    10,
+    12
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "posterior_region_of_neck_l|infraclavicular_fossa_l": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "posterior_region_of_neck_r|infraclavicular_fossa_r": {
+   "before": [
+    8,
+    8
+   ],
+   "after": [
+    8,
+    8
+   ]
+  },
+  "presternal_region_l|epigastric_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "presternal_region_l|epigastric_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "presternal_region_l|infraclavicular_fossa_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    13,
+    13
+   ]
+  },
+  "presternal_region_l|inframammary_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "presternal_region_l|muscular_triangle_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    3,
+    3
+   ]
+  },
+  "presternal_region_l|muscular_triangle_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "presternal_region_l|pectoral_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    86,
+    86
+   ]
+  },
+  "presternal_region_l|presternal_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    90,
+    90
+   ]
+  },
+  "presternal_region_l|sternocleidomastoid_region_l": {
+   "before": [
+    3,
+    3
+   ],
+   "after": [
+    3,
+    3
+   ]
+  },
+  "presternal_region_r|epigastric_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "presternal_region_r|epigastric_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    6,
+    6
+   ]
+  },
+  "presternal_region_r|infraclavicular_fossa_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    13,
+    13
+   ]
+  },
+  "presternal_region_r|inframammary_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "presternal_region_r|muscular_triangle_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "presternal_region_r|muscular_triangle_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    3,
+    3
+   ]
+  },
+  "presternal_region_r|pectoral_region_r": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    83,
+    83
+   ]
+  },
+  "presternal_region_r|presternal_region_l": {
+   "before": [
+    0,
+    0
+   ],
+   "after": [
+    87,
+    87
+   ]
+  },
+  "presternal_region_r|sternocleidomastoid_region_r": {
+   "before": [
+    3,
+    3
+   ],
+   "after": [
+    3,
+    3
+   ]
+  },
+  "scapular_region_l|lateral_region_of_thorax_l": {
+   "before": [
+    16,
+    16
+   ],
+   "after": [
+    16,
+    16
+   ]
+  },
+  "scapular_region_r|lateral_region_of_thorax_r": {
+   "before": [
+    16,
+    16
+   ],
+   "after": [
+    16,
+    16
+   ]
+  },
+  "sternocleidomastoid_region_l|infraclavicular_fossa_l": {
+   "before": [
+    11,
+    11
+   ],
+   "after": [
+    11,
+    11
+   ]
+  },
+  "sternocleidomastoid_region_l|presternal_region_l": {
+   "before": [
+    5,
+    5
+   ],
+   "after": [
+    5,
+    5
+   ]
+  },
+  "sternocleidomastoid_region_r|infraclavicular_fossa_r": {
+   "before": [
+    11,
+    11
+   ],
+   "after": [
+    11,
+    11
+   ]
+  },
+  "sternocleidomastoid_region_r|presternal_region_r": {
+   "before": [
+    5,
+    5
+   ],
+   "after": [
+    5,
+    5
+   ]
+  },
+  "umbilical_region_l|epigastric_region_l": {
+   "before": [
+    14,
+    14
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "umbilical_region_l|epigastric_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "umbilical_region_l|hypochondriac_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "umbilical_region_r|epigastric_region_l": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  },
+  "umbilical_region_r|epigastric_region_r": {
+   "before": [
+    14,
+    14
+   ],
+   "after": [
+    14,
+    14
+   ]
+  },
+  "umbilical_region_r|hypochondriac_region_r": {
+   "before": [
+    2,
+    2
+   ],
+   "after": [
+    2,
+    2
+   ]
+  }
+ },
+ "border_share_lost": [],
+ "under_skin": {
+  "structures": 788,
+  "outside_before": 365,
+  "outside_after": 370,
+  "gained": {},
+  "recounted_not_moved": {
+   "latissimus_dorsi_l": [
+    [
+     296,
+     10.45
+    ]
+   ],
+   "latissimus_dorsi_r": [
+    [
+     1495,
+     11.44
+    ]
+   ],
+   "zan_long_head_of_triceps_brachii_l": [
+    [
+     1333,
+     0.56
+    ],
+    [
+     1189,
+     1.0
+    ]
+   ],
+   "zan_long_head_of_triceps_brachii_r": [
+    [
+     460,
+     0.84
+    ]
+   ]
+  },
+  "breast_gained": {},
+  "ok": true
+ },
+ "guards_ok": true,
+ "chest_walls": {
+  "zan_skin_deltopectoral_triangle_l": 58,
+  "zan_skin_deltopectoral_triangle_r": 56,
+  "zan_skin_epigastric_region_l": 266,
+  "zan_skin_epigastric_region_r": 266,
+  "zan_skin_hypochondriac_region_l": 202,
+  "zan_skin_hypochondriac_region_r": 202,
+  "zan_skin_infraclavicular_fossa_l": 112,
+  "zan_skin_infraclavicular_fossa_r": 112,
+  "zan_skin_inframammary_region_l": 172,
+  "zan_skin_inframammary_region_r": 172,
+  "zan_skin_lateral_region_of_thorax_l": 300,
+  "zan_skin_lateral_region_of_thorax_r": 244,
+  "zan_skin_mammary_region_l": 172,
+  "zan_skin_mammary_region_r": 138,
+  "zan_skin_pectoral_region_l": 548,
+  "zan_skin_pectoral_region_r": 460,
+  "zan_skin_presternal_region_l": 220,
+  "zan_skin_presternal_region_r": 220
+ },
+ "files_changed": [
+  "atlas_viewer_base_female_geo_02.txt",
+  "atlas_viewer_base_female_geo_03.txt",
+  "atlas_viewer_base_female.html",
+  "index.html"
+ ],
+ "pose_rig": "vertex counts and order unchanged: the rig still matches; no re-encode",
+ "page_dir": "build/q309/viewer_base_female (applied on a private copy; build untouched)",
+ "findings": {
+  "free_border_vertices": "only lateral thorax | posterior arm (outer L 28, R 20) runs free between two locks; every other chest border with an unchanged region is locked vertex for vertex. Q377 classify \"unjoined\" on pectoral|deltopectoral, epigastric|umbilical, infraclavicular|lateral neck, scapular, hypochondriac are chest vertices made rim by a fold of the sheet within 1.5 mm of the neighbour, not border vertices.",
+  "inner_sheet_axilla": "refused: the arm and chest inner sheets diverge 2-5 mm at the axillary fold (chest inner partner to the arm inner border p50 ~3.2 mm), the arm inner rim graph is broken at the anterior|posterior arm corner (gap 17-41 mm), one run would turn faces > 60 deg; the chest wall there stays drawn as before.",
+  "corner_deltoid_deltopectoral_infraclavicular": "the 3.6 mm pair: on Base\u00b7F deltoid v301 (L) / v12 (R) is welded to the infraclavicular fossa, the chest-chest border deltopectoral|infraclavicular meets the deltoid border 3.6 mm away; the corner runs (2 L / 3 R vertices incl. the chest-chest corner) need 4.7-5.1 mm moves > cap 4 mm: refused, reported.",
+  "sternal_crease": "geometry, not a join: presternal L|R share all 53 midline vertices (welded, engine seam normal = mean of both sides within 0.9 deg p50); the two halves meet at 30.6 deg p50 / 49.1 p95 (within a half 2.7 deg p50) -- the sternal furrow of the Z source (Base\u00b7M: -46..-58 deg V over 2-12 mm, deeper than Base\u00b7F -16..-25; Base\u00b7F before Q360 similar). Q360 shipped no chest-to-chest walls, but no wall belongs on a shared surface border; re-running Q360 with --chest-walls would refit the whole chest and could not remove a V that is in its target; the missing walls were added here instead (no refit) -- they fix the open slot of a hidden region, not the crease.",
+  "lower_edge_band": "not a join, wall or crease: epigastric|umbilical and hypochondriac|lateral abdomen are locked vertex for vertex, all chest walls there twinned and hidden; dihedral across the border 7.2 deg p50 (Base\u00b7M 7.1); normal tilt step chest->abdomen 7.5 deg (Base\u00b7M 7.6). What differs is the Q360 fitted surface itself: face-normal sd 4.5 deg in the 2-15 mm band above the border (Base\u00b7M 0.7) -- the ripple of the fit, 2.7 mm edges against the 18.5 mm edges of the unchanged abdomen. Remedy is a re-fit (out of scope).",
+  "axillary_step_r": "not touched (6 vertices of anterior_region_of_arm_r 16-44 mm in front of the smooth map wrap breast_ct_r 2 mm under the skin); a guarded option would need a joint re-fit of the arm slab with the chest around breast_ct_r with the breast tuck guard (Q353) -- not a border move.",
+  "under_skin_recounted": "latissimus dorsi L/R (1 vertex each, 10.5 / 11.4 mm out) and long head of triceps L (2) / R (1) (0.6-1.0 mm out) lie outside the skin before AND after at the same height; outside_count skipped them before because they lay over the gap/overlap at the axillary border (its \"covered\" test). Pre-existing, now counted.",
+  "chest_walls": "added (--chest-walls): 3920 triangles on the 18 chest slabs along every chest-to-chest border (Q360 slab rule, no refit, no vertex moved); engine (node, final page): 3920/3920 hidden as twins while both regions are drawn; hiding one region now shows its neighbour's wall instead of an open slot. Seam normals change only at chest seam vertices, most at the 76 deg deltopectoral|pectoral fold (up to 56 deg at 7 vertices), elsewhere <= 6 deg."
+ },
+ "verification": {
+  "regen": "REGEN_TEMPLATE_ONLY_OK (private copy of build/q309; --expect-changed also needs nmsk-cover: build/q309 html predates the Q389 cover block)",
+  "q334_base_f": {
+   "before (same template, original geometry)": {
+    "trunk_solid": 2.58,
+    "trunk_faded": 2.93,
+    "trunk_default": 1.85,
+    "fail_lines": 4
+   },
+   "after": {
+    "trunk_solid": 2.38,
+    "trunk_faded": 2.92,
+    "trunk_default": 1.76,
+    "fail_lines": 2,
+    "still_failing": [
+     "trunk default 1.76",
+     "knee default 2.12 (unchanged)"
+    ]
+   },
+   "note": "border sample 532 -> 546 edges (the new walls make the chest-to-chest borders count as region borders); moves alone left every q334 line identical: its sample is borders shared vertex for vertex, the axillary T-junction border is not in it"
+  },
+  "q334_base_m": "Q334_SEAMS_OK",
+  "verifiers": {
+   "q358": "Q358_VERIFY_OK",
+   "q336": "Q336_VERIFY_OK",
+   "q318": "Q318_RINGS_OK",
+   "q367": "Q367_PLAN_OK",
+   "q325_1400x900": "Q325_NEEDLECLIP_OK",
+   "pytest test_q360_chest_skin + test_q379_chest_borders": "12 passed",
+   "engine_final": "ENGINE_FINAL_OK (3920/3920 new walls hidden)"
+  },
+  "renders": {
+   "axilla L/R, posterior axilla, side L/R (arm hidden)": "better: the chest edge ends on the arm border (no overlapping lip), crisp wall when the arm is hidden",
+   "chest-region hidden views (sternum, abdomen, side, neck base, deltopectoral, chest front)": "better: a wall at the slot edge instead of an open edge",
+   "all-drawn solid / default views (chest front, sternum, abdomen, neck base, sides, deltopectoral)": "unchanged (<= 78 px differ, no visible change)",
+   "pose (right arm abducted 126 deg, ant / latR)": "unchanged (1 / 81 px differ)",
+   "worse": "none"
+  }
+ }
+}

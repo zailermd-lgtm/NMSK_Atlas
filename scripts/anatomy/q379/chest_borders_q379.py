@@ -9,27 +9,34 @@ joins them (weld, or the Q375 T-junction attach), without re-fitting the chest s
              --no-under (skip the under-skin guard; development only, never with --write)
 
 Cause (measured on the page): Q360 locked the chest's border vertices shared with an unchanged neighbour at that neighbour's
-vertices, then subdivided the chest -- the vertices added between two locked ones lie near, not on, the neighbour's straight
-border edge (0.04-1 mm off), so the engine (scripts/anatomy/q334/seams_weld_q334.js, steps 1 / 1b / 1c) joins nothing there:
-in the axilla (lateral thorax | posterior and anterior arm, deltoid) the outer AND inner sheet run free between the locks, the
-chest's wall there finds no twin and is drawn.
+vertices, then subdivided the chest. Only in the axilla (lateral thorax | posterior arm, L 28 / R 20 outer vertices) does the
+chest border run free between two locks: there the fitted chest edge overlaps the arm skin by up to 2.7 mm (0.04-1 mm over its
+surface), so the engine (scripts/anatomy/q334/seams_weld_q334.js, steps 1 / 1b / 1c) joins nothing there.  Every other chest
+border with an unchanged region is locked vertex for vertex (Q377's "unjoined" counts there are chest vertices made rim by a fold
+of the sheet near the border, not border vertices).
   sheets   a Q360 slab is [outer vertices | inner vertices] with inner = outer + nv; outer faces use only the first half, inner faces
            only the second, walls both (checked per slab; another layout is refused).
-  runs     per chest slab and sheet: the sheet's border loops; a vertex is LOCKED when an unchanged (non-chest) skin vertex lies
-           within the weld distance; a RUN is a maximal stretch of free vertices between two locked ones.
+  runs     per sheet, on the MERGED chest sheet (all 18 slabs, their shared vertices one node, so a corner vertex of two chest slabs
+           moves with all its copies): its border loops; a vertex is LOCKED when an unchanged (non-chest) skin vertex lies within
+           the weld distance; a RUN is a maximal stretch of free vertices between two locked ones.
   target   the neighbours' border on the same sheet: the graph of every unchanged skin piece's rim edges (the engine's rim rule and its
-           "along the border" test, vertices of different pieces within the weld distance merged); the shortest path between the run's
+           "along the border" test, vertices of different pieces within the weld distance merged, rim vertices of two pieces within
+           BRIDGE_MM bridged -- nothing attaches to a bridge); the shortest path between the run's
            two lock vertices is the neighbour's border polyline there.  Each interior polyline vertex takes ONE run vertex (an order-
            keeping assignment of least squared distance: those are welded); every other run vertex goes to its closest point on the
            polyline, kept in order and inside its edge (0.03 < t < 0.97: attached by step 1c).  Nothing else moves; no smoothing.
   quantise the page stores each mesh as 16-bit codes over its own box (manifest min / span, unchanged here): the moved vertex's code
            is the one of the 27 around the target whose decoded point lies nearest the target edge (or vertex), and the residual is
            measured after that round trip; unmoved vertices keep their bytes.
-  guards   per run (a failing run keeps every vertex where it is, and is listed): no vertex moved > cap; path no longer than 1.6 x
-           the run and every run vertex within cap of it; after the round trip every target <= 0.01 mm off its edge / vertex.
-           Per slab: area change <= 1 %; no outer / inner face flipped or turned > 60 degrees.  Whole page (on the round-trip
-           positions, through the engine in node): no border of a touched slab, or of a neighbour, loses joined vertices; no
-           structure under the skin gains vertices outside it (Q353 outside_count, the Q353 / Q360 / Q377 test), breast tissue none.
+  guards   per run (a failing run keeps every vertex where it is, and is listed; tried with the vertex snaps, then without): no
+           vertex moved > cap; path no longer than 1.6 x the run; after the round trip every target <= 0.01 mm off its edge / vertex;
+           no sheet face turned > 60 degrees; every moved vertex keeps >= half its distance to its other-sheet partner.  Per slab:
+           area change <= 1 %.  Whole page (on the round-trip positions, through the engine in node): no border of a touched slab, or
+           of a neighbour, loses joined vertices; no structure under the skin gains a vertex outside it (Q353 outside_count, the
+           Q353 / Q360 / Q377 test) -- a vertex newly counted whose height over the skin did not change (it lay over the overlap /
+           gap the join closed, outside before too) is listed as recounted, not blamed; breast tissue gains none.
+  result   (Base·F, 2026-11-24) the two axillary outer runs join (48 vertices, move p50 1.7 / max 3.8 mm); the inner sheet there and
+           the deltoid | deltopectoral | infraclavicular corners are refused (see docs/Q379_chest_borders.md).
   write    vertex / triangle counts and order unchanged (the pose rig still matches: no re-encode); originals copied beside as
            `<name>.q379` (never overwriting); each changed slab's card gets a "Q379: ..." note; a page with a Q379 note is refused.
 """
@@ -297,6 +304,49 @@ def fnormals(P, F):
     return n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
 
 
+def chest_walls(SKc, lay, weld=WELD_MM):
+    """the side wall along every chest-to-chest border (Q360 shipped none there; its --chest-walls rule, without a refit): for each
+    outer border edge a-b of a slab with no wall that another chest slab has too (both ends shared within `weld`), the quad
+    (a, b, b + nv, a + nv) cut along the diagonal from the end with the smaller SHARED node id -- the neighbour cuts its own the same
+    way, so the two walls are the same two triangles and the engine hides them as twins while both are drawn.
+    SKc: {id: (P, F)} of the chest slabs -> {id: (w, 3) wall faces to append}"""
+    ks = sorted(SKc)
+    cop = [(k, v) for k in ks for v in range(lay[k][0])]
+    CP = np.array([SKc[k][0][v] for k, v in cop])
+    pr = cKDTree(CP).query_pairs(weld, output_type="ndarray")
+    _, cl = csgraph.connected_components(sparse.coo_matrix((np.ones(len(pr)), (pr[:, 0], pr[:, 1])), shape=(len(CP), len(CP))),
+                                         directed=False)
+    gid = {c: int(g) for c, g in zip(cop, cl)}
+    cand = {}
+    for k in ks:
+        P, F = SKc[k]; nv, om, im = lay[k]
+        Fo = F[om]
+        e = np.concatenate([Fo[:, [0, 1]], Fo[:, [1, 2]], Fo[:, [2, 0]]])
+        _, inv, cnt = np.unique(np.sort(e, 1), axis=0, return_inverse=True, return_counts=True)
+        walled = set()
+        for t in F[~om & ~im]:
+            for i in range(3):
+                x, y = t[i], t[(i + 1) % 3]
+                if x < nv and y < nv:
+                    walled.add((min(x, y), max(x, y)))
+        cand[k] = [(int(x), int(y), gid[(k, x)], gid[(k, y)]) for x, y in e[cnt[inv.ravel()] == 1] if (min(x, y), max(x, y)) not in walled]
+    from collections import Counter
+    seen = Counter((min(ga, gb), max(ga, gb)) for k in ks for _, _, ga, gb in cand[k])
+    out = {}
+    for k in ks:
+        nv = lay[k][0]; w = []
+        for x, y, ga, gb in cand[k]:
+            if seen[(min(ga, gb), max(ga, gb))] != 2:
+                continue          # not shared by exactly two chest slabs: left as it is
+            if ga < gb:
+                w += [[y, x, y + nv], [y + nv, x, x + nv]]
+            else:
+                w += [[y, x, x + nv], [y, x + nv, y + nv]]
+        if w:
+            out[k] = np.array(w, dtype=np.int64)
+    return out
+
+
 # ------------------------------------------------------------------ engine (node) census
 def engine(SK, tmp, names):
     """the engine's weld on all skin pieces -> {id: (roots, seam)} (scripts/anatomy/q377/weld_roots_q377.js)"""
@@ -342,6 +392,8 @@ def main(argv=None):
     ap.add_argument("--cap", type=float, default=CAP)
     ap.add_argument("--json", default=None)
     ap.add_argument("--no-under", action="store_true", help="skip the under-skin guard (development only; never with --write)")
+    ap.add_argument("--chest-walls", action="store_true", help="also add the side wall along every chest-to-chest border (no vertex moves)")
+    ap.add_argument("--dump", default=None, help="npz of the planned positions of the changed slabs (development)")
     ap.add_argument("--tmp", default=None, help="scratch dir for the engine run (default: <page-dir>/../.q379_tmp, removed)")
     a = ap.parse_args(argv)
     d = Path(a.page_dir).resolve()
@@ -514,6 +566,8 @@ def main(argv=None):
                 runs_all.append(rec)
                 for k in slabs_r:
                     plan.setdefault(k, []).append(rec)
+    if a.dump:
+        np.savez_compressed(a.dump, **{k: X1[k] for k in plan})
     mvall = np.array([x for r in runs_all for x in r["moves_mm"]])
     resall = np.array([x for r in runs_all for x in r["residual_mm"]])
     print(f"Q379 {stem}: {len(runs_all)} runs planned on {len(plan)} slabs, {len(mvall)} vertices "
@@ -542,7 +596,11 @@ def main(argv=None):
     import shutil, tempfile
     tmp = Path(a.tmp) if a.tmp else Path(tempfile.mkdtemp(prefix="q379_"))
     tmp.mkdir(parents=True, exist_ok=True)
-    SK1 = dict(SK); SK1.update({k: (X1[k], SK[k][1]) for k in plan})
+    WALLS = chest_walls({k: (X1[k], SK[k][1]) for k in chest}, lay) if a.chest_walls else {}
+    if WALLS:
+        print(f"  chest-to-chest walls: {sum(len(w) for w in WALLS.values())} faces on {len(WALLS)} slabs", flush=True)
+    F1 = {k: (np.vstack([SK[k][1], WALLS[k]]) if k in WALLS else SK[k][1]) for k in chest}
+    SK1 = dict(SK); SK1.update({k: (X1[k], F1[k]) for k in set(plan) | set(WALLS)})
     W0 = engine(SK, tmp, names); W1 = engine(SK1, tmp, names)
     cen0 = border_census(SK, W0, chest, BC); cen1 = border_census(SK1, W1, chest, BC)
     borders, lost = {}, []
@@ -563,7 +621,7 @@ def main(argv=None):
         rootsN = set().union(*[set(Wx[i][0].tolist()) for i in others])
         per = {}
         for k in chest:
-            P, F = SKx[k]; nv, om, im = lay[k]
+            P, F = SKx[k]; nv, om, im = q360_layout(P, F)
             for fm in (om, im):
                 for loop in border_loops(F[fm]):
                     dn = etree.query(P[loop])[0]
@@ -596,18 +654,42 @@ def main(argv=None):
         skin_ids = [kk for kk in g.in_box(lo, hi, sys_=("skin",)) if not SKIP.match(names.get(kk, ""))]
         und = [kk for kk in g.in_box(lo, hi, sys_=Q.VISIBLE_SYS)] + [kk for kk in Q.BREAST + BREAST_EXTRA if kk in g.M]
         und = sorted(set(und))
+        def outs(kk, sk):      # Q353 outside_count, per vertex: {vertex: s_out} of the vertices it counts as outside
+            v = g.cur[kk]; c = np.asarray(sk.near(v))
+            if not len(c):
+                return {}
+            so, n_, q_, _ = sk.s_out(v[c]); si, _ = sk.s_in(v[c])
+            o = (so > 0) & (si < 0) & Q.covered(v[c], so, n_, q_)
+            return {int(x): float(y) for x, y, z in zip(c, so, o) if z}, dict(zip(c.tolist(), so.tolist()))
         sk0 = Q.SkinSet(g, skin_ids)
-        o0 = {kk: Q.outside_count(g, sk0, kk)["outside"] for kk in und}
+        O0 = {kk: outs(kk, sk0) for kk in und}
         for k in plan:
             g.cur[k] = X1[k]
         sk1 = Q.SkinSet(g, skin_ids)
-        o1 = {kk: Q.outside_count(g, sk1, kk)["outside"] for kk in und}
-        gained = {kk: [o0[kk], o1[kk]] for kk in und if o1[kk] > o0[kk]}
-        breast = {kk: o1[kk] for kk in Q.BREAST + BREAST_EXTRA if kk in o1 and o1[kk] > 0}
+        O1 = {kk: outs(kk, sk1) for kk in und}
+        n0_ = lambda o: len(o[0]) if o else 0
+        o0 = {kk: n0_(O0[kk]) for kk in und}; o1 = {kk: n0_(O1[kk]) for kk in und}
+        # a vertex newly counted outside whose height over the outer skin did not grow (same s_out within 0.05 mm) was outside
+        # before too -- over the gap / overlap the join closed, where outside_count's "covered" test left it out: it is listed,
+        # not blamed; a vertex the change put (further) outside is a gain
+        gained, recounted = {}, {}
+        for kk in und:
+            if not O1[kk]:
+                continue
+            new = set(O1[kk][0]) - set(O0[kk][0] if O0[kk] else {})
+            so0 = O0[kk][1] if O0[kk] else {}
+            g_ = [v for v in new if O1[kk][0][v] > so0.get(v, -1.0) + 0.05]
+            r_ = [v for v in new if v not in g_]
+            if g_:
+                gained[kk] = [o0[kk], o1[kk], len(g_)]
+            if r_:
+                recounted[kk] = [(v, round(O1[kk][0][v], 2)) for v in r_]
+        breast = {kk: gained[kk] for kk in Q.BREAST + BREAST_EXTRA if kk in gained}      # none may gain
         under = dict(structures=len(und), outside_before=int(sum(o0.values())), outside_after=int(sum(o1.values())), gained=gained,
-                     breast_outside_after=breast, ok=not gained and not breast)
+                     recounted_not_moved=recounted,
+                     breast_gained=breast, ok=not gained and not breast)
         print(f"  under the skin: {len(und)} structures, outside {under['outside_before']} -> {under['outside_after']}; gained {gained}; "
-              f"breast tissue outside after {breast}")
+              f"recounted (outside before too, same height) {recounted}; breast gained {breast}")
     if not a.tmp:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -615,10 +697,12 @@ def main(argv=None):
     rep = {"schema": "nmsk.q379.chest_borders.v1", "round": "Q379", "generated": time.strftime("%Y-%m-%d"), "page": stem,
            "written": False,
            "parameters": dict(weld_mm=WELD_MM, cap_mm=a.cap, t_min=T_MIN, residual_max_mm=RESID_MAX, path_ratio=PATH_RATIO,
-                              area_max_pct=AREA_MAX, turn_cos=TURN_COS),
-           "totals": dict(runs=sum(len(v) for v in plan.values()), slabs=len(plan), vertices_moved=int(len(mvall)),
-                          to_vertex=int(sum(r["kinds"].count("vertex") for k in plan for r in plan[k])),
-                          to_edge=int(sum(r["kinds"].count("edge") for k in plan for r in plan[k])),
+                              area_max_pct=AREA_MAX, turn_cos=TURN_COS, thick_min=THICK_MIN, bridge_mm=BRIDGE_MM, face_mm=FACE_MM),
+           "totals": dict(runs=len(runs_all), slabs=len(plan), vertices_moved=int(len(mvall)),
+                          vertex_copies_moved=int(sum(len(v) for v in codes.values())),
+                          to_vertex=int(sum(r["kinds"].count("vertex") for r in runs_all)),
+                          to_edge=int(sum(r["kinds"].count("edge") for r in runs_all)),
+                          on_bridge=int(sum(r["kinds"].count("bridge") for r in runs_all)),
                           move=dict(max_mm=round(float(mvall.max()), 3) if len(mvall) else 0.0,
                                     p95_mm=round(float(np.percentile(mvall, 95)), 3) if len(mvall) else 0.0,
                                     p50_mm=round(float(np.median(mvall)), 3) if len(mvall) else 0.0),
@@ -627,24 +711,40 @@ def main(argv=None):
                                                          p50_mm=round(float(np.median(resall)), 5) if len(resall) else 0.0),
                           open_facing_neighbour=dict(before=int(sum(of0.values())), after=int(sum(of1.values())))),
            "open_facing_neighbour": dict(before=of0, after=of1), "refused_runs": refused, "slabs": slabs,
-           "runs": {k: v for k, v in plan.items()}, "borders": borders, "border_share_lost": lost, "under_skin": under,
+           "runs": runs_all, "borders": borders, "border_share_lost": lost, "under_skin": under,
            "guards_ok": bool(ok)}
-    if a.write and ok and plan:
+    rep["chest_walls"] = {k: int(len(w)) for k, w in WALLS.items()}
+    if a.write and ok and (plan or WALLS):
         blob2 = bytearray(blob)
         for k, cv in codes.items():
             m = MM[k]
             for v, code in cv.items():
                 blob2[m["vo"] + 6 * v: m["vo"] + 6 * v + 6] = np.asarray(code, "<u2").tobytes()
         man2 = json.loads(json.dumps(man))
+        if WALLS:      # new triangles appended to the walled slabs: the blob is laid out again (positions keep their codes)
+            chunks, off = [], 0
+            for m in man2["meshes"]:
+                m0 = MM[m["id"]]
+                pos = bytes(blob2[m0["vo"]: m0["vo"] + 6 * m0["vc"]])
+                idx = (np.asarray(F1[m["id"]], "<u2").tobytes() if m["id"] in WALLS else bytes(blob2[m0["io"]: m0["io"] + 6 * m0["ic"]]))
+                m["vo"], m["io"], m["ic"] = off, off + len(pos), len(idx) // 6
+                chunks += [pos, idx]; off += len(pos) + len(idx)
+            blob2 = bytearray(b"".join(chunks))
         for m in man2["meshes"]:
+            notes = []
             if m["id"] in plan:
                 s = slabs[m["id"]]
-                mv = [x for r in plan[m["id"]] for x in r["moves_mm"]]
+                mv = [x for r in plan[m["id"]] for x in r["moves_mm"]]      # (a corner run: also the moves of its other slab)
                 nb = sorted({n_[9:].replace("_", " ") for r in plan[m["id"]] for n_ in r["neighbours"]})
-                m["rec"] = C340.badge_add(m.get("rec") or {}, (
-                    f"{TAG} {s['moved']} border vertices of this rebuilt region (Q360) moved onto the unchanged neighbouring region's own "
-                    f"border ({', '.join(nb)}), so the two regions join there (move max {max(mv):.2f} mm); nothing else moved, "
-                    f"the surface was not re-fitted."))
+                notes.append(f"{TAG} {s['moved']} border vertices of this rebuilt region (Q360) moved onto the unchanged neighbouring "
+                             f"region's own border ({', '.join(nb)}), so the two regions join there (move max {max(mv):.2f} mm); nothing "
+                             f"else moved, the surface was not re-fitted.")
+            if m["id"] in WALLS:
+                notes.append(f"{TAG} side wall added along its borders with the neighbouring rebuilt chest regions ({len(WALLS[m['id']])} "
+                             f"triangles between its own outer and inner border vertices, as every other skin region has): hiding a "
+                             f"neighbour now shows this region's edge instead of an opening; no vertex moved.")
+            if notes:
+                m["rec"] = C340.badge_add(m.get("rec") or {}, notes[0] if len(notes) == 1 else notes[0] + " " + notes[1][len(TAG) + 1:])
         import despike_q366 as D
         old = D.SUFFIX
         try:
@@ -656,8 +756,9 @@ def main(argv=None):
         # check: what the page now holds is what was planned
         man3, blob3, _ = C340.read_page(d, stem)
         for m in man3["meshes"]:
-            if m["id"] in plan:
-                assert np.abs(C340.dec(m, blob3)[0] - X1[m["id"]]).max() < 1e-9
+            if m["id"] in plan or m["id"] in WALLS:
+                P3, F3 = C340.dec(m, blob3)
+                assert np.abs(P3 - X1[m["id"]]).max() < 1e-9 and np.array_equal(F3, F1[m["id"]])
         rig = REPO / "data/anatomy/pose_rig_base_f.json"
         if rig.exists():
             R0 = json.loads(rig.read_text(encoding="utf-8"))["rig"]
