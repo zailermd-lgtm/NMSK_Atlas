@@ -135,7 +135,9 @@ body.mode-on .qg-bar,body.mode-on .qg-sheet,body.mode-on .qi-wrap,body.mode-on .
    goes on :root, not on body, because the Z engine reads --ground off document.documentElement -- a variable set on
    body would never reach it. */
 :root.q301-film{--ground:#05070A;--bg:#05070A}
-:root.q301-film #view,:root.q301-film #stage,:root.q301-film canvas{background:#05070A}
+/* Q395: the model's own canvas only. A bare `canvas` also painted the transparent overlay canvas of every CT / MRI pane
+   (crosshair, letters, scale bar) opaque, so the image under it vanished while its labels stayed. */
+:root.q301-film #view,:root.q301-film #stage,:root.q301-film #stage>canvas{background:#05070A}
 /* Q317: contrast / brightness / invert for the radiographic styles. A DRR's grey is the composite of many translucent
    shells, so the adjustment can only be made once the picture exists -- here, on the 3-D canvas itself. Scoped to the
    model's own canvas, so an image pane docked beside it is left alone. */
