@@ -20,7 +20,7 @@ Read this file before dispatching work. It is compared against the real usage lo
 ## 1. The models, and what they cost
 
 Prices per million tokens, from the `claude-api` skill's table (cached 2026‑11‑03; re-read
-2026‑11‑22, unchanged). Always re-read that table in a review rather than trusting the copy below.
+2026‑11‑25, unchanged). Always re-read that table in a review rather than trusting the copy below.
 
 | Model | id | in | out | cache read | context |
 |---|---|---|---|---|---|
