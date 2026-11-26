@@ -2861,7 +2861,17 @@ TP.guideScan = function (view, sc) {
       }
     }
     if (!best || bd < 1e-6) return null;
-    var h = U.placeRay(p, norm(sub(best, p))); if (!h) return null;
+    var d0 = norm(sub(best, p)), h = U.placeRay(p, d0); if (!h) return null;
+    if (h.t > Math.sqrt(bd) + 3) {                              // the ray aims at an exact vertex: float rounding can slip it through every triangle round it and land on the far side of the body -- aim a hair beside it and keep the nearest hit
+      var ax = Math.abs(d0[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0], u = norm([d0[1] * ax[2] - d0[2] * ax[1], d0[2] * ax[0] - d0[0] * ax[2], d0[0] * ax[1] - d0[1] * ax[0]]),
+          v = [d0[1] * u[2] - d0[2] * u[1], d0[2] * u[0] - d0[0] * u[2], d0[0] * u[1] - d0[1] * u[0]], bt = h.t, bdir = d0, a, b, dj, hj;
+      for (a = -1; a <= 1; a++) for (b = -1; b <= 1; b++) {
+        if (!a && !b) continue;
+        dj = norm([d0[0] + 0.03 * (a * u[0] + b * v[0]), d0[1] + 0.03 * (a * u[1] + b * v[1]), d0[2] + 0.03 * (a * u[2] + b * v[2])]);
+        hj = U.placeRay(p, dj, true); if (hj && hj.t < bt) { bt = hj.t; bdir = dj; }
+      }
+      h = U.placeRay(p, bdir); if (!h) return null;
+    }
     if (sc.plane) U.set({refKey: sc.plane, rot: 0});
     return {P: h.P, N: h.N, landmark: p, skin_mm: Math.sqrt(bd)};
   }).catch(function () { return null; });
