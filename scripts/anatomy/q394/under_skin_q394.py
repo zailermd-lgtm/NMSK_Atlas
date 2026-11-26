@@ -41,6 +41,8 @@ TANG_MAX = 2.0       # mm, Q353 `covered`
 K_NEAR, K_FAR, FAR_MM = 24, 6, 15.0
 DIRKEY = {"viewer_zan_atlas": "base_m", "viewer_base_female": "base_f"}
 SKIN_SKIP = re.compile(r"nail_plate")
+CLS_VER = "d"   # bump when the sheet labelling changes (cache key)
+SINGLE = os.environ.get("Q399_SINGLE", "1") != "0"   # Q399 single-sheet completion of the test (0: the Q394 / Q398 test)
 
 # What legitimately lies on / passes through the surface.  (regex on the structure id, reason)
 EXCLUDE = [
@@ -146,9 +148,8 @@ class Sheet:
 RAYS = ((0, 1), (0, -1), (1, 1), (1, -1), (2, 1))   # (axis, direction): +x, -x, +y, -y, +z
 
 
-def _axis_hits(V, F, P, axis, sign, cell=4.0):
-    """number of triangles of (V, F) crossed by the ray from each P along +/- the given axis: the triangles are binned by their
-    projection on the other two axes (a cell grid), each ray meets only the triangles of its own cell; exact 2-D barycentric test"""
+def _axis_bins(V, F, axis, cell=4.0):
+    """the triangles of (V, F) binned by their projection on the two axes other than `axis` (a cell grid)"""
     u, w = [i for i in range(3) if i != axis]
     A, B, C = V[F[:, 0]], V[F[:, 1]], V[F[:, 2]]
     lo = np.floor(np.minimum(np.minimum(A, B), C)[:, [u, w]] / cell).astype(np.int64)
@@ -161,8 +162,18 @@ def _axis_hits(V, F, P, axis, sign, cell=4.0):
     k = np.arange(cnt.sum()) - np.repeat(np.cumsum(cnt) - cnt, cnt)
     cu = lo[tri, 0] + k // np.repeat(nw, cnt); cw = lo[tri, 1] + k % np.repeat(nw, cnt)
     key = cu * W + cw
-    o = np.argsort(key, kind="stable"); key, tri = key[o], tri[o]
-    qc = np.floor(P[:, [u, w]] / cell).astype(np.int64) - base
+    o = np.argsort(key, kind="stable")
+    return dict(axis=axis, u=u, w=w, cell=cell, base=base, W=W, key=key[o], tri=tri[o], A=A, B=B, C=C)
+
+
+def _axis_hits(V, F, P, axis, sign, cell=4.0, bins=None):
+    """number of triangles of (V, F) crossed by the ray from each P along +/- the given axis: the triangles are binned by their
+    projection on the other two axes (a cell grid), each ray meets only the triangles of its own cell; exact 2-D barycentric test.
+    `bins` (from _axis_bins, same V / F / axis / cell) skips the binning."""
+    bn = bins if bins is not None else _axis_bins(V, F, axis, cell)
+    u, w, base, W, key, tri = bn["u"], bn["w"], bn["base"], bn["W"], bn["key"], bn["tri"]
+    A, B, C = bn["A"], bn["B"], bn["C"]
+    qc = np.floor(P[:, [u, w]] / bn["cell"]).astype(np.int64) - base
     ok = (qc >= 0).all(1) & (qc[:, 1] < W - 1)
     qk = qc[:, 0] * W + qc[:, 1]
     s0 = np.searchsorted(key, qk, "left"); s1 = np.searchsorted(key, qk, "right")
@@ -186,7 +197,7 @@ def _axis_hits(V, F, P, axis, sign, cell=4.0):
     return out
 
 
-def parity_outside(V, F, P, rays=RAYS, chunk=20000):
+def parity_outside(V, F, P, rays=RAYS, chunk=20000, bins=None):
     """independent inside / outside test of points P against the skin's OUTER sheet (V, F): a ray to infinity crosses the outer
     sheet an odd number of times from inside the body, an even number from outside (a fold -- the arm beside the chest, two toes
     -- adds two crossings). It needs only that ONE of a slab's two sheets is labelled outer, so it holds where the outer / inner
@@ -195,17 +206,24 @@ def parity_outside(V, F, P, rays=RAYS, chunk=20000):
     for lo in range(0, len(P), chunk):
         p = P[lo:lo + chunk]
         for ax, sg in rays:
-            votes[lo:lo + chunk] += (_axis_hits(V, F, p, ax, sg) % 2 == 0)
+            votes[lo:lo + chunk] += (_axis_hits(V, F, p, ax, sg, bins=None if bins is None else bins[ax]) % 2 == 0)
     return votes >= 3
 
 
 class Skin:
+    """cls codes per face: +1 outer sheet, -1 inner sheet, 0 wall (Q353 / Q394); Q399 adds +2 = a single-sheet face that faces OUT
+    of the body (a wall by Q353's slab test -- no partner sheet 0.8..6 mm behind it: thin skin, a skin hole's single surface, or a
+    slab whose label the 6 mm window lost -- but facing outward, see `single_sheet`), -2 = such a face facing IN (inner side of a thin pair), +3 = the only sheet there, wound inward. +2 faces join the
+    outer sheet (distance and parity) and, flipped, the inner sheet (thickness 0 where no inner sheet exists); -2 faces join the
+    inner sheet; +3 faces join the outer sheet flipped and the inner sheet as they are."""
+
     def __init__(self, ids, pos, F, cls):
         Vo, Fo, Oo, Fi, Oi, off = [], [], [], [], [], 0
         for i, k in enumerate(ids):
             v, f, c = pos[k], F[k], cls[k]
             Vo.append(v)
-            fo, fi = f[c == 1], f[c == -1]
+            fo = np.vstack([f[(c == 1) | (c == 2)], f[c == 3][:, [0, 2, 1]]])
+            fi = np.vstack([f[(c == -1) | (c == -2) | (c == 3)], f[c == 2][:, [0, 2, 1]]])
             Fo.append(fo + off); Oo.append(np.full(len(fo), i)); Fi.append(fi + off); Oi.append(np.full(len(fi), i))
             off += len(v)
         V = np.vstack(Vo)
@@ -215,8 +233,8 @@ class Skin:
         Fp, off = [np.vstack(Fo)], 0
         for k in ids:
             c = cls[k]
-            if (c != 0).mean() < 0.2:
-                Fp.append(F[k] + off)
+            if (np.abs(c) == 1).mean() < 0.2 and not (c >= 2).any():
+                Fp.append(F[k][np.abs(c) != 1] + off)
             off += len(pos[k])
         self.parity_F = np.vstack(Fp)
         self.outer = Sheet(V, np.vstack(Fo), np.concatenate(Oo))
@@ -231,7 +249,9 @@ class Skin:
         return out, so, si, self.outer.own[t], tang, q
 
     def confirm(self, P):
-        return parity_outside(self.outer.V, self.parity_F, P)
+        if not hasattr(self, "_bins"):
+            self._bins = {ax: _axis_bins(self.outer.V, self.parity_F, ax) for ax in {r[0] for r in RAYS}}
+        return parity_outside(self.outer.V, self.parity_F, P, bins=self._bins)
 
 
 # ------------------------------------------------------------------ page + rig
@@ -274,6 +294,85 @@ def sheet_vote(v, f, cls, g, agree=0.8):
     return new, int((new != cls).sum()), a0, a1
 
 
+EAR_RE = re.compile(r"auric|helix|tragus|concha|scapha|lobule|triangular_fossa|antihelica|antihelix|eminentia|intertragic|notch_of_auricle")
+# the skin round the palpebral fissure: its lid-margin / fornix faces face the (excluded) eyeball through an opening, and the
+# parity check cannot tell their side (measured: medial rectus "5.5 mm outside" a completed face) -- kept as Q394 had it
+NO_SINGLE_RE = re.compile(r"orbital_region|palpebral|eyelid|canth")
+SINGLE_COS, SINGLE_VOTE = 0.3, 0.3
+
+
+def single_sheet(v, f, cls, g):
+    """Q399: Q353's slab test labels a face a wall (0) when no partner sheet lies 0.8..6 mm behind it. Measured (Base pages): whole
+    skin areas are such single sheets or thin pairs -- Base·F dorsal toe skin R 88 % of its area, perionyx of the toes 61-67 %, the
+    mental region 25-33 %, and faces a skin offset moved out of the window -- so the outside test had no skin there (a vertex under
+    it was tested against a farther piece, e.g. the cheek, and read up to 6 mm "outside"). Rule: wall faces are grouped into
+    patches (neighbours whose normals agree, cos > 0.5); the patch's area-weighted vote of Q353's direction (face normal against
+    the direction away from the nearest bone vertices) gives its side; a face of a patch voting out (> SINGLE_VOTE) that itself faces
+    out (> SINGLE_COS) is +2, the mirror -2. Rim walls of a slab (at openings / borders) face along the surface (|cos| small) and
+    stay 0. The auricle pieces (single sheets by construction) keep Q394's treatment (parity only)."""
+    import trimesh
+    from scipy import sparse
+    from scipy.sparse.csgraph import connected_components
+    w = cls == 0
+    if not w.any():
+        return cls
+    t = trimesh.Trimesh(v, f, process=False)
+    fn, c, ar, adj = t.face_normals, t.triangles_center, t.area_faces, t.face_adjacency
+    _, idx = g.itree.query(c, k=24)
+    u = c - g.interior[idx].mean(1)
+    u /= np.linalg.norm(u, axis=1, keepdims=True) + 1e-12
+    dot = (fn * u).sum(1)
+    a_, b_ = adj[:, 0], adj[:, 1]
+    e = w[a_] & w[b_] & ((fn[a_] * fn[b_]).sum(1) > 0.5)
+    G = sparse.coo_matrix((np.ones(int(e.sum())), (a_[e], b_[e])), shape=(len(f), len(f)))
+    _, lab = connected_components(G, directed=False)
+    num = np.bincount(lab, weights=np.where(w, ar * dot, 0.0), minlength=lab.max() + 1)
+    den = np.bincount(lab, weights=np.where(w, ar, 0.0), minlength=lab.max() + 1)
+    vote = num / np.maximum(den, 1e-12)
+    out = cls.copy()
+    out[w & (vote[lab] > SINGLE_VOTE) & (dot > SINGLE_COS)] = 2
+    fin = w & (vote[lab] < -SINGLE_VOTE) & (dot < -SINGLE_COS)
+    # a face that faces IN: the inner side of a thin pair when the slab's other sheet lies right outside it (along -normal, < 6 mm),
+    # else the only sheet there with its winding reversed (measured: Base·M dorsal toe skin R, 219 of 233 faces) -> +3
+    hb = np.full(len(f), np.inf)
+    ix = np.where(fin)[0]
+    if len(ix):
+        loc, ri, _ = trimesh.ray.ray_triangle.RayMeshIntersector(t).intersects_location(c[ix] - fn[ix] * 0.02, -fn[ix], multiple_hits=False)
+        hb[ix[ri]] = np.linalg.norm(loc - (c[ix[ri]] - fn[ix[ri]] * 0.02), axis=1)
+    out[fin & (hb < 6.0)] = -2
+    out[fin & ~(hb < 6.0)] = 3
+    return out
+
+
+def confirm_single(ids, V, F, cls, h=0.4):
+    """Q399: a +2 face (single outer sheet) is kept only where the ray-parity test against the completed outer surface (outer
+    sheets + the +2 candidates + the auricle pieces) agrees which side is out: 0.4 mm along its normal is outside, 0.4 mm against it
+    inside. Inside a cavity (orbit, mouth, nose) the nearest-bone direction of `single_sheet` can point the wrong way and both
+    sides read alike: such faces go back to walls (0)."""
+    sk = Skin(ids, V, F, cls)
+    C, N, where = [], [], []
+    for k in ids:
+        m = np.where(cls[k] >= 2)[0]
+        if not len(m):
+            continue
+        v, f = V[k], F[k][m]
+        f = np.where((cls[k][m] == 3)[:, None], f[:, [0, 2, 1]], f)
+        a, b, c = v[f[:, 0]], v[f[:, 1]], v[f[:, 2]]
+        n = np.cross(b - a, c - a); n /= np.linalg.norm(n, axis=1, keepdims=True) + 1e-12
+        C.append((a + b + c) / 3); N.append(n); where.append((k, m))
+    if not C:
+        return cls
+    C = np.vstack(C); N = np.vstack(N)
+    po = sk.confirm(C + h * N); ne = sk.confirm(C - h * N)
+    good = po & ~ne
+    out = {k: c.copy() for k, c in cls.items()}
+    o = 0
+    for k, m in where:
+        g = good[o:o + len(m)]; o += len(m)
+        out[k][m[~g]] = 0
+    return out
+
+
 class Page:
     def __init__(self, d, rig_path=None, cache_dir=None):
         import conform_skin_q353 as Q
@@ -298,11 +397,16 @@ class Page:
             if self.cache_dir:
                 import hashlib
                 h = hashlib.sha1(b"".join(np.ascontiguousarray(self.V[k]).tobytes() + self.F[k].tobytes() for k in self.skin_ids)).hexdigest()[:16]
-                cf = self.cache_dir / f"sheets394_{self.d.name}_{h}.pkl"
+                cf = self.cache_dir / f"sheets399{CLS_VER}_{self.d.name}_{h}.pkl"
                 if cf.exists():
                     self._cls = pickle.load(open(cf, "rb"))
                     return self._cls
             self._cls = {k: sheet_vote(self.V[k], self.F[k], self.g.sheets(k)[0], self.g)[0] for k in self.skin_ids}
+            if SINGLE:
+                for k in self.skin_ids:
+                    if not EAR_RE.search(k) and not NO_SINGLE_RE.search(k):
+                        self._cls[k] = single_sheet(self.V[k], self.F[k], self._cls[k], self.g)
+                self._cls = confirm_single(self.skin_ids, self.V, self.F, self._cls)
             if cf:
                 cf.parent.mkdir(parents=True, exist_ok=True)
                 pickle.dump(self._cls, open(cf, "wb"))
@@ -387,6 +491,137 @@ def fk(rig, st):
     return M
 
 
+
+# ------------------------------------------------------------------ Q399: per-digit test
+PHAL_RE = re.compile(r"^zan_(proximal|middle|distal)_phalanx_of_(first|second|third|fourth|fifth)_finger_of_(hand|foot)_([lr])$")
+DIGITS = os.environ.get("Q399_DIGITS", "1") != "0"
+DIG_R, TUBE_R, T0_FRAC, TUBE_BACK = 14.0, 16.0, 0.4, 6.0
+DIG_NAILS = False   # the nail plates lie under the digit skin's outer sheet here (measured: 116 of 206 doubled faces on a finger)
+DIG_VOTES = 7   # of 8: a hole in the tube (the web, a missing face) can only make a vertex read outside, so outside needs 7 rays
+
+
+def _rot_to(a):
+    """orthonormal frame (rows e1, e2, a)"""
+    a = a / np.linalg.norm(a)
+    h = np.array([1.0, 0, 0]) if abs(a[0]) < 0.9 else np.array([0, 1.0, 0])
+    e1 = np.cross(a, h); e1 /= np.linalg.norm(e1); e2 = np.cross(a, e1)
+    return np.stack([e1, e2, a])
+
+
+class Digits:
+    """Q399 per-digit test. The toes (and fingers) touch, so the whole-body tests are ambiguous between neighbouring digits: the
+    closest outer / inner sheet, and the five axis rays, can belong to the next digit (a toe's side skin seen from its neighbour),
+    and rays leak through the web gap. Here a vertex that lies in a digit -- the nearest digit axis (segment through the digit's
+    phalanges) is within DIG_R mm and it is distal of T0_FRAC of that digit's proximal phalanx (beyond the web) -- is tested against
+    THAT digit's skin only: the outward-facing skin faces (outer sheet / single outer sheet, +1 / +2 / +3, and the nail plate's
+    outward faces) whose nearest digit axis is the same, within TUBE_R mm, from TUBE_BACK mm proximal of the gate on. Inside / outside by
+    ray parity with eight rays PERPENDICULAR to the digit's axis (a digit is a tube; a ray along it would run out through the
+    tube's open base), majority; depth = distance to that digit's skin. Nothing else is changed."""
+
+    def __init__(self, page, pos, cls):
+        self.ok = False
+        keys = {}
+        for k in page.ids:
+            m = PHAL_RE.match(k)
+            if m and k in pos:
+                keys.setdefault((m.group(3), m.group(4), m.group(2)), {})[m.group(1)] = pos[k]
+        if not keys:
+            return
+        self.keys = sorted(keys)
+        P, L = [], []
+        self.frame, self.t0 = [], []
+        for i, dk in enumerate(self.keys):
+            ph = keys[dk]
+            allv = np.vstack(list(ph.values()))
+            a = ph["distal"].mean(0) - ph["proximal"].mean(0)
+            R = _rot_to(a)
+            tp = ph["proximal"] @ R[2]
+            self.frame.append(R); self.t0.append(tp.min() + T0_FRAC * (tp.max() - tp.min()))
+            P.append(allv); L.append(np.full(len(allv), i))
+        self.P = np.vstack(P); self.L = np.concatenate(L)
+        # each digit's axis segment (through its phalanges' centroid, along R[2], over their extent)
+        self.ax = []
+        for i in range(len(self.keys)):
+            Pi = self.P[self.L == i]; R = self.frame[i]; t = Pi @ R[2]
+            self.ax.append((Pi.mean(0), R[2], t.min(), t.max()))
+        # outward-facing skin faces per digit
+        Vs, Fs, off, src = [], [], 0, []
+        for k in page.skin_ids:
+            c = cls[k]; f = np.vstack([page.F[k][(c == 1) | (c == 2)], page.F[k][c == 3][:, [0, 2, 1]]])
+            src += [(k, int(x)) for x in np.r_[c[(c == 1) | (c == 2)], c[c == 3]]]
+            Vs.append(pos[k]); Fs.append(f + off); off += len(pos[k])
+        nails = [k for k in page.ids if DIG_NAILS and SKIN_SKIP.search(k) and page.sys.get(k) == "skin" and k in pos]
+        for k in nails:
+            Vs.append(pos[k]); Fs.append(page.F[k] + off); off += len(pos[k]); src += [(k, 9)] * len(page.F[k])
+        V = np.vstack(Vs); F = np.vstack(Fs)
+        nail = np.zeros(len(F), bool); nail[len(F) - sum(len(page.F[k]) for k in nails):] = True
+        A, B, C = V[F[:, 0]], V[F[:, 1]], V[F[:, 2]]
+        cen = (A + B + C) / 3; n = np.cross(B - A, C - A); n /= np.linalg.norm(n, axis=1, keepdims=True) + 1e-12
+        lab = self.assign(cen, TUBE_R)
+        self.V, self.tubes, self.tube_src = V, {}, {}
+        for i in range(len(self.keys)):
+            R = self.frame[i]
+            m = np.where(lab == i)[0]
+            if not len(m):
+                continue
+            t = cen[m] @ R[2]
+            m = m[t >= self.t0[i] - TUBE_BACK]
+            # radial direction from the digit's axis (through the phalanges' centroid line)
+            ax0 = self.ax[i][0]
+            r = cen[m] - ax0; r -= np.outer(r @ R[2], R[2]); r /= np.linalg.norm(r, axis=1, keepdims=True) + 1e-12
+            rad = (n[m] * r).sum(1)
+            keep = np.where(nail[m], rad > 0.3, rad > -0.3)
+            m = m[keep]
+            if len(m):
+                u, inv = np.unique(F[m], return_inverse=True)
+                Vt, Ftc = V[u], inv.reshape(-1, 3)
+                rots = []
+                for ang in (0.0, np.pi / 4):
+                    c_, s_ = np.cos(ang), np.sin(ang)
+                    Rz = np.array([[c_, s_, 0], [-s_, c_, 0], [0, 0, 1.0]]) @ R
+                    Vr = Vt @ Rz.T
+                    rots.append((Rz, Vr, {ax: _axis_bins(Vr, Ftc, ax, cell=2.0) for ax in (0, 1)}))
+                self.tubes[i] = (Ftc, Sheet(Vt, Ftc, np.zeros(len(m), np.int64)), rots)
+                self.tube_src[i] = [src[x] for x in m]
+        self.ok = bool(self.tubes)
+
+    def assign(self, X, rmax):
+        """the digit whose axis segment is nearest (within rmax mm) -- between two touching digits the boundary is the plane
+        midway between their axes, not the nearer bone surface; -1 = none"""
+        D = np.full((len(X), len(self.ax)), np.inf)
+        for i, (c0, a, t0, t1) in enumerate(self.ax):
+            t = np.clip((X - c0) @ a, t0 - c0 @ a, t1 - c0 @ a)
+            D[:, i] = np.linalg.norm(X - (c0 + t[:, None] * a), axis=1)
+        j = np.argmin(D, 1); dm = D[np.arange(len(X)), j]
+        return np.where(dm < rmax, j, -1)
+
+    def test(self, X):
+        """-> (in_digit mask, outside mask, depth mm)"""
+        n = len(X)
+        ind = np.zeros(n, bool); out = np.zeros(n, bool); dep = np.zeros(n)
+        if not self.ok or not n:
+            return ind, out, dep
+        lab = self.assign(X, DIG_R)
+        for i, (Ft, sh, rots) in self.tubes.items():
+            m = np.where(lab == i)[0]
+            if not len(m):
+                continue
+            R = self.frame[i]
+            m = m[X[m] @ R[2] >= self.t0[i]]
+            if not len(m):
+                continue
+            votes = np.zeros(len(m), int)
+            for Rz, Vr, bns in rots:
+                Pr = X[m] @ Rz.T
+                for ax, sg in ((0, 1), (0, -1), (1, 1), (1, -1)):
+                    votes += (_axis_hits(Vr, Ft, Pr, ax, sg, cell=2.0, bins=bns[ax]) % 2 == 0)
+            o = votes >= DIG_VOTES
+            ind[m] = True
+            if o.any():
+                _, _, _, dist = sh.query(X[m[o]])
+                out[m[o]] = True; dep[m[o]] = dist
+        return ind, out, dep
+
 # ------------------------------------------------------------------ census
 def region_of(skin_id):
     return re.sub(r"^zan_skin_", "", skin_id).replace("_", " ")
@@ -406,6 +641,15 @@ def census(page: Page, state="rest", ids=None, pos=None):
     conf = sk.confirm(P[cand])
     suspect = np.zeros(len(P), bool); suspect[cand[~conf]] = True
     out[cand[~conf]] = False
+    dig_in = np.zeros(len(P), bool)
+    if DIGITS:
+        need = [k for k in page.ids if (PHAL_RE.match(k) or (SKIN_SKIP.search(k) and page.sys.get(k) == "skin")) and k not in pos]
+        if need:
+            pos = dict(pos); pos.update(page.posed(state, ids=need))
+        dg = Digits(page, pos, page.cls())
+        dig_in, dig_out, dig_d = dg.test(P)
+        out[dig_in] = dig_out[dig_in]; so = so.copy(); so[dig_in] = dig_d[dig_in]
+        suspect[dig_in] = False
     res = {}
     for i in np.unique(own[out]):
         m = np.where(out & (own == i))[0]
@@ -417,7 +661,7 @@ def census(page: Page, state="rest", ids=None, pos=None):
     # Q398: outside by the ray-parity test and over the skin (s_out > 0, tangential < TANG_MAX) but deeper than the CLOSEST inner
     # sheet triangle -- which there belongs to another part of the skin (the next toe / finger, the far side of a thin digit, or
     # the rim of an opening): the definition above (Q353's) does not count these; reported apart, not in `res`
-    h = np.where((so > 0) & (si >= 0) & (tang < TANG_MAX))[0]
+    h = np.where((so > 0) & (si >= 0) & (tang < TANG_MAX) & ~dig_in)[0]
     hid = {}
     if len(h):
         hp = sk.confirm(P[h]); h = h[hp]

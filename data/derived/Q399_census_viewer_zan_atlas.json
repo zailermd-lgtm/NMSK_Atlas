@@ -1,0 +1,284 @@
+{
+ "schema": "nmsk.q399.census.v1",
+ "page": "viewer_zan_atlas",
+ "generated": "2026-11-26",
+ "test": "Q394 outside test + Q399 single-sheet completion + per-digit test (scripts/anatomy/q394/under_skin_q394.py)",
+ "columns": "structures, vertices outside, deepest mm; hidden = Q398's not-counted class",
+ "states": {
+  "rest": {
+   "q394": [
+    113,
+    8920,
+    13.909
+   ],
+   "q394_hidden": [
+    52,
+    198
+   ],
+   "q398": [
+    94,
+    523,
+    10.576
+   ],
+   "q398_hidden": [
+    51,
+    189
+   ],
+   "q399": [
+    65,
+    690,
+    10.576
+   ],
+   "q399_hidden": [
+    55,
+    192
+   ],
+   "q399_worse_than_q394": [
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r"
+   ],
+   "q398_worse_than_q394": 16
+  },
+  "sh_abd": {
+   "q394": [
+    138,
+    12316,
+    83.802
+   ],
+   "q394_hidden": [
+    52,
+    447
+   ],
+   "q398": [
+    121,
+    3258,
+    70.604
+   ],
+   "q398_hidden": [
+    53,
+    500
+   ],
+   "q399": [
+    101,
+    3449,
+    70.604
+   ],
+   "q399_hidden": [
+    54,
+    502
+   ],
+   "q399_worse_than_q394": [
+    "soft_unlabelled_abdomen",
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r"
+   ],
+   "q398_worse_than_q394": 20
+  },
+  "sh_flex": {
+   "q394": [
+    178,
+    16181,
+    83.802
+   ],
+   "q394_hidden": [
+    108,
+    2672
+   ],
+   "q398": [
+    159,
+    6051,
+    29.586
+   ],
+   "q398_hidden": [
+    106,
+    2992
+   ],
+   "q399": [
+    140,
+    6213,
+    29.586
+   ],
+   "q399_hidden": [
+    107,
+    2993
+   ],
+   "q399_worse_than_q394": [
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r"
+   ],
+   "q398_worse_than_q394": 16
+  },
+  "arm_elbow": {
+   "q394": [
+    154,
+    12222,
+    83.802
+   ],
+   "q394_hidden": [
+    59,
+    282
+   ],
+   "q398": [
+    142,
+    3246,
+    13.893
+   ],
+   "q398_hidden": [
+    60,
+    300
+   ],
+   "q399": [
+    120,
+    3437,
+    13.893
+   ],
+   "q399_hidden": [
+    62,
+    305
+   ],
+   "q399_worse_than_q394": [
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r"
+   ],
+   "q398_worse_than_q394": 15
+  },
+  "hipknee": {
+   "q394": [
+    162,
+    13542,
+    382.01
+   ],
+   "q394_hidden": [
+    85,
+    688
+   ],
+   "q398": [
+    150,
+    3216,
+    46.569
+   ],
+   "q398_hidden": [
+    90,
+    805
+   ],
+   "q399": [
+    126,
+    3210,
+    47.267
+   ],
+   "q399_hidden": [
+    87,
+    736
+   ],
+   "q399_worse_than_q394": [
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r"
+   ],
+   "q398_worse_than_q394": 25
+  },
+  "neck_flex_rot": {
+   "q394": [
+    121,
+    9407,
+    13.909
+   ],
+   "q394_hidden": [
+    51,
+    296
+   ],
+   "q398": [
+    102,
+    899,
+    10.576
+   ],
+   "q398_hidden": [
+    49,
+    276
+   ],
+   "q399": [
+    82,
+    1081,
+    10.576
+   ],
+   "q399_hidden": [
+    53,
+    286
+   ],
+   "q399_worse_than_q394": [
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r"
+   ],
+   "q398_worse_than_q394": 14
+  },
+  "neck_ext_lat": {
+   "q394": [
+    116,
+    9266,
+    17.76
+   ],
+   "q394_hidden": [
+    46,
+    180
+   ],
+   "q398": [
+    97,
+    770,
+    12.782
+   ],
+   "q398_hidden": [
+    45,
+    188
+   ],
+   "q399": [
+    76,
+    950,
+    12.782
+   ],
+   "q399_hidden": [
+    48,
+    167
+   ],
+   "q399_worse_than_q394": [
+    "zan_lateral_process_of_nasal_septal_cartilage_r",
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r"
+   ],
+   "q398_worse_than_q394": 15
+  },
+  "trunk": {
+   "q394": [
+    128,
+    10101,
+    58.007
+   ],
+   "q394_hidden": [
+    46,
+    217
+   ],
+   "q398": [
+    116,
+    1546,
+    18.911
+   ],
+   "q398_hidden": [
+    44,
+    192
+   ],
+   "q399": [
+    103,
+    1727,
+    18.911
+   ],
+   "q399_hidden": [
+    45,
+    197
+   ],
+   "q399_worse_than_q394": [
+    "zan_major_alar_cartilage_r",
+    "zan_middle_phalanx_of_third_finger_of_foot_r",
+    "zan_nasal_septal_cartilage"
+   ],
+   "q398_worse_than_q394": 18
+  }
+ }
+}
