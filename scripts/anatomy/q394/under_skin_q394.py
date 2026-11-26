@@ -414,6 +414,17 @@ def census(page: Page, state="rest", ids=None, pos=None):
         res[k] = dict(n=int(len(m)), nv=int(len(pos[k])), max_mm=round(float(s.max()), 3), p95_mm=round(float(np.percentile(s, 95)), 3),
                       region=region_of(sk.ids[sown[j]]), verts=(m - off[i]).tolist(), s_out=[round(float(x), 4) for x in s])
     res["__suspect__"] = {ids[i]: int((suspect & (own == i)).sum()) for i in np.unique(own[suspect])}
+    # Q398: outside by the ray-parity test and over the skin (s_out > 0, tangential < TANG_MAX) but deeper than the CLOSEST inner
+    # sheet triangle -- which there belongs to another part of the skin (the next toe / finger, the far side of a thin digit, or
+    # the rim of an opening): the definition above (Q353's) does not count these; reported apart, not in `res`
+    h = np.where((so > 0) & (si >= 0) & (tang < TANG_MAX))[0]
+    hid = {}
+    if len(h):
+        hp = sk.confirm(P[h]); h = h[hp]
+        for i in np.unique(own[h]):
+            m = h[own[h] == i]
+            hid[ids[i]] = dict(n=int(len(m)), max_mm=round(float(so[m].max()), 3))
+    res["__hidden__"] = hid
     return res
 
 
@@ -431,6 +442,7 @@ def main(argv=None):
     for s in a.states.split(","):
         t = time.time()
         c = census(pg, s)
+        c.pop("__suspect__", None); c.pop("__hidden__", None)
         rep["states"][s] = c
         tot = sum(x["n"] for x in c.values())
         print(f"{pg.d.name} {s}: {len(c)} structures, {tot} vertices outside ({time.time() - t:.0f}s)", flush=True)

@@ -47,7 +47,7 @@ def main(argv=None):
     b = U.Page(Path(a.baseline) / pg.d.name if (Path(a.baseline) / pg.d.name).exists() else a.baseline, cache_dir=a.cache)
     same = [k for k in rest if k in b.V and len(b.V[k]) == len(pg.V[k])]
     cb = U.census(b, "rest", ids=same) if same else {}
-    cb.pop("__suspect__", None)
+    cb.pop("__suspect__", None); cb.pop("__hidden__", None)
     sk = U.Skin(pg.skin_ids, pg.V, pg.F, pg.cls())
     out = {}
     for k, e in rest.items():

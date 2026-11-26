@@ -50,6 +50,8 @@ def main(argv=None):
         t = time.time()
         c = U.census(pg, s, ids=inc)
         sus = c.pop("__suspect__", {})
+        hid = c.pop("__hidden__", {})
+        rep.setdefault("hidden", {})[s] = hid
         rep["states"][s] = {k: {x: v[x] for x in ("n", "nv", "max_mm", "p95_mm", "region")} for k, v in c.items()}
         nverts = sum(v["n"] for v in c.values())
         und = [k for k in c if k not in documented.get(s, set())]
@@ -59,6 +61,9 @@ def main(argv=None):
         print(f"  {'OK  ' if ok else 'FAIL'} {s:14s} structures outside {len(c):4d}, vertices {nverts:6d} "
               f"(undocumented {len(und)}, documented but >= {RESID_MM} mm {len(deep)}; parity-rejected Q353 hits {sum(sus.values())}) "
               f"[{time.time() - t:.0f}s]", flush=True)
+        print(f"       (not counted, Q398: outside by ray parity but deeper than the closest inner sheet of another skin part -- "
+              f"{len(hid)} structures, {sum(v['n'] for v in hid.values())} vertices, max {max([v['max_mm'] for v in hid.values()] or [0]):.2f} mm)",
+              flush=True)
         if not a.quiet:
             for k, v in sorted(c.items(), key=lambda kv: -kv[1]["max_mm"]):
                 print(f"       {k:60s} {v['n']:5d}/{v['nv']:5d} max {v['max_mm']:6.2f} p95 {v['p95_mm']:6.2f} mm  {v['region']}"

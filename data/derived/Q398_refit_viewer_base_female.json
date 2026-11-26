@@ -1,0 +1,7491 @@
+{
+ "schema": "nmsk.q398.refit.v1",
+ "page": "viewer_base_female",
+ "generated": "2026-11-26",
+ "parameters": {
+  "gap_mm": 0.3,
+  "slopes": [
+   [
+    0.5,
+    "remap"
+   ],
+   [
+    0.3,
+    "remap"
+   ],
+   [
+    0.15,
+    "remap"
+   ],
+   [
+    0.1,
+    "translate"
+   ],
+   [
+    0.05,
+    "translate"
+   ]
+  ],
+  "rounds": 6,
+  "cap_mm": 12.0,
+  "cap_shell_mm": 25.0,
+  "vol_max_pct": 2.0,
+  "vol_max_shell_pct": 30.0,
+  "flip_max_pct": 0.5,
+  "r_shell_mm": 8.0,
+  "skin_max_mm": 4.0,
+  "k_skin": 0.2,
+  "cos_skin": 0.3,
+  "skin_regions": "digits_of_(hand|foot)|perionyx|distal_transverse_arch_of_foot|philtrum|tubercle_of_upper_lip|oral_region|angle_of_mouth|labial_commissure|mentolabial_sulcus|perineum_rule_q358|urogenital_region|anal_region|skin_vulva"
+ },
+ "final": {
+  "depressor_anguli_oris_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "depressor_anguli_oris_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "depressor_labii_inferioris_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "depressor_labii_inferioris_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "extensor_digitorum_longus_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "fat_deep_abdomen": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "fat_deep_hand_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_deep_thorax": {
+   "status": "FIXED",
+   "step": 3
+  },
+  "fat_deep_upper_arm_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "fat_subcut_foot_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_foot_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_forearm_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_forearm_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_hand_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_hand_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_head": {
+   "status": "clean",
+   "step": 3
+  },
+  "fat_subcut_leg_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_leg_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_neck": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_pelvis": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_thigh_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_thigh_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_thorax": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_upper_arm_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "fat_subcut_upper_arm_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "flexor_carpi_ulnaris_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "gracilis_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "gracilis_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "lesser_occipital_n_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "maxilla_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "maxilla_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "nasalis_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "nasalis_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "nuchal_ligament": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "orbicularis_oris_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "orbicularis_oris_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "saphenous_n_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "soft_unlabelled_foot_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "soft_unlabelled_foot_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "soft_unlabelled_forearm_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "soft_unlabelled_forearm_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "soft_unlabelled_hand_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "soft_unlabelled_head": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "soft_unlabelled_thigh_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "soft_unlabelled_thigh_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "soft_unlabelled_upper_arm_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "supraclavicular_n_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "trigeminal_n_v3_mental_branch_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "ulnar_n_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "ulnar_n_r": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "zan_antebrachial_fascia_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsules_of_distal_interphalangeal_joints_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsules_of_distal_interphalangeal_joints_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_collateral_interphalangeal_ligaments_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_collateral_interphalangeal_ligaments_of_foot_r": {
+   "status": "PARTIAL",
+   "step": 3
+  },
+  "zan_crural_fascia_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_fifth_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_fifth_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_first_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_first_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_fourth_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_fourth_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_third_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_distal_phalanx_of_third_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_arteries_of_hand_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_arteries_of_hand_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_branches_of_deep_fibular_nerve_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_branches_of_deep_fibular_nerve_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_veins_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_veins_of_hand_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_digital_veins_of_hand_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_dorsal_fascia_of_hand_l": {
+   "status": "PARTIAL",
+   "step": 3
+  },
+  "zan_dorsal_fascia_of_hand_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_great_saphenous_vein_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_great_saphenous_vein_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_inferior_alveolar_artery_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "zan_inferior_alveolar_artery_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_inferior_labial_veins_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_long_head_of_triceps_brachii_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_major_alar_cartilage_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_major_alar_cartilage_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_mental_branch_of_inferior_alveolar_artery_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_middle_phalanx_of_second_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_middle_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_middle_phalanx_of_third_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_middle_phalanx_of_third_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_palmar_digital_veins_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_plantar_digital_veins_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_plantar_digital_veins_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_posterior_auricular_vein_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_posterior_auricular_vein_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": {
+   "status": "FIXED",
+   "step": 3
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_palmar_digital_arteries_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_palmar_digital_arteries_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_plantar_digital_arteries_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proper_plantar_digital_branches_of_lateral_plantar_nerve_l": {
+   "status": "FIXED",
+   "step": 1
+  },
+  "zan_proximal_phalanx_of_first_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proximal_phalanx_of_first_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proximal_phalanx_of_second_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proximal_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_proximal_phalanx_of_third_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_subcutaneous_bursa_of_medial_malleolus_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_subcutaneous_bursa_of_medial_malleolus_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_superficial_temporal_artery_l": {
+   "status": "NOT FIXED",
+   "step": 3
+  },
+  "zan_supratrochlear_nodes_l": {
+   "status": "clean",
+   "step": 3
+  },
+  "zan_supratrochlear_nodes_r": {
+   "status": "NOT FIXED",
+   "step": 3
+  }
+ },
+ "skin": {
+  "zan_skin_angle_of_mouth_l": {
+   "added_volume_mm3": 2.5,
+   "moved": 14,
+   "max_mm": 0.399,
+   "thickness_moved_mm": {
+    "p5_before": 0.091,
+    "p5_after": 0.089,
+    "median_before": 0.835,
+    "median_after": 0.838
+   }
+  },
+  "zan_skin_angle_of_mouth_r": {
+   "added_volume_mm3": 1.7,
+   "moved": 10,
+   "max_mm": 0.379,
+   "thickness_moved_mm": {
+    "p5_before": 0.091,
+    "p5_after": 0.091,
+    "median_before": 0.834,
+    "median_after": 0.836
+   }
+  },
+  "zan_skin_anterior_region_of_arm_r": {
+   "added_volume_mm3": 3515.8,
+   "moved": 67,
+   "max_mm": 4.0,
+   "thickness_moved_mm": {
+    "p5_before": 0.088,
+    "p5_after": 0.064,
+    "median_before": 2.517,
+    "median_after": 1.722
+   }
+  },
+  "zan_skin_anterior_region_of_elbow_l": {
+   "added_volume_mm3": 858.6,
+   "moved": 16,
+   "max_mm": 3.89,
+   "thickness_moved_mm": {
+    "p5_before": 0.053,
+    "p5_after": 0.028,
+    "median_before": 1.921,
+    "median_after": 1.65
+   }
+  },
+  "zan_skin_anterior_region_of_elbow_r": {
+   "added_volume_mm3": 270.3,
+   "moved": 8,
+   "max_mm": 3.61,
+   "thickness_moved_mm": {
+    "p5_before": 0.03,
+    "p5_after": 0.081,
+    "median_before": 1.075,
+    "median_after": 1.123
+   }
+  },
+  "zan_skin_auricular_region_l": {
+   "added_volume_mm3": 165.9,
+   "moved": 18,
+   "max_mm": 2.188,
+   "thickness_moved_mm": {
+    "p5_before": 0.095,
+    "p5_after": 0.094,
+    "median_before": 2.012,
+    "median_after": 2.049
+   }
+  },
+  "zan_skin_buccal_region_l": {
+   "added_volume_mm3": 1641.8,
+   "moved": 64,
+   "max_mm": 2.734,
+   "thickness_moved_mm": {
+    "p5_before": 2.154,
+    "p5_after": 1.755,
+    "median_before": 2.477,
+    "median_after": 2.449
+   }
+  },
+  "zan_skin_buccal_region_r": {
+   "added_volume_mm3": 2762.6,
+   "moved": 77,
+   "max_mm": 3.991,
+   "thickness_moved_mm": {
+    "p5_before": 1.505,
+    "p5_after": 1.53,
+    "median_before": 2.373,
+    "median_after": 2.348
+   }
+  },
+  "zan_skin_labial_commissure_l": {
+   "added_volume_mm3": 24.0,
+   "moved": 29,
+   "max_mm": 0.675,
+   "thickness_moved_mm": {
+    "p5_before": 0.081,
+    "p5_after": 0.082,
+    "median_before": 0.985,
+    "median_after": 0.969
+   }
+  },
+  "zan_skin_labial_commissure_r": {
+   "added_volume_mm3": 11.1,
+   "moved": 24,
+   "max_mm": 0.511,
+   "thickness_moved_mm": {
+    "p5_before": 0.07,
+    "p5_after": 0.087,
+    "median_before": 0.985,
+    "median_after": 0.986
+   }
+  },
+  "zan_skin_lateral_region_of_thorax_r": {
+   "added_volume_mm3": 1820.4,
+   "moved": 476,
+   "max_mm": 3.858,
+   "thickness_moved_mm": {
+    "p5_before": 2.426,
+    "p5_after": 1.016,
+    "median_before": 2.991,
+    "median_after": 2.857
+   }
+  },
+  "zan_skin_mentolabial_sulcus_l": {
+   "added_volume_mm3": 1.4,
+   "moved": 12,
+   "max_mm": 0.202,
+   "thickness_moved_mm": {
+    "p5_before": 0.098,
+    "p5_after": 0.102,
+    "median_before": 0.96,
+    "median_after": 0.961
+   }
+  },
+  "zan_skin_mentolabial_sulcus_r": {
+   "added_volume_mm3": 1.3,
+   "moved": 12,
+   "max_mm": 0.202,
+   "thickness_moved_mm": {
+    "p5_before": 0.128,
+    "p5_after": 0.129,
+    "median_before": 0.984,
+    "median_after": 0.985
+   }
+  },
+  "zan_skin_oral_region_l": {
+   "added_volume_mm3": 221.6,
+   "moved": 139,
+   "max_mm": 0.993,
+   "thickness_moved_mm": {
+    "p5_before": 0.329,
+    "p5_after": 0.301,
+    "median_before": 2.247,
+    "median_after": 2.214
+   }
+  },
+  "zan_skin_oral_region_r": {
+   "added_volume_mm3": 202.4,
+   "moved": 132,
+   "max_mm": 0.98,
+   "thickness_moved_mm": {
+    "p5_before": 0.298,
+    "p5_after": 0.176,
+    "median_before": 2.212,
+    "median_after": 2.192
+   }
+  },
+  "zan_skin_philtrum_l": {
+   "added_volume_mm3": -1.7,
+   "moved": 6,
+   "max_mm": 0.254,
+   "thickness_moved_mm": {
+    "p5_before": 0.017,
+    "p5_after": 0.023,
+    "median_before": 0.322,
+    "median_after": 0.215
+   }
+  },
+  "zan_skin_philtrum_r": {
+   "added_volume_mm3": -1.1,
+   "moved": 4,
+   "max_mm": 0.177,
+   "thickness_moved_mm": {
+    "p5_before": 0.017,
+    "p5_after": 0.021,
+    "median_before": 0.323,
+    "median_after": 0.299
+   }
+  },
+  "zan_skin_posterior_region_of_elbow_l": {
+   "added_volume_mm3": 613.5,
+   "moved": 13,
+   "max_mm": 3.383,
+   "thickness_moved_mm": {
+    "p5_before": 0.641,
+    "p5_after": 0.419,
+    "median_before": 1.688,
+    "median_after": 1.904
+   }
+  },
+  "zan_skin_submandibular_triangle_r": {
+   "added_volume_mm3": 763.2,
+   "moved": 35,
+   "max_mm": 3.991,
+   "thickness_moved_mm": {
+    "p5_before": 1.183,
+    "p5_after": 0.644,
+    "median_before": 2.395,
+    "median_after": 2.359
+   }
+  },
+  "zan_skin_temporal_region_l": {
+   "added_volume_mm3": 8.3,
+   "moved": 6,
+   "max_mm": 0.179,
+   "thickness_moved_mm": {
+    "p5_before": 2.775,
+    "p5_after": 2.771,
+    "median_before": 2.815,
+    "median_after": 2.81
+   }
+  },
+  "zan_skin_tubercle_of_upper_lip_l": {
+   "added_volume_mm3": 0.2,
+   "moved": 3,
+   "max_mm": 0.042,
+   "thickness_moved_mm": {
+    "p5_before": 0.079,
+    "p5_after": 0.078,
+    "median_before": 0.352,
+    "median_after": 0.358
+   }
+  },
+  "zan_skin_tubercle_of_upper_lip_r": {
+   "added_volume_mm3": 0.2,
+   "moved": 3,
+   "max_mm": 0.042,
+   "thickness_moved_mm": {
+    "p5_before": 0.08,
+    "p5_after": 0.079,
+    "median_before": 0.352,
+    "median_after": 0.358
+   }
+  },
+  "__requirements__": {
+   "rounds": [
+    [
+     [
+      "depressor_anguli_oris_r",
+      17
+     ],
+     [
+      "depressor_labii_inferioris_l",
+      2
+     ],
+     [
+      "depressor_labii_inferioris_r",
+      12
+     ],
+     [
+      "extensor_digitorum_longus_l",
+      2
+     ],
+     [
+      "fat_deep_abdomen",
+      2
+     ],
+     [
+      "fat_deep_thorax",
+      24
+     ],
+     [
+      "fat_deep_upper_arm_r",
+      4
+     ],
+     [
+      "fat_subcut_head",
+      4
+     ],
+     [
+      "gracilis_l",
+      2
+     ],
+     [
+      "maxilla_l",
+      3
+     ],
+     [
+      "maxilla_r",
+      3
+     ],
+     [
+      "orbicularis_oris_l",
+      20
+     ],
+     [
+      "orbicularis_oris_r",
+      19
+     ],
+     [
+      "soft_unlabelled_head",
+      2
+     ],
+     [
+      "ulnar_n_l",
+      1
+     ],
+     [
+      "zan_antebrachial_fascia_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r",
+      1
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+      3
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+      1
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_l",
+      3
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l",
+      3
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r",
+      3
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_r",
+      3
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_l",
+      8
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_r",
+      2
+     ],
+     [
+      "zan_crural_fascia_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+      5
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+      5
+     ],
+     [
+      "zan_distal_phalanx_of_first_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_first_finger_of_foot_r",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fourth_finger_of_hand_l",
+      7
+     ],
+     [
+      "zan_distal_phalanx_of_fourth_finger_of_hand_r",
+      7
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_l",
+      4
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_r",
+      4
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_l",
+      16
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_r",
+      21
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_l",
+      25
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+      22
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_l",
+      12
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_r",
+      13
+     ],
+     [
+      "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l",
+      15
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_l",
+      1
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+      3
+     ],
+     [
+      "zan_dorsal_digital_veins_of_foot_l",
+      13
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_l",
+      21
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_r",
+      34
+     ],
+     [
+      "zan_dorsal_fascia_of_hand_l",
+      3
+     ],
+     [
+      "zan_dorsal_fascia_of_hand_r",
+      3
+     ],
+     [
+      "zan_inferior_alveolar_artery_r",
+      10
+     ],
+     [
+      "zan_inferior_labial_veins_l",
+      2
+     ],
+     [
+      "zan_mental_branch_of_inferior_alveolar_artery_r",
+      1
+     ],
+     [
+      "zan_middle_phalanx_of_second_finger_of_foot_r",
+      2
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_foot_l",
+      3
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_l",
+      3
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_r",
+      3
+     ],
+     [
+      "zan_palmar_digital_veins_l",
+      3
+     ],
+     [
+      "zan_plantar_digital_veins_l",
+      19
+     ],
+     [
+      "zan_plantar_digital_veins_r",
+      19
+     ],
+     [
+      "zan_posterior_auricular_vein_l",
+      7
+     ],
+     [
+      "zan_posterior_auricular_vein_r",
+      7
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+      16
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+      1
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_l",
+      8
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_r",
+      8
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_l",
+      9
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_r",
+      13
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
+      15
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+      15
+     ],
+     [
+      "zan_proper_plantar_digital_arteries_r",
+      9
+     ],
+     [
+      "zan_proximal_phalanx_of_first_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_proximal_phalanx_of_first_finger_of_foot_r",
+      1
+     ],
+     [
+      "zan_proximal_phalanx_of_second_finger_of_foot_r",
+      4
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_r",
+      1
+     ],
+     [
+      "zan_superficial_temporal_artery_l",
+      1
+     ],
+     [
+      "zan_supratrochlear_nodes_l",
+      5
+     ],
+     [
+      "zan_supratrochlear_nodes_r",
+      6
+     ]
+    ],
+    [
+     [
+      "depressor_anguli_oris_l",
+      3
+     ],
+     [
+      "depressor_anguli_oris_r",
+      28
+     ],
+     [
+      "depressor_labii_inferioris_l",
+      2
+     ],
+     [
+      "depressor_labii_inferioris_r",
+      12
+     ],
+     [
+      "extensor_digitorum_longus_l",
+      2
+     ],
+     [
+      "fat_deep_abdomen",
+      3
+     ],
+     [
+      "fat_deep_thorax",
+      22
+     ],
+     [
+      "fat_deep_upper_arm_r",
+      4
+     ],
+     [
+      "gracilis_l",
+      2
+     ],
+     [
+      "orbicularis_oris_l",
+      13
+     ],
+     [
+      "orbicularis_oris_r",
+      10
+     ],
+     [
+      "ulnar_n_l",
+      1
+     ],
+     [
+      "zan_antebrachial_fascia_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r",
+      2
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+      5
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+      3
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_l",
+      4
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l",
+      9
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r",
+      5
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_r",
+      5
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_l",
+      8
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_r",
+      4
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_foot_l",
+      5
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_r",
+      1
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_l",
+      11
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_r",
+      13
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_l",
+      22
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+      27
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_l",
+      6
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_r",
+      5
+     ],
+     [
+      "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l",
+      10
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+      3
+     ],
+     [
+      "zan_dorsal_digital_veins_of_foot_l",
+      7
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_l",
+      7
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_r",
+      16
+     ],
+     [
+      "zan_inferior_alveolar_artery_r",
+      10
+     ],
+     [
+      "zan_inferior_labial_veins_l",
+      2
+     ],
+     [
+      "zan_mental_branch_of_inferior_alveolar_artery_r",
+      1
+     ],
+     [
+      "zan_middle_phalanx_of_second_finger_of_foot_r",
+      4
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_foot_l",
+      6
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_l",
+      2
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_r",
+      2
+     ],
+     [
+      "zan_palmar_digital_veins_l",
+      2
+     ],
+     [
+      "zan_plantar_digital_veins_l",
+      9
+     ],
+     [
+      "zan_plantar_digital_veins_r",
+      14
+     ],
+     [
+      "zan_posterior_auricular_vein_l",
+      8
+     ],
+     [
+      "zan_posterior_auricular_vein_r",
+      8
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+      11
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+      7
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_l",
+      3
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_r",
+      4
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_l",
+      8
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_r",
+      7
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
+      12
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+      11
+     ],
+     [
+      "zan_proper_plantar_digital_arteries_r",
+      14
+     ],
+     [
+      "zan_proximal_phalanx_of_second_finger_of_foot_r",
+      4
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_l",
+      7
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_r",
+      2
+     ],
+     [
+      "zan_superficial_temporal_artery_l",
+      3
+     ],
+     [
+      "zan_supratrochlear_nodes_r",
+      5
+     ]
+    ],
+    [
+     [
+      "depressor_anguli_oris_l",
+      3
+     ],
+     [
+      "depressor_anguli_oris_r",
+      34
+     ],
+     [
+      "depressor_labii_inferioris_l",
+      2
+     ],
+     [
+      "depressor_labii_inferioris_r",
+      12
+     ],
+     [
+      "extensor_digitorum_longus_l",
+      2
+     ],
+     [
+      "fat_deep_abdomen",
+      2
+     ],
+     [
+      "fat_deep_thorax",
+      11
+     ],
+     [
+      "gracilis_l",
+      2
+     ],
+     [
+      "orbicularis_oris_l",
+      13
+     ],
+     [
+      "orbicularis_oris_r",
+      10
+     ],
+     [
+      "zan_antebrachial_fascia_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r",
+      2
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+      6
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+      4
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_l",
+      4
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l",
+      11
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r",
+      7
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_r",
+      5
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_l",
+      9
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_r",
+      6
+     ],
+     [
+      "zan_crural_fascia_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_foot_l",
+      5
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_r",
+      1
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_l",
+      12
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_r",
+      16
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_l",
+      22
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+      28
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_l",
+      4
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_r",
+      3
+     ],
+     [
+      "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l",
+      8
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_l",
+      2
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+      3
+     ],
+     [
+      "zan_dorsal_digital_veins_of_foot_l",
+      9
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_l",
+      7
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_r",
+      18
+     ],
+     [
+      "zan_inferior_alveolar_artery_r",
+      10
+     ],
+     [
+      "zan_inferior_labial_veins_l",
+      2
+     ],
+     [
+      "zan_mental_branch_of_inferior_alveolar_artery_r",
+      1
+     ],
+     [
+      "zan_middle_phalanx_of_second_finger_of_foot_r",
+      5
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_foot_l",
+      6
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_l",
+      2
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_r",
+      2
+     ],
+     [
+      "zan_palmar_digital_veins_l",
+      1
+     ],
+     [
+      "zan_plantar_digital_veins_l",
+      11
+     ],
+     [
+      "zan_plantar_digital_veins_r",
+      14
+     ],
+     [
+      "zan_posterior_auricular_vein_l",
+      8
+     ],
+     [
+      "zan_posterior_auricular_vein_r",
+      8
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+      9
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+      6
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_l",
+      1
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_r",
+      1
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_l",
+      5
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_r",
+      5
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
+      13
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+      12
+     ],
+     [
+      "zan_proper_plantar_digital_arteries_r",
+      9
+     ],
+     [
+      "zan_proximal_phalanx_of_first_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_proximal_phalanx_of_second_finger_of_foot_r",
+      5
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_l",
+      6
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_r",
+      3
+     ],
+     [
+      "zan_superficial_temporal_artery_l",
+      1
+     ],
+     [
+      "zan_supratrochlear_nodes_r",
+      3
+     ]
+    ],
+    [
+     [
+      "depressor_anguli_oris_l",
+      3
+     ],
+     [
+      "depressor_anguli_oris_r",
+      34
+     ],
+     [
+      "depressor_labii_inferioris_l",
+      2
+     ],
+     [
+      "depressor_labii_inferioris_r",
+      12
+     ],
+     [
+      "extensor_digitorum_longus_l",
+      2
+     ],
+     [
+      "fat_deep_abdomen",
+      3
+     ],
+     [
+      "fat_deep_thorax",
+      11
+     ],
+     [
+      "fat_deep_upper_arm_r",
+      8
+     ],
+     [
+      "gracilis_l",
+      2
+     ],
+     [
+      "orbicularis_oris_l",
+      13
+     ],
+     [
+      "orbicularis_oris_r",
+      10
+     ],
+     [
+      "zan_antebrachial_fascia_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r",
+      2
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+      6
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+      4
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_l",
+      5
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l",
+      14
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r",
+      9
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_r",
+      6
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_l",
+      7
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_r",
+      8
+     ],
+     [
+      "zan_crural_fascia_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_first_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_hand_r",
+      1
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_l",
+      13
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_r",
+      15
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_l",
+      19
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+      28
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_l",
+      2
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_r",
+      1
+     ],
+     [
+      "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l",
+      8
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_l",
+      1
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+      2
+     ],
+     [
+      "zan_dorsal_digital_veins_of_foot_l",
+      11
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_l",
+      8
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_r",
+      18
+     ],
+     [
+      "zan_inferior_alveolar_artery_r",
+      10
+     ],
+     [
+      "zan_inferior_labial_veins_l",
+      2
+     ],
+     [
+      "zan_mental_branch_of_inferior_alveolar_artery_r",
+      1
+     ],
+     [
+      "zan_middle_phalanx_of_second_finger_of_foot_r",
+      6
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_foot_l",
+      7
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_l",
+      2
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_r",
+      2
+     ],
+     [
+      "zan_palmar_digital_veins_l",
+      1
+     ],
+     [
+      "zan_plantar_digital_veins_l",
+      11
+     ],
+     [
+      "zan_plantar_digital_veins_r",
+      14
+     ],
+     [
+      "zan_posterior_auricular_vein_l",
+      8
+     ],
+     [
+      "zan_posterior_auricular_vein_r",
+      8
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+      8
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+      5
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_l",
+      2
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_r",
+      1
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_l",
+      5
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_r",
+      4
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
+      13
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+      11
+     ],
+     [
+      "zan_proper_plantar_digital_arteries_r",
+      9
+     ],
+     [
+      "zan_proximal_phalanx_of_second_finger_of_foot_r",
+      2
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_l",
+      9
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_r",
+      9
+     ],
+     [
+      "zan_superficial_temporal_artery_l",
+      1
+     ],
+     [
+      "zan_supratrochlear_nodes_r",
+      3
+     ]
+    ],
+    [
+     [
+      "depressor_anguli_oris_l",
+      3
+     ],
+     [
+      "depressor_anguli_oris_r",
+      32
+     ],
+     [
+      "depressor_labii_inferioris_l",
+      2
+     ],
+     [
+      "depressor_labii_inferioris_r",
+      12
+     ],
+     [
+      "extensor_digitorum_longus_l",
+      2
+     ],
+     [
+      "fat_deep_abdomen",
+      5
+     ],
+     [
+      "fat_deep_thorax",
+      15
+     ],
+     [
+      "fat_deep_upper_arm_r",
+      7
+     ],
+     [
+      "gracilis_l",
+      3
+     ],
+     [
+      "orbicularis_oris_l",
+      13
+     ],
+     [
+      "orbicularis_oris_r",
+      12
+     ],
+     [
+      "zan_antebrachial_fascia_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_l",
+      1
+     ],
+     [
+      "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r",
+      2
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+      6
+     ],
+     [
+      "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+      4
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_l",
+      5
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l",
+      11
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r",
+      13
+     ],
+     [
+      "zan_articular_capsules_of_proximal_interphalangeal_joints_r",
+      6
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_l",
+      9
+     ],
+     [
+      "zan_collateral_interphalangeal_ligaments_of_foot_r",
+      8
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_first_finger_of_foot_l",
+      1
+     ],
+     [
+      "zan_distal_phalanx_of_third_finger_of_foot_l",
+      7
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_l",
+      13
+     ],
+     [
+      "zan_dorsal_digital_arteries_of_hand_r",
+      10
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_l",
+      15
+     ],
+     [
+      "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+      14
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_l",
+      2
+     ],
+     [
+      "zan_dorsal_digital_branches_of_radial_nerve_r",
+      2
+     ],
+     [
+      "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l",
+      9
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_l",
+      1
+     ],
+     [
+      "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+      5
+     ],
+     [
+      "zan_dorsal_digital_veins_of_foot_l",
+      11
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_l",
+      8
+     ],
+     [
+      "zan_dorsal_digital_veins_of_hand_r",
+      18
+     ],
+     [
+      "zan_inferior_alveolar_artery_r",
+      10
+     ],
+     [
+      "zan_inferior_labial_veins_l",
+      2
+     ],
+     [
+      "zan_mental_branch_of_inferior_alveolar_artery_r",
+      1
+     ],
+     [
+      "zan_middle_phalanx_of_second_finger_of_foot_r",
+      6
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_foot_l",
+      7
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_l",
+      2
+     ],
+     [
+      "zan_middle_phalanx_of_third_finger_of_hand_r",
+      2
+     ],
+     [
+      "zan_palmar_digital_veins_l",
+      1
+     ],
+     [
+      "zan_plantar_digital_veins_l",
+      10
+     ],
+     [
+      "zan_plantar_digital_veins_r",
+      10
+     ],
+     [
+      "zan_posterior_auricular_vein_l",
+      8
+     ],
+     [
+      "zan_posterior_auricular_vein_r",
+      8
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
+      8
+     ],
+     [
+      "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
+      5
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_l",
+      2
+     ],
+     [
+      "zan_proper_palmar_digital_arteries_r",
+      1
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_l",
+      5
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_median_nerve_r",
+      5
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
+      13
+     ],
+     [
+      "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+      11
+     ],
+     [
+      "zan_proper_plantar_digital_arteries_r",
+      9
+     ],
+     [
+      "zan_proximal_phalanx_of_second_finger_of_foot_r",
+      2
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_l",
+      9
+     ],
+     [
+      "zan_proximal_phalanx_of_third_finger_of_foot_r",
+      9
+     ],
+     [
+      "zan_superficial_temporal_artery_l",
+      1
+     ],
+     [
+      "zan_supratrochlear_nodes_r",
+      3
+     ]
+    ]
+   ],
+   "kept_round": 5,
+   "outside_sum_mm": 1454.4,
+   "held": {
+    "foot_l": [
+     {
+      "scale": 1.0,
+      "worse": [
+       "flexor_digitorum_brevis_l",
+       "flexor_digitorum_longus_l",
+       "zan_articular_capsules_of_distal_interphalangeal_joints_of_foot_l",
+       "zan_collateral_interphalangeal_ligaments_of_foot_l",
+       "zan_distal_phalanx_of_second_finger_of_foot_l",
+       "zan_distal_phalanx_of_third_finger_of_foot_l",
+       "zan_dorsal_digital_arteries_of_foot_l",
+       "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+       "zan_middle_phalanx_of_third_finger_of_foot_l",
+       "zan_plantar_interphalangeal_ligaments_l",
+       "zan_proper_plantar_digital_arteries_l",
+       "zan_proper_plantar_digital_branches_of_lateral_plantar_nerve_l",
+       "zan_proximal_phalanx_of_third_finger_of_foot_l",
+       "fat_deep_foot_l"
+      ],
+      "gain_mm": -149.7
+     },
+     {
+      "scale": 0.5,
+      "worse": [
+       "extensor_digitorum_longus_l",
+       "flexor_digitorum_brevis_l",
+       "flexor_digitorum_longus_l",
+       "zan_articular_capsules_of_distal_interphalangeal_joints_of_foot_l",
+       "zan_collateral_interphalangeal_ligaments_of_foot_l",
+       "zan_distal_phalanx_of_third_finger_of_foot_l",
+       "zan_dorsal_digital_arteries_of_foot_l",
+       "zan_middle_phalanx_of_second_finger_of_foot_l",
+       "zan_middle_phalanx_of_third_finger_of_foot_l",
+       "zan_proper_plantar_digital_arteries_l",
+       "zan_proper_plantar_digital_branches_of_lateral_plantar_nerve_l",
+       "zan_proximal_phalanx_of_third_finger_of_foot_l",
+       "fat_subcut_foot_l"
+      ],
+      "gain_mm": -94.22
+     },
+     {
+      "scale": 0.25,
+      "worse": [
+       "flexor_digitorum_brevis_l",
+       "flexor_digitorum_longus_l",
+       "zan_collateral_interphalangeal_ligaments_of_foot_l",
+       "zan_distal_phalanx_of_third_finger_of_foot_l",
+       "zan_dorsal_digital_arteries_of_foot_l",
+       "zan_proper_plantar_digital_arteries_l"
+      ],
+      "gain_mm": -53.7
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "foot_r": [
+     {
+      "scale": 1.0,
+      "worse": [
+       "flexor_digitorum_brevis_r",
+       "flexor_digitorum_longus_r",
+       "zan_articular_capsules_of_distal_interphalangeal_joints_of_foot_r",
+       "zan_dorsal_digital_arteries_of_foot_r",
+       "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+       "zan_proximal_phalanx_of_fourth_finger_of_foot_r",
+       "zan_proximal_phalanx_of_second_finger_of_foot_r",
+       "zan_proximal_phalanx_of_third_finger_of_foot_r",
+       "fat_subcut_foot_r"
+      ],
+      "gain_mm": 234.23
+     },
+     {
+      "scale": 0.5,
+      "worse": [
+       "flexor_digitorum_brevis_r",
+       "flexor_digitorum_longus_r",
+       "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+       "zan_proper_plantar_digital_arteries_r"
+      ],
+      "gain_mm": 99.51
+     },
+     {
+      "scale": 0.25,
+      "worse": [
+       "flexor_digitorum_brevis_r",
+       "flexor_digitorum_longus_r",
+       "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+       "zan_proper_plantar_digital_arteries_r"
+      ],
+      "gain_mm": 57.24
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "hand_l": [
+     {
+      "scale": 1.0,
+      "worse": [
+       "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+       "zan_palmar_digital_veins_l",
+       "zan_proper_palmar_digital_arteries_l",
+       "zan_collateral_interphalangeal_ligaments_of_hand_l"
+      ],
+      "gain_mm": 45.56
+     },
+     {
+      "scale": 0.5,
+      "worse": [
+       "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+       "zan_palmar_digital_veins_l",
+       "zan_collateral_interphalangeal_ligaments_of_hand_l"
+      ],
+      "gain_mm": 44.19
+     },
+     {
+      "scale": 0.25,
+      "worse": [
+       "zan_articular_capsules_of_distal_interphalangeal_joints_l"
+      ],
+      "gain_mm": 28.19
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "hand_r": [
+     {
+      "scale": 1.0,
+      "worse": [
+       "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+       "zan_dorsal_digital_branches_of_ulnar_nerve_r",
+       "zan_palmar_digital_veins_r",
+       "zan_proper_palmar_digital_branches_of_median_nerve_r",
+       "zan_collateral_interphalangeal_ligaments_of_hand_r"
+      ],
+      "gain_mm": 50.93
+     },
+     {
+      "scale": 0.5,
+      "worse": [
+       "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+       "zan_palmar_digital_veins_r",
+       "zan_collateral_interphalangeal_ligaments_of_hand_r"
+      ],
+      "gain_mm": 50.01
+     },
+     {
+      "scale": 0.25,
+      "worse": [
+       "zan_collateral_interphalangeal_ligaments_of_hand_r"
+      ],
+      "gain_mm": 35.17
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "mouth": [
+     {
+      "scale": 1.0,
+      "worse": [
+       "zan_inferior_labial_artery_r"
+      ],
+      "gain_mm": 340.77
+     },
+     {
+      "scale": 0.5,
+      "worse": [
+       "zan_inferior_labial_artery_r"
+      ],
+      "gain_mm": 107.07
+     },
+     {
+      "scale": 0.25,
+      "gain_mm": 49.85,
+      "gain_n": 9,
+      "within_tolerance": [
+       [
+        "maxilla_r",
+        [
+         14,
+         14.216328629521447
+        ],
+        [
+         12,
+         14.297554174456748
+        ]
+       ],
+       [
+        "orbicularis_oris_l",
+        [
+         37,
+         7.330638731156036
+        ],
+        [
+         34,
+         7.391539583835937
+        ]
+       ],
+       [
+        "zan_inferior_labial_artery_r",
+        [
+         4,
+         3.2065880090100483
+        ],
+        [
+         5,
+         3.2065880090100483
+        ]
+       ]
+      ]
+     },
+     {
+      "kept_scale": 0.25
+     }
+    ],
+    "skin_perineum_rule_q358": [
+     {
+      "scale": 1.0,
+      "worse": [],
+      "gain_mm": 1.98
+     },
+     {
+      "scale": 0.5,
+      "worse": [],
+      "gain_mm": 0.35
+     },
+     {
+      "scale": 0.25,
+      "worse": [],
+      "gain_mm": -0.23
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "skin_vulva_cvh": [
+     {
+      "scale": 1.0,
+      "worse": [
+       "zan_fascia_lata_l"
+      ],
+      "gain_mm": 5.65
+     },
+     {
+      "scale": 0.5,
+      "worse": [
+       "zan_fascia_lata_l"
+      ],
+      "gain_mm": -0.39
+     },
+     {
+      "scale": 0.25,
+      "worse": [
+       "zan_fascia_lata_l"
+      ],
+      "gain_mm": -1.76
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "zan_skin_anterior_region_of_arm_r": [
+     {
+      "scale": 1.0,
+      "gain_mm": 25.92,
+      "gain_n": 33,
+      "within_tolerance": []
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_anterior_region_of_elbow_l": [
+     {
+      "scale": 1.0,
+      "gain_mm": 12.0,
+      "gain_n": 11,
+      "within_tolerance": []
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_anterior_region_of_elbow_r": [
+     {
+      "scale": 1.0,
+      "gain_mm": 4.66,
+      "gain_n": 5,
+      "within_tolerance": [
+       [
+        "flexor_carpi_ulnaris_r",
+        [
+         1,
+         0.6996204173276845
+        ],
+        [
+         2,
+         1.1353573308117515
+        ]
+       ]
+      ]
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_auricular_region_l": [
+     {
+      "scale": 1.0,
+      "gain_mm": 8.04,
+      "gain_n": 8,
+      "within_tolerance": []
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_buccal_region_l": [
+     {
+      "scale": 1.0,
+      "gain_mm": 0.54,
+      "gain_n": 3,
+      "within_tolerance": []
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_buccal_region_r": [
+     {
+      "scale": 1.0,
+      "gain_mm": 2.48,
+      "gain_n": 3,
+      "within_tolerance": [
+       [
+        "soft_unlabelled_head",
+        [
+         25,
+         1.1081872078255703
+        ],
+        [
+         26,
+         1.1081872078255703
+        ]
+       ]
+      ]
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_lateral_region_of_thorax_r": [
+     {
+      "scale": 1.0,
+      "gain_mm": 14.63,
+      "gain_n": 18,
+      "within_tolerance": []
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_posterior_auricular_groove_l": [
+     {
+      "scale": 1.0,
+      "worse": [],
+      "gain_mm": -0.15
+     },
+     {
+      "scale": 0.5,
+      "worse": [],
+      "gain_mm": -0.07
+     },
+     {
+      "scale": 0.25,
+      "worse": [],
+      "gain_mm": -0.04
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "zan_skin_posterior_auricular_groove_r": [
+     {
+      "scale": 1.0,
+      "worse": [],
+      "gain_mm": -0.03
+     },
+     {
+      "scale": 0.5,
+      "worse": [],
+      "gain_mm": -0.02
+     },
+     {
+      "scale": 0.25,
+      "worse": [],
+      "gain_mm": -0.01
+     },
+     {
+      "kept_scale": 0.0
+     }
+    ],
+    "zan_skin_posterior_region_of_elbow_l": [
+     {
+      "scale": 1.0,
+      "gain_mm": 3.61,
+      "gain_n": 4,
+      "within_tolerance": []
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ],
+    "zan_skin_submandibular_triangle_r": [
+     {
+      "scale": 1.0,
+      "gain_mm": 3.4,
+      "gain_n": 6,
+      "within_tolerance": []
+     },
+     {
+      "kept_scale": 1.0
+     }
+    ]
+   }
+  }
+ },
+ "step1": {
+  "depressor_anguli_oris_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 299,
+   "before": {
+    "n": 6,
+    "max_mm": 0.466,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 252,
+   "max_mm": 2.84,
+   "p95_mm": 2.662,
+   "volume_change_pct": 6.013,
+   "volume_signed_pct": -6.013,
+   "area_change_pct": 4.974,
+   "after_outside": 0,
+   "reason": "volume change 6.01 %"
+  },
+  "depressor_anguli_oris_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 299,
+   "before": {
+    "n": 26,
+    "max_mm": 5.635,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 164,
+   "max_mm": 5.044,
+   "p95_mm": 4.191,
+   "volume_change_pct": 6.024,
+   "volume_signed_pct": -6.024,
+   "area_change_pct": 5.597,
+   "after_outside": 0,
+   "reason": "flipped 0.824 % of moved faces; volume change 6.02 %"
+  },
+  "depressor_labii_inferioris_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 418,
+   "before": {
+    "n": 2,
+    "max_mm": 1.491,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 40,
+   "max_mm": 2.413,
+   "p95_mm": 2.283,
+   "volume_change_pct": 1.506,
+   "volume_signed_pct": -1.506,
+   "area_change_pct": 0.23,
+   "after_outside": 0,
+   "reason": "flipped 2.222 % of moved faces"
+  },
+  "depressor_labii_inferioris_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 418,
+   "before": {
+    "n": 12,
+    "max_mm": 5.308,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 109,
+   "max_mm": 8.286,
+   "p95_mm": 7.507,
+   "volume_change_pct": 2.034,
+   "volume_signed_pct": 2.034,
+   "area_change_pct": 8.522,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 9.124 % of moved faces; volume change 2.03 %"
+  },
+  "extensor_digitorum_longus_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1833,
+   "before": {
+    "n": 2,
+    "max_mm": 1.829,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 107,
+   "max_mm": 6.462,
+   "p95_mm": 6.24,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.96,
+   "after_outside": 0,
+   "reason": "flipped 5.882 % of moved faces; area change 2.96 % (open mesh)"
+  },
+  "fat_deep_abdomen": {
+   "status": "NOT FIXED",
+   "mode": "shell",
+   "nv": 24119,
+   "before": {
+    "n": 26,
+    "max_mm": 2.307,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 85,
+   "max_mm": 5.881,
+   "p95_mm": 4.261,
+   "volume_change_pct": 0.011,
+   "volume_signed_pct": 0.011,
+   "area_change_pct": 0.079,
+   "after_outside": 0,
+   "reason": "flipped 3.352 % of moved faces"
+  },
+  "fat_deep_hand_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 144,
+   "before": {
+    "n": 1,
+    "max_mm": 0.04,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 12,
+   "max_mm": 2.992,
+   "p95_mm": 2.685,
+   "volume_change_pct": 3.766,
+   "volume_signed_pct": -3.766,
+   "area_change_pct": 1.334,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_deep_thorax": {
+   "status": "NOT FIXED",
+   "mode": "shell",
+   "nv": 13167,
+   "before": {
+    "n": 77,
+    "max_mm": 1.885,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 324,
+   "max_mm": 7.882,
+   "p95_mm": 4.511,
+   "volume_change_pct": 0.017,
+   "volume_signed_pct": -0.017,
+   "area_change_pct": 0.318,
+   "after_outside": 0,
+   "reason": "flipped 1.22 % of moved faces"
+  },
+  "fat_deep_upper_arm_r": {
+   "status": "NOT FIXED",
+   "mode": "shell",
+   "nv": 737,
+   "before": {
+    "n": 15,
+    "max_mm": 1.088,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 68,
+   "max_mm": 5.424,
+   "p95_mm": 3.824,
+   "volume_change_pct": 0.084,
+   "volume_signed_pct": -0.084,
+   "area_change_pct": 2.048,
+   "after_outside": 0,
+   "reason": "flipped 2.484 % of moved faces"
+  },
+  "fat_subcut_foot_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 1870,
+   "before": {
+    "n": 84,
+    "max_mm": 1.476,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 1061,
+   "max_mm": 11.192,
+   "p95_mm": 3.752,
+   "volume_change_pct": 17.279,
+   "volume_signed_pct": -17.279,
+   "area_change_pct": 5.863,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_foot_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2438,
+   "before": {
+    "n": 102,
+    "max_mm": 1.326,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 691,
+   "max_mm": 4.214,
+   "p95_mm": 3.775,
+   "volume_change_pct": 12.961,
+   "volume_signed_pct": -12.961,
+   "area_change_pct": 3.762,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_forearm_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2562,
+   "before": {
+    "n": 220,
+    "max_mm": 0.832,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 956,
+   "max_mm": 4.981,
+   "p95_mm": 3.473,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.978,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_forearm_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2099,
+   "before": {
+    "n": 174,
+    "max_mm": 0.67,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 671,
+   "max_mm": 4.811,
+   "p95_mm": 3.511,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.946,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_hand_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 1114,
+   "before": {
+    "n": 106,
+    "max_mm": 0.716,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 508,
+   "max_mm": 3.797,
+   "p95_mm": 3.325,
+   "volume_change_pct": 22.816,
+   "volume_signed_pct": -22.816,
+   "area_change_pct": 6.071,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_hand_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 910,
+   "before": {
+    "n": 73,
+    "max_mm": 1.182,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 289,
+   "max_mm": 3.757,
+   "p95_mm": 3.272,
+   "volume_change_pct": 18.731,
+   "volume_signed_pct": -18.731,
+   "area_change_pct": 3.663,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_head": {
+   "status": "PARTIAL",
+   "mode": "shell",
+   "nv": 1069,
+   "before": {
+    "n": 43,
+    "max_mm": 0.542,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 268,
+   "max_mm": 4.716,
+   "p95_mm": 3.162,
+   "volume_change_pct": 12.866,
+   "volume_signed_pct": -12.866,
+   "area_change_pct": 4.904,
+   "after_outside": 4,
+   "reason": "4 vertices still outside"
+  },
+  "fat_subcut_leg_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 6531,
+   "before": {
+    "n": 681,
+    "max_mm": 0.646,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 3057,
+   "max_mm": 4.645,
+   "p95_mm": 3.756,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 3.383,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_leg_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 6315,
+   "before": {
+    "n": 600,
+    "max_mm": 0.736,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 2811,
+   "max_mm": 4.637,
+   "p95_mm": 3.732,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 3.006,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_neck": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 6406,
+   "before": {
+    "n": 1,
+    "max_mm": 0.131,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 1,
+   "max_mm": 0.483,
+   "p95_mm": 0.483,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.0,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_pelvis": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 15671,
+   "before": {
+    "n": 1,
+    "max_mm": 0.003,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 6,
+   "max_mm": 3.141,
+   "p95_mm": 2.719,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.003,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_thigh_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 11067,
+   "before": {
+    "n": 1247,
+    "max_mm": 9.416,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 4322,
+   "max_mm": 13.449,
+   "p95_mm": 3.972,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.879,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_thigh_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 11308,
+   "before": {
+    "n": 1400,
+    "max_mm": 10.839,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 4574,
+   "max_mm": 18.641,
+   "p95_mm": 3.994,
+   "volume_change_pct": 11.026,
+   "volume_signed_pct": -11.026,
+   "area_change_pct": 0.957,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_thorax": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 8277,
+   "before": {
+    "n": 875,
+    "max_mm": 6.999,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 3422,
+   "max_mm": 10.249,
+   "p95_mm": 4.203,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.401,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_upper_arm_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2522,
+   "before": {
+    "n": 204,
+    "max_mm": 1.357,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 915,
+   "max_mm": 4.399,
+   "p95_mm": 3.279,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 3.436,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_subcut_upper_arm_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2180,
+   "before": {
+    "n": 193,
+    "max_mm": 2.547,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 789,
+   "max_mm": 6.0,
+   "p95_mm": 3.391,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.785,
+   "after_outside": 0,
+   "reason": null
+  },
+  "flexor_carpi_ulnaris_l": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 1791,
+   "before": {
+    "n": 2,
+    "max_mm": 2.746,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 100,
+   "max_mm": 2.112,
+   "p95_mm": 1.714,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.21,
+   "after_outside": 0,
+   "reason": null
+  },
+  "gracilis_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1800,
+   "before": {
+    "n": 3,
+    "max_mm": 1.816,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 254,
+   "max_mm": 2.798,
+   "p95_mm": 1.97,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.316,
+   "after_outside": 0,
+   "reason": "flipped 0.644 % of moved faces"
+  },
+  "gracilis_r": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 1800,
+   "before": {
+    "n": 1,
+    "max_mm": 1.887,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 88,
+   "max_mm": 2.546,
+   "p95_mm": 1.811,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.076,
+   "after_outside": 0,
+   "reason": null
+  },
+  "lesser_occipital_n_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 312,
+   "before": {
+    "n": 60,
+    "max_mm": 0.895,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 160,
+   "max_mm": 3.951,
+   "p95_mm": 3.825,
+   "volume_change_pct": 24.8,
+   "volume_signed_pct": -24.8,
+   "area_change_pct": 10.592,
+   "after_outside": 0,
+   "reason": "volume change 24.80 %"
+  },
+  "maxilla_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 2399,
+   "before": {
+    "n": 3,
+    "max_mm": 8.382,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "maxilla_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 2399,
+   "before": {
+    "n": 3,
+    "max_mm": 8.38,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "nasalis_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 352,
+   "before": {
+    "n": 3,
+    "max_mm": 0.175,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 16,
+   "max_mm": 0.631,
+   "p95_mm": 0.534,
+   "volume_change_pct": 1.189,
+   "volume_signed_pct": -1.189,
+   "area_change_pct": 0.114,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "nasalis_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 352,
+   "before": {
+    "n": 3,
+    "max_mm": 0.154,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 16,
+   "max_mm": 0.632,
+   "p95_mm": 0.535,
+   "volume_change_pct": 1.171,
+   "volume_signed_pct": -1.171,
+   "area_change_pct": 0.116,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "nuchal_ligament": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 326,
+   "before": {
+    "n": 2,
+    "max_mm": 1.002,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 30,
+   "max_mm": 4.097,
+   "p95_mm": 2.678,
+   "volume_change_pct": 2.421,
+   "volume_signed_pct": -2.421,
+   "area_change_pct": 2.162,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; volume change 2.42 %"
+  },
+  "orbicularis_oris_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 940,
+   "before": {
+    "n": 20,
+    "max_mm": 3.601,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 57,
+   "max_mm": 2.806,
+   "p95_mm": 2.287,
+   "volume_change_pct": 1.216,
+   "volume_signed_pct": -1.216,
+   "area_change_pct": 0.097,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 1.5 % of moved faces"
+  },
+  "orbicularis_oris_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 940,
+   "before": {
+    "n": 19,
+    "max_mm": 3.787,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 54,
+   "max_mm": 2.872,
+   "p95_mm": 2.55,
+   "volume_change_pct": 1.334,
+   "volume_signed_pct": -1.334,
+   "area_change_pct": 0.007,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 1.01 % of moved faces"
+  },
+  "saphenous_n_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 608,
+   "before": {
+    "n": 1,
+    "max_mm": 0.116,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 0,
+   "max_mm": 0.0,
+   "p95_mm": 0.0,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.0,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "soft_unlabelled_foot_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2863,
+   "before": {
+    "n": 43,
+    "max_mm": 0.988,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 251,
+   "max_mm": 3.861,
+   "p95_mm": 3.503,
+   "volume_change_pct": 3.983,
+   "volume_signed_pct": -3.983,
+   "area_change_pct": 1.307,
+   "after_outside": 0,
+   "reason": null
+  },
+  "soft_unlabelled_foot_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2336,
+   "before": {
+    "n": 43,
+    "max_mm": 4.653,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 253,
+   "max_mm": 4.425,
+   "p95_mm": 3.613,
+   "volume_change_pct": 6.104,
+   "volume_signed_pct": -6.104,
+   "area_change_pct": 1.697,
+   "after_outside": 0,
+   "reason": null
+  },
+  "soft_unlabelled_forearm_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 1605,
+   "before": {
+    "n": 74,
+    "max_mm": 0.495,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 330,
+   "max_mm": 3.705,
+   "p95_mm": 3.467,
+   "volume_change_pct": 9.536,
+   "volume_signed_pct": -9.536,
+   "area_change_pct": 1.826,
+   "after_outside": 0,
+   "reason": null
+  },
+  "soft_unlabelled_forearm_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 1794,
+   "before": {
+    "n": 68,
+    "max_mm": 0.619,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 350,
+   "max_mm": 3.741,
+   "p95_mm": 3.508,
+   "volume_change_pct": 10.587,
+   "volume_signed_pct": -10.587,
+   "area_change_pct": 1.425,
+   "after_outside": 0,
+   "reason": null
+  },
+  "soft_unlabelled_hand_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 182,
+   "before": {
+    "n": 3,
+    "max_mm": 0.173,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 34,
+   "max_mm": 3.308,
+   "p95_mm": 3.134,
+   "volume_change_pct": 8.802,
+   "volume_signed_pct": -8.802,
+   "area_change_pct": 2.916,
+   "after_outside": 0,
+   "reason": null
+  },
+  "soft_unlabelled_head": {
+   "status": "PARTIAL",
+   "mode": "shell",
+   "nv": 8677,
+   "before": {
+    "n": 100,
+    "max_mm": 4.152,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 443,
+   "max_mm": 4.977,
+   "p95_mm": 3.353,
+   "volume_change_pct": 1.473,
+   "volume_signed_pct": -1.473,
+   "area_change_pct": 0.442,
+   "after_outside": 15,
+   "reason": "15 vertices still outside"
+  },
+  "soft_unlabelled_thigh_l": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 9443,
+   "before": {
+    "n": 181,
+    "max_mm": 10.392,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 702,
+   "max_mm": 15.788,
+   "p95_mm": 6.194,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.373,
+   "after_outside": 0,
+   "reason": null
+  },
+  "soft_unlabelled_thigh_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 8535,
+   "before": {
+    "n": 165,
+    "max_mm": 13.823,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 2700,
+   "max_mm": 18.965,
+   "p95_mm": 4.372,
+   "volume_change_pct": 5.168,
+   "volume_signed_pct": -5.168,
+   "area_change_pct": 0.014,
+   "after_outside": 0,
+   "reason": null
+  },
+  "soft_unlabelled_upper_arm_r": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 2692,
+   "before": {
+    "n": 134,
+    "max_mm": 0.683,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 595,
+   "max_mm": 4.061,
+   "p95_mm": 3.447,
+   "volume_change_pct": 11.587,
+   "volume_signed_pct": -11.587,
+   "area_change_pct": 1.9,
+   "after_outside": 0,
+   "reason": null
+  },
+  "supraclavicular_n_r": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 372,
+   "before": {
+    "n": 3,
+    "max_mm": 0.142,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.05,
+   "moved": 221,
+   "max_mm": 3.47,
+   "p95_mm": 3.386,
+   "volume_change_pct": 1.573,
+   "volume_signed_pct": -1.573,
+   "area_change_pct": 0.161,
+   "after_outside": 0,
+   "reason": null
+  },
+  "trigeminal_n_v3_mental_branch_r": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 581,
+   "before": {
+    "n": 25,
+    "max_mm": 2.562,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.05,
+   "moved": 581,
+   "max_mm": 2.981,
+   "p95_mm": 2.882,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.467,
+   "after_outside": 0,
+   "reason": null
+  },
+  "ulnar_n_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 612,
+   "before": {
+    "n": 7,
+    "max_mm": 1.002,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 47,
+   "max_mm": 3.977,
+   "p95_mm": 3.698,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.337,
+   "after_outside": 0,
+   "reason": "flipped 13.235 % of moved faces"
+  },
+  "ulnar_n_r": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 612,
+   "before": {
+    "n": 2,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 31,
+   "max_mm": 1.002,
+   "p95_mm": 0.864,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.082,
+   "after_outside": 0,
+   "reason": null
+  },
+  "zan_antebrachial_fascia_l": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 1837,
+   "before": {
+    "n": 9,
+    "max_mm": 2.48,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 23,
+   "max_mm": 3.903,
+   "p95_mm": 3.523,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.151,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 216,
+   "before": {
+    "n": 1,
+    "max_mm": 0.034,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 21,
+   "max_mm": 1.196,
+   "p95_mm": 1.152,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.157,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 216,
+   "before": {
+    "n": 1,
+    "max_mm": 0.033,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 21,
+   "max_mm": 1.195,
+   "p95_mm": 1.151,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.157,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsules_of_distal_interphalangeal_joints_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 495,
+   "before": {
+    "n": 3,
+    "max_mm": 1.519,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 26,
+   "max_mm": 0.415,
+   "p95_mm": 0.393,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.215,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_articular_capsules_of_distal_interphalangeal_joints_r": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 495,
+   "before": {
+    "n": 2,
+    "max_mm": 0.914,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 144,
+   "max_mm": 1.721,
+   "p95_mm": 1.407,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.683,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.713,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 11,
+   "max_mm": 0.201,
+   "p95_mm": 0.185,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.03,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.927,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 129,
+   "max_mm": 5.512,
+   "p95_mm": 4.63,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 7.333,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; area change 7.33 % (open mesh)"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.999,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 291,
+   "max_mm": 7.795,
+   "p95_mm": 5.963,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 13.592,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; area change 13.59 % (open mesh)"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.713,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 12,
+   "max_mm": 0.199,
+   "p95_mm": 0.182,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.029,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_collateral_interphalangeal_ligaments_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 486,
+   "before": {
+    "n": 8,
+    "max_mm": 1.416,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 24,
+   "max_mm": 2.73,
+   "p95_mm": 2.127,
+   "volume_change_pct": 1.728,
+   "volume_signed_pct": -1.728,
+   "area_change_pct": 0.349,
+   "after_outside": 0,
+   "reason": "flipped 1.408 % of moved faces"
+  },
+  "zan_collateral_interphalangeal_ligaments_of_foot_r": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 486,
+   "before": {
+    "n": 16,
+    "max_mm": 1.441,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 177,
+   "max_mm": 2.771,
+   "p95_mm": 1.499,
+   "volume_change_pct": 1.623,
+   "volume_signed_pct": -1.623,
+   "area_change_pct": 0.661,
+   "after_outside": 2,
+   "reason": "2 vertices still outside"
+  },
+  "zan_crural_fascia_l": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 1889,
+   "before": {
+    "n": 12,
+    "max_mm": 1.533,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 136,
+   "max_mm": 5.111,
+   "p95_mm": 3.523,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.161,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_distal_phalanx_of_fifth_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 5,
+    "max_mm": 1.089,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_fifth_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 5,
+    "max_mm": 1.089,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_first_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 1,
+    "max_mm": 0.271,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_first_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 1,
+    "max_mm": 0.271,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_fourth_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 69,
+   "before": {
+    "n": 7,
+    "max_mm": 1.221,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_fourth_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 69,
+   "before": {
+    "n": 7,
+    "max_mm": 1.221,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 161,
+   "before": {
+    "n": 1,
+    "max_mm": 0.938,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_third_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 4,
+    "max_mm": 1.077,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_third_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 4,
+    "max_mm": 1.077,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_dorsal_digital_arteries_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1528,
+   "before": {
+    "n": 16,
+    "max_mm": 1.365,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 115,
+   "max_mm": 1.446,
+   "p95_mm": 1.254,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.399,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 2.99 % of moved faces"
+  },
+  "zan_dorsal_digital_arteries_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1528,
+   "before": {
+    "n": 21,
+    "max_mm": 1.363,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 412,
+   "max_mm": 2.529,
+   "p95_mm": 2.301,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 5.833,
+   "after_outside": 0,
+   "reason": "flipped 8.404 % of moved faces; area change 5.83 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_deep_fibular_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 624,
+   "before": {
+    "n": 25,
+    "max_mm": 0.317,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 93,
+   "max_mm": 2.585,
+   "p95_mm": 2.48,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.283,
+   "after_outside": 20,
+   "reason": "20 vertices still outside; flipped 6.695 % of moved faces"
+  },
+  "zan_dorsal_digital_branches_of_deep_fibular_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 623,
+   "before": {
+    "n": 22,
+    "max_mm": 1.289,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 64,
+   "max_mm": 2.328,
+   "p95_mm": 1.91,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.707,
+   "after_outside": 14,
+   "reason": "14 vertices still outside; flipped 3.623 % of moved faces"
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 617,
+   "before": {
+    "n": 12,
+    "max_mm": 1.567,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 48,
+   "max_mm": 3.93,
+   "p95_mm": 3.303,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.918,
+   "after_outside": 7,
+   "reason": "7 vertices still outside; flipped 16.667 % of moved faces; area change 2.92 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 617,
+   "before": {
+    "n": 13,
+    "max_mm": 1.476,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 39,
+   "max_mm": 3.587,
+   "p95_mm": 3.298,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.884,
+   "after_outside": 7,
+   "reason": "7 vertices still outside; flipped 11.966 % of moved faces; area change 4.88 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 640,
+   "before": {
+    "n": 15,
+    "max_mm": 1.714,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 115,
+   "max_mm": 4.043,
+   "p95_mm": 3.222,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.232,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 6.227 % of moved faces"
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 618,
+   "before": {
+    "n": 1,
+    "max_mm": 0.051,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 279,
+   "max_mm": 3.267,
+   "p95_mm": 2.884,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.193,
+   "after_outside": 0,
+   "reason": "flipped 3.834 % of moved faces; area change 4.19 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 618,
+   "before": {
+    "n": 3,
+    "max_mm": 0.653,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 468,
+   "max_mm": 5.192,
+   "p95_mm": 3.169,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 32.505,
+   "after_outside": 0,
+   "reason": "flipped 8.243 % of moved faces; area change 32.51 % (open mesh)"
+  },
+  "zan_dorsal_digital_veins_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 405,
+   "before": {
+    "n": 13,
+    "max_mm": 1.0,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 62,
+   "max_mm": 4.996,
+   "p95_mm": 4.423,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 6.634,
+   "after_outside": 0,
+   "reason": "flipped 4.965 % of moved faces; area change 6.63 % (open mesh)"
+  },
+  "zan_dorsal_digital_veins_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1560,
+   "before": {
+    "n": 21,
+    "max_mm": 1.22,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 786,
+   "max_mm": 4.123,
+   "p95_mm": 3.211,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.33,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 3.58 % of moved faces; area change 4.33 % (open mesh)"
+  },
+  "zan_dorsal_digital_veins_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1560,
+   "before": {
+    "n": 35,
+    "max_mm": 1.257,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 956,
+   "max_mm": 5.991,
+   "p95_mm": 3.667,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 23.465,
+   "after_outside": 9,
+   "reason": "9 vertices still outside; flipped 8.353 % of moved faces; area change 23.46 % (open mesh)"
+  },
+  "zan_dorsal_fascia_of_hand_l": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 819,
+   "before": {
+    "n": 6,
+    "max_mm": 1.279,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 35,
+   "max_mm": 4.164,
+   "p95_mm": 3.451,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.171,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_dorsal_fascia_of_hand_r": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 819,
+   "before": {
+    "n": 7,
+    "max_mm": 1.278,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 37,
+   "max_mm": 4.162,
+   "p95_mm": 3.39,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.234,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_great_saphenous_vein_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 385,
+   "before": {
+    "n": 12,
+    "max_mm": 1.373,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 27,
+   "max_mm": 5.135,
+   "p95_mm": 4.507,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.582,
+   "after_outside": 8,
+   "reason": "8 vertices still outside; flipped 9.195 % of moved faces"
+  },
+  "zan_great_saphenous_vein_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 385,
+   "before": {
+    "n": 4,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 26,
+   "max_mm": 5.136,
+   "p95_mm": 4.536,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.632,
+   "after_outside": 0,
+   "reason": "flipped 6.329 % of moved faces"
+  },
+  "zan_inferior_alveolar_artery_l": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 383,
+   "before": {
+    "n": 1,
+    "max_mm": 0.05,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 89,
+   "max_mm": 0.556,
+   "p95_mm": 0.454,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.079,
+   "after_outside": 0,
+   "reason": null
+  },
+  "zan_inferior_alveolar_artery_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 383,
+   "before": {
+    "n": 10,
+    "max_mm": 4.497,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 67,
+   "max_mm": 4.855,
+   "p95_mm": 4.662,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.462,
+   "after_outside": 3,
+   "reason": "3 vertices still outside; flipped 13.291 % of moved faces"
+  },
+  "zan_inferior_labial_veins_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 393,
+   "before": {
+    "n": 4,
+    "max_mm": 1.329,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 32,
+   "max_mm": 2.581,
+   "p95_mm": 2.254,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 3.979,
+   "after_outside": 0,
+   "reason": "flipped 2.174 % of moved faces; area change 3.98 % (open mesh)"
+  },
+  "zan_long_head_of_triceps_brachii_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1802,
+   "before": {
+    "n": 12,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 35,
+   "max_mm": 3.318,
+   "p95_mm": 3.169,
+   "volume_change_pct": 0.81,
+   "volume_signed_pct": -0.81,
+   "area_change_pct": 0.19,
+   "after_outside": 0,
+   "reason": "flipped 0.787 % of moved faces"
+  },
+  "zan_major_alar_cartilage_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 174,
+   "before": {
+    "n": 11,
+    "max_mm": 1.11,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_major_alar_cartilage_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 174,
+   "before": {
+    "n": 11,
+    "max_mm": 1.109,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_mental_branch_of_inferior_alveolar_artery_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 260,
+   "before": {
+    "n": 1,
+    "max_mm": 4.802,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 201,
+   "max_mm": 0.08,
+   "p95_mm": 0.06,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.021,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_middle_phalanx_of_second_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 193,
+   "before": {
+    "n": 2,
+    "max_mm": 0.718,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_middle_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 202,
+   "before": {
+    "n": 3,
+    "max_mm": 1.708,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_middle_phalanx_of_third_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 182,
+   "before": {
+    "n": 3,
+    "max_mm": 0.66,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_middle_phalanx_of_third_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 182,
+   "before": {
+    "n": 3,
+    "max_mm": 0.66,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_palmar_digital_veins_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 410,
+   "before": {
+    "n": 3,
+    "max_mm": 1.03,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 76,
+   "max_mm": 3.482,
+   "p95_mm": 3.453,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 6.233,
+   "after_outside": 0,
+   "reason": "flipped 13.684 % of moved faces; area change 6.23 % (open mesh)"
+  },
+  "zan_plantar_digital_veins_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 404,
+   "before": {
+    "n": 19,
+    "max_mm": 2.524,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 58,
+   "max_mm": 5.763,
+   "p95_mm": 5.087,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.231,
+   "after_outside": 0,
+   "reason": "flipped 5.634 % of moved faces"
+  },
+  "zan_plantar_digital_veins_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 404,
+   "before": {
+    "n": 19,
+    "max_mm": 2.524,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 70,
+   "max_mm": 5.764,
+   "p95_mm": 4.946,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.082,
+   "after_outside": 0,
+   "reason": "flipped 5.682 % of moved faces"
+  },
+  "zan_posterior_auricular_vein_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 384,
+   "before": {
+    "n": 8,
+    "max_mm": 1.287,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 61,
+   "max_mm": 1.358,
+   "p95_mm": 1.042,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.466,
+   "after_outside": 0,
+   "reason": "flipped 2.083 % of moved faces"
+  },
+  "zan_posterior_auricular_vein_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 384,
+   "before": {
+    "n": 8,
+    "max_mm": 1.287,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 61,
+   "max_mm": 1.361,
+   "p95_mm": 1.042,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.507,
+   "after_outside": 0,
+   "reason": "flipped 2.083 % of moved faces"
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 609,
+   "before": {
+    "n": 16,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 75,
+   "max_mm": 2.922,
+   "p95_mm": 2.496,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 15.013,
+   "after_outside": 0,
+   "reason": "flipped 3.867 % of moved faces; area change 15.01 % (open mesh)"
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 609,
+   "before": {
+    "n": 10,
+    "max_mm": 1.44,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 53,
+   "max_mm": 2.668,
+   "p95_mm": 2.299,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 9.944,
+   "after_outside": 0,
+   "reason": "flipped 4.58 % of moved faces; area change 9.94 % (open mesh)"
+  },
+  "zan_proper_palmar_digital_arteries_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 412,
+   "before": {
+    "n": 8,
+    "max_mm": 0.999,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 96,
+   "max_mm": 4.124,
+   "p95_mm": 3.24,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 3.26,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 6.926 % of moved faces; area change 3.26 % (open mesh)"
+  },
+  "zan_proper_palmar_digital_arteries_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 412,
+   "before": {
+    "n": 8,
+    "max_mm": 1.009,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 73,
+   "max_mm": 3.604,
+   "p95_mm": 2.787,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.105,
+   "after_outside": 0,
+   "reason": "flipped 5.422 % of moved faces"
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 621,
+   "before": {
+    "n": 9,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 50,
+   "max_mm": 3.905,
+   "p95_mm": 2.309,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.553,
+   "after_outside": 0,
+   "reason": "flipped 7.602 % of moved faces"
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 621,
+   "before": {
+    "n": 13,
+    "max_mm": 0.998,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 233,
+   "max_mm": 3.29,
+   "p95_mm": 2.621,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.071,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 3.968 % of moved faces; area change 4.07 % (open mesh)"
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 617,
+   "before": {
+    "n": 15,
+    "max_mm": 1.82,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 74,
+   "max_mm": 2.774,
+   "p95_mm": 1.246,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.976,
+   "after_outside": 4,
+   "reason": "4 vertices still outside; flipped 10.092 % of moved faces"
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 616,
+   "before": {
+    "n": 15,
+    "max_mm": 1.821,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 335,
+   "max_mm": 3.152,
+   "p95_mm": 2.418,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 6.634,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 5.159 % of moved faces; area change 6.63 % (open mesh)"
+  },
+  "zan_proper_plantar_digital_arteries_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 400,
+   "before": {
+    "n": 9,
+    "max_mm": 1.731,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 18,
+   "max_mm": 1.923,
+   "p95_mm": 1.823,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.619,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 7.246 % of moved faces"
+  },
+  "zan_proper_plantar_digital_branches_of_lateral_plantar_nerve_l": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 631,
+   "before": {
+    "n": 3,
+    "max_mm": 3.459,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 95,
+   "max_mm": 0.993,
+   "p95_mm": 0.81,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.169,
+   "after_outside": 0,
+   "reason": null
+  },
+  "zan_proximal_phalanx_of_first_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 268,
+   "before": {
+    "n": 1,
+    "max_mm": 0.095,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_first_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 268,
+   "before": {
+    "n": 1,
+    "max_mm": 0.095,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_second_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 215,
+   "before": {
+    "n": 4,
+    "max_mm": 0.739,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 232,
+   "before": {
+    "n": 1,
+    "max_mm": 1.696,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_third_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 232,
+   "before": {
+    "n": 1,
+    "max_mm": 1.696,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_subcutaneous_bursa_of_medial_malleolus_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 330,
+   "before": {
+    "n": 1,
+    "max_mm": 0.045,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 42,
+   "max_mm": 1.371,
+   "p95_mm": 1.096,
+   "volume_change_pct": 7.869,
+   "volume_signed_pct": 7.869,
+   "area_change_pct": 0.18,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; volume change 7.87 %"
+  },
+  "zan_subcutaneous_bursa_of_medial_malleolus_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 330,
+   "before": {
+    "n": 1,
+    "max_mm": 0.046,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 42,
+   "max_mm": 1.371,
+   "p95_mm": 1.104,
+   "volume_change_pct": 7.861,
+   "volume_signed_pct": 7.861,
+   "area_change_pct": 0.186,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; volume change 7.86 %"
+  },
+  "zan_superficial_temporal_artery_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 416,
+   "before": {
+    "n": 5,
+    "max_mm": 1.394,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 18,
+   "max_mm": 3.447,
+   "p95_mm": 3.255,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.964,
+   "after_outside": 0,
+   "reason": "flipped 7.692 % of moved faces; area change 2.96 % (open mesh)"
+  },
+  "zan_supratrochlear_nodes_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 5,
+    "max_mm": 1.0,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 37,
+   "max_mm": 2.321,
+   "p95_mm": 2.104,
+   "volume_change_pct": 12.615,
+   "volume_signed_pct": -12.615,
+   "area_change_pct": 7.265,
+   "after_outside": 0,
+   "reason": "volume change 12.62 %"
+  },
+  "zan_supratrochlear_nodes_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 6,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 173,
+   "max_mm": 1.882,
+   "p95_mm": 1.146,
+   "volume_change_pct": 15.897,
+   "volume_signed_pct": -15.897,
+   "area_change_pct": 10.255,
+   "after_outside": 0,
+   "reason": "volume change 15.90 %"
+  }
+ },
+ "step3": {
+  "depressor_anguli_oris_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 299,
+   "before": {
+    "n": 6,
+    "max_mm": 0.466,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 252,
+   "max_mm": 2.84,
+   "p95_mm": 2.662,
+   "volume_change_pct": 6.013,
+   "volume_signed_pct": -6.013,
+   "area_change_pct": 4.974,
+   "after_outside": 0,
+   "reason": "volume change 6.01 %"
+  },
+  "depressor_anguli_oris_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 299,
+   "before": {
+    "n": 32,
+    "max_mm": 5.635,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 159,
+   "max_mm": 5.608,
+   "p95_mm": 4.212,
+   "volume_change_pct": 6.247,
+   "volume_signed_pct": -6.247,
+   "area_change_pct": 4.896,
+   "after_outside": 0,
+   "reason": "volume change 6.25 %"
+  },
+  "depressor_labii_inferioris_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 418,
+   "before": {
+    "n": 2,
+    "max_mm": 1.491,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 40,
+   "max_mm": 2.413,
+   "p95_mm": 2.283,
+   "volume_change_pct": 1.506,
+   "volume_signed_pct": -1.506,
+   "area_change_pct": 0.23,
+   "after_outside": 0,
+   "reason": "flipped 2.222 % of moved faces"
+  },
+  "depressor_labii_inferioris_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 418,
+   "before": {
+    "n": 12,
+    "max_mm": 5.308,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 405,
+   "max_mm": 13.712,
+   "p95_mm": 11.562,
+   "volume_change_pct": 0.329,
+   "volume_signed_pct": -0.329,
+   "area_change_pct": 32.523,
+   "after_outside": 0,
+   "reason": "move 13.71 mm > cap 12; flipped 5.918 % of moved faces"
+  },
+  "extensor_digitorum_longus_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1833,
+   "before": {
+    "n": 2,
+    "max_mm": 1.829,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 107,
+   "max_mm": 6.462,
+   "p95_mm": 6.24,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.96,
+   "after_outside": 0,
+   "reason": "flipped 5.882 % of moved faces; area change 2.96 % (open mesh)"
+  },
+  "fat_deep_abdomen": {
+   "status": "NOT FIXED",
+   "mode": "shell",
+   "nv": 24119,
+   "before": {
+    "n": 23,
+    "max_mm": 2.307,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 94,
+   "max_mm": 5.88,
+   "p95_mm": 4.319,
+   "volume_change_pct": 0.029,
+   "volume_signed_pct": -0.029,
+   "area_change_pct": 0.042,
+   "after_outside": 0,
+   "reason": "flipped 2.717 % of moved faces"
+  },
+  "fat_deep_thorax": {
+   "status": "FIXED",
+   "mode": "shell",
+   "nv": 13167,
+   "before": {
+    "n": 50,
+    "max_mm": 1.885,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 213,
+   "max_mm": 4.988,
+   "p95_mm": 4.085,
+   "volume_change_pct": 0.074,
+   "volume_signed_pct": -0.074,
+   "area_change_pct": 0.081,
+   "after_outside": 0,
+   "reason": null
+  },
+  "fat_deep_upper_arm_r": {
+   "status": "NOT FIXED",
+   "mode": "shell",
+   "nv": 737,
+   "before": {
+    "n": 7,
+    "max_mm": 0.654,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 140,
+   "max_mm": 3.917,
+   "p95_mm": 3.386,
+   "volume_change_pct": 0.45,
+   "volume_signed_pct": -0.45,
+   "area_change_pct": 1.796,
+   "after_outside": 0,
+   "reason": "flipped 1.439 % of moved faces"
+  },
+  "fat_subcut_head": {
+   "status": "clean",
+   "mode": "shell",
+   "nv": 1069,
+   "before": {
+    "n": 0,
+    "max_mm": 0.0,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": null
+  },
+  "gracilis_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1800,
+   "before": {
+    "n": 3,
+    "max_mm": 1.816,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 254,
+   "max_mm": 2.798,
+   "p95_mm": 1.97,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.316,
+   "after_outside": 0,
+   "reason": "flipped 0.644 % of moved faces"
+  },
+  "lesser_occipital_n_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 312,
+   "before": {
+    "n": 60,
+    "max_mm": 0.895,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 160,
+   "max_mm": 3.951,
+   "p95_mm": 3.825,
+   "volume_change_pct": 24.8,
+   "volume_signed_pct": -24.8,
+   "area_change_pct": 10.592,
+   "after_outside": 0,
+   "reason": "volume change 24.80 %"
+  },
+  "nasalis_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 352,
+   "before": {
+    "n": 3,
+    "max_mm": 0.175,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 16,
+   "max_mm": 0.631,
+   "p95_mm": 0.534,
+   "volume_change_pct": 1.189,
+   "volume_signed_pct": -1.189,
+   "area_change_pct": 0.114,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "nasalis_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 352,
+   "before": {
+    "n": 3,
+    "max_mm": 0.154,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 16,
+   "max_mm": 0.632,
+   "p95_mm": 0.535,
+   "volume_change_pct": 1.171,
+   "volume_signed_pct": -1.171,
+   "area_change_pct": 0.116,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "nuchal_ligament": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 326,
+   "before": {
+    "n": 2,
+    "max_mm": 1.002,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 30,
+   "max_mm": 4.097,
+   "p95_mm": 2.678,
+   "volume_change_pct": 2.421,
+   "volume_signed_pct": -2.421,
+   "area_change_pct": 2.162,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; volume change 2.42 %"
+  },
+  "orbicularis_oris_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 940,
+   "before": {
+    "n": 16,
+    "max_mm": 3.599,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 618,
+   "max_mm": 2.368,
+   "p95_mm": 1.577,
+   "volume_change_pct": 3.762,
+   "volume_signed_pct": -3.762,
+   "area_change_pct": 0.577,
+   "after_outside": 3,
+   "reason": "3 vertices still outside; volume change 3.76 %"
+  },
+  "orbicularis_oris_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 940,
+   "before": {
+    "n": 16,
+    "max_mm": 3.75,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 45,
+   "max_mm": 2.614,
+   "p95_mm": 2.402,
+   "volume_change_pct": 0.942,
+   "volume_signed_pct": -0.942,
+   "area_change_pct": 0.031,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 1.205 % of moved faces"
+  },
+  "saphenous_n_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 608,
+   "before": {
+    "n": 1,
+    "max_mm": 0.116,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 0,
+   "max_mm": 0.0,
+   "p95_mm": 0.0,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.0,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "soft_unlabelled_head": {
+   "status": "NOT FIXED",
+   "mode": "shell",
+   "nv": 8677,
+   "before": {
+    "n": 13,
+    "max_mm": 0.53,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 30,
+   "max_mm": 1.289,
+   "p95_mm": 1.17,
+   "volume_change_pct": 0.033,
+   "volume_signed_pct": -0.033,
+   "area_change_pct": 0.021,
+   "after_outside": 13,
+   "reason": "13 vertices still outside"
+  },
+  "ulnar_n_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 612,
+   "before": {
+    "n": 5,
+    "max_mm": 1.002,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 37,
+   "max_mm": 3.977,
+   "p95_mm": 3.718,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.712,
+   "after_outside": 0,
+   "reason": "flipped 13.402 % of moved faces"
+  },
+  "zan_antebrachial_fascia_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1837,
+   "before": {
+    "n": 1,
+    "max_mm": 2.325,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 0,
+   "max_mm": 0.0,
+   "p95_mm": 0.0,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.0,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 216,
+   "before": {
+    "n": 1,
+    "max_mm": 0.034,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 21,
+   "max_mm": 1.196,
+   "p95_mm": 1.152,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.157,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 216,
+   "before": {
+    "n": 1,
+    "max_mm": 0.033,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 21,
+   "max_mm": 1.195,
+   "p95_mm": 1.151,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.157,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsules_of_distal_interphalangeal_joints_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 495,
+   "before": {
+    "n": 3,
+    "max_mm": 1.519,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 26,
+   "max_mm": 0.415,
+   "p95_mm": 0.393,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.215,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_articular_capsules_of_distal_interphalangeal_joints_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 495,
+   "before": {
+    "n": 1,
+    "max_mm": 0.824,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 12,
+   "max_mm": 0.33,
+   "p95_mm": 0.323,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.015,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.713,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 11,
+   "max_mm": 0.201,
+   "p95_mm": 0.185,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.03,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.927,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 129,
+   "max_mm": 5.512,
+   "p95_mm": 4.63,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 7.333,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; area change 7.33 % (open mesh)"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.999,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 291,
+   "max_mm": 7.795,
+   "p95_mm": 5.963,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 13.592,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; area change 13.59 % (open mesh)"
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 490,
+   "before": {
+    "n": 3,
+    "max_mm": 1.713,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 12,
+   "max_mm": 0.199,
+   "p95_mm": 0.182,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.029,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_collateral_interphalangeal_ligaments_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 486,
+   "before": {
+    "n": 8,
+    "max_mm": 1.416,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 24,
+   "max_mm": 2.73,
+   "p95_mm": 2.127,
+   "volume_change_pct": 1.728,
+   "volume_signed_pct": -1.728,
+   "area_change_pct": 0.349,
+   "after_outside": 0,
+   "reason": "flipped 1.408 % of moved faces"
+  },
+  "zan_collateral_interphalangeal_ligaments_of_foot_r": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 486,
+   "before": {
+    "n": 2,
+    "max_mm": 0.669,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 25,
+   "max_mm": 0.271,
+   "p95_mm": 0.236,
+   "volume_change_pct": 0.217,
+   "volume_signed_pct": -0.217,
+   "area_change_pct": 0.077,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_crural_fascia_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1889,
+   "before": {
+    "n": 1,
+    "max_mm": 0.565,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 7,
+   "max_mm": 1.714,
+   "p95_mm": 1.394,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.0,
+   "after_outside": 1,
+   "reason": "1 vertices still outside"
+  },
+  "zan_dorsal_digital_arteries_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1528,
+   "before": {
+    "n": 16,
+    "max_mm": 1.365,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 115,
+   "max_mm": 1.446,
+   "p95_mm": 1.254,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.399,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 2.99 % of moved faces"
+  },
+  "zan_dorsal_digital_arteries_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1528,
+   "before": {
+    "n": 21,
+    "max_mm": 1.363,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 412,
+   "max_mm": 2.529,
+   "p95_mm": 2.301,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 5.833,
+   "after_outside": 0,
+   "reason": "flipped 8.404 % of moved faces; area change 5.83 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_deep_fibular_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 624,
+   "before": {
+    "n": 25,
+    "max_mm": 0.317,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 93,
+   "max_mm": 2.585,
+   "p95_mm": 2.48,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.283,
+   "after_outside": 20,
+   "reason": "20 vertices still outside; flipped 6.695 % of moved faces"
+  },
+  "zan_dorsal_digital_branches_of_deep_fibular_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 623,
+   "before": {
+    "n": 22,
+    "max_mm": 1.289,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 64,
+   "max_mm": 2.328,
+   "p95_mm": 1.91,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.707,
+   "after_outside": 14,
+   "reason": "14 vertices still outside; flipped 3.623 % of moved faces"
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 617,
+   "before": {
+    "n": 12,
+    "max_mm": 1.567,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 48,
+   "max_mm": 3.93,
+   "p95_mm": 3.303,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.918,
+   "after_outside": 7,
+   "reason": "7 vertices still outside; flipped 16.667 % of moved faces; area change 2.92 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 617,
+   "before": {
+    "n": 13,
+    "max_mm": 1.476,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 39,
+   "max_mm": 3.587,
+   "p95_mm": 3.298,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.884,
+   "after_outside": 7,
+   "reason": "7 vertices still outside; flipped 11.966 % of moved faces; area change 4.88 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 640,
+   "before": {
+    "n": 15,
+    "max_mm": 1.714,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 115,
+   "max_mm": 4.043,
+   "p95_mm": 3.222,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.232,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 6.227 % of moved faces"
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 618,
+   "before": {
+    "n": 1,
+    "max_mm": 0.051,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 279,
+   "max_mm": 3.267,
+   "p95_mm": 2.884,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.193,
+   "after_outside": 0,
+   "reason": "flipped 3.834 % of moved faces; area change 4.19 % (open mesh)"
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 618,
+   "before": {
+    "n": 3,
+    "max_mm": 0.653,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 468,
+   "max_mm": 5.192,
+   "p95_mm": 3.169,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 32.505,
+   "after_outside": 0,
+   "reason": "flipped 8.243 % of moved faces; area change 32.51 % (open mesh)"
+  },
+  "zan_dorsal_digital_veins_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 405,
+   "before": {
+    "n": 13,
+    "max_mm": 1.0,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 62,
+   "max_mm": 4.996,
+   "p95_mm": 4.423,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 6.634,
+   "after_outside": 0,
+   "reason": "flipped 4.965 % of moved faces; area change 6.63 % (open mesh)"
+  },
+  "zan_dorsal_digital_veins_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1560,
+   "before": {
+    "n": 21,
+    "max_mm": 1.22,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 786,
+   "max_mm": 4.123,
+   "p95_mm": 3.211,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.33,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 3.58 % of moved faces; area change 4.33 % (open mesh)"
+  },
+  "zan_dorsal_digital_veins_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1560,
+   "before": {
+    "n": 35,
+    "max_mm": 1.257,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 956,
+   "max_mm": 5.991,
+   "p95_mm": 3.667,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 23.465,
+   "after_outside": 9,
+   "reason": "9 vertices still outside; flipped 8.353 % of moved faces; area change 23.46 % (open mesh)"
+  },
+  "zan_dorsal_fascia_of_hand_l": {
+   "status": "PARTIAL",
+   "mode": "solid",
+   "nv": 819,
+   "before": {
+    "n": 3,
+    "max_mm": 1.279,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 130,
+   "max_mm": 3.535,
+   "p95_mm": 2.214,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.155,
+   "after_outside": 2,
+   "reason": "2 vertices still outside"
+  },
+  "zan_dorsal_fascia_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 819,
+   "before": {
+    "n": 3,
+    "max_mm": 1.278,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 16,
+   "max_mm": 1.337,
+   "p95_mm": 1.316,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.053,
+   "after_outside": 3,
+   "reason": "3 vertices still outside"
+  },
+  "zan_great_saphenous_vein_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 385,
+   "before": {
+    "n": 12,
+    "max_mm": 1.373,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 27,
+   "max_mm": 5.135,
+   "p95_mm": 4.507,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.582,
+   "after_outside": 8,
+   "reason": "8 vertices still outside; flipped 9.195 % of moved faces"
+  },
+  "zan_great_saphenous_vein_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 385,
+   "before": {
+    "n": 4,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 26,
+   "max_mm": 5.136,
+   "p95_mm": 4.536,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.632,
+   "after_outside": 0,
+   "reason": "flipped 6.329 % of moved faces"
+  },
+  "zan_inferior_alveolar_artery_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 383,
+   "before": {
+    "n": 10,
+    "max_mm": 4.497,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 75,
+   "max_mm": 7.072,
+   "p95_mm": 6.191,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.131,
+   "after_outside": 0,
+   "reason": "flipped 17.16 % of moved faces; area change 2.13 % (open mesh)"
+  },
+  "zan_inferior_labial_veins_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 393,
+   "before": {
+    "n": 4,
+    "max_mm": 1.329,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 32,
+   "max_mm": 2.581,
+   "p95_mm": 2.254,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 3.979,
+   "after_outside": 0,
+   "reason": "flipped 2.174 % of moved faces; area change 3.98 % (open mesh)"
+  },
+  "zan_long_head_of_triceps_brachii_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 1802,
+   "before": {
+    "n": 12,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 35,
+   "max_mm": 3.318,
+   "p95_mm": 3.169,
+   "volume_change_pct": 0.81,
+   "volume_signed_pct": -0.81,
+   "area_change_pct": 0.19,
+   "after_outside": 0,
+   "reason": "flipped 0.787 % of moved faces"
+  },
+  "zan_mental_branch_of_inferior_alveolar_artery_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 260,
+   "before": {
+    "n": 1,
+    "max_mm": 4.802,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.05,
+   "moved": 198,
+   "max_mm": 1.312,
+   "p95_mm": 0.814,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 20.488,
+   "after_outside": 0,
+   "reason": "area change 20.49 % (open mesh)"
+  },
+  "zan_palmar_digital_veins_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 410,
+   "before": {
+    "n": 3,
+    "max_mm": 1.03,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 76,
+   "max_mm": 3.482,
+   "p95_mm": 3.453,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 6.233,
+   "after_outside": 0,
+   "reason": "flipped 13.684 % of moved faces; area change 6.23 % (open mesh)"
+  },
+  "zan_plantar_digital_veins_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 404,
+   "before": {
+    "n": 19,
+    "max_mm": 2.524,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 58,
+   "max_mm": 5.763,
+   "p95_mm": 5.087,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.231,
+   "after_outside": 0,
+   "reason": "flipped 5.634 % of moved faces"
+  },
+  "zan_plantar_digital_veins_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 404,
+   "before": {
+    "n": 19,
+    "max_mm": 2.524,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 70,
+   "max_mm": 5.764,
+   "p95_mm": 4.946,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.082,
+   "after_outside": 0,
+   "reason": "flipped 5.682 % of moved faces"
+  },
+  "zan_posterior_auricular_vein_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 384,
+   "before": {
+    "n": 8,
+    "max_mm": 1.287,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 61,
+   "max_mm": 1.358,
+   "p95_mm": 1.042,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.495,
+   "after_outside": 0,
+   "reason": "flipped 2.083 % of moved faces"
+  },
+  "zan_posterior_auricular_vein_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 384,
+   "before": {
+    "n": 8,
+    "max_mm": 1.287,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 61,
+   "max_mm": 1.361,
+   "p95_mm": 1.042,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.507,
+   "after_outside": 0,
+   "reason": "flipped 2.083 % of moved faces"
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": {
+   "status": "FIXED",
+   "mode": "solid",
+   "nv": 609,
+   "before": {
+    "n": 8,
+    "max_mm": 0.961,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.05,
+   "moved": 142,
+   "max_mm": 1.691,
+   "p95_mm": 1.496,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.968,
+   "after_outside": 0,
+   "reason": null
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 609,
+   "before": {
+    "n": 6,
+    "max_mm": 1.439,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 28,
+   "max_mm": 2.668,
+   "p95_mm": 1.479,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 6.957,
+   "after_outside": 0,
+   "reason": "flipped 2.299 % of moved faces; area change 6.96 % (open mesh)"
+  },
+  "zan_proper_palmar_digital_arteries_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 412,
+   "before": {
+    "n": 8,
+    "max_mm": 0.999,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 96,
+   "max_mm": 4.124,
+   "p95_mm": 3.24,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 3.26,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 6.926 % of moved faces; area change 3.26 % (open mesh)"
+  },
+  "zan_proper_palmar_digital_arteries_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 412,
+   "before": {
+    "n": 8,
+    "max_mm": 1.009,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 73,
+   "max_mm": 3.604,
+   "p95_mm": 2.787,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 0.105,
+   "after_outside": 0,
+   "reason": "flipped 5.422 % of moved faces"
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 621,
+   "before": {
+    "n": 9,
+    "max_mm": 1.001,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 50,
+   "max_mm": 3.905,
+   "p95_mm": 2.309,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.553,
+   "after_outside": 0,
+   "reason": "flipped 7.602 % of moved faces"
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 621,
+   "before": {
+    "n": 13,
+    "max_mm": 0.998,
+    "in_slab": 0
+   },
+   "kind": "translate",
+   "slope": 0.1,
+   "moved": 233,
+   "max_mm": 3.29,
+   "p95_mm": 2.621,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 4.071,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 3.968 % of moved faces; area change 4.07 % (open mesh)"
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 617,
+   "before": {
+    "n": 15,
+    "max_mm": 1.82,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 74,
+   "max_mm": 2.774,
+   "p95_mm": 1.246,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.976,
+   "after_outside": 4,
+   "reason": "4 vertices still outside; flipped 10.092 % of moved faces"
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 616,
+   "before": {
+    "n": 15,
+    "max_mm": 1.821,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.15,
+   "moved": 335,
+   "max_mm": 3.152,
+   "p95_mm": 2.418,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 6.634,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; flipped 5.159 % of moved faces; area change 6.63 % (open mesh)"
+  },
+  "zan_proper_plantar_digital_arteries_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 400,
+   "before": {
+    "n": 9,
+    "max_mm": 1.731,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.3,
+   "moved": 18,
+   "max_mm": 1.923,
+   "p95_mm": 1.823,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 1.619,
+   "after_outside": 2,
+   "reason": "2 vertices still outside; flipped 7.246 % of moved faces"
+  },
+  "zan_subcutaneous_bursa_of_medial_malleolus_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 330,
+   "before": {
+    "n": 1,
+    "max_mm": 0.045,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 42,
+   "max_mm": 1.371,
+   "p95_mm": 1.096,
+   "volume_change_pct": 7.869,
+   "volume_signed_pct": 7.869,
+   "area_change_pct": 0.18,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; volume change 7.87 %"
+  },
+  "zan_subcutaneous_bursa_of_medial_malleolus_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 330,
+   "before": {
+    "n": 1,
+    "max_mm": 0.046,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 42,
+   "max_mm": 1.371,
+   "p95_mm": 1.104,
+   "volume_change_pct": 7.861,
+   "volume_signed_pct": 7.861,
+   "area_change_pct": 0.186,
+   "after_outside": 1,
+   "reason": "1 vertices still outside; volume change 7.86 %"
+  },
+  "zan_superficial_temporal_artery_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 416,
+   "before": {
+    "n": 3,
+    "max_mm": 0.46,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 15,
+   "max_mm": 3.098,
+   "p95_mm": 2.116,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": 2.015,
+   "after_outside": 0,
+   "reason": "flipped 8.108 % of moved faces; area change 2.01 % (open mesh)"
+  },
+  "zan_supratrochlear_nodes_l": {
+   "status": "clean",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 0,
+    "max_mm": 0.0,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": null
+  },
+  "zan_supratrochlear_nodes_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 3,
+    "max_mm": 0.577,
+    "in_slab": 0
+   },
+   "kind": "remap",
+   "slope": 0.5,
+   "moved": 6,
+   "max_mm": 0.773,
+   "p95_mm": 0.765,
+   "volume_change_pct": 3.077,
+   "volume_signed_pct": -3.077,
+   "area_change_pct": 2.694,
+   "after_outside": 0,
+   "reason": "volume change 3.08 %"
+  },
+  "maxilla_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 2399,
+   "before": {
+    "n": 3,
+    "max_mm": 8.414,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "maxilla_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 2399,
+   "before": {
+    "n": 3,
+    "max_mm": 8.416,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_fifth_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 5,
+    "max_mm": 1.089,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_fifth_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 5,
+    "max_mm": 1.089,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_first_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 1,
+    "max_mm": 0.271,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_first_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 235,
+   "before": {
+    "n": 1,
+    "max_mm": 0.271,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_fourth_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 69,
+   "before": {
+    "n": 7,
+    "max_mm": 1.221,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_fourth_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 69,
+   "before": {
+    "n": 7,
+    "max_mm": 1.221,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 161,
+   "before": {
+    "n": 1,
+    "max_mm": 0.938,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_third_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 4,
+    "max_mm": 1.077,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_distal_phalanx_of_third_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 98,
+   "before": {
+    "n": 4,
+    "max_mm": 1.077,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_major_alar_cartilage_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 174,
+   "before": {
+    "n": 11,
+    "max_mm": 1.11,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_major_alar_cartilage_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 174,
+   "before": {
+    "n": 11,
+    "max_mm": 1.109,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_middle_phalanx_of_second_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 193,
+   "before": {
+    "n": 2,
+    "max_mm": 0.718,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_middle_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 202,
+   "before": {
+    "n": 3,
+    "max_mm": 1.708,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_middle_phalanx_of_third_finger_of_hand_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 182,
+   "before": {
+    "n": 3,
+    "max_mm": 0.66,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_middle_phalanx_of_third_finger_of_hand_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 182,
+   "before": {
+    "n": 3,
+    "max_mm": 0.66,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_first_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 268,
+   "before": {
+    "n": 1,
+    "max_mm": 0.095,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_first_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 268,
+   "before": {
+    "n": 1,
+    "max_mm": 0.095,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_second_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 215,
+   "before": {
+    "n": 4,
+    "max_mm": 0.739,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_third_finger_of_foot_l": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 232,
+   "before": {
+    "n": 1,
+    "max_mm": 1.696,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  },
+  "zan_proximal_phalanx_of_third_finger_of_foot_r": {
+   "status": "NOT FIXED",
+   "mode": "solid",
+   "nv": 232,
+   "before": {
+    "n": 1,
+    "max_mm": 1.696,
+    "in_slab": 0
+   },
+   "kind": null,
+   "slope": null,
+   "moved": null,
+   "max_mm": null,
+   "p95_mm": null,
+   "volume_change_pct": null,
+   "volume_signed_pct": null,
+   "area_change_pct": null,
+   "after_outside": null,
+   "reason": "a bone is not moved (skin defect over the bone)"
+  }
+ },
+ "rig": {
+  "crural_fascia_r": {
+   "vertices": 798,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.908,
+   "weight_change_mean": 0.085,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 58
+  },
+  "fascia_lata_r": {
+   "vertices": 819,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.535,
+   "weight_change_mean": 0.127,
+   "weight_change_max": 0.906,
+   "leading_segment_changed": 129
+  },
+  "fat_deep_abdomen": {
+   "vertices": 24119,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.045,
+   "weight_change_mean": 0.296,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 6914
+  },
+  "fat_deep_forearm_l": {
+   "vertices": 500,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.792,
+   "weight_change_mean": 0.224,
+   "weight_change_max": 0.961,
+   "leading_segment_changed": 46
+  },
+  "fat_deep_neck": {
+   "vertices": 2597,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.181,
+   "weight_change_mean": 0.249,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 687
+  },
+  "fat_deep_pelvis": {
+   "vertices": 37474,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.038,
+   "weight_change_mean": 0.006,
+   "weight_change_max": 0.886,
+   "leading_segment_changed": 111
+  },
+  "fat_deep_thigh_l": {
+   "vertices": 4830,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.291,
+   "weight_change_mean": 0.135,
+   "weight_change_max": 0.89,
+   "leading_segment_changed": 779
+  },
+  "fat_deep_thigh_r": {
+   "vertices": 4388,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.256,
+   "weight_change_mean": 0.144,
+   "weight_change_max": 0.894,
+   "leading_segment_changed": 730
+  },
+  "fat_deep_upper_arm_l": {
+   "vertices": 889,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.511,
+   "weight_change_mean": 0.307,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 249
+  },
+  "fat_subcut_abdomen": {
+   "vertices": 11394,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.873,
+   "weight_change_mean": 0.217,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 2090
+  },
+  "fat_subcut_forearm_l": {
+   "vertices": 2562,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.827,
+   "weight_change_mean": 0.211,
+   "weight_change_max": 0.992,
+   "leading_segment_changed": 365
+  },
+  "fat_subcut_forearm_r": {
+   "vertices": 2099,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.807,
+   "weight_change_mean": 0.05,
+   "weight_change_max": 0.827,
+   "leading_segment_changed": 54
+  },
+  "fat_subcut_hand_l": {
+   "vertices": 1114,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.995,
+   "weight_change_mean": 0.17,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 136
+  },
+  "fat_subcut_hand_r": {
+   "vertices": 910,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.996,
+   "weight_change_mean": 0.035,
+   "weight_change_max": 0.651,
+   "leading_segment_changed": 17
+  },
+  "fat_subcut_head": {
+   "vertices": 1069,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.99,
+   "weight_change_mean": 0.015,
+   "weight_change_max": 0.58,
+   "leading_segment_changed": 21
+  },
+  "fat_subcut_leg_l": {
+   "vertices": 6531,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.962,
+   "weight_change_mean": 0.013,
+   "weight_change_max": 0.604,
+   "leading_segment_changed": 39
+  },
+  "fat_subcut_leg_r": {
+   "vertices": 6315,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.961,
+   "weight_change_mean": 0.014,
+   "weight_change_max": 0.592,
+   "leading_segment_changed": 52
+  },
+  "fat_subcut_neck": {
+   "vertices": 6406,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.914,
+   "weight_change_mean": 0.16,
+   "weight_change_max": 0.976,
+   "leading_segment_changed": 932
+  },
+  "fat_subcut_thigh_l": {
+   "vertices": 11067,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.843,
+   "weight_change_mean": 0.03,
+   "weight_change_max": 0.957,
+   "leading_segment_changed": 285
+  },
+  "fat_subcut_thigh_r": {
+   "vertices": 11308,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.843,
+   "weight_change_mean": 0.031,
+   "weight_change_max": 0.988,
+   "leading_segment_changed": 328
+  },
+  "fat_subcut_upper_arm_l": {
+   "vertices": 2522,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.941,
+   "weight_change_mean": 0.183,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 458
+  },
+  "fat_subcut_upper_arm_r": {
+   "vertices": 2180,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.949,
+   "weight_change_mean": 0.192,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 351
+  },
+  "lateral_intermuscular_septum_r": {
+   "vertices": 452,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.134,
+   "weight_change_mean": 0.239,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 102
+  },
+  "soft_unlabelled_abdomen": {
+   "vertices": 22340,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.078,
+   "weight_change_mean": 0.006,
+   "weight_change_max": 0.733,
+   "leading_segment_changed": 89
+  },
+  "soft_unlabelled_forearm_l": {
+   "vertices": 1605,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.8,
+   "weight_change_mean": 0.049,
+   "weight_change_max": 0.424,
+   "leading_segment_changed": 43
+  },
+  "soft_unlabelled_forearm_r": {
+   "vertices": 1794,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.754,
+   "weight_change_mean": 0.053,
+   "weight_change_max": 0.443,
+   "leading_segment_changed": 30
+  },
+  "soft_unlabelled_head": {
+   "vertices": 8677,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.407,
+   "weight_change_mean": 0.018,
+   "weight_change_max": 0.91,
+   "leading_segment_changed": 150
+  },
+  "soft_unlabelled_neck": {
+   "vertices": 8212,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.476,
+   "weight_change_mean": 0.209,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 1457
+  },
+  "soft_unlabelled_thigh_l": {
+   "vertices": 9443,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.466,
+   "weight_change_mean": 0.02,
+   "weight_change_max": 0.78,
+   "leading_segment_changed": 222
+  },
+  "soft_unlabelled_thigh_r": {
+   "vertices": 8535,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.445,
+   "weight_change_mean": 0.023,
+   "weight_change_max": 0.741,
+   "leading_segment_changed": 200
+  },
+  "soft_unlabelled_upper_arm_l": {
+   "vertices": 2553,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.828,
+   "weight_change_mean": 0.067,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 177
+  },
+  "soft_unlabelled_upper_arm_r": {
+   "vertices": 2692,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.773,
+   "weight_change_mean": 0.096,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 290
+  },
+  "zan_antebrachial_fascia_l": {
+   "vertices": 1837,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.978,
+   "weight_change_mean": 0.094,
+   "weight_change_max": 0.427,
+   "leading_segment_changed": 94
+  },
+  "zan_brachial_fascia_l": {
+   "vertices": 1575,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.95,
+   "weight_change_mean": 0.057,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 27
+  },
+  "zan_brachial_nodes_l": {
+   "vertices": 235,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.524,
+   "weight_change_mean": 0.097,
+   "weight_change_max": 0.153,
+   "leading_segment_changed": 96
+  },
+  "zan_brachial_nodes_r": {
+   "vertices": 235,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.478,
+   "weight_change_mean": 0.135,
+   "weight_change_max": 0.231,
+   "leading_segment_changed": 100
+  },
+  "zan_clavipectoral_fascia_l": {
+   "vertices": 677,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.139,
+   "weight_change_mean": 0.621,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 410
+  },
+  "zan_crural_fascia_l": {
+   "vertices": 1889,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.905,
+   "weight_change_mean": 0.078,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 136
+  },
+  "zan_deltoid_fascia_l": {
+   "vertices": 1848,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.826,
+   "weight_change_mean": 0.08,
+   "weight_change_max": 0.651,
+   "leading_segment_changed": 93
+  },
+  "zan_fascia_lata_l": {
+   "vertices": 1919,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.543,
+   "weight_change_mean": 0.131,
+   "weight_change_max": 0.945,
+   "leading_segment_changed": 315
+  },
+  "zan_lateral_axillary_nodes_l": {
+   "vertices": 172,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.0,
+   "weight_change_mean": 0.975,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 167
+  },
+  "zan_lateral_axillary_nodes_r": {
+   "vertices": 172,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.0,
+   "weight_change_mean": 1.0,
+   "weight_change_max": 1.0,
+   "leading_segment_changed": 172
+  },
+  "zan_submental_nodes_l": {
+   "vertices": 232,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": true,
+   "skin_share_mean": 1.0,
+   "weight_change_mean": 0.04,
+   "weight_change_max": 0.098,
+   "leading_segment_changed": 0
+  },
+  "zan_superficial_anterior_cervical_nodes": {
+   "vertices": 236,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 1.0,
+   "weight_change_mean": 0.249,
+   "weight_change_max": 0.525,
+   "leading_segment_changed": 47
+  },
+  "zan_supratrochlear_nodes_r": {
+   "vertices": 235,
+   "s_near_far_mm": [
+    6.0,
+    20.0
+   ],
+   "was_rigid": false,
+   "skin_share_mean": 0.807,
+   "weight_change_mean": 0.039,
+   "weight_change_max": 0.125,
+   "leading_segment_changed": 7
+  }
+ },
+ "quantisation_residual_mm": {
+  "flexor_carpi_ulnaris_l": 0.00205,
+  "gracilis_r": 0.00337,
+  "trigeminal_n_v3_mental_branch_r": 0.00073,
+  "ulnar_n_r": 0.00366,
+  "zan_articular_capsules_of_distal_interphalangeal_joints_r": 0.0009,
+  "zan_collateral_interphalangeal_ligaments_of_foot_r": 0.00076,
+  "zan_inferior_alveolar_artery_l": 0.00075,
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": 0.00152,
+  "zan_proper_plantar_digital_branches_of_lateral_plantar_nerve_l": 0.00052,
+  "zan_antebrachial_fascia_l": 0.00199,
+  "zan_crural_fascia_l": 0.00311,
+  "zan_dorsal_fascia_of_hand_l": 0.00153,
+  "zan_dorsal_fascia_of_hand_r": 0.00114,
+  "zan_skin_angle_of_mouth_l": 0.00043,
+  "zan_skin_angle_of_mouth_r": 8e-05,
+  "zan_skin_anterior_region_of_arm_r": 0.00121,
+  "zan_skin_anterior_region_of_elbow_l": 0.00077,
+  "zan_skin_anterior_region_of_elbow_r": 0.00082,
+  "zan_skin_auricular_region_l": 0.00071,
+  "zan_skin_buccal_region_l": 0.00058,
+  "zan_skin_buccal_region_r": 0.00059,
+  "zan_skin_labial_commissure_l": 0.00019,
+  "zan_skin_labial_commissure_r": 0.00019,
+  "zan_skin_lateral_region_of_thorax_r": 0.00187,
+  "zan_skin_mentolabial_sulcus_l": 0.00043,
+  "zan_skin_mentolabial_sulcus_r": 0.00041,
+  "zan_skin_oral_region_l": 0.00037,
+  "zan_skin_oral_region_r": 0.00053,
+  "zan_skin_philtrum_l": 6e-05,
+  "zan_skin_philtrum_r": 0.0001,
+  "zan_skin_posterior_region_of_elbow_l": 0.00075,
+  "zan_skin_submandibular_triangle_r": 0.00059,
+  "zan_skin_temporal_region_l": 0.00071,
+  "zan_skin_tubercle_of_upper_lip_l": 8e-05,
+  "zan_skin_tubercle_of_upper_lip_r": 0.00023,
+  "supraclavicular_n_r": 0.00052,
+  "fat_subcut_head": 0.00139,
+  "soft_unlabelled_head": 0.00176,
+  "fat_subcut_neck": 0.00158,
+  "fat_subcut_thorax": 0.00301,
+  "fat_deep_thorax": 0.00253,
+  "fat_subcut_pelvis": 0.00706,
+  "fat_subcut_upper_arm_r": 0.00241,
+  "soft_unlabelled_upper_arm_r": 0.00219,
+  "fat_subcut_upper_arm_l": 0.00223,
+  "fat_subcut_forearm_r": 0.00192,
+  "soft_unlabelled_forearm_r": 0.0019,
+  "fat_subcut_forearm_l": 0.00203,
+  "soft_unlabelled_forearm_l": 0.00165,
+  "fat_subcut_hand_r": 0.0012,
+  "fat_deep_hand_r": 0.00049,
+  "fat_subcut_hand_l": 0.00117,
+  "soft_unlabelled_hand_l": 0.00036,
+  "fat_subcut_thigh_r": 0.00328,
+  "soft_unlabelled_thigh_r": 0.00331,
+  "fat_subcut_thigh_l": 0.00328,
+  "soft_unlabelled_thigh_l": 0.00328,
+  "fat_subcut_leg_r": 0.00269,
+  "fat_subcut_leg_l": 0.00267,
+  "fat_subcut_foot_r": 0.00185,
+  "soft_unlabelled_foot_r": 0.00196,
+  "fat_subcut_foot_l": 0.00205,
+  "soft_unlabelled_foot_l": 0.00182
+ }
+}

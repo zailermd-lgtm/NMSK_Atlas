@@ -136,3 +136,7 @@ outside in every state, or only documented residuals each < 0.5 mm. Runtime ≈ 
 - The skin's own defects (toes, finger tips, philtrum, perineal patch borders) are the cause of most remaining rest entries;
   per the rule the skin was not moved to hide them.
 - Ear skin pieces are single sheets (no outer / inner): they close the surface for the parity test only.
+
+Q398 (`docs/Q398_under_skin.md`) continues this: depth-remap refit of the compartments and the rest, rule-based outward skin offset
+where the skin is thin, rig weights from the skin over a structure, and a reported (not counted) gap in this test; the open-defect
+list above is replaced by the Q398 one.

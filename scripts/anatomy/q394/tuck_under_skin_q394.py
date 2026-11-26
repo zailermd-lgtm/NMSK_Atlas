@@ -181,7 +181,7 @@ def main(argv=None):
     inc, exc = pg.tested()
     t0 = time.time()
     c = U.census(pg, "rest", ids=inc)
-    c.pop("__suspect__", None)
+    c.pop("__suspect__", None); c.pop("__hidden__", None)
     todo = sorted(c) if not a.only else [x for x in a.only.split(",")]
     print(f"{pg.d.name}: {len(c)} structures outside at rest ({time.time() - t0:.0f}s)", flush=True)
     lo = np.min([pg.V[k].min(0) for k in todo], 0) - 20; hi = np.max([pg.V[k].max(0) for k in todo], 0) + 20
